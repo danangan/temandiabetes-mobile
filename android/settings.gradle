@@ -1,4 +1,7 @@
 rootProject.name = 'TemanDiabets'
+
+include ':app'
+
 include ':react-native-navigation'
 project(':react-native-navigation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-navigation/android/app')
 include ':react-native-maps'
@@ -6,4 +9,3 @@ project(':react-native-maps').projectDir = new File(rootProject.projectDir, '../
 include ':react-native-camera'
 project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 
-include ':app'
