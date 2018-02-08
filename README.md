@@ -1,6 +1,6 @@
 **CLONE THIS PROJECT FROM REPOSITORY**
 
-Version :
+>Version :
 * [react : 16.2.0 ](https://reactjs.org/)
 * [react-native : 0.53.0](https://facebook.github.io/react-native/)
 
@@ -26,10 +26,8 @@ $ npm install
     }
     ```
 
-    Install eslint extension from editor VSCode   
-<h1 align="center">
-    <img src="./eslintVsCode.png"/><br>
-</h1>
+    Install eslint extension from editor VSCode
+![Alt text]("./eslintVsCode.png")
 
 2. EsLint setup with **ATOM**.
 
