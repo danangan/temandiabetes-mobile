@@ -24,6 +24,7 @@
         }
 
     Install eslint extension from editor VSCode
+
 ![Scheme](./eslintVsCode.png)
 
 
