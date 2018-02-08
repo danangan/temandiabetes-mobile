@@ -26,17 +26,17 @@ $ npm install
     }
     ```
 
-    Install eslint extension from editor VSCode
-    <h1 align="center">
+    Install eslint extension from editor VSCode   
+<h1 align="center">
     <img src="./eslintVsCode.png"/><br>
-    </h1>
+</h1>
 
 2. EsLint setup with **ATOM**.
 
     install eslint extention from editor ATOM
-    <h1 align="center">
+<h1 align="center">
     <img src="./eslintAtom.png" /><br>
-    </h1>
+</h1>
 
     ```
     $ npm install --save-dev eslint-config-rallycoding 
