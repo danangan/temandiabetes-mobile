@@ -24,17 +24,15 @@
         }
 
     Install eslint extension from editor VSCode
-
 ![Scheme](./eslintVsCode.png)
 
 
 * EsLint setup with **ATOM**.
 
-    install eslint extention from editor ATOM
+    Install eslint extention from editor ATOM
 ![Scheme](./eslintAtom.png)
 
         $ npm install --save-dev eslint-config-rallycoding 
-    
     
     create new file .eslintrc in yout project.
     
