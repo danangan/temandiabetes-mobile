@@ -27,7 +27,7 @@ $ npm install
     ```
 
     Install eslint extension from editor VSCode
-![Alt text]("./eslintVsCode.png")
+![Alt text](http://www.addictedtoibiza.com/wp-content/uploads/2012/12/example.png)
 
 2. EsLint setup with **ATOM**.
 
