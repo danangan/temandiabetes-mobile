@@ -19,34 +19,29 @@
 
     create new file .eslintrc in your project
     
-<code>
-    {
-    "extends": "rallycoding"
-    }
-</code>
+        {
+            "extends": "rallycoding"
+        }
 
 
     Install eslint extension from editor VSCode
 
-![Alt text](http://www.addictedtoibiza.com/wp-content/uploads/2012/12/example.png)
-![Alt text]([Imgur](https://i.imgur.com/LIEIcWG.png) "Install eslint from VSCode")
+![Scheme](./eslintVsCode.png)
+
 
 2. EsLint setup with **ATOM**.
 
     install eslint extention from editor ATOM
-
-![Alt text](https://imgur.com/a/aWOKj "Install eslint from ATOM")
-
+![Scheme](./eslintAtom.png)
 
         $ npm install --save-dev eslint-config-rallycoding 
     
     
     create new file .eslintrc in yout project.
-<code>
-    {
-        "extends": "rallycoding"
-    }
-</code>
+    
+        {
+            "extends": "rallycoding"
+        }
 
 ---
 
