@@ -51,7 +51,8 @@ COMPONENT REUSABLE :
 
 ## Card
 
-:::coffeescript
+:::javascript
+
 import { Card, CardSection, Button, TextField } from '../../components';
 
 <View style={styles.container}>
