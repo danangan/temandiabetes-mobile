@@ -51,17 +51,15 @@ COMPONENT REUSABLE :
 
 ## Card
 
-:::javascript
+    import { Card, CardSection, Button, TextField } from '../../components';
 
-import { Card, CardSection, Button, TextField } from '../../components';
-
-<View style={styles.container}>
-	<Card>
-		<CardSection>
-			<Text style={styles.text}>ON BOARDING</Text>
-		</CardSection>
-	</Card>
-</View>
+    <View style={styles.container}>
+	    <Card>
+		    <CardSection>
+			    <Text style={styles.text}>ON BOARDING</Text>
+		    </CardSection>
+	    </Card>
+    </View>
 
 ---
 
