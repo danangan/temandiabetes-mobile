@@ -9,16 +9,14 @@ import Style from '../../style/defaultStyle';
 const TextField = ({
   containerStyle,
   inputStyle,
-  labelStyle,
-  label,
   value,
   defaultValue,
   onChangeText,
   placeholder,
   autoCorrect,
   secureTextEntry,
-  iconLeft,
-  iconRight,
+  leftIcon,
+  rightIcon,
   placeholderTextColor,
   allowFontScaling,
   autoFocus,
@@ -43,9 +41,8 @@ const TextField = ({
   onKeyPress
 }) => (
   <View style={[styles.containerStyle, containerStyle]}>
-    <Text style={[styles.labelStyle, labelStyle]}>{label}</Text>
     <View style={styles.sectionStyle}>
-      <Image source={iconLeft} style={styles.ImageStyle} />
+      <Image source={leftIcon} style={styles.ImageStyle} />
       <TextInput
         value={value}
         placeholderTextColor={placeholderTextColor}
@@ -77,7 +74,7 @@ const TextField = ({
         onKeyPress={onKeyPress}
         style={[styles.inputStyle, inputStyle]}
       />
-      <Image source={iconRight} style={styles.ImageStyle} />
+      <Image source={rightIcon} style={styles.ImageStyle} />
     </View>
   </View>
 );
@@ -124,11 +121,6 @@ const styles = {
     fontSize: Style.FONT_SIZE,
     lineHeight: 23,
     flex: 2
-  },
-  labelStyle: {
-    fontSize: Style.FONT_SIZE,
-    paddingLeft: 17,
-    flex: 1
   },
   containerStyle: {
     flex: 1,
