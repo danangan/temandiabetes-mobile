@@ -60,19 +60,19 @@ COMPONENT REUSABLE :
     import { Card, CardSection, Button } from '../../components';
 
     <View style={styles.container}>
-	    <Card>
-		    <CardSection>
-			    <Text style={styles.text}>ON BOARDING</Text>
+		<Card>
+			<CardSection>
+				<Text style={styles.text}>ON BOARDING</Text>
 		    </CardSection>
-					<CardSection>
-						<Button>Click Me!!</Button>
-					</CardSection>
+			<CardSection>
+				<Button>Click Me!!</Button>
+			</CardSection>
 	    </Card>
     </View>
     
     const styles = {
-	    container: {
-		    flex: 1,
+		container: {
+			flex: 1,
 		    alignItems: 'center',
 		    justifyContent: 'center',
 		    backgroundColor: color.red
@@ -96,21 +96,21 @@ COMPONENT REUSABLE :
     import { Button } from '../../components';
 
     <View style={styles.container}>
-			<Button
-				buttonStyle={styles.button}
-				textStyle={styles.textButton}
-				onPress={() => onSubmit}
-			>
-				Click Me!!
-			</Button>
+		<Button
+			buttonStyle={styles.button}
+			textStyle={styles.textButton}
+			onPress={() => onSubmit}
+		>
+			Click Me!!
+		</Button>
     </View>
     
     const styles = {
-	    container: {
-				flex: 1,
-				alignItems: 'center',
-				justifyContent: 'center',
-				backgroundColor: color.red
+		container: {
+			flex: 1,
+			alignItems: 'center',
+			justifyContent: 'center',
+			backgroundColor: color.red
 	    }
     };
 
@@ -129,18 +129,18 @@ COMPONENT REUSABLE :
     import { TextField } from '../../components';
 
     <View style={styles.container}>
-			<TextField
-				value={this.state.text}
-				onChangeText={(text) => console.log(text)}
-				placeholder="Example"
-				label="Contact"
-				leftIcon={{ uri: 'https://cdn3.iconfinder.com/data/icons/black-easy/512/538642-user_512x512.png' }}
+		<TextField
+			value={this.state.text}
+			onChangeText={(text) => console.log(text)}
+			placeholder="Example"
+			label="Contact"
+			leftIcon={{ uri: 'https://cdn3.iconfinder.com/data/icons/black-easy/512/538642-user_512x512.png' }}
         />
     </View>
     
     const styles = {
-	    container: {
-		    flex: 1,
+		container: {
+			flex: 1,
 		    alignItems: 'center',
 		    justifyContent: 'center',
 		    backgroundColor: color.red
