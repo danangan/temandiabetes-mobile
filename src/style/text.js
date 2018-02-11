@@ -1,48 +1,37 @@
+import color from './color';
+import Style from './defaultStyle';
+
 const text = {
 	p: {
-		color: 'black',
-    // fontFamily: 'Open Sans',
-    fontSize: 14
+		color: color.black,
+    fontFamily: 'Montserrat',
+    fontSize: Style.FONT_SIZE_SMALLER
   },
   title: {
-    color: 'black',
-    // fontFamily: 'Open Sans',
-    fontSize: 20
+    color: color.black,
+    fontFamily: 'Montserrat',
+    fontSize: Style.FONT_SIZE_TITLE
   },
   number: {
-    color: 'black',
-    // fontFamily: 'Open Sans',
-    fontSize: 20
-  },
-  button: {
-    color: 'white',
-    // fontFamily: 'Open Sans',
-    fontSize: 16,
-    fontWeight: 'bold'
+    color: color.black,
+    fontFamily: 'Montserrat',
+    fontSize: Style.FONT_SIZE_SMALLER
   },
   subTitle: {
-    color: 'black',
-    // fontFamily: 'Open Sans',
-    fontSize: 14
+    color: color.black,
+    fontFamily: 'Montserrat',
+    fontSize: Style.FONT_SIZE
   },
   sectionTitle: {
-    color: 'black',
-    // fontFamily: 'Open Sans',
-    fontSize: 16,
+    color: color.black,
+    fontFamily: 'Montserrat',
+    fontSize: Style.FONT_SIZE_SMALL,
     fontWeight: '700'
   },
-  shadow: {
-    shadowOffset: {
-      width: 1,
-      height: 1
-    },
-    shadowColor: 'black',
-    shadowOpacity: 1
-  },
   labelText: {
-    color: 'white',
-    // fontFamily: 'Open Sans',
-    fontSize: 10
+    color: color.white,
+    fontFamily: 'Montserrat',
+    fontSize: Style.FONT_SIZE_SMALLER
   }
 };
 
