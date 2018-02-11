@@ -93,7 +93,6 @@ COMPONENT REUSABLE :
 
 ---
 
----
 ## Button
 
     import { Button } from '../../components';
@@ -127,7 +126,6 @@ COMPONENT REUSABLE :
 
 ---
 
----
 ## TextField
 
 
@@ -165,6 +163,8 @@ COMPONENT REUSABLE :
 | `leftIcon`       | none   | image uri or require path| image source                                |
 | `rightIcon`      | none   | image uri or require path| image source                                |
 | [built in props React Native](https://facebook.github.io/react-native/docs/view.html#props)
+
+---
 
 ## LIBRARIES
 * [react-native-navigation](https://wix.github.io/react-native-navigation/#/)
