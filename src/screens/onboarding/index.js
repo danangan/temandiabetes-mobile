@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 
 import styles from './style';
-import Screen1 from './Screen1';
+import Screen from './Screen';
 
 export default class OnBoardingScreen extends Component {
 
@@ -15,10 +15,11 @@ export default class OnBoardingScreen extends Component {
 	}
 
 	render() {
+		console.log("ADA PROPS ", this.props);
 		return (
-			<View style={styles.container}>
-				<Screen1 />
-			</View>
+			<Screen
+				navigation={this.props.navigator}
+			/>
 		);
 	}
 }

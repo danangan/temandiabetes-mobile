@@ -223,17 +223,38 @@ export default class OnboardingScreens extends Component {
   /**
    * Render Continue or Done button
    */
+   /*
+   {lastScreen
+     // Show this button on the last screen
+     //  Add a handler that would send a user to your app after onboarding is complete
+     ? <Button text="Start Now" onPress={() => console.log('Send me to the app')} />
+     // Or this one otherwise
+     : <Button text="Continue" onPress={() => this.swipe()} />
+   }
+   */
   renderButton = () => {
     const lastScreen = this.state.index === this.state.total - 1;
+    console.log("APA IN PROPS ..", this.props);
     return (
       <View pointerEvents="box-none" style={[styles.buttonWrapper, styles.fullScreen]}>
-        {lastScreen
-          // Show this button on the last screen
-          // TODO: Add a handler that would send a user to your app after onboarding is complete
-          ? <Button text="Start Now" onPress={() => console.log('Send me to the app')} />
-          // Or this one otherwise
-          : <Button text="Continue" onPress={() => this.swipe()} />
-        }
+        <Button
+          text="Daftar"
+          backGroundColor="#ef434f"
+          colorText="#fff"
+          actionBtn={() => this.props.navigation.push({
+            screen: 'TemanDiabets.RegisterScreen',
+            title: 'Daftar'
+          })}
+        />
+        <Button
+          text="Masuk"
+          backGroundColor="#fff"
+          colorText="#ef434f"
+          actionBtn={() => this.props.navigation.push({
+            screen: 'TemanDiabets.LoginScreen',
+            title: 'Masuk Akun Anda'
+          })}
+        />
       </View>
     );
   }
@@ -293,19 +314,21 @@ const styles = StyleSheet.create({
   },
   // Active dot
   activeDot: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#ef434f',
   },
   // Button wrapper
   buttonWrapper: {
+    borderWidth: 1,
+    borderColor: 'blue',
     backgroundColor: 'transparent',
-    flexDirection: 'column',
     position: 'absolute',
     bottom: 0,
     left: 0,
     flex: 1,
+    flexDirection: 'row',
     paddingHorizontal: 10,
     paddingVertical: 40,
-    justifyContent: 'flex-end',
-    alignItems: 'center'
+    justifyContent: 'space-around',
+    alignItems: 'flex-end'
   },
 });

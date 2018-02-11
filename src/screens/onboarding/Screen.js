@@ -8,23 +8,24 @@ import {
 import Button from './Button';
 import Swipper from './Swipper';
 
-class Screen1 extends Component {
+class Screen extends Component {
   render () {
     return (
-      <Swipper>
+      <Swipper
+        navigation={this.props.navigation}
+      >
         {/* First screen */}
-        <View style={[styles.slide, { backgroundColor: '#C04DEE' }]}>
-          <Text style={styles.header}>EAT</Text>
+        <View style={[styles.slide, { backgroundColor: '#FFF' }]}>
+          <Text style={styles.header}>Event</Text>
           <Text style={styles.text}>Good nutrition is an important part of leading a healthy lifestyle</Text>
-          <Button text="test" />
         </View>
         {/* First screen */}
-        <View style={[styles.slide, { backgroundColor: '#4AAFEE' }]}>
-           <Text style={styles.header}>PRAY</Text>
-           <Text style={styles.text}>Prayer is one of the most important things a Christian can do</Text>
+        <View style={[styles.slide, { backgroundColor: '#FFF' }]}>
+           <Text style={styles.header}>Forum</Text>
+           <Text style={styles.text}>Good nutrition is an important part of leading a healthy lifestyle</Text>
         </View>
         {/* Third screen */}
-        <View style={[styles.slide, { backgroundColor: '#FC515B' }]}>
+        <View style={[styles.slide, { backgroundColor: '#FFF' }]}>
           <Text style={styles.header}>LOVE</Text>
           <Text style={styles.text}>Where there is love there is life</Text>
         </View>
@@ -33,18 +34,19 @@ class Screen1 extends Component {
   }
 }
 
-export default Screen1;
+export default Screen;
 
 const styles = StyleSheet.create({
   // Slide styles
   slide: {
     flex: 1,                    // Take up all screen
     justifyContent: 'center',   // Center vertically
-    alignItems: 'center',       // Center horizontally
+    alignItems: 'flex-start',
+    marginHorizontal: 20,
   },
   // Header styles
   header: {
-    color: '#FFFFFF',
+    color: '#4A4A4A',
     fontFamily: 'Avenir',
     fontSize: 30,
     fontWeight: 'bold',
@@ -52,10 +54,9 @@ const styles = StyleSheet.create({
   },
   // Text below header
   text: {
-    color: '#FFFFFF',
+    color: '#4A4A4A',
     fontFamily: 'Avenir',
     fontSize: 18,
-    marginHorizontal: 40,
-    textAlign: 'center',
+    textAlign: 'left',
   },
 });
