@@ -3,6 +3,7 @@ import { Navigation } from 'react-native-navigation';
 import { registerScreens, registerScreenVisibilityListener } from './src/screens';
 
 import appInitialized from './src/utils/appInitialized';
+console.disableYellowBox = true;
 
 registerScreens();
 registerScreenVisibilityListener();

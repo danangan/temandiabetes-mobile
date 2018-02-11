@@ -8,7 +8,7 @@ const styles = {
 		backgroundColor: color.amaranth
 	},
 	text: {
-		color: '#fff',
+		color: '#000',
 		fontSize: 30,
 		fontWeight: '500',
 	},
