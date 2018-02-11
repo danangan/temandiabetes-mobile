@@ -10,6 +10,12 @@
 
 ---
 
+COMPONENT REUSABLE : 
+
+* [Card](https://bitbucket.org/techgs/temandiabetes-mobile/overview#markdown-header-card)
+
+---
+
 ## ESLint Setup
 
 * EsLint setup with **VSCode**.
@@ -40,6 +46,21 @@
         {
             "extends": "rallycoding"
         }
+
+---
+
+## Card
+
+:::coffeescript
+import { Card, CardSection, Button, TextField } from '../../components';
+
+<View style={styles.container}>
+	<Card>
+		<CardSection>
+			<Text style={styles.text}>ON BOARDING</Text>
+		</CardSection>
+	</Card>
+</View>
 
 ---
 
