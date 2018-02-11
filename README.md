@@ -55,7 +55,6 @@ COMPONENT REUSABLE :
 
 ---
 
----
 ## Card
 
     import { Card, CardSection, Button } from '../../components';
@@ -91,7 +90,6 @@ COMPONENT REUSABLE :
 | ----------------| -------|--------------|---------------------------------|
 | `containerStyle`| none   | object(style)| outer container style (optional)|
 
----
 
 ## Button
 
@@ -124,7 +122,6 @@ COMPONENT REUSABLE :
 | `textStyle`   | none   | object(style)| additional text button styling (optional)|
 | `onPress`     | none   | function     | onPress method (optional)                |
 
----
 
 ## TextField
 
@@ -164,7 +161,6 @@ COMPONENT REUSABLE :
 | `rightIcon`      | none   | image uri or require path| image source                                |
 | [built in props React Native](https://facebook.github.io/react-native/docs/view.html#props)
 
----
 
 ## LIBRARIES
 * [react-native-navigation](https://wix.github.io/react-native-navigation/#/)
