@@ -51,15 +51,24 @@ COMPONENT REUSABLE :
 
 ## Card
 
-    import { Card, CardSection, Button, TextField } from '../../components';
+    import { Card, CardSection, Button } from '../../components';
 
     <View style={styles.container}>
 	    <Card>
 		    <CardSection>
 			    <Text style={styles.text}>ON BOARDING</Text>
 		    </CardSection>
+            <CardSection>
+                <Button>Click Me!!</Button>
+            </CardSection>
 	    </Card>
     </View>
+
+Card & CardSection Props
+
+| prop            | default| type         | description                     |
+| ----------------| -------|--------------|---------------------------------|
+| `containerStyle`| none   | object(style)| outer container style (optional)|
 
 ---
 
