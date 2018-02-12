@@ -118,6 +118,8 @@ const styles = {
     color: color.black,
     paddingRight: 5,
     paddingLeft: 5,
+    fontFamily: 'Montserrat-Regular',
+    fontStyle: 'normal',
     fontSize: Style.FONT_SIZE,
     lineHeight: 23,
     flex: 2
@@ -133,7 +135,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: color.white,
-    borderWidth: 0.5,
+    borderWidth: 0,
     borderColor: color.black,
     height: 40,
     borderRadius: 5,
