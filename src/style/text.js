@@ -30,7 +30,7 @@ const text = {
   },
   labelText: {
     color: color.white,
-    fontFamily: 'Montserrat',
+    fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER
   }
 };
