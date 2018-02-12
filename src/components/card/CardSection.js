@@ -23,7 +23,7 @@ const styles = {
 		backgroundColor: color.white,
 		justifyContent: 'flex-start',
 		flexDirection: 'row',
-		borderColor: color.gray1,
+		borderColor: color.white,
 		position: 'relative'
 	}
 };

@@ -21,6 +21,7 @@ const styles = {
 		borderWidth: 1,
 		borderRadius: 2,
 		borderColor: color.gray1,
+		backgroundColor: color.white,
 		borderBottomWidth: 0,
 		...Platform.select({
 			ios: {
