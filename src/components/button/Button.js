@@ -23,19 +23,19 @@ Button.propTypes = {
 
 const styles = {
 	buttonStyle: {
-		flex: 1,
 		alignSelf: 'stretch',
-		backgroundColor: color.white,
+		backgroundColor: color.red,
 		borderRadius: 5,
 		borderWidth: 1,
-		borderColor: color.blue,
+		borderColor: color.red,
 		marginLeft: 5,
 		marginRight: 5
 	},
 	textStyle: {
 		alignSelf: 'center',
-		color: color.blue,
-		fontSize: Style.FONT_SIZE_SMALL,
+		fontFamily: 'Montserrat-Regular',
+		color: color.white,
+		fontSize: Style.FONT_SIZE_TITLE,
 		paddingTop: 10,
 		paddingBottom: 10
 	}
