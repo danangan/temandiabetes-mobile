@@ -10,7 +10,7 @@ registerScreenVisibilityListener();
 export function startApp() {
   Navigation.startSingleScreenApp({
     screen: {
-			screen: 'TemanDiabets.OnBoardingScreen',
+			screen: 'TemanDiabets.LoginScreen',
       navigatorStyle: {
         navBarHidden: true
       }
