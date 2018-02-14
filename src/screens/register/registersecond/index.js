@@ -1,29 +1,33 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import {Input} from '../../components/input/Input';
+import React from 'react';
 
-import styles from './style';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
 
-export default class Register extends Component {
+import styles from '../style';
 
-	render() {
-		return (
+class RegisterScreenSecond extends React.Component {
+  render () {
+    return (
 			<View style={ styles.container }>
 				<View style={ styles.wrapTitle }>
-					<Text style={ styles.titles }>Siapakan nama Anda?</Text>
+					<Text style={ styles.titles }>Silahkan masukkan email Anda</Text>
 				</View>
-				<View style={ styles.wrapForm }>
+        <View style={ styles.wrapForm }>
 					<View style={{ borderColor: '#000',
 					borderWidth: 1.5, }}>
 						<TextInput
 								{...this.props}
-							placeholder={'Your Fullname'}
+							placeholder={'daniel@gmail.com'}
 							style={ [styles.textInputStyle, {marginBottom: 20}] } />
 						<TouchableOpacity
 							style={ styles.btnNext }
 							onPress={() => this.props.navigator.push({
-								screen: 'TemanDiabets.RegisterScreenSecond',
-	  						title: 'Next Step 2'
+								screen: 'TemanDiabets.RegisterScreenThird',
+	  						title: 'Next Step 3'
 							})}>
 							<Text style={{ color: '#fff' }}>LANJUT</Text>
 						</TouchableOpacity>
@@ -39,5 +43,7 @@ export default class Register extends Component {
 				</View>
 			</View>
 		);
-	}
+  }
 }
+
+export default RegisterScreenSecond;
