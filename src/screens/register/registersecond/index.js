@@ -9,20 +9,35 @@ import {
 
 import styles from '../style';
 
+import { Indicator } from '../../../components/indicator/Indicator';
+
 class RegisterScreenSecond extends React.Component {
+
+  static navigatorStyle = {
+		navBarHidden: true
+	}
+
   render () {
     return (
-			<View style={ styles.container }>
+      <View style={ styles.container }>
 				<View style={ styles.wrapTitle }>
 					<Text style={ styles.titles }>Silahkan masukkan email Anda</Text>
 				</View>
-        <View style={ styles.wrapForm }>
-					<View style={{ borderColor: '#000',
-					borderWidth: 1.5, }}>
+				<View style={ styles.wrapForm }>
+					<View
+						style={{
+							height: '70%',
+							borderColor: 'green',
+							borderWidth: 3,
+							justifyContent: 'flex-end'
+						}}
+					>
 						<TextInput
-								{...this.props}
 							placeholder={'daniel@gmail.com'}
-							style={ [styles.textInputStyle, {marginBottom: 20}] } />
+							style={ [styles.textInputStyle, {marginBottom: 15}] } />
+              <TextInput
+  							placeholder={'daniel@gmail.com'}
+  							style={ [styles.textInputStyle, {marginBottom: 15}] } />
 						<TouchableOpacity
 							style={ styles.btnNext }
 							onPress={() => this.props.navigator.push({
@@ -32,13 +47,19 @@ class RegisterScreenSecond extends React.Component {
 							<Text style={{ color: '#fff' }}>LANJUT</Text>
 						</TouchableOpacity>
 					</View>
-					<View style={{
-						borderColor: '#000',
-						borderWidth: 1.5,
-						marginVertical: 20,
-						height: 20,
-					  }}>
-						<Text>Indicator</Text>
+					<View
+						style={{
+							height: '30%',
+							marginBottom: 10,
+							justifyContent: 'center',
+							borderColor: 'blue',
+							borderWidth: 1.5,
+							alignItems: 'center'
+						}}
+					>
+						<Indicator
+							persentase={{ width: '50%' }}
+						/>
 					</View>
 				</View>
 			</View>

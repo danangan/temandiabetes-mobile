@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+
 import {Input} from '../../components/input/Input';
+
 import { Indicator } from '../../components/indicator/Indicator';
 
 import styles from './style';
@@ -28,14 +31,14 @@ export default class Register extends Component {
 					<View
 						style={{
 							height: '70%',
-							borderColor: 'green',
-							borderWidth: 3,
+							// borderColor: 'green',
+							// borderWidth: 3,
 							justifyContent: 'flex-end'
 						}}
 					>
 						<TextInput
 							placeholder={'Your Fullname'}
-							style={ [styles.textInputStyle, {marginBottom: 15}] } />
+							style={ [styles.textInputStyle, {marginBottom: 15, paddingLeft: 20}] } />
 						<TouchableOpacity
 							style={ styles.btnNext }
 							onPress={() => this.props.navigator.push({
@@ -50,8 +53,8 @@ export default class Register extends Component {
 							height: '30%',
 							marginBottom: 10,
 							justifyContent: 'center',
-							borderColor: 'blue',
-							borderWidth: 1.5,
+							// borderColor: 'blue',
+							// borderWidth: 1.5,
 							alignItems: 'center'
 						}}
 					>

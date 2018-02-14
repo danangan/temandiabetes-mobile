@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
 	wrapTitle: {
 		flex: 1,
 		justifyContent: 'center',
-    borderColor: '#ff1200',
-    borderWidth: 5,
+    // borderColor: '#ff1200',
+    // borderWidth: 5,
 	},
 	titles: {
 		color: '#fff',
@@ -21,18 +21,18 @@ const styles = StyleSheet.create({
 	},
 	wrapForm: {
 		flex: 1,
-    borderColor: 'aqua',
-    borderWidth: 5,
+    // borderColor: 'aqua',
+    // borderWidth: 5,
 		justifyContent: 'space-between',
 		flexDirection: 'column',
 	},
   textInputStyle: {
     backgroundColor: '#fff',
     color: '#ccc',
-    borderColor: '#ccc',
+    // borderColor: '#ccc',
     height: 50,
-    borderWidth: 1,
-    borderRadius: 5
+    // borderWidth: 1,
+    borderRadius: 5,
   },
   btnNext: {
     backgroundColor: '#ef434f',

@@ -9,44 +9,54 @@ import {
 
 import styles from '../style';
 
+import { Indicator } from '../../../components/indicator/Indicator';
+
 class RegisterScreenThird extends React.Component {
+  static navigatorStyle = {
+    navBarHidden: true
+  }
+
   render () {
     return (
-			<View style={ styles.container }>
+      <View style={ styles.container }>
 				<View style={ styles.wrapTitle }>
 					<Text style={ styles.titles }>Masukkan kata sandi Anda</Text>
 				</View>
-
-          <View style={ styles.wrapForm }>
-  					<View style={{ borderColor: '#000',
-  					borderWidth: 1.5, }}>
-  						<TextInput
-  								{...this.props}
-  							placeholder={'********'}
-  							style={ [styles.textInputStyle, {marginBottom: 0}] } />
-                <TextInput
-    								{...this.props}
-    							placeholder={'********'}
-    							style={ [styles.textInputStyle, {marginVertical: 20}] } />
-  						<TouchableOpacity
-  							style={ [styles.btnNext, { marginBottom: 30 }] }
-                onPress={() => this.props.navigator.push({
-  								screen: 'TemanDiabets.RegisterScreenFourth',
-  	  						title: 'Next Step 4'
-  							})}>
-  							<Text style={{ color: '#fff' }}>LANJUT</Text>
-  						</TouchableOpacity>
-  					</View>
-
-  					<View style={{
-  						borderColor: '#000',
-  						borderWidth: 1.5,
-  						marginBottom: 100,
-  						height: 20,
-  					  }}>
-  						<Text>Indicator</Text>
-  					</View>
-
+				<View style={ styles.wrapForm }>
+					<View
+						style={{
+							height: '70%',
+							borderColor: 'green',
+							borderWidth: 3,
+							justifyContent: 'flex-end'
+						}}
+					>
+						<TextInput
+							placeholder={'daniel@gmail.com'}
+							style={ [styles.textInputStyle, {marginBottom: 15}] } />
+						<TouchableOpacity
+							style={ styles.btnNext }
+							onPress={() => this.props.navigator.push({
+								screen: 'TemanDiabets.RegisterScreenFourth',
+	  						title: 'Final Step'
+							})}>
+							<Text style={{ color: '#fff' }}>LANJUT</Text>
+						</TouchableOpacity>
+					</View>
+					<View
+						style={{
+							height: '30%',
+							marginBottom: 10,
+							justifyContent: 'center',
+							borderColor: 'blue',
+							borderWidth: 1.5,
+							alignItems: 'center'
+						}}
+					>
+						<Indicator
+							persentase={{ width: '50%' }}
+						/>
+					</View>
 				</View>
 			</View>
 		);
