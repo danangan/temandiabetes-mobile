@@ -31,7 +31,10 @@
       "./src/assets/fonts"
     ]
   },
-  "keywords": ["Diabetic", "Blood Glucose"],
+  "keywords": [
+    "Diabetic",
+    "Blood Glucose"
+  ],
   "author": "Team Capslock",
   "license": "ISC",
   "homepage": "https://bitbucket.org/techgs/temandiabetes-mobile#readme"

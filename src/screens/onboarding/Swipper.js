@@ -234,7 +234,6 @@ export default class OnboardingScreens extends Component {
    */
   renderButton = () => {
     const lastScreen = this.state.index === this.state.total - 1;
-    console.log("APA IN PROPS ..", this.props);
     return (
       <View pointerEvents="box-none" style={[styles.buttonWrapper, styles.fullScreen]}>
         <Button
