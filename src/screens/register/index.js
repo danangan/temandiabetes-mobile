@@ -5,6 +5,17 @@ import {Input} from '../../components/input/Input';
 import styles from './style';
 
 export default class Register extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+
+		}
+	}
+
+	static navigatorStyle = {
+		navBarHidden: true
+	}
+
 
 	render() {
 		return (
@@ -13,12 +24,17 @@ export default class Register extends Component {
 					<Text style={ styles.titles }>Siapakan nama Anda?</Text>
 				</View>
 				<View style={ styles.wrapForm }>
-					<View style={{ borderColor: '#000',
-					borderWidth: 1.5, }}>
+					<View
+						style={{
+							height: '70%',
+							borderColor: 'green',
+							borderWidth: 3,
+							justifyContent: 'flex-end'
+						}}
+					>
 						<TextInput
-								{...this.props}
 							placeholder={'Your Fullname'}
-							style={ [styles.textInputStyle, {marginBottom: 20}] } />
+							style={ [styles.textInputStyle, {marginBottom: 15}] } />
 						<TouchableOpacity
 							style={ styles.btnNext }
 							onPress={() => this.props.navigator.push({
@@ -28,15 +44,18 @@ export default class Register extends Component {
 							<Text style={{ color: '#fff' }}>LANJUT</Text>
 						</TouchableOpacity>
 					</View>
-					<View style={{
-						borderColor: '#000',
-						borderWidth: 1.5,
-						marginVertical: 20,
-						height: 20,
-					  }}>
-						<Text>Indicator</Text>
+					<View
+						style={{
+							height: '30%',
+							justifyContent: 'flex-end',
+							borderColor: 'blue',
+							borderWidth: 1.5,
+						}}
+					>
+						<Text style={{ textAlign: 'center' }}>Indicator</Text>
 					</View>
 				</View>
+
 			</View>
 		);
 	}

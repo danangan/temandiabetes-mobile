@@ -4,13 +4,14 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#ccc',
-		padding: 20,
+		paddingHorizontal: 20,
 		justifyContent: 'space-between',
 	},
 	wrapTitle: {
-		flex: 2,
-		justifyContent: 'flex-start',
-    marginTop: 50
+		flex: 1,
+		justifyContent: 'center',
+    borderColor: '#ff1200',
+    borderWidth: 5,
 	},
 	titles: {
 		color: '#fff',
@@ -20,8 +21,10 @@ const styles = StyleSheet.create({
 	},
 	wrapForm: {
 		flex: 1,
-		justifyContent: 'center',
-		flexDirection: 'column'
+    borderColor: 'aqua',
+    borderWidth: 5,
+		justifyContent: 'space-between',
+		flexDirection: 'column',
 	},
   textInputStyle: {
     backgroundColor: '#fff',
@@ -35,7 +38,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ef434f',
     alignItems: 'center',
     justifyContent: 'center',
-    height: 50,
+    height: 40,
   }
 });
 
