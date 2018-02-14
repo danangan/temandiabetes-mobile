@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import {Input} from '../../components/input/Input';
+import { Indicator } from '../../components/indicator/Indicator';
 
 import styles from './style';
 
@@ -47,12 +48,16 @@ export default class Register extends Component {
 					<View
 						style={{
 							height: '30%',
-							justifyContent: 'flex-end',
+							marginBottom: 10,
+							justifyContent: 'center',
 							borderColor: 'blue',
 							borderWidth: 1.5,
+							alignItems: 'center'
 						}}
 					>
-						<Text style={{ textAlign: 'center' }}>Indicator</Text>
+						<Indicator
+							persentase={{ width: '30%' }}
+						/>
 					</View>
 				</View>
 
