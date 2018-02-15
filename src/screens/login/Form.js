@@ -4,16 +4,17 @@ import { Text } from 'react-native';
 import { Card, CardSection, TextField } from '../../components';
 import Style from '../../style/defaultStyle';
 
-const Form = () => {
+const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) => {
   return (
-    <Card containerStyle={{ marginLeft: 25, marginRight: 25 }}>
+    <Card containerStyle={{ marginLeft: 35, marginRight: 35 }}>
       <CardSection>
         <Text style={[styles.labelStyle, { marginTop: 20 }]}>USERNAME</Text>
       </CardSection>
       <CardSection>
         <TextField
+          value={onValue.email}
           placeholder="Masukan username"
-          onChangeText={email => console.log(email)}
+          onChangeText={email => onChangeTextHandlerEmail(email)}
           rightIcon={{ uri: 'https://www.trybooking.com/media/3446/login-user-icon.png' }}
           inputStyle={styles.inputStyle}
         />
@@ -23,8 +24,10 @@ const Form = () => {
       </CardSection>
       <CardSection>
         <TextField
+          value={onValue.pass}
+          secureTextEntry
           placeholder="Masukan password"
-          onChangeText={pass => console.log(pass)}
+          onChangeText={pass => onChangeTextHandlerPass(pass)}
           rightIcon={{ uri: 'https://www.trybooking.com/media/3446/login-user-icon.png' }}
           inputStyle={styles.inputStyle}
         />
