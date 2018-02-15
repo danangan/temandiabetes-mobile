@@ -15,7 +15,6 @@ export default class OnBoardingScreen extends Component {
 	}
 
 	render() {
-		console.log("ADA PROPS ", this.props);
 		return (
 			<Screen
 				navigation={this.props.navigator}

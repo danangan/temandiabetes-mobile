@@ -39,7 +39,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 40,
-  }
+  },
+	indicatorWrapper: {
+		height: '30%',
+		marginBottom: 10,
+		justifyContent: 'center',
+		alignItems: 'center'
+	}
 });
 
 export default styles;

@@ -31,9 +31,11 @@ class RegisterScreenThird extends React.Component {
 					>
 						<TextInput
 							placeholder={'*********'}
+              underlineColorAndroid={'#fff'}
 							style={ [styles.textInputStyle, {marginBottom: 15}] } />
               <TextInput
   							placeholder={'*********'}
+                underlineColorAndroid={'#fff'}
   							style={ [styles.textInputStyle, {marginBottom: 15}] } />
 						<TouchableOpacity
 							style={ styles.btnNext }
@@ -44,14 +46,7 @@ class RegisterScreenThird extends React.Component {
 							<Text style={{ color: '#fff' }}>LANJUT</Text>
 						</TouchableOpacity>
 					</View>
-					<View
-						style={{
-							height: '30%',
-							marginBottom: 10,
-							justifyContent: 'center',
-							alignItems: 'center'
-						}}
-					>
+					<View style={ styles.indicatorWrapper }>
 						<Indicator
 							persentase={{ width: '50%' }}
 						/>

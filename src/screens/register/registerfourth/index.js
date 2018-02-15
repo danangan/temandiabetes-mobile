@@ -35,16 +35,8 @@ class RegisterScreenFourth extends React.Component {
         <View style={ styles.wrapTitle }>
 					<Text style={ styles.titles }>Siapakah Anda?</Text>
 				</View>
-        <View style={ {
-          flex: 1,
-      		justifyContent: 'center',
-      		flexDirection: 'column'
-        } }>
-					<View style={{
-            // borderColor: 'aqua',
-					  // borderWidth: 1.5,
-            backGroundColor: '#fff',
-          }}>
+        <View style={ stylesLocal.wrapperScroll }>
+					<View style={{ backGroundColor: '#fff' }}>
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal={true}
@@ -59,7 +51,7 @@ class RegisterScreenFourth extends React.Component {
                     onPress={() => this.setState({ selected: item })}>
                     <Image
                       resizeMode={'contain'}
-                      style={{ width: '100%', height: '80%' }}
+                      style={ stylesLocal.images }
                       source={{ uri: URL_IMAGE }}
                     />
                     <Text style={{ fontSize: 12, color: '#000', textAlign: 'center' }}>{ item }</Text>
@@ -70,17 +62,10 @@ class RegisterScreenFourth extends React.Component {
 					</View>
           <TouchableOpacity
             style={ [styles.btnNext, { marginBottom: 40, marginTop: 10 }] }
-            onPress={() => alert('KETIGA')}>
+            onPress={() => alert('Thank You')}>
             <Text style={{ color: '#fff' }}>SELESAI</Text>
           </TouchableOpacity>
-          <View
-						style={{
-							height: '30%',
-							marginBottom: 10,
-							justifyContent: 'center',
-							alignItems: 'center'
-						}}
-					>
+          <View style={ styles.indicatorWrapper }>
 						<Indicator
 							persentase={{ width: '80%' }}
 						/>
@@ -102,7 +87,13 @@ const stylesLocal = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 20,
     padding: 10,
-  }
+  },
+  wrapperScroll: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'column'
+  },
+  images: { width: '100%', height: '80%' }
 })
 
 export default RegisterScreenFourth;

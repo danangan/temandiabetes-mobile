@@ -38,6 +38,7 @@ export default class Register extends Component {
 					>
 						<TextInput
 							placeholder={'Your Fullname'}
+							underlineColorAndroid={'#fff'}
 							style={ [styles.textInputStyle, {marginBottom: 15, paddingLeft: 20}] } />
 						<TouchableOpacity
 							style={ styles.btnNext }
@@ -48,16 +49,7 @@ export default class Register extends Component {
 							<Text style={{ color: '#fff' }}>LANJUT</Text>
 						</TouchableOpacity>
 					</View>
-					<View
-						style={{
-							height: '30%',
-							marginBottom: 10,
-							justifyContent: 'center',
-							// borderColor: 'blue',
-							// borderWidth: 1.5,
-							alignItems: 'center'
-						}}
-					>
+					<View style={ styles.indicatorWrapper }>
 						<Indicator
 							persentase={{ width: '30%' }}
 						/>
