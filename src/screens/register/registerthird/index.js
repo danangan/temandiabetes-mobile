@@ -26,14 +26,15 @@ class RegisterScreenThird extends React.Component {
 					<View
 						style={{
 							height: '70%',
-							borderColor: 'green',
-							borderWidth: 3,
 							justifyContent: 'flex-end'
 						}}
 					>
 						<TextInput
-							placeholder={'daniel@gmail.com'}
+							placeholder={'*********'}
 							style={ [styles.textInputStyle, {marginBottom: 15}] } />
+              <TextInput
+  							placeholder={'*********'}
+  							style={ [styles.textInputStyle, {marginBottom: 15}] } />
 						<TouchableOpacity
 							style={ styles.btnNext }
 							onPress={() => this.props.navigator.push({
@@ -48,8 +49,6 @@ class RegisterScreenThird extends React.Component {
 							height: '30%',
 							marginBottom: 10,
 							justifyContent: 'center',
-							borderColor: 'blue',
-							borderWidth: 1.5,
 							alignItems: 'center'
 						}}
 					>

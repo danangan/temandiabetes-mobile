@@ -6,30 +6,33 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Image
+  Image,
+  StyleSheet
 } from 'react-native';
 
 import styles from '../style';
 const URL_IMAGE = 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAqDAAAAJDNhMmVjZTMxLWYwMmYtNDkyMS05MWQ5LTQ5NGY1ZDQzNDc4OA.jpg'
 
 import {Button} from '../../../components/button/Button';
+import { Indicator } from '../../../components/indicator/Indicator';
 
 class RegisterScreenFourth extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      images: ['Diabtesi', 'Ahli', 'Dokter']
+      images: ['Diabtesi', 'Ahli', 'Dokter'],
+      selected: '',
     }
+  }
+
+  static navigatorStyle = {
+    navBarHidden: true
   }
 
   render () {
     return (
 			<View style={ [styles.container, { paddingBottom: 50 }] }>
-				<View style={ {
-          flex: 1,
-      		justifyContent: 'flex-start',
-          marginTop: 50
-        }}>
+        <View style={ styles.wrapTitle }>
 					<Text style={ styles.titles }>Siapakah Anda?</Text>
 				</View>
         <View style={ {
@@ -38,24 +41,29 @@ class RegisterScreenFourth extends React.Component {
       		flexDirection: 'column'
         } }>
 					<View style={{
-            borderColor: 'aqua',
-					  borderWidth: 1.5,
+            // borderColor: 'aqua',
+					  // borderWidth: 1.5,
             backGroundColor: '#fff',
           }}>
             <ScrollView
               showsHorizontalScrollIndicator={false}
               horizontal={true}
             >
+
               {
-                this.state.images.map((a, index) => (
-                  <View style={{ flex: 1, alignItems: 'center', justifyContent: 'flex-start', borderColor: 'rgb(239, 67, 79)', borderWidth: 1.5, backgroundColor: '#fff', width: 150, height: 150, marginVertical: 5, marginHorizontal: 19, padding: 10,  }}>
+                this.state.images.map((item, index) => (
+                  <TouchableOpacity
+                    style={
+                      this.state.selected === item ? [stylesLocal.imagesWrapper, {borderColor: 'rgb(239, 67, 79)', borderWidth: 1.5 }] : stylesLocal.imagesWrapper
+                    }
+                    onPress={() => this.setState({ selected: item })}>
                     <Image
                       resizeMode={'contain'}
                       style={{ width: '100%', height: '80%' }}
                       source={{ uri: URL_IMAGE }}
                     />
-                    <Text style={{ fontSize: 12, color: '#000', textAlign: 'center' }}>{ a }</Text>
-                  </View>
+                    <Text style={{ fontSize: 12, color: '#000', textAlign: 'center' }}>{ item }</Text>
+                  </TouchableOpacity>
                 ))
               }
             </ScrollView>
@@ -65,23 +73,36 @@ class RegisterScreenFourth extends React.Component {
             onPress={() => alert('KETIGA')}>
             <Text style={{ color: '#fff' }}>SELESAI</Text>
           </TouchableOpacity>
-          {/* <Button
-            children={'SELESAI'}
-            onPress={() => alert('Ketiga')}
-            textStyle={{ color: '#fff' }}
-            // buttonStyles={ [styles.btnNext, { marginBottom: 30, marginTop: 10 }] }
-          /> */}
-					<View style={{
-						borderColor: '#000',
-						borderWidth: 1.5,
-						height: 20,
-					  }}>
-						<Text>Indicator</Text>
+          <View
+						style={{
+							height: '30%',
+							marginBottom: 10,
+							justifyContent: 'center',
+							alignItems: 'center'
+						}}
+					>
+						<Indicator
+							persentase={{ width: '80%' }}
+						/>
 					</View>
 				</View>
 			</View>
 		);
   }
 }
+
+const stylesLocal = StyleSheet.create({
+  imagesWrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: '#fff',
+    width: 150,
+    height: 150,
+    marginVertical: 5,
+    marginHorizontal: 20,
+    padding: 10,
+  }
+})
 
 export default RegisterScreenFourth;
