@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
-import {Input} from '../../components/input/Input';
+import {Input} from '../../components/input/TextField';
 
 import { Indicator } from '../../components/indicator/Indicator';
 
