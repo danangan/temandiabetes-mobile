@@ -7,6 +7,7 @@ import appInitialized from './src/utils/appInitialized';
 import configureStore from './src/store/configureStore';
 
 const store = configureStore();
+console.disableYellowBox = true;
 
 registerScreens(store, Provider);
 registerScreenVisibilityListener();
@@ -14,7 +15,7 @@ registerScreenVisibilityListener();
 export function startApp() {
   Navigation.startSingleScreenApp({
     screen: {
-			screen: 'TemanDiabets.LoginScreen',
+			screen: 'TemanDiabets.OnBoardingScreen',
       navigatorStyle: {
         navBarHidden: true
       }

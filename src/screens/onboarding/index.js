@@ -1,14 +1,24 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import {
+	View,
+	Text,
+	StatusBar,
+} from 'react-native';
 
 import styles from './style';
+import Screen from './Screen';
 
 export default class OnBoardingScreen extends Component {
+
+	componentDidMount() {
+		StatusBar.setHidden(true);
+	}
+
 	render() {
 		return (
-			<View style={styles.container}>
-				<Text style={styles.text}>ON BOARDING</Text>
-			</View>
+			<Screen
+				navigation={this.props.navigator}
+			/>
 		);
 	}
 }
