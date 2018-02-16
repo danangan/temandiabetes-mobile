@@ -7,8 +7,7 @@ import BorderLine from './BorderLine';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import logo from '../../assets/icons/logo.png';
-
-const source = 'http://www.dexa-medica.com/sites/default/files/DDC-banner.jpg';
+import image from '../../assets/images/background_login.jpg';
 
 export default class Login extends Component {
 	constructor(props) {
@@ -25,7 +24,7 @@ export default class Login extends Component {
 
 	render() {
 		return (
-			<ImageBackground source={{ uri: source }} style={styles.containerStyle}>
+			<ImageBackground source={image} style={styles.containerStyle}>
 				<View style={styles.contentStyle}>
 					<View style={styles.contentTopStyle}>
 						<Image source={logo} style={styles.logoStyle} />
