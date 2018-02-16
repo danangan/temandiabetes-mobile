@@ -1,33 +1,59 @@
 import React, { Component } from 'react';
-import { View, Image, Text, ImageBackground } from 'react-native';
+import { View, Image, Text, ImageBackground, KeyboardAvoidingView } from 'react-native';
 
 import { ButtonFacebook, ButtonGoogle, Button } from '../../components/';
 import Form from './Form';
+import BorderLine from './BorderLine';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
-
-const source = 'http://www.dexa-medica.com/sites/default/files/DDC-banner.jpg';
-const sourceLogo = require('../../assets/icons/logo.png');
+import logo from '../../assets/icons/logo.png';
+import image from '../../assets/images/background_login.jpg';
 
 export default class Login extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			email: null,
+			password: null,
+			errorHandler: null
+		};
+	}
+
+	onChangeTextHandlerEmail = (e) => this.setState({ email: e });
+	onChangeTextHandlerPass = (pass) => this.setState({ password: pass })
+
 	render() {
 		return (
-			<ImageBackground source={{ uri: source }} style={styles.containerStyle}>
+			<ImageBackground source={image} style={styles.containerStyle}>
 				<View style={styles.contentStyle}>
 					<View style={styles.contentTopStyle}>
-						<Image source={sourceLogo} style={styles.logoStyle} />
+						<Image source={logo} style={styles.logoStyle} />
 					</View>
-					<View style={styles.contentCenterStyle}>
-						<Form />
-						<Button buttonStyle={styles.buttonStyle}>MASUK</Button>
-					</View>
+					<KeyboardAvoidingView behavior='padding'>
+						<View style={styles.contentCenterStyle}>
+							<Form
+								onValue={{ email: this.state.email, pass: this.state.password }}
+								onChangeTextHandlerEmail={this.onChangeTextHandlerEmail}
+								onChangeTextHandlerPass={this.onChangeTextHandlerPass}
+							/>
+							<Button buttonStyle={styles.buttonStyle}>MASUK</Button>
+							<BorderLine />
+						</View>
+					</KeyboardAvoidingView>
 					<View style={styles.contentBottomStyle}>
 						<ButtonFacebook
 							onPress={() => null} text="Masuk dengan Facebook"
-							containerStyle={{ margin: 10 }}
+							containerStyle={styles.buttonSocialStyle}
+							textStyle={styles.buttonSocialTextStyle}
 						/>
-						<ButtonGoogle onPress={() => null} text="Masuk dengan Google" />
-						<Text style={styles.textLink}>BUAT AKUN</Text>
+						<ButtonGoogle
+							onPress={() => null}
+							text="Masuk dengan Google"
+							textStyle={styles.buttonSocialTextStyle}
+						/>
+						<Text style={styles.textLink} onPress={() => null}>
+							BUAT AKUN
+						</Text>
 					</View>
 				</View>
 			</ImageBackground>
@@ -53,21 +79,30 @@ const styles = {
 		justifyContent: 'space-between'
 	},
 	logoStyle: {
-		width: Style.DEVICE_WIDTH,
-		height: 70,
-		backgroundColor: 'red'
+		width: Style.DEVICE_WIDTH - 80,
+		height: Style.DEVICE_WIDTH / 8.5,
+		alignSelf: 'center',
+		marginTop: 40,
 	},
 	textLink: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: Style.FONT_SIZE_TITLE,
 		color: color.gray,
 		fontWeight: 'bold',
-		alignSelf: 'center'
+		alignSelf: 'center',
+		marginTop: 30
 	},
 	buttonStyle: {
-		height: 60,
-		marginLeft: 25,
-		marginRight: 25
+		height: 55,
+		marginLeft: 35,
+		marginRight: 35
+	},
+	buttonSocialStyle: {
+		margin: 10,
+	},
+	buttonSocialTextStyle: {
+		fontSize: Style.FONT_SIZE,
+		paddingTop: 2
 	}
 };
 

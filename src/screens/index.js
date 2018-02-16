@@ -4,10 +4,10 @@ import OnBoardingScreen from './onboarding';
 import LoginScreen from './login';
 import RegisterScreen from './register';
 
-export function registerScreens() {
+export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
-	Navigation.registerComponent('TemanDiabets.LoginScreen', () => LoginScreen);
-	Navigation.registerComponent('TemanDiabets.RegisterScreen', () => RegisterScreen);
+	Navigation.registerComponent('TemanDiabets.LoginScreen', () => LoginScreen, store, Provider);
+	Navigation.registerComponent('TemanDiabets.RegisterScreen', () => RegisterScreen, store, Provider);
 }
 
 export function registerScreenVisibilityListener() {

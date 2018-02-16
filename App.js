@@ -1,10 +1,14 @@
 import { Platform } from 'react-native';
+import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
+
 import { registerScreens, registerScreenVisibilityListener } from './src/screens';
-
 import appInitialized from './src/utils/appInitialized';
+import configureStore from './src/store/configureStore';
 
-registerScreens();
+const store = configureStore();
+
+registerScreens(store, Provider);
 registerScreenVisibilityListener();
 
 export function startApp() {
@@ -21,14 +25,14 @@ export function startApp() {
 const tabs = [{
 	label: 'Forum',
 	screen: 'TemanDiabets.ForumScreen',
-	// icon: require(''),
-	// selectedIcon: require(''),
+	icon: require('./src/assets/icons/forum.png'),
+	selectedIcon: require('./src/assets/icons/forum_active.png'),
 	title: 'Forum'
 }, {
 	label: 'Event',
 	screen: 'TemanDiabets.EventScreen',
-	// icon: require(),
-	// selectedIcon: require(''),
+	icon: require('./src/assets/icons/event.png'),
+	selectedIcon: require('./src/assets/icons/event_active.png'),
 	title: 'Event'
 }, {
 	label: 'Rekaman',
@@ -39,14 +43,14 @@ const tabs = [{
 }, {
 	label: 'Belanja',
 	screen: 'TemanDiabets.BelanjaScreen',
-	// icon: require(),
-	// selectedIcon: require(''),
+	icon: require('./src/assets/icons/cart.png'),
+	selectedIcon: require('./src/assets/icons/cart_active.png'),
 	title: 'Belanja'
 }, {
 	label: 'Darurat',
 	screen: 'TemanDiabets.DaruratScreen',
-	// icon: require(),
-	// selectedIcon: require(''),
+	icon: require('./src/assets/icons/emergency.png'),
+	selectedIcon: require('./src/assets/icons/emergency_active.png'),
 	title: 'Darurat'
 }];
 

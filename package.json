@@ -4,12 +4,17 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "android-dev": "ENVFILE=.env.dev react-native run-android",
+    "ios-dev": "ENVFILE=.env.dev react-native run-ios",
+    "android-prod": "ENVFILE=.env.prod react-native run-android",
+    "build-android-prod": "export ENVFILE=.env.prod && cd android && ./gradlew assembleRelease && cd .."
   },
   "dependencies": {
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-native": "^0.53.0",
+    "react-native-config": "^0.11.5",
     "react-native-navigation": "^1.1.371",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
@@ -31,7 +36,10 @@
       "./src/assets/fonts"
     ]
   },
-  "keywords": ["Diabetic", "Blood Glucose"],
+  "keywords": [
+    "Diabetic",
+    "Blood Glucose"
+  ],
   "author": "Team Capslock",
   "license": "ISC",
   "homepage": "https://bitbucket.org/techgs/temandiabetes-mobile#readme"
