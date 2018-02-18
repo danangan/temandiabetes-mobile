@@ -1,5 +1,6 @@
 package com.temandiabets;
 
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationApplication;
 
@@ -18,7 +19,7 @@ public class MainApplication extends NavigationApplication {
         // Add additional packages you require here
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
-            // eg. new VectorIconsPackage()
+            new RNGoogleSigninPackage()
         );
     }
 
