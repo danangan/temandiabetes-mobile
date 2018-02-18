@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, ImageBackground, KeyboardAvoidingView } from 'react-native';
-import { GoogleSignin, GoogleSigninButton } from "react-native-google-signin";
+import { GoogleSignin } from 'react-native-google-signin';
+import Config from 'react-native-config';
 
 import { ButtonFacebook, ButtonGoogle, Button } from '../../components/';
 import Form from './Form';
@@ -16,47 +17,49 @@ export default class Login extends Component {
 		this.state = {
 			email: null,
 			password: null,
-			errorHandler: null,
-			user: null
+			user: null,
+			errorHandler: null
 		};
 	}
 
 	componentDidMount() {
-		this._setupGoogleSignin();
+		this.setupGoogleSignIn();
 	}
 
 	onChangeTextHandlerEmail = (e) => this.setState({ email: e });
 	onChangeTextHandlerPass = (pass) => this.setState({ password: pass })
 
-	_signIn() {
-    GoogleSignin.signIn()
-    .then((user) => {
-      console.log(user);
-      this.setState({user: user});
-    })
-    .catch((err) => {
-      console.log('WRONG SIGNIN', err);
-    })
-    .done();
+	onGoogleSignIn = async () => {
+		try {
+			const data = await GoogleSignin.signIn();
+			this.setState({ user: data });
+			return data;
+		} catch (error) {
+			if (error) throw error;
+		}
   }
 
-	async _setupGoogleSignin() {
-    try {
-      await GoogleSignin.hasPlayServices({ autoResolve: true });
-      await GoogleSignin.configure({
-				webClientId: '879115918599-nucqun2ipaibofhht410rr0hke95go1o.apps.googleusercontent.com',
-				iosClientId: '879115918599-mhl2nv9cbih5qnlql1lm62rmvv93oi94.apps.googleusercontent.com',
-        offlineAccess: false
-      });
+	//METHOD FOR LOGOUT
+	// onSignOut = async () => GoogleSignin.revokeAccess()
+	// 	.then(() => GoogleSignin.signOut())
+	// 	.then(() => this.setState({ user: null }))
+	// 	.done();
+	
+	setupGoogleSignIn = async () => {
+		try {
+			await GoogleSignin.hasPlayServices({ autoResolve: true });
+			await GoogleSignin.configure({
+				webClientId: Config.ANDROID_GOOGLE_CLIENT_ID,
+				iosClientId: Config.IOS_GOOGLE_CLIENT_ID,
+				offlineAccess: false
+			});
 
-      const user = await GoogleSignin.currentUserAsync();
-      console.log(user);
-      this.setState({ user });
-    } catch (err) {
-      console.log("Play services error", err.code, err.message);
-    }
-  }
-
+			const user = await GoogleSignin.currentUserAsync();
+			this.setState({ user });
+		} catch (err) {
+			if (err) throw err.message;
+		}
+	}
 
 	render() {
 		return (
@@ -82,16 +85,10 @@ export default class Login extends Component {
 							containerStyle={styles.buttonSocialStyle}
 							textStyle={styles.buttonSocialTextStyle}
 						/>
-						{/* <ButtonGoogle
-							onPress={() => null}
+						<ButtonGoogle
+							onPress={() => this.onGoogleSignIn()}
 							text="Masuk dengan Google"
 							textStyle={styles.buttonSocialTextStyle}
-						/> */}
-						<GoogleSigninButton
-							style={{ width: 200, height: 48 }}
-							// size={GoogleSigninButton.Size.Icon}
-							// color={GoogleSigninButton.Color.Dark}
-							onPress={() => this._signIn()}
 						/>
 						<Text style={styles.textLink} onPress={() => null}>
 							BUAT AKUN
