@@ -13,7 +13,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.RegisterScreen', () => RegisterScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenSecond', () => RegisterScreenSecond);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenThird', () => RegisterScreenThird);
-	Navigation.registerComponent('TemanDiabets.RegisterScreenFourth', () => RegisterScreenFourth);
+	Navigation.registerComponent('TemanDiabets.RegisterScreenFourth', () => RegisterScreenFourth, store, Provider);
 }
 
 export function registerScreenVisibilityListener() {
