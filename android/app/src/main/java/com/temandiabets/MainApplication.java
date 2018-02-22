@@ -2,6 +2,7 @@ package com.temandiabets;
 
 import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationApplication;
+import io.invertase.firebase.RNFirebasePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,7 @@ public class MainApplication extends NavigationApplication {
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
             // eg. new VectorIconsPackage()
+                new RNFirebasePackage()
         );
     }
 
