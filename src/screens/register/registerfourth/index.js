@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ const URL_IMAGE = 'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAA
 
 import {Button} from '../../../components/button/Button';
 import { Indicator } from '../../../components/indicator/Indicator';
+import { registerAction } from '../../../actions';
 
 class RegisterScreenFourth extends React.Component {
   constructor(props) {
@@ -23,13 +24,25 @@ class RegisterScreenFourth extends React.Component {
       images: ['Diabtesi', 'Ahli', 'Dokter'],
       selected: '',
     }
+    this.handleFinalRegister = this.handleFinalRegister.bind(this);
   }
 
   static navigatorStyle = {
     navBarHidden: true
   }
 
+  handleFinalRegister() {
+    let dataUser = {
+      nama: 'Daniel Sidabutar',
+      email: 'agusdaniel@gmail.com',
+      password: 'danang123456'
+    };
+    // console.log("DATA USER ", dataUser)
+    this.props.registerAction(dataUser);
+  }
+
   render () {
+    console.log("INI PROPS DI KE 4", this.props)
     return (
 			<View style={ [styles.container, { paddingBottom: 50 }] }>
         <View style={ styles.wrapTitle }>
@@ -62,7 +75,7 @@ class RegisterScreenFourth extends React.Component {
 					</View>
           <TouchableOpacity
             style={ [styles.btnNext, { marginBottom: 40, marginTop: 10 }] }
-            onPress={() => alert('Thank You')}>
+            onPress={() => this.handleFinalRegister() }>
             <Text style={{ color: '#fff' }}>SELESAI</Text>
           </TouchableOpacity>
           <View style={ styles.indicatorWrapper }>
@@ -96,4 +109,23 @@ const stylesLocal = StyleSheet.create({
   images: { width: '100%', height: '80%' }
 })
 
-export default RegisterScreenFourth;
+// const mapDispatchToProps = dispatch => ({
+//   registerAction: dataUser => dispatch(registerAction(dataUser))
+// });
+
+// const mapStateToProps = state => {
+//   console.log("PROPS DI REGISTER 4", state);
+//   return { 
+//     registerReducer: state.registerReducer 
+//   };
+// };
+
+const mapStateToProps = state => ({
+  dataUser: state.registerReducer
+});
+
+const mapDispatchToProps = dispatch => ({
+  registerAction: dataUser => dispatch(registerAction(dataUser))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreenFourth);

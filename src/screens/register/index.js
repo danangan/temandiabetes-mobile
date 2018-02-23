@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
@@ -8,18 +9,26 @@ import { Indicator } from '../../components/indicator/Indicator';
 
 import styles from './style';
 
-export default class Register extends Component {
+import { registerStepOne } from '../../actions';
+
+class Register extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-
+			name: null
 		}
+
+		this.handleSaveName = this.handleSaveName.bind(this);
 	}
 
 	static navigatorStyle = {
 		navBarHidden: true
 	}
 
+	handleSaveName() {
+		const { registerStepOne } = this.props;
+		registerStepOne(this.state.name);
+	}
 
 	render() {
 		return (
@@ -39,13 +48,18 @@ export default class Register extends Component {
 						<TextInput
 							placeholder={'Your Fullname'}
 							underlineColorAndroid={'#fff'}
+							onChangeText={(name) => this.setState({name})}
 							style={ [styles.textInputStyle, {marginBottom: 15, paddingLeft: 20}] } />
 						<TouchableOpacity
 							style={ styles.btnNext }
-							onPress={() => this.props.navigator.push({
-								screen: 'TemanDiabets.RegisterScreenSecond',
-	  						title: 'Next Step 2'
-							})}>
+							onPress={() => {
+									this.handleSaveName()
+									this.props.navigator.push({
+										screen: 'TemanDiabets.RegisterScreenSecond',
+										title: 'Next Step 2'
+									})
+								}
+							}>
 							<Text style={{ color: '#fff' }}>LANJUT</Text>
 						</TouchableOpacity>
 					</View>
@@ -60,3 +74,14 @@ export default class Register extends Component {
 		);
 	}
 }
+
+const mapStateToProps = state => {
+	console.log("PROPS DI REGISTER ", state)
+	return { registerReducer: state.registerReducer };
+};
+
+const mapDispatchToProps = dispatch => ({
+  registerStepOne: (name) => dispatch(registerStepOne(name))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
