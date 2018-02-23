@@ -1,57 +1,77 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
+import { Platform } from 'react-native';
+import { Provider } from 'react-redux';
+import { Navigation } from 'react-native-navigation';
 
-import React, { Component } from 'react';
-import {
-  Platform,
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { registerScreens, registerScreenVisibilityListener } from './src/screens';
+import appInitialized from './src/utils/appInitialized';
+import configureStore from './src/store/configureStore';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+const store = configureStore();
+console.disableYellowBox = true;
 
-export default class App extends Component<{}> {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to Teman Diabetes
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-      </View>
-    );
-  }
+registerScreens(store, Provider);
+registerScreenVisibilityListener();
+
+export function startApp() {
+  Navigation.startSingleScreenApp({
+    screen: {
+			screen: 'TemanDiabets.OnBoardingScreen',
+      navigatorStyle: {
+        navBarHidden: true
+      }
+    }
+  });
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+const tabs = [{
+	label: 'Forum',
+	screen: 'TemanDiabets.ForumScreen',
+	icon: require('./src/assets/icons/forum.png'),
+	selectedIcon: require('./src/assets/icons/forum_active.png'),
+	title: 'Forum'
+}, {
+	label: 'Event',
+	screen: 'TemanDiabets.EventScreen',
+	icon: require('./src/assets/icons/event.png'),
+	selectedIcon: require('./src/assets/icons/event_active.png'),
+	title: 'Event'
+}, {
+	label: 'Rekaman',
+	screen: 'TemanDiabets.RekamanScreen',
+	// icon: require(),
+	// selectedIcon: require(''),
+	title: 'Rekaman'
+}, {
+	label: 'Belanja',
+	screen: 'TemanDiabets.BelanjaScreen',
+	icon: require('./src/assets/icons/cart.png'),
+	selectedIcon: require('./src/assets/icons/cart_active.png'),
+	title: 'Belanja'
+}, {
+	label: 'Darurat',
+	screen: 'TemanDiabets.DaruratScreen',
+	icon: require('./src/assets/icons/emergency.png'),
+	selectedIcon: require('./src/assets/icons/emergency_active.png'),
+	title: 'Darurat'
+}];
+
+export function mainApp() {
+  Navigation.startTabBasedApp({
+    tabs,
+    animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
+    tabsStyle: {
+      tabBarBackgroundColor: '',
+      tabBarButtonColor: '',
+      tabBarSelectedButtonColor: '',
+      tabFontFamily: '',
+    },
+    appStyle: {},
+    drawer: {
+      left: {}
+    }
+  });
+}
+
+export function appRegistry() {
+	appInitialized();
+}

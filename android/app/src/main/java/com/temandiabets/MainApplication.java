@@ -1,7 +1,5 @@
 package com.temandiabets;
 
-import com.airbnb.android.react.maps.MapsPackage;
-import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationApplication;
 
@@ -21,8 +19,6 @@ public class MainApplication extends NavigationApplication {
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
             // eg. new VectorIconsPackage()
-            new MapsPackage(),
-            new RCTCameraPackage()
         );
     }
 
