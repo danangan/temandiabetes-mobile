@@ -1,9 +1,7 @@
 import React from 'react';
-
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import styles from '../style';
-
 import { Indicator } from '../../../components/indicator/Indicator';
 
 class RegisterScreenSecond extends React.Component {
@@ -14,19 +12,30 @@ class RegisterScreenSecond extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: null
+			email: null,
+			message: ''
 		};
 	}
 
 	handleNavigation() {
-		this.props.navigator.push({
-			screen: 'TemanDiabets.RegisterScreenThird',
-			title: 'Next Step 3',
-			passProps: {
-				name: this.props.name,
-				email: this.state.email
-			}
-		});
+		const { email } = this.state;
+		if (email !== null) {
+			this.props.navigator.push({
+				screen: 'TemanDiabets.RegisterScreenThird',
+				title: 'Next Step 3',
+				passProps: {
+					name: this.props.name,
+					email: this.state.email
+				}
+			});
+			this.setState({
+				message: ''
+			});
+		} else {
+			this.setState({
+				message: 'Masukan email Anda'
+			});
+		}
 	}
 
 	render() {
@@ -41,7 +50,7 @@ class RegisterScreenSecond extends React.Component {
 							height: '70%',
 							justifyContent: 'flex-end'
 						}}
-					>  
+					>
 						<TextInput
 							placeholder={'daniel@gmail.com'}
 							onChangeText={email => this.setState({ email })}
@@ -51,6 +60,7 @@ class RegisterScreenSecond extends React.Component {
 						<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
 							<Text style={{ color: '#fff' }}>LANJUT</Text>
 						</TouchableOpacity>
+						<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
 					</View>
 					<View style={styles.indicatorWrapper}>
 						<Indicator persentase={{ width: '40%' }} />

@@ -1,9 +1,7 @@
 import React from 'react';
-
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import styles from '../style';
-
 import { Indicator } from '../../../components/indicator/Indicator';
 
 class RegisterFive extends React.Component {

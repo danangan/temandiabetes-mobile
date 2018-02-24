@@ -3,45 +3,35 @@ import { connect } from 'react-redux';
 import {
 	View,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	ScrollView,
 	Image,
-	StyleSheet,
-	AsyncStorage
+	StyleSheet
 } from 'react-native';
 
 import styles from '../style';
-const URL_IMAGE =
-	'https://media.licdn.com/mpr/mpr/shrinknp_400_400/AAEAAQAAAAAAAAqDAAAAJDNhMmVjZTMxLWYwMmYtNDkyMS05MWQ5LTQ5NGY1ZDQzNDc4OA.jpg';
-
-import { Button } from '../../../components/button/Button';
 import { Indicator } from '../../../components/indicator/Indicator';
 import { registerAction } from '../../../actions';
-import { authToken } from '../../../utils/constants';
+import { buttonLabelDone, buttonLabelNext, URL_IMAGE, typeOfUsers } from '../../../utils/constants';
 
 class RegisterScreenFourth extends React.Component {
+	static navigatorStyle = {
+		navBarHidden: true
+	};
+	
 	constructor(props) {
 		super(props);
 		this.state = {
-			images: ['diabetesi', 'Non-Diabetesi', 'Ahli'],
-			nama: this.props.name,
-			email: this.props.email,
-			password: this.props.password,
 			selected: '',
 			persentase: '80%',
-			btn_submit: 'LANJUT',
+			btn_submit: buttonLabelNext,
 			shouldRedirect: false
 		};
 		this.handleFinalRegister = this.handleFinalRegister.bind(this);
 	}
 
-	static navigatorStyle = {
-		navBarHidden: true
-	};
-
 	componentDidUpdate() {
-		const { message, status_code } = this.props.dataRegister.dataUser;
+		const { status_code } = this.props.dataRegister.dataUser;
 		if (status_code === 200 && this.state.shouldRedirect) {
 			this.setState(
 				{
@@ -58,27 +48,25 @@ class RegisterScreenFourth extends React.Component {
 	}
 
 	handleFinalRegister() {
-		const { nama, email, password, selected } = this.state;
 		const dataUser = {
-			nama: nama,
-			email: email,
-			password: password,
-			tipeuser: selected
+			nama: this.props.name,
+			email: this.props.email,
+			password: this.props.password,
+			tipeuser: this.state.selected
 		};
-		console.log("DATA USER COMPONENT ->", dataUser)
 		this.props.registerAction(dataUser);
 	}
 
 	handleUserDecision(item) {
-		if (item !== 'Ahli') {
-			this.setState({ selected: item, persentase: '100%', btn_submit: 'SELESAI' });
+		if (item !== 'ahli') {
+			this.setState({ selected: item, persentase: '100%', btn_submit: buttonLabelDone });
 		} else {
-			this.setState({ selected: item, persentase: '80%', btn_submit: 'LANJUT' });
+			this.setState({ selected: item, persentase: '80%', btn_submit: buttonLabelNext });
 		}
 	}
 
 	handleSelectedUser() {
-		return this.state.images.map((item, index) => (
+		return typeOfUsers.map((item, index) => (
 			<TouchableOpacity
 				key={index}
 				style={
@@ -96,7 +84,7 @@ class RegisterScreenFourth extends React.Component {
 
 	handleNavigation() {
 		const { selected } = this.state;
-		if (selected !== 'Ahli' && selected !== '') {
+		if (selected !== 'ahli' && selected !== '') {
 			this.setState({
 				shouldRedirect: true
 			});
@@ -110,7 +98,6 @@ class RegisterScreenFourth extends React.Component {
 	}
 
 	render() {
-		console.log('PROPS PARAMS 4', this.props);
 		const { message, status_code } = this.props.dataRegister.dataUser;
 		if (this.state.shouldRedirect) {
 			return (
@@ -166,17 +153,6 @@ const stylesLocal = StyleSheet.create({
 	},
 	images: { width: '100%', height: '80%' }
 });
-
-// const mapDispatchToProps = dispatch => ({
-//   registerAction: dataUser => dispatch(registerAction(dataUser))
-// });
-
-// const mapStateToProps = state => {
-//   console.log("PROPS DI REGISTER 4", state);
-//   return {
-//     registerReducer: state.registerReducer
-//   };
-// };
 
 const mapStateToProps = state => ({
 	dataRegister: state.registerReducer
