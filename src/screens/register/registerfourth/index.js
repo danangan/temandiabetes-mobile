@@ -32,11 +32,16 @@ class RegisterScreenFourth extends React.Component {
   }
 
   handleFinalRegister() {
+    // let dataUser = {
+    //   nama: 'Daniel Sidabutar',
+    //   email: 'agusdaniel@gmail.com',
+    //   password: 'danang123456'
+    // };
     let dataUser = {
-      nama: 'Daniel Sidabutar',
-      email: 'agusdaniel@gmail.com',
-      password: 'danang123456'
-    };
+      nama: 'Agus Permadi Sid233',
+      email: 'sinaga_love234@gmail.com',
+      password: 'janganNakal1233'
+    }
     // console.log("DATA USER ", dataUser)
     this.props.registerAction(dataUser);
   }

@@ -32,7 +32,9 @@ const registerAction = userData => {
 				dispatch(registerActionSuccess(data));
 				dispatch(signAction(data.idToken));
 			})
-			.catch(error => dispatch(registerActionSuccess(error)));
+			.catch(error => {
+				dispatch(registerActionSuccess(error))
+			});
 	};
 };
 
