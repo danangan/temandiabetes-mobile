@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
-import {Input} from '../../components/input/TextField';
+import { Input } from '../../components/input/TextField';
 
 import { Indicator } from '../../components/indicator/Indicator';
 
@@ -13,30 +13,33 @@ import { registerStepOne } from '../../actions';
 
 class Register extends Component {
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
 			name: null
-		}
-
-		this.handleSaveName = this.handleSaveName.bind(this);
+		};
 	}
 
 	static navigatorStyle = {
 		navBarHidden: true
-	}
+	};
 
-	handleSaveName() {
-		const { registerStepOne } = this.props;
-		registerStepOne(this.state.name);
+	handleNavigation() {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.RegisterScreenSecond',
+			title: 'Next Step 2',
+			passProps: {
+				name: this.state.name
+			}
+		});
 	}
 
 	render() {
 		return (
-			<View style={ styles.container }>
-				<View style={ styles.wrapTitle }>
-					<Text style={ styles.titles }>Siapakan nama Anda?</Text>
+			<View style={styles.container}>
+				<View style={styles.wrapTitle}>
+					<Text style={styles.titles}>Siapakan nama Anda?</Text>
 				</View>
-				<View style={ styles.wrapForm }>
+				<View style={styles.wrapForm}>
 					<View
 						style={{
 							height: '70%',
@@ -48,40 +51,29 @@ class Register extends Component {
 						<TextInput
 							placeholder={'Your Fullname'}
 							underlineColorAndroid={'#fff'}
-							onChangeText={(name) => this.setState({name})}
-							style={ [styles.textInputStyle, {marginBottom: 15, paddingLeft: 20}] } />
-						<TouchableOpacity
-							style={ styles.btnNext }
-							onPress={() => {
-									this.handleSaveName()
-									this.props.navigator.push({
-										screen: 'TemanDiabets.RegisterScreenSecond',
-										title: 'Next Step 2'
-									})
-								}
-							}>
+							onChangeText={name => this.setState({ name })}
+							style={[styles.textInputStyle, { marginBottom: 15, paddingLeft: 20 }]}
+						/>
+						<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
 							<Text style={{ color: '#fff' }}>LANJUT</Text>
 						</TouchableOpacity>
 					</View>
-					<View style={ styles.indicatorWrapper }>
-						<Indicator
-							persentase={{ width: '20%' }}
-						/>
+					<View style={styles.indicatorWrapper}>
+						<Indicator persentase={{ width: '20%' }} />
 					</View>
 				</View>
-
 			</View>
 		);
 	}
 }
 
 const mapStateToProps = state => {
-	console.log("PROPS DI REGISTER ", state)
+	console.log('PROPS DI REGISTER ', state);
 	return { registerReducer: state.registerReducer };
 };
 
 const mapDispatchToProps = dispatch => ({
-  registerStepOne: (name) => dispatch(registerStepOne(name))
+	registerStepOne: name => dispatch(registerStepOne(name))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

@@ -7,7 +7,8 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Image,
-	StyleSheet
+	StyleSheet,
+	AsyncStorage
 } from 'react-native';
 
 import styles from '../style';
@@ -17,15 +18,20 @@ const URL_IMAGE =
 import { Button } from '../../../components/button/Button';
 import { Indicator } from '../../../components/indicator/Indicator';
 import { registerAction } from '../../../actions';
+import { authToken } from '../../../utils/constants';
 
 class RegisterScreenFourth extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			images: ['Diabtesi', 'Non-Diabetesi', 'Ahli'],
+			images: ['diabetesi', 'Non-Diabetesi', 'Ahli'],
+			nama: this.props.name,
+			email: this.props.email,
+			password: this.props.password,
 			selected: '',
 			persentase: '80%',
-			btn_submit: 'LANJUT'
+			btn_submit: 'LANJUT',
+			shouldRedirect: false
 		};
 		this.handleFinalRegister = this.handleFinalRegister.bind(this);
 	}
@@ -34,19 +40,32 @@ class RegisterScreenFourth extends React.Component {
 		navBarHidden: true
 	};
 
+	componentDidUpdate() {
+		const { message, status_code } = this.props.dataRegister.dataUser;
+		if (status_code === 200 && this.state.shouldRedirect) {
+			this.setState(
+				{
+					shouldRedirect: false
+				},
+				() => {
+					this.props.navigator.resetTo({
+						screen: 'TemanDiabets.RegisterFive',
+						title: 'Final Step RESET'
+					});
+				}
+			);
+		}
+	}
+
 	handleFinalRegister() {
-		// let dataUser = {
-		//   nama: 'Daniel Sidabutar',
-		//   email: 'agusdaniel@gmail.com',
-		//   password: 'danang123456'
-		// };
+		const { nama, email, password, selected } = this.state;
 		const dataUser = {
-			nama: 'Daniel Agus1',
-			email: 'daniel_agus1@gmail.com',
-			password: 'janganNakal1233',
-			tipeuser: 'diabetesi'
+			nama: nama,
+			email: email,
+			password: password,
+			tipeuser: selected
 		};
-		// console.log("DATA USER ", dataUser)
+		console.log("DATA USER COMPONENT ->", dataUser)
 		this.props.registerAction(dataUser);
 	}
 
@@ -78,6 +97,9 @@ class RegisterScreenFourth extends React.Component {
 	handleNavigation() {
 		const { selected } = this.state;
 		if (selected !== 'Ahli' && selected !== '') {
+			this.setState({
+				shouldRedirect: true
+			});
 			this.handleFinalRegister();
 		} else {
 			this.props.navigator.push({
@@ -88,12 +110,15 @@ class RegisterScreenFourth extends React.Component {
 	}
 
 	render() {
-		const { dataRegister } = this.props;
-		console.log('INI PROPS DI KE 4', this.props);
-		if (
-			dataRegister.dataUser.message === 'registration data incomplete' &&
-			dataRegister.dataUser.status_code === 400
-		) {
+		console.log('PROPS PARAMS 4', this.props);
+		const { message, status_code } = this.props.dataRegister.dataUser;
+		if (this.state.shouldRedirect) {
+			return (
+				<View style={{ flex: 1 }}>
+					<Text style={{ fontSize: 20, color: '#000' }}>Loading...</Text>
+				</View>
+			);
+		} else if (message === 'registration data incomplete' && status_code === 400) {
 			alert('Data already exist!');
 		}
 		return (
