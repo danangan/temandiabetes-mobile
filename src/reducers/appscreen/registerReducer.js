@@ -2,28 +2,34 @@ import * as ActionTypes from '../../actions/constants';
 
 const initialState = {
   dataUser: {
-    name: null,
+    nama: null,
     email: null,
-    password: null,
     message: '',
   }
 };
 
 const registerStepOne = (state, payload) => {
-  console.log("REDUCER PERTAMA ", payload);
   return {
-    ...state, dataUser: {...state.dataUser, name: payload }
+    ...state, dataUser: {...state.dataUser, nama: payload }
   };
 }
 
 const registerFinalStep = (state, payload) => {
-  return {
-    ...initialState
-  };
+  if (payload['response'] === undefined) {
+    const { currentUser, idToken, message } = payload.data;
+    return {
+      ...state, 
+      dataUser: {...state.dataUser, nama: currentUser.nama, email: currentUser.email, message},
+    }
+  } else if (payload.response.status === 400) {
+    const { data } = payload.response;
+    return {
+      ...state, dataUser: {...state.dataUser, message: data.message } 
+    }
+  }
 };
 
 const registerReducer = (state = initialState, action) => {
-  console.log("REDUCERS .... ", action.payload)
   switch (action.type) {
     case ActionTypes.REGISTER_USER:
       return registerFinalStep(state, action.payload);
