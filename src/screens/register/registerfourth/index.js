@@ -41,9 +41,10 @@ class RegisterScreenFourth extends React.Component {
 		//   password: 'danang123456'
 		// };
 		const dataUser = {
-			nama: 'Agus Permadi Sid233',
-			email: 'sinaga_love234@gmail.com',
-			password: 'janganNakal1233'
+			nama: 'Daniel Agus1',
+			email: 'daniel_agus1@gmail.com',
+			password: 'janganNakal1233',
+			tipeuser: 'diabetesi'
 		};
 		// console.log("DATA USER ", dataUser)
 		this.props.registerAction(dataUser);
@@ -74,8 +75,27 @@ class RegisterScreenFourth extends React.Component {
 		));
 	}
 
+	handleNavigation() {
+		const { selected } = this.state;
+		if (selected !== 'Ahli' && selected !== '') {
+			this.handleFinalRegister();
+		} else {
+			this.props.navigator.push({
+				screen: 'TemanDiabets.RegisterFive',
+				title: 'Next Step 5'
+			});
+		}
+	}
+
 	render() {
+		const { dataRegister } = this.props;
 		console.log('INI PROPS DI KE 4', this.props);
+		if (
+			dataRegister.dataUser.message === 'registration data incomplete' &&
+			dataRegister.dataUser.status_code === 400
+		) {
+			alert('Data already exist!');
+		}
 		return (
 			<View style={[styles.container, { paddingBottom: 50 }]}>
 				<View style={styles.wrapTitle}>
@@ -89,12 +109,7 @@ class RegisterScreenFourth extends React.Component {
 					</View>
 					<TouchableOpacity
 						style={[styles.btnNext, { marginBottom: 40, marginTop: 10 }]}
-						onPress={() =>
-							this.props.navigator.push({
-								screen: 'TemanDiabets.RegisterFive',
-								title: 'Next Step 4'
-							})
-						}
+						onPress={() => this.handleNavigation()}
 					>
 						<Text style={{ color: '#fff' }}>{this.state.btn_submit}</Text>
 					</TouchableOpacity>
@@ -139,7 +154,7 @@ const stylesLocal = StyleSheet.create({
 // };
 
 const mapStateToProps = state => ({
-	dataUser: state.registerReducer
+	dataRegister: state.registerReducer
 });
 
 const mapDispatchToProps = dispatch => ({

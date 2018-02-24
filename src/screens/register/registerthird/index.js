@@ -48,7 +48,7 @@ class RegisterScreenThird extends React.Component {
 					</View>
 					<View style={ styles.indicatorWrapper }>
 						<Indicator
-							persentase={{ width: '50%' }}
+							persentase={{ width: '60%' }}
 						/>
 					</View>
 				</View>

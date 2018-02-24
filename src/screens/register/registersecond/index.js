@@ -45,7 +45,7 @@ class RegisterScreenSecond extends React.Component {
 					</View>
 					<View style={ styles.indicatorWrapper }>
 						<Indicator
-							persentase={{ width: '50%' }}
+							persentase={{ width: '40%' }}
 						/>
 					</View>
 				</View>

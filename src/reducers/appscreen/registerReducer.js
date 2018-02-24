@@ -5,6 +5,7 @@ const initialState = {
     nama: null,
     email: null,
     message: '',
+    status_code: 0,
   }
 };
 
@@ -19,12 +20,12 @@ const registerFinalStep = (state, payload) => {
     const { currentUser, idToken, message } = payload.data;
     return {
       ...state, 
-      dataUser: {...state.dataUser, nama: currentUser.nama, email: currentUser.email, message},
+      dataUser: {...state.dataUser, nama: currentUser.nama, email: currentUser.email, message, status_code: 200},
     }
   } else if (payload.response.status === 400) {
     const { data } = payload.response;
     return {
-      ...state, dataUser: {...state.dataUser, message: data.message } 
+      ...state, dataUser: {...state.dataUser, message: data.message, status_code: 400 } 
     }
   }
 };

@@ -65,7 +65,7 @@ class Register extends Component {
 					</View>
 					<View style={ styles.indicatorWrapper }>
 						<Indicator
-							persentase={{ width: '30%' }}
+							persentase={{ width: '20%' }}
 						/>
 					</View>
 				</View>

@@ -4,19 +4,22 @@ import axios from 'axios';
 import * as ActionTypes from './constants';
 import { API_SIGN_UP, API_SIGN_IN } from '../utils/API';
 
-const signAction = idToken => {
-	firebase
-		.auth()
-		.signInWithCustomToken(token)
-		.catch((error) => {
-			// Handle Errors here.
-			const errorCode = error.code;
-			const errorMessage = error.message;
-
-			console.log('TOKEN : ', token, idToken);
-			// ...
-		});
-};
+// const signAction = idToken => {
+// 	firebase
+// 		.auth()
+// 		.signInWithCustomToken(idToken)
+// 		.then(res => {
+// 			console.log("BALIKAN FIREBASE ", res)
+// 		})
+// 		.catch(error => {
+// 			// Handle Errors here.
+// 			const errorCode = error.code;
+// 			const errorMessage = error.message;
+// 			console.log("ERROR FIREBASE ", error)
+// 			console.log('TOKEN : ', token, idToken);
+// 			// ...
+// 		});
+// };
 
 const registerActionSuccess = data => ({
 	type: ActionTypes.REGISTER_USER,
@@ -28,12 +31,12 @@ const registerAction = userData => {
 	return dispatch => {
 		axios
 			.post(API_SIGN_UP, userData)
-			.then(data => {
-				dispatch(registerActionSuccess(data));
-				dispatch(signAction(data.idToken));
+			.then(res => {
+				console.log('ADA TOKEN ', res);
+				dispatch(registerActionSuccess(res));
 			})
 			.catch(error => {
-				dispatch(registerActionSuccess(error))
+				dispatch(registerActionSuccess(error));
 			});
 	};
 };
