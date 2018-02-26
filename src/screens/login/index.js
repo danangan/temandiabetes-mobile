@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Image, Text, ImageBackground, KeyboardAvoidingView } from 'react-native';
 import { GoogleSignin } from 'react-native-google-signin';
 import Config from 'react-native-config';
+import firebase from 'react-native-firebase';
 
 import { ButtonFacebook, ButtonGoogle, Button } from '../../components/';
 import Form from './Form';
@@ -18,6 +19,7 @@ export default class Login extends Component {
 			email: null,
 			password: null,
 			user: null,
+			currentUser: null,
 			errorHandler: null
 		};
 	}
@@ -26,25 +28,32 @@ export default class Login extends Component {
 		this.setupGoogleSignIn();
 	}
 
-	onChangeTextHandlerEmail = (e) => this.setState({ email: e });
-	onChangeTextHandlerPass = (pass) => this.setState({ password: pass })
+	onChangeTextHandlerEmail = e => this.setState({ email: e });
+	onChangeTextHandlerPass = pass => this.setState({ password: pass });
 
 	onGoogleSignIn = async () => {
 		try {
 			const data = await GoogleSignin.signIn();
-			this.setState({ user: data });
-			return data;
+			const credential = firebase.auth.GoogleAuthProvider.credential(
+				data.idToken,
+				data.accessToken
+			);
+
+			const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+			const user = await GoogleSignin.currentUserAsync();
+
+			this.setState({ currentUser: currentUser.user, user });
 		} catch (error) {
 			if (error) throw error;
 		}
-  }
-
-	//METHOD FOR LOGOUT
-	// onSignOut = async () => GoogleSignin.revokeAccess()
-	// 	.then(() => GoogleSignin.signOut())
-	// 	.then(() => this.setState({ user: null }))
-	// 	.done();
+	};
 	
+	onSignOut = () =>
+		GoogleSignin.revokeAccess()
+			.then(() => GoogleSignin.signOut())
+			.then(() => this.setState({ user: null }))
+			.done();
+
 	setupGoogleSignIn = async () => {
 		try {
 			await GoogleSignin.hasPlayServices({ autoResolve: true });
@@ -53,13 +62,25 @@ export default class Login extends Component {
 				iosClientId: Config.IOS_GOOGLE_CLIENT_ID,
 				offlineAccess: false
 			});
-
-			const user = await GoogleSignin.currentUserAsync();
-			this.setState({ user });
 		} catch (err) {
 			if (err) throw err.message;
 		}
-	}
+	};
+
+	createAccount = () => {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.RegisterScreen',
+			animated: true,
+			animationType: 'fade'
+		});
+	};
+
+	handleNavigation = () => {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.RegisterScreenFourth',
+			passProps: {}
+		});
+	};
 
 	render() {
 		return (
@@ -68,7 +89,7 @@ export default class Login extends Component {
 					<View style={styles.contentTopStyle}>
 						<Image source={logo} style={styles.logoStyle} />
 					</View>
-					<KeyboardAvoidingView behavior='padding'>
+					<KeyboardAvoidingView behavior="padding">
 						<View style={styles.contentCenterStyle}>
 							<Form
 								onValue={{ email: this.state.email, pass: this.state.password }}
@@ -81,7 +102,8 @@ export default class Login extends Component {
 					</KeyboardAvoidingView>
 					<View style={styles.contentBottomStyle}>
 						<ButtonFacebook
-							onPress={() => null} text="Masuk dengan Facebook"
+							onPress={() => null}
+							text="Masuk dengan Facebook"
 							containerStyle={styles.buttonSocialStyle}
 							textStyle={styles.buttonSocialTextStyle}
 						/>
@@ -90,7 +112,7 @@ export default class Login extends Component {
 							text="Masuk dengan Google"
 							textStyle={styles.buttonSocialTextStyle}
 						/>
-						<Text style={styles.textLink} onPress={() => null}>
+						<Text style={styles.textLink} onPress={() => this.createAccount()}>
 							BUAT AKUN
 						</Text>
 					</View>
@@ -121,7 +143,7 @@ const styles = {
 		width: Style.DEVICE_WIDTH - 80,
 		height: Style.DEVICE_WIDTH / 8.5,
 		alignSelf: 'center',
-		marginTop: 40,
+		marginTop: 40
 	},
 	textLink: {
 		fontFamily: 'Montserrat-Regular',
@@ -137,11 +159,10 @@ const styles = {
 		marginRight: 35
 	},
 	buttonSocialStyle: {
-		margin: 10,
+		margin: 10
 	},
 	buttonSocialTextStyle: {
 		fontSize: Style.FONT_SIZE,
 		paddingTop: 2
 	}
 };
-
