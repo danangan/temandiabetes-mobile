@@ -95,7 +95,7 @@ class RegisterScreenSecond extends React.Component {
 							]}
 						>
 							<TextInput
-								placeholder={'daniel@gmail.com'}
+								placeholder={'example@email.com'}
 								onChangeText={email => this.setState({ email })}
 								underlineColorAndroid={'#fff'}
 								style={[styles.textInputStyle, { marginBottom: 15, paddingLeft: 15 }]}
