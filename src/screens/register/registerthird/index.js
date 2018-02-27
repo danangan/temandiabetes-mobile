@@ -35,26 +35,28 @@ class RegisterScreenThird extends React.Component {
 
 	handleNavigation() {
 		const { password, confirmPassword } = this.state;
-		if (password !== confirmPassword) {
-			this.setState({
-				message: 'Kata sandi Anda tidak sesuai'
-			});
-		} else if (password || confirmPassword !== null) {
+		if (password || confirmPassword !== null) {
+			if (password !== confirmPassword) {
+				this.setState({
+					message: 'Kata sandi Anda tidak sesuai'
+				});
+			} else if (password === confirmPassword) {
+				this.props.navigator.push({
+					screen: 'TemanDiabets.RegisterScreenFourth',
+					title: 'Next Step 4',
+					passProps: {
+						name: this.props.name,
+						email: this.props.email,
+						password: this.state.password
+					}
+				});
+				this.setState({
+					message: ''
+				});
+			} 
+		} else {
 			this.setState({
 				message: 'Silahkan lengkapi semua isian'
-			});
-		} else {
-			this.props.navigator.push({
-				screen: 'TemanDiabets.RegisterScreenFourth',
-				title: 'Next Step 4',
-				passProps: {
-					name: this.props.name,
-					email: this.props.email,
-					password: this.state.password
-				}
-			});
-			this.setState({
-				message: ''
 			});
 		}
 	}
