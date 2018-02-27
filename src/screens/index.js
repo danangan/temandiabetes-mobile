@@ -3,11 +3,21 @@ import { Navigation, ScreenVisibilityListener } from 'react-native-navigation';
 import OnBoardingScreen from './onboarding';
 import LoginScreen from './login';
 import RegisterScreen from './register';
+import ForumScreen from './forum';
+import EventScreen from './event';
+import InputTrackerScreen from './input-tracker';
+import ChartScreen from './chart';
+import EmergencyScreen from './emergency';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
 	Navigation.registerComponent('TemanDiabets.LoginScreen', () => LoginScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterScreen', () => RegisterScreen, store, Provider);
+	Navigation.registerComponent('TemanDiabets.ForumScreen', () => ForumScreen);
+	Navigation.registerComponent('TemanDiabets.EventScreen', () => EventScreen);
+	Navigation.registerComponent('TemanDiabets.InputTrackerScreen', () => InputTrackerScreen);
+	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen);
+	Navigation.registerComponent('TemanDiabets.EmergencyScreen', () => EmergencyScreen);
 }
 
 export function registerScreenVisibilityListener() {
