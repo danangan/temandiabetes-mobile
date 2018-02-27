@@ -14,12 +14,13 @@ import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import { registerAction } from '../../../actions';
 import { buttonLabelDone, buttonLabelNext, URL_IMAGE, typeOfUsers } from '../../../utils/constants';
+import backImage from '../../../assets/images/siapakah_anda.jpg';
 
 class RegisterScreenFourth extends React.Component {
 	static navigatorStyle = {
 		navBarHidden: true
 	};
-	
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -32,17 +33,25 @@ class RegisterScreenFourth extends React.Component {
 	}
 
 	componentDidUpdate() {
-		const { status_code } = this.props.dataRegister.dataUser;
+		const { status_code, tipe_user } = this.props.dataRegister.dataUser;
 		if (status_code === 200 && this.state.shouldRedirect) {
 			this.setState(
 				{
 					shouldRedirect: false
 				},
 				() => {
-					this.props.navigator.resetTo({
-						screen: 'TemanDiabets.RegisterFive',
-						title: 'Final Step RESET'
-					});
+					if (tipe_user !== 'ahli') {
+						// harus balik ke Home
+						this.props.navigator.resetTo({
+							screen: 'TemanDiabets.OnBoardingScreen',
+							title: 'Home Screen'
+						});
+					} else {
+						this.props.navigator.resetTo({
+							screen: 'TemanDiabets.RegisterFive',
+							title: 'SIP Screen'
+						});
+					}
 				}
 			);
 		}
@@ -55,6 +64,7 @@ class RegisterScreenFourth extends React.Component {
 			password: this.props.password,
 			tipeuser: this.state.selected
 		};
+		console.log('JALAN');
 		this.props.registerAction(dataUser);
 	}
 
@@ -85,20 +95,18 @@ class RegisterScreenFourth extends React.Component {
 
 	handleNavigation() {
 		const { selected } = this.state;
-		if (selected !== 'ahli' && selected !== '') {
+		if (selected !== '') {
 			this.setState({
 				shouldRedirect: true
 			});
 			this.handleFinalRegister();
 		} else {
-			this.props.navigator.push({
-				screen: 'TemanDiabets.RegisterFive',
-				title: 'Next Step 5'
-			});
+			alert('Silahkan pilih jenis user Anda');
 		}
 	}
 
 	render() {
+		console.log('PROPS FINAL ', this.props);
 		const { message, status_code } = this.props.dataRegister.dataUser;
 		if (this.state.shouldRedirect) {
 			return (
@@ -111,26 +119,47 @@ class RegisterScreenFourth extends React.Component {
 		}
 		return (
 			<View style={[styles.container, { paddingBottom: 0 }]}>
-				<ImageBackground
-					style={styles.imageBackground}
-					source={{ uri : 'https://s-media-cache-ak0.pinimg.com/originals/d7/99/d9/d799d98dac43a2e49d71eac78d632b79.jpg' }}
-				>
+				<ImageBackground style={styles.imageBackground} source={backImage}>
+					<TouchableOpacity
+						style={{
+							flex: 0,
+							justifyContent: 'flex-start',
+							alignItems: 'flex-start',
+							alignSelf: 'flex-start',
+							marginTop: this.state.keyboardActive ? 10 : 0
+						}}
+						onPress={() => this.props.navigator.pop()}
+					>
+						<Image
+							resizeMode={'contain'}
+							style={{ width: 30, height: 30, margin: 10 }}
+							source={{
+								uri:
+									'https://www.materialui.co/materialIcons/navigation/arrow_back_grey_192x192.png'
+							}}
+						/>
+					</TouchableOpacity>
 					<View style={styles.wrapTitle}>
 						<Text style={styles.titles}>Siapakah Anda?</Text>
 					</View>
 					<View style={styles.wrapForm}>
-						<ScrollView horizontal>
-							<View style={{ flex: 1,justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
+						<View
+							style={{
+								flex: 1,
+								justifyContent: 'center',
+								flexDirection: 'row',
+								alignItems: 'center',
+								marginBottom: 40
+							}}
+						>
 							{this.handleSelectedUser()}
-							</View>
-							
-						</ScrollView>
-						
+						</View>
+
 						<TouchableOpacity
-							style={[styles.btnNext, { marginBottom: 40, marginTop: 10 }]}
+							style={[styles.btnNext, { marginBottom: 40, marginTop: 20 }]}
 							onPress={() => this.handleNavigation()}
 						>
-							<Text style={{ color: '#fff' }}>{this.state.btn_submit}</Text>
+							<Text style={styles.buttonText}>{this.state.btn_submit}</Text>
 						</TouchableOpacity>
 						<View style={styles.indicatorWrapper}>
 							<Indicator persentase={{ width: this.state.persentase }} />
@@ -151,7 +180,7 @@ const stylesLocal = StyleSheet.create({
 		width: 150,
 		height: 150,
 		marginVertical: 5,
-		marginHorizontal: 20,
+		marginHorizontal: 5,
 		padding: 10
 	},
 	wrapperScroll: {

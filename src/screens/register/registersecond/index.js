@@ -1,8 +1,17 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, ImageBackground, Image } from 'react-native';
+import {
+	View,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	Keyboard,
+	ImageBackground,
+	Image
+} from 'react-native';
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
+import imageBackground from '../../../assets/images/massukkan_email_anda.jpg';
 
 class RegisterScreenSecond extends React.Component {
 	static navigatorStyle = {
@@ -14,20 +23,20 @@ class RegisterScreenSecond extends React.Component {
 		this.state = {
 			email: null,
 			message: '',
-			keyboardActive: false,
+			keyboardActive: false
 		};
 	}
 
-	componentWillMount(){
+	componentWillMount() {
 		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-		  this.setState({keyboardActive: true})
+			this.setState({ keyboardActive: true });
 		});
 		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-		  this.setState({keyboardActive: false})
+			this.setState({ keyboardActive: false });
 		});
 	}
 
-	componentWillUnmount () {
+	componentWillUnmount() {
 		this.keyboardDidShowListener.remove();
 		this.keyboardDidHideListener.remove();
 	}
@@ -56,16 +65,16 @@ class RegisterScreenSecond extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<ImageBackground
-					style={styles.imageBackground}
-					source={{ uri : 'https://s-media-cache-ak0.pinimg.com/originals/d7/99/d9/d799d98dac43a2e49d71eac78d632b79.jpg' }}
-				>
-					<TouchableOpacity style={{
-						flex: 1, 
-						justifyContent: 'flex-start', 
-						alignItems: 'flex-start', 
-						alignSelf: 'flex-start' 
-					}} onPress={() => this.props.navigator.pop() }>
+				<ImageBackground style={styles.imageBackground} source={imageBackground}>
+					<TouchableOpacity
+						style={{
+							flex: 0,
+							justifyContent: 'flex-start',
+							alignItems: 'flex-start',
+							alignSelf: 'flex-start'
+						}}
+						onPress={() => this.props.navigator.pop()}
+					>
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
@@ -80,17 +89,19 @@ class RegisterScreenSecond extends React.Component {
 					</View>
 					<View style={styles.wrapForm}>
 						<View
-							style={[stylesLocal.containerForm, 
-								{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}
+							style={[
+								stylesLocal.containerForm,
+								{ flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end' }
+							]}
 						>
 							<TextInput
 								placeholder={'daniel@gmail.com'}
 								onChangeText={email => this.setState({ email })}
 								underlineColorAndroid={'#fff'}
-								style={[styles.textInputStyle, { marginBottom: 15 }]}
+								style={[styles.textInputStyle, { marginBottom: 15, paddingLeft: 15 }]}
 							/>
 							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
-								<Text style={{ color: '#fff' }}>LANJUT</Text>
+								<Text style={styles.buttonText}>LANJUT</Text>
 							</TouchableOpacity>
 							<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
 						</View>
@@ -106,12 +117,13 @@ class RegisterScreenSecond extends React.Component {
 
 const stylesLocal = {
 	containerForm: {
-		height: '70%',
+		height: '70%'
 	},
 	inputStyle: {
 		marginBottom: 15,
-		paddingLeft: 20
-	},
-}
+		paddingLeft: 20,
+		fontFamily: 'Montserrat-Bold'
+	}
+};
 
 export default RegisterScreenSecond;
