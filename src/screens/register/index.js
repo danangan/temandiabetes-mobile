@@ -72,12 +72,15 @@ class Register extends Component {
 		return (
 			<View style={styles.container}>
 				<ImageBackground style={styles.imageBackground} source={backImage}>
-					<TouchableOpacity style={{
-						flex: 1, 
-						justifyContent: 'flex-start', 
-						alignItems: 'flex-start', 
-						alignSelf: 'flex-start' 
-					}} onPress={() => this.props.navigator.pop() }>
+					<TouchableOpacity
+						style={{
+							flex: 1,
+							justifyContent: 'flex-start',
+							alignItems: 'flex-start',
+							alignSelf: 'flex-start'
+						}}
+						onPress={() => this.props.navigator.pop()}
+					>
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
@@ -104,7 +107,7 @@ class Register extends Component {
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
 							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
-								<Text style={{ color: '#fff' }}>LANJUT</Text>
+								<Text style={styles.buttonText}>LANJUT</Text>
 							</TouchableOpacity>
 							<Text style={stylesLocal.errMessage}>{this.state.message}</Text>
 						</View>
@@ -124,14 +127,16 @@ const stylesLocal = {
 		width: '100%'
 	},
 	inputStyle: {
+		fontSize: 16,
 		marginBottom: 15,
-		paddingLeft: 20
+		paddingLeft: 20,
+		fontFamily: 'Montserrat-Bold'
 	},
 	indicatorStyle: { width: '20%' },
-	errMessage: { 
-		fontSize: 20, 
-		color: 'red', 
-		fontFamily: 'Montserrat-Regular' 
+	errMessage: {
+		fontSize: 20,
+		color: 'red',
+		fontFamily: 'Montserrat-Regular'
 	}
 };
 
