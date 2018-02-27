@@ -5,6 +5,7 @@ const styles = {
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
+		paddingHorizontal: 10,
 		backgroundColor: color.amaranth
 	},
 	text: {
