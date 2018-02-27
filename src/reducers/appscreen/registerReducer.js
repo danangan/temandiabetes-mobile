@@ -43,12 +43,21 @@ const registerFinalStep = (state, payload) => {
 	}
 };
 
+const handlingFirebaseSip = (state, payload) => {
+	console.log('BALIKAN FIREBASE REDUCERS ', payload)
+	return {
+		...state, payload
+	}
+}
+
 const registerReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ActionTypes.REGISTER_USER:
 			return registerFinalStep(state, action.payload);
 		case ActionTypes.REGISTER_STEP_ONE:
 			return registerStepOne(state, action.payload);
+		case ActionTypes.GET_ID_TOKEN: 
+			return handlingFirebaseSip(state, action.payload);
 		default:
 			return state;
 	}
