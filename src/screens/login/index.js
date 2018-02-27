@@ -14,7 +14,8 @@ import color from '../../style/color';
 import logo from '../../assets/icons/logo.png';
 import image from '../../assets/images/background_login.jpg';
 import { loginManual } from '../../actions/loginActions';
-import { API_LOGIN } from '../../utils/API';
+import { API_SIGN_IN } from '../../utils/API';
+import { mainApp } from '../../../App';
 
 class Login extends Component {
 	constructor(props) {
@@ -41,11 +42,15 @@ class Login extends Component {
 			password: this.state.password
 		};
 
-		// axios
-		// 	.post(API_LOGIN, user)
-		// 	.then(res => console.log('RESPONSE: ', res))
-		// 	.catch(error => console.log(error));
-		loginManual(user);
+		try {
+			const response = await axios.post(API_SIGN_IN, user);
+			if (response.data.message === 'login success') {
+				mainApp();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+		// loginManual(user);
 	};
 
 	onGoogleSignIn = async () => {
@@ -61,8 +66,17 @@ class Login extends Component {
 
 			this.setState({ currentUser: currentUser.user, idToken });
 
-			console.log('USER ID: ', currentUser.user.uid);
-			console.log('ID TOKEN: ', idToken);
+			if (!currentUser.additionalUserInfo.isNewUser) {
+				mainApp();
+			} else {
+				this.props.navigator.resetTo({
+					screen: 'TemanDiabets.RegisterScreenFourth',
+					passProps: {
+						name: currentUser.user.displayName,
+						email: currentUser.user.email
+					}
+				});
+			}
 		} catch (error) {
 			if (error) throw error;
 		}
@@ -189,16 +203,12 @@ const styles = {
 	}
 };
 
-const mapStateToProps = state => {
-	return {
-		userLogin: state.loginReducer
-	};
-};
+const mapStateToProps = state => ({
+	userLogin: state.loginReducer
+});
 
-const mapDispatchToProps = dispatch => {
-	return {
-		loginManual: user => dispatch(loginManual(user))
-	};
-};
+const mapDispatchToProps = dispatch => ({
+	loginManual: user => dispatch(loginManual(user))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
