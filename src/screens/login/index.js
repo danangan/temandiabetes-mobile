@@ -3,6 +3,8 @@ import { View, Image, Text, ImageBackground, KeyboardAvoidingView } from 'react-
 import { GoogleSignin } from 'react-native-google-signin';
 import Config from 'react-native-config';
 import firebase from 'react-native-firebase';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
 import { ButtonFacebook, ButtonGoogle, Button } from '../../components/';
 import Form from './Form';
@@ -11,14 +13,16 @@ import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import logo from '../../assets/icons/logo.png';
 import image from '../../assets/images/background_login.jpg';
+import { loginManual } from '../../actions/loginActions';
+import { API_LOGIN } from '../../utils/API';
 
-export default class Login extends Component {
+class Login extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			email: null,
 			password: null,
-			user: null,
+			idToken: null,
 			currentUser: null,
 			errorHandler: null
 		};
@@ -31,6 +35,19 @@ export default class Login extends Component {
 	onChangeTextHandlerEmail = e => this.setState({ email: e });
 	onChangeTextHandlerPass = pass => this.setState({ password: pass });
 
+	onLogin = async () => {
+		const user = {
+			email: this.state.email,
+			password: this.state.password
+		};
+
+		// axios
+		// 	.post(API_LOGIN, user)
+		// 	.then(res => console.log('RESPONSE: ', res))
+		// 	.catch(error => console.log(error));
+		loginManual(user);
+	};
+
 	onGoogleSignIn = async () => {
 		try {
 			const data = await GoogleSignin.signIn();
@@ -40,14 +57,17 @@ export default class Login extends Component {
 			);
 
 			const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-			const user = await GoogleSignin.currentUserAsync();
+			const idToken = await firebase.auth().currentUser.getIdToken(true);
 
-			this.setState({ currentUser: currentUser.user, user });
+			this.setState({ currentUser: currentUser.user, idToken });
+
+			console.log('USER ID: ', currentUser.user.uid);
+			console.log('ID TOKEN: ', idToken);
 		} catch (error) {
 			if (error) throw error;
 		}
 	};
-	
+
 	onSignOut = () =>
 		GoogleSignin.revokeAccess()
 			.then(() => GoogleSignin.signOut())
@@ -96,7 +116,9 @@ export default class Login extends Component {
 								onChangeTextHandlerEmail={this.onChangeTextHandlerEmail}
 								onChangeTextHandlerPass={this.onChangeTextHandlerPass}
 							/>
-							<Button buttonStyle={styles.buttonStyle}>MASUK</Button>
+							<Button buttonStyle={styles.buttonStyle} onPress={() => this.onLogin()}>
+								MASUK
+							</Button>
 							<BorderLine />
 						</View>
 					</KeyboardAvoidingView>
@@ -166,3 +188,17 @@ const styles = {
 		paddingTop: 2
 	}
 };
+
+const mapStateToProps = state => {
+	return {
+		userLogin: state.loginReducer
+	};
+};
+
+const mapDispatchToProps = dispatch => {
+	return {
+		loginManual: user => dispatch(loginManual(user))
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
