@@ -6,7 +6,8 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Image,
-	StyleSheet
+	StyleSheet,
+	ImageBackground
 } from 'react-native';
 
 import styles from '../style';
@@ -109,26 +110,33 @@ class RegisterScreenFourth extends React.Component {
 			alert('Data already exist!');
 		}
 		return (
-			<View style={[styles.container, { paddingBottom: 50 }]}>
-				<View style={styles.wrapTitle}>
-					<Text style={styles.titles}>Siapakah Anda?</Text>
-				</View>
-				<View style={stylesLocal.wrapperScroll}>
-					<View style={{ backgroundColor: '#fff' }}>
-						<ScrollView showsHorizontalScrollIndicator={false} horizontal>
+			<View style={[styles.container, { paddingBottom: 0 }]}>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={{ uri : 'https://s-media-cache-ak0.pinimg.com/originals/d7/99/d9/d799d98dac43a2e49d71eac78d632b79.jpg' }}
+				>
+					<View style={styles.wrapTitle}>
+						<Text style={styles.titles}>Siapakah Anda?</Text>
+					</View>
+					<View style={styles.wrapForm}>
+						<ScrollView horizontal>
+							<View style={{ flex: 1,justifyContent: 'center', flexDirection: 'row', alignItems: 'center' }}>
 							{this.handleSelectedUser()}
+							</View>
+							
 						</ScrollView>
+						
+						<TouchableOpacity
+							style={[styles.btnNext, { marginBottom: 40, marginTop: 10 }]}
+							onPress={() => this.handleNavigation()}
+						>
+							<Text style={{ color: '#fff' }}>{this.state.btn_submit}</Text>
+						</TouchableOpacity>
+						<View style={styles.indicatorWrapper}>
+							<Indicator persentase={{ width: this.state.persentase }} />
+						</View>
 					</View>
-					<TouchableOpacity
-						style={[styles.btnNext, { marginBottom: 40, marginTop: 10 }]}
-						onPress={() => this.handleNavigation()}
-					>
-						<Text style={{ color: '#fff' }}>{this.state.btn_submit}</Text>
-					</TouchableOpacity>
-					<View style={styles.indicatorWrapper}>
-						<Indicator persentase={{ width: this.state.persentase }} />
-					</View>
-				</View>
+				</ImageBackground>
 			</View>
 		);
 	}
@@ -148,6 +156,7 @@ const stylesLocal = StyleSheet.create({
 	},
 	wrapperScroll: {
 		flex: 1,
+		width: '90%',
 		justifyContent: 'center',
 		flexDirection: 'column'
 	},

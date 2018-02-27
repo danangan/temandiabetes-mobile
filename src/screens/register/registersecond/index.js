@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
@@ -56,29 +56,34 @@ class RegisterScreenSecond extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
-					<Text style={styles.titles}>Silahkan masukkan email Anda</Text>
-				</View>
-				<View style={styles.wrapForm}>
-					<View
-						style={[stylesLocal.containerForm, 
-							{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}
-					>
-						<TextInput
-							placeholder={'daniel@gmail.com'}
-							onChangeText={email => this.setState({ email })}
-							underlineColorAndroid={'#fff'}
-							style={[styles.textInputStyle, { marginBottom: 15 }]}
-						/>
-						<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
-							<Text style={{ color: '#fff' }}>LANJUT</Text>
-						</TouchableOpacity>
-						<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={{ uri : 'https://s-media-cache-ak0.pinimg.com/originals/d7/99/d9/d799d98dac43a2e49d71eac78d632b79.jpg' }}
+				>
+					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
+						<Text style={styles.titles}>Silahkan masukkan email Anda</Text>
 					</View>
-					<View style={styles.indicatorWrapper}>
-						<Indicator persentase={{ width: '40%' }} />
+					<View style={styles.wrapForm}>
+						<View
+							style={[stylesLocal.containerForm, 
+								{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}
+						>
+							<TextInput
+								placeholder={'daniel@gmail.com'}
+								onChangeText={email => this.setState({ email })}
+								underlineColorAndroid={'#fff'}
+								style={[styles.textInputStyle, { marginBottom: 15 }]}
+							/>
+							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
+								<Text style={{ color: '#fff' }}>LANJUT</Text>
+							</TouchableOpacity>
+							<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
+						</View>
+						<View style={styles.indicatorWrapper}>
+							<Indicator persentase={{ width: '40%' }} />
+						</View>
 					</View>
-				</View>
+				</ImageBackground>
 			</View>
 		);
 	}

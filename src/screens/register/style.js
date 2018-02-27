@@ -4,12 +4,21 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 3,
 		backgroundColor: '#ccc',
-		paddingHorizontal: 20,
 		justifyContent: 'space-between',
+	},
+	imageBackground: {
+		flex: 1,
+		zIndex:100,
+		width: '100%',
+		height: '100%',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	wrapTitle: {
 		flex: 2,
 		justifyContent: 'center',
+		width: '90%',
 	},
 	titles: {
 		color: '#fff',
@@ -19,8 +28,8 @@ const styles = StyleSheet.create({
 	},
 	wrapForm: {
 		flex: 2,
-		justifyContent: 'space-between',
-		flexDirection: 'column',
+		width: '90%',
+		justifyContent: 'center',
 	},
   textInputStyle: {
     backgroundColor: '#fff',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, ImageBackground } from 'react-native';
 
 import { Indicator } from '../../components/indicator/Indicator';
 import styles from './style';
@@ -59,28 +59,33 @@ class Register extends Component {
 		console.log('NAMA SEKARANG ', this.state.name);
 		return (
 			<View style={styles.container}>
-				<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
-					<Text style={styles.titles}>Siapakan nama Anda?</Text>
-				</View>
-				<View style={styles.wrapForm}>
-					<View 
-					style={[stylesLocal.containerForm, 
-						{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}>
-						<TextInput
-							placeholder={'Your Fullname'}
-							underlineColorAndroid={'#fff'}
-							onChangeText={name => this.setState({ name })}
-							style={[styles.textInputStyle, stylesLocal.inputStyle]}
-						/>
-						<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
-							<Text style={{ color: '#fff' }}>LANJUT</Text>
-						</TouchableOpacity>
-						<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={{ uri : 'https://s-media-cache-ak0.pinimg.com/originals/d7/99/d9/d799d98dac43a2e49d71eac78d632b79.jpg' }}
+				>
+					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
+						<Text style={styles.titles}>Siapakan nama Anda?</Text>
 					</View>
-					<View style={styles.indicatorWrapper}>
-						<Indicator persentase={stylesLocal.indicatorStyle} />
+					<View style={styles.wrapForm}>
+						<View 
+						style={[stylesLocal.containerForm, 
+							{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}>
+							<TextInput
+								placeholder={'Your Fullname'}
+								underlineColorAndroid={'#fff'}
+								onChangeText={name => this.setState({ name })}
+								style={[styles.textInputStyle, stylesLocal.inputStyle]}
+							/>
+							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
+								<Text style={{ color: '#fff' }}>LANJUT</Text>
+							</TouchableOpacity>
+							<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
+						</View>
+						<View style={styles.indicatorWrapper}>
+							<Indicator persentase={stylesLocal.indicatorStyle} />
+						</View>
 					</View>
-				</View>
+				</ImageBackground>
 			</View>
 		);
 	}
@@ -89,6 +94,7 @@ class Register extends Component {
 const stylesLocal = {
 	containerForm: {
 		height: '70%',
+		width: '100%',
 	},
 	inputStyle: {
 		marginBottom: 15,
