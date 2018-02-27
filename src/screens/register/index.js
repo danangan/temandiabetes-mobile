@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Keyboard } from 'react-native';
 
 import { Indicator } from '../../components/indicator/Indicator';
 import styles from './style';
@@ -16,8 +16,23 @@ class Register extends Component {
 		super(props);
 		this.state = {
 			name: null,
-			message: ''
+			message: '',
+			keyboardActive: false,
 		};
+	}
+
+	componentWillMount(){
+		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+		  this.setState({keyboardActive: true})
+		});
+		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+		  this.setState({keyboardActive: false})
+		});
+	}
+
+	componentWillUnmount () {
+		this.keyboardDidShowListener.remove();
+		this.keyboardDidHideListener.remove();
 	}
 
 	handleNavigation() {
@@ -44,11 +59,13 @@ class Register extends Component {
 		console.log('NAMA SEKARANG ', this.state.name);
 		return (
 			<View style={styles.container}>
-				<View style={styles.wrapTitle}>
+				<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
 					<Text style={styles.titles}>Siapakan nama Anda?</Text>
 				</View>
 				<View style={styles.wrapForm}>
-					<View style={stylesLocal.containerForm}>
+					<View 
+					style={[stylesLocal.containerForm, 
+						{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}>
 						<TextInput
 							placeholder={'Your Fullname'}
 							underlineColorAndroid={'#fff'}
@@ -72,7 +89,6 @@ class Register extends Component {
 const stylesLocal = {
 	containerForm: {
 		height: '70%',
-		justifyContent: 'flex-end'
 	},
 	inputStyle: {
 		marginBottom: 15,

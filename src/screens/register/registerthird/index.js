@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
@@ -14,8 +14,23 @@ class RegisterScreenThird extends React.Component {
 		this.state = {
 			password: null,
 			confirmPassword: null,
-			message: ''
+			message: '',
+			keyboardActive: false,
 		};
+	}
+
+	componentWillMount(){
+		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+		  this.setState({keyboardActive: true})
+		});
+		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+		  this.setState({keyboardActive: false})
+		});
+	}
+
+	componentWillUnmount () {
+		this.keyboardDidShowListener.remove();
+		this.keyboardDidHideListener.remove();
 	}
 
 	handleNavigation() {
@@ -47,15 +62,13 @@ class RegisterScreenThird extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<View style={styles.wrapTitle}>
+				<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
 					<Text style={styles.titles}>Masukkan kata sandi Anda</Text>
 				</View>
 				<View style={styles.wrapForm}>
 					<View
-						style={{
-							height: '70%',
-							justifyContent: 'flex-end'
-						}}
+						style={[stylesLocal.containerForm, 
+							{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}
 					>
 						<TextInput
 							placeholder={'*********'}
@@ -83,6 +96,16 @@ class RegisterScreenThird extends React.Component {
 			</View>
 		);
 	}
+}
+
+const stylesLocal = {
+	containerForm: {
+		height: '70%',
+	},
+	inputStyle: {
+		marginBottom: 15,
+		paddingLeft: 20
+	},
 }
 
 export default RegisterScreenThird;

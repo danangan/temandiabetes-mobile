@@ -2,13 +2,13 @@ import { StyleSheet  } from 'react-native';
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		flex: 3,
 		backgroundColor: '#ccc',
 		paddingHorizontal: 20,
 		justifyContent: 'space-between',
 	},
 	wrapTitle: {
-		flex: 1,
+		flex: 2,
 		justifyContent: 'center',
 	},
 	titles: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular'
 	},
 	wrapForm: {
-		flex: 1,
+		flex: 2,
 		justifyContent: 'space-between',
 		flexDirection: 'column',
 	},
