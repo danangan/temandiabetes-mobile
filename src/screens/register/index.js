@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, ImageBackground } from 'react-native';
+import {
+	View,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	ScrollView,
+	Keyboard,
+	ImageBackground,
+	Image
+} from 'react-native';
 
 import { Indicator } from '../../components/indicator/Indicator';
 import styles from './style';
 
 import { registerStepOne } from '../../actions';
+
+import backImage from '../../assets/images/siapakah_nama_anda.jpg';
 
 class Register extends Component {
 	static navigatorStyle = {
@@ -17,20 +28,20 @@ class Register extends Component {
 		this.state = {
 			name: null,
 			message: '',
-			keyboardActive: false,
+			keyboardActive: false
 		};
 	}
 
-	componentWillMount(){
+	componentWillMount() {
 		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-		  this.setState({keyboardActive: true})
+			this.setState({ keyboardActive: true });
 		});
 		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-		  this.setState({keyboardActive: false})
+			this.setState({ keyboardActive: false });
 		});
 	}
 
-	componentWillUnmount () {
+	componentWillUnmount() {
 		this.keyboardDidShowListener.remove();
 		this.keyboardDidHideListener.remove();
 	}
@@ -46,7 +57,8 @@ class Register extends Component {
 				}
 			});
 			this.setState({
-				message: '', name: null
+				message: '',
+				name: null
 			});
 		} else {
 			this.setState({
@@ -59,17 +71,32 @@ class Register extends Component {
 		console.log('NAMA SEKARANG ', this.state.name);
 		return (
 			<View style={styles.container}>
-				<ImageBackground
-					style={styles.imageBackground}
-					source={{ uri : 'https://s-media-cache-ak0.pinimg.com/originals/d7/99/d9/d799d98dac43a2e49d71eac78d632b79.jpg' }}
-				>
+				<ImageBackground style={styles.imageBackground} source={backImage}>
+					<TouchableOpacity style={{
+						flex: 1, 
+						justifyContent: 'flex-start', 
+						alignItems: 'flex-start', 
+						alignSelf: 'flex-start' 
+					}} onPress={() => this.props.navigator.pop() }>
+						<Image
+							resizeMode={'contain'}
+							style={{ width: 30, height: 30, margin: 10 }}
+							source={{
+								uri:
+									'https://www.materialui.co/materialIcons/navigation/arrow_back_grey_192x192.png'
+							}}
+						/>
+					</TouchableOpacity>
 					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
 						<Text style={styles.titles}>Siapakan nama Anda?</Text>
 					</View>
 					<View style={styles.wrapForm}>
-						<View 
-						style={[stylesLocal.containerForm, 
-							{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}>
+						<View
+							style={[
+								stylesLocal.containerForm,
+								{ flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end' }
+							]}
+						>
 							<TextInput
 								placeholder={'Your Fullname'}
 								underlineColorAndroid={'#fff'}
@@ -79,7 +106,7 @@ class Register extends Component {
 							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
 								<Text style={{ color: '#fff' }}>LANJUT</Text>
 							</TouchableOpacity>
-							<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
+							<Text style={stylesLocal.errMessage}>{this.state.message}</Text>
 						</View>
 						<View style={styles.indicatorWrapper}>
 							<Indicator persentase={stylesLocal.indicatorStyle} />
@@ -94,13 +121,18 @@ class Register extends Component {
 const stylesLocal = {
 	containerForm: {
 		height: '70%',
-		width: '100%',
+		width: '100%'
 	},
 	inputStyle: {
 		marginBottom: 15,
 		paddingLeft: 20
 	},
-	indicatorStyle: { width: '20%' }
+	indicatorStyle: { width: '20%' },
+	errMessage: { 
+		fontSize: 20, 
+		color: 'red', 
+		fontFamily: 'Montserrat-Regular' 
+	}
 };
 
 const mapStateToProps = state => {

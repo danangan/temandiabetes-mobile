@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 		width: '90%',
 	},
 	titles: {
-		color: '#fff',
+		color: '#4a4a4a',
 		fontSize: 32,
 		paddingRight: 50,
     fontFamily: 'Montserrat-Regular'

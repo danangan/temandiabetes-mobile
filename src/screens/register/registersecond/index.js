@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, ImageBackground } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Keyboard, ImageBackground, Image } from 'react-native';
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
@@ -60,6 +60,21 @@ class RegisterScreenSecond extends React.Component {
 					style={styles.imageBackground}
 					source={{ uri : 'https://s-media-cache-ak0.pinimg.com/originals/d7/99/d9/d799d98dac43a2e49d71eac78d632b79.jpg' }}
 				>
+					<TouchableOpacity style={{
+						flex: 1, 
+						justifyContent: 'flex-start', 
+						alignItems: 'flex-start', 
+						alignSelf: 'flex-start' 
+					}} onPress={() => this.props.navigator.pop() }>
+						<Image
+							resizeMode={'contain'}
+							style={{ width: 30, height: 30, margin: 10 }}
+							source={{
+								uri:
+									'https://www.materialui.co/materialIcons/navigation/arrow_back_grey_192x192.png'
+							}}
+						/>
+					</TouchableOpacity>
 					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
 						<Text style={styles.titles}>Silahkan masukkan email Anda</Text>
 					</View>
