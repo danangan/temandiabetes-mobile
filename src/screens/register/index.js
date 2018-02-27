@@ -1,62 +1,115 @@
 import React, { Component } from 'react';
-
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-
-import {Input} from '../../components/input/TextField';
+import { connect } from 'react-redux';
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Keyboard, ImageBackground } from 'react-native';
 
 import { Indicator } from '../../components/indicator/Indicator';
-
 import styles from './style';
 
-export default class Register extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
+import { registerStepOne } from '../../actions';
 
+class Register extends Component {
+	static navigatorStyle = {
+		navBarHidden: true
+	};
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			name: null,
+			message: '',
+			keyboardActive: false,
+		};
+	}
+
+	componentWillMount(){
+		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+		  this.setState({keyboardActive: true})
+		});
+		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+		  this.setState({keyboardActive: false})
+		});
+	}
+
+	componentWillUnmount () {
+		this.keyboardDidShowListener.remove();
+		this.keyboardDidHideListener.remove();
+	}
+
+	handleNavigation() {
+		const { name } = this.state;
+		if (name !== null) {
+			this.props.navigator.push({
+				screen: 'TemanDiabets.RegisterScreenSecond',
+				title: 'Next Step 2',
+				passProps: {
+					name: this.state.name
+				}
+			});
+			this.setState({
+				message: '', name: null
+			});
+		} else {
+			this.setState({
+				message: 'Masukkan nama Anda'
+			});
 		}
 	}
 
-	static navigatorStyle = {
-		navBarHidden: true
-	}
-
-
 	render() {
+		console.log('NAMA SEKARANG ', this.state.name);
 		return (
-			<View style={ styles.container }>
-				<View style={ styles.wrapTitle }>
-					<Text style={ styles.titles }>Siapakan nama Anda?</Text>
-				</View>
-				<View style={ styles.wrapForm }>
-					<View
-						style={{
-							height: '70%',
-							// borderColor: 'green',
-							// borderWidth: 3,
-							justifyContent: 'flex-end'
-						}}
-					>
-						<TextInput
-							placeholder={'Your Fullname'}
-							underlineColorAndroid={'#fff'}
-							style={ [styles.textInputStyle, {marginBottom: 15, paddingLeft: 20}] } />
-						<TouchableOpacity
-							style={ styles.btnNext }
-							onPress={() => this.props.navigator.push({
-								screen: 'TemanDiabets.RegisterScreenSecond',
-	  						title: 'Next Step 2'
-							})}>
-							<Text style={{ color: '#fff' }}>LANJUT</Text>
-						</TouchableOpacity>
+			<View style={styles.container}>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={{ uri : 'https://s-media-cache-ak0.pinimg.com/originals/d7/99/d9/d799d98dac43a2e49d71eac78d632b79.jpg' }}
+				>
+					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
+						<Text style={styles.titles}>Siapakan nama Anda?</Text>
 					</View>
-					<View style={ styles.indicatorWrapper }>
-						<Indicator
-							persentase={{ width: '30%' }}
-						/>
+					<View style={styles.wrapForm}>
+						<View 
+						style={[stylesLocal.containerForm, 
+							{flex: 2, justifyContent: this.state.keyboardActive ? 'flex-start' : 'flex-end'}]}>
+							<TextInput
+								placeholder={'Your Fullname'}
+								underlineColorAndroid={'#fff'}
+								onChangeText={name => this.setState({ name })}
+								style={[styles.textInputStyle, stylesLocal.inputStyle]}
+							/>
+							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
+								<Text style={{ color: '#fff' }}>LANJUT</Text>
+							</TouchableOpacity>
+							<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
+						</View>
+						<View style={styles.indicatorWrapper}>
+							<Indicator persentase={stylesLocal.indicatorStyle} />
+						</View>
 					</View>
-				</View>
-
+				</ImageBackground>
 			</View>
 		);
 	}
 }
+
+const stylesLocal = {
+	containerForm: {
+		height: '70%',
+		width: '100%',
+	},
+	inputStyle: {
+		marginBottom: 15,
+		paddingLeft: 20
+	},
+	indicatorStyle: { width: '20%' }
+};
+
+const mapStateToProps = state => {
+	console.log('PROPS DI REGISTER ', state);
+	return { registerReducer: state.registerReducer };
+};
+
+const mapDispatchToProps = dispatch => ({
+	registerStepOne: name => dispatch(registerStepOne(name))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

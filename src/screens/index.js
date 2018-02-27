@@ -6,6 +6,7 @@ import RegisterScreen from './register';
 import RegisterScreenSecond from './register/registersecond';
 import RegisterScreenThird from './register/registerthird';
 import RegisterScreenFourth from './register/registerfourth';
+import RegisterFive from './register/registerfive';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
@@ -13,7 +14,8 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.RegisterScreen', () => RegisterScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenSecond', () => RegisterScreenSecond);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenThird', () => RegisterScreenThird);
-	Navigation.registerComponent('TemanDiabets.RegisterScreenFourth', () => RegisterScreenFourth);
+	Navigation.registerComponent('TemanDiabets.RegisterScreenFourth', () => RegisterScreenFourth, store, Provider);
+	Navigation.registerComponent('TemanDiabets.RegisterFive', () => RegisterFive, store, Provider);
 }
 
 export function registerScreenVisibilityListener() {

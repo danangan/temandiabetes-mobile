@@ -2,16 +2,23 @@ import { StyleSheet  } from 'react-native';
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
+		flex: 3,
 		backgroundColor: '#ccc',
-		paddingHorizontal: 20,
 		justifyContent: 'space-between',
 	},
-	wrapTitle: {
+	imageBackground: {
 		flex: 1,
+		zIndex:100,
+		width: '100%',
+		height: '100%',
+		flexDirection: 'column',
 		justifyContent: 'center',
-    // borderColor: '#ff1200',
-    // borderWidth: 5,
+		alignItems: 'center',
+	},
+	wrapTitle: {
+		flex: 2,
+		justifyContent: 'center',
+		width: '90%',
 	},
 	titles: {
 		color: '#fff',
@@ -20,18 +27,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular'
 	},
 	wrapForm: {
-		flex: 1,
-    // borderColor: 'aqua',
-    // borderWidth: 5,
-		justifyContent: 'space-between',
-		flexDirection: 'column',
+		flex: 2,
+		width: '90%',
+		justifyContent: 'center',
 	},
   textInputStyle: {
     backgroundColor: '#fff',
     color: '#ccc',
-    // borderColor: '#ccc',
     height: 50,
-    // borderWidth: 1,
     borderRadius: 5,
   },
   btnNext: {
