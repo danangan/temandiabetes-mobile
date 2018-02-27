@@ -30,9 +30,10 @@ class Screen extends Component {
 					}}
 					source={backImage}
 				>
-					<Text style={styles.header}>Event</Text>
+					<Text style={styles.header}>Rekam Data Anda</Text>
 					<Text style={styles.text}>
-						Good nutrition is an important part of leading a healthy lifestyle
+						Pantau gula darah secara instan menggunakan
+						glukometer langsung dari gadget Anda.
 					</Text>
 				</ImageBackground>
 				{/* First screen */}
@@ -50,7 +51,7 @@ class Screen extends Component {
 				>
 					<Text style={styles.header}>Forum</Text>
 					<Text style={styles.text}>
-						Good nutrition is an important part of leading a healthy lifestyle
+						Konsultasikan kesehatan Anda dengan ahlinya	
 					</Text>
 				</ImageBackground>
 				{/* Third screen */}
@@ -66,8 +67,11 @@ class Screen extends Component {
 					}}
 					source={backImage3}
 				>
-					<Text style={styles.header}>LOVE</Text>
-					<Text style={styles.text}>Where there is love there is life</Text>
+					<Text style={styles.header}>Event</Text>
+					<Text style={styles.text}>
+						Dapatkan jadwal event menarik seputar kesehatan
+						bersama Teman Diabetes
+					</Text>
 				</ImageBackground>
 			</Swipper>
 		);
@@ -90,8 +94,8 @@ const styles = StyleSheet.create({
 		fontFamily: 'Avenir',
 		fontSize: 30,
 		fontWeight: 'bold',
-		paddingHorizontal: 10,
-		marginVertical: 15
+		paddingHorizontal: 20,
+		marginTop: 200
 	},
 	// Text below header
 	text: {
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'Avenir',
 		fontSize: 18,
 		textAlign: 'left',
-		paddingHorizontal: 10
+		marginVertical: 10,
+		paddingHorizontal: 20
 	}
 });
