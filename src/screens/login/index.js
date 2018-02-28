@@ -69,7 +69,7 @@ class Login extends Component {
 			if (!currentUser.additionalUserInfo.isNewUser) {
 				mainApp();
 			} else {
-				this.props.navigator.resetTo({
+				this.props.navigator.push({
 					screen: 'TemanDiabets.RegisterScreenFourth',
 					passProps: {
 						name: currentUser.user.displayName,

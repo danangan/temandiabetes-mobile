@@ -4,6 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, ImageBackground, Image } from 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import imageBackground from '../../../assets/images/input_sip.jpg';
+import { mainApp } from '../../../../App';
 
 class RegisterFive extends React.Component {
 	constructor(props) {
@@ -16,6 +17,10 @@ class RegisterFive extends React.Component {
 	static navigatorStyle = {
 		navBarHidden: true
 	};
+
+	toHome() {
+		mainApp()
+	}
 
 	render() {
 		return (
@@ -55,7 +60,7 @@ class RegisterFive extends React.Component {
 								underlineColorAndroid={'#fff'}
 								style={[styles.textInputStyle, { marginBottom: 15 }]}
 							/>
-							<TouchableOpacity style={styles.btnNext} onPress={() => null}>
+							<TouchableOpacity style={styles.btnNext} onPress={() => this.toHome()}>
 								<Text style={styles.buttonText}>SELESAI</Text>
 							</TouchableOpacity>
 							<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>

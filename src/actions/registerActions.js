@@ -17,7 +17,7 @@ const registerAction = userData => {
 			.then(res => {
 				console.log('BALIKAN REGISTER ', res);
 				dispatch(registerActionSuccess(res));
-				dispatch(putTheSipAhli(res.data.idToken));
+				// dispatch(putTheSipAhli(res.data.idToken));
 			})
 			.catch(error => dispatch(registerActionSuccess(error)));
 	};
@@ -33,18 +33,20 @@ const putTheSipSuccess = data => ({
 	payload: data
 });
 
-export const putTheSip = idToken => {
+export const putTheSip = idToken => dispatch => {
 	firebase
 		.auth()
 		.signInWithCustomToken(idToken)
 		.then(res => {
 			console.log('BALIKAN AUTH FIREBASE ', res);
+			dispatch(putTheSipSuccess(res));
 		})
 		.catch(error => {
 			// Handle Errors here.
+			console.log('BALIKAN AUTH FIREBASE ', error);
 			const errorCode = error.code;
 			const errorMessage = error.message;
-			console.log('BALIKAN AUTH FIREBASE ', error);
+			dispatch(putTheSipSuccess(error));
 			// ...
 		});
 };

@@ -88,7 +88,7 @@ export function mainApp() {
 			tabFontSize: 10,
 			selectedTabFontSize: 12,
 			initialTabIndex: 2,
-			// forceTitlesDisplay: true
+			forceTitlesDisplay: true
 		},
 		drawer: {
 			left: {}

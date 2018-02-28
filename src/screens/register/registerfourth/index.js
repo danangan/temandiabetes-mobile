@@ -15,6 +15,7 @@ import { Indicator } from '../../../components/indicator/Indicator';
 import { registerAction } from '../../../actions';
 import { buttonLabelDone, buttonLabelNext, URL_IMAGE, typeOfUsers } from '../../../utils/constants';
 import backImage from '../../../assets/images/siapakah_anda.jpg';
+import { mainApp } from '../../../../App';
 
 class RegisterScreenFourth extends React.Component {
 	static navigatorStyle = {
@@ -30,42 +31,59 @@ class RegisterScreenFourth extends React.Component {
 			shouldRedirect: false
 		};
 		this.handleFinalRegister = this.handleFinalRegister.bind(this);
+		this.handleNavigation = this.handleNavigation.bind(this);
 	}
 
-	componentDidUpdate() {
-		const { status_code, tipe_user } = this.props.dataRegister.dataUser;
-		if (status_code === 200 && this.state.shouldRedirect) {
-			this.setState(
-				{
-					shouldRedirect: false
-				},
-				() => {
-					if (tipe_user !== 'ahli') {
-						// harus balik ke Home
-						this.props.navigator.resetTo({
-							screen: 'TemanDiabets.OnBoardingScreen',
-							title: 'Home Screen'
-						});
-					} else {
-						this.props.navigator.resetTo({
-							screen: 'TemanDiabets.RegisterFive',
-							title: 'SIP Screen'
-						});
-					}
-				}
-			);
-		}
-	}
+	// componentDidUpdate() {
+	// 	const { status_code, tipe_user } = this.props.dataRegister.dataUser;
+	// 	if (status_code === 200 && this.state.shouldRedirect) {
+	// 		this.setState(
+	// 			{
+	// 				shouldRedirect: false
+	// 			},
+	// 			() => {
+	// 				if (tipe_user !== 'ahli') {
+	// 					// harus balik ke Home
+	// 					this.props.navigator.resetTo({
+	// 						screen: 'TemanDiabets.OnBoardingScreen',
+	// 						title: 'Home Screen'
+	// 					});
+	// 				} else {
+	// 					this.props.navigator.resetTo({
+	// 						screen: 'TemanDiabets.RegisterFive',
+	// 						title: 'SIP Screen'
+	// 					});
+	// 				}
+	// 			}
+	// 		);
+	// 	}
+	// }
 
 	handleFinalRegister() {
-		const dataUser = {
-			nama: this.props.name,
-			email: this.props.email,
-			password: this.props.password,
-			tipeuser: this.state.selected
-		};
-		console.log('JALAN');
-		this.props.registerAction(dataUser);
+		const { selected } = this.state;
+		// const dataUser = {
+		// 	nama: this.props.name,
+		// 	email: this.props.email,
+		// 	password: this.props.password,
+		// 	tipeuser: this.state.selected
+		// };
+		// console.log('JALAN');
+		// this.props.registerAction(dataUser);
+		this.setState(
+			{
+				shouldRedirect: false
+			},
+			() => {
+				if (selected !== 'ahli') {
+					mainApp();
+				} else {
+					this.props.navigator.resetTo({
+						screen: 'TemanDiabets.RegisterFive',
+						title: 'SIP Screen'
+					});
+				}
+			}
+		);
 	}
 
 	handleUserDecision(item) {
@@ -96,10 +114,14 @@ class RegisterScreenFourth extends React.Component {
 	handleNavigation() {
 		const { selected } = this.state;
 		if (selected !== '') {
-			this.setState({
-				shouldRedirect: true
-			});
-			this.handleFinalRegister();
+			this.setState(
+				{
+					shouldRedirect: true
+				},
+				() => {
+					this.handleFinalRegister();
+				}
+			);
 		} else {
 			alert('Silahkan pilih jenis user Anda');
 		}
