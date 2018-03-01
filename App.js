@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import { Platform, PixelRatio } from 'react-native';
 import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 
@@ -14,14 +14,14 @@ registerScreens(store, Provider);
 registerScreenVisibilityListener();
 
 export function startApp() {
-  Navigation.startSingleScreenApp({
-    screen: {
+	Navigation.startSingleScreenApp({
+		screen: {
 			screen: 'TemanDiabets.OnBoardingScreen',
-      navigatorStyle: {
-        navBarHidden: true
-      }
-    }
-  });
+			navigatorStyle: {
+				navBarHidden: true
+			}
+		}
+	});
 }
 
 const tabs = [
@@ -30,35 +30,91 @@ const tabs = [
 		screen: 'TemanDiabets.ForumScreen',
 		icon: require('./src/assets/icons/forum.png'),
 		selectedIcon: require('./src/assets/icons/forum_active.png'),
-		title: 'Forum'
+		title: 'Teman Diabetes',
+		topTabs: [
+			{
+				screenId: 'TemanDiabets.TabHome',
+				title: 'BERANDA'
+			},
+			{
+				screenId: 'TemanDiabets.TabLatest',
+				title: 'TERBARU'
+			},
+			{
+				screenId: 'TemanDiabets.TabFeatured',
+				title: 'TERPILIH'
+			},
+			{
+				screenId: 'TemanDiabets.TabBookmarks',
+				title: 'BOOKMARK'
+			}
+		],
+		navigatorStyle: {
+			topTabsScrollable: true
+		}
 	},
 	{
 		label: 'Event',
 		screen: 'TemanDiabets.EventScreen',
 		icon: require('./src/assets/icons/event.png'),
 		selectedIcon: require('./src/assets/icons/event_active.png'),
-		title: 'Event'
+		title: 'Teman Diabetes',
+		topTabs: [
+			{
+				screenId: 'TemanDiabets.TabVideo',
+				title: 'VIDEO'
+			},
+			{
+				screenId: 'TemanDiabets.TabEvent',
+				title: 'EVENT'
+			}
+		]
 	},
 	{
 		label: 'Rekaman',
 		screen: 'TemanDiabets.InputTrackerScreen',
 		icon: require('./src/assets/icons/event.png'),
 		selectedIcon: require('./src/assets/icons/event_active.png'),
-		title: 'Rekaman'
+		title: 'Teman Diabetes',
+		topTabs: [
+			{
+				screenId: 'TemanDiabets.TabInputTracker',
+				title: 'MASUKAN PELACAK'
+			},
+			{
+				screenId: 'TemanDiabets.TabHistory',
+				title: 'RIWAYAT DAN ESTIMASI'
+			}
+		],
+		navigatorStyle: {
+			topTabsScrollable: true
+		}
 	},
 	{
 		label: 'Belanja',
 		screen: 'TemanDiabets.ChartScreen',
 		icon: require('./src/assets/icons/cart.png'),
 		selectedIcon: require('./src/assets/icons/cart_active.png'),
-		title: 'Belanja'
+		title: 'Teman Diabetes',
+		topTabs: [
+			{
+				screenId: 'TemanDiabets.TabInputTracker',
+				title: 'KATALOG'
+			}
+		]
 	},
 	{
 		label: 'Darurat',
 		screen: 'TemanDiabets.EmergencyScreen',
 		icon: require('./src/assets/icons/emergency.png'),
 		selectedIcon: require('./src/assets/icons/emergency_active.png'),
-		title: 'Darurat'
+		title: 'Teman Diabetes',
+		topTabs: [
+			{
+				screenId: 'TemanDiabets.TabInputTracker',
+				title: 'TOMBOL DARURAT'
+			}
+		]
 	}
 ];
 
@@ -67,20 +123,18 @@ export function mainApp() {
 		tabs,
 		animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
 		tabsStyle: {
-			tabBarBackgroundColor: 'white',
+			tabBarBackgroundColor: color.red,
 			tabBarButtonColor: color.white,
-			tabBarSelectedButtonColor: color.red,
-			tabFontFamily: 'Montserrat-Regular'
+			tabBarSelectedButtonColor: 'yellow',
+			tabFontFamily: 'Montserrat-Regular',
 		},
 		appStyle: {
-			// tabBarBackgroundColor: '#003a66',
-			// navBarButtonColor: '#ffffff',
-			// tabBarButtonColor: '#ffffff',
-			// navBarTextColor: '#ffffff',
 			tabBarSelectedButtonColor: color.red,
-			// navigationBarColor: 'yellow',
-			// navBarBackgroundColor: '#003a66',
-			// statusBarColor: '#002b4c',
+			navBarTextColor: color.white,
+			navBarBackgroundColor: color.red,
+			navBarTextFontSize: 22,
+			navBarTextFontFamily: 'MontserratAlternates-Medium',
+			navBarTextFontBold: true,
 			tabBarBackgroundColor: color.white,
 			tabBarButtonColor: color.gray,
 			tabBarTranslucent: false,
@@ -88,7 +142,22 @@ export function mainApp() {
 			tabFontSize: 10,
 			selectedTabFontSize: 12,
 			initialTabIndex: 2,
-			forceTitlesDisplay: true
+			forceTitlesDisplay: true,
+
+			drawUnderTabBar: true,
+			topBarCollapseOnScroll: true,
+			navBarHideOnScroll: true,
+
+			topTabTextFontFamily: 'Montserrat-Regular',
+
+			topTabTextColor: '#ffffff',
+			selectedTopTabTextColor: color.white,
+			topBarBorderColor: 'white',
+
+			// // Tab indicator
+			selectedTopTabIndicatorHeight: PixelRatio.get() * 4,
+			selectedTopTabIndicatorColor: color.white,
+			navBarTitleTextCentered: true,
 		},
 		drawer: {
 			left: {}
