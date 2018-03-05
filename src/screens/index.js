@@ -7,19 +7,17 @@ import RegisterScreenSecond from './register/registersecond';
 import RegisterScreenThird from './register/registerthird';
 import RegisterScreenFourth from './register/registerfourth';
 import RegisterFive from './register/registerfive';
-import ForumScreen from './forum';
-import EventScreen from './event';
-import InputTrackerScreen from './input-tracker';
 import ChartScreen from './chart';
 import EmergencyScreen from './emergency';
-import TabHome from './tab-home';
-import TabLatest from './tab-latest';
-import TabFeatured from './tab-featured';
-import TabBookmarks from './tab-bookmarks';
-import TabVideo from './tab-video';
-import TabEvent from './tab-event';
-import TabInputTracker from './tab-input-tracker';
-import TabHistory from './tab-history';
+import TabHome from '../screens/forum/tab-home';
+import TabLatest from '../screens/forum/tab-latest';
+import TabFeatured from '../screens/forum/tab-featured';
+import TabBookmarks from '../screens/forum/tab-bookmarks';
+import TabVideo from '../screens/event/tab-video';
+import TabEvent from '../screens/event/tab-event';
+import TabInputTracker from '../screens/input-tracker/tab-input-tracker';
+import TabHistory from '../screens/input-tracker/tab-history';
+import ThreadDetails from '../screens/forum/threadDetails';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
@@ -29,9 +27,6 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.RegisterScreenThird', () => RegisterScreenThird);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenFourth', () => RegisterScreenFourth, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterFive', () => RegisterFive, store, Provider);
-	Navigation.registerComponent('TemanDiabets.ForumScreen', () => ForumScreen);
-	Navigation.registerComponent('TemanDiabets.EventScreen', () => EventScreen);
-	Navigation.registerComponent('TemanDiabets.InputTrackerScreen', () => InputTrackerScreen);
 	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen);
 	Navigation.registerComponent('TemanDiabets.EmergencyScreen', () => EmergencyScreen);
 	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome);
@@ -42,6 +37,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.TabEvent', () => TabEvent);
 	Navigation.registerComponent('TemanDiabets.TabInputTracker', () => TabInputTracker);
 	Navigation.registerComponent('TemanDiabets.TabHistory', () => TabHistory);
+	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails);
 }
 
 export function registerScreenVisibilityListener() {
