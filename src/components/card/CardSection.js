@@ -6,7 +6,7 @@ import color from '../../style/color';
 import ViewPropTypes from '../../config/ViewPropTypes';
 
 const CardSection = (props) => (
-	<View style={styles.containerStyle}>
+	<View style={[styles.containerStyle, props.containerStyle]}>
 		{props.children}
 	</View>
 );
@@ -18,9 +18,8 @@ CardSection.propTypes = {
 
 const styles = {
 	containerStyle: {
-		borderBottomWidth: 1,
+		borderBottomWidth: 0,
 		padding: 5,
-		backgroundColor: color.white,
 		justifyContent: 'flex-start',
 		flexDirection: 'row',
 		borderColor: color.white,
