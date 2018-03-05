@@ -27,7 +27,7 @@ export function startApp() {
 const tabs = [
 	{
 		label: 'Forum',
-		screen: 'TemanDiabets.ForumScreen',
+		screen: 'TemanDiabets.TabHome',
 		icon: require('./src/assets/icons/forum.png'),
 		selectedIcon: require('./src/assets/icons/forum_active.png'),
 		title: 'Teman Diabetes',
@@ -55,7 +55,7 @@ const tabs = [
 	},
 	{
 		label: 'Event',
-		screen: 'TemanDiabets.EventScreen',
+		screen: 'TemanDiabets.TabVideo',
 		icon: require('./src/assets/icons/event.png'),
 		selectedIcon: require('./src/assets/icons/event_active.png'),
 		title: 'Teman Diabetes',
@@ -72,7 +72,7 @@ const tabs = [
 	},
 	{
 		label: 'Rekaman',
-		screen: 'TemanDiabets.InputTrackerScreen',
+		screen: 'TemanDiabets.TabInputTracker',
 		icon: require('./src/assets/icons/event.png'),
 		selectedIcon: require('./src/assets/icons/event_active.png'),
 		title: 'Teman Diabetes',
@@ -127,6 +127,9 @@ export function mainApp() {
 			tabBarButtonColor: color.white,
 			tabBarSelectedButtonColor: 'yellow',
 			tabFontFamily: 'Montserrat-Regular',
+			drawUnderTabBar: true,
+			topBarCollapseOnScroll: true,
+			navBarHideOnScroll: true
 		},
 		appStyle: {
 			tabBarSelectedButtonColor: color.red,
@@ -144,10 +147,6 @@ export function mainApp() {
 			initialTabIndex: 2,
 			forceTitlesDisplay: true,
 
-			drawUnderTabBar: true,
-			topBarCollapseOnScroll: true,
-			navBarHideOnScroll: true,
-
 			topTabTextFontFamily: 'Montserrat-Regular',
 
 			topTabTextColor: '#ffffff',
@@ -157,7 +156,7 @@ export function mainApp() {
 			// // Tab indicator
 			selectedTopTabIndicatorHeight: PixelRatio.get() * 4,
 			selectedTopTabIndicatorColor: color.white,
-			navBarTitleTextCentered: true,
+			navBarTitleTextCentered: true
 		},
 		drawer: {
 			left: {}
