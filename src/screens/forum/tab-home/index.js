@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Platform, TouchableOpacity } from 'react-native';
-import { Card, FooterThread } from '../../../components';
-import { ContentThread } from './contentThread';
-import { HeaderThread } from './headerThread';
+import { Card, FooterThread, HeaderThread } from '../../../components';
+import ContentThread from './contentThread';
 
 class TabHome extends Component {
 	static navigatorStyle = {
@@ -33,9 +32,13 @@ class TabHome extends Component {
 							}
 						>
 							<Card key={index} containerStyle={styles.container}>
-								<HeaderThread />
+								<HeaderThread
+									source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+									name='Gloria James'
+									category='Teman Diabetes'
+								/>
 								<ContentThread />
-								<FooterThread />
+								<FooterThread numOfComments={17} />
 							</Card>
 						</TouchableOpacity>
 					))}
