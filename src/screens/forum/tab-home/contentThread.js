@@ -37,4 +37,4 @@ const styles = {
   }
 };
 
-export { ContentThread };
+export default ContentThread;
