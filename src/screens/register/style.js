@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import color from '../../style/color';
+import Style from '../../style/defaultStyle';
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 3,
-		backgroundColor: '#ccc',
 		justifyContent: 'space-between'
 	},
 	imageBackground: {
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
 		alignItems: 'center'
 	},
 	buttonText: {
-		color: '#fff',
+		color: color.white,
 		fontFamily: 'Montserrat-Bold'
 	},
 	wrapTitle: {
@@ -25,8 +26,8 @@ const styles = StyleSheet.create({
 		width: '90%'
 	},
 	titles: {
-		color: '#4a4a4a',
-		fontSize: 32,
+		color: color.white,
+		fontSize: Style.FONT_SIZE_TITLE * 2.3,
 		paddingRight: 50,
 		fontFamily: 'Montserrat-Regular'
 	},
@@ -36,17 +37,16 @@ const styles = StyleSheet.create({
 		justifyContent: 'center'
 	},
 	textInputStyle: {
-		backgroundColor: '#fff',
-		color: '#ccc',
+		backgroundColor: color.white,
 		height: 50,
 		borderRadius: 5,
-		fontFamily: 'Montserrat-Bold'
+		fontFamily: 'Montserrat-Regular'
 	},
 	btnNext: {
-		backgroundColor: '#ef434f',
+		backgroundColor: color.red,
 		alignItems: 'center',
 		justifyContent: 'center',
-		height: 40
+		height: 50
 	},
 	indicatorWrapper: {
 		height: '30%',
