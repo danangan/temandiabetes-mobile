@@ -1,20 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-	View,
-	Text,
-	TouchableOpacity,
-	ScrollView,
-	Image,
-	StyleSheet,
-	ImageBackground
-} from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, ImageBackground } from 'react-native';
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import { registerAction } from '../../../actions';
 import { buttonLabelDone, buttonLabelNext, URL_IMAGE, typeOfUsers } from '../../../utils/constants';
-import backImage from '../../../assets/images/siapakah_anda.jpg';
 import { mainApp } from '../../../../App';
 
 class RegisterScreenFourth extends React.Component {
@@ -141,7 +132,10 @@ class RegisterScreenFourth extends React.Component {
 		}
 		return (
 			<View style={[styles.container, { paddingBottom: 0 }]}>
-				<ImageBackground style={styles.imageBackground} source={backImage}>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={require('../../../assets/images/who_are_you.png')}
+				>
 					<TouchableOpacity
 						style={{
 							flex: 0,
@@ -155,10 +149,7 @@ class RegisterScreenFourth extends React.Component {
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
-							source={{
-								uri:
-									'https://www.materialui.co/materialIcons/navigation/arrow_back_grey_192x192.png'
-							}}
+							source={require('../../../assets/icons/back_white.png')}
 						/>
 					</TouchableOpacity>
 					<View style={styles.wrapTitle}>
