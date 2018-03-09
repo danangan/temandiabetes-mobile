@@ -5,7 +5,6 @@ import {
 	Text,
 	TextInput,
 	TouchableOpacity,
-	ScrollView,
 	Keyboard,
 	ImageBackground,
 	Image
@@ -13,10 +12,8 @@ import {
 
 import { Indicator } from '../../components/indicator/Indicator';
 import styles from './style';
-
 import { registerStepOne } from '../../actions';
-
-import backImage from '../../assets/images/siapakah_nama_anda.jpg';
+import Style from '../../style/defaultStyle';
 
 class Register extends Component {
 	static navigatorStyle = {
@@ -71,7 +68,10 @@ class Register extends Component {
 		console.log('NAMA SEKARANG ', this.state.name);
 		return (
 			<View style={styles.container}>
-				<ImageBackground style={styles.imageBackground} source={backImage}>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={require('../../assets/images/whats_your_name.png')}
+				>
 					<TouchableOpacity
 						style={{
 							flex: 1,
@@ -84,10 +84,7 @@ class Register extends Component {
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
-							source={{
-								uri:
-									'https://www.materialui.co/materialIcons/navigation/arrow_back_grey_192x192.png'
-							}}
+							source={require('../../assets/icons/back_white.png')}
 						/>
 					</TouchableOpacity>
 					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
@@ -127,14 +124,14 @@ const stylesLocal = {
 		width: '100%'
 	},
 	inputStyle: {
-		fontSize: 16,
+		fontSize: Style.FONT_SIZE * 1.2,
 		marginBottom: 15,
 		paddingLeft: 20,
-		fontFamily: 'Montserrat-Bold'
+		fontFamily: 'Montserrat-Regular'
 	},
 	indicatorStyle: { width: '20%' },
 	errMessage: {
-		fontSize: 20,
+		fontSize: Style.FONT_SIZE_SMALL * 1.2,
 		color: 'red',
 		fontFamily: 'Montserrat-Regular'
 	}
