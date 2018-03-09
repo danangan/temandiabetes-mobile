@@ -3,10 +3,14 @@ import { View, Text, TextInput, TouchableOpacity, ImageBackground, Image } from 
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
-import imageBackground from '../../../assets/images/input_sip.jpg';
 import { mainApp } from '../../../../App';
+import Style from '../../../style/defaultStyle';
 
 class RegisterFive extends React.Component {
+	static navigatorStyle = {
+		navBarHidden: true
+	};
+
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -14,18 +18,17 @@ class RegisterFive extends React.Component {
 		};
 	}
 
-	static navigatorStyle = {
-		navBarHidden: true
-	};
-
 	toHome() {
-		mainApp()
+		mainApp();
 	}
 
 	render() {
 		return (
 			<View style={styles.container}>
-				<ImageBackground style={styles.imageBackground} source={imageBackground}>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={require('../../../assets/images/sip.png')}
+				>
 					<TouchableOpacity
 						style={{
 							flex: 1,
@@ -38,10 +41,7 @@ class RegisterFive extends React.Component {
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
-							source={{
-								uri:
-									'https://www.materialui.co/materialIcons/navigation/arrow_back_grey_192x192.png'
-							}}
+							source={require('../../../assets/icons/back_white.png')}
 						/>
 					</TouchableOpacity>
 					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
@@ -58,7 +58,7 @@ class RegisterFive extends React.Component {
 								placeholder={'Surat Izin Praktek'}
 								onChangeText={sip => this.setState({ sip })}
 								underlineColorAndroid={'#fff'}
-								style={[styles.textInputStyle, { marginBottom: 15 }]}
+								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
 							<TouchableOpacity style={styles.btnNext} onPress={() => this.toHome()}>
 								<Text style={styles.buttonText}>SELESAI</Text>
@@ -80,8 +80,10 @@ const stylesLocal = {
 		height: '70%'
 	},
 	inputStyle: {
+		fontSize: Style.FONT_SIZE * 1.2,
 		marginBottom: 15,
-		paddingLeft: 20
+		paddingLeft: 20,
+		fontFamily: 'Montserrat-Regular'
 	}
 };
 
