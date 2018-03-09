@@ -11,7 +11,7 @@ import {
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
-import imageBackground from '../../../assets/images/massukkan_email_anda.jpg';
+import Style from '../../../style/defaultStyle';
 
 class RegisterScreenSecond extends React.Component {
 	static navigatorStyle = {
@@ -65,7 +65,10 @@ class RegisterScreenSecond extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<ImageBackground style={styles.imageBackground} source={imageBackground}>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={require('../../../assets/images/email.png')}
+				>
 					<TouchableOpacity
 						style={{
 							flex: 0,
@@ -78,10 +81,7 @@ class RegisterScreenSecond extends React.Component {
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
-							source={{
-								uri:
-									'https://www.materialui.co/materialIcons/navigation/arrow_back_grey_192x192.png'
-							}}
+							source={require('../../../assets/icons/back_white.png')}
 						/>
 					</TouchableOpacity>
 					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
@@ -98,7 +98,7 @@ class RegisterScreenSecond extends React.Component {
 								placeholder={'example@email.com'}
 								onChangeText={email => this.setState({ email })}
 								underlineColorAndroid={'#fff'}
-								style={[styles.textInputStyle, { marginBottom: 15, paddingLeft: 15 }]}
+								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
 							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
 								<Text style={styles.buttonText}>LANJUT</Text>
@@ -120,9 +120,10 @@ const stylesLocal = {
 		height: '70%'
 	},
 	inputStyle: {
+		fontSize: Style.FONT_SIZE * 1.2,
 		marginBottom: 15,
 		paddingLeft: 20,
-		fontFamily: 'Montserrat-Bold'
+		fontFamily: 'Montserrat-Regular'
 	}
 };
 

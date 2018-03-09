@@ -1,9 +1,17 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard, ImageBackground, Image } from 'react-native';
+import {
+	View,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	Keyboard,
+	ImageBackground,
+	Image
+} from 'react-native';
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
-import imageBackground from '../../../assets/images/masukkan_password_anda.jpg';
+import Style from '../../../style/defaultStyle';
 
 class RegisterScreenThird extends React.Component {
 	static navigatorStyle = {
@@ -65,7 +73,10 @@ class RegisterScreenThird extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<ImageBackground style={styles.imageBackground} source={imageBackground}>
+				<ImageBackground
+					style={styles.imageBackground}
+					source={require('../../../assets/images/password.png')}
+				>
 					<TouchableOpacity
 						style={{
 							flex: 0,
@@ -79,10 +90,7 @@ class RegisterScreenThird extends React.Component {
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
-							source={{
-								uri:
-									'https://www.materialui.co/materialIcons/navigation/arrow_back_grey_192x192.png'
-							}}
+							source={require('../../../assets/icons/back_white.png')}
 						/>
 					</TouchableOpacity>
 					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
@@ -100,14 +108,14 @@ class RegisterScreenThird extends React.Component {
 								underlineColorAndroid={'#fff'}
 								secureTextEntry
 								onChangeText={password => this.setState({ password })}
-								style={[styles.textInputStyle, { marginBottom: 15, paddingLeft: 15 }]}
+								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
 							<TextInput
 								placeholder={'*********'}
 								underlineColorAndroid={'#fff'}
 								secureTextEntry
 								onChangeText={confirmPassword => this.setState({ confirmPassword })}
-								style={[styles.textInputStyle, { marginBottom: 15, paddingLeft: 15 }]}
+								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
 							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
 								<Text style={styles.buttonText}>LANJUT</Text>
@@ -129,9 +137,10 @@ const stylesLocal = {
 		height: '70%'
 	},
 	inputStyle: {
+		fontSize: Style.FONT_SIZE * 1.2,
 		marginBottom: 15,
 		paddingLeft: 20,
-		fontFamily: 'Montserrat-Bold'
+		fontFamily: 'Montserrat-Regular'
 	}
 };
 
