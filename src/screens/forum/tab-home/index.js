@@ -32,7 +32,7 @@ class TabHome extends Component {
 					<TextField
 						onFocus={() =>
 							Navigation.showModal({
-								screen: 'TemanDiabets.ModalPostThread',
+								screen: 'TemanDiabets.ModalSearch',
 								title: 'Modal',
 								navigatorButtons: {
 									leftButtons: [
@@ -51,7 +51,7 @@ class TabHome extends Component {
 							borderColor: '#fff',
 							borderRadius: 5
 						}}
-						inputStyle={{ color: '#b6b6b6', fontSize: 12, backgroundColor: 'red' }}
+						inputStyle={{ color: '#b6b6b6', fontSize: 12, backgroundColor: '#fff' }}
 					/>
 				{/* </CardSection> */}
 				{/* <TextField
@@ -79,6 +79,17 @@ class TabHome extends Component {
 					}}
 				>
 					<TextInput
+						onFocus={() =>
+							Navigation.showModal({
+								screen: 'TemanDiabets.ModalPostThread',
+								title: 'Modal',
+								navigatorButtons: {
+									leftButtons: [
+										{}
+									]
+								},
+								animationType: 'slide-up'
+						})}
 						style={{
 							fontSize: 16,
 							height: 70
