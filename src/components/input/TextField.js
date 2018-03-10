@@ -129,7 +129,7 @@ const styles = {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 5
+    margin: 0
   },
   sectionStyle: {
     flexDirection: 'row',
