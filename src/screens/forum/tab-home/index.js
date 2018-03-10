@@ -117,8 +117,7 @@ class TabHome extends Component {
 	}
 
 	render() {
-		console.log("PROPS DI HOME ", this.props);
-		
+		// console.log("PROPS DI HOME ", this.props);
 		return (
 			<View style={{ flex: 1 }}>
 				<FlatList

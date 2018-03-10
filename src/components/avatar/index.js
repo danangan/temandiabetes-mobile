@@ -7,8 +7,8 @@ import PropTypes from 'prop-types';
 const Avatar = props => (
 	<View
 		style={{
-			width: props.avatarSize === 'Small' ? 50 : props.avatarSize === 'Medium' ? 100 : 150,
-			height: props.avatarSize === 'Small' ? 50 : props.avatarSize === 'Medium' ? 100 : 150,
+			width: props.avatarSize === 'ExtraSmall' ? 25 : props.avatarSize === 'Small' ? 50 : props.avatarSize === 'Medium' ? 100 : 150,
+			height: props.avatarSize === 'ExtraSmall' ? 25 : props.avatarSize === 'Small' ? 50 : props.avatarSize === 'Medium' ? 100 : 150,
 			marginHorizontal: 5
 		}}
 	>
