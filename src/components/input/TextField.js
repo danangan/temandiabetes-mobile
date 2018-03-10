@@ -38,10 +38,11 @@ const TextField = ({
   autoGrow,
   numberOfLines,
   underlineColorAndroid,
-  onKeyPress
+  onKeyPress,
+  sectionStyle
 }) => (
   <View style={[styles.containerStyle, containerStyle]}>
-    <View style={styles.sectionStyle}>
+    <View style={[styles.sectionStyle, sectionStyle]}>
       <Image source={leftIcon} style={styles.ImageStyle} />
       <TextInput
         value={value}
