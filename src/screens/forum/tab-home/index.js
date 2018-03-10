@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { View, Platform, TouchableOpacity, FlatList, TextInput } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
-import { Card, FooterThread, HeaderThread, TextField, CardSection } from '../../../components';
+import { Card, FooterThread, HeaderThread, TextField } from '../../../components';
 import ContentThread from './contentThread';
 import searchIcon from '../../../assets/icons/close.png';
 import Blood from '../../../assets/icons/explorer_icon.png';
@@ -19,11 +20,27 @@ class TabHome extends Component {
 		};
 	}
 
+	handleOnFocus() {
+	
+		alert('Jalan...')
+	}
+
 	renderHeader() {
 		return (
 			<View>
 				{/* <CardSection> */}
 					<TextField
+						onFocus={() =>
+							Navigation.showModal({
+								screen: 'TemanDiabets.ModalPostThread',
+								title: 'Modal',
+								navigatorButtons: {
+									leftButtons: [
+										{}
+									]
+								},
+								animationType: 'slide-up'
+						})}
 						leftIcon={Blood}
 						rightIcon={searchIcon}
 						placeholder={'Cari post, pengguna'}
@@ -100,6 +117,8 @@ class TabHome extends Component {
 	}
 
 	render() {
+		console.log("PROPS DI HOME ", this.props);
+		
 		return (
 			<View style={{ flex: 1 }}>
 				<FlatList
