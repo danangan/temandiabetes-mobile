@@ -73,8 +73,8 @@ const tabs = [
 	{
 		label: 'Rekaman',
 		screen: 'TemanDiabets.TabInputTracker',
-		icon: require('./src/assets/icons/event.png'),
-		selectedIcon: require('./src/assets/icons/event_active.png'),
+		icon: require('./src/assets/icons/explorer_icon.png'),
+		selectedIcon: require('./src/assets/icons/explorer_icon.png'),
 		title: 'Teman Diabetes',
 		topTabs: [
 			{
