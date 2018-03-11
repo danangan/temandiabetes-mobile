@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { View, Text, TextInput, Image } from 'react-native';
+import { View, Text, TextInput, Image, TouchableOpacity } from 'react-native';
 
 import ViewPropTypes from '../../config/ViewPropTypes';
 import color from '../../style/color';
@@ -39,7 +39,8 @@ const TextField = ({
   numberOfLines,
   underlineColorAndroid,
   onKeyPress,
-  sectionStyle
+  sectionStyle,
+  onPressRight
 }) => (
   <View style={[styles.containerStyle, containerStyle]}>
     <View style={[styles.sectionStyle, sectionStyle]}>
@@ -75,7 +76,9 @@ const TextField = ({
         onKeyPress={onKeyPress}
         style={[styles.inputStyle, inputStyle]}
       />
-      <Image source={rightIcon} style={styles.ImageStyle} />
+      <TouchableOpacity onPress={onPressRight}>
+        <Image source={rightIcon} style={styles.ImageStyle} />
+      </TouchableOpacity>
     </View>
   </View>
 );
@@ -111,7 +114,8 @@ TextField.ViewPropTypes = {
   autoGrow: PropTypes.bool,
   numberOfLines: PropTypes.number,
   underlineColorAndroid: PropTypes.color,
-  onKeyPress: PropTypes.func
+  onKeyPress: PropTypes.func,
+  onPressRight: PropTypes.func
 };
 
 const styles = {
