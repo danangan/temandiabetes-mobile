@@ -3,6 +3,7 @@ import { View, ScrollView, Platform, TouchableOpacity } from 'react-native';
 
 import { Card, FooterThread, HeaderThread } from '../../../components';
 import ContentThread from './contentThread';
+import color from '../../../style/color';
 
 class TabLatest extends Component {
 	static navigatorStyle = {
@@ -19,7 +20,7 @@ class TabLatest extends Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.containerStyle}>
 				<ScrollView>
 					{this.state.nums.map((item, index) => (
 						<TouchableOpacity
@@ -32,7 +33,7 @@ class TabLatest extends Component {
 								})
 							}
 						>
-							<Card key={index} containerStyle={styles.container}>
+							<Card key={index} containerStyle={styles.cardStyle}>
 								<HeaderThread
 									source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
 									name="Gloria James"
@@ -50,7 +51,10 @@ class TabLatest extends Component {
 }
 
 const styles = {
-	container: {
+	containerStyle: {
+		backgroundColor: color.solitude
+	},
+	cardStyle: {
 		...Platform.select({
 			android: { elevation: 4 },
 			ios: {

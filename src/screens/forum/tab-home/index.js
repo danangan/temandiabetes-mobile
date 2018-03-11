@@ -6,6 +6,7 @@ import { Card, FooterThread, HeaderThread, TextField } from '../../../components
 import ContentThread from './contentThread';
 import searchIcon from '../../../assets/icons/close.png';
 import Blood from '../../../assets/icons/explorer_icon.png';
+import color from '../../../style/color';
 
 class TabHome extends Component {
 	static navigatorStyle = {
@@ -93,7 +94,7 @@ class TabHome extends Component {
 					})
 				}
 			>
-				<Card containerStyle={styles.container}>
+				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
 						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
 						name="Gloria James"
@@ -108,7 +109,7 @@ class TabHome extends Component {
 
 	render() {
 		return (
-			<View style={{ flex: 1 }}>
+			<View style={styles.containerStyle}>
 				<FlatList
 					ListHeaderComponent={() => this.renderHeader()}
 					data={this.state.nums}
@@ -120,7 +121,10 @@ class TabHome extends Component {
 }
 
 const styles = {
-	container: {
+	containerStyle: {
+		backgroundColor: color.solitude
+	},
+	cardStyle: {
 		...Platform.select({
 			android: { elevation: 4 },
 			ios: {
