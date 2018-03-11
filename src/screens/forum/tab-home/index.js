@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Platform, TouchableOpacity, FlatList, TextInput } from 'react-native';
+import { View, Platform, TouchableOpacity, FlatList, TextInput, Text, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import { Card, FooterThread, HeaderThread, TextField } from '../../../components';
@@ -20,88 +20,67 @@ class TabHome extends Component {
 		};
 	}
 
-	handleOnFocus() {
-	
-		alert('Jalan...')
+	togleModal(params) {
+		Navigation.showModal({
+			screen: params,
+			title: 'Modal',
+			navigatorButtons: {
+				leftButtons: [
+					{}
+				]
+			},
+			animationType: 'slide-up'
+		});
+	}
+
+	renderButtonSearch() {
+		return (
+			<TouchableOpacity 
+				onPress={() => this.togleModal('TemanDiabets.ModalSearch')}
+				style={styles.wrapButonSearch}
+			>
+				<View style={{ flex: 0.2, alignItems: 'center', borderRightWidth: 0.7, borderRightColor: 'red', padding: 5 }}>
+					<Image source={Blood} style={{ width: 25, height: 25 }} />
+				</View>
+				<View style={{ flex: 2, alignItems: 'flex-start', paddingHorizontal: 5 }}>
+					<Text>Cari post, pengguna</Text>
+				</View>
+				<View style={{ flex: 0.2, alignItems: 'center' }}>
+					<Image source={searchIcon} style={{ width: 25, height: 25 }} />
+				</View>
+			</TouchableOpacity>
+		);
+	}
+
+	renderPostThread() {
+		return (
+			<View style={styles.wrapPostThread}>
+				<TextInput
+					onFocus={() => this.togleModal('TemanDiabets.ModalPostThread')}
+					style={{
+						fontSize: 16,
+						height: 70
+					}}
+					placeholder="Tanya atau bagikan disini"
+					underlineColorAndroid="rgba(0,0,0,0)"
+				/>
+			</View>
+		);
 	}
 
 	renderHeader() {
 		return (
 			<View>
-				{/* <CardSection> */}
-					<TextField
-						onFocus={() =>
-							Navigation.showModal({
-								screen: 'TemanDiabets.ModalSearch',
-								title: 'Modal',
-								navigatorButtons: {
-									leftButtons: [
-										{}
-									]
-								},
-								animationType: 'slide-up'
-						})}
-						leftIcon={Blood}
-						rightIcon={searchIcon}
-						placeholder={'Cari post, pengguna'}
-						underlineColorAndroid={'#fff'}
-						sectionStyle={{
-							backgroundColor: 'yellow',
-							borderWidth: 1,
-							borderColor: '#fff',
-							borderRadius: 5
-						}}
-						inputStyle={{ color: '#b6b6b6', fontSize: 12, backgroundColor: '#fff' }}
-					/>
-				{/* </CardSection> */}
-				{/* <TextField
-					placeholder={'Tanya atau bagikan disini'}
-					containerStyle={{
-						backgroundColor: '#ccc',
-						borderWidth: 1,
-						borderColor: '#fff',
-						borderRadius: 5,
-						marginHorizontal: 5,
-						height: 70
-					}}
-					underlineColorAndroid="rgba(0,0,0,0)"
-					inputStyle={{ color: '#b6b6b6', fontSize: 12, height: 100, backgroundColor: 'red' }}
-				/> */}
-				<View
-					style={{
-						backgroundColor: 'white',
-						borderWidth: 1,
-						borderColor: '#fff',
-						borderRadius: 5,
-						marginHorizontal: 5,
-						elevation: 2.5,
-						height: 70
-					}}
-				>
-					<TextInput
-						onFocus={() =>
-							Navigation.showModal({
-								screen: 'TemanDiabets.ModalPostThread',
-								title: 'Modal',
-								navigatorButtons: {
-									leftButtons: [
-										{}
-									]
-								},
-								animationType: 'slide-up'
-						})}
-						style={{
-							fontSize: 16,
-							height: 70
-						}}
-						placeholder="Tanya atau bagiakn disini"
-						underlineColorAndroid="rgba(0,0,0,0)"
-					/>
-				</View>
+				{
+					this.renderButtonSearch()
+				}
+				{
+					this.renderPostThread()
+				}
 			</View>
 		);
 	}
-
+	
 	renderItem(item) {
 		return (
 			<TouchableOpacity
@@ -128,7 +107,6 @@ class TabHome extends Component {
 	}
 
 	render() {
-		// console.log("PROPS DI HOME ", this.props);
 		return (
 			<View style={{ flex: 1 }}>
 				<FlatList
@@ -152,6 +130,32 @@ const styles = {
 				shadowRadius: 2.5
 			}
 		})
+	},
+	wrapButonSearch: { 
+		flex: 2, 
+		flexDirection: 'row', 
+		justifyContent: 'space-around', 
+		alignItems: 'center', 
+		paddingVertical: 10,
+		backgroundColor: 'white',
+		borderWidth: 1,
+		borderColor: '#fff',
+		borderRadius: 5,
+		marginVertical: 10,
+		marginHorizontal: 5,
+		elevation: 2.5,
+		height: 50 
+	},
+	wrapPostThread: {
+		backgroundColor: 'white',
+		borderWidth: 1,
+		borderColor: '#fff',
+		borderRadius: 5,
+		marginHorizontal: 5,
+		elevation: 2.5,
+		height: 70,
+		marginVertical: 10,
+		paddingHorizontal: 30,
 	}
 };
 
