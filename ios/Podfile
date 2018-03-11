@@ -6,11 +6,4 @@ target 'TemanDiabets' do
   # use_frameworks!
     pod 'Firebase/Core'
     pod 'Firebase/Auth'
-  # Pods for TemanDiabets
-
-  target 'TemanDiabetsTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end

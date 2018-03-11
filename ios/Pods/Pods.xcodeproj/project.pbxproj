@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		129986403CDA960892B9E7158CEBD293 /* pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 52F7A261F42A1ADED325CFF0D87163F6 /* pb.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		1B8714DF33ABD898CF49FAA1314DCF34 /* GTMSessionFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E7C941C3F9F4BA2CF73C2F38549CDA2 /* GTMSessionFetcherService.m */; };
-		1F4E292DFB1A41DC105A081DD1CB9DC4 /* Pods-TemanDiabets-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D78F3ECBA0945CDA9BE314FABEB1BE46 /* Pods-TemanDiabets-dummy.m */; };
+		1F4E292DFB1A41DC105A081DD1CB9DC4 /* Pods-TemanDiabets-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D2300F1D1F60B74EF261F90B19D2C1DD /* Pods-TemanDiabets-dummy.m */; };
 		1FD89BCE18878274FE3E05CA3B19A1EC /* pb_decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 06AB1417B22B8DE990389AC724BEFC49 /* pb_decode.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2089C7C2B78C35F067C3C93170D7F7B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C085E02FF89804F50ADDA04F5A586E94 /* Security.framework */; };
 		28B7761E1D77D96D267539A7B67188EA /* nanopb-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2937EBFC07CAED237BD7367372F695F4 /* nanopb-dummy.m */; };
@@ -20,7 +20,6 @@
 		52CC1D443CC1FE11DB37BD41748A5B38 /* GTMMethodCheck.h in Headers */ = {isa = PBXBuildFile; fileRef = E78118D1E739BEC60ADF095BA31DE8C0 /* GTMMethodCheck.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		59642B8EE4ADA94E2F2478208DF16D1C /* GTMNSData+zlib.h in Headers */ = {isa = PBXBuildFile; fileRef = 0759C9E0C87943389F925571DADEF4C2 /* GTMNSData+zlib.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		67A134A8E94DAD919F69449EC07A29D9 /* GTMSessionFetcherLogging.h in Headers */ = {isa = PBXBuildFile; fileRef = 195E085005E246F03FB88164D45A4CE9 /* GTMSessionFetcherLogging.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		6E03051696CD0D6D2FDFAB0D1F068488 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11C10A31CD5CFA3EFE266394471B152E /* Foundation.framework */; };
 		7DE67EECCADD9D9C411718AD17DA9742 /* GTMSessionUploadFetcher.h in Headers */ = {isa = PBXBuildFile; fileRef = 8652A8CEBC684958C05FC1D574567C16 /* GTMSessionUploadFetcher.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		8F175FE55848DE44797AEB6CEF1F902F /* GTMDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = C3AC2ABE6FD4338D3759218450BB36F5 /* GTMDefines.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		91C9C419C2E304B3A68293C22053034E /* pb_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = 94519185EB06F793E52FFFDB0724AC1C /* pb_encode.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc -fno-objc-arc"; }; };
@@ -31,7 +30,6 @@
 		9EC3208101C0A4CE8E374B61F787355B /* GTMNSDictionary+URLArguments.m in Sources */ = {isa = PBXBuildFile; fileRef = 57A7223FCDEB1871A68083603D9EA8F3 /* GTMNSDictionary+URLArguments.m */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
 		A04709B7267367F356C4224182C987DF /* GTMSessionFetcherService.h in Headers */ = {isa = PBXBuildFile; fileRef = 03BEA82032A64BF799F9549B39CAB70F /* GTMSessionFetcherService.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		AAE5BA7EB2D6E9DC09F0FB3D16EB9752 /* pb_encode.h in Headers */ = {isa = PBXBuildFile; fileRef = C9DCEF095AFEFDABBEC399A62AB486D0 /* pb_encode.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		BBCD52C381618B77A5D5086AFA05B096 /* Pods-TemanDiabetsTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E78388D1614F9E79924C2C50121DA3EE /* Pods-TemanDiabetsTests-dummy.m */; };
 		C6AA2524C09B8F1C9DFA813857C56E7F /* GTMDebugThreadValidation.h in Headers */ = {isa = PBXBuildFile; fileRef = BC6C39F0EC6AB13010C3BCA8CA1BF29E /* GTMDebugThreadValidation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C9F3C20808CA9AD5C931B60A1D0FA461 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11C10A31CD5CFA3EFE266394471B152E /* Foundation.framework */; };
 		CCD6DFBDC2C48307C8F478D690D4BD6A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11C10A31CD5CFA3EFE266394471B152E /* Foundation.framework */; };
@@ -74,65 +72,57 @@
 		06AB1417B22B8DE990389AC724BEFC49 /* pb_decode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = pb_decode.h; sourceTree = "<group>"; };
 		0759C9E0C87943389F925571DADEF4C2 /* GTMNSData+zlib.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GTMNSData+zlib.h"; path = "Foundation/GTMNSData+zlib.h"; sourceTree = "<group>"; };
 		08D5F0B9DAB9BBF1DA36D0F48B699494 /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = Frameworks/FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
-		0DE295397B56BFF16031517C07815A7B /* libGTMSessionFetcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libGTMSessionFetcher.a; path = libGTMSessionFetcher.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E24426A206EE9BACBD348DB5335BEAC /* GTMNSDictionary+URLArguments.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GTMNSDictionary+URLArguments.h"; path = "Foundation/GTMNSDictionary+URLArguments.h"; sourceTree = "<group>"; };
 		1146632B9DFD898C864B95C1F957AB84 /* FirebaseAuth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAuth.framework; path = Frameworks/FirebaseAuth.framework; sourceTree = "<group>"; };
 		11C10A31CD5CFA3EFE266394471B152E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		15BA6A1E370E2EE724B4199F3B0D1286 /* nanopb.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = nanopb.xcconfig; sourceTree = "<group>"; };
+		176DD2C527D813AD2B201FAA24F146BE /* Pods-TemanDiabets.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TemanDiabets.release.xcconfig"; sourceTree = "<group>"; };
 		195E085005E246F03FB88164D45A4CE9 /* GTMSessionFetcherLogging.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionFetcherLogging.h; path = Source/GTMSessionFetcherLogging.h; sourceTree = "<group>"; };
 		1AD116FB25930C5CE2BFC27ED8A4B94A /* GTMSessionFetcher-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GTMSessionFetcher-prefix.pch"; sourceTree = "<group>"; };
-		1E770420B2FF4FAD6AAA057E885F4D76 /* Pods-TemanDiabetsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TemanDiabetsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1FFABC3A65C6976F0C97E4278236C51A /* GTMSessionFetcher-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GTMSessionFetcher-dummy.m"; sourceTree = "<group>"; };
-		23E0ABA4D49FC51F47E453F61D43BB1C /* Pods-TemanDiabetsTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TemanDiabetsTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		252F79D2C1294736C688CF42DFCA99F0 /* pb_common.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = pb_common.h; sourceTree = "<group>"; };
 		2937EBFC07CAED237BD7367372F695F4 /* nanopb-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "nanopb-dummy.m"; sourceTree = "<group>"; };
 		2F7988D1DA27B5EB90EA34600805E56A /* GTMSessionFetcher.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GTMSessionFetcher.xcconfig; sourceTree = "<group>"; };
 		31078BCA184B1B31A6C0BA8CF68CF211 /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = Frameworks/FirebaseCore.framework; sourceTree = "<group>"; };
-		31838080FB04B259B02B465BB9193DBA /* Pods-TemanDiabetsTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TemanDiabetsTests-frameworks.sh"; sourceTree = "<group>"; };
-		35ECF4D6C6B42BD3081937140C8B78E5 /* Pods-TemanDiabetsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TemanDiabetsTests.release.xcconfig"; sourceTree = "<group>"; };
-		3AC3FE04638506FB9264C8A55C568FFB /* Pods-TemanDiabets-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TemanDiabets-resources.sh"; sourceTree = "<group>"; };
 		3CA58E54E800EBFCB55F2CB44D7AA459 /* FirebaseNanoPB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseNanoPB.framework; path = Frameworks/FirebaseNanoPB.framework; sourceTree = "<group>"; };
 		3D5ED74F159937EFFE3F055D98E0D3BD /* GTMNSString+URLArguments.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "GTMNSString+URLArguments.m"; path = "Foundation/GTMNSString+URLArguments.m"; sourceTree = "<group>"; };
 		42548EC1312FE6AC1EF402B748E2D7C4 /* GoogleToolboxForMac-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "GoogleToolboxForMac-dummy.m"; sourceTree = "<group>"; };
 		4D7556BF939072913671BF2694D28D84 /* GTMDebugSelectorValidation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMDebugSelectorValidation.h; path = DebugUtils/GTMDebugSelectorValidation.h; sourceTree = "<group>"; };
 		4E7C941C3F9F4BA2CF73C2F38549CDA2 /* GTMSessionFetcherService.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionFetcherService.m; path = Source/GTMSessionFetcherService.m; sourceTree = "<group>"; };
+		4FE85B7667EB57C0D7F67074CF2C0855 /* Pods-TemanDiabets-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TemanDiabets-resources.sh"; sourceTree = "<group>"; };
+		525612164C545C7BA0F1217F4DB95DCB /* Pods-TemanDiabets.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TemanDiabets.debug.xcconfig"; sourceTree = "<group>"; };
 		52F7A261F42A1ADED325CFF0D87163F6 /* pb.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = pb.h; sourceTree = "<group>"; };
 		57A7223FCDEB1871A68083603D9EA8F3 /* GTMNSDictionary+URLArguments.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "GTMNSDictionary+URLArguments.m"; path = "Foundation/GTMNSDictionary+URLArguments.m"; sourceTree = "<group>"; };
 		592F34C66D594AB1BAC4EDDB1A6F4077 /* Firebase.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = Core/Sources/Firebase.h; sourceTree = "<group>"; };
+		5E04887DD538D1B4833FB2DA83283CDE /* libnanopb.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libnanopb.a; path = libnanopb.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		6339D9058BF57EC774F86A87B9D9DCB4 /* GTMNSData+zlib.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "GTMNSData+zlib.m"; path = "Foundation/GTMNSData+zlib.m"; sourceTree = "<group>"; };
 		6660916104F5C95824FE4A0CCA9C4BB0 /* GoogleToolboxForMac-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "GoogleToolboxForMac-prefix.pch"; sourceTree = "<group>"; };
-		6CBD71F329E2A709EBC9AA04437669F7 /* Pods-TemanDiabets-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TemanDiabets-acknowledgements.markdown"; sourceTree = "<group>"; };
-		6D54FF1055208CFC766DD0EECE6DBC2E /* libGoogleToolboxForMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libGoogleToolboxForMac.a; path = libGoogleToolboxForMac.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6CE4E9F02E1954BF8BBFD87C322AA859 /* Pods-TemanDiabets-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TemanDiabets-frameworks.sh"; sourceTree = "<group>"; };
 		7199D8E73E3379E69EA97A301B755547 /* FirebaseInstanceID.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstanceID.framework; path = Frameworks/FirebaseInstanceID.framework; sourceTree = "<group>"; };
-		71F98F61287024FE16EDA76623B47087 /* libnanopb.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libnanopb.a; path = libnanopb.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		766B39FE3E4AC3BE7686C3F91A73183B /* libPods-TemanDiabets.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-TemanDiabets.a"; path = "libPods-TemanDiabets.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C1075CC1D21234C0CAB361C31C73AC8 /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = Frameworks/FirebaseAnalytics.framework; sourceTree = "<group>"; };
-		7C65D123ADB7C2599D980D8B68EF2C0F /* Pods-TemanDiabets-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TemanDiabets-acknowledgements.plist"; sourceTree = "<group>"; };
 		7D42A2D25C087687BCCE88EA99D43214 /* GTMNSString+URLArguments.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "GTMNSString+URLArguments.h"; path = "Foundation/GTMNSString+URLArguments.h"; sourceTree = "<group>"; };
+		823C07E2A1EEBFFD1E6E2BB508372C3B /* libGoogleToolboxForMac.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libGoogleToolboxForMac.a; path = libGoogleToolboxForMac.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8610566855E870714C1FDFDE6BCB8798 /* GTMSessionFetcherLogging.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionFetcherLogging.m; path = Source/GTMSessionFetcherLogging.m; sourceTree = "<group>"; };
 		8652A8CEBC684958C05FC1D574567C16 /* GTMSessionUploadFetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionUploadFetcher.h; path = Source/GTMSessionUploadFetcher.h; sourceTree = "<group>"; };
+		8C8BBD4577EB63B9CC18926147753D6F /* libPods-TemanDiabets.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-TemanDiabets.a"; path = "libPods-TemanDiabets.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		93F131B13907571DE9771212E8F75143 /* pb_common.c */ = {isa = PBXFileReference; includeInIndex = 1; path = pb_common.c; sourceTree = "<group>"; };
 		94519185EB06F793E52FFFDB0724AC1C /* pb_encode.c */ = {isa = PBXFileReference; includeInIndex = 1; path = pb_encode.c; sourceTree = "<group>"; };
+		985CDC514B4D064F6CAABAE04C0226A8 /* libGTMSessionFetcher.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libGTMSessionFetcher.a; path = libGTMSessionFetcher.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BAAB37AF4ACE221515B06D4B00708F9 /* pb_decode.c */ = {isa = PBXFileReference; includeInIndex = 1; path = pb_decode.c; sourceTree = "<group>"; };
-		AF5BB96EC39F8E22BE25B197276FEFF0 /* Pods-TemanDiabets-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TemanDiabets-frameworks.sh"; sourceTree = "<group>"; };
 		AF705943E43A03157B70B77A0ECB5882 /* GoogleToolboxForMac.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = GoogleToolboxForMac.xcconfig; sourceTree = "<group>"; };
 		BC6C39F0EC6AB13010C3BCA8CA1BF29E /* GTMDebugThreadValidation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMDebugThreadValidation.h; path = DebugUtils/GTMDebugThreadValidation.h; sourceTree = "<group>"; };
 		BD524445D10CB1E5BE9F5E20F357EF23 /* GTMSessionFetcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionFetcher.m; path = Source/GTMSessionFetcher.m; sourceTree = "<group>"; };
 		C085E02FF89804F50ADDA04F5A586E94 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
-		C0F7398CB5EC8B7EF3FB4BC708190B2E /* Pods-TemanDiabetsTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-TemanDiabetsTests-resources.sh"; sourceTree = "<group>"; };
 		C3AC2ABE6FD4338D3759218450BB36F5 /* GTMDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		C4853804E8FC0E95D5A7EE29501E9186 /* GTMSessionFetcher.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMSessionFetcher.h; path = Source/GTMSessionFetcher.h; sourceTree = "<group>"; };
-		C6773522CCA9C3E8AC1C0AC587B12223 /* Pods-TemanDiabetsTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TemanDiabetsTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		C5D82F16BF554525EBEF53DF86F95FBA /* Pods-TemanDiabets-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-TemanDiabets-acknowledgements.plist"; sourceTree = "<group>"; };
 		C7FB105E251C30D966E22DEF86CE99BC /* GTMSessionUploadFetcher.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = GTMSessionUploadFetcher.m; path = Source/GTMSessionUploadFetcher.m; sourceTree = "<group>"; };
 		C9DCEF095AFEFDABBEC399A62AB486D0 /* pb_encode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = pb_encode.h; sourceTree = "<group>"; };
-		D78F3ECBA0945CDA9BE314FABEB1BE46 /* Pods-TemanDiabets-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TemanDiabets-dummy.m"; sourceTree = "<group>"; };
-		E1155A8616723A49D0DB8661F1608345 /* Pods-TemanDiabets.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TemanDiabets.debug.xcconfig"; sourceTree = "<group>"; };
+		D2300F1D1F60B74EF261F90B19D2C1DD /* Pods-TemanDiabets-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TemanDiabets-dummy.m"; sourceTree = "<group>"; };
 		E2C3A87443D176EB7498BFE14393E0D4 /* nanopb-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "nanopb-prefix.pch"; sourceTree = "<group>"; };
 		E78118D1E739BEC60ADF095BA31DE8C0 /* GTMMethodCheck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = GTMMethodCheck.h; path = DebugUtils/GTMMethodCheck.h; sourceTree = "<group>"; };
-		E78388D1614F9E79924C2C50121DA3EE /* Pods-TemanDiabetsTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-TemanDiabetsTests-dummy.m"; sourceTree = "<group>"; };
-		EE88007FDD0CE8AF85E7F5917045B145 /* Pods-TemanDiabets.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-TemanDiabets.release.xcconfig"; sourceTree = "<group>"; };
-		FE3BFFA1AFAF5557D0DF622E1998515A /* libPods-TemanDiabetsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-TemanDiabetsTests.a"; path = "libPods-TemanDiabetsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8EBF2AC4C76B8616E71A8D54425997E /* Pods-TemanDiabets-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-TemanDiabets-acknowledgements.markdown"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,14 +148,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2A71EFF37214BF8F060F8710E7358A8 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A56CDDFCF412E05346B7A10AEA0E205E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				6E03051696CD0D6D2FDFAB0D1F068488 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,30 +184,6 @@
 				3D5ED74F159937EFFE3F055D98E0D3BD /* GTMNSString+URLArguments.m */,
 			);
 			name = "NSString+URLArguments";
-			sourceTree = "<group>";
-		};
-		1FFC1442D3BE1E2790CD31023D19EB69 /* Pods-TemanDiabetsTests */ = {
-			isa = PBXGroup;
-			children = (
-				C6773522CCA9C3E8AC1C0AC587B12223 /* Pods-TemanDiabetsTests-acknowledgements.markdown */,
-				23E0ABA4D49FC51F47E453F61D43BB1C /* Pods-TemanDiabetsTests-acknowledgements.plist */,
-				E78388D1614F9E79924C2C50121DA3EE /* Pods-TemanDiabetsTests-dummy.m */,
-				31838080FB04B259B02B465BB9193DBA /* Pods-TemanDiabetsTests-frameworks.sh */,
-				C0F7398CB5EC8B7EF3FB4BC708190B2E /* Pods-TemanDiabetsTests-resources.sh */,
-				1E770420B2FF4FAD6AAA057E885F4D76 /* Pods-TemanDiabetsTests.debug.xcconfig */,
-				35ECF4D6C6B42BD3081937140C8B78E5 /* Pods-TemanDiabetsTests.release.xcconfig */,
-			);
-			name = "Pods-TemanDiabetsTests";
-			path = "Target Support Files/Pods-TemanDiabetsTests";
-			sourceTree = "<group>";
-		};
-		2C1C9F3A78302C83F78A8614D724E211 /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				E69BF584BFEE761D21ED03E6133F5A4A /* Pods-TemanDiabets */,
-				1FFC1442D3BE1E2790CD31023D19EB69 /* Pods-TemanDiabetsTests */,
-			);
-			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
 		3A4DB4C2A0147F1A08873B1FB34C6256 /* decode */ = {
@@ -284,14 +242,29 @@
 			name = Defines;
 			sourceTree = "<group>";
 		};
+		7C5BDDEE93A51FDECCEC200AF20FFBD1 /* Pods-TemanDiabets */ = {
+			isa = PBXGroup;
+			children = (
+				F8EBF2AC4C76B8616E71A8D54425997E /* Pods-TemanDiabets-acknowledgements.markdown */,
+				C5D82F16BF554525EBEF53DF86F95FBA /* Pods-TemanDiabets-acknowledgements.plist */,
+				D2300F1D1F60B74EF261F90B19D2C1DD /* Pods-TemanDiabets-dummy.m */,
+				6CE4E9F02E1954BF8BBFD87C322AA859 /* Pods-TemanDiabets-frameworks.sh */,
+				4FE85B7667EB57C0D7F67074CF2C0855 /* Pods-TemanDiabets-resources.sh */,
+				525612164C545C7BA0F1217F4DB95DCB /* Pods-TemanDiabets.debug.xcconfig */,
+				176DD2C527D813AD2B201FAA24F146BE /* Pods-TemanDiabets.release.xcconfig */,
+			);
+			name = "Pods-TemanDiabets";
+			path = "Target Support Files/Pods-TemanDiabets";
+			sourceTree = "<group>";
+		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				433CD3331B6C3787F473C941B61FC68F /* Frameworks */,
 				4BC11F7341FB5195FD397343D90A13CD /* Pods */,
-				DBA9E4A662B3C7CEA5CAE90A450C8171 /* Products */,
-				2C1C9F3A78302C83F78A8614D724E211 /* Targets Support Files */,
+				EC825924B10498ECA2022625D586EB70 /* Products */,
+				E0031BF7938383353C22D657D951A539 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -417,18 +390,6 @@
 			path = FirebaseCore;
 			sourceTree = "<group>";
 		};
-		DBA9E4A662B3C7CEA5CAE90A450C8171 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6D54FF1055208CFC766DD0EECE6DBC2E /* libGoogleToolboxForMac.a */,
-				0DE295397B56BFF16031517C07815A7B /* libGTMSessionFetcher.a */,
-				71F98F61287024FE16EDA76623B47087 /* libnanopb.a */,
-				766B39FE3E4AC3BE7686C3F91A73183B /* libPods-TemanDiabets.a */,
-				FE3BFFA1AFAF5557D0DF622E1998515A /* libPods-TemanDiabetsTests.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		DC4224E6E9F7759012D374B069BEE3D3 /* DebugUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -461,19 +422,12 @@
 			path = "../Target Support Files/nanopb";
 			sourceTree = "<group>";
 		};
-		E69BF584BFEE761D21ED03E6133F5A4A /* Pods-TemanDiabets */ = {
+		E0031BF7938383353C22D657D951A539 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				6CBD71F329E2A709EBC9AA04437669F7 /* Pods-TemanDiabets-acknowledgements.markdown */,
-				7C65D123ADB7C2599D980D8B68EF2C0F /* Pods-TemanDiabets-acknowledgements.plist */,
-				D78F3ECBA0945CDA9BE314FABEB1BE46 /* Pods-TemanDiabets-dummy.m */,
-				AF5BB96EC39F8E22BE25B197276FEFF0 /* Pods-TemanDiabets-frameworks.sh */,
-				3AC3FE04638506FB9264C8A55C568FFB /* Pods-TemanDiabets-resources.sh */,
-				E1155A8616723A49D0DB8661F1608345 /* Pods-TemanDiabets.debug.xcconfig */,
-				EE88007FDD0CE8AF85E7F5917045B145 /* Pods-TemanDiabets.release.xcconfig */,
+				7C5BDDEE93A51FDECCEC200AF20FFBD1 /* Pods-TemanDiabets */,
 			);
-			name = "Pods-TemanDiabets";
-			path = "Target Support Files/Pods-TemanDiabets";
+			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
 		EAD3F5AABCD3815C437FBE971C68EAA0 /* Firebase */ = {
@@ -483,6 +437,17 @@
 			);
 			name = Firebase;
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		EC825924B10498ECA2022625D586EB70 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				823C07E2A1EEBFFD1E6E2BB508372C3B /* libGoogleToolboxForMac.a */,
+				985CDC514B4D064F6CAABAE04C0226A8 /* libGTMSessionFetcher.a */,
+				5E04887DD538D1B4833FB2DA83283CDE /* libnanopb.a */,
+				8C8BBD4577EB63B9CC18926147753D6F /* libPods-TemanDiabets.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		ED0BC24316B099BCF52D8FEA2DEEDE29 /* FirebaseAuth */ = {
@@ -552,22 +517,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		4A79ED656653143C7FB9A5ACCF6F4D42 /* Pods-TemanDiabetsTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DC63F5CFF32D3C160482AEA9B75DAD8C /* Build configuration list for PBXNativeTarget "Pods-TemanDiabetsTests" */;
-			buildPhases = (
-				F80AAA64D10ABAB71FE5F961FC831535 /* Sources */,
-				A56CDDFCF412E05346B7A10AEA0E205E /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "Pods-TemanDiabetsTests";
-			productName = "Pods-TemanDiabetsTests";
-			productReference = FE3BFFA1AFAF5557D0DF622E1998515A /* libPods-TemanDiabetsTests.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		58E7450DB13C5ECCE92D3C0DF7CF0903 /* GoogleToolboxForMac */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26AE791F404F3732C3335D0EFE25E20A /* Build configuration list for PBXNativeTarget "GoogleToolboxForMac" */;
@@ -582,7 +531,7 @@
 			);
 			name = GoogleToolboxForMac;
 			productName = GoogleToolboxForMac;
-			productReference = 6D54FF1055208CFC766DD0EECE6DBC2E /* libGoogleToolboxForMac.a */;
+			productReference = 823C07E2A1EEBFFD1E6E2BB508372C3B /* libGoogleToolboxForMac.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		9903A0C18D19C074451E24DC4BEFB76B /* Pods-TemanDiabets */ = {
@@ -601,7 +550,7 @@
 			);
 			name = "Pods-TemanDiabets";
 			productName = "Pods-TemanDiabets";
-			productReference = 766B39FE3E4AC3BE7686C3F91A73183B /* libPods-TemanDiabets.a */;
+			productReference = 8C8BBD4577EB63B9CC18926147753D6F /* libPods-TemanDiabets.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		CF4B35B9FC819386EB09219BC91827D7 /* nanopb */ = {
@@ -618,7 +567,7 @@
 			);
 			name = nanopb;
 			productName = nanopb;
-			productReference = 71F98F61287024FE16EDA76623B47087 /* libnanopb.a */;
+			productReference = 5E04887DD538D1B4833FB2DA83283CDE /* libnanopb.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		DE868725B18AE240E550C5515AE66BC4 /* GTMSessionFetcher */ = {
@@ -635,7 +584,7 @@
 			);
 			name = GTMSessionFetcher;
 			productName = GTMSessionFetcher;
-			productReference = 0DE295397B56BFF16031517C07815A7B /* libGTMSessionFetcher.a */;
+			productReference = 985CDC514B4D064F6CAABAE04C0226A8 /* libGTMSessionFetcher.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -655,7 +604,7 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = DBA9E4A662B3C7CEA5CAE90A450C8171 /* Products */;
+			productRefGroup = EC825924B10498ECA2022625D586EB70 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -663,7 +612,6 @@
 				DE868725B18AE240E550C5515AE66BC4 /* GTMSessionFetcher */,
 				CF4B35B9FC819386EB09219BC91827D7 /* nanopb */,
 				9903A0C18D19C074451E24DC4BEFB76B /* Pods-TemanDiabets */,
-				4A79ED656653143C7FB9A5ACCF6F4D42 /* Pods-TemanDiabetsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -697,14 +645,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F4E292DFB1A41DC105A081DD1CB9DC4 /* Pods-TemanDiabets-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F80AAA64D10ABAB71FE5F961FC831535 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BBCD52C381618B77A5D5086AFA05B096 /* Pods-TemanDiabetsTests-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,7 +685,7 @@
 /* Begin XCBuildConfiguration section */
 		06CA612D3BB4F5BA5679F155538555CC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E1155A8616723A49D0DB8661F1608345 /* Pods-TemanDiabets.debug.xcconfig */;
+			baseConfigurationReference = 525612164C545C7BA0F1217F4DB95DCB /* Pods-TemanDiabets.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -887,27 +827,6 @@
 			};
 			name = Release;
 		};
-		7D04551371058048935B21014C9266CB /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35ECF4D6C6B42BD3081937140C8B78E5 /* Pods-TemanDiabetsTests.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		9416A93029CCF0C6E01838DACB108DA2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 15BA6A1E370E2EE724B4199F3B0D1286 /* nanopb.xcconfig */;
@@ -954,7 +873,7 @@
 		};
 		A8833E006B80C548FD41444A177B909D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE88007FDD0CE8AF85E7F5917045B145 /* Pods-TemanDiabets.release.xcconfig */;
+			baseConfigurationReference = 176DD2C527D813AD2B201FAA24F146BE /* Pods-TemanDiabets.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -972,26 +891,6 @@
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
-		};
-		C3B3F13E6089D01F2441D5CDFD2ABB54 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E770420B2FF4FAD6AAA057E885F4D76 /* Pods-TemanDiabetsTests.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
 		};
 		E2BF6D6731C31DE69900B7B24E6F0445 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1121,15 +1020,6 @@
 			buildConfigurations = (
 				7052D1FE115811C67528432CBAAB7AC2 /* Debug */,
 				9416A93029CCF0C6E01838DACB108DA2 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DC63F5CFF32D3C160482AEA9B75DAD8C /* Build configuration list for PBXNativeTarget "Pods-TemanDiabetsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				C3B3F13E6089D01F2441D5CDFD2ABB54 /* Debug */,
-				7D04551371058048935B21014C9266CB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

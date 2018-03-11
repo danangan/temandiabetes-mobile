@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -13,6 +14,9 @@
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* TemanDiabetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TemanDiabetsTests.m */; };
 		05A5D838DEC04F3694DDF368 /* Montserrat-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5E1782085D424B95A98D1BCF /* Montserrat-Light.otf */; };
+		060B0D28204AC9F60007560E /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 063386AB204A56BE00AE9BA2 /* libRNFirebase.a */; };
+		060B0D29204ACA050007560E /* libPods-TemanDiabetsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 060B0D2A204ACA050007560E /* libPods-TemanDiabetsTests.a */; };
+		060B0D2B204ACA2C0007560E /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06133EC52037765400147635 /* libReactNativeConfig.a */; };
 		062E28BA2039A964009BD1CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 062E28B92039A963009BD1CD /* GoogleService-Info.plist */; };
 		0645FF9E2039AF290057D8F0 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 062E28B82039A943009BD1CD /* libRNGoogleSignin.a */; };
 		068240E42039B74E00F59CEE /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 068240DF2039B74B00F59CEE /* GoogleSignInDependencies.framework */; };
@@ -32,7 +36,6 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		1E56D74347124FCCA8E22DEB /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74C2EE2A4F3647B5BFAA5F1D /* Montserrat-Regular.otf */; };
 		256AC2551A8E426698116643 /* MontserratAlternates-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = A733DC5E6F9244F38DE6CC0E /* MontserratAlternates-Thin.otf */; };
-		291D283191334E48AB075F48 /* libPods-TemanDiabets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE5DCDA524A990F9C066E5D0 /* libPods-TemanDiabets.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -51,8 +54,7 @@
 		51E727F0A0B245DCBFF81E7F /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAAB97CE77D4F9B8BA7B0C0 /* AddressBook.framework */; };
 		5791453749C8433D8B1FE3FD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B4817BBED354F2AB3107AC8 /* libz.tbd */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		69392DEECD37482990402E29 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29A427306EEF49D589B9AA4C /* libRNFirebase.a */; };
-		78FB15B3EF0C4EA6B8FC4161 /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C5B4326C0B5A4162B293B7EC /* libReactNativeConfig.a */; };
+		60ED06C9FEE3F0DF3EDA8E8A /* libPods-TemanDiabets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C6D8B9F047895F04FF2FAA /* libPods-TemanDiabets.a */; };
 		7A78B36F59034F06BA40309E /* Montserrat-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = EA425EAFDE784D0DB2A1D02B /* Montserrat-ExtraBold.otf */; };
 		7BF5D5B3C6EE4C09B1675922 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6654B1C9A93440AC9764050B /* Montserrat-Bold.otf */; };
 		7FF3BEEDE4374E7197370AEC /* MontserratAlternates-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 44518EDC3C2845D0A93C27DD /* MontserratAlternates-ExtraLight.otf */; };
@@ -65,12 +67,10 @@
 		D642E7055F1D44EB8473B27E /* MontserratAlternates-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 98553CC3D6124064B23F6AC4 /* MontserratAlternates-SemiBold.otf */; };
 		D8B7EFD775BB411FB8C5B444 /* MontserratAlternates-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9C498ED196AA404693274C80 /* MontserratAlternates-Light.otf */; };
 		E27DDEE63D744B6BA51F37BB /* Montserrat-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AFE2534FA2914B5D8D1DDB99 /* Montserrat-Black.otf */; };
-		E7FE9302D9A3E84EC6255B5B /* libPods-TemanDiabetsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 30C4E4964C9693A19510816D /* libPods-TemanDiabetsTests.a */; };
 		EC29049C1C8748EE94B3204A /* Montserrat-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9F78FAD1588E483C843D562E /* Montserrat-Thin.otf */; };
 		F09EE970EA884DD6AF9C69B9 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1568666E9F9747B5BBC2F776 /* SafariServices.framework */; };
 		F883C34299DB45C0B9AA3133 /* MontserratAlternates-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 86EA25CB7D2744CFB1A99246 /* MontserratAlternates-Regular.otf */; };
 		FA3BE64DAF3B4FEF84BA291F /* Montserrat-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 189FFC1EE1594C82B73F15BA /* Montserrat-ExtraLight.otf */; };
-		1ED0F6CB6EF247BCAE7BE837 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89C59F4758D646E082FD7F48 /* libRNFirebase.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,6 +129,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
 			remoteInfo = RNGoogleSignin;
+		};
+		063386AA204A56BE00AE9BA2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6CB13FFE5078453695F98135 /* RNFirebase.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFirebase;
 		};
 		06A10256202C2DA100FFECEC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -192,13 +199,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
 			remoteInfo = ReactNativeNavigation;
-		};
-		06A447CA203EDF82001FF33D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DC53A42B15C7417EB7E79CC5 /* RNFirebase.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 134814201AA4EA6300B7C361;
-			remoteInfo = RNFirebase;
 		};
 		139105C01AF99BAD00B5F7CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -388,6 +388,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* TemanDiabetsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TemanDiabetsTests.m; sourceTree = "<group>"; };
 		02DF43F987A745EFBC7DF5AA /* Montserrat-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Medium.otf"; sourceTree = "<group>"; };
+		060B0D2A204ACA050007560E /* libPods-TemanDiabetsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-TemanDiabetsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		062E28B92039A963009BD1CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		068240DF2039B74B00F59CEE /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignInDependencies.framework; sourceTree = "<group>"; };
 		068240E02039B74C00F59CEE /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
@@ -395,7 +396,6 @@
 		068240E22039B74D00F59CEE /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
 		068240E32039B74D00F59CEE /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = "<group>"; };
 		06A1022E202C2DA100FFECEC /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
-		088CE3D46FE7912B519FFACA /* Pods-TemanDiabetsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemanDiabetsTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TemanDiabetsTests/Pods-TemanDiabetsTests.debug.xcconfig"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* TemanDiabets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TemanDiabets.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -422,11 +422,13 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		638346BA2BC34DEABE995DD3 /* MontserratAlternates-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Medium.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Medium.otf"; sourceTree = "<group>"; };
 		6654B1C9A93440AC9764050B /* Montserrat-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Bold.otf"; sourceTree = "<group>"; };
+		6CB13FFE5078453695F98135 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		74C2EE2A4F3647B5BFAA5F1D /* Montserrat-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8442E177E15C458BA7236114 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		86EA25CB7D2744CFB1A99246 /* MontserratAlternates-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Regular.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Regular.otf"; sourceTree = "<group>"; };
+		89C59F4758D646E082FD7F48 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		98553CC3D6124064B23F6AC4 /* MontserratAlternates-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-SemiBold.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-SemiBold.otf"; sourceTree = "<group>"; };
 		9C498ED196AA404693274C80 /* MontserratAlternates-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Light.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Light.otf"; sourceTree = "<group>"; };
 		9F78FAD1588E483C843D562E /* Montserrat-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Thin.otf"; sourceTree = "<group>"; };
@@ -434,13 +436,14 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		AFE2534FA2914B5D8D1DDB99 /* Montserrat-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Black.otf"; sourceTree = "<group>"; };
 		BAAAB97CE77D4F9B8BA7B0C0 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		C2C6D8B9F047895F04FF2FAA /* libPods-TemanDiabets.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TemanDiabets.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5B4326C0B5A4162B293B7EC /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		C6F6DE7C3ECF4092AE48C237 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
 		DB562186A91D4DD9B413514A /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		DF438524807D46BAABEA4065 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
+		E7BFF8C07C6008382E6E9F7C /* Pods-TemanDiabets.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemanDiabets.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TemanDiabets/Pods-TemanDiabets.debug.xcconfig"; sourceTree = "<group>"; };
 		EA425EAFDE784D0DB2A1D02B /* Montserrat-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-ExtraBold.otf"; sourceTree = "<group>"; };
-		6CB13FFE5078453695F98135 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; name = "RNFirebase.xcodeproj"; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		89C59F4758D646E082FD7F48 /* libRNFirebase.a */ = {isa = PBXFileReference; name = "libRNFirebase.a"; path = "libRNFirebase.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		F297AF071B485B8EFA91689F /* Pods-TemanDiabets.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemanDiabets.release.xcconfig"; path = "Pods/Target Support Files/Pods-TemanDiabets/Pods-TemanDiabets.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -449,7 +452,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
-				E7FE9302D9A3E84EC6255B5B /* libPods-TemanDiabetsTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +459,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				060B0D2B204ACA2C0007560E /* libReactNativeConfig.a in Frameworks */,
+				060B0D29204ACA050007560E /* libPods-TemanDiabetsTests.a in Frameworks */,
+				060B0D28204AC9F60007560E /* libRNFirebase.a in Frameworks */,
 				0645FF9E2039AF290057D8F0 /* libRNGoogleSignin.a in Frameworks */,
 				06A10269202C2E0700FFECEC /* libReactNativeNavigation.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -476,14 +481,11 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				068240E42039B74E00F59CEE /* GoogleSignInDependencies.framework in Frameworks */,
 				068240E82039B74E00F59CEE /* GoogleAppUtilities.framework in Frameworks */,
-				78FB15B3EF0C4EA6B8FC4161 /* libReactNativeConfig.a in Frameworks */,
-				69392DEECD37482990402E29 /* libRNFirebase.a in Frameworks */,
-				291D283191334E48AB075F48 /* libPods-TemanDiabets.a in Frameworks */,
 				5791453749C8433D8B1FE3FD /* libz.tbd in Frameworks */,
 				F09EE970EA884DD6AF9C69B9 /* SafariServices.framework in Frameworks */,
 				476CF35F0E39420C88ACB4CD /* SystemConfiguration.framework in Frameworks */,
 				51E727F0A0B245DCBFF81E7F /* AddressBook.framework in Frameworks */,
-				1ED0F6CB6EF247BCAE7BE837 /* libRNFirebase.a in Frameworks */,
+				60ED06C9FEE3F0DF3EDA8E8A /* libPods-TemanDiabets.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,8 +577,8 @@
 			isa = PBXGroup;
 			children = (
 				C5B4326C0B5A4162B293B7EC /* libReactNativeConfig.a */,
-				29A427306EEF49D589B9AA4C /* libRNFirebase.a */,
 				4286D930586C444E9FAB5D88 /* libRNGoogleSignin.a */,
+				89C59F4758D646E082FD7F48 /* libRNFirebase.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -597,18 +599,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		06A1022F202C2DA100FFECEC /* Products */ = {
+		063386A7204A56BE00AE9BA2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				06A10268202C2DA100FFECEC /* libReactNativeNavigation.a */,
+				063386AB204A56BE00AE9BA2 /* libRNFirebase.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		06A447C7203EDF82001FF33D /* Products */ = {
+		06A1022F202C2DA100FFECEC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				06A447CB203EDF82001FF33D /* libRNFirebase.a */,
+				06A10268202C2DA100FFECEC /* libReactNativeNavigation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -699,18 +701,19 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				060B0D2A204ACA050007560E /* libPods-TemanDiabetsTests.a */,
 				068240E32039B74D00F59CEE /* GoogleAppUtilities.framework */,
 				068240E02039B74C00F59CEE /* GoogleSignIn.bundle */,
 				068240E22039B74D00F59CEE /* GoogleSignIn.framework */,
 				068240DF2039B74B00F59CEE /* GoogleSignInDependencies.framework */,
 				068240E12039B74C00F59CEE /* GoogleSymbolUtilities.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				EE5DCDA524A990F9C066E5D0 /* libPods-TemanDiabets.a */,
 				30C4E4964C9693A19510816D /* libPods-TemanDiabetsTests.a */,
 				1B4817BBED354F2AB3107AC8 /* libz.tbd */,
 				1568666E9F9747B5BBC2F776 /* SafariServices.framework */,
 				DB562186A91D4DD9B413514A /* SystemConfiguration.framework */,
 				BAAAB97CE77D4F9B8BA7B0C0 /* AddressBook.framework */,
+				C2C6D8B9F047895F04FF2FAA /* libPods-TemanDiabets.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -805,10 +808,8 @@
 		CB131AD6070E61B66E8F5F9B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				C4882F8C0073A84795E2B82E /* Pods-TemanDiabets.debug.xcconfig */,
-				E7CFE923B10D99FAA6539B0D /* Pods-TemanDiabets.release.xcconfig */,
-				088CE3D46FE7912B519FFACA /* Pods-TemanDiabetsTests.debug.xcconfig */,
-				3CE1CFDD2748D199C115210C /* Pods-TemanDiabetsTests.release.xcconfig */,
+				E7BFF8C07C6008382E6E9F7C /* Pods-TemanDiabets.debug.xcconfig */,
+				F297AF071B485B8EFA91689F /* Pods-TemanDiabets.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -820,12 +821,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "TemanDiabetsTests" */;
 			buildPhases = (
-				FEC1813662D3CF77EE95A72E /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				08EAFD383937B9C05A90662D /* [CP] Embed Pods Frameworks */,
-				42665ABB0DFC96696E00B5C9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -987,8 +985,10 @@
 					ProjectRef = 06A1022E202C2DA100FFECEC /* ReactNativeNavigation.xcodeproj */;
 				},
 				{
-					ProductGroup = 06A447C7203EDF82001FF33D /* Products */;
-					ProjectRef = DC53A42B15C7417EB7E79CC5 /* RNFirebase.xcodeproj */;
+					ProductGroup = 063386A7204A56BE00AE9BA2 /* Products */;
+					ProjectRef = 6CB13FFE5078453695F98135 /* RNFirebase.xcodeproj */;
+				},
+				{
 					ProductGroup = 062E28B42039A943009BD1CD /* Products */;
 					ProjectRef = DF438524807D46BAABEA4065 /* RNGoogleSignin.xcodeproj */;
 				},
@@ -1053,6 +1053,13 @@
 			remoteRef = 062E28B72039A943009BD1CD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		063386AB204A56BE00AE9BA2 /* libRNFirebase.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFirebase.a;
+			remoteRef = 063386AA204A56BE00AE9BA2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		06A10257202C2DA100FFECEC /* libjsinspector.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1114,13 +1121,6 @@
 			fileType = archive.ar;
 			path = libReactNativeNavigation.a;
 			remoteRef = 06A10267202C2DA100FFECEC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		06A447CB203EDF82001FF33D /* libRNFirebase.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNFirebase.a;
-			remoteRef = 06A447CA203EDF82001FF33D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		139105C11AF99BAD00B5F7CC /* libRCTSettings.a */ = {
@@ -1362,21 +1362,6 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		08EAFD383937B9C05A90662D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TemanDiabetsTests/Pods-TemanDiabetsTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1390,21 +1375,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		42665ABB0DFC96696E00B5C9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TemanDiabetsTests/Pods-TemanDiabetsTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		AEFF22E3E3F92346B4D1A237 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1448,24 +1418,6 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-TemanDiabets-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FEC1813662D3CF77EE95A72E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TemanDiabetsTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1539,7 +1491,6 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 088CE3D46FE7912B519FFACA /* Pods-TemanDiabetsTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1578,7 +1529,6 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CE1CFDD2748D199C115210C /* Pods-TemanDiabetsTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -1614,7 +1564,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4882F8C0073A84795E2B82E /* Pods-TemanDiabets.debug.xcconfig */;
+			baseConfigurationReference = E7BFF8C07C6008382E6E9F7C /* Pods-TemanDiabets.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1622,6 +1572,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1647,13 +1603,19 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E7CFE923B10D99FAA6539B0D /* Pods-TemanDiabets.release.xcconfig */;
+			baseConfigurationReference = F297AF071B485B8EFA91689F /* Pods-TemanDiabets.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"COCOAPODS=1",
+					"PB_FIELD_32BIT=1",
+					"PB_NO_PACKED_STRUCTS=1",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
