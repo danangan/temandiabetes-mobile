@@ -18,12 +18,19 @@ class TabFeatured extends Component {
 		};
 	}
 
-	onBookmark = () => {
-		
+	onBookmark = () => {}
+
+	onPressDetail = () => {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.FeaturedDetail',
+			navigatorStyle: {
+				navBarHidden: true
+			}
+		});
 	}
 
 	renderItem = () => (
-		<TouchableOpacity onPress={() => null}>
+		<TouchableOpacity onPress={() => this.onPressDetail()}>
 			<Card>
 				<CardSection>
 					<Image
