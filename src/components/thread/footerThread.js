@@ -1,21 +1,27 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 import { CardSection } from '../card/CardSection';
 import ViewPropTypes from '../../config/ViewPropTypes';
+import BookMark from '../../assets/icons/bookmark.png';
+import Report from '../../assets/icons/flag.png';
+import Comment from '../../assets/icons/comment.png';
 
 const FooterThread = ({ containerStyle, numOfComments }) => (
 	<CardSection>
 		<View style={[styles.containerStyle, containerStyle]}>
-			<TouchableOpacity>
-				<Text>{numOfComments} Balasan</Text>
+			<TouchableOpacity style={styles.itemContainer}>
+				<Image source={Comment} style={{ width: 20, height: 20 }} />
+				<Text style={styles.titleItem}>{numOfComments} Balasan</Text>
 			</TouchableOpacity>
-			<TouchableOpacity>
-				<Text>Tandai</Text>
+			<TouchableOpacity style={styles.itemContainer}>
+				<Image source={BookMark} style={{ width: 20, height: 20 }} />
+				<Text style={styles.titleItem}>Tandai</Text>
 			</TouchableOpacity>
-			<TouchableOpacity>
-				<Text>Laporkan</Text>
+			<TouchableOpacity style={styles.itemContainer}>
+				<Image source={Report} style={{ width: 20, height: 20 }} />
+				<Text style={styles.titleItem}>Laporkan</Text>
 			</TouchableOpacity>
 		</View>
 	</CardSection>
@@ -30,10 +36,17 @@ const styles = {
 	containerStyle: {
 		flex: 1,
 		flexDirection: 'row',
-		alignItems: 'flex-start',
+		alignItems: 'center',
 		paddingHorizontal: 15,
-		justifyContent: 'space-between'
-	}
+		justifyContent: 'space-between',
+	},
+	itemContainer: {
+		flex: 1, 
+		flexDirection: 'row', 
+		justifyContent: 'space-around', 
+		alignItems: 'center'
+	},
+	titleItem: { fontSize: 12 }
 };
 
 export { FooterThread };
