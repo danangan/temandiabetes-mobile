@@ -39,7 +39,7 @@ class ModalPostComponent extends Component {
               <Text>Tambah Komentar</Text>
             </View>
         </View>
-        <View style={{ flex: 2, marginVertical: 50, borderWidth: 1, borderColor: '#000', width: '100%' }}>
+        <View style={{ flex: 2, marginVertical  : 50, borderWidth: 1, borderColor: '#000', width: '100%' }}>
           <TextInput
             placeholder="Tambahkan komen disini"
           />

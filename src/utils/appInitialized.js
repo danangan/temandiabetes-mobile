@@ -6,7 +6,7 @@ import { authToken } from '../utils/constants';
 const appInitialized = async () => {
 	const token = await AsyncStorage.getItem(authToken);
 	
-	if (token) {
+	if (!token) {
 		startApp();
 	} else {
 		mainApp();
