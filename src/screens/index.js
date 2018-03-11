@@ -20,11 +20,8 @@ import TabHistory from '../screens/input-tracker/tab-history';
 import ThreadDetails from '../screens/forum/threadDetails';
 import ModalSearch from '../screens/modalSearch';
 import ModalPostThread from '../screens/modalPostThread';
-<<<<<<< HEAD
 import ModalPostComment from '../screens/modalPostComment';
-=======
 import FeatureDetail from '../screens/forum/tab-featured/FeaturedDetail';
->>>>>>> development
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
