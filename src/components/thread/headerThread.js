@@ -42,14 +42,16 @@ const styles = StyleSheet.create({
 		color: '#b6b6b6',
 		borderRadius: 10,
 		paddingHorizontal: 5,
-		fontSize: 15
+		fontSize: 15,
+		fontFamily: 'Montserrat-Light'
 	},
 	categoryStyle: {
 		backgroundColor: '#68ba6e',
 		color: '#fff',
 		borderRadius: 10,
 		paddingHorizontal: 5,
-		fontSize: 13
+		fontSize: 13,
+		fontFamily: 'Montserrat-Light'
 	}
 });
 

@@ -46,7 +46,7 @@ const styles = {
 		justifyContent: 'space-around', 
 		alignItems: 'center'
 	},
-	titleItem: { fontSize: 12 }
+	titleItem: { fontSize: 12, fontFamily: 'Montserrat-Light' }
 };
 
 export { FooterThread };

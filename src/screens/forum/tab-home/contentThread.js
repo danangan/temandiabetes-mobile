@@ -31,9 +31,10 @@ const styles = {
 		alignItems: 'flex-start',
 		paddingHorizontal: 15
 	},
-	title: { fontSize: 22 },
+	title: { fontSize: 22, fontFamily: 'Montserrat-Light' },
 	contentText: {
-    fontSize: 14
+		fontSize: 14,
+		fontFamily: 'Montserrat-Light'
   }
 };
 
