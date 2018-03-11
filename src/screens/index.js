@@ -18,6 +18,8 @@ import TabEvent from '../screens/event/tab-event';
 import TabInputTracker from '../screens/input-tracker/tab-input-tracker';
 import TabHistory from '../screens/input-tracker/tab-history';
 import ThreadDetails from '../screens/forum/threadDetails';
+import ModalSearch from '../screens/modalSearch';
+import ModalPostThread from '../screens/modalPostThread';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
@@ -38,6 +40,8 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.TabInputTracker', () => TabInputTracker);
 	Navigation.registerComponent('TemanDiabets.TabHistory', () => TabHistory);
 	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails);
+	Navigation.registerComponent('TemanDiabets.ModalSearch', () => ModalSearch);
+	Navigation.registerComponent('TemanDiabets.ModalPostThread', () => ModalPostThread);
 }
 
 export function registerScreenVisibilityListener() {

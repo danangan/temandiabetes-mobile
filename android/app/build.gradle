@@ -144,6 +144,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-config')
     implementation(project(':react-native-firebase')) {
         transitive = false
     }
