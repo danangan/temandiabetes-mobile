@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, FlatList } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
 import { TextField, Avatar } from '../../components';
 import searchIcon from '../../assets/icons/close.png';
@@ -41,6 +42,9 @@ class ModalSearch extends React.Component {
             autoFocus
             leftIcon={Blood}
             rightIcon={searchIcon}
+            onPressRight={() => Navigation.dismissModal({
+              animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+            })}
             placeholder={'Cari post, pengguna'}
             underlineColorAndroid={'#fff'}
             sectionStyle={{

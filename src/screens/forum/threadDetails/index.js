@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
 import { CardSection } from '../../../components';
 
@@ -60,7 +61,18 @@ class ThreadDetails extends React.Component {
 									Ikuti
 								</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={{ backgroundColor: '#252c68' }}>
+							<TouchableOpacity 
+								onPress={() => Navigation.showModal({
+									screen: 'TemanDiabets.ModalPostComment',
+									title: 'Modal',
+									navigatorButtons: {
+										leftButtons: [
+											{}
+										]
+									},
+									animationType: 'slide-up'
+								})}
+								style={{ backgroundColor: '#252c68' }}>
 								<Text
 									style={{
 										fontSize: 12,

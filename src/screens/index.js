@@ -20,7 +20,11 @@ import TabHistory from '../screens/input-tracker/tab-history';
 import ThreadDetails from '../screens/forum/threadDetails';
 import ModalSearch from '../screens/modalSearch';
 import ModalPostThread from '../screens/modalPostThread';
+<<<<<<< HEAD
+import ModalPostComment from '../screens/modalPostComment';
+=======
 import FeatureDetail from '../screens/forum/tab-featured/FeaturedDetail';
+>>>>>>> development
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
@@ -43,6 +47,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails);
 	Navigation.registerComponent('TemanDiabets.ModalSearch', () => ModalSearch);
 	Navigation.registerComponent('TemanDiabets.ModalPostThread', () => ModalPostThread);
+	Navigation.registerComponent('TemanDiabets.ModalPostComment', () => ModalPostComment);
 	Navigation.registerComponent('TemanDiabets.FeaturedDetail', () => FeatureDetail);
 }
 

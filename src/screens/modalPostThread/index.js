@@ -1,9 +1,10 @@
 import React from 'react';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 
-import { View, Text, Image, TextInput } from 'react-native';
 import { TextField, Avatar } from '../../components';
-import Blood from '../../assets/icons/explorer_icon.png';
 import Closed from '../../assets/icons/close.png';
+
 
 class ModalPostThread extends React.Component {
   static navigatorStyle = {
@@ -14,18 +15,22 @@ class ModalPostThread extends React.Component {
     return (
       <View style={styles.container}>
         <View style={{ flex: 0.2, flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#ccc', justifyContent: 'flex-start', alignItems: 'center' }}>
-          <View style={{ flex: 0.5 }}>
+          <TouchableOpacity 
+            onPress={() => Navigation.dismissModal({
+              animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+            })}
+            style={{ flex: 0.5 }}>
             <Image 
               source={Closed}
               style={{ width: 25, height: 25 }}
             />
-          </View>
-          <View style={{ flex: 2, justifyContent: 'flex-start'}}>
+          </TouchableOpacity>
+          <View style={{ flex: 2, justifyContent: 'flex-start' }}>
             <Text>Tanyakan atau bagikan sesuatu</Text>
           </View>
         </View>
         <View style={{ flex: 0.5, marginVertical: 10 }}>
-          <View style={{ flexDirection: 'row', borderWidth: 1, borderColor: 'blue', justifyContent: 'flex-start', alignItems: 'center' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
             <Avatar
               avatarSize="ExtraSmall"
               imageSource='http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg'
@@ -74,12 +79,11 @@ const styles = {
     backgroundColor: '#fff', 
     justifyContent: 'flex-start', 
     alignItems: 'flex-start',
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
     borderWidth: 1,
     borderColor: '#ccc',
     elevation: 4,
-    paddingHorizontal: 20
   },
-}
+};
 
 export default ModalPostThread;
