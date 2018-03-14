@@ -52,13 +52,13 @@ class RegisterScreenFourth extends React.Component {
 
 	handleFinalRegister() {
 		const { selected } = this.state;
-		// const dataUser = {
-		// 	nama: this.props.name,
-		// 	email: this.props.email,
-		// 	password: this.props.password,
-		// 	tipeuser: this.state.selected
-		// };
-		// console.log('JALAN');
+		const dataUser = {
+			nama: this.props.name,
+			email: this.props.email,
+			password: this.props.password,
+			tipeuser: this.state.selected
+		};
+		console.log('DATA USER FINAL ', dataUser);
 		// this.props.registerAction(dataUser);
 		this.setState(
 			{
@@ -66,7 +66,8 @@ class RegisterScreenFourth extends React.Component {
 			},
 			() => {
 				if (selected !== 'ahli') {
-					mainApp();
+					// mainApp();
+					this.props.registerAction(dataUser);
 				} else {
 					this.props.navigator.resetTo({
 						screen: 'TemanDiabets.RegisterFive',

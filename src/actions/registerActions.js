@@ -13,13 +13,18 @@ const registerAction = userData => {
 	console.log('USER DATA ACTONS ', userData);
 	return dispatch => {
 		axios
-			.post(API_SIGN_UP, userData)
+			.post(API_SIGN_UP, userData, {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      })
 			.then(res => {
 				console.log('BALIKAN REGISTER ', res);
 				dispatch(registerActionSuccess(res));
 				// dispatch(putTheSipAhli(res.data.idToken));
 			})
-			.catch(error => dispatch(registerActionSuccess(error)));
+			.catch(error => {
+				console.log('ERR BRA ', error)
+				dispatch(registerActionSuccess(error));
+			});
 	};
 };
 

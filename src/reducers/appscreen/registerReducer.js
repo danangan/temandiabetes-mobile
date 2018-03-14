@@ -18,22 +18,22 @@ const registerStepOne = (state, payload) => ({
 });
 
 const registerFinalStep = (state, payload) => {
-	if (payload.response === undefined) {
-		const { currentUser, idToken, message } = payload.data;
+	if (true) {
+		// const { currentUser, idToken, message } = payload.data;
     
-    AsyncStorage.setItem(authToken, idToken);
-
-		return {
-			...state,
-			dataUser: {
-				...state.dataUser,
-				nama: currentUser.nama,
-        email: currentUser.email,
-        tipe_user: currentUser.tipe_user,
-				message,
-				status_code: 200
-			}
-		};
+    // AsyncStorage.setItem(authToken, idToken);
+		return { ...state, payload };
+		// return {
+		// 	...state,
+		// 	dataUser: {
+		// 		...state.dataUser,
+		// 		nama: currentUser.nama,
+    //     email: currentUser.email,
+    //     tipe_user: currentUser.tipe_user,
+		// 		message,
+		// 		status_code: 200
+		// 	}
+		// };
 	} else if (payload.response.status === 400) {
 		const { data } = payload.response;
 		return {
