@@ -4,7 +4,6 @@ import { GoogleSignin } from 'react-native-google-signin';
 import Config from 'react-native-config';
 import firebase from 'react-native-firebase';
 import { connect } from 'react-redux';
-import axios from 'axios';
 
 import { ButtonFacebook, ButtonGoogle, Button } from '../../components/';
 import Form from './Form';
@@ -12,9 +11,8 @@ import BorderLine from './BorderLine';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import logo from '../../assets/icons/logo.png';
-import image from '../../assets/images/background_login.jpg';
+import image from '../../assets/images/login.png';
 import { loginManual } from '../../actions/loginActions';
-import { API_SIGN_IN } from '../../utils/API';
 import { mainApp } from '../../../App';
 
 class Login extends Component {
@@ -23,9 +21,7 @@ class Login extends Component {
 		this.state = {
 			email: null,
 			password: null,
-			idToken: null,
-			currentUser: null,
-			errorHandler: null
+			shouldRedirect: false
 		};
 	}
 
@@ -33,24 +29,30 @@ class Login extends Component {
 		this.setupGoogleSignIn();
 	}
 
+	componentDidUpdate() {
+		const self = this;
+		const { status_code, message } = this.props.loginReducer;
+		if (status_code === 200 && message === 'success login' && this.state.shouldRedirect) {
+			self.setState({ shouldRedirect: false }, () => {
+				mainApp();
+			});
+		}
+	}
 	onChangeTextHandlerEmail = e => this.setState({ email: e });
 	onChangeTextHandlerPass = pass => this.setState({ password: pass });
 
-	onLogin = async () => {
+	onLogin = () => {
 		const user = {
 			email: this.state.email,
 			password: this.state.password
 		};
 
-		try {
-			const response = await axios.post(API_SIGN_IN, user);
-			if (response.data.message === 'login success') {
-				mainApp();
-			}
-		} catch (error) {
-			console.log(error);
-		}
-		// loginManual(user);
+		this.setState(
+			{
+				shouldRedirect: true
+			},
+			() => this.props.loginManual(user)
+		);
 	};
 
 	onGoogleSignIn = async () => {
@@ -117,6 +119,14 @@ class Login extends Component {
 	};
 
 	render() {
+		if (this.state.shouldRedirect) {
+			return (
+				<View style={{ flex: 1 }}>
+					<Text>Loading...</Text>
+				</View>
+			);
+		}
+
 		return (
 			<ImageBackground source={image} style={styles.containerStyle}>
 				<View style={styles.contentStyle}>
@@ -204,7 +214,7 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-	userLogin: state.loginReducer
+	loginReducer: state.loginReducer
 });
 
 const mapDispatchToProps = dispatch => ({

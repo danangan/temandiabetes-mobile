@@ -3,28 +3,29 @@ import * as ActionTypes from '../../actions/constants';
 const initialState = {
   email: null,
   password: null, 
-  idToken: null,
-  accessToken: null
+  status_code: 0,
+  message: null
+};
+
+const messages = 'success login';
+
+const onLogin = (state, payload) => {
+  console.log('DATA FROM REDUCER: ', payload);
+  return {
+    ...state,
+    message: messages,
+    status_code: 200,
+    ...payload,
+  };
 };
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.LOGIN_MANUAL:
-      return onLoginManual(state, action.payload);
+      return onLogin(state, action.payload);
     default:
       return state;
   }
-};
-
-const onLoginManual = (state, payload) => {
-  console.log('DATA FROM REDUCER: ', payload);
-  return {
-    ...state,
-    user: {
-      email: payload.email,
-      password: payload.password
-    }
-  };
 };
 
 export { loginReducer };

@@ -13,8 +13,8 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
         value={onValue.email}
         placeholder="Masukan username"
         onChangeText={email => onChangeTextHandlerEmail(email)}
-        rightIcon={require('../../assets/icons/user.png')}
-        inputStyle={[styles.inputStyle]}
+        rightIcon={require('../../assets/icons/username-dark.png')}
+        inputStyle={styles.inputStyle}
         underlineColorAndroid="rgba(0,0,0,0)"
       />
     </CardSection>
