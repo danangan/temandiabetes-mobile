@@ -12,14 +12,24 @@ const registerActionSuccess = data => ({
 const registerAction = userData => {
 	console.log('USER DATA ACTONS ', userData);
 	return dispatch => {
-		axios
-			.post(API_SIGN_UP, userData)
+			fetch(API_SIGN_UP, {
+				body: JSON.stringify(userData),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				method: 'POST'
+			})
+			.then(res => res.json())
 			.then(res => {
 				console.log('BALIKAN REGISTER ', res);
 				dispatch(registerActionSuccess(res));
 				// dispatch(putTheSipAhli(res.data.idToken));
 			})
-			.catch(error => dispatch(registerActionSuccess(error)));
+			.catch(error => {
+				console.log('ERR BRA ', error)
+				dispatch(registerActionSuccess(error));
+			});
 	};
 };
 
@@ -43,10 +53,10 @@ export const putTheSip = idToken => dispatch => {
 		})
 		.catch(error => {
 			// Handle Errors here.
-			console.log('BALIKAN AUTH FIREBASE ', error);
+			console.log('BALIKAN AUTH FIREBASE ', error.response);
 			const errorCode = error.code;
 			const errorMessage = error.message;
-			dispatch(putTheSipSuccess(error));
+			dispatch(putTheSipSuccess(error.response));
 			// ...
 		});
 };
