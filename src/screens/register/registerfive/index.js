@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, TextInput, TouchableOpacity, ImageBackground, Image } from 'react-native';
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import { mainApp } from '../../../../App';
 import Style from '../../../style/defaultStyle';
+import { registerAction } from '../../../actions';
 
 class RegisterFive extends React.Component {
 	static navigatorStyle = {
@@ -18,11 +20,48 @@ class RegisterFive extends React.Component {
 		};
 	}
 
+	componentDidUpdate() {
+		const { status_code, tipe_user } = this.props.dataRegister.dataUser;
+		if (status_code === 200 && this.state.shouldRedirect) {
+			this.setState({
+					shouldRedirect: false
+				}, () => {
+					this.props.navigator.resetTo({
+						screen: 'TemanDiabets.LoginScreen',
+					});
+				}
+			);
+		}
+	}
+
 	toHome() {
-		mainApp();
+		// mainApp();
+		const dataUser = {
+			nama: this.props.name,
+			email: this.props.email,
+			password: this.props.password,
+			tipeuser: this.props.tipeuser,
+			sip: this.state.sip
+		};
+		this.setState({
+			shouldRedirect: true
+		}, () => {
+			this.props.registerAction(dataUser);
+		})
 	}
 
 	render() {
+		console.log("PROPS REGISTER FIVE, ", this.props);
+		const { message, status_code } = this.props.dataRegister.dataUser;
+		if (this.state.shouldRedirect) {
+			return (
+				<View style={{ flex: 1 }}>
+					<Text style={{ fontSize: 20, color: '#000' }}>Loading...</Text>
+				</View>
+			);
+		} else if (message === 'registration data incomplete' && status_code === 400) {
+			alert('Data already exist!');
+		}
 		return (
 			<View style={styles.container}>
 				<ImageBackground
@@ -87,4 +126,12 @@ const stylesLocal = {
 	}
 };
 
-export default RegisterFive;
+const mapStateToProps = state => ({
+	dataRegister: state.registerReducer
+});
+
+const mapDispatchToProps = dispatch => ({
+	registerAction: dataUser => dispatch(registerAction(dataUser))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterFive);
