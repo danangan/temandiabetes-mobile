@@ -12,10 +12,15 @@ const registerActionSuccess = data => ({
 const registerAction = userData => {
 	console.log('USER DATA ACTONS ', userData);
 	return dispatch => {
-		axios
-			.post(API_SIGN_UP, userData, {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-      })
+			fetch(API_SIGN_UP, {
+				body: JSON.stringify(userData),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				method: 'POST'
+			})
+			.then(res => res.json())
 			.then(res => {
 				console.log('BALIKAN REGISTER ', res);
 				dispatch(registerActionSuccess(res));
@@ -48,10 +53,10 @@ export const putTheSip = idToken => dispatch => {
 		})
 		.catch(error => {
 			// Handle Errors here.
-			console.log('BALIKAN AUTH FIREBASE ', error);
+			console.log('BALIKAN AUTH FIREBASE ', error.response);
 			const errorCode = error.code;
 			const errorMessage = error.message;
-			dispatch(putTheSipSuccess(error));
+			dispatch(putTheSipSuccess(error.response));
 			// ...
 		});
 };

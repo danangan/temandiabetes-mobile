@@ -12,28 +12,20 @@ const initialState = {
 	}
 };
 
-const registerStepOne = (state, payload) => ({
-	...state,
-	dataUser: { ...state.dataUser, nama: payload }
-});
-
 const registerFinalStep = (state, payload) => {
-	if (true) {
-		// const { currentUser, idToken, message } = payload.data;
-    
-    // AsyncStorage.setItem(authToken, idToken);
-		return { ...state, payload };
-		// return {
-		// 	...state,
-		// 	dataUser: {
-		// 		...state.dataUser,
-		// 		nama: currentUser.nama,
-    //     email: currentUser.email,
-    //     tipe_user: currentUser.tipe_user,
-		// 		message,
-		// 		status_code: 200
-		// 	}
-		// };
+	if (payload.response === undefined) {
+		const { currentUser, message } = payload;
+		return {
+			...state,
+			dataUser: {
+				...state.dataUser,
+				nama: currentUser.nama,
+        email: currentUser.email,
+        tipe_user: currentUser.tipe_user,
+				message,
+				status_code: 200
+			}
+		};
 	} else if (payload.response.status === 400) {
 		const { data } = payload.response;
 		return {
@@ -43,21 +35,10 @@ const registerFinalStep = (state, payload) => {
 	}
 };
 
-const handlingFirebaseSip = (state, payload) => {
-	console.log('BALIKAN FIREBASE REDUCERS ', payload)
-	return {
-		...state, payload
-	}
-}
-
 const registerReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ActionTypes.REGISTER_USER:
 			return registerFinalStep(state, action.payload);
-		case ActionTypes.REGISTER_STEP_ONE:
-			return registerStepOne(state, action.payload);
-		case ActionTypes.GET_ID_TOKEN: 
-			return handlingFirebaseSip(state, action.payload);
 		default:
 			return state;
 	}

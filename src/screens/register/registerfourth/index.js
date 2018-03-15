@@ -25,30 +25,22 @@ class RegisterScreenFourth extends React.Component {
 		this.handleNavigation = this.handleNavigation.bind(this);
 	}
 
-	// componentDidUpdate() {
-	// 	const { status_code, tipe_user } = this.props.dataRegister.dataUser;
-	// 	if (status_code === 200 && this.state.shouldRedirect) {
-	// 		this.setState(
-	// 			{
-	// 				shouldRedirect: false
-	// 			},
-	// 			() => {
-	// 				if (tipe_user !== 'ahli') {
-	// 					// harus balik ke Home
-	// 					this.props.navigator.resetTo({
-	// 						screen: 'TemanDiabets.OnBoardingScreen',
-	// 						title: 'Home Screen'
-	// 					});
-	// 				} else {
-	// 					this.props.navigator.resetTo({
-	// 						screen: 'TemanDiabets.RegisterFive',
-	// 						title: 'SIP Screen'
-	// 					});
-	// 				}
-	// 			}
-	// 		);
-	// 	}
-	// }
+	componentDidUpdate() {
+		const { status_code, tipe_user } = this.props.dataRegister.dataUser;
+		if (status_code === 200 && this.state.shouldRedirect) {
+			this.setState({
+					shouldRedirect: false
+				}, () => {
+					if (tipe_user !== 'ahli') {
+						// harus balik ke Home
+						this.props.navigator.resetTo({
+							screen: 'TemanDiabets.OnBoardingScreen',
+						});
+					} 
+				}
+			);
+		}
+	}
 
 	handleFinalRegister() {
 		const { selected } = this.state;
@@ -62,7 +54,7 @@ class RegisterScreenFourth extends React.Component {
 		// this.props.registerAction(dataUser);
 		this.setState(
 			{
-				shouldRedirect: false
+				shouldRedirect: true
 			},
 			() => {
 				if (selected !== 'ahli') {
@@ -71,7 +63,13 @@ class RegisterScreenFourth extends React.Component {
 				} else {
 					this.props.navigator.resetTo({
 						screen: 'TemanDiabets.RegisterFive',
-						title: 'SIP Screen'
+						title: 'SIP Screen',
+						passProps: {
+							name: this.props.name,
+							email: this.props.email,
+							password: this.props.password,
+							tipeuser: this.state.selected
+						}
 					});
 				}
 			}
