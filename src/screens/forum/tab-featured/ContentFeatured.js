@@ -1,43 +1,45 @@
 import React from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { ScrollView } from 'react-native';
+import HTMLView from 'react-native-render-html';
 
-import { CardSection } from '../../../components';
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
 
+const htmlContent = `
+  <div class="comment">
+    <span class="c00">
+      <b><i>&gt; Dwayne’s only companion at night was a Labrador retriever named Sparky.</i></b>
+    <p>
+    <i>Sparky could not wag his tail-because of an automobile accident many years ago, so he had no way of telling other dogs how friendly he was.
+    He opened the door of the cage, something Bill couldn’t have done in a thousand years. Bill flew over to a windowsill.
+    <b>The undippable flag was a beauty, and the anthem and the vacant motto might not have mattered much, if it weren’t for this: a lot of citizens were so ignored and cheated and insulted that they thought they might be in the wrong country, or even on the wrong planet, that some terrible mistake had been made.
+    </p>
+    <p>
+      [1] <a href="https://code.facebook.com/posts/1505962329687926/flow-a-new-static-type-checker-for-javascript/" rel="nofollow">https://code.facebook.com/posts/1505962329687926/flow-a-new-...</a>
+    </p>
+    <img src="https://i.redd.it/1l01wjsv22my.jpg" width="400" height="400" />
+    <h1>Dwayne’s only companion at night</h1>
+    <h2>Dwayne’s only companion at night</h2>
+    <h3>Dwayne’s only companion at night</h3>
+    <h4>Dwayne’s only companion at night</h4>
+    <h5>Dwayne’s only companion at night</h5>
+    <h6>Dwayne’s only companion at night</h6>
+    ayyy
+    <iframe src="google.com" />
+  </span>
+</div>
+`;
+
 const ContentFeatured = () => (
-	<ScrollView>
-		<CardSection style={styles.cardSectionStyle}>
-			<Text style={styles.titleStyle}>
-				Tips Merawat dan Menjaga Kesehatan Bagi Para Penderita Diabetes
-			</Text>
-		</CardSection>
-		<View style={styles.borderLine} />
-		<CardSection>
-			<Text style={styles.textStyle}>
-				Saat ini, diabetes melitus tengah menjadi salah satu fokus perhatian dalam dunia kedokteran.
-				Hal ini dikarenakan penyakit yang ditandai dengan naiknya kadar gula didalam darah
-			</Text>
-		</CardSection>
-		<CardSection containerStyle={{ paddingLeft: 10 }}>
-			<Image
-				source={{ uri: 'https://i.imgur.com/zHd5A.jpg' }}
-				style={styles.imageContent}
-				resizeMode={'stretch'}
-			/>
-		</CardSection>
-		<CardSection>
-			<Text style={styles.textStyle}>
-				merupakan penyakit komplikasi yang paling banyak dan jumlah penderita yang setipa tahun
-				terus mengalami peningkatan. memang kebanyakan diderita oleh mereka paraorang dewasa dan
-				telah lanjut usia penyebab utama dari kondisi penyakit ini yang umum adalah kegemukan atau
-				obesitas, tidak pernah berolahraga dan tidak menjaga pola makan dengan baik.
-			</Text>
-		</CardSection>
+	<ScrollView style={styles.containerStyle}>
+		<HTMLView html={htmlContent} />
 	</ScrollView>
 );
 
 const styles = {
+	containerStyle: {
+		flex: 1
+	},
 	cardSectionStyle: {
 		backgroundColor: color.solitude,
 		margin: 0
