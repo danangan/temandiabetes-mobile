@@ -7,7 +7,6 @@ import {
 	Keyboard,
 	ImageBackground,
 	Image,
-	Keyboard
 } from 'react-native';
 
 import styles from '../style';
@@ -45,7 +44,6 @@ class RegisterScreenSecond extends React.Component {
 
 	handleNavigation() {
 		const { email } = this.state;
-		this.Keyboard.dismiss();
 		if (email !== null) {
 			const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 			const shouldTrue = emailRegex.test(email);
