@@ -24,6 +24,7 @@ class TabBookmark extends Component {
 				<ScrollView>
 					{this.state.nums.map((item, index) => (
 						<TouchableOpacity
+							key={index}
 							onPress={() =>
 								this.props.navigator.push({
 									screen: 'TemanDiabets.ThreadDetails',
