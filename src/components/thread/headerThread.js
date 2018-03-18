@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		paddingHorizontal: 5,
 		fontSize: 13,
-		fontFamily: 'Montserrat-Light'
+		fontFamily: 'Montserrat-Light',
+		textAlign: 'center'
 	}
 });
 

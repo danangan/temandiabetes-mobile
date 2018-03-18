@@ -33,7 +33,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.RegisterFive', () => RegisterFive, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen);
 	Navigation.registerComponent('TemanDiabets.EmergencyScreen', () => EmergencyScreen);
-	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome);
+	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest);
 	Navigation.registerComponent('TemanDiabets.TabFeatured', () => TabFeatured);
 	Navigation.registerComponent('TemanDiabets.TabBookmarks', () => TabBookmarks);

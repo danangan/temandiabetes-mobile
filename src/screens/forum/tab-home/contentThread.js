@@ -2,24 +2,24 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { CardSection } from '../../../components';
 
-const ContentThread = props => (
-	<View style={{ height: 190 }}>
+const ContentThread = props => {
+	console.log("props. di CONTENT THREAD", props);
+	const { description, topic } = props.property
+	return (<View style={{ height: 190 }}>
 		<CardSection>
 			<View style={styles.wrapper}>
-				<Text style={styles.title}>Arti Tinggi Dan rendahnya kadar Gula Darah</Text>
+				<Text style={styles.title}>{topic}</Text>
 			</View>
 		</CardSection>
 		<CardSection>
 			<View style={styles.wrapper}>
 				<Text style={styles.contentText}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae arcu eu odio
-					pharetra iaculis. Curabitur at consectetur felis, et rhoncus velit. Vestibulum commodo
-					massa at lorem tempus euismod. Vestibulum mattis non velit in lobortis.
+					{description}
 				</Text>
 			</View>
 		</CardSection>
-	</View>
-);
+	</View>);
+}
 
 const styles = {
   container: {
