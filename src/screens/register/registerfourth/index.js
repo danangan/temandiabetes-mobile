@@ -35,6 +35,9 @@ class RegisterScreenFourth extends React.Component {
 						// harus balik ke Home
 						this.props.navigator.resetTo({
 							screen: 'TemanDiabets.OnBoardingScreen',
+							navigatorStyle: {
+								navBarHidden: true
+							}
 						});
 					} 
 				}
