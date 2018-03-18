@@ -1,10 +1,22 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { CardSection } from '../../../components';
 
-const ContentThread = props => {
-	console.log("props. di CONTENT THREAD", props);
-	const { description, topic } = props.property
+let statusPreview = false;
+
+const handleContent = (content, open) => {
+	const preview = content.substring(0, 150);
+	if (open) {
+		statusPreview = true;
+		console.log("STATUS PREV ", statusPreview);
+		return content;
+	}
+	statusPreview = false;
+	return preview;
+};
+
+const ContentThread = (props) => {
+	const { description, topic } = props.property;
 	return (<View style={{ height: 190 }}>
 		<CardSection>
 			<View style={styles.wrapper}>
@@ -13,9 +25,12 @@ const ContentThread = props => {
 		</CardSection>
 		<CardSection>
 			<View style={styles.wrapper}>
-				<Text style={styles.contentText}>
-					{description}
-				</Text>
+				<View style={styles.contentText}>
+					<Text>{ handleContent(description)}...</Text>
+						<TouchableOpacity onPress={() => handleContent(description, true)}>
+							<Text>more</Text>
+						</TouchableOpacity>
+				</View>
 			</View>
 		</CardSection>
 	</View>);

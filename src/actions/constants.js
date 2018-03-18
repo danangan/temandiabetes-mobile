@@ -15,3 +15,4 @@ export const GET_ID_TOKEN = 'GET_ID_TOKEN';
 
 // THREADS
 export const GET_THREADS = 'GET_THREADS';
+export const POST_THREDS = 'POST_THREDS';

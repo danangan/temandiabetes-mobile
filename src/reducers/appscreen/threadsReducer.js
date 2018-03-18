@@ -8,7 +8,11 @@ const initialState = {
     },
     message: '',
     status_code: 0
-  }
+  },
+  submitThreads: {
+    message: '',
+    status_code: 0,
+  },
 };
 
 const getThreads = (state, payload) => {
@@ -23,10 +27,19 @@ const getThreads = (state, payload) => {
   };
 };
 
+const postThreads = (state, payload) => {
+  const { message, status_code } = payload;
+  return {
+    ...state, submitThreads: { ...state.submitThreads, message, status_code }
+  };
+};
+
 const threadsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ActionTypes.GET_THREADS:
-			return getThreads(state, action.payload);
+      return getThreads(state, action.payload);
+    case ActionTypes.POST_THREDS:
+      return postThreads(state, action.payload);
 		default:
 			return state;
 	}
