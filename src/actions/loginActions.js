@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import firebase from 'react-native-firebase';
 import * as ActionTypes from './constants';
+import { authToken } from '../utils/constants';
 
 // const loginManual = ({ email, password }) => async dispatch => {
 // 	const loggedInUser = await firebase
@@ -53,7 +54,7 @@ const loginManual = ({ email, password }) => async dispatch => {
 				'https://development-dot-temandiabetes.appspot.com/api/users/getcurrentuser',
 				options
 			);
-			AsyncStorage.setItem('idToken', firebaseIdToken);
+			AsyncStorage.setItem(authToken, firebaseIdToken);
 			dispatch({
 				type: ActionTypes.LOGIN_MANUAL,
 				payload: currentUser
