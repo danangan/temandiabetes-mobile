@@ -6,7 +6,8 @@ import {
 	TouchableOpacity,
 	Keyboard,
 	ImageBackground,
-	Image
+	Image,
+	Keyboard
 } from 'react-native';
 
 import styles from '../style';
@@ -25,6 +26,7 @@ class RegisterScreenSecond extends React.Component {
 			message: '',
 			keyboardActive: false
 		};
+		this.handleNavigation = this.handleNavigation.bind(this);
 	}
 
 	componentWillMount() {
@@ -43,18 +45,28 @@ class RegisterScreenSecond extends React.Component {
 
 	handleNavigation() {
 		const { email } = this.state;
+		this.Keyboard.dismiss();
 		if (email !== null) {
-			this.props.navigator.push({
-				screen: 'TemanDiabets.RegisterScreenThird',
-				title: 'Next Step 3',
-				passProps: {
-					name: this.props.name,
-					email: this.state.email
-				}
-			});
-			this.setState({
-				message: ''
-			});
+			const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+			const shouldTrue = emailRegex.test(email);
+			if (!shouldTrue) {
+				this.setState({
+					message: 'Email yang Anda masukkan tidak valid!',
+					keyboardActive: false
+				});
+			} else {
+				this.props.navigator.push({
+					screen: 'TemanDiabets.RegisterScreenThird',
+					title: 'Next Step 3',
+					passProps: {
+						name: this.props.name,
+						email: this.state.email
+					}
+				});
+				this.setState({
+					message: ''
+				});
+			}
 		} else {
 			this.setState({
 				message: 'Masukan email Anda'
@@ -100,7 +112,7 @@ class RegisterScreenSecond extends React.Component {
 								underlineColorAndroid={'#fff'}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
-							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
+							<TouchableOpacity style={styles.btnNext} onPress={this.handleNavigation}>
 								<Text style={styles.buttonText}>LANJUT</Text>
 							</TouchableOpacity>
 							<Text style={{ fontSize: 20, color: 'red' }}>{this.state.message}</Text>
