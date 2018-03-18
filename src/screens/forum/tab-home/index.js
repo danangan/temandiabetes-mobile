@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Platform, TouchableOpacity, FlatList, TextInput, Text, Image, AsyncStorage } from 'react-native';
+import { 
+	View,
+	Platform, 
+	TouchableOpacity, 
+	FlatList, 
+	TextInput, 
+	Text, 
+	Image, 
+	AsyncStorage 
+} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { Card, FooterThread, HeaderThread, TextField } from '../../../components';
+import { Card, FooterThread, HeaderThread } from '../../../components';
 import { getThreads } from '../../../actions/threadActions';
 
 import ContentThread from './contentThread';
@@ -21,7 +30,8 @@ class TabHome extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			nums: [1, 2, 3, 4, 5]
+			nums: [1, 2, 3, 4, 5],
+			refreshing: false,
 		};
 	}
 
@@ -87,8 +97,7 @@ class TabHome extends Component {
 	}
 	
 	renderItem(threads) {
-		console.log('APA ITEM INI ', threads);
-		const { author  } = threads.item;
+		const { author } = threads.item;
 		return (
 			<TouchableOpacity
 				key={threads.index}
@@ -124,6 +133,17 @@ class TabHome extends Component {
 		this.getToken();
 	}
 
+	handleRefresh = () => {
+		this.setState({
+      refreshing: true,
+    }, () => {
+      this.getToken();
+    });
+    this.setState({
+			refreshing: false
+		});
+	}
+
 	render() {
 		const { listThreads } = this.props.dataThreads;
 		return (
@@ -132,6 +152,8 @@ class TabHome extends Component {
 					ListHeaderComponent={() => this.renderHeader()}
 					data={listThreads.item.data}
 					renderItem={item => this.renderItem(item)}
+					refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
 				/>
 			</View>
 		);
