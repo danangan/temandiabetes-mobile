@@ -1,13 +1,14 @@
 import React from 'react';
-import { View, Text, Image, FlatList } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, Image, FlatList, AsyncStorage } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-
+import { searchThread } from '../../actions/threadActions';
 import { TextField, Avatar } from '../../components';
 import searchIcon from '../../assets/icons/close.png';
 import Blood from '../../assets/icons/explorer_icon.png';
 import BookMark from '../../assets/icons/bookmark.png';
 import ShareBtn from '../../assets/icons/share.png';
-
+import { authToken } from '../../utils/constants';
 
 class ModalSearch extends React.Component {
   static navigatorStyle = {
@@ -17,8 +18,17 @@ class ModalSearch extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      nums: [1, 2, 3, 4, 5, 6]
+      nums: [1, 2, 3, 4, 5, 6],
+      searchKeyword: '',
     };
+    this.changesKeyword = this.changesKeyword.bind(this);
+  }
+
+  changesKeyword = async (e) => {
+    const token = await AsyncStorage.getItem(authToken);
+    this.setState({ searchKeyword: e }, () => {
+      this.props.searchThread(e, token);
+    });
   }
 
   toRenderHeader() {
@@ -26,12 +36,13 @@ class ModalSearch extends React.Component {
       <View>
         <View 
           style={{ 
-            flex: 2, 
+            flex: 1, 
             width: '100%',
             height: 70,
             justifyContent: 'flex-start',
             alignItems: 'center', 
             elevation: 4,
+            position: 'absolute',
             borderWidth: 1,
             borderColor: '#ccc',
             paddingHorizontal: 20,
@@ -39,11 +50,12 @@ class ModalSearch extends React.Component {
           }}
         >
           <TextField
+            onChangeText={this.changesKeyword}
             autoFocus
             leftIcon={Blood}
             rightIcon={searchIcon}
             onPressRight={() => Navigation.dismissModal({
-              animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+              animationType: 'slide-down' 
             })}
             placeholder={'Cari post, pengguna'}
             underlineColorAndroid={'#fff'}
@@ -57,7 +69,7 @@ class ModalSearch extends React.Component {
             inputStyle={{ color: '#b6b6b6', fontSize: 12, backgroundColor: '#fff' }}
           />
         </View>
-        <View style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20 }}>
+        <View style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20, marginVertical: 60 }}>
           <Text style={styles.titleElement}>Pencarian Terakhir</Text>
           <View style={{ paddingVertical: 10, marginVertical: 0  }}>
             <Text style={styles.currentSearch}>Diabetes</Text>
@@ -70,9 +82,12 @@ class ModalSearch extends React.Component {
     );
   }
 
-  toRenderItem(item) {
+  toRenderItem(res) {
+    console.log("ITEM INI", res)
     return (
-      <View style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20 }}>
+      <View 
+        key={res.index}
+        style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20 }}>
         <View 
           style={{ 
             flex: 1, 
@@ -97,7 +112,7 @@ class ModalSearch extends React.Component {
           </View>
           <View style={{ width: '75%', padding: 20 }}>
             <View>
-              <Text style={styles.currentSearch}>Ternyata, Gula Batu tidak Lebih sehat dari Gula Pasir!</Text>
+              <Text style={styles.currentSearch}>{res.item.topic}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
               <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
@@ -106,7 +121,7 @@ class ModalSearch extends React.Component {
                   imageSource='http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg'
                 />
                 <View style={{ margin: 5 }}>
-                  <Text style={{ fontSize: 10 }}>Gloria James</Text>
+                  <Text style={{ fontSize: 10 }}>{res.item.author.nama}</Text>
                   <Text style={{ fontSize: 8 }}>12 January 2018</Text>
                 </View>
               </View>
@@ -132,17 +147,30 @@ class ModalSearch extends React.Component {
       </View>
     );
   }
+
+  handleExtraData() {
+    const { searchResult } = this.props.dataThreads;
+    if (searchResult.data.length === 0 && this.state.searchKeyword === '') {
+      return this.state.nums;
+    } 
+    return searchResult.data;
+  }
   
   render() {   
+    const { searchResult } = this.props.dataThreads;
     return (
       <View 
         style={styles.container}
       >
-        <FlatList 
-          ListHeaderComponent={() => this.toRenderHeader()}
-          data={this.state.nums}
-          renderItem={(item) => this.toRenderItem(item)}
-        />
+       {
+          this.state.searchKeyword === '' ?
+          this.toRenderHeader()
+          :
+          <FlatList 
+            data={searchResult.data}
+            renderItem={(item) => this.toRenderItem(item)}
+          />
+       }
       </View>
     );
   }
@@ -167,4 +195,12 @@ const styles = {
   }
 };
 
-export default ModalSearch;
+const mapStateToProps = state => ({
+	dataThreads: state.threadsReducer,
+});
+
+const mapDispatchToProps = dispatch => ({
+	searchThread: (keyword, token) => dispatch(searchThread(keyword, token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalSearch);

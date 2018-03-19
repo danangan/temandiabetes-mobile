@@ -13,6 +13,11 @@ const initialState = {
     message: '',
     status_code: 0,
   },
+  searchResult: {
+    data: [],
+    message: '',
+    status_code: 0
+  }
 };
 
 const getThreads = (state, payload) => {
@@ -34,12 +39,21 @@ const postThreads = (state, payload) => {
   };
 };
 
+const handleSearch = (state, payload) => {
+  const { threads, status_code, message } = payload;
+  return {
+    ...state, searchResult: { ...state.searchResult, data: threads.docs, status_code, message }
+  };
+};
+
 const threadsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ActionTypes.GET_THREADS:
       return getThreads(state, action.payload);
     case ActionTypes.POST_THREDS:
       return postThreads(state, action.payload);
+    case ActionTypes.SEARCH_THREADS:
+      return handleSearch(state, action.payload);
 		default:
 			return state;
 	}
