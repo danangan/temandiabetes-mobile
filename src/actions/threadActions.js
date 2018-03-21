@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 
-import { GET_THREADS, POST_THREDS, SEARCH_THREADS } from './constants';
+import { GET_THREADS, POST_THREDS, SEARCH_THREADS, REPORT_THREAD } from './constants';
 import { API_BASE } from '../utils/API';
 import { authToken } from '../utils/constants';
 
@@ -31,7 +31,7 @@ export const getThreads = (token) => {
       .then(res => {
         const threadsPayload = {
           status_code: res.status,
-          message: res.data.data.message,
+          message: res.data.message,
           threads: res.data.data.threads
         };
         console.log("ini balikan dari GET THREADS", threadsPayload);
@@ -68,11 +68,6 @@ export const userPostThread = (token, dataThread) => {
   );
 };
 
-const searchThreadSuccess = (data) => ({
-  type: SEARCH_THREADS,
-  payload: data
-})
-
 export const searchThread = (searchKeyword, token) => {
   console.log('SEARCH KEYWORD DI ACTION ', searchKeyword);
   const instance = axios.create({
@@ -94,7 +89,37 @@ export const searchThread = (searchKeyword, token) => {
         dispatch({ type: SEARCH_THREADS, payload: threadsPayload });
       })
       .catch(err => {
-        dispatch(searchThreadSuccess({ type: SEARCH_THREADS, payload: err }));
+        dispatch({ type: SEARCH_THREADS, payload: err });
+      })
+    );
+};
+
+export const userReport = (dataThreads, token) => {
+  // console.log('SEARCH KEYWORD DI ACTION ', searchKeyword);
+  const dataReport = {
+    reason: dataThreads.reason,
+    description: dataThreads.description
+  };
+
+  const instance = axios.create({
+    baseURL: API_BASE,
+    headers: {
+      'authentication': token
+    }
+  });
+
+  return dispatch => (
+    instance.post(`/api/reports/${dataThreads.id}`, dataReport)
+      .then(res => {
+        const reportPayload = {
+          status_code: res.status,
+          message: res.data.message,
+        };
+        console.log('ini balikan dari REPORT THREADS', res);
+        dispatch({ type: REPORT_THREAD, payload: reportPayload });
+      })
+      .catch(err => {
+        dispatch({ type: REPORT_THREAD, payload: err });
       })
     );
 };
