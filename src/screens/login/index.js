@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
-import { View, Image, Text, ImageBackground, KeyboardAvoidingView } from 'react-native';
-import { GoogleSignin } from 'react-native-google-signin';
-import Config from 'react-native-config';
-import firebase from 'react-native-firebase';
+import {
+	View,
+	Image,
+	Text,
+	ImageBackground,
+	KeyboardAvoidingView,
+	Keyboard,
+	Alert
+} from 'react-native';
 import { connect } from 'react-redux';
 
-import { ButtonFacebook, ButtonGoogle, Button } from '../../components/';
+import { ButtonFacebook, ButtonGoogle, Button, Spinner } from '../../components/';
 import Form from './Form';
 import BorderLine from './BorderLine';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import logo from '../../assets/icons/logo.png';
 import image from '../../assets/images/login.png';
-import { loginManual } from '../../actions/loginActions';
 import { mainApp } from '../../../App';
+import {
+	loginManual,
+	setupGoogleSignIn,
+	loginOauth,
+	onFirebaseSignOut
+} from '../../actions/loginActions';
 
 class Login extends Component {
 	constructor(props) {
@@ -26,20 +36,57 @@ class Login extends Component {
 	}
 
 	componentDidMount() {
-		this.setupGoogleSignIn();
+		this.props.setupGoogleSignIn();
 	}
 
 	componentDidUpdate() {
 		const self = this;
-		const { status_code, message } = this.props.loginReducer;
-		if (status_code === 200 && message === 'success login' && this.state.shouldRedirect) {
-			self.setState({ shouldRedirect: false }, () => {
+		const { statusCode, message, isNewUser, name, email, isActive } = this.props.loginReducer;
+
+		// if (!isNewUser && !this.state.shouldRedirect) {
+		// 	mainApp();
+		// } else if (isNewUser && !this.state.shouldRedirect) {
+		// 	this.props.navigator.push({
+		// 		screen: 'TemanDiabets.RegisterScreenFourth',
+		// 		passProps: {
+		// 			name,
+		// 			email
+		// 		}
+		// 	});
+		// }
+
+		if (statusCode === 200 && message === 'success login' && this.state.shouldRedirect) {
+			return self.setState({ shouldRedirect: false }, () => {
+				if (!isActive) {
+					return Alert.alert(
+						'Pemberitahuan',
+						'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silahkan tunggu beberapa email konfirmasi.',
+						[{ text: 'OK', onPress: () => self.props.onFirebaseSignOut() }],
+						{ cancelable: false }
+					);
+				}
+
 				mainApp();
 			});
+		} else if (statusCode === 500 && this.state.shouldRedirect) {
+			return self.setState(
+				{
+					shouldRedirect: false
+				},
+				() => {
+					this.props.navigator.showSnackbar({
+						text: message,
+						textColor: color.red,
+						duration: 'long'
+					});
+				}
+			);
 		}
 	}
+
 	onChangeTextHandlerEmail = e => this.setState({ email: e });
 	onChangeTextHandlerPass = pass => this.setState({ password: pass });
+	onGoogleSignIn = () => this.props.loginOauth();
 
 	onLogin = () => {
 		const user = {
@@ -47,61 +94,21 @@ class Login extends Component {
 			password: this.state.password
 		};
 
-		this.setState(
-			{
-				shouldRedirect: true
-			},
-			() => this.props.loginManual(user)
-		);
-	};
+		Keyboard.dismiss();
 
-	onGoogleSignIn = async () => {
-		try {
-			const data = await GoogleSignin.signIn();
-			const credential = firebase.auth.GoogleAuthProvider.credential(
-				data.idToken,
-				data.accessToken
-			);
-
-			const currentUser = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-			const idToken = await firebase.auth().currentUser.getIdToken(true);
-
-			this.setState({ currentUser: currentUser.user, idToken });
-
-			if (!currentUser.additionalUserInfo.isNewUser) {
-				mainApp();
-			} else {
-				this.props.navigator.push({
-					screen: 'TemanDiabets.RegisterScreenFourth',
-					passProps: {
-						name: currentUser.user.displayName,
-						email: currentUser.user.email
-					}
+		if (!this.state.email || !this.state.password) {
+			this.setState({ shouldRedirect: false }, () => {
+				this.props.navigator.showSnackbar({
+					text: 'Email or Password incorrect',
+					textColor: color.red,
+					duration: 'long'
 				});
-			}
-		} catch (error) {
-			if (error) throw error;
-		}
-	};
-
-	onSignOut = () =>
-		GoogleSignin.revokeAccess()
-			.then(() => GoogleSignin.signOut())
-			.then(() => this.setState({ user: null }))
-			.done();
-
-	setupGoogleSignIn = async () => {
-		try {
-			await GoogleSignin.hasPlayServices({ autoResolve: true });
-			await GoogleSignin.configure({
-				webClientId: Config.ANDROID_GOOGLE_CLIENT_ID,
-				iosClientId: Config.IOS_GOOGLE_CLIENT_ID,
-				offlineAccess: false
 			});
-		} catch (err) {
-			if (err) throw err.message;
+		} else {
+			this.setState({ shouldRedirect: true }, () => this.props.loginManual(user));
 		}
 	};
+
 
 	createAccount = () => {
 		this.props.navigator.push({
@@ -111,21 +118,12 @@ class Login extends Component {
 		});
 	};
 
-	handleNavigation = () => {
-		this.props.navigator.push({
-			screen: 'TemanDiabets.RegisterScreenFourth',
-			passProps: {}
-		});
-	};
-
 	render() {
-		if (this.state.shouldRedirect) {
-			return (
-				<View style={{ flex: 1 }}>
-					<Text>Loading...</Text>
-				</View>
-			);
-		}
+		const spinner = this.state.shouldRedirect ? (
+			<Spinner color="#FFDE00" text="Logging In..." size="large" />
+		) : (
+			<View />
+		);
 
 		return (
 			<ImageBackground source={image} style={styles.containerStyle}>
@@ -140,7 +138,7 @@ class Login extends Component {
 								onChangeTextHandlerEmail={this.onChangeTextHandlerEmail}
 								onChangeTextHandlerPass={this.onChangeTextHandlerPass}
 							/>
-							<Button buttonStyle={styles.buttonStyle} onPress={() => this.onLogin()}>
+							<Button buttonStyle={styles.buttonStyle} onPress={this.onLogin}>
 								MASUK
 							</Button>
 							<BorderLine />
@@ -154,15 +152,16 @@ class Login extends Component {
 							textStyle={styles.buttonSocialTextStyle}
 						/>
 						<ButtonGoogle
-							onPress={() => this.onGoogleSignIn()}
+							onPress={this.onGoogleSignIn}
 							text="Masuk dengan Google"
 							textStyle={styles.buttonSocialTextStyle}
 						/>
-						<Text style={styles.textLink} onPress={() => this.createAccount()}>
+						<Text style={styles.textLink} onPress={this.createAccount}>
 							BUAT AKUN
 						</Text>
 					</View>
 				</View>
+				{spinner}
 			</ImageBackground>
 		);
 	}
@@ -218,7 +217,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	loginManual: user => dispatch(loginManual(user))
+	loginManual: user => dispatch(loginManual(user)),
+	loginOauth: () => dispatch(loginOauth()),
+	setupGoogleSignIn: () => dispatch(setupGoogleSignIn()),
+	onFirebaseSignOut: () => dispatch(onFirebaseSignOut()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

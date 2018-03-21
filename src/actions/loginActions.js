@@ -1,94 +1,109 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import firebase from 'react-native-firebase';
+import Config from 'react-native-config';
+import { GoogleSignin } from 'react-native-google-signin';
+
 import * as ActionTypes from './constants';
-
-// const loginManual = ({ email, password }) => async dispatch => {
-// 	const loggedInUser = await firebase
-// 		.auth()
-// 		.signInAndRetrieveDataWithEmailAndPassword(email, password);
-
-// 	function onSuccess({ currentUser }) {
-// 		dispatch({
-// 			type: ActionTypes.LOGIN_MANUAL,
-// 			payload: currentUser
-// 		});
-// 		return currentUser;
-// 	}
-
-// 	try {
-// 		const data = await axios.post('API_URL', {
-// 			method: 'POST',
-// 			headers: {
-// 				'Content-Type': 'application/json'
-// 			}
-// 		});
-// 		return onSuccess(data);
-// 	} catch (error) {
-// 		// return onError(error);
-// 		console.log(error);
-// 	}
-// };
-
-// const onSuccess = data => ({
-// 	type: ActionTypes.LOGIN_MANUAL,
-// 	payload: data
-// });
+import { authToken } from '../utils/constants';
+import { API_CURRENT_USER } from '../utils/API';
 
 const loginManual = ({ email, password }) => async dispatch => {
+	function onSuccess(currentUser) {
+		dispatch({
+			type: ActionTypes.LOGIN_MANUAL,
+			payload: currentUser
+		});
+		return currentUser;
+	}
+
 	try {
 		const loggedInUser = await firebase
 			.auth()
 			.signInAndRetrieveDataWithEmailAndPassword(email, password);
 
+		console.log('DATA FROM ACTIONS: ', loggedInUser);
 		if (loggedInUser) {
 			const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
-			const options = {
+			const { data: { data: { currentUser } } } = await axios.get(API_CURRENT_USER, {
 				headers: {
 					Authentication: firebaseIdToken
 				}
-			};
-
-			const { data: { data: { currentUser } } } = await axios.get(
-				'https://development-dot-temandiabetes.appspot.com/api/users/getcurrentuser',
-				options
-			);
-			AsyncStorage.setItem('idToken', firebaseIdToken);
-			dispatch({
-				type: ActionTypes.LOGIN_MANUAL,
-				payload: currentUser
 			});
+
+			console.log('CURRENT USER: ', currentUser);
+			AsyncStorage.setItem(authToken, firebaseIdToken, error => onSuccess(error));
+			return onSuccess(currentUser);
 		}
 	} catch (error) {
-		console.log('Login fail with error:', error);
+		return onSuccess(error);
 	}
 };
 
-const loginOauth = (mail, pass) => async dispatch => {
-	function onSuccess(data) {
+const loginOauth = () => async dispatch => {
+	function onSuccess(userFirebase) {
 		dispatch({
 			type: ActionTypes.LOGIN_OAUTH,
-			payload: { email: mail, password: pass }
+			payload: userFirebase
 		});
-		return data;
-	}
-
-	function onError(error) {
-		dispatch({ type: ActionTypes.ERROR_GENERATED, payload: error });
-		return error;
+		return userFirebase;
 	}
 
 	try {
-		const data = await axios('API_URL', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		});
-		return onSuccess(data);
+		const data = await GoogleSignin.signIn();
+					
+		if (data) {
+			const credential = firebase.auth.GoogleAuthProvider.credential(
+				data.idToken,
+				data.accessToken
+			);
+			const userFirebase = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+			const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+			// const { data: { data: { currentUser } } } = await axios.get(API_CURRENT_USER, {
+			// 	headers: {
+			// 			Authentication: firebaseIdToken
+			// 		}
+			// 	});
+				
+			// 	const payloadData = {
+			// 			firebaseIdToken,
+			// 			userFirebase
+			// 			currentUser
+			// 		};
+			console.log('DATA FROM ACTIONS: ', firebaseIdToken);
+			
+			AsyncStorage.setItem(authToken, firebaseIdToken, error => onSuccess(error));
+			return onSuccess(userFirebase);
+		}
+
 	} catch (error) {
-		return onError(error);
+		console.log(error);
+		// return onSuccess(error);
 	}
 };
 
-export { loginManual, loginOauth };
+const setupGoogleSignIn = () => async () => {
+	try {
+		await GoogleSignin.hasPlayServices({ autoResolve: true });
+		await GoogleSignin.configure({
+			webClientId: Config.ANDROID_GOOGLE_CLIENT_ID,
+			iosClientId: Config.IOS_GOOGLE_CLIENT_ID,
+			offlineAccess: false
+		});
+	} catch (err) {
+		if (err) throw err.message;
+	}
+};
+
+const onFirebaseSignOut = () => async () => {
+	try {
+		await GoogleSignin.revokeAccess();
+		await GoogleSignin.signOut();
+		await firebase.auth().signOut();
+		await AsyncStorage.removeItem(authToken);
+	} catch (error) {
+		if (error) throw error;
+	}
+};
+
+export { loginManual, loginOauth, setupGoogleSignIn, onFirebaseSignOut };
