@@ -22,6 +22,8 @@ import ModalSearch from '../screens/modalSearch';
 import ModalPostThread from '../screens/modalPostThread';
 import ModalPostComment from '../screens/modalPostComment';
 import FeatureDetail from '../screens/forum/tab-featured/FeaturedDetail';
+import ModalReport from '../screens/modalReport';
+
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
@@ -34,7 +36,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen);
 	Navigation.registerComponent('TemanDiabets.EmergencyScreen', () => EmergencyScreen);
 	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest);
+	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabFeatured', () => TabFeatured);
 	Navigation.registerComponent('TemanDiabets.TabBookmarks', () => TabBookmarks);
 	Navigation.registerComponent('TemanDiabets.TabVideo', () => TabVideo);
@@ -45,6 +47,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ModalSearch', () => ModalSearch, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalPostThread', () => ModalPostThread, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalPostComment', () => ModalPostComment);
+	Navigation.registerComponent('TemanDiabets.ModalReport', () => ModalReport, store, Provider);
 	Navigation.registerComponent('TemanDiabets.FeaturedDetail', () => FeatureDetail);
 }
 
