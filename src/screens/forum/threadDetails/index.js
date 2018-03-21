@@ -18,9 +18,11 @@ class ThreadDetails extends React.Component {
 	}
 
 	render() {
+		console.log("PROPS DI DETAILS ", this.props);
+		const { topic, author } = this.props.item;
 		return (
 			<View style={{ flex: 2, backgroundColor: '#f2f4fd' }}>
-				<HeaderDetail />
+				<HeaderDetail authorItem={author} />
 				<ScrollView>
 					{/* <ContentDetail /> */}
 					<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
@@ -34,7 +36,7 @@ class ThreadDetails extends React.Component {
 							}}
 						>
 							<Text style={{ fontSize: 22 }}>
-								Tips Merawat dan Menjaga Kesehatan Bagi Para Bagi Para Penderita Diabetes
+								{topic}
 							</Text>
 						</View>
 					</CardSection>
@@ -86,7 +88,9 @@ class ThreadDetails extends React.Component {
 							</TouchableOpacity>
 						</View>
 					</CardSection>
-					<ContentDetail />
+					<ContentDetail 
+						threadItem={this.props.item}
+					/>
 				</ScrollView>
 				<TouchableOpacity
 					onPress={() => this.props.navigator.pop()}

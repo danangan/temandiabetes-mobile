@@ -105,8 +105,9 @@ class TabHome extends Component {
 					this.props.navigator.push({
 						screen: 'TemanDiabets.ThreadDetails',
 						navigatorStyle: {
-							navBarHidden: true
-						}
+							navBarHidden: true,
+						},
+						passProps: threads
 					})
 				}
 			>
