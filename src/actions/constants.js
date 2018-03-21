@@ -1,7 +1,6 @@
 //LOGIN
 export const LOGIN_OAUTH = 'LOGIN_OAUTH';
 export const LOGIN_MANUAL = 'LOGIN_MANUAL';
-export const ERROR_GENERATED = 'ERROR_GENERATED';
 
 //REGISTER
 export const REGISTER_USER = 'REGISTER_USER';
