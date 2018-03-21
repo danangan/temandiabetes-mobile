@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Platform, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { View, ScrollView, Platform, TouchableOpacity, FlatList } from 'react-native';
 
 import { Card, FooterThread, HeaderThread } from '../../../components';
 import ContentThread from './contentThread';
@@ -18,34 +19,44 @@ class TabLatest extends Component {
 		};
 	}
 
+	renderItem(threads) {
+		return (
+			<TouchableOpacity
+				key={threads.index}
+				onPress={() =>
+					this.props.navigator.push({
+						screen: 'TemanDiabets.ThreadDetails',
+						navigatorStyle: {
+							navBarHidden: true
+						},
+						passProps: threads
+					})
+				}
+			>
+				<Card containerStyle={styles.cardStyle}>
+					<HeaderThread
+						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+						name="Gloria James"
+						category="Teman Diabetes"
+					/>
+					<ContentThread />
+					<FooterThread numOfComments={17} />
+				</Card>
+			</TouchableOpacity>
+		)
+	}
+
 	render() {
+		const { listThreads } = this.props.dataThreads;
+
 		return (
 			<View style={styles.containerStyle}>
-				<ScrollView>
-					{this.state.nums.map((item, index) => (
-						<TouchableOpacity
-							key={index}
-							onPress={() =>
-								this.props.navigator.push({
-									screen: 'TemanDiabets.ThreadDetails',
-									navigatorStyle: {
-										navBarHidden: true
-									}
-								})
-							}
-						>
-							<Card containerStyle={styles.cardStyle}>
-								<HeaderThread
-									source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
-									name="Gloria James"
-									category="Teman Diabetes"
-								/>
-								<ContentThread />
-								<FooterThread numOfComments={17} />
-							</Card>
-						</TouchableOpacity>
-					))}
-				</ScrollView>
+				<FlatList
+					data={listThreads.item.data}
+					renderItem={item => this.renderItem(item)}
+					refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
+				/>
 			</View>
 		);
 	}
@@ -68,4 +79,12 @@ const styles = {
 	}
 };
 
-export default TabLatest;
+const mapStateToProps = state => ({
+	dataThreads: state.threadsReducer,
+});
+
+// const mapDispatchToProps = dispatch => ({
+// 	// getThreads: (token) => dispatch(getThreads(token)),
+// });
+
+export default connect(mapStateToProps, null)(TabLatest);
