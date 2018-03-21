@@ -1,12 +1,25 @@
 import React, { Component } from 'react';
-import { View, Platform, TouchableOpacity, FlatList, TextInput, Text, Image } from 'react-native';
+import { connect } from 'react-redux';
+import { 
+	View,
+	Platform, 
+	TouchableOpacity, 
+	FlatList, 
+	TextInput, 
+	Text, 
+	Image, 
+	AsyncStorage 
+} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { Card, FooterThread, HeaderThread, TextField } from '../../../components';
+import { Card, FooterThread, HeaderThread } from '../../../components';
+import { getThreads } from '../../../actions/threadActions';
+
 import ContentThread from './contentThread';
 import searchIcon from '../../../assets/icons/close.png';
 import Blood from '../../../assets/icons/explorer_icon.png';
 import color from '../../../style/color';
+import { authToken } from '../../../utils/constants';
 
 class TabHome extends Component {
 	static navigatorStyle = {
@@ -17,7 +30,8 @@ class TabHome extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			nums: [1, 2, 3, 4, 5]
+			nums: [1, 2, 3, 4, 5],
+			refreshing: false,
 		};
 	}
 
@@ -82,9 +96,11 @@ class TabHome extends Component {
 		);
 	}
 	
-	renderItem(item) {
+	renderItem(threads) {
+		const { author } = threads.item;
 		return (
 			<TouchableOpacity
+				key={threads.index}
 				onPress={() =>
 					this.props.navigator.push({
 						screen: 'TemanDiabets.ThreadDetails',
@@ -97,23 +113,47 @@ class TabHome extends Component {
 				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
 						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
-						name="Gloria James"
-						category="Teman Diabetes"
+						name={author.nama}
+						category={author.tipe_user.toUpperCase()}
 					/>
-					<ContentThread />
+					<ContentThread property={threads.item} />
 					<FooterThread numOfComments={17} />
 				</Card>
 			</TouchableOpacity>
 		);
 	}
 
+	getToken = async () => {
+		const token = await AsyncStorage.getItem(authToken);
+		this.props.getThreads(token);
+		console.log('tokens.. ', token);
+	}
+
+	componentDidMount() {
+		this.getToken();
+	}
+
+	handleRefresh = () => {
+		this.setState({
+      refreshing: true,
+    }, () => {
+      this.getToken();
+    });
+    this.setState({
+			refreshing: false
+		});
+	}
+
 	render() {
+		const { listThreads } = this.props.dataThreads;
 		return (
 			<View style={styles.containerStyle}>
 				<FlatList
 					ListHeaderComponent={() => this.renderHeader()}
-					data={this.state.nums}
+					data={listThreads.item.data}
 					renderItem={item => this.renderItem(item)}
+					refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
 				/>
 			</View>
 		);
@@ -163,4 +203,13 @@ const styles = {
 	}
 };
 
-export default TabHome;
+const mapStateToProps = state => ({
+	dataRegister: state.registerReducer,
+	dataThreads: state.threadsReducer,
+});
+
+const mapDispatchToProps = dispatch => ({
+	getThreads: (token) => dispatch(getThreads(token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabHome);

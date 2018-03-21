@@ -50,18 +50,31 @@ class RegisterScreenThird extends React.Component {
 					message: 'Kata sandi Anda tidak sesuai'
 				});
 			} else if (password === confirmPassword) {
-				this.props.navigator.push({
-					screen: 'TemanDiabets.RegisterScreenFourth',
-					title: 'Next Step 4',
-					passProps: {
-						name: this.props.name,
-						email: this.props.email,
-						password: this.state.password
-					}
-				});
-				this.setState({
-					message: ''
-				});
+				// detect length string 
+				const passwordLength = password.length < 5;
+				// detect 1 Uppercase
+				const isOneUpperCase = /[A-Z]/.test(password);
+				// detect 1 number
+				const oneNumber = /\d+/.test(password);
+				
+				if (passwordLength || !isOneUpperCase || !oneNumber) {
+					this.setState({
+						message: 'Password minimal 5 karakter, 1 huruf kapital, dan 1 angka'
+					});
+				} else {
+					this.props.navigator.push({
+						screen: 'TemanDiabets.RegisterScreenFourth',
+						title: 'Next Step 4',
+						passProps: {
+							name: this.props.name,
+							email: this.props.email,
+							password: this.state.password
+						}
+					});
+					this.setState({
+						message: ''
+					});
+				}
 			}
 		} else {
 			this.setState({

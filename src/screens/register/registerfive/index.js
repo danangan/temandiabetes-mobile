@@ -28,6 +28,9 @@ class RegisterFive extends React.Component {
 				}, () => {
 					this.props.navigator.resetTo({
 						screen: 'TemanDiabets.LoginScreen',
+						navigatorStyle: {
+							navBarHidden: true
+						}
 					});
 				}
 			);

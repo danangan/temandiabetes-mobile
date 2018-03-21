@@ -1,8 +1,26 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 import firebase from 'react-native-firebase';
+<<<<<<< HEAD
 import Config from 'react-native-config';
 import { GoogleSignin } from 'react-native-google-signin';
+=======
+import * as ActionTypes from './constants';
+import { authToken } from '../utils/constants';
+
+// const loginManual = ({ email, password }) => async dispatch => {
+// 	const loggedInUser = await firebase
+// 		.auth()
+// 		.signInAndRetrieveDataWithEmailAndPassword(email, password);
+
+// 	function onSuccess({ currentUser }) {
+// 		dispatch({
+// 			type: ActionTypes.LOGIN_MANUAL,
+// 			payload: currentUser
+// 		});
+// 		return currentUser;
+// 	}
+>>>>>>> 353b37e9e2c9b544d467f10927a9e129f02e9f57
 
 import * as ActionTypes from './constants';
 import { authToken } from '../utils/constants';
@@ -29,6 +47,19 @@ const loginManual = ({ email, password }) => async dispatch => {
 				headers: {
 					Authentication: firebaseIdToken
 				}
+<<<<<<< HEAD
+=======
+			};
+
+			const { data: { data: { currentUser } } } = await axios.get(
+				'https://development-dot-temandiabetes.appspot.com/api/users/getcurrentuser',
+				options
+			);
+			AsyncStorage.setItem(authToken, firebaseIdToken);
+			dispatch({
+				type: ActionTypes.LOGIN_MANUAL,
+				payload: currentUser
+>>>>>>> 353b37e9e2c9b544d467f10927a9e129f02e9f57
 			});
 
 			console.log('CURRENT USER: ', currentUser);
