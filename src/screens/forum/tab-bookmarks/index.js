@@ -24,6 +24,7 @@ class TabBookmark extends Component {
 				<ScrollView>
 					{this.state.nums.map((item, index) => (
 						<TouchableOpacity
+							key={index}
 							onPress={() =>
 								this.props.navigator.push({
 									screen: 'TemanDiabets.ThreadDetails',
@@ -33,7 +34,7 @@ class TabBookmark extends Component {
 								})
 							}
 						>
-							<Card key={index} containerStyle={styles.cardStyle}>
+							<Card containerStyle={styles.cardStyle}>
 								<HeaderThread
 									source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
 									name="Gloria James"
