@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import Style from '../../../style/defaultStyle';
 
-const Footer = () => (
+const Footer = ({ author }) => (
 	<View style={styles.containerFooterStyle}>
 		<View style={styles.footerLeftStyle}>
 			<Image
@@ -11,8 +11,8 @@ const Footer = () => (
 				source={{ uri: 'http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg' }}
 			/>
 			<View style={styles.nameAndMonthStyle}>
-				<Text style={styles.nameStyle}>Gloria James</Text>
-				<Text style={styles.monthStyle}>01 February 1991</Text>
+				<Text style={styles.nameStyle}>{author.nama}</Text>
+				<Text style={styles.monthStyle}>{author.tipe_user}</Text>
 			</View>
 		</View>
 		<View style={styles.footerRightStyle}>

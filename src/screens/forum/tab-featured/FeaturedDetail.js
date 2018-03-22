@@ -18,8 +18,8 @@ class FeaturedDetail extends Component {
 	render() {
 		return (
 			<View style={styles.containerStyle}>
-				<HeaderDetail />
-				<ContentFeatured />
+				<HeaderDetail author={this.props.item.author} />
+				<ContentFeatured item={this.props.item} />
 				<TouchableOpacity
 					style={styles.buttonContainerStyle}
 					onPress={() => this.props.navigator.pop()}

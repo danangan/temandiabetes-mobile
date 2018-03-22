@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, AsyncStorage } from 'react-native';
+import { connect } from 'react-redux';
+
 import { Card, CardSection } from '../../../components';
 import Style from '../../../style/defaultStyle';
 import Footer from './Footer';
 import color from '../../../style/color';
+
+import { getThreadStatic } from '../../../actions/threadActions';
+import { authToken } from '../../../utils/constants';
 
 class TabFeatured extends Component {
 	static navigatorStyle = {
@@ -14,23 +19,47 @@ class TabFeatured extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			nums: [1, 2, 3, 4, 5]
+			refreshing: false
 		};
 	}
 
-	onBookmark = () => {}
+	componentDidMount() {
+		this.getThreadStatic();
+	}
 
-	onPressDetail = () => {
+	onBookmark = () => {};
+
+	onPressDetail = item => {
 		this.props.navigator.push({
 			screen: 'TemanDiabets.FeaturedDetail',
 			navigatorStyle: {
 				navBarHidden: true
+			},
+			passProps: {
+				item
 			}
 		});
-	}
+	};
 
-	renderItem = () => (
-		<TouchableOpacity onPress={() => this.onPressDetail()}>
+	getThreadStatic = async () => {
+		const idToken = await AsyncStorage.getItem(authToken);
+		this.props.getThreadStatic(idToken);
+	};
+
+	handleRefresh = () => {
+		this.setState(
+			{
+				refreshing: true
+			},
+			() => {
+				this.getThreadStatic();
+				this.setState({ refreshing: false });
+			}
+		);
+	};
+
+	renderItem = ({ item }) => (
+		<TouchableOpacity onPress={() => this.onPressDetail(item)}>
 			<Card>
 				<CardSection>
 					<Image
@@ -41,10 +70,8 @@ class TabFeatured extends Component {
 						}}
 					/>
 					<View style={styles.contentStyle}>
-						<Text style={styles.titleStyle}>
-							Ternyata, Gula Batu Tidak Lebih Sehat Dibanding Gula Pasir
-						</Text>
-						<Footer />
+						<Text style={styles.titleStyle}>{item.topic}</Text>
+						<Footer author={item.author} />
 					</View>
 				</CardSection>
 			</Card>
@@ -52,9 +79,15 @@ class TabFeatured extends Component {
 	);
 
 	render() {
+		const { data } = this.props.threadsReducer.listThreadStatic.item;
 		return (
 			<View style={styles.containerStyle}>
-				<FlatList data={this.state.nums} renderItem={item => this.renderItem(item)} />
+				<FlatList
+					data={data}
+					renderItem={item => this.renderItem(item)}
+					refreshing={this.state.refreshing}
+					onRefresh={this.handleRefresh}
+				/>
 			</View>
 		);
 	}
@@ -84,4 +117,12 @@ const styles = {
 	}
 };
 
-export default TabFeatured;
+const mapStateToProps = state => ({
+	threadsReducer: state.threadsReducer
+});
+
+const mapDispatchToProps = dispatch => ({
+	getThreadStatic: idToken => dispatch(getThreadStatic(idToken))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabFeatured);

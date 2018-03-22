@@ -18,8 +18,8 @@ class HeaderDetail extends React.Component {
 						imageSource="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
 					/>
 					<View style={{ flex: 1, margin: 5 }}>
-						<Text style={{ fontSize: 12 }}>Gloria James</Text>
-						<Text style={{ fontSize: 10 }}>a minutes ago</Text>
+						<Text style={{ fontSize: 12 }}>{this.props.author.nama}</Text>
+						<Text style={{ fontSize: 10 }}>{this.props.author.tipe_user}</Text>
 					</View>
 					<View style={styles.wrapperButton}>
 						<Text style={styles.titleButton}>Stevia</Text>
@@ -47,8 +47,8 @@ const styles = {
 		marginVertical: 5,
 		marginHorizontal: 1,
 		alignItems: 'center',
-    backgroundColor: '#252c68',
-    borderRadius: 10,
+		backgroundColor: '#252c68',
+		borderRadius: 10
 	},
 	titleButton: {
 		fontSize: 12,

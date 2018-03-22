@@ -1,64 +1,73 @@
 import * as ActionTypes from '../../actions/constants';
 
 const initialState = {
-  listThreads: {
-    item: {
-      data: [],
-      recentData: [],
-      total: 0
-    },
-    message: '',
-    status_code: 0
-  },
-  submitThreads: {
-    message: '',
-    status_code: 0,
-  },
-  reportThread: {
-    message: '',
-    status_code: 0,
-  },
-  searchResult: {
-    data: [],
-    message: '',
-    status_code: 0
-  }
+	listThreads: {
+		item: {
+			data: [],
+			total: 0
+		},
+		message: '',
+		status_code: 0
+	},
+	listThreadStatic: {
+		item: {
+			data: [],
+			total: 0
+		},
+		message: null,
+		status_code: 0
+	},
+	submitThreads: {
+		message: '',
+		status_code: 0
+	},
+	searchResult: {
+		data: [],
+		message: '',
+		status_code: 0
+	}
+};
+
+const getThreadStatic = (state, payload) => {
+	const { threadStatic, message, status_code } = payload;
+	return {
+		...state,
+		listThreadStatic: {
+			...state.listThreadStatic,
+			item: { ...state.listThreadStatic.item, data: threadStatic.docs, total: threadStatic.total },
+			message,
+			status_code
+		}
+	};
 };
 
 const getThreads = (state, payload) => {
-  const { threads, status_code, message } = payload;
-  const { docs } = threads;
-  console.log("APA INI ", docs[0]);
-  const threadRecent = docs.sort((a, b) => Date.parse(new Date(b.createdAt) - new Date(a.createdAt)));
-
-  console.log('RECENT THREADS ', threadRecent);
-
-  return {
-    ...state, 
-    listThreads: { ...state.listThreads, 
-      item: { ...state.listThreads.item, 
-        data: threads.docs, 
-        recentData: threadRecent, 
-        total: threads.total 
-      }, 
-      message, 
-      status_code 
-    },
-  };
+	const { threads, status_code, message } = payload;
+	return {
+		...state,
+		listThreads: {
+			...state.listThreads,
+			item: { ...state.listThreads.item, data: threads.docs, total: threads.total },
+			message,
+			status_code
+		}
+	};
 };
 
 const postThreads = (state, payload) => {
-  const { message, status_code } = payload;
-  return {
-    ...state, submitThreads: { ...state.submitThreads, message, status_code }
-  };
+	const { message, status_code } = payload;
+	return {
+		...state,
+		submitThreads: { ...state.submitThreads, message, status_code }
+	};
 };
 
 const handleSearch = (state, payload) => {
-  const { threads, status_code, message } = payload;
-  return {
-    ...state, searchResult: { ...state.searchResult, data: threads.docs, status_code, message }
-  };
+	const { threads, status_code, message } = payload;
+	return {
+		...state,
+		searchResult: { ...state.searchResult, data: threads.docs, status_code, message }
+	};
 };
 
 const handleReport = (state, payload) => {
@@ -78,6 +87,8 @@ const threadsReducer = (state = initialState, action) => {
       return handleSearch(state, action.payload);
     case ActionTypes.REPORT_THREAD: 
       return handleReport(state, action.payload);
+		case ActionTypes.GET_THREADS_STATIC:
+			return getThreadStatic(state, action.payload);
 		default:
 			return state;
 	}
