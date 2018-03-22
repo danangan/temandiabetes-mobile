@@ -22,7 +22,6 @@ const loginManual = ({ email, password }) => async dispatch => {
 			.auth()
 			.signInAndRetrieveDataWithEmailAndPassword(email, password);
 
-		console.log('DATA FROM ACTIONS: ', loggedInUser);
 		if (loggedInUser) {
 			const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
 			const { data: { data: { currentUser } } } = await axios.get(API_CURRENT_USER, {
@@ -31,7 +30,6 @@ const loginManual = ({ email, password }) => async dispatch => {
 				}
 			});
 
-			console.log('CURRENT USER: ', currentUser);
 			AsyncStorage.setItem(authToken, firebaseIdToken, error => onSuccess(error));
 			return onSuccess(currentUser);
 		}

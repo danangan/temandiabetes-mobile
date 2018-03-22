@@ -86,7 +86,7 @@ class Login extends Component {
 
 	onChangeTextHandlerEmail = e => this.setState({ email: e });
 	onChangeTextHandlerPass = pass => this.setState({ password: pass });
-	onGoogleSignIn = () => this.props.loginOauth();
+	onGoogleSignIn = () => alert('development');
 
 	onLogin = () => {
 		const user = {
@@ -146,7 +146,7 @@ class Login extends Component {
 					</KeyboardAvoidingView>
 					<View style={styles.contentBottomStyle}>
 						<ButtonFacebook
-							onPress={() => null}
+							onPress={() => alert('development')}
 							text="Masuk dengan Facebook"
 							containerStyle={styles.buttonSocialStyle}
 							textStyle={styles.buttonSocialTextStyle}
