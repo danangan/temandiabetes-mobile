@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
-import {
-	View,
-	Text,
-	StatusBar,
-} from 'react-native';
+import { StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 
-import styles from './style';
 import Screen from './Screen';
+import { onBoarding } from '../../actions';
 
-export default class OnBoardingScreen extends Component {
-
+class OnBoardingScreen extends Component {
 	componentDidMount() {
 		StatusBar.setHidden(true);
+		this.props.onBoarding();
 	}
 
 	render() {
-		return (
-			<Screen
-				navigation={this.props.navigator}
-			/>
-		);
+		return <Screen navigation={this.props.navigator} />;
 	}
 }
+
+const mapDispatchToProps = dispatch => ({
+	onBoarding: () => dispatch(onBoarding())
+});
+
+export default connect(null, mapDispatchToProps)(OnBoardingScreen);

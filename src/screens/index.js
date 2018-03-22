@@ -26,7 +26,7 @@ import ModalReport from '../screens/modalReport';
 
 
 export function registerScreens(store, Provider) {
-	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen);
+	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.LoginScreen', () => LoginScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterScreen', () => RegisterScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenSecond', () => RegisterScreenSecond);
@@ -36,8 +36,8 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen);
 	Navigation.registerComponent('TemanDiabets.EmergencyScreen', () => EmergencyScreen);
 	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabFeatured', () => TabFeatured);
+	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest);
+	Navigation.registerComponent('TemanDiabets.TabFeatured', () => TabFeatured, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabBookmarks', () => TabBookmarks);
 	Navigation.registerComponent('TemanDiabets.TabVideo', () => TabVideo);
 	Navigation.registerComponent('TemanDiabets.TabEvent', () => TabEvent);
