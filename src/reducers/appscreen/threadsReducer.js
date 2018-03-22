@@ -39,6 +39,7 @@ const getThreadStatic = (state, payload) => {
 			status_code
 		}
 	};
+<<<<<<< HEAD
 };
 
 const getThreads = (state, payload) => {
@@ -51,6 +52,21 @@ const getThreads = (state, payload) => {
 			message,
 			status_code
 		}
+=======
+}
+	
+	const getThreadStatic = (state, payload) => {
+		const { threadStatic, message, status_code } = payload;
+		return {
+			...state,
+			listThreadStatic: {
+				...state.listThreadStatic,
+				item: { ...state.listThreadStatic.item, data: threadStatic.docs, total: threadStatic.total },
+				message,
+				status_code
+			}
+		};
+>>>>>>> fix conflict and config APK builder
 	};
 };
 
@@ -80,13 +96,13 @@ const handleReport = (state, payload) => {
 const threadsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ActionTypes.GET_THREADS:
-      return getThreads(state, action.payload);
-    case ActionTypes.POST_THREDS:
-      return postThreads(state, action.payload);
-    case ActionTypes.SEARCH_THREADS:
-      return handleSearch(state, action.payload);
-    case ActionTypes.REPORT_THREAD: 
-      return handleReport(state, action.payload);
+			return getThreads(state, action.payload);
+		case ActionTypes.POST_THREDS:
+			return postThreads(state, action.payload);
+		case ActionTypes.SEARCH_THREADS:
+			return handleSearch(state, action.payload);
+		case ActionTypes.REPORT_THREAD:
+			return handleReport(state, action.payload);
 		case ActionTypes.GET_THREADS_STATIC:
 			return getThreadStatic(state, action.payload);
 		default:
