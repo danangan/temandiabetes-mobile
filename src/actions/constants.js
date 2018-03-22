@@ -16,3 +16,4 @@ export const GET_ID_TOKEN = 'GET_ID_TOKEN';
 export const GET_THREADS = 'GET_THREADS';
 export const POST_THREDS = 'POST_THREDS';
 export const SEARCH_THREADS = 'SEARCH_THREADS';
+export const REPORT_THREAD = 'REPORT_THREAD';

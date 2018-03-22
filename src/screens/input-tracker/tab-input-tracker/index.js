@@ -4,7 +4,7 @@ import { authToken } from '../../../utils/constants';
 
 class TabInputTracker extends Component {
 	componentDidMount() {
-		AsyncStorage.removeItem(authToken);
+		// AsyncStorage.removeItem(authToken);
 		// this.getToken();
 	}
 

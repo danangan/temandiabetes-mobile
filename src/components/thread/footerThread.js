@@ -8,7 +8,7 @@ import BookMark from '../../assets/icons/bookmark.png';
 import Report from '../../assets/icons/flag.png';
 import Comment from '../../assets/icons/comment.png';
 
-const FooterThread = ({ containerStyle, numOfComments }) => (
+const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem }) => (
 	<CardSection>
 		<View style={[styles.containerStyle, containerStyle]}>
 			<TouchableOpacity style={styles.itemContainer}>
@@ -19,7 +19,8 @@ const FooterThread = ({ containerStyle, numOfComments }) => (
 				<Image source={BookMark} style={{ width: 20, height: 20 }} />
 				<Text style={styles.titleItem}>Tandai</Text>
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.itemContainer}>
+			<TouchableOpacity style={styles.itemContainer} 
+				onPress={() => isOpen('TemanDiabets.ModalReport', threadItem)}>
 				<Image source={Report} style={{ width: 20, height: 20 }} />
 				<Text style={styles.titleItem}>Laporkan</Text>
 			</TouchableOpacity>
@@ -29,7 +30,8 @@ const FooterThread = ({ containerStyle, numOfComments }) => (
 
 FooterThread.propTypes = {
 	containerStyle: ViewPropTypes.style,
-	numOfComments: PropTypes.number
+	numOfComments: PropTypes.number,
+	isOpen: PropTypes.func
 };
 
 const styles = {

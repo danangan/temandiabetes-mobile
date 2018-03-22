@@ -33,9 +33,13 @@ class TabHome extends Component {
 			nums: [1, 2, 3, 4, 5],
 			refreshing: false,
 		};
+
+		this.togleModal = this.togleModal.bind(this);
 	}
 
-	togleModal(params) {
+	togleModal(params, threadItem) {
+		const { _id } = threadItem;
+		// console.log("APA INI THREAD IE ... ", threadItem._id);
 		Navigation.showModal({
 			screen: params,
 			title: 'Modal',
@@ -44,27 +48,11 @@ class TabHome extends Component {
 					{}
 				]
 			},
+			passProps: {
+				idThread: _id
+			},
 			animationType: 'slide-up'
 		});
-	}
-
-	renderButtonSearch() {
-		return (
-			<TouchableOpacity 
-				onPress={() => this.togleModal('TemanDiabets.ModalSearch')}
-				style={styles.wrapButonSearch}
-			>
-				<View style={{ flex: 0.2, alignItems: 'center', borderRightWidth: 0.7, borderRightColor: 'red', padding: 5 }}>
-					<Image source={Blood} style={{ width: 25, height: 25 }} />
-				</View>
-				<View style={{ flex: 2, alignItems: 'flex-start', paddingHorizontal: 5 }}>
-					<Text>Cari post, pengguna</Text>
-				</View>
-				<View style={{ flex: 0.2, alignItems: 'center' }}>
-					<Image source={searchIcon} style={{ width: 25, height: 25 }} />
-				</View>
-			</TouchableOpacity>
-		);
 	}
 
 	renderPostThread() {
@@ -105,8 +93,9 @@ class TabHome extends Component {
 					this.props.navigator.push({
 						screen: 'TemanDiabets.ThreadDetails',
 						navigatorStyle: {
-							navBarHidden: true
-						}
+							navBarHidden: true,
+						},
+						passProps: threads
 					})
 				}
 			>
@@ -117,7 +106,11 @@ class TabHome extends Component {
 						category={author.tipe_user.toUpperCase()}
 					/>
 					<ContentThread property={threads.item} />
-					<FooterThread numOfComments={17} />
+					<FooterThread 
+						numOfComments={17} 
+						isOpen={this.togleModal}
+						threadItem={threads.item}
+					/>
 				</Card>
 			</TouchableOpacity>
 		);
@@ -126,7 +119,7 @@ class TabHome extends Component {
 	getToken = async () => {
 		const token = await AsyncStorage.getItem(authToken);
 		this.props.getThreads(token);
-		console.log('tokens.. ', token);
+		// console.log('tokens.. ', token);
 	}
 
 	componentDidMount() {
@@ -142,6 +135,25 @@ class TabHome extends Component {
     this.setState({
 			refreshing: false
 		});
+	}
+
+	renderButtonSearch() {
+		return (
+			<TouchableOpacity 
+				onPress={() => this.togleModal('TemanDiabets.ModalSearch')}
+				style={styles.wrapButonSearch}
+			>
+				<View style={{ flex: 0.2, alignItems: 'center', borderRightWidth: 0.7, borderRightColor: 'red', padding: 5 }}>
+					<Image source={Blood} style={{ width: 25, height: 25 }} />
+				</View>
+				<View style={{ flex: 2, alignItems: 'flex-start', paddingHorizontal: 5 }}>
+					<Text>Cari post, pengguna</Text>
+				</View>
+				<View style={{ flex: 0.2, alignItems: 'center' }}>
+					<Image source={searchIcon} style={{ width: 25, height: 25 }} />
+				</View>
+			</TouchableOpacity>
+		);
 	}
 
 	render() {

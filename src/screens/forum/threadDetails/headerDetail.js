@@ -10,6 +10,7 @@ class HeaderDetail extends React.Component {
 	}
 
 	render() {
+		console.log("PROPS ", this.props);
 		return (
 			<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
 				<View style={styles.container}>
@@ -18,7 +19,7 @@ class HeaderDetail extends React.Component {
 						imageSource="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
 					/>
 					<View style={{ flex: 1, margin: 5 }}>
-						<Text style={{ fontSize: 12 }}>Gloria James</Text>
+						<Text style={{ fontSize: 12 }}>{this.props.authorItem.nama}</Text>
 						<Text style={{ fontSize: 10 }}>a minutes ago</Text>
 					</View>
 					<View style={styles.wrapperButton}>
