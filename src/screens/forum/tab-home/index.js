@@ -38,7 +38,6 @@ class TabHome extends Component {
 	}
 
 	togleModal(params, threadItem) {
-		const { _id } = threadItem;
 		// console.log("APA INI THREAD IE ... ", threadItem._id);
 		Navigation.showModal({
 			screen: params,
@@ -49,7 +48,7 @@ class TabHome extends Component {
 				]
 			},
 			passProps: {
-				idThread: _id
+				idThread: threadItem === undefined ? null : threadItem._id
 			},
 			animationType: 'slide-up'
 		});
