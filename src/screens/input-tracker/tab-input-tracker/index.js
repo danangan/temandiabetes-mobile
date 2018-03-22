@@ -10,7 +10,7 @@ class TabInputTracker extends Component {
 
 	getToken = async () => {
 		const token = await AsyncStorage.getItem(authToken);
-		console.log('Token: ', token);
+		// console.log('Token: ', token);
 	}
 
 	render() {
