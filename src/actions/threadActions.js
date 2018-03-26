@@ -138,37 +138,7 @@ export const userReport = (dataThreads, token) => {
   const instance = axios.create({
     baseURL: API_BASE,
     headers: {
-      'authentication': token
-    }
-  });
-
-  return dispatch => (
-    instance.post(`/api/reports/${dataThreads.id}`, dataReport)
-      .then(res => {
-        const reportPayload = {
-          status_code: res.status,
-          message: res.data.message,
-        };
-        console.log('ini balikan dari REPORT THREADS', res);
-        dispatch({ type: REPORT_THREAD, payload: reportPayload });
-      })
-      .catch(err => {
-        dispatch({ type: SEARCH_THREADS, payload: err });
-      })
-    );
-};
-
-export const userReport = (dataThreads, token) => {
-  // console.log('SEARCH KEYWORD DI ACTION ', searchKeyword);
-  const dataReport = {
-    reason: dataThreads.reason,
-    description: dataThreads.description
-  };
-
-  const instance = axios.create({
-    baseURL: API_BASE,
-    headers: {
-      'authentication': token
+      authentication: token
     }
   });
 
