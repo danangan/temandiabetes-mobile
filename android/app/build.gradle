@@ -101,8 +101,8 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.1'
+    compileSdkVersion 25
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.temandiabets"
@@ -169,9 +169,9 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:11.6.0'
 
     implementation project(':react-native-config')
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.android.support:appcompat-v7:25.0.1"
+    implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-navigation') // ADD dependencies
 
 }
