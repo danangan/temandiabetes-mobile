@@ -21,6 +21,10 @@ const initialState = {
 		message: '',
 		status_code: 0
 	},
+	reportThread: {
+		message: '',
+		status_code: 0,
+	},
 	searchResult: {
 		data: [],
 		message: '',
@@ -39,35 +43,27 @@ const getThreadStatic = (state, payload) => {
 			status_code
 		}
 	};
-<<<<<<< HEAD
 };
 
 const getThreads = (state, payload) => {
-	const { threads, status_code, message } = payload;
-	return {
-		...state,
-		listThreads: {
-			...state.listThreads,
-			item: { ...state.listThreads.item, data: threads.docs, total: threads.total },
-			message,
-			status_code
-		}
-=======
-}
-	
-	const getThreadStatic = (state, payload) => {
-		const { threadStatic, message, status_code } = payload;
-		return {
-			...state,
-			listThreadStatic: {
-				...state.listThreadStatic,
-				item: { ...state.listThreadStatic.item, data: threadStatic.docs, total: threadStatic.total },
-				message,
-				status_code
-			}
-		};
->>>>>>> fix conflict and config APK builder
-	};
+  const { threads, status_code, message } = payload;
+  const { docs } = threads;
+  const threadRecent = docs.sort((a, b) => Date.parse(new Date(b.createdAt) - new Date(a.createdAt)));
+
+  console.log('RECENT THREADS ', threadRecent);
+
+  return {
+    ...state, 
+    listThreads: { ...state.listThreads, 
+      item: { ...state.listThreads.item, 
+        data: threads.docs, 
+        recentData: threadRecent, 
+        total: threads.total 
+      }, 
+      message, 
+      status_code 
+    },
+  };
 };
 
 const postThreads = (state, payload) => {
