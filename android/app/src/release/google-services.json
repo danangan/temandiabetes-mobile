@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "879115918599",
+    "firebase_url": "https://temandiabetes.firebaseio.com",
+    "project_id": "temandiabetes",
+    "storage_bucket": "temandiabetes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879115918599:android:e278ef8e0cccccf2",
+        "android_client_info": {
+          "package_name": "com.temandiabets"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879115918599-pgflk3hb2cp5ji40bgghiveso623vi9r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.temandiabets",
+            "certificate_hash": "1943bb6f20d28ef6f8f9f21e04663aa289edd40c"
+          }
+        },
+        {
+          "client_id": "879115918599-nucqun2ipaibofhht410rr0hke95go1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvGmc6SwSQegg_TDeicWaKcXP0AAaqrPQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879115918599-nucqun2ipaibofhht410rr0hke95go1o.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "879115918599-bhhfn5oq2d29hvb8de4j0475giaok10n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.temandiabets"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
