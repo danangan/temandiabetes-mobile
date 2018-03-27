@@ -8,12 +8,13 @@ import {
 	TextInput, 
 	Text, 
 	Image, 
-	AsyncStorage 
+	AsyncStorage,
+	Alert
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { Card, FooterThread, HeaderThread } from '../../../components';
-import { getThreads } from '../../../actions/threadActions';
+import { Card, FooterThread, HeaderThread, Spinner } from '../../../components';
+import { getThreads, makeBookmark } from '../../../actions/threadActions';
 
 import ContentThread from './contentThread';
 import searchIcon from '../../../assets/icons/close.png';
@@ -32,9 +33,11 @@ class TabHome extends Component {
 		this.state = {
 			nums: [1, 2, 3, 4, 5],
 			refreshing: false,
+			isProses: false
 		};
 
 		this.togleModal = this.togleModal.bind(this);
+		this.onPostBookmark = this.onPostBookmark.bind(this);
 	}
 
 	togleModal(params, threadItem) {
@@ -82,6 +85,29 @@ class TabHome extends Component {
 			</View>
 		);
 	}
+
+	componentDidUpdate() {
+		const { saveBookmark } = this.props.dataThreads;
+		if (saveBookmark.status_code === 201 && this.state.isProses) {
+			this.setState({
+				isProses: false
+			}, () => {
+				Alert.alert(
+					'Success',
+					'Thread saved into your bookmark list!'
+				);
+			});
+		}
+	}
+
+	onPostBookmark = async (thread) => {
+		const token = await AsyncStorage.getItem(authToken);
+		this.setState({
+			isProses: true
+		}, () => {
+			this.props.makeBookmark(thread._id, token);
+		});
+	}
 	
 	renderItem(threads) {
 		const { author } = threads.item;
@@ -108,6 +134,7 @@ class TabHome extends Component {
 					<FooterThread 
 						numOfComments={17} 
 						isOpen={this.togleModal}
+						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
 					/>
 				</Card>
@@ -157,6 +184,12 @@ class TabHome extends Component {
 
 	render() {
 		const { listThreads } = this.props.dataThreads;
+		const spinner = this.state.isProses ? (
+			<Spinner color="#FFDE00" text="Saving..." size="large" />
+		) : (
+			<View />
+		);
+
 		return (
 			<View style={styles.containerStyle}>
 				<FlatList
@@ -166,6 +199,7 @@ class TabHome extends Component {
 					refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
 				/>
+				{spinner}
 			</View>
 		);
 	}
@@ -221,6 +255,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getThreads: (token) => dispatch(getThreads(token)),
+	makeBookmark: (idThread, token) => dispatch(makeBookmark(idThread, token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabHome);

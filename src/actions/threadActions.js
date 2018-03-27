@@ -6,7 +6,8 @@ import {
 	POST_THREDS, 
 	SEARCH_THREADS, 
 	GET_THREADS_STATIC,
-	REPORT_THREAD 
+	REPORT_THREAD,
+	BOOKMARK_THREAD
 } from './constants';
 // import * as ActionTypes from './constants';
 import { API_BASE } from '../utils/API';
@@ -96,7 +97,6 @@ export const userPostThread = (token, dataThread) => {
 					status_code: res.status,
 					message: res.data.message
 				};
-				console.log('ini balikan dari GET THREADS', res);
 				dispatch(postThredsSuccess(threadsPayload));
 			})
 			.catch(err => dispatch(postThredsSuccess(err)));
@@ -119,7 +119,6 @@ export const searchThread = (searchKeyword, token) => {
           message: res.data.data.message,
           threads: res.data.data.threads
         };
-        console.log('ini balikan dari SEARCH THREADS', res);
         dispatch({ type: SEARCH_THREADS, payload: threadsPayload });
       })
       .catch(err => {
@@ -149,11 +148,35 @@ export const userReport = (dataThreads, token) => {
           status_code: res.status,
           message: res.data.message,
         };
-        console.log('ini balikan dari REPORT THREADS', res);
         dispatch({ type: REPORT_THREAD, payload: reportPayload });
       })
       .catch(err => {
         dispatch({ type: REPORT_THREAD, payload: err });
+      })
+    );
+};
+
+export const makeBookmark = (idThread, token) => {
+  // console.log('SEARCH KEYWORD DI ACTION ', searchKeyword);
+  const instance = axios.create({
+    baseURL: API_BASE,
+    headers: {
+      authentication: token
+    }
+  });
+
+  return dispatch => (
+    instance.post(`/api/bookmarks/${idThread}`)
+      .then(res => {
+        const reportPayload = {
+          status_code: res.status,
+          message: res.data.message,
+        };
+        console.log('ini balikan dari BOOKMARK THREADS', res);
+        dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
+      })
+      .catch(err => {
+        dispatch({ type: BOOKMARK_THREAD, payload: err });
       })
     );
 };

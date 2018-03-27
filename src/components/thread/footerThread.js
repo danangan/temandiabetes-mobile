@@ -8,14 +8,17 @@ import BookMark from '../../assets/icons/bookmark.png';
 import Report from '../../assets/icons/flag.png';
 import Comment from '../../assets/icons/comment.png';
 
-const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem }) => (
+const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem, saveBookmark }) => (
 	<CardSection>
 		<View style={[styles.containerStyle, containerStyle]}>
 			<TouchableOpacity style={styles.itemContainer}>
 				<Image source={Comment} style={{ width: 20, height: 20 }} />
 				<Text style={styles.titleItem}>{numOfComments} Balasan</Text>
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.itemContainer}>
+			<TouchableOpacity 
+				onPress={() => saveBookmark(threadItem)}
+				style={styles.itemContainer}
+			>
 				<Image source={BookMark} style={{ width: 20, height: 20 }} />
 				<Text style={styles.titleItem}>Tandai</Text>
 			</TouchableOpacity>
