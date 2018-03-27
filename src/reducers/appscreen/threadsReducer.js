@@ -4,6 +4,7 @@ const initialState = {
 	listThreads: {
 		item: {
 			data: [],
+			recentData: [],
 			total: 0
 		},
 		message: '',
@@ -24,6 +25,10 @@ const initialState = {
 	reportThread: {
 		message: '',
 		status_code: 0,
+	},
+	saveBookmark: {
+		message: '',
+		status_code: 0
 	},
 	searchResult: {
 		data: [],
@@ -49,8 +54,6 @@ const getThreads = (state, payload) => {
   const { threads, status_code, message } = payload;
   const { docs } = threads;
   const threadRecent = docs.sort((a, b) => Date.parse(new Date(b.createdAt) - new Date(a.createdAt)));
-
-  console.log('RECENT THREADS ', threadRecent);
 
   return {
     ...state, 
@@ -89,6 +92,13 @@ const handleReport = (state, payload) => {
   };
 };
 
+const postBookmark = (state, payload) => {
+	const { status_code, message } = payload;
+  return {
+    ...state, saveBookmark: { ...state.saveBookmark, message, status_code } 
+  };
+};
+
 const threadsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ActionTypes.GET_THREADS:
@@ -101,6 +111,8 @@ const threadsReducer = (state = initialState, action) => {
 			return handleReport(state, action.payload);
 		case ActionTypes.GET_THREADS_STATIC:
 			return getThreadStatic(state, action.payload);
+		case ActionTypes.BOOKMARK_THREAD:
+			return postBookmark(state, action.payload);
 		default:
 			return state;
 	}
