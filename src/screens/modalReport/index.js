@@ -70,6 +70,7 @@ class ModalReport extends Component {
 	}
 
   render() {
+    const { reason } = this.state;
     if (this.state.isSubmit) {
       return (
         <View 
@@ -116,12 +117,13 @@ class ModalReport extends Component {
               <TouchableOpacity 
                 onPress={() => this.setState({reason: 'offensive'})}
               >
-                <Text style={{ color: '#4a4a4a', fontFamily: 'Montserrat-ExtraLight' }}>OFFENSIVE</Text>
+                <Text 
+                  style={{ color: '#4a4a4a', fontFamily: reason === 'offensive' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight' }}>OFFENSIVE</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                 onPress={() => this.setState({reason: 'hoax'})}
+                onPress={() => this.setState({reason: 'hoax'})}
               >
-                <Text style={{ color: '#4a4a4a', fontFamily: 'Montserrat-ExtraLight' }}>HOAX</Text>
+                <Text style={{ color: '#4a4a4a', fontFamily: reason === 'hoax' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight' }}>HOAX</Text>
             </TouchableOpacity>
             </View>
             <TextInput
