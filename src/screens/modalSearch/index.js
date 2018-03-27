@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, FlatList, AsyncStorage } from 'react-native';
+import { View, Text, Image, FlatList, AsyncStorage, TouchableOpacity } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { searchThread } from '../../actions/threadActions';
 import { TextField, Avatar } from '../../components';
@@ -32,6 +32,7 @@ class ModalSearch extends React.Component {
   }
 
   toRenderHeader() {
+    const { searchResult } = this.props.dataThreads;
     return (
       <View>
         <View 
@@ -69,15 +70,23 @@ class ModalSearch extends React.Component {
             inputStyle={{ color: '#b6b6b6', fontSize: 12, backgroundColor: '#fff' }}
           />
         </View>
-        <View style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20, marginVertical: 60 }}>
-          <Text style={styles.titleElement}>Pencarian Terakhir</Text>
-          <View style={{ paddingVertical: 10, marginVertical: 0  }}>
-            <Text style={styles.currentSearch}>Diabetes</Text>
-            <Text style={[styles.currentSearch, { paddingVertical: 5 }]}>Gula</Text>
-            <Text style={styles.currentSearch}>DNurse</Text>
-          </View>
-          <Text style={[styles.titleElement, { paddingVertical: 10 }]}>Rekomendasi Untuk Anda</Text>
-        </View>
+        {
+          searchResult.data.length === 0 && this.state.searchKeyword === '' ?
+            <View style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20, marginVertical: 60 }}>
+              <Text style={styles.titleElement}>Pencarian Terakhir</Text>
+              <View style={{ paddingVertical: 10, marginVertical: 0 }}>
+                <Text style={styles.currentSearch}>Diabetes</Text>
+                <Text style={[styles.currentSearch, { paddingVertical: 5 }]}>Gula</Text>
+                <Text style={styles.currentSearch}>DNurse</Text>
+              </View>
+              <Text style={[styles.titleElement, { paddingVertical: 10 }]}>Rekomendasi Untuk Anda</Text>
+            </View>
+            :
+            <FlatList 
+              data={searchResult.data}
+              renderItem={(item) => this.toRenderItem(item)}
+            />
+          }
       </View>
     );
   }
@@ -85,8 +94,17 @@ class ModalSearch extends React.Component {
   toRenderItem(res) {
     console.log("ITEM INI", res)
     return (
-      <View 
+      <TouchableOpacity 
         key={res.index}
+        onPress={() =>
+					this.props.navigator.push({
+						screen: 'TemanDiabets.ThreadDetails',
+						navigatorStyle: {
+							navBarHidden: true,
+						},
+						passProps: res
+					})
+				}
         style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20 }}>
         <View 
           style={{ 
@@ -144,7 +162,7 @@ class ModalSearch extends React.Component {
             </View>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 
@@ -157,20 +175,12 @@ class ModalSearch extends React.Component {
   }
   
   render() {   
-    const { searchResult } = this.props.dataThreads;
+   
     return (
       <View 
         style={styles.container}
       >
-       {
-          this.state.searchKeyword === '' ?
-          this.toRenderHeader()
-          :
-          <FlatList 
-            data={searchResult.data}
-            renderItem={(item) => this.toRenderItem(item)}
-          />
-       }
+        {this.toRenderHeader()}
       </View>
     );
   }
