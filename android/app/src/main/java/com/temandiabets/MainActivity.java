@@ -6,6 +6,10 @@ import android.widget.TextView;
 import android.view.Gravity;
 import android.util.TypedValue;
 
+import android.os.Bundle;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
+
 import com.reactnativenavigation.controllers.SplashActivity;
 
 public class MainActivity extends SplashActivity {
@@ -25,6 +29,12 @@ public class MainActivity extends SplashActivity {
 
         view.addView(textView);
         return view;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
     }
 }
 
