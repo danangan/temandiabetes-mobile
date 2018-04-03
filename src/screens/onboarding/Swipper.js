@@ -314,7 +314,6 @@ const styles = StyleSheet.create({
 	// Button wrapper
 	buttonWrapper: {
 		borderWidth: 1,
-		borderColor: 'blue',
 		backgroundColor: 'transparent',
 		position: 'absolute',
 		bottom: 0,
