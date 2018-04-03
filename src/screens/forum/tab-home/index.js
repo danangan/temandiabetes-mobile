@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { 
+import {
 	View,
-	Platform, 
-	TouchableOpacity, 
-	FlatList, 
-	TextInput, 
-	Text, 
-	Image, 
+	Platform,
+	TouchableOpacity,
+	FlatList,
+	TextInput,
+	Text,
+	Image,
 	AsyncStorage,
 	Alert
 } from 'react-native';
@@ -23,38 +23,99 @@ import color from '../../../style/color';
 import { authToken } from '../../../utils/constants';
 
 class TabHome extends Component {
-	static navigatorStyle = {
-		topBarCollapseOnScroll: true,
-		navBarHideOnScroll: true
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			nums: [1, 2, 3, 4, 5],
 			refreshing: false,
 			isProses: false
 		};
 
 		this.togleModal = this.togleModal.bind(this);
 		this.onPostBookmark = this.onPostBookmark.bind(this);
+		this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 	}
 
+	componentDidMount() {
+		this.getToken();
+	}
+
+	componentDidUpdate() {
+		const { saveBookmark } = this.props.dataThreads;
+		if (saveBookmark.status_code === 201 && this.state.isProses) {
+			this.setState(
+				{
+					isProses: false
+				},
+				() => {
+					Alert.alert('Success', 'Thread saved into your bookmark list!');
+				}
+			);
+		}
+	}
+
+	onNavigatorEvent(event) {
+		if (event.type === 'NavBarButtonPress') {
+			if (event.id === 'notification') {
+				alert('NavBar', 'Edit button pressed');
+			}
+			if (event.id === 'sideMenu') {
+				alert('NavBar', 'Add button pressed');
+			}
+		}
+	}
+
+	onPostBookmark = async thread => {
+		const token = await AsyncStorage.getItem(authToken);
+		this.setState(
+			{
+				isProses: true
+			},
+			() => {
+				this.props.makeBookmark(thread._id, token);
+			}
+		);
+	};
+
+	getToken = async () => {
+		const token = await AsyncStorage.getItem(authToken);
+		this.props.getThreads(token);
+	};
+
 	togleModal(params, threadItem) {
-		// console.log("APA INI THREAD IE ... ", threadItem._id);
 		Navigation.showModal({
 			screen: params,
 			title: 'Modal',
 			navigatorButtons: {
-				leftButtons: [
-					{}
-				]
+				leftButtons: [{}]
 			},
 			passProps: {
 				idThread: threadItem === undefined ? null : threadItem._id
 			},
 			animationType: 'slide-up'
 		});
+	}
+
+	handleRefresh = () => {
+		this.setState(
+			{
+				refreshing: true
+			},
+			() => {
+				this.getToken();
+			}
+		);
+		this.setState({
+			refreshing: false
+		});
+	};
+
+	renderHeader() {
+		return (
+			<View>
+				{this.renderButtonSearch()}
+				{this.renderPostThread()}
+			</View>
+		);
 	}
 
 	renderPostThread() {
@@ -73,42 +134,6 @@ class TabHome extends Component {
 		);
 	}
 
-	renderHeader() {
-		return (
-			<View>
-				{
-					this.renderButtonSearch()
-				}
-				{
-					this.renderPostThread()
-				}
-			</View>
-		);
-	}
-
-	componentDidUpdate() {
-		const { saveBookmark } = this.props.dataThreads;
-		if (saveBookmark.status_code === 201 && this.state.isProses) {
-			this.setState({
-				isProses: false
-			}, () => {
-				Alert.alert(
-					'Success',
-					'Thread saved into your bookmark list!'
-				);
-			});
-		}
-	}
-
-	onPostBookmark = async (thread) => {
-		const token = await AsyncStorage.getItem(authToken);
-		this.setState({
-			isProses: true
-		}, () => {
-			this.props.makeBookmark(thread._id, token);
-		});
-	}
-	
 	renderItem(threads) {
 		const { author } = threads.item;
 		return (
@@ -118,7 +143,7 @@ class TabHome extends Component {
 					this.props.navigator.push({
 						screen: 'TemanDiabets.ThreadDetails',
 						navigatorStyle: {
-							navBarHidden: true,
+							navBarHidden: true
 						},
 						passProps: threads
 					})
@@ -131,8 +156,8 @@ class TabHome extends Component {
 						category={author.tipe_user.toUpperCase()}
 					/>
 					<ContentThread property={threads.item} />
-					<FooterThread 
-						numOfComments={17} 
+					<FooterThread
+						numOfComments={17}
 						isOpen={this.togleModal}
 						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
@@ -142,34 +167,21 @@ class TabHome extends Component {
 		);
 	}
 
-	getToken = async () => {
-		const token = await AsyncStorage.getItem(authToken);
-		this.props.getThreads(token);
-		// console.log('tokens.. ', token);
-	}
-
-	componentDidMount() {
-		this.getToken();
-	}
-
-	handleRefresh = () => {
-		this.setState({
-      refreshing: true,
-    }, () => {
-      this.getToken();
-    });
-    this.setState({
-			refreshing: false
-		});
-	}
-
 	renderButtonSearch() {
 		return (
-			<TouchableOpacity 
+			<TouchableOpacity
 				onPress={() => this.togleModal('TemanDiabets.ModalSearch')}
 				style={styles.wrapButonSearch}
 			>
-				<View style={{ flex: 0.2, alignItems: 'center', borderRightWidth: 0.7, borderRightColor: 'red', padding: 5 }}>
+				<View
+					style={{
+						flex: 0.2,
+						alignItems: 'center',
+						borderRightWidth: 0.7,
+						borderRightColor: 'red',
+						padding: 5
+					}}
+				>
 					<Image source={Blood} style={{ width: 25, height: 25 }} />
 				</View>
 				<View style={{ flex: 2, alignItems: 'flex-start', paddingHorizontal: 5 }}>
@@ -197,7 +209,7 @@ class TabHome extends Component {
 					data={listThreads.item.data}
 					renderItem={item => this.renderItem(item)}
 					refreshing={this.state.refreshing}
-          onRefresh={this.handleRefresh}
+					onRefresh={this.handleRefresh}
 				/>
 				{spinner}
 			</View>
@@ -220,11 +232,11 @@ const styles = {
 			}
 		})
 	},
-	wrapButonSearch: { 
-		flex: 2, 
-		flexDirection: 'row', 
-		justifyContent: 'space-around', 
-		alignItems: 'center', 
+	wrapButonSearch: {
+		flex: 2,
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignItems: 'center',
 		paddingVertical: 10,
 		backgroundColor: 'white',
 		borderWidth: 1,
@@ -233,7 +245,7 @@ const styles = {
 		marginVertical: 10,
 		marginHorizontal: 5,
 		elevation: 2.5,
-		height: 50 
+		height: 50
 	},
 	wrapPostThread: {
 		backgroundColor: 'white',
@@ -244,17 +256,17 @@ const styles = {
 		elevation: 2.5,
 		height: 70,
 		marginVertical: 10,
-		paddingHorizontal: 30,
+		paddingHorizontal: 30
 	}
 };
 
 const mapStateToProps = state => ({
 	dataRegister: state.registerReducer,
-	dataThreads: state.threadsReducer,
+	dataThreads: state.threadsReducer
 });
 
 const mapDispatchToProps = dispatch => ({
-	getThreads: (token) => dispatch(getThreads(token)),
+	getThreads: token => dispatch(getThreads(token)),
 	makeBookmark: (idThread, token) => dispatch(makeBookmark(idThread, token))
 });
 
