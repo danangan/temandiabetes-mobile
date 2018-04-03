@@ -31,6 +31,26 @@ const tabs = [
 		icon: require('./src/assets/icons/forum.png'),
 		selectedIcon: require('./src/assets/icons/forum_active.png'),
 		title: 'Teman Diabetes',
+		navigatorStyle: {
+			topBarCollapseOnScroll: true,
+			navBarHideOnScroll: true,
+			navBarHidden: false,
+			topTabsScrollable: true
+		},
+		navigatorButtons: {
+			rightButtons: [
+				{
+					icon: require('./src/assets/icons/notification.png'),
+					id: 'notification'
+				}
+			],
+			leftButtons: [
+				{
+					icon: require('./src/assets/icons/menu.png'),
+					id: 'sideMenu'
+				}
+			]
+		},
 		topTabs: [
 			{
 				screenId: 'TemanDiabets.TabHome',
@@ -48,10 +68,7 @@ const tabs = [
 				screenId: 'TemanDiabets.TabBookmarks',
 				title: 'BOOKMARK'
 			}
-		],
-		navigatorStyle: {
-			topTabsScrollable: true
-		}
+		]
 	},
 	{
 		label: 'Event',
@@ -59,6 +76,26 @@ const tabs = [
 		icon: require('./src/assets/icons/event.png'),
 		selectedIcon: require('./src/assets/icons/event_active.png'),
 		title: 'Teman Diabetes',
+		navigatorStyle: {
+			topBarCollapseOnScroll: true,
+			navBarHideOnScroll: true,
+			navBarHidden: false,
+			topTabsScrollable: true
+		},
+		navigatorButtons: {
+			rightButtons: [
+				{
+					icon: require('./src/assets/icons/notification.png'),
+					id: 'notification'
+				}
+			],
+			leftButtons: [
+				{
+					icon: require('./src/assets/icons/menu.png'),
+					id: 'sideMenu'
+				}
+			]
+		},
 		topTabs: [
 			{
 				screenId: 'TemanDiabets.TabVideo',
@@ -76,6 +113,26 @@ const tabs = [
 		icon: require('./src/assets/icons/explorer_icon.png'),
 		selectedIcon: require('./src/assets/icons/explorer_icon.png'),
 		title: 'Teman Diabetes',
+		navigatorStyle: {
+			topBarCollapseOnScroll: true,
+			navBarHideOnScroll: true,
+			navBarHidden: false,
+			topTabsScrollable: true
+		},
+		navigatorButtons: {
+			rightButtons: [
+				{
+					icon: require('./src/assets/icons/notification.png'),
+					id: 'notification'
+				}
+			],
+			leftButtons: [
+				{
+					icon: require('./src/assets/icons/menu.png'),
+					id: 'sideMenu'
+				}
+			]
+		},
 		topTabs: [
 			{
 				screenId: 'TemanDiabets.TabInputTracker',
@@ -85,10 +142,7 @@ const tabs = [
 				screenId: 'TemanDiabets.TabHistory',
 				title: 'RIWAYAT DAN ESTIMASI'
 			}
-		],
-		navigatorStyle: {
-			topTabsScrollable: true
-		}
+		]
 	},
 	{
 		label: 'Belanja',
@@ -96,6 +150,26 @@ const tabs = [
 		icon: require('./src/assets/icons/cart.png'),
 		selectedIcon: require('./src/assets/icons/cart_active.png'),
 		title: 'Teman Diabetes',
+		navigatorStyle: {
+			topBarCollapseOnScroll: true,
+			navBarHideOnScroll: true,
+			navBarHidden: false,
+			topTabsScrollable: true
+		},
+		navigatorButtons: {
+			rightButtons: [
+				{
+					icon: require('./src/assets/icons/notification.png'),
+					id: 'notification'
+				}
+			],
+			leftButtons: [
+				{
+					icon: require('./src/assets/icons/menu.png'),
+					id: 'sideMenu'
+				}
+			]
+		},
 		topTabs: [
 			{
 				screenId: 'TemanDiabets.TabInputTracker',
@@ -109,6 +183,26 @@ const tabs = [
 		icon: require('./src/assets/icons/emergency.png'),
 		selectedIcon: require('./src/assets/icons/emergency_active.png'),
 		title: 'Teman Diabetes',
+		navigatorStyle: {
+			topBarCollapseOnScroll: true,
+			navBarHideOnScroll: true,
+			navBarHidden: false,
+			topTabsScrollable: true
+		},
+		navigatorButtons: {
+			rightButtons: [
+				{
+					icon: require('./src/assets/icons/notification.png'),
+					id: 'notification'
+				}
+			],
+			leftButtons: [
+				{
+					icon: require('./src/assets/icons/menu.png'),
+					id: 'sideMenu'
+				}
+			]
+		},
 		topTabs: [
 			{
 				screenId: 'TemanDiabets.TabInputTracker',
@@ -125,11 +219,8 @@ export function mainApp() {
 		tabsStyle: {
 			tabBarBackgroundColor: color.red,
 			tabBarButtonColor: color.white,
-			tabBarSelectedButtonColor: 'yellow',
 			tabFontFamily: 'Montserrat-Regular',
-			drawUnderTabBar: true,
-			topBarCollapseOnScroll: true,
-			navBarHideOnScroll: true
+			drawUnderTabBar: true
 		},
 		appStyle: {
 			tabBarSelectedButtonColor: color.red,
@@ -148,14 +239,12 @@ export function mainApp() {
 			forceTitlesDisplay: true,
 
 			topTabTextFontFamily: 'Montserrat-Regular',
-
-			topTabTextColor: '#ffffff',
+			topTabTextColor: color.white,
 			selectedTopTabTextColor: color.white,
-			topBarBorderColor: 'white',
 
 			// // Tab indicator
 			selectedTopTabIndicatorHeight: PixelRatio.get() * 4,
-			selectedTopTabIndicatorColor: color.white,
+			selectedTopTabIndicatorColor: color.red,
 			navBarTitleTextCentered: true
 		},
 		drawer: {
