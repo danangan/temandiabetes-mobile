@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
 	View,
-	Platform,
-	TouchableOpacity,
-	FlatList,
-	TextInput,
-	Text,
-	Image,
+	Platform, 
+	TouchableOpacity, 
+	FlatList, 
+	Text, 
+	Image, 
 	AsyncStorage,
 	Alert
 } from 'react-native';
@@ -91,7 +90,7 @@ class TabHome extends Component {
 			passProps: {
 				idThread: threadItem === undefined ? null : threadItem._id
 			},
-			animationType: 'slide-up'
+			animationType: 'none'
 		});
 	}
 
@@ -107,29 +106,29 @@ class TabHome extends Component {
 		this.setState({
 			refreshing: false
 		});
-	};
+	}
+
+	renderPostThread() {
+		return (
+			<TouchableOpacity
+				onPress={() => this.togleModal('TemanDiabets.ProfileScreen')}
+				style={styles.wrapPostThread}
+			>
+				<Text 
+				style={{
+					fontSize: 16,
+				}}
+				>
+				Tanya atau bagikan disini</Text>
+			</TouchableOpacity>
+		);
+	}
 
 	renderHeader() {
 		return (
 			<View>
 				{this.renderButtonSearch()}
 				{this.renderPostThread()}
-			</View>
-		);
-	}
-
-	renderPostThread() {
-		return (
-			<View style={styles.wrapPostThread}>
-				<TextInput
-					onFocus={() => this.togleModal('TemanDiabets.ModalPostThread')}
-					style={{
-						fontSize: 16,
-						height: 70
-					}}
-					placeholder="Tanya atau bagikan disini"
-					underlineColorAndroid="rgba(0,0,0,0)"
-				/>
 			</View>
 		);
 	}
@@ -232,11 +231,11 @@ const styles = {
 			}
 		})
 	},
-	wrapButonSearch: {
-		flex: 2,
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		alignItems: 'center',
+	wrapButonSearch: { 
+		flex: 2, 
+		flexDirection: 'row', 
+		justifyContent: 'center', 
+		alignItems: 'center', 
 		paddingVertical: 10,
 		backgroundColor: 'white',
 		borderWidth: 1,
@@ -248,7 +247,8 @@ const styles = {
 		height: 50
 	},
 	wrapPostThread: {
-		backgroundColor: 'white',
+		justifyContent: 'center',
+		backgroundColor: '#fff',
 		borderWidth: 1,
 		borderColor: '#fff',
 		borderRadius: 5,

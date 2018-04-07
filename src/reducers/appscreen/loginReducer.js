@@ -59,6 +59,10 @@ const loginReducer = (state = initialState, action) => {
 			return onLogin(state, action.payload);
 		case ActionTypes.LOGIN_OAUTH:
 			return oAuthLogin(state, action.payload);
+		case ActionTypes.USER_LOGOUT:
+			return {
+				...initialState, statusCode: 400
+			};
 		default:
 			return state;
 	}

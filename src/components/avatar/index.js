@@ -19,7 +19,7 @@ const Avatar = props => (
 				height: '100%',
 				borderRadius: 100
 			}}
-			resizeMode={'center'}
+			resizeMode={'cover'}
 		/>
 	</View>
 );

@@ -8,4 +8,5 @@ export * from './avatar';
 export * from './thread/footerThread';
 export * from './thread/headerThread';
 export * from './Spinner';
+export * from './indicator/Indicator';
 

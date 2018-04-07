@@ -2,6 +2,8 @@
 export const LOGIN_OAUTH = 'LOGIN_OAUTH';
 export const LOGIN_MANUAL = 'LOGIN_MANUAL';
 
+export const USER_LOGOUT = 'USER_LOGOUT';
+
 //REGISTER
 export const REGISTER_USER = 'REGISTER_USER';
 export const REGISTER_STEP_ONE = 'REGISTER_STEP_ONE';

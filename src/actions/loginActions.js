@@ -104,4 +104,12 @@ const onFirebaseSignOut = () => async () => {
 	}
 };
 
-export { loginManual, loginOauth, setupGoogleSignIn, onFirebaseSignOut };
+const userLogout = () => async dispatch => {
+	await AsyncStorage.removeItem(authToken);
+	dispatch({
+		type: ActionTypes.USER_LOGOUT,
+		payload: true
+	});
+};
+
+export { loginManual, loginOauth, setupGoogleSignIn, onFirebaseSignOut, userLogout };

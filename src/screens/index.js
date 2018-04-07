@@ -23,7 +23,9 @@ import ModalPostThread from '../screens/modalPostThread';
 import ModalPostComment from '../screens/modalPostComment';
 import FeatureDetail from '../screens/forum/tab-featured/FeaturedDetail';
 import ModalReport from '../screens/modalReport';
-
+import ProfileScreen from '../screens/profileScreen';
+import ProfileDetails from '../screens/profileScreen/profileDetails';
+import TabInnerCircle from './tab-innerCircle';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -49,6 +51,9 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ModalPostComment', () => ModalPostComment);
 	Navigation.registerComponent('TemanDiabets.ModalReport', () => ModalReport, store, Provider);
 	Navigation.registerComponent('TemanDiabets.FeaturedDetail', () => FeatureDetail);
+	Navigation.registerComponent('TemanDiabets.ProfileScreen', () => ProfileScreen, store, Provider);
+	Navigation.registerComponent('TemanDiabets.ProfileDetails', () => ProfileDetails, store, Provider);
+	Navigation.registerComponent('TemanDiabets.TabInnerCircle', () => TabInnerCircle, store, Provider);
 }
 
 export function registerScreenVisibilityListener() {
