@@ -59,15 +59,11 @@ class TabThreadByUser extends React.Component {
   }
 
   render() {
-    const { listThreads } = this.props.dataThreads;
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <FlatList
-					// ListHeaderComponent={() => this.renderHeader()}
-					data={listThreads.item.data}
+				<FlatList
+					data={this.props.listThreads}
 					renderItem={item => this.renderItem(item)}
-					// refreshing={this.state.refreshing}
-          // onRefresh={this.handleRefresh}
 				/>
       </View>
     );

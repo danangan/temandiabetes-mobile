@@ -70,6 +70,39 @@
 		F09EE970EA884DD6AF9C69B9 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1568666E9F9747B5BBC2F776 /* SafariServices.framework */; };
 		F883C34299DB45C0B9AA3133 /* MontserratAlternates-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 86EA25CB7D2744CFB1A99246 /* MontserratAlternates-Regular.otf */; };
 		FA3BE64DAF3B4FEF84BA291F /* Montserrat-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 189FFC1EE1594C82B73F15BA /* Montserrat-ExtraLight.otf */; };
+		65AD77FEAD9D4AD581104363 /* Arista-Pro-Alternate-Bold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04CCC8199FE14066B9924E94 /* Arista-Pro-Alternate-Bold-trial.ttf */; };
+		1E9A531F49464DD889C93910 /* Arista-Pro-Alternate-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDFC3A68C8F44339B7739426 /* Arista-Pro-Alternate-ExtraLight-trial.ttf */; };
+		B5FBEE03A8174FCDB1BB60D2 /* Arista-Pro-Alternate-Fat-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FBC76367B164067A013DBD1 /* Arista-Pro-Alternate-Fat-trial.ttf */; };
+		EFEDFBAACA354687A532B632 /* Arista-Pro-Alternate-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AAF346EC9FC4EBABC926776 /* Arista-Pro-Alternate-Hairline-trial.ttf */; };
+		D06BC5E661E74FB9931BA599 /* Arista-Pro-Alternate-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5921F9FACF12496294738C2E /* Arista-Pro-Alternate-Light-trial.ttf */; };
+		6AF48F30BD2143429FF32749 /* Arista-Pro-Alternate-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF55C58EEDF74B799D38424A /* Arista-Pro-Alternate-Regular-trial.ttf */; };
+		D7F57DA666D74492859C1417 /* Arista-Pro-Alternate-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4946FB3A87604A34A3C0CED8 /* Arista-Pro-Alternate-SemiBold-trial.ttf */; };
+		39B6FC01E30C4659B86A676C /* Arista-Pro-Alternate-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEFFE85256984675B1642F15 /* Arista-Pro-Alternate-Thin-trial.ttf */; };
+		723460023BDF40F99A8574A5 /* Arista-Pro-Bold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF37DE6D1E524109B3F8566E /* Arista-Pro-Bold-trial.ttf */; };
+		871E3B0F5AE8482EB120FF0C /* Arista-Pro-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F7C1F3252A34CEABC786813 /* Arista-Pro-ExtraLight-trial.ttf */; };
+		5735581D48C24672A7DA2AB9 /* Arista-Pro-Fat-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CF013A46FDD4D7DBDD9CFEF /* Arista-Pro-Fat-trial.ttf */; };
+		01E216B010D542E6993E07B9 /* Arista-Pro-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47AF7B03BC154EE29A38B612 /* Arista-Pro-Hairline-trial.ttf */; };
+		FE3FD7C8AB334BFEAA4552A9 /* Arista-Pro-Icons-Bold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 33A28C00D7A9472A8D2A5D9F /* Arista-Pro-Icons-Bold-trial.ttf */; };
+		D5948772F72D44489BF39595 /* Arista-Pro-Icons-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 835FEFC24BEE4874B06CB594 /* Arista-Pro-Icons-ExtraLight-trial.ttf */; };
+		145D72649E254F469EC896A2 /* Arista-Pro-Icons-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 427EA3DEE2E0435AA302636B /* Arista-Pro-Icons-Hairline-trial.ttf */; };
+		4EA2608DDE9445E5ABD3FED2 /* Arista-Pro-Icons-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BA88342725648EC956A2166 /* Arista-Pro-Icons-Light-trial.ttf */; };
+		0D53DEF32C8F4E318C7539C7 /* Arista-Pro-Icons-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B92F6FDE6B6457CB6F13653 /* Arista-Pro-Icons-Regular-trial.ttf */; };
+		53FE3FB3A99444AF954AAFA1 /* Arista-Pro-Icons-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C218B928634442838DBF7688 /* Arista-Pro-Icons-SemiBold-trial.ttf */; };
+		33D6AB3959614CDA90F11927 /* Arista-Pro-Icons-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF3C39E934AB40CEBEDE8528 /* Arista-Pro-Icons-Thin-trial.ttf */; };
+		1B72A0D93144425283BAAEDB /* Arista-Pro-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1C1CEC34F46453989E78B1E /* Arista-Pro-Light-trial.ttf */; };
+		233E13FC4C83470C896D4336 /* Arista-Pro-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EE4FB506BF64637BA373616 /* Arista-Pro-Regular-trial.ttf */; };
+		8C4BD2A2821944C79F7D5244 /* Arista-Pro-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADE1476A53EB460EA10B0100 /* Arista-Pro-SemiBold-trial.ttf */; };
+		C2704BADE79448F799BBCACA /* Arista-Pro-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A98634C2BFA84A4DBD6D37D6 /* Arista-Pro-Thin-trial.ttf */; };
+		037F29E6B92F42D8924B4B6F /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 130F1423ECB640588275F0F4 /* OpenSans-Bold.ttf */; };
+		E2050104F93948A18E102DAC /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC150AE2BA4545A5BD6BDA93 /* OpenSans-BoldItalic.ttf */; };
+		A83A552658F44997976147CA /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17A7F64F4F634D28B3BAC2C3 /* OpenSans-ExtraBold.ttf */; };
+		B18B10FCE718442F9B1D6DB0 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D834C98219324C0184249224 /* OpenSans-ExtraBoldItalic.ttf */; };
+		BCA897B5EC854C6B99AA7255 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09E3BA3CBA714D45A02882DA /* OpenSans-Italic.ttf */; };
+		C278DA586092491CACDA345B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C659A01B1704D399AB9E32C /* OpenSans-Light.ttf */; };
+		098E75DC54664F7491F04056 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4DF948DA8B504B918171415D /* OpenSans-LightItalic.ttf */; };
+		2351D511EB524024A456D041 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B00906843374288A1329108 /* OpenSans-Regular.ttf */; };
+		DBFA89AB7A9B4E2C87F42FE5 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F10D9DFB09A4432B60DBD04 /* OpenSans-Semibold.ttf */; };
+		63CB29F0E94B4F28AD88A1D0 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64BF8BAA5F21487BB93BB970 /* OpenSans-SemiboldItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -443,6 +476,39 @@
 		E7BFF8C07C6008382E6E9F7C /* Pods-TemanDiabets.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemanDiabets.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TemanDiabets/Pods-TemanDiabets.debug.xcconfig"; sourceTree = "<group>"; };
 		EA425EAFDE784D0DB2A1D02B /* Montserrat-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-ExtraBold.otf"; sourceTree = "<group>"; };
 		F297AF071B485B8EFA91689F /* Pods-TemanDiabets.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemanDiabets.release.xcconfig"; path = "Pods/Target Support Files/Pods-TemanDiabets/Pods-TemanDiabets.release.xcconfig"; sourceTree = "<group>"; };
+		04CCC8199FE14066B9924E94 /* Arista-Pro-Alternate-Bold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Bold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CDFC3A68C8F44339B7739426 /* Arista-Pro-Alternate-ExtraLight-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-ExtraLight-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0FBC76367B164067A013DBD1 /* Arista-Pro-Alternate-Fat-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Fat-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Fat-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5AAF346EC9FC4EBABC926776 /* Arista-Pro-Alternate-Hairline-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Hairline-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5921F9FACF12496294738C2E /* Arista-Pro-Alternate-Light-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Light-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BF55C58EEDF74B799D38424A /* Arista-Pro-Alternate-Regular-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Regular-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4946FB3A87604A34A3C0CED8 /* Arista-Pro-Alternate-SemiBold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-SemiBold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AEFFE85256984675B1642F15 /* Arista-Pro-Alternate-Thin-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Thin-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AF37DE6D1E524109B3F8566E /* Arista-Pro-Bold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Bold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4F7C1F3252A34CEABC786813 /* Arista-Pro-ExtraLight-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-ExtraLight-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0CF013A46FDD4D7DBDD9CFEF /* Arista-Pro-Fat-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Fat-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Fat-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		47AF7B03BC154EE29A38B612 /* Arista-Pro-Hairline-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Hairline-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		33A28C00D7A9472A8D2A5D9F /* Arista-Pro-Icons-Bold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Bold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		835FEFC24BEE4874B06CB594 /* Arista-Pro-Icons-ExtraLight-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-ExtraLight-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		427EA3DEE2E0435AA302636B /* Arista-Pro-Icons-Hairline-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Hairline-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2BA88342725648EC956A2166 /* Arista-Pro-Icons-Light-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Light-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0B92F6FDE6B6457CB6F13653 /* Arista-Pro-Icons-Regular-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Regular-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		C218B928634442838DBF7688 /* Arista-Pro-Icons-SemiBold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-SemiBold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AF3C39E934AB40CEBEDE8528 /* Arista-Pro-Icons-Thin-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Thin-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F1C1CEC34F46453989E78B1E /* Arista-Pro-Light-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Light-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		8EE4FB506BF64637BA373616 /* Arista-Pro-Regular-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Regular-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ADE1476A53EB460EA10B0100 /* Arista-Pro-SemiBold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-SemiBold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A98634C2BFA84A4DBD6D37D6 /* Arista-Pro-Thin-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Thin-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		130F1423ECB640588275F0F4 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		AC150AE2BA4545A5BD6BDA93 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; name = "OpenSans-BoldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		17A7F64F4F634D28B3BAC2C3 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; name = "OpenSans-ExtraBold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D834C98219324C0184249224 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; name = "OpenSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		09E3BA3CBA714D45A02882DA /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; name = "OpenSans-Italic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4C659A01B1704D399AB9E32C /* OpenSans-Light.ttf */ = {isa = PBXFileReference; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4DF948DA8B504B918171415D /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; name = "OpenSans-LightItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6B00906843374288A1329108 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3F10D9DFB09A4432B60DBD04 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; name = "OpenSans-Semibold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		64BF8BAA5F21487BB93BB970 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; name = "OpenSans-SemiboldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -693,6 +759,39 @@
 				86EA25CB7D2744CFB1A99246 /* MontserratAlternates-Regular.otf */,
 				98553CC3D6124064B23F6AC4 /* MontserratAlternates-SemiBold.otf */,
 				A733DC5E6F9244F38DE6CC0E /* MontserratAlternates-Thin.otf */,
+				04CCC8199FE14066B9924E94 /* Arista-Pro-Alternate-Bold-trial.ttf */,
+				CDFC3A68C8F44339B7739426 /* Arista-Pro-Alternate-ExtraLight-trial.ttf */,
+				0FBC76367B164067A013DBD1 /* Arista-Pro-Alternate-Fat-trial.ttf */,
+				5AAF346EC9FC4EBABC926776 /* Arista-Pro-Alternate-Hairline-trial.ttf */,
+				5921F9FACF12496294738C2E /* Arista-Pro-Alternate-Light-trial.ttf */,
+				BF55C58EEDF74B799D38424A /* Arista-Pro-Alternate-Regular-trial.ttf */,
+				4946FB3A87604A34A3C0CED8 /* Arista-Pro-Alternate-SemiBold-trial.ttf */,
+				AEFFE85256984675B1642F15 /* Arista-Pro-Alternate-Thin-trial.ttf */,
+				AF37DE6D1E524109B3F8566E /* Arista-Pro-Bold-trial.ttf */,
+				4F7C1F3252A34CEABC786813 /* Arista-Pro-ExtraLight-trial.ttf */,
+				0CF013A46FDD4D7DBDD9CFEF /* Arista-Pro-Fat-trial.ttf */,
+				47AF7B03BC154EE29A38B612 /* Arista-Pro-Hairline-trial.ttf */,
+				33A28C00D7A9472A8D2A5D9F /* Arista-Pro-Icons-Bold-trial.ttf */,
+				835FEFC24BEE4874B06CB594 /* Arista-Pro-Icons-ExtraLight-trial.ttf */,
+				427EA3DEE2E0435AA302636B /* Arista-Pro-Icons-Hairline-trial.ttf */,
+				2BA88342725648EC956A2166 /* Arista-Pro-Icons-Light-trial.ttf */,
+				0B92F6FDE6B6457CB6F13653 /* Arista-Pro-Icons-Regular-trial.ttf */,
+				C218B928634442838DBF7688 /* Arista-Pro-Icons-SemiBold-trial.ttf */,
+				AF3C39E934AB40CEBEDE8528 /* Arista-Pro-Icons-Thin-trial.ttf */,
+				F1C1CEC34F46453989E78B1E /* Arista-Pro-Light-trial.ttf */,
+				8EE4FB506BF64637BA373616 /* Arista-Pro-Regular-trial.ttf */,
+				ADE1476A53EB460EA10B0100 /* Arista-Pro-SemiBold-trial.ttf */,
+				A98634C2BFA84A4DBD6D37D6 /* Arista-Pro-Thin-trial.ttf */,
+				130F1423ECB640588275F0F4 /* OpenSans-Bold.ttf */,
+				AC150AE2BA4545A5BD6BDA93 /* OpenSans-BoldItalic.ttf */,
+				17A7F64F4F634D28B3BAC2C3 /* OpenSans-ExtraBold.ttf */,
+				D834C98219324C0184249224 /* OpenSans-ExtraBoldItalic.ttf */,
+				09E3BA3CBA714D45A02882DA /* OpenSans-Italic.ttf */,
+				4C659A01B1704D399AB9E32C /* OpenSans-Light.ttf */,
+				4DF948DA8B504B918171415D /* OpenSans-LightItalic.ttf */,
+				6B00906843374288A1329108 /* OpenSans-Regular.ttf */,
+				3F10D9DFB09A4432B60DBD04 /* OpenSans-Semibold.ttf */,
+				64BF8BAA5F21487BB93BB970 /* OpenSans-SemiboldItalic.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1326,6 +1425,39 @@
 				D642E7055F1D44EB8473B27E /* MontserratAlternates-SemiBold.otf in Resources */,
 				256AC2551A8E426698116643 /* MontserratAlternates-Thin.otf in Resources */,
 				062E28BA2039A964009BD1CD /* GoogleService-Info.plist in Resources */,
+				65AD77FEAD9D4AD581104363 /* Arista-Pro-Alternate-Bold-trial.ttf in Resources */,
+				1E9A531F49464DD889C93910 /* Arista-Pro-Alternate-ExtraLight-trial.ttf in Resources */,
+				B5FBEE03A8174FCDB1BB60D2 /* Arista-Pro-Alternate-Fat-trial.ttf in Resources */,
+				EFEDFBAACA354687A532B632 /* Arista-Pro-Alternate-Hairline-trial.ttf in Resources */,
+				D06BC5E661E74FB9931BA599 /* Arista-Pro-Alternate-Light-trial.ttf in Resources */,
+				6AF48F30BD2143429FF32749 /* Arista-Pro-Alternate-Regular-trial.ttf in Resources */,
+				D7F57DA666D74492859C1417 /* Arista-Pro-Alternate-SemiBold-trial.ttf in Resources */,
+				39B6FC01E30C4659B86A676C /* Arista-Pro-Alternate-Thin-trial.ttf in Resources */,
+				723460023BDF40F99A8574A5 /* Arista-Pro-Bold-trial.ttf in Resources */,
+				871E3B0F5AE8482EB120FF0C /* Arista-Pro-ExtraLight-trial.ttf in Resources */,
+				5735581D48C24672A7DA2AB9 /* Arista-Pro-Fat-trial.ttf in Resources */,
+				01E216B010D542E6993E07B9 /* Arista-Pro-Hairline-trial.ttf in Resources */,
+				FE3FD7C8AB334BFEAA4552A9 /* Arista-Pro-Icons-Bold-trial.ttf in Resources */,
+				D5948772F72D44489BF39595 /* Arista-Pro-Icons-ExtraLight-trial.ttf in Resources */,
+				145D72649E254F469EC896A2 /* Arista-Pro-Icons-Hairline-trial.ttf in Resources */,
+				4EA2608DDE9445E5ABD3FED2 /* Arista-Pro-Icons-Light-trial.ttf in Resources */,
+				0D53DEF32C8F4E318C7539C7 /* Arista-Pro-Icons-Regular-trial.ttf in Resources */,
+				53FE3FB3A99444AF954AAFA1 /* Arista-Pro-Icons-SemiBold-trial.ttf in Resources */,
+				33D6AB3959614CDA90F11927 /* Arista-Pro-Icons-Thin-trial.ttf in Resources */,
+				1B72A0D93144425283BAAEDB /* Arista-Pro-Light-trial.ttf in Resources */,
+				233E13FC4C83470C896D4336 /* Arista-Pro-Regular-trial.ttf in Resources */,
+				8C4BD2A2821944C79F7D5244 /* Arista-Pro-SemiBold-trial.ttf in Resources */,
+				C2704BADE79448F799BBCACA /* Arista-Pro-Thin-trial.ttf in Resources */,
+				037F29E6B92F42D8924B4B6F /* OpenSans-Bold.ttf in Resources */,
+				E2050104F93948A18E102DAC /* OpenSans-BoldItalic.ttf in Resources */,
+				A83A552658F44997976147CA /* OpenSans-ExtraBold.ttf in Resources */,
+				B18B10FCE718442F9B1D6DB0 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
+				BCA897B5EC854C6B99AA7255 /* OpenSans-Italic.ttf in Resources */,
+				C278DA586092491CACDA345B /* OpenSans-Light.ttf in Resources */,
+				098E75DC54664F7491F04056 /* OpenSans-LightItalic.ttf in Resources */,
+				2351D511EB524024A456D041 /* OpenSans-Regular.ttf in Resources */,
+				DBFA89AB7A9B4E2C87F42FE5 /* OpenSans-Semibold.ttf in Resources */,
+				63CB29F0E94B4F28AD88A1D0 /* OpenSans-SemiboldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,6 +26,8 @@ import ModalReport from '../screens/modalReport';
 import ProfileScreen from '../screens/profileScreen';
 import ProfileDetails from '../screens/profileScreen/profileDetails';
 import TabInnerCircle from './tab-innerCircle';
+import AboutScreen from '../screens/profileScreen/about';
+import FaqScreen from '../screens/profileScreen/faq';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -54,6 +56,8 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ProfileScreen', () => ProfileScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ProfileDetails', () => ProfileDetails, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabInnerCircle', () => TabInnerCircle, store, Provider);
+	Navigation.registerComponent('TemanDiabets.AboutScreen', () => AboutScreen);
+	Navigation.registerComponent('TemanDiabets.FaqScreen', () => FaqScreen);
 }
 
 export function registerScreenVisibilityListener() {

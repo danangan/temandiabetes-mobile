@@ -93,23 +93,24 @@ const setupGoogleSignIn = () => async () => {
 	}
 };
 
-const onFirebaseSignOut = () => async () => {
+const onSignOut = () => async dispatch => {
+	function onSuccess() {
+		return dispatch({
+			type: ActionTypes.USER_LOGOUT,
+			payload: true
+		});
+	}
+
 	try {
-		await GoogleSignin.revokeAccess();
-		await GoogleSignin.signOut();
+		// await GoogleSignin.revokeAccess();
+		// await GoogleSignin.signOut();
 		await firebase.auth().signOut();
 		await AsyncStorage.removeItem(authToken);
+
+		return onSuccess();
 	} catch (error) {
 		if (error) throw error;
 	}
 };
 
-const userLogout = () => async dispatch => {
-	await AsyncStorage.removeItem(authToken);
-	dispatch({
-		type: ActionTypes.USER_LOGOUT,
-		payload: true
-	});
-};
-
-export { loginManual, loginOauth, setupGoogleSignIn, onFirebaseSignOut, userLogout };
+export { loginManual, loginOauth, setupGoogleSignIn, onSignOut };

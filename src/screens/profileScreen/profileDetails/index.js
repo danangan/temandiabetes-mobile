@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { View, Text, TouchableOpacity } from 'react-native';
 
-import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
-import { Avatar, Indicator } from '../../../components';
+import { getThreads } from '../../../actions/threadActions';
+import { Avatar, Indicator, NavigationBar } from '../../../components';
+import Event from './Event';
 import TabInnerCircle from '../../tab-innerCircle';
 import TabThreadByUser from '../../tab-threadByUser';
 
 const listTabs = ['THREAD', 'ANSWER', 'RESPONSE', 'EVENT'];
-import { getThreads } from '../../../actions/threadActions';
 
 class ProfileDetails extends React.Component {
-
   static navigatorStyle = {
     navBarHidden: true,
     navBarBackgroundColor: 'white'
@@ -23,43 +23,35 @@ class ProfileDetails extends React.Component {
     };
   }
 
-  // getToken = async () => {
-	// 	const token = await AsyncStorage.getItem(authToken);
-	// 	this.props.getThreads(token);
-	// 	// console.log('tokens.. ', token);
-	// }
-
-	// componentDidMount() {
-	// 	this.getToken();
-	// }
-
   renderTabContent() {
+    const { listThreads } = this.props.dataThreads;
     if (this.state.tab === 0) {
       return (
         <TabThreadByUser 
           navi={this.props.navigator}
+          listThreads={listThreads.item.data}
         />
       );
     } 
     if (this.state.tab === 1) {
       return (
-        <View>
-          <Text>ANSWER</Text>
-        </View>
+        <TabThreadByUser 
+          navi={this.props.navigator}
+          listThreads={listThreads.item.recentData}
+        />
       );
     }
     if (this.state.tab === 2) {
       return (
-        <View>
-          <Text>RESPONSE</Text>
-        </View>
+        <TabThreadByUser 
+          navi={this.props.navigator}
+          listThreads={listThreads.item.data}
+        />
       );
     }
     if (this.state.tab === 3) {
       return (
-        <View>
-          <Text>EVENT</Text>
-        </View>
+        <Event />
       );
     }
     if (this.state.tab === 4) {
@@ -74,36 +66,7 @@ class ProfileDetails extends React.Component {
       <View style={styles.container}>
         {/* TOP */}
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', marginHorizontal: 10 }}>
-          <View style={{ flex: 0.5, flexDirection: 'row' }}>
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                marginTop: this.state.keyboardActive ? 10 : 0,
-                tintColor: 'red',
-                justifyContent: 'flex-start', 
-                alignItems: 'flex-start'
-              }}
-              onPress={() => this.props.navigator.pop()}
-            >
-              <Image
-                resizeMode={'contain'}
-                style={{ width: 30, height: 30 }}
-                source={require('../../../assets/icons/back.png')}
-              />
-            </TouchableOpacity>
-            <View style={{ flex: 2, justifyContent: 'flex-start', alignItems: 'center' }}>
-              <Text style={{ fontSize: 12, fontFamily: 'Montserrat-Regular', color: '#ef434e' }}>PROFILE</Text>
-            </View>
-            <TouchableOpacity
-              style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-end' }}
-            >
-              <Image 
-                resizeMode={'contain'}
-                source={require('../../../assets/icons/setting.png')}
-                style={styles.itemImage}
-              />
-            </TouchableOpacity>
-          </View>
+          <NavigationBar toOnPress={() => this.props.navigator.pop()} title="PROFILE" />
           <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center', paddingVertical: 10 }}>
             <Avatar
               avatarSize="Medium"

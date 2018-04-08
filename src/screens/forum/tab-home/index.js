@@ -58,7 +58,7 @@ class TabHome extends Component {
 				alert('NavBar', 'Edit button pressed');
 			}
 			if (event.id === 'sideMenu') {
-				alert('NavBar', 'Add button pressed');
+				this.togleModal('TemanDiabets.ProfileScreen');
 			}
 		}
 	}
@@ -109,9 +109,10 @@ class TabHome extends Component {
 	}
 
 	renderPostThread() {
+		// ModalPostThread
 		return (
 			<TouchableOpacity
-				onPress={() => this.togleModal('TemanDiabets.ProfileScreen')}
+				onPress={() => this.togleModal('TemanDiabets.ModalPostThread')}
 				style={styles.wrapPostThread}
 			>
 				<Text 
