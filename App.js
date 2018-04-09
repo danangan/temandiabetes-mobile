@@ -172,7 +172,7 @@ const tabs = [
 		},
 		topTabs: [
 			{
-				screenId: 'TemanDiabets.TabInputTracker',
+				screenId: 'TemanDiabets.ChartScreen',
 				title: 'KATALOG'
 			}
 		]
