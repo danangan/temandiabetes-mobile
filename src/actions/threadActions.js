@@ -7,7 +7,8 @@ import {
 	SEARCH_THREADS, 
 	GET_THREADS_STATIC,
 	REPORT_THREAD,
-	BOOKMARK_THREAD
+  BOOKMARK_THREAD,
+  CREATE_COMMENT
 } from './constants';
 // import * as ActionTypes from './constants';
 import { API_BASE } from '../utils/API';
@@ -179,4 +180,32 @@ export const makeBookmark = (idThread, token) => {
         dispatch({ type: BOOKMARK_THREAD, payload: err });
       })
     );
+};
+
+// CREATE COMMENT
+export const createComment = (comment) => async dispatch => {
+  const token = await AsyncStorage.getItem(authToken);
+
+  function onSuccess(data) {
+		dispatch({
+			type: CREATE_COMMENT,
+			payload: data
+		});
+
+		return data;
+	}
+
+  try {
+    const instance = axios.create({
+      baseURL: API_BASE,
+      headers: {
+        authentication: token
+      }
+    });
+    const request = await instance.post(`api/threads/${comment.idThread}/comment`, comment.params);
+    console.log('RESPONSE CURRENT USER', request);
+    onSuccess(request);
+  } catch (error) {
+    onSuccess(error);
+  }
 };

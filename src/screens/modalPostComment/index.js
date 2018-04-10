@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, Text, TextInput } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Image, TouchableOpacity, Text, TextInput, Keyboard } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+
+import { createComment } from '../../actions/threadActions';
 import Closed from '../../assets/icons/close.png';
 
 class ModalPostComponent extends Component {
@@ -8,7 +11,46 @@ class ModalPostComponent extends Component {
 		navBarHidden: true
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      komentar: '',
+      keyboardActive: false,
+      isSubmit: false,
+    };
+    this.onSubmitComment = this.onSubmitComment.bind(this);
+  }
+
+  componentWillMount() {
+		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+			this.setState({ keyboardActive: true });
+		});
+		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+			this.setState({ keyboardActive: false });
+		});
+	}
+
+	componentWillUnmount() {
+		this.keyboardDidShowListener.remove();
+		this.keyboardDidHideListener.remove();
+  }
+
+  onSubmitComment() {
+    const { currentUser } = this.props.dataAuth;
+
+    const comment = {
+      idThread: this.props.idThread,
+      params: {
+        user: currentUser._id,
+        text: this.state.komentar
+      }
+    };
+    console.log('APA INI ', comment);
+    this.props.createComment(comment);
+  }
+
   render() {
+    console.log('PROPS comment ', this.props);
     return (
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
@@ -31,11 +73,29 @@ class ModalPostComponent extends Component {
           <View style={styles.wrapTextInput}>
             <TextInput
               multiline
+              onChangeText={(komentar) => this.setState({ komentar })}
               style={styles.itemTextInput}
               placeholder="Tambahkan komen disini"
             />
           </View>
         </View>
+        <TouchableOpacity
+          style={{ 
+            display: !this.state.keyboardActive ? 'none' : null,
+            position: 'absolute',
+            width: '30%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            bottom: 0,
+            right: 10,
+            backgroundColor: '#262d67',
+            paddingHorizontal: 15,
+            paddingVertical: 5
+          }}
+          onPress={this.onSubmitComment}
+        >
+          <Text style={{ color: '#fff' }}>Kirim</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -90,4 +150,12 @@ const styles = {
   }
 };
 
-export default ModalPostComponent;
+const mapStateToProps = state => ({
+	dataAuth: state.authReducer,
+});
+
+const mapDispatchToProps = dispatch => ({
+	createComment: (comment) => dispatch(createComment(comment))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ModalPostComponent);

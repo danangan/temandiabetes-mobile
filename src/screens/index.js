@@ -56,7 +56,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails);
 	Navigation.registerComponent('TemanDiabets.ModalSearch', () => ModalSearch, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalPostThread', () => ModalPostThread, store, Provider);
-	Navigation.registerComponent('TemanDiabets.ModalPostComment', () => ModalPostComment);
+	Navigation.registerComponent('TemanDiabets.ModalPostComment', () => ModalPostComment, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalReport', () => ModalReport, store, Provider);
 	Navigation.registerComponent('TemanDiabets.FeaturedDetail', () => FeatureDetail);
 	Navigation.registerComponent('TemanDiabets.ProfileScreen', () => ProfileScreen, store, Provider);

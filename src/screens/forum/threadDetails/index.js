@@ -19,7 +19,7 @@ class ThreadDetails extends React.Component {
 
 	render() {
 		console.log("PROPS DI DETAILS ", this.props);
-		const { topic, author } = this.props.item;
+		const { topic, author, _id } = this.props.item;
 		return (
 			<View style={{ flex: 2, backgroundColor: '#f2f4fd' }}>
 				<HeaderDetail authorItem={author} />
@@ -67,6 +67,9 @@ class ThreadDetails extends React.Component {
 								onPress={() => Navigation.showModal({
 									screen: 'TemanDiabets.ModalPostComment',
 									title: 'Modal',
+									passProps: {
+										idThread: _id
+									},
 									navigatorButtons: {
 										leftButtons: [
 											{}
