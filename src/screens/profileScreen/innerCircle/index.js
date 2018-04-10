@@ -6,6 +6,11 @@ import { ThreeNavBar } from '../../../components/NavigationBar/threeNavBar';
 import CardInnerCircle from '../../../components/card/CardInnerCircle';
 
 class InnerCircle extends React.Component {
+  static navigatorStyle = {
+    navBarHidden: true,
+    navBarBackgroundColor: 'white'
+  };
+  
   constructor(props) {
     super(props);
     this.state = {

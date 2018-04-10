@@ -33,7 +33,7 @@ import FaqScreen from '../screens/profileScreen/faq';
 import DetailOrder from '../screens/chart/DetailOrder';
 import LightBox from '../screens/chart/LightBox';
 import InnerCircle from '../screens/profileScreen/innerCircle';
-// import InnerCircle from '../screens/innerCircle';
+import InnerCircleList from '../screens/profileScreen/innerCircle/innerCircleList';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -69,7 +69,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.DetailOrder', () => DetailOrder);
 	Navigation.registerComponent('TemanDiabets.LightBox', () => LightBox);
 	Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle, store, Provider);
-	// Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle);
+	Navigation.registerComponent('TemanDiabets.InnerCircleList', () => InnerCircleList);
 }
 
 export function registerScreenVisibilityListener() {

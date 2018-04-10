@@ -8,17 +8,19 @@ const CardInnerCircle = () => (
   <View 
     style={{ 
       flexDirection: 'row', 
-      borderColor: '#000', 
-      borderWidth: 1, 
+      borderColorBottom: '#ccc', 
+      borderBottomWidth: 0.5, 
       justifyContent: 'flex-start', 
-      alignItems: 'center' }}
+      alignItems: 'center',
+      paddingVertical: 10
+    }}
   >
     <View 
       style={{ 
         flex: 2, 
         flexDirection: 'row', 
-        borderColor: '#ccc', 
-        borderWidth: 1, 
+        // borderColor: '#ccc', 
+        // borderWidth: 1, 
         justifyContent: 'flex-start', 
         alignItems: 'center', 
       }}

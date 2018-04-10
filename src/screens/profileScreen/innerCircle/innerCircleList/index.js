@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 
-import color from '../../style/color';
-import Style from '../../style/defaultStyle';
+import color from '../../../../style/color';
+import Style from '../../../../style/defaultStyle';
 import TabFamily from './TabFamily';
 import TabRequest from './TabRequest';
 import TabPending from './TabPending';
 
 const listTabs = ['KELUARGA', 'PERMINTAAN', 'PENDING'];
 
-class InnerCircle extends Component {
+class InnerCircleList extends Component {
+	static navigatorStyle = {
+    navBarHidden: true,
+    navBarBackgroundColor: 'white'
+	};
+	
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -30,6 +35,18 @@ class InnerCircle extends Component {
 		}
 	};
 
+	onPushScreen(screen) {
+		this.props.navigator.push(
+			{
+				screen,
+			},
+			() =>
+				this.props.navigator.dismissAllModals({
+					animationType: 'none'
+				})
+		);
+	}
+
 	render() {
 		return (
 			<View style={styles.containerStyle}>
@@ -42,17 +59,20 @@ class InnerCircle extends Component {
 							resizeMode={'contain'}
 							style={styles.iconStyle}
 							tintColor={color.red}
-							source={require('../../assets/icons/back.png')}
+							source={require('../../../../assets/icons/back.png')}
 						/>
 					</TouchableOpacity>
 					<Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
-					<TouchableOpacity style={styles.rightButtonStyle}>
-						<Image
-							resizeMode={'contain'}
-							style={styles.iconStyle}
-							tintColor={color.red}
-							source={require('../../assets/icons/username-dark.png')}
-						/>
+					<TouchableOpacity 
+						onPress={() => this.onPushScreen('TemanDiabets.InnerCircle')}
+						style={styles.rightButtonStyle}
+					>
+							<Image
+								resizeMode={'contain'}
+								style={styles.iconStyle}
+								tintColor={color.red}
+								source={require('../../../../assets/icons/username-dark.png')}
+							/>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.countContainerStyle}>
@@ -151,4 +171,4 @@ const styles = {
 	}
 };
 
-export default InnerCircle;
+export default InnerCircleList;

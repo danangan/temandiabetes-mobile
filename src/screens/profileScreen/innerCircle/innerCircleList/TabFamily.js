@@ -1,11 +1,11 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
-import { Avatar } from '../../components';
-import color from '../../style/color';
-import Style from '../../style/defaultStyle';
+import { Avatar } from '../../../../components';
+import color from '../../../../style/color';
+import Style from '../../../../style/defaultStyle';
 
-const TabPending = ({ innerCircle }) => (
+const TabFamily = ({ innerCircle }) => (
 	<View>
 		{innerCircle.map((item, index) => (
 			<View style={styles.containerStyle} key={index}>
@@ -20,6 +20,15 @@ const TabPending = ({ innerCircle }) => (
 						<Text style={styles.relationStyle}>Kakak</Text>
 					</View>
 				</View>
+				<View style={styles.buttonContainerStyle}>
+					<TouchableOpacity style={styles.closeButtonStyle}>
+						<Image
+							source={require('../../../../assets/icons/close.png')}
+							tintColor={color.red}
+							style={styles.iconStyle}
+						/>
+					</TouchableOpacity>
+				</View>
 			</View>
 		))}
 	</View>
@@ -28,6 +37,8 @@ const TabPending = ({ innerCircle }) => (
 const styles = {
 	containerStyle: {
 		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
 		marginTop: 10
 	},
 	contentStyle: {
@@ -45,10 +56,25 @@ const styles = {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: Style.FONT_SIZE_SMALLER
 	},
+	iconStyle: {
+		height: 17,
+		width: 17,
+		marginTop: 13,
+		alignSelf: 'center'
+	},
+	buttonContainerStyle: {
+		flex: 0.5,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	closeButtonStyle: {
+		width: 50,
+		height: 50
+	},
 	avatarStyle: {
 		borderWidth: 1.5,
-		borderColor: 'rgba(74,144,226,1)'
+		borderColor: 'rgba(126,211,33,1)'
 	}
 };
 
-export default TabPending;
+export default TabFamily;

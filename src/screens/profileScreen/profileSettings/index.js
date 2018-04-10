@@ -41,6 +41,7 @@ class ProfileSettings extends React.Component {
             <Text style={styles.buttonText}>SUNTING PROFILE</Text>
           </TouchableOpacity>
           <TouchableOpacity 
+            onPress={() => this.onPushScreen('TemanDiabets.InnerCircleList')}
             style={styles.buttonWrapper}
           >
             <Text style={styles.buttonText}>INNER CIRCLE LIST</Text>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 
-import { Avatar } from '../../components';
-import color from '../../style/color';
-import Style from '../../style/defaultStyle';
+import { Avatar } from '../../../../components';
+import color from '../../../../style/color';
+import Style from '../../../../style/defaultStyle';
 
 const TabRequest = ({ innerCircle }) => (
 	<View>
@@ -23,14 +23,14 @@ const TabRequest = ({ innerCircle }) => (
 				<View style={styles.buttonContainerStyle}>
 					<TouchableOpacity style={styles.closeButtonStyle}>
 						<Image
-							source={require('../../assets/icons/close.png')}
+							source={require('../../../../assets/icons/close.png')}
 							tintColor={color.red}
 							style={styles.iconStyle}
 						/>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.closeButtonStyle}>
 						<Image
-							source={require('../../assets/icons/check.png')}
+							source={require('../../../../assets/icons/check.png')}
 							tintColor={'rgba(126,211,33,1)'}
 							style={[styles.iconStyle, { width: 25, height: 25, marginTop: 7 }]}
 						/>
