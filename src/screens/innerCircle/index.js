@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 
-import { NavigationBar } from '../../components';
 import color from '../../style/color';
 import Style from '../../style/defaultStyle';
 import TabFamily from './TabFamily';
@@ -35,7 +34,10 @@ class InnerCircle extends Component {
 		return (
 			<View style={styles.containerStyle}>
 				<View style={styles.navBarContainerStyle}>
-					<TouchableOpacity style={styles.leftButtonStyle}>
+					<TouchableOpacity
+						style={styles.leftButtonStyle}
+						onPress={() => this.props.navigator.pop()}
+					>
 						<Image
 							resizeMode={'contain'}
 							style={styles.iconStyle}
@@ -128,8 +130,8 @@ const styles = {
 	},
 	leftButtonStyle: {
 		justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    width: 50,
+		alignItems: 'flex-start',
+		width: 50
 	},
 	iconStyle: {
 		width: 25,
@@ -137,16 +139,16 @@ const styles = {
 	},
 	navBarTitleStyle: {
 		fontSize: Style.FONT_SIZE,
-    fontFamily: 'Montserrat-Regular',
-    fontWeight: '500',
-    textAlign: 'center',
+		fontFamily: 'Montserrat-Regular',
+		fontWeight: '500',
+		textAlign: 'center',
 		color: color.red
-  },
-  rightButtonStyle: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    width: 50,
-  }
+	},
+	rightButtonStyle: {
+		justifyContent: 'flex-end',
+		alignItems: 'flex-end',
+		width: 50
+	}
 };
 
 export default InnerCircle;
