@@ -1,12 +1,19 @@
 import { combineReducers } from 'redux';
 
-import { loginReducer, registerReducer, threadsReducer, onBoardingReducer } from './appscreen';
+import { 
+	loginReducer, 
+	registerReducer, 
+	threadsReducer, 
+	onBoardingReducer, 
+	authReducer 
+} from './appscreen';
 
 const rootReducer = combineReducers({
 	loginReducer,
 	registerReducer,
 	threadsReducer,
-	onBoardingReducer
+	onBoardingReducer,
+	authReducer
 });
 
 export default rootReducer;

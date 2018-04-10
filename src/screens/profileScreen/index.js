@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 
 import { onSignOut } from '../../actions/loginActions';
 import { Avatar, Spinner } from '../../components';
+import { authToken } from '../../utils/constants';
 
 class ProfileScreen extends React.Component {
 	static navigatorStyle = {
@@ -15,6 +16,10 @@ class ProfileScreen extends React.Component {
 		this.state = {
 			isLoading: false
 		};
+	}
+
+	componentDidMount() {
+		this.getToken();
 	}
 
 	componentDidUpdate() {
@@ -53,6 +58,11 @@ class ProfileScreen extends React.Component {
 					animationType: 'none'
 				})
 		);
+	}
+
+	getToken = async () => {
+		const token = await AsyncStorage.getItem(authToken);
+		console.log('TOKEN -> ', token);
 	}
 
 	handlePush(screen) {

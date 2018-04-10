@@ -11,6 +11,7 @@ import {
 	Alert
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { getCurrentUser } from '../../../actions/authAction';
 
 import { Card, FooterThread, HeaderThread, Spinner } from '../../../components';
 import { getThreads, makeBookmark } from '../../../actions/threadActions';
@@ -25,6 +26,7 @@ class TabHome extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			currentUser: this.props.getCurrentUser(),
 			refreshing: false,
 			isProses: false
 		};
@@ -195,6 +197,7 @@ class TabHome extends Component {
 	}
 
 	render() {
+		console.log('CURRENT USER ', this.state.currentUser);
 		const { listThreads } = this.props.dataThreads;
 		const spinner = this.state.isProses ? (
 			<Spinner color="#FFDE00" text="Saving..." size="large" />
@@ -268,6 +271,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getThreads: token => dispatch(getThreads(token)),
+	getCurrentUser: () => dispatch(getCurrentUser()),
 	makeBookmark: (idThread, token) => dispatch(makeBookmark(idThread, token))
 });
 
