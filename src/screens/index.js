@@ -26,10 +26,14 @@ import ModalReport from '../screens/modalReport';
 import ProfileScreen from '../screens/profileScreen';
 import ProfileDetails from '../screens/profileScreen/profileDetails';
 import TabInnerCircle from './tab-innerCircle';
+import ProfileSettings from './profileScreen/profileSettings';
+import EditProfile from './profileScreen/profileSettings/editProfile';
 import AboutScreen from '../screens/profileScreen/about';
 import FaqScreen from '../screens/profileScreen/faq';
 import DetailOrder from '../screens/chart/DetailOrder';
-import LightBox from '../screens/chart/LightBox'
+import LightBox from '../screens/chart/LightBox';
+import InnerCircle from '../screens/profileScreen/innerCircle';
+// import InnerCircle from '../screens/innerCircle';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -58,10 +62,14 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ProfileScreen', () => ProfileScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ProfileDetails', () => ProfileDetails, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabInnerCircle', () => TabInnerCircle, store, Provider);
+	Navigation.registerComponent('TemanDiabets.ProfileSettings', () => ProfileSettings, store, Provider);
+	Navigation.registerComponent('TemanDiabets.EditProfile', () => EditProfile, store, Provider);
 	Navigation.registerComponent('TemanDiabets.AboutScreen', () => AboutScreen);
 	Navigation.registerComponent('TemanDiabets.FaqScreen', () => FaqScreen);
 	Navigation.registerComponent('TemanDiabets.DetailOrder', () => DetailOrder);
 	Navigation.registerComponent('TemanDiabets.LightBox', () => LightBox);
+	Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle, store, Provider);
+	// Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle);
 }
 
 export function registerScreenVisibilityListener() {

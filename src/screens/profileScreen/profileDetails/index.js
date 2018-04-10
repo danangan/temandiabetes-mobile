@@ -66,7 +66,7 @@ class ProfileDetails extends React.Component {
       <View style={styles.container}>
         {/* TOP */}
         <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center', marginHorizontal: 10 }}>
-          <NavigationBar toOnPress={() => this.props.navigator.pop()} title="PROFILE" />
+          <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
           <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center', paddingVertical: 10 }}>
             <Avatar
               avatarSize="Medium"

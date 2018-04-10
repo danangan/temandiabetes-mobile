@@ -4,29 +4,40 @@ import { View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 // import ViewPropTypes from '../../config/ViewPropTypes';
 
-const Avatar = props => (
+const Avatar = ({ avatarSize, imageSource, avatarStyle, resizeMode }) => (
 	<View
 		style={{
-			width: props.avatarSize === 'ExtraSmall' ? 25 : props.avatarSize === 'Small' ? 50 : props.avatarSize === 'Medium' ? 100 : 150,
-			height: props.avatarSize === 'ExtraSmall' ? 25 : props.avatarSize === 'Small' ? 50 : props.avatarSize === 'Medium' ? 100 : 150,
+			width:
+				avatarSize === 'ExtraSmall'
+					? 25
+					: avatarSize === 'Small' ? 50 : avatarSize === 'Medium' ? 100 : 150,
+			height:
+				avatarSize === 'ExtraSmall'
+					? 25
+					: avatarSize === 'Small' ? 50 : avatarSize === 'Medium' ? 100 : 150,
 			marginHorizontal: 5
 		}}
 	>
 		<Image
-			source={{ uri: props.imageSource }}
-			style={{
-				width: '100%',
-				height: '100%',
-				borderRadius: 100
-			}}
-			resizeMode={'cover'}
+			source={{ uri: imageSource }}
+			style={[styles.avatarStyle, avatarStyle]}
+			resizeMode={resizeMode}
 		/>
 	</View>
 );
 
 Avatar.propTypes = {
 	imageSource: PropTypes.string,
-	avatarSize: PropTypes.string
+	avatarSize: PropTypes.string,
+	avatarStyle: PropTypes.style
+};
+
+const styles = {
+	avatarStyle: {
+		width: '100%',
+		height: '100%',
+		borderRadius: 100,
+	}
 };
 
 export { Avatar };

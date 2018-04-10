@@ -43,23 +43,22 @@ class ProfileScreen extends React.Component {
 
 	onSignOut = () => this.setState({ isLoading: true }, () => this.props.onSignOut());
 
-	pushProfileDetails = () => {
+	onPushScreen(screen) {
 		this.props.navigator.push(
 			{
-				screen: 'TemanDiabets.ProfileDetails',
-				title: 'PROFILE'
+				screen,
 			},
 			() =>
 				this.props.navigator.dismissAllModals({
 					animationType: 'none'
 				})
 		);
-	};
+	}
 
-	pushAboutScreen = () => {
+	handlePush(screen) {
 		this.props.navigator.push(
 			{
-				screen: 'TemanDiabets.AboutScreen',
+				screen,
 				navigatorStyle: {
 					navBarHidden: true
 				}
@@ -69,22 +68,7 @@ class ProfileScreen extends React.Component {
 					animationType: 'none'
 				})
 		);
-	};
-
-	pushFaqScreen = () => {
-		this.props.navigator.push(
-			{
-				screen: 'TemanDiabets.FaqScreen',
-				navigatorStyle: {
-					navBarHidden: true
-				}
-			},
-			() =>
-				this.props.navigator.dismissAllModals({
-					animationType: 'none'
-				})
-		);
-	};
+	}
 
 	render() {
 		const spinner = this.state.isLoading ? (
@@ -116,16 +100,18 @@ class ProfileScreen extends React.Component {
 					<TouchableOpacity>
 						<Text style={styles.buttonText}>HOME</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={this.pushProfileDetails}>
+					<TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.ProfileDetails')}>
 						<Text style={styles.buttonText}>PROFIL</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={this.pushAboutScreen}>
+					<TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.AboutScreen')}>
 						<Text style={styles.buttonText}>TENTANG</Text>
 					</TouchableOpacity>
-					<TouchableOpacity onPress={this.pushFaqScreen}>
+					<TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.FaqScreen')}>
 						<Text style={styles.buttonText}>FAQ</Text>
 					</TouchableOpacity>
-					<TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => this.handlePush('TemanDiabets.InnerCircle')}
+					>
 						<Text style={styles.buttonText}>NOTIFIKASI</Text>
 					</TouchableOpacity>
 					<TouchableOpacity>
@@ -133,7 +119,9 @@ class ProfileScreen extends React.Component {
 					</TouchableOpacity>
 				</View>
 				<View style={styles.wrappFooter}>
-					<TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => this.onPushScreen('TemanDiabets.ProfileSettings')}
+					>
 						<Image source={require('../../assets/icons/setting.png')} style={styles.itemImage} />
 					</TouchableOpacity>
 					<TouchableOpacity onPress={this.onSignOut}>
