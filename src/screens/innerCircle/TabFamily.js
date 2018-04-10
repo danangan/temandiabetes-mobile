@@ -13,6 +13,7 @@ const TabFamily = ({ innerCircle }) => (
 					<Avatar
 						avatarSize="Small"
 						imageSource="https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg"
+						avatarStyle={styles.avatarStyle}
 					/>
 					<View style={{ margin: 10 }}>
 						<Text style={styles.nameStyle}>Adam</Text>
@@ -37,8 +38,8 @@ const styles = {
 	containerStyle: {
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
-    alignItems: 'center',
-    marginTop: 10,
+		alignItems: 'center',
+		marginTop: 10
 	},
 	contentStyle: {
 		flex: 2,
@@ -69,6 +70,10 @@ const styles = {
 	closeButtonStyle: {
 		width: 50,
 		height: 50
+	},
+	avatarStyle: {
+		borderWidth: 1.5,
+		borderColor: 'rgba(126,211,33,1)'
 	}
 };
 

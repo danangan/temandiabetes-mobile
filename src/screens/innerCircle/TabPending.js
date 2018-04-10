@@ -13,7 +13,7 @@ const TabPending = ({ innerCircle }) => (
 					<Avatar
 						avatarSize="Small"
 						imageSource="https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg"
-						imageStyle={styles.avatarStyle}
+						avatarStyle={styles.avatarStyle}
 					/>
 					<View style={{ margin: 10 }}>
 						<Text style={styles.nameStyle}>Adam</Text>
@@ -46,8 +46,8 @@ const styles = {
 		fontSize: Style.FONT_SIZE_SMALLER
 	},
 	avatarStyle: {
-		borderWidth: 1,
-		borderColor: color.blue
+		borderWidth: 1.5,
+		borderColor: 'rgba(74,144,226,1)'
 	}
 };
 
