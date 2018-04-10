@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 
 import { NavigationBar } from '../../components';
 import color from '../../style/color';
@@ -14,8 +14,8 @@ class InnerCircle extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      tab: 0,
-      innerCircle: [1, 2, 3, 5, 6, 7]
+			tab: 0,
+			innerCircle: [1, 2, 3, 5, 6, 7]
 		};
 	}
 
@@ -34,7 +34,25 @@ class InnerCircle extends Component {
 	render() {
 		return (
 			<View style={styles.containerStyle}>
-				<NavigationBar onPress={() => this.props.navigator.pop()} title={'Inner Circle List'} />
+				<View style={styles.navBarContainerStyle}>
+					<TouchableOpacity style={styles.leftButtonStyle}>
+						<Image
+							resizeMode={'contain'}
+							style={styles.iconStyle}
+							tintColor={color.red}
+							source={require('../../assets/icons/back.png')}
+						/>
+					</TouchableOpacity>
+					<Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
+					<TouchableOpacity style={styles.rightButtonStyle}>
+						<Image
+							resizeMode={'contain'}
+							style={styles.iconStyle}
+							tintColor={color.red}
+							source={require('../../assets/icons/username-dark.png')}
+						/>
+					</TouchableOpacity>
+				</View>
 				<View style={styles.countContainerStyle}>
 					<View style={styles.countContentStyle}>
 						{listTabs.map((tab, index) => (
@@ -103,7 +121,32 @@ const styles = {
 		borderBottomWidth: 3,
 		borderBottomColor: color.red,
 		alignSelf: 'center'
-	}
+	},
+	navBarContainerStyle: {
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
+	leftButtonStyle: {
+		justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: 50,
+	},
+	iconStyle: {
+		width: 25,
+		height: 25
+	},
+	navBarTitleStyle: {
+		fontSize: Style.FONT_SIZE,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '500',
+    textAlign: 'center',
+		color: color.red
+  },
+  rightButtonStyle: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    width: 50,
+  }
 };
 
 export default InnerCircle;
