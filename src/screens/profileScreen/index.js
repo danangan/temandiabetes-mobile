@@ -52,6 +52,9 @@ class ProfileScreen extends React.Component {
 		this.props.navigator.push(
 			{
 				screen,
+				navigatorStyle: {
+					navBarHidden: true
+				}
 			},
 			() =>
 				this.props.navigator.dismissAllModals({

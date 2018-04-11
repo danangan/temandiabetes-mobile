@@ -10,7 +10,7 @@ class TabInputTracker extends Component {
 
 	componentDidMount() {
 		// AsyncStorage.removeItem(authToken);
-		// this.getToken();
+		this.getToken();
 	}
 
 	onNavigatorEvent(event) {
@@ -19,14 +19,18 @@ class TabInputTracker extends Component {
 				alert('NavBar', 'Edit button pressed');
 			}
 			if (event.id === 'sideMenu') {
-				alert('NavBar', 'Add button pressed');
+				this.props.navigator.showModal({
+					screen: 'TemanDiabets.ProfileScreen',
+					title: 'Modal',
+					animationType: 'none'
+				});
 			}
 		}
 	}
 
 	getToken = async () => {
 		const token = await AsyncStorage.getItem(authToken);
-		// console.log('Token: ', token);
+		console.log('Token: ', token);
 	};
 
 	render() {
