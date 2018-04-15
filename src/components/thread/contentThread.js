@@ -6,13 +6,13 @@ const ContentThread = props => (
 	<View style={{ height: 190 }}>
 		<CardSection>
 			<View style={styles.wrapper}>
-				<Text style={styles.title}>{props.property.topic}</Text>
+				<Text style={styles.title}>{props.title}</Text>
 			</View>
 		</CardSection>
 		<CardSection>
 			<View style={styles.wrapper}>
 				<Text style={styles.contentText}>
-					{props.property.description}
+					{props.content}
 				</Text>
 			</View>
 		</CardSection>
