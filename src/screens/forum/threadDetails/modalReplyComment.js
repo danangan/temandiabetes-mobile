@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { View, Image, TouchableOpacity, Text, TextInput, Keyboard } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { createComment, getThreadDetails } from '../../actions/threadActions';
-import Closed from '../../assets/icons/close.png';
+import { commentToReply, getThreadDetails } from '../../../actions/threadActions';
+import Closed from '../../../assets/icons/close.png';
 
-class ModalPostComponent extends Component {
+class ModalReplyComment extends Component {
   static navigatorStyle = {
 		navBarHidden: true
   };
@@ -28,10 +28,15 @@ class ModalPostComponent extends Component {
 		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
 			this.setState({ keyboardActive: false });
 		});
+	}
+
+	componentWillUnmount() {
+		this.keyboardDidShowListener.remove();
+		this.keyboardDidHideListener.remove();
   }
-  
+
   componentDidUpdate() {
-    const { status_code } = this.props.dataThreads.createComment;
+    const { status_code } = this.props.dataThreads.createComment.commentToReply;
     if (status_code === 201 && this.state.isSubmit) {
       // get thread details again
       console.log('STATUS_CODE ', status_code + ' -> ' + this.state.isSubmit);
@@ -43,34 +48,30 @@ class ModalPostComponent extends Component {
         Navigation.dismissModal({
           animationType: 'slide-down' 
         });
-
       });
     } 
   }
 
-	componentWillUnmount() {
-		this.keyboardDidShowListener.remove();
-		this.keyboardDidHideListener.remove();
-  }
-
   onSubmitComment() {
     const { currentUser } = this.props.dataAuth;
+
     this.setState({
       isSubmit: true
     }, () => {
       const comment = {
-        idThread: this.props.idThread,
+        idComment: this.props.idComment,
         params: {
           user: currentUser._id,
           text: this.state.komentar
         }
       };
-      console.log('APA INI ', comment);
-      this.props.createComment(comment);
+      console.log('APA INI commentToReply ->', comment);
+      this.props.commentToReply(comment);
     });
   }
 
   render() {
+    // console.log('PROPS comment -- ', this.props);
     return (
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
@@ -110,7 +111,7 @@ class ModalPostComponent extends Component {
             right: 10,
             backgroundColor: '#262d67',
             paddingHorizontal: 15,
-            paddingVertical: 5
+            paddingVertical: 15
           }}
           onPress={this.state.isSubmit ? null : this.onSubmitComment}
         >
@@ -176,8 +177,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createComment: (comment) => dispatch(createComment(comment)),
+  commentToReply: (comment) => dispatch(commentToReply(comment)),
   getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalPostComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalReplyComment);

@@ -7,7 +7,12 @@ import {
 	SEARCH_THREADS, 
 	GET_THREADS_STATIC,
 	REPORT_THREAD,
-	BOOKMARK_THREAD
+  BOOKMARK_THREAD,
+  CREATE_COMMENT,
+  GET_THREAD_DETAILS,
+  PENDING_FETCH,
+  PENDING,
+  COMMENT_TO_REPLY
 } from './constants';
 // import * as ActionTypes from './constants';
 import { API_BASE } from '../utils/API';
@@ -75,6 +80,43 @@ export const getThreads = token => {
 			})
 			.catch(err => dispatch(getThreadsSuccess(err)));
 };
+
+// GET THREAD DETAILS
+export const getThreadDetails = (threadId) => async dispatch => {
+  const token = await AsyncStorage.getItem(authToken);
+
+  const isPending = () => {
+    dispatch({
+      type: 'PENDING_THREAD_DETAILS',
+      payload: true
+    });
+    return true;
+  };
+
+  const onSuccess = (data) => {
+    dispatch({
+			type: GET_THREAD_DETAILS,
+			payload: data
+		});
+		return data;
+  };
+
+  isPending();
+
+  try {
+    const instance = axios.create({
+      baseURL: API_BASE,
+      headers: {
+        authentication: token
+      }
+    });
+    const request = await instance.get(`api/threads/${threadId}`);
+    onSuccess(request.data.data);
+  } catch (error) {
+    onSuccess(error);
+  }
+};
+
 
 const postThredsSuccess = data => ({
 	type: POST_THREDS,
@@ -180,3 +222,83 @@ export const makeBookmark = (idThread, token) => {
       })
     );
 };
+
+
+// CREATE COMMENT
+export const createComment = (comment) => async dispatch => {
+  const token = await AsyncStorage.getItem(authToken);
+
+  const isPending = () => {
+    dispatch({
+      type: 'PENDING_CREATE_COMMENT',
+      payload: true
+    });
+    return true;
+  };
+
+  function onSuccess(data) {
+		dispatch({
+			type: CREATE_COMMENT,
+			payload: data
+		});
+
+		return data;
+  }
+  
+  isPending();
+
+  try {
+    const instance = axios.create({
+      baseURL: API_BASE,
+      headers: {
+        authentication: token
+      }
+    });
+    const request = await instance.post(`api/threads/${comment.idThread}/comment`, comment.params);
+    console.log('RESPONSE CURRENT USER', request);
+    onSuccess(request);
+  } catch (error) {
+    onSuccess(error);
+  }
+};
+
+/**
+ * Comment To Reply
+ */
+export const commentToReply = (comment) => async dispatch => {
+  const token = await AsyncStorage.getItem(authToken);
+
+  const isPending = () => {
+    dispatch({
+      type: 'PENDING_COMMENT_TO_REPLY',
+      payload: true
+    });
+    return true;
+  };
+
+  function onSuccess(data) {
+		dispatch({
+			type: COMMENT_TO_REPLY,
+			payload: data
+		});
+
+		return data;
+  }
+  
+  isPending();
+
+  try {
+    const instance = axios.create({
+      baseURL: API_BASE,
+      headers: {
+        authentication: token
+      }
+    });
+    const request = await instance.post(`api/threads/${comment.idComment}/reply`, comment.params);
+    console.log('RESPONSE CREATE COMMENT TO REPLY', request);
+    onSuccess(request);
+  } catch (error) {
+    onSuccess(error);
+  }
+}
+

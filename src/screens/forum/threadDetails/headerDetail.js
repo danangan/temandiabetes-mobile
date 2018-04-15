@@ -10,7 +10,7 @@ class HeaderDetail extends React.Component {
 	}
 
 	render() {
-		console.log("PROPS ", this.props);
+		// console.log("PROPS ", this.props);
 		return (
 			<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
 				<View style={styles.container}>

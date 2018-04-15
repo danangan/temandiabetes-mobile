@@ -34,6 +34,7 @@ import DetailOrder from '../screens/chart/DetailOrder';
 import LightBox from '../screens/chart/LightBox';
 import InnerCircle from '../screens/profileScreen/innerCircle';
 import InnerCircleList from '../screens/profileScreen/innerCircle/innerCircleList';
+import ModalReplyComment from '../screens/forum/threadDetails/modalReplyComment';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -53,10 +54,10 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.TabEvent', () => TabEvent);
 	Navigation.registerComponent('TemanDiabets.TabInputTracker', () => TabInputTracker);
 	Navigation.registerComponent('TemanDiabets.TabHistory', () => TabHistory);
-	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails);
+	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalSearch', () => ModalSearch, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalPostThread', () => ModalPostThread, store, Provider);
-	Navigation.registerComponent('TemanDiabets.ModalPostComment', () => ModalPostComment);
+	Navigation.registerComponent('TemanDiabets.ModalPostComment', () => ModalPostComment, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalReport', () => ModalReport, store, Provider);
 	Navigation.registerComponent('TemanDiabets.FeaturedDetail', () => FeatureDetail);
 	Navigation.registerComponent('TemanDiabets.ProfileScreen', () => ProfileScreen, store, Provider);
@@ -69,6 +70,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.DetailOrder', () => DetailOrder);
 	Navigation.registerComponent('TemanDiabets.LightBox', () => LightBox);
 	Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle, store, Provider);
+	Navigation.registerComponent('TemanDiabets.ModalReplyComment', () => ModalReplyComment, store, Provider);
 	Navigation.registerComponent('TemanDiabets.InnerCircleList', () => InnerCircleList);
 }
 

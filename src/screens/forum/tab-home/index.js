@@ -197,7 +197,6 @@ class TabHome extends Component {
 	}
 
 	render() {
-		console.log('CURRENT USER ', this.state.currentUser);
 		const { listThreads } = this.props.dataThreads;
 		const spinner = this.state.isProses ? (
 			<Spinner color="#FFDE00" text="Saving..." size="large" />

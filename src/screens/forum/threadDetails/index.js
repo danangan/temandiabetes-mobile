@@ -1,11 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { CardSection } from '../../../components';
+import { getThreadDetails } from '../../../actions/threadActions';
+
+import { CardSection, Spinner } from '../../../components';
 
 import { ContentDetail } from './contentDetail';
 import HeaderDetail from './headerDetail';
+import color from '../../../style/color';
+
 
 class ThreadDetails extends React.Component {
 	static navigatorStyle = {
@@ -14,18 +19,47 @@ class ThreadDetails extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
+		this.state = {
+			idThread: this.props.item._id,
+			isProcess: true
+		};
+	}
+
+	componentDidMount() {
+		this.props.getThreadDetails(this.state.idThread);
+	}
+
+	shouldComponentUpdate() {
+		return true;
+	}
+
+	componentDidUpdate() {
+		// const { isFetch, listThreads } = this.props.dataThreads;
+		// if (isFetch === this.state.isProcess) {
+		// 	this.setState({
+		// 		isProcess: false
+		// 	});
+		// }
 	}
 
 	render() {
-		console.log("PROPS DI DETAILS ", this.props);
-		const { topic, author } = this.props.item;
+		const { topic, author, _id } = this.props.item;
+		const { listThreads } = this.props.dataThreads;
+		if (listThreads.threadDetails === null) {
+			return (
+				<Spinner 
+					containerStyle={{ backgroundColor: '#f2f4fd' }}
+					color="#FFDE00" 
+					size="large"
+				/>
+			);
+		}
 		return (
-			<View style={{ flex: 2, backgroundColor: '#f2f4fd' }}>
+			<View style={{ flex: 2, backgroundColor: color.solitude }}>
 				<HeaderDetail authorItem={author} />
 				<ScrollView>
 					{/* <ContentDetail /> */}
-					<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
+					<CardSection containerStyle={{ backgroundColor: color.solitude, margin: 0 }}>
 						<View
 							style={{
 								flex: 1,
@@ -67,6 +101,9 @@ class ThreadDetails extends React.Component {
 								onPress={() => Navigation.showModal({
 									screen: 'TemanDiabets.ModalPostComment',
 									title: 'Modal',
+									passProps: {
+										idThread: _id
+									},
 									navigatorButtons: {
 										leftButtons: [
 											{}
@@ -90,22 +127,40 @@ class ThreadDetails extends React.Component {
 					</CardSection>
 					<ContentDetail 
 						threadItem={this.props.item}
+						threadDetails={listThreads.threadDetails}
 					/>
 				</ScrollView>
 				<TouchableOpacity
 					onPress={() => this.props.navigator.pop()}
-					style={{
-						width: '100%',
-						backgroundColor: 'red',
-						justifyContent: 'center',
-						alignItems: 'center'
-					}}
+					style={styles.buttonBack}
 				>
-					<Text style={{ color: '#fff', fontSize: 30 }}>X</Text>
+					<Text style={styles.buttonText}>X</Text>
 				</TouchableOpacity>
 			</View>
 		);
 	}
 }
 
-export default ThreadDetails;
+const styles = {
+	buttonBack: {
+		width: '100%',
+		backgroundColor: 'red',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	buttonText: { 
+		color: '#fff', 
+		fontSize: 30 
+	}
+};
+
+const mapStateToProps = state => ({
+	dataThreads: state.threadsReducer,
+});
+
+const mapDispatchToProps = dispatch => ({
+	getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThreadDetails);
+

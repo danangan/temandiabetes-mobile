@@ -9,7 +9,7 @@ const Avatar = ({ avatarSize, imageSource, avatarStyle, resizeMode }) => (
 		style={{
 			width:
 				avatarSize === 'ExtraSmall'
-					? 25
+					? 24
 					: avatarSize === 'Small' ? 50 : avatarSize === 'Medium' ? 100 : 150,
 			height:
 				avatarSize === 'ExtraSmall'
