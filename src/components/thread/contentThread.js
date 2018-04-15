@@ -6,15 +6,13 @@ const ContentThread = props => (
 	<View style={{ height: 190 }}>
 		<CardSection>
 			<View style={styles.wrapper}>
-				<Text style={styles.title}>Arti Tinggi Dan rendahnya kadar Gula Darah</Text>
+				<Text style={styles.title}>{props.property.topic}</Text>
 			</View>
 		</CardSection>
 		<CardSection>
 			<View style={styles.wrapper}>
 				<Text style={styles.contentText}>
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vitae arcu eu odio
-					pharetra iaculis. Curabitur at consectetur felis, et rhoncus velit. Vestibulum commodo
-					massa at lorem tempus euismod. Vestibulum mattis non velit in lobortis.
+					{props.property.description}
 				</Text>
 			</View>
 		</CardSection>
