@@ -47,7 +47,10 @@ class TabThreadByUser extends React.Component {
 						name={nama}
 						category={threadType}
 					/>
-					<ContentThread property={threads.item} />
+					<ContentThread 
+						title={threads.item.topic}
+						content={threads.item.description} 
+					/>
 					<FooterThread 
 						numOfComments={17} 
 						isOpen={this.togleModal}
@@ -61,7 +64,7 @@ class TabThreadByUser extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <View style={{ flex: 1, backgroundColor: '#fff', marginBottom: 10, paddingBottom: 10 }}>
 				<FlatList
 					data={this.props.listThreads}
 					renderItem={item => this.renderItem(item)}

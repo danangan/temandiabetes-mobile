@@ -6,6 +6,7 @@ import { getThreads } from '../../../actions/threadActions';
 import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
 import { Avatar, Indicator, NavigationBar } from '../../../components';
 import Event from './Event';
+import TabComments from './Comments';
 import TabInnerCircle from '../../tab-innerCircle';
 import TabThreadByUser from '../../tab-threadByUser';
 
@@ -32,7 +33,7 @@ class ProfileDetails extends React.Component {
 
   renderTabContent() {
     const { listThreads } = this.props.dataThreads;
-    const { recentThreads } = this.props.dataRecentActivity;
+    const { recentThreads, recentComments } = this.props.dataRecentActivity;
     if (this.state.tab === 0) {
       return (
         <TabThreadByUser 
@@ -42,10 +43,17 @@ class ProfileDetails extends React.Component {
       );
     } 
     if (this.state.tab === 1) {
+      if (recentComments.data.length === 0 && recentComments.status_code === 0) {
+        return (
+          <View>
+            <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+          </View>
+        );
+      }
       return (
-        <TabThreadByUser 
+        <TabComments 
           navi={this.props.navigator}
-          listThreads={listThreads.item.recentData}
+          listThreads={recentComments.data}
         />
       );
     }
