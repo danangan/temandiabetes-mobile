@@ -1,4 +1,4 @@
-export const authToken = 'temandiabets/token';
+export const authToken = 'temandiabetes/token';
 export const buttonLabelNext = 'LANJUT';
 export const buttonLabelDone = 'SELESAI';
 export const typeOfUsers = ['diabetesi', 'non-diabetesi', 'ahli'];
