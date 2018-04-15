@@ -26,7 +26,8 @@ class TabThreadByUser extends React.Component {
 	}
 
   renderItem(threads) {
-    const { author } = threads.item;
+		const { threadType } = threads.item;
+		const { nama } = this.props.dataAuth;
 		return (
 			<TouchableOpacity
 				key={threads.index}
@@ -43,8 +44,8 @@ class TabThreadByUser extends React.Component {
 				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
 						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
-						name={author.nama}
-						category={author.tipe_user.toUpperCase()}
+						name={nama}
+						category={threadType}
 					/>
 					<ContentThread property={threads.item} />
 					<FooterThread 
@@ -115,6 +116,7 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
+	dataAuth: state.authReducer.currentUser,
 	dataRegister: state.registerReducer,
 	dataThreads: state.threadsReducer,
 });
