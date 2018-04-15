@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../reducers/rootReducer';
 
+
 let middleware = [thunk];
 
 if (__DEV__) {

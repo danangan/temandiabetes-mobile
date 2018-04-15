@@ -13,11 +13,15 @@ class Emergency extends Component {
 				alert('NavBar', 'Edit button pressed');
 			}
 			if (event.id === 'sideMenu') {
-				alert('NavBar', 'Add button pressed');
+				this.props.navigator.showModal({
+					screen: 'TemanDiabets.ProfileScreen',
+					title: 'Modal',
+					animationType: 'none'
+				});
 			}
 		}
 	}
-	
+
 	render() {
 		return (
 			<View>

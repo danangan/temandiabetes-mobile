@@ -7,8 +7,10 @@ const initialState = {
 			recentData: [],
 			total: 0
 		},
+		threadDetails: null,
 		message: '',
-		status_code: 0
+		status_code: 0,
+
 	},
 	listThreadStatic: {
 		item: {
@@ -34,7 +36,14 @@ const initialState = {
 		data: [],
 		message: '',
 		status_code: 0
-	}
+	},
+	createComment: {
+		status_code: 0,
+		commentToReply: {
+			status_code: 0
+		}
+	},
+	isFetch: false
 };
 
 const getThreadStatic = (state, payload) => {
@@ -99,6 +108,53 @@ const postBookmark = (state, payload) => {
   };
 };
 
+/**
+ * 
+ * @param {*} state object
+ * @param {*} payload object
+ * Setelah post comment dan comment to reply
+ * set default create comment to initialState
+ */
+const getThreadsDetails = (state, payload) => {
+	return {
+		...state, 
+		listThreads: {
+			...state.listThreads, 
+			threadDetails: payload.thread,
+			status_code: 200
+		},
+		createComment: {
+			...state.createComment,
+			status_code: 0,
+			commentToReply: { 
+				...state.createComment.commentToReply,
+				status_code: 0
+			}
+		},
+		isFetch: false
+	};
+};
+
+const createComment = (state, payload) => {
+	return {
+		...state, 
+		createComment: { ...state.createComment, status_code: payload.status },
+		isFetch: false
+	};
+};
+
+const commentToReply = (state, payload) => {
+	return {
+		...state,
+		createComment: { 
+			...state.createComment, 
+			commentToReply: {
+				...state.createComment.commentToReply, status_code: payload.status
+			}
+		}
+	};
+};
+
 const threadsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ActionTypes.GET_THREADS:
@@ -113,6 +169,50 @@ const threadsReducer = (state = initialState, action) => {
 			return getThreadStatic(state, action.payload);
 		case ActionTypes.BOOKMARK_THREAD:
 			return postBookmark(state, action.payload);
+		case 'PENDING_THREAD_DETAILS':
+			return {
+				...state, 
+				listThreads: {
+					...state.listThreads, 
+					threadDetails: null,
+					status_code: 0
+				},
+			};
+		case `${ActionTypes.GET_THREAD_DETAILS}`:
+			return getThreadsDetails(state, action.payload);
+		case 'PENDING_CREATE_COMMENT':
+			return {
+				...state, 
+				listThreads: {
+					...state.listThreads, 
+					threadDetails: null,
+					status_code: 0
+				},
+				createComment: {
+					...state.createComment,
+					status_code: 0
+				}
+			};
+		case ActionTypes.CREATE_COMMENT: 
+			return createComment(state, action.payload);
+		case 'PENDING_COMMENT_TO_REPLY':
+			return {
+				...state, 
+				listThreads: {
+					...state.listThreads, 
+					threadDetails: null,
+					status_code: 0
+				},
+				createComment: {
+					...state.createComment,
+					commentToReply: { 
+						...state.createComment.commentToReply,
+						status_code: 0
+					}
+				}
+			};
+		case ActionTypes.COMMENT_TO_REPLY:
+			return commentToReply(state, action.payload);
 		default:
 			return state;
 	}
