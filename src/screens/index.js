@@ -70,8 +70,8 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.DetailOrder', () => DetailOrder);
 	Navigation.registerComponent('TemanDiabets.LightBox', () => LightBox);
 	Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle, store, Provider);
+	Navigation.registerComponent('TemanDiabets.InnerCircleList', () => InnerCircleList, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalReplyComment', () => ModalReplyComment, store, Provider);
-	Navigation.registerComponent('TemanDiabets.InnerCircleList', () => InnerCircleList);
 }
 
 export function registerScreenVisibilityListener() {

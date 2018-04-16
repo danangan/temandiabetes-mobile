@@ -13,8 +13,6 @@ const messages = 'success login';
 const onLogin = (state, payload) => {
 	const payloadCode = payload !== null ? payload.code : 'null';
 
-	console.log('DATA FROM REDUCER: ', payload);
-
 	if (payloadCode === 'auth/wrong-password') {
 		return {
 			...state,
@@ -44,7 +42,6 @@ const onLogin = (state, payload) => {
 };
 
 const oAuthLogin = (state, payload) => {
-	console.log('DATA FROM REDUCER, USER FIREBASE: ', payload);
 	return {
 		...state,
 		// isNewUser: userFirebase.additionalUserInfo.isNewUser,

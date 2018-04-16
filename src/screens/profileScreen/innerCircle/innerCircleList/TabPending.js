@@ -1,28 +1,35 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 
 import { Avatar } from '../../../../components';
-import color from '../../../../style/color';
 import Style from '../../../../style/defaultStyle';
 
-const TabPending = ({ innerCircle }) => (
-	<View>
-		{innerCircle.map((item, index) => (
-			<View style={styles.containerStyle} key={index}>
-				<View style={styles.contentStyle}>
-					<Avatar
-						avatarSize="Small"
-						imageSource="https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg"
-						avatarStyle={styles.avatarStyle}
-					/>
-					<View style={{ margin: 10 }}>
-						<Text style={styles.nameStyle}>Adam</Text>
-						<Text style={styles.relationStyle}>Kakak</Text>
-					</View>
-				</View>
+const renderItem = ({ item }) => (
+	<View style={styles.containerStyle}>
+		<View style={styles.contentStyle}>
+			<Avatar
+				avatarSize="Small"
+				imageSource="https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg"
+				avatarStyle={[
+					styles.avatarStyle,
+					{
+						borderColor:
+							item.friend.tipe_user === 'non-diabetesi'
+								? 'rgba(126,211,33,1)'
+								: item.friend.tipe_user === 'diabetesi' ? color.red : 'rgba(74,144,226,1)'
+					}
+				]}
+			/>
+			<View style={{ margin: 10 }}>
+				<Text style={styles.nameStyle}>{item.friend.nama}</Text>
+				<Text style={styles.relationStyle}>{item.friend.tipe_user}</Text>
 			</View>
-		))}
+		</View>
 	</View>
+);
+
+const TabPending = ({ innerCircle }) => (
+	<FlatList data={innerCircle} renderItem={item => renderItem(item)} />
 );
 
 const styles = {

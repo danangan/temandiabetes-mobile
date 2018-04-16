@@ -1,33 +1,32 @@
-import { AsyncStorage } from 'react-native';
 import axios from 'axios';
 
 import * as ActionTypes from './constants';
-import { authToken } from '../utils/constants';
 import { API_BASE } from '../utils/API';
 
-export const getInnerCirle = id => async dispatch => {
-	function onSuccess(data) {
+export const getInnerCircle = (userID, idToken) => async dispatch => {
+	function onSuccess(innerCircles) {
 		dispatch({
-			type: ActionTypes.GET_LIST_INNER_CIRCLE,
-			payload: data
+			type: ActionTypes.GET_INNER_CIRCLE,
+			payload: innerCircles
 		});
 
-		return data;
+		return innerCircles;
 	}
 
 	try {
 		const instance = axios.create({
 			baseURL: API_BASE,
 			headers: {
-				authentication: authToken,
+				authentication: idToken,
 				'Content-Type': 'application/x-www-form-urlencoded'
 			}
 		});
 
-		const userID = id;
-    const { data: { innerCircles } } = await instance.get(`api/users/${userID}/innercircles`);
-    
-    return onSuccess(innerCircles);
+		const { data } = await instance.get(
+			`api/users/${userID}/innercircles`
+		);
+
+		return onSuccess(data);
 	} catch (error) {
 		return onSuccess(error);
 	}

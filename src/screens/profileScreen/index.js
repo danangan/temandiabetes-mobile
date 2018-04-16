@@ -128,7 +128,7 @@ class ProfileScreen extends React.Component {
 						<Text style={styles.buttonText}>FAQ</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => this.handlePush('TemanDiabets.InnerCircle')}
+						onPress={() => null}
 					>
 						<Text style={styles.buttonText}>NOTIFIKASI</Text>
 					</TouchableOpacity>
