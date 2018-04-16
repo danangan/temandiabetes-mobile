@@ -1,3 +1,6 @@
+/**
+ * LIKE A drawer open 
+ */
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
@@ -84,6 +87,8 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
+		// const { nama, tipe_user } = this.props.dataAuth;
+
 		const spinner = this.state.isLoading ? (
 			<Spinner color="#FFDE00" text="Logout..." size="large" />
 		) : (
@@ -100,8 +105,8 @@ class ProfileScreen extends React.Component {
 					</View>
 					<View style={styles.itemTopRight}>
 						<View style={{ marginRight: 10 }}>
-							<Text style={styles.buttonText}>Ryan Wilson</Text>
-							<Text style={styles.userDesc}>Diabetes Type II</Text>
+							{/* <Text style={styles.buttonText}>{this.props.dataAuth.nama === undefined ? 'Token expired' :  this.props.dataAuth.nama}</Text> */}
+							{/* <Text style={styles.userDesc}>{this.props.dataAuth.tipe_user === undefined ? 'Token expired' :  this.props.dataAuth.tipe_user}</Text> */}
 						</View>
 						<Avatar
 							avatarSize="Small"
@@ -196,6 +201,7 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
+	dataAuth: state.authReducer.currentUser,
 	dataLogin: state.loginReducer,
 	dataThreads: state.threadsReducer
 });

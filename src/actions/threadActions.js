@@ -223,7 +223,6 @@ export const makeBookmark = (idThread, token) => {
     );
 };
 
-
 // CREATE COMMENT
 export const createComment = (comment) => async dispatch => {
   const token = await AsyncStorage.getItem(authToken);
