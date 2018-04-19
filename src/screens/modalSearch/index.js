@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, Modal, FlatList, AsyncStorage, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, Image, Modal, FlatList, AsyncStorage, ScrollView, TextInput } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { searchThread } from '../../actions/threadActions';
 import { TextField, Avatar } from '../../components';
+import CardResult from './CardResult';
 import searchIcon from '../../assets/icons/close.png';
 import Blood from '../../assets/icons/explorer_icon.png';
-import BookMark from '../../assets/icons/bookmark.png';
-import ShareBtn from '../../assets/icons/share.png';
+
 import { authToken } from '../../utils/constants';
 
 class ModalSearch extends React.Component {
@@ -22,6 +22,7 @@ class ModalSearch extends React.Component {
       searchKeyword: '',
     };
     this.changesKeyword = this.changesKeyword.bind(this);
+    this.toThreadDetails = this.toThreadDetails.bind(this);
   }
 
   changesKeyword = async (e) => {
@@ -31,89 +32,19 @@ class ModalSearch extends React.Component {
     });
   }
 
-  toRenderHeader() {
-    const { searchResult } = this.props.dataThreads;
-    return (
-      <View>
+  // toRenderHeader() {
+  //   const { searchResult } = this.props.dataThreads;
+  //   return (
+  //     <View>
         
         
-      </View>
-    );
-  }
+  //     </View>
+  //   );
+  // }
 
   toRenderItem(res) {
     console.log("ITEM INI", res)
-    return (
-      <TouchableOpacity 
-        key={res.index}
-        onPress={() =>
-					this.props.navigator.push({
-						screen: 'TemanDiabets.ThreadDetails',
-						navigatorStyle: {
-							navBarHidden: true,
-						},
-						passProps: res
-					})
-				}
-        style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20 }}>
-        <View 
-          style={{ 
-            flex: 1, 
-            flexDirection: 'row', 
-            borderRadius: 5,
-            elevation: 4,
-            borderBottom: 0.5, 
-            borderBottomColor: '#b6b6b6', 
-            justifyContent: 'flex-start', 
-            alignItems: 'center', 
-            marginVertical: 5,
-            height: 120
-          }}
-        >
-          <View style={{ height: 100, width: 100 }}>
-            {/* <Image 
-              resizeMode={'center'}
-              style={{ width: '100%', height: '100%' }}
-              source={{ uri: 'https://johnkoessler.files.wordpress.com/2014/04/blackbox2.jpg' }}
-            /> */}
-            <View style={{ width: '100%', height: '100%', backgroundColor: '#000' }}/>
-          </View>
-          <View style={{ width: '75%', padding: 20 }}>
-            <View>
-              <Text style={styles.currentSearch}>{res.item.topic}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
-              <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <Avatar
-                  avatarSize="ExtraSmall"
-                  imageSource='http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg'
-                />
-                <View style={{ margin: 5 }}>
-                  <Text style={{ fontSize: 10 }}>{res.item.author.nama}</Text>
-                  <Text style={{ fontSize: 8 }}>12 January 2018</Text>
-                </View>
-              </View>
-              <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
-                <View style={{ height: 20, width: 20 }}>
-                  <Image 
-                    resizeMode={'center'}
-                    style={{ width: '100%', height: '100%' }}
-                    source={ShareBtn}
-                  />
-                </View>
-                <View style={{ height: 20, width: 20 }}>
-                  <Image 
-                    resizeMode={'center'}
-                    style={{ width: '100%', height: '100%' }}
-                    source={BookMark}
-                  />
-                </View>
-              </View>
-            </View>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
+    
   }
 
   handleExtraData() {
@@ -130,10 +61,21 @@ class ModalSearch extends React.Component {
   //   )
   // }
 
+  toThreadDetails(threads) {
+    this.props.navigator.push({
+      screen: 'TemanDiabets.ThreadDetails',
+      navigatorStyle: {
+        navBarHidden: true,
+      },
+      passProps: threads
+    });
+  }
+
   renderSearch() {
+    const { searchResult } = this.props.dataThreads;
     if (this.state.searchKeyword === '') {
       return (
-        <View style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20, marginVertical: 60 }}>
+        <View style={{ flex: 2, paddingHorizontal: 20, marginVertical: 60 }}>
           <Text style={styles.titleElement}>Pencarian Terakhir</Text>
           <View style={{ paddingVertical: 10, marginVertical: 0 }}>
             <Text style={styles.currentSearch}>Diabetes</Text>
@@ -143,34 +85,51 @@ class ModalSearch extends React.Component {
           <Text style={[styles.titleElement, { paddingVertical: 10 }]}>Rekomendasi Untuk Anda</Text>
         </View>
       );
-    } 
+    } else if (searchResult.data.length === 0) {
+      if (searchResult.status_code === 200) {
+        return (
+          <View>
+            <Text>Opppss.. Pencarian Anda tidak ditemukan.</Text>
+          </View>
+        );
+      } else {
+        return (
+          <View>
+            <Text>Mohon menunggu....</Text>
+          </View>
+        );
+      }
+    }
     return (
       <View>
-        <Text>DANIEL SIDABUTAR</Text>
+        <ScrollView>
+          {
+            searchResult.data.map((item, index) => (
+              <CardResult 
+                key={index} 
+                result={item}
+                onNavigate={this.toThreadDetails} 
+              />
+            ))
+          }
+        </ScrollView>
       </View>
     );
   }
   
   render() {   
+    console.log('PROPS SEARCH INDEX', this.props);
     return (
-      <Modal 
-        animationType="slide"
-        transparent={false}
-        visible={this.props.visible}
+      <View 
         style={styles.container}
       >
         <View 
           style={{ 
-            flex: 1, 
-            width: '100%',
-            height: 70,
-            justifyContent: 'flex-start',
-            alignItems: 'center', 
-            elevation: 4,
-            borderWidth: 1,
-            borderColor: '#ccc',
-            paddingHorizontal: 20,
-            margin: 0
+            backgroundColor: '#fff',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            padding: 15
           }}
         >
           <TextField
@@ -181,7 +140,7 @@ class ModalSearch extends React.Component {
             // onPressRight={() => Navigation.dismissModal({
             //   animationType: 'slide-down' 
             // })}
-            onPressRight={() => this.props.onClose(false)}
+            onPressRight={() => this.props.navigator.pop()}
             placeholder={'Cari post, pengguna'}
             underlineColorAndroid={'#fff'}
             sectionStyle={{
@@ -197,14 +156,14 @@ class ModalSearch extends React.Component {
         {
           this.renderSearch()
         }
-      </Modal>
+      </View>
     );
   }
 }
 
 const styles = {
   container: {
-    flex: 3, 
+    flex: 1, 
     backgroundColor: '#fff', 
     justifyContent: 'flex-start', 
     alignItems: 'flex-start' 

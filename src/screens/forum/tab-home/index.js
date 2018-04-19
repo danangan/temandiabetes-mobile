@@ -176,8 +176,16 @@ class TabHome extends Component {
 	renderButtonSearch() {
 		return (
 			<TouchableOpacity
-				// onPress={() => this.togleModal('TemanDiabets.ModalSearch')}
-				onPress={() => this.setModalVisible(true)}
+				onPress={() => 
+					this.props.navigator.push({
+						screen: 'TemanDiabets.ModalSearch',
+						navigatorStyle: {
+							navBarHidden: true
+						},
+						// passProps: threads
+					})
+				}
+				// onPress={() => this.setModalVisible(true)}
 				style={styles.wrapButonSearch}
 			>
 				<View
@@ -223,12 +231,12 @@ class TabHome extends Component {
 		// 		</View>
 		// 	</Modal>
 		// );
-		return (
-			<ModalSearch 
-				visible={this.state.modalVisible}
-				onClose={this.setModalVisible.bind(this)}
-			/>
-		);
+		// return (
+		// 	<ModalSearch 
+		// 		// visible={this.state.modalVisible}
+		// 		onClose={this.setModalVisible.bind(this)}
+		// 	/>
+		// );
 	}
 
 	render() {
@@ -241,9 +249,6 @@ class TabHome extends Component {
 
 		return (
 			<View style={styles.containerStyle}>
-				{
-					this.renderModalSearch()
-				}
 				<FlatList
 					ListHeaderComponent={() => this.renderHeader()}
 					data={listThreads.item.data}
