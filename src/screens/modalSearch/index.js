@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, FlatList, AsyncStorage, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Modal, FlatList, AsyncStorage, TouchableOpacity, TextInput } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { searchThread } from '../../actions/threadActions';
 import { TextField, Avatar } from '../../components';
@@ -35,58 +35,8 @@ class ModalSearch extends React.Component {
     const { searchResult } = this.props.dataThreads;
     return (
       <View>
-        <View 
-          style={{ 
-            flex: 1, 
-            width: '100%',
-            height: 70,
-            justifyContent: 'flex-start',
-            alignItems: 'center', 
-            elevation: 4,
-            position: 'absolute',
-            borderWidth: 1,
-            borderColor: '#ccc',
-            paddingHorizontal: 20,
-            margin: 0
-          }}
-        >
-          <TextField
-            onChangeText={this.changesKeyword}
-            autoFocus
-            leftIcon={Blood}
-            rightIcon={searchIcon}
-            onPressRight={() => Navigation.dismissModal({
-              animationType: 'slide-down' 
-            })}
-            placeholder={'Cari post, pengguna'}
-            underlineColorAndroid={'#fff'}
-            sectionStyle={{
-              backgroundColor: '#fff',
-              borderWidth: 1,
-              borderColor: '#fff',
-              borderRadius: 5,
-              margin: 0
-            }}
-            inputStyle={{ color: '#b6b6b6', fontSize: 12, backgroundColor: '#fff' }}
-          />
-        </View>
-        {
-          searchResult.data.length === 0 && this.state.searchKeyword === '' ?
-            <View style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20, marginVertical: 60 }}>
-              <Text style={styles.titleElement}>Pencarian Terakhir</Text>
-              <View style={{ paddingVertical: 10, marginVertical: 0 }}>
-                <Text style={styles.currentSearch}>Diabetes</Text>
-                <Text style={[styles.currentSearch, { paddingVertical: 5 }]}>Gula</Text>
-                <Text style={styles.currentSearch}>DNurse</Text>
-              </View>
-              <Text style={[styles.titleElement, { paddingVertical: 10 }]}>Rekomendasi Untuk Anda</Text>
-            </View>
-            :
-            <FlatList 
-              data={searchResult.data}
-              renderItem={(item) => this.toRenderItem(item)}
-            />
-          }
+        
+        
       </View>
     );
   }
@@ -173,15 +123,81 @@ class ModalSearch extends React.Component {
     } 
     return searchResult.data;
   }
+
+  // renderRecentSearch() {
+  //   return (
+      
+  //   )
+  // }
+
+  renderSearch() {
+    if (this.state.searchKeyword === '') {
+      return (
+        <View style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20, marginVertical: 60 }}>
+          <Text style={styles.titleElement}>Pencarian Terakhir</Text>
+          <View style={{ paddingVertical: 10, marginVertical: 0 }}>
+            <Text style={styles.currentSearch}>Diabetes</Text>
+            <Text style={[styles.currentSearch, { paddingVertical: 5 }]}>Gula</Text>
+            <Text style={styles.currentSearch}>DNurse</Text>
+          </View>
+          <Text style={[styles.titleElement, { paddingVertical: 10 }]}>Rekomendasi Untuk Anda</Text>
+        </View>
+      );
+    } 
+    return (
+      <View>
+        <Text>DANIEL SIDABUTAR</Text>
+      </View>
+    );
+  }
   
   render() {   
-   
     return (
-      <View 
+      <Modal 
+        animationType="slide"
+        transparent={false}
+        visible={this.props.visible}
         style={styles.container}
       >
-        {this.toRenderHeader()}
-      </View>
+        <View 
+          style={{ 
+            flex: 1, 
+            width: '100%',
+            height: 70,
+            justifyContent: 'flex-start',
+            alignItems: 'center', 
+            elevation: 4,
+            borderWidth: 1,
+            borderColor: '#ccc',
+            paddingHorizontal: 20,
+            margin: 0
+          }}
+        >
+          <TextField
+            onChangeText={this.changesKeyword}
+            autoFocus
+            leftIcon={Blood}
+            rightIcon={searchIcon}
+            // onPressRight={() => Navigation.dismissModal({
+            //   animationType: 'slide-down' 
+            // })}
+            onPressRight={() => this.props.onClose(false)}
+            placeholder={'Cari post, pengguna'}
+            underlineColorAndroid={'#fff'}
+            sectionStyle={{
+              backgroundColor: '#fff',
+              borderWidth: 1,
+              borderColor: '#fff',
+              borderRadius: 5,
+              margin: 0
+            }}
+            inputStyle={{ color: '#b6b6b6', fontSize: 12, backgroundColor: '#fff' }}
+          />
+        </View>
+        {
+          this.renderSearch()
+        }
+      </Modal>
     );
   }
 }

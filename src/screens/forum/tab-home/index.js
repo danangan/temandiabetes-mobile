@@ -8,13 +8,16 @@ import {
 	Text, 
 	Image, 
 	AsyncStorage,
-	Alert
+	Alert,
+	Modal
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { getCurrentUser } from '../../../actions/authAction';
 
 import { Card, FooterThread, HeaderThread, Spinner } from '../../../components';
 import { getThreads, makeBookmark } from '../../../actions/threadActions';
+
+import ModalSearch from '../../modalSearch';
 
 import ContentThread from './contentThread';
 import searchIcon from '../../../assets/icons/close.png';
@@ -28,7 +31,8 @@ class TabHome extends Component {
 		this.state = {
 			currentUser: this.props.getCurrentUser(),
 			refreshing: false,
-			isProses: false
+			isProses: false,
+			modalVisible: false,
 		};
 
 		this.togleModal = this.togleModal.bind(this);
@@ -172,7 +176,8 @@ class TabHome extends Component {
 	renderButtonSearch() {
 		return (
 			<TouchableOpacity
-				onPress={() => this.togleModal('TemanDiabets.ModalSearch')}
+				// onPress={() => this.togleModal('TemanDiabets.ModalSearch')}
+				onPress={() => this.setModalVisible(true)}
 				style={styles.wrapButonSearch}
 			>
 				<View
@@ -196,6 +201,36 @@ class TabHome extends Component {
 		);
 	}
 
+	setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+	renderModalSearch() {
+		// return (
+		// 	<Modal
+		// 		animationType="slide"
+    //     transparent={false}
+		// 		visible={this.state.modalVisible}
+		// 	>
+		// 		<View>
+		// 			<Text>Modal Search</Text>
+		// 			<Text>Daniel Sidabutar</Text>
+		// 			<TouchableOpacity
+		// 				onPress={() => this.setModalVisible(false)}
+		// 			>
+		// 				<Text>Close</Text>
+		// 			</TouchableOpacity>
+		// 		</View>
+		// 	</Modal>
+		// );
+		return (
+			<ModalSearch 
+				visible={this.state.modalVisible}
+				onClose={this.setModalVisible.bind(this)}
+			/>
+		);
+	}
+
 	render() {
 		const { listThreads } = this.props.dataThreads;
 		const spinner = this.state.isProses ? (
@@ -206,6 +241,9 @@ class TabHome extends Component {
 
 		return (
 			<View style={styles.containerStyle}>
+				{
+					this.renderModalSearch()
+				}
 				<FlatList
 					ListHeaderComponent={() => this.renderHeader()}
 					data={listThreads.item.data}
