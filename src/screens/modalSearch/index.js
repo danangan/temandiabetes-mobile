@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, Modal, FlatList, AsyncStorage, ScrollView, TextInput } from 'react-native';
-import { Navigation } from 'react-native-navigation';
+import { View, Text, FlatList, AsyncStorage, ActivityIndicator } from 'react-native';
 import { searchThread } from '../../actions/threadActions';
-import { TextField, Avatar } from '../../components';
+import { TextField } from '../../components';
 import CardResult from './CardResult';
 import searchIcon from '../../assets/icons/close.png';
 import Blood from '../../assets/icons/explorer_icon.png';
@@ -32,19 +31,14 @@ class ModalSearch extends React.Component {
     });
   }
 
-  // toRenderHeader() {
-  //   const { searchResult } = this.props.dataThreads;
-  //   return (
-  //     <View>
-        
-        
-  //     </View>
-  //   );
-  // }
-
-  toRenderItem(res) {
-    console.log("ITEM INI", res)
-    
+  toRenderItem(threads) {
+    return (
+      <CardResult 
+        // key={index} 
+        threads={threads}
+        onNavigate={this.toThreadDetails} 
+      />
+    );
   }
 
   handleExtraData() {
@@ -54,12 +48,6 @@ class ModalSearch extends React.Component {
     } 
     return searchResult.data;
   }
-
-  // renderRecentSearch() {
-  //   return (
-      
-  //   )
-  // }
 
   toThreadDetails(threads) {
     this.props.navigator.push({
@@ -75,7 +63,7 @@ class ModalSearch extends React.Component {
     const { searchResult } = this.props.dataThreads;
     if (this.state.searchKeyword === '') {
       return (
-        <View style={{ flex: 2, paddingHorizontal: 20, marginVertical: 60 }}>
+        <View style={{ flex: 2, paddingHorizontal: 20, marginVertical: 10 }}>
           <Text style={styles.titleElement}>Pencarian Terakhir</Text>
           <View style={{ paddingVertical: 10, marginVertical: 0 }}>
             <Text style={styles.currentSearch}>Diabetes</Text>
@@ -88,31 +76,24 @@ class ModalSearch extends React.Component {
     } else if (searchResult.data.length === 0) {
       if (searchResult.status_code === 200) {
         return (
-          <View>
-            <Text>Opppss.. Pencarian Anda tidak ditemukan.</Text>
+          <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ textAlign: 'center', fontFamily: 'Montserrat-Light', fontSize: 14 }}>Opppss.. Pencarian Anda tidak ditemukan.</Text>
           </View>
         );
       } else {
         return (
-          <View>
-            <Text>Mohon menunggu....</Text>
+          <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
           </View>
         );
       }
     }
     return (
       <View>
-        <ScrollView>
-          {
-            searchResult.data.map((item, index) => (
-              <CardResult 
-                key={index} 
-                result={item}
-                onNavigate={this.toThreadDetails} 
-              />
-            ))
-          }
-        </ScrollView>
+        <FlatList 
+          data={searchResult.data}
+          renderItem={item => this.toRenderItem(item)}
+        />
       </View>
     );
   }
@@ -129,7 +110,9 @@ class ModalSearch extends React.Component {
             flexDirection: 'row',
             justifyContent: 'center',
             alignItems: 'flex-start',
-            padding: 15
+            paddingVertical: 10,
+            paddingHorizontal: 15,
+            elevation: 8,
           }}
         >
           <TextField
@@ -137,20 +120,18 @@ class ModalSearch extends React.Component {
             autoFocus
             leftIcon={Blood}
             rightIcon={searchIcon}
-            // onPressRight={() => Navigation.dismissModal({
-            //   animationType: 'slide-down' 
-            // })}
             onPressRight={() => this.props.navigator.pop()}
             placeholder={'Cari post, pengguna'}
             underlineColorAndroid={'#fff'}
             sectionStyle={{
+              marginTop: 10,
               backgroundColor: '#fff',
               borderWidth: 1,
               borderColor: '#fff',
               borderRadius: 5,
               margin: 0
             }}
-            inputStyle={{ color: '#b6b6b6', fontSize: 12, backgroundColor: '#fff' }}
+            inputStyle={{ fontFamily: 'OpenSans-Regular', color: '#b6b6b6', fontSize: 14, backgroundColor: '#fff' }}
           />
         </View>
         {

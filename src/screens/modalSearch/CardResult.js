@@ -14,10 +14,11 @@ import ShareBtn from '../../assets/icons/share.png';
 
 class CardResult extends React.Component {
   render() {
-    const { topic, author } = this.props.result;
+    const { topic, author } = this.props.threads.item;
+    console.log('PROPS CARD ', this.props.threads);
     return (
       <TouchableOpacity 
-        onPress={() => this.props.onNavigate(this.props.result)}
+        onPress={() => this.props.onNavigate(this.props.threads)}
         style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20 }}>
         <View 
           style={{ 
@@ -53,7 +54,7 @@ class CardResult extends React.Component {
                 />
                 <View style={{ margin: 5 }}>
                   <Text style={{ fontSize: 10 }}>{author.nama}</Text>
-                  <Text style={{ fontSize: 8 }}>12 January 2018</Text>
+                  <Text style={{ fontSize: 8 }}>{author.createdAt}</Text>
                 </View>
               </View>
               <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
