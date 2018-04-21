@@ -33,18 +33,19 @@ class ThreadDetails extends React.Component {
 	}
 
 	componentDidUpdate() {
-		// const { isFetch, listThreads } = this.props.dataThreads;
-		// if (isFetch === this.state.isProcess) {
-		// 	this.setState({
-		// 		isProcess: false
-		// 	});
-		// }
+		const { listThreads } = this.props.dataThreads;
+		if (listThreads.threadDetails !== null && this.state.isProcess) {
+			this.setState({
+				isProcess: false
+			});
+		}
 	}
 
 	render() {
 		const { topic, author, _id } = this.props.item;
 		const { listThreads } = this.props.dataThreads;
-		if (listThreads.threadDetails === null) {
+		console.log('this.state.isProcess ', this.state.isProcess);
+		if (this.state.isProcess) {
 			return (
 				<Spinner 
 					containerStyle={{ backgroundColor: '#f2f4fd' }}
@@ -97,19 +98,25 @@ class ThreadDetails extends React.Component {
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity 
-								onPress={() => Navigation.showModal({
-									screen: 'TemanDiabets.ModalPostComment',
-									title: 'Modal',
-									passProps: {
-										idThread: _id
-									},
-									navigatorButtons: {
-										leftButtons: [
-											{}
-										]
-									},
-									animationType: 'slide-up'
-								})}
+								onPress={() => 
+									this.setState({
+										isProcess: true
+									}, () => {
+										Navigation.showModal({
+											screen: 'TemanDiabets.ModalPostComment',
+											title: 'Modal',
+											passProps: {
+												idThread: _id
+											},
+											navigatorButtons: {
+												leftButtons: [
+													{}
+												]
+											},
+											animationType: 'slide-up'
+										});
+									})
+								}
 								style={{ backgroundColor: '#252c68' }}>
 								<Text
 									style={{
@@ -130,7 +137,12 @@ class ThreadDetails extends React.Component {
 					/>
 				</ScrollView>
 				<TouchableOpacity
-					onPress={() => this.props.navigator.pop()}
+					onPress={() => {
+						this.setState({
+							isProcess: true
+						});
+						this.props.navigator.pop();
+					}}
 					style={styles.buttonBack}
 				>
 					<Text style={styles.buttonText}>X</Text>
