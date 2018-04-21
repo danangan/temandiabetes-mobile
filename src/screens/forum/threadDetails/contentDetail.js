@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 
 import { CommentThread } from './commentThread';
 import CommentChild from './commentChild';
@@ -15,8 +15,10 @@ const ContentDetail = (props) => {
 		<View>
 			<ThreadDesc desc={props.threadItem.description} />
 			{
-				props.threadDetails === undefined ?
-				<Text>Loading...</Text>
+				props.threadDetails === null ?
+				<View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+					<ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+				</View>
 				:
 				props.threadDetails.comments.map((comment, index) => (
 					<CommentThread 
