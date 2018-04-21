@@ -44,7 +44,7 @@ class ThreadDetails extends React.Component {
 	render() {
 		const { topic, author, _id } = this.props.item;
 		const { listThreads } = this.props.dataThreads;
-		console.log('this.state.isProcess ', this.state.isProcess);
+		// console.log('this.state.isProcess ', this.state.isProcess);
 		if (this.state.isProcess) {
 			return (
 				<Spinner 
