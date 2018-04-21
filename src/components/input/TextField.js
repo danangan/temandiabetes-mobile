@@ -40,11 +40,14 @@ const TextField = ({
   underlineColorAndroid,
   onKeyPress,
   sectionStyle,
-  onPressRight
+  onPressRight,
+  tintColor,
+  iconLefteStyle,
+  iconRightStyle
 }) => (
   <View style={[styles.containerStyle, containerStyle]}>
     <View style={[styles.sectionStyle, sectionStyle]}>
-      <Image source={leftIcon} style={styles.ImageStyle} />
+      <Image source={leftIcon} tintColor={tintColor} style={[styles.iconLefteStyle, iconLefteStyle]} />
       <TextInput
         value={value}
         placeholderTextColor={placeholderTextColor}
@@ -77,7 +80,7 @@ const TextField = ({
         style={[styles.inputStyle, inputStyle]}
       />
       <TouchableOpacity onPress={onPressRight}>
-        <Image source={rightIcon} style={styles.ImageStyle} />
+        <Image source={rightIcon} style={[styles.iconRightStyle, iconRightStyle]} />
       </TouchableOpacity>
     </View>
   </View>
@@ -145,7 +148,15 @@ const styles = {
     height: 40,
     borderRadius: 5,
   },
-  ImageStyle: {
+  iconLefteStyle: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    width: 25,
+    resizeMode: 'stretch',
+    alignItems: 'center'
+  }, 
+  iconRightStyle: {
     padding: 10,
     margin: 5,
     height: 25,
