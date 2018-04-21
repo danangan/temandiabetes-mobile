@@ -8,10 +8,13 @@ import BookMark from '../../assets/icons/bookmark.png';
 import Report from '../../assets/icons/flag.png';
 import Comment from '../../assets/icons/comment.png';
 
-const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem, saveBookmark }) => (
+const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem, saveBookmark, leftAction }) => (
 	<CardSection>
 		<View style={[styles.containerStyle, containerStyle]}>
-			<TouchableOpacity style={styles.itemContainer}>
+			<TouchableOpacity 
+				onPress={() => leftAction()}
+				style={styles.itemContainer}
+			>
 				<Image source={Comment} style={{ width: 20, height: 20 }} />
 				<Text style={styles.titleItem}>{numOfComments} Balasan</Text>
 			</TouchableOpacity>
