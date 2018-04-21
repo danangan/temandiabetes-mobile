@@ -1,44 +1,38 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { connect } from 'react-redux';
+import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 
 import color from '../../../../style/color';
 import Style from '../../../../style/defaultStyle';
 import TabFamily from './TabFamily';
 import TabRequest from './TabRequest';
 import TabPending from './TabPending';
+import { getInnerCircle } from '../../../../actions';
+import { authToken } from '../../../../utils/constants';
 
 const listTabs = ['KELUARGA', 'PERMINTAAN', 'PENDING'];
 
 class InnerCircleList extends Component {
 	static navigatorStyle = {
-    navBarHidden: true,
-    navBarBackgroundColor: 'white'
+		navBarHidden: true,
+		navBarBackgroundColor: 'white'
 	};
-	
+
 	constructor(props) {
 		super(props);
 		this.state = {
 			tab: 0,
-			innerCircle: [1, 2, 3, 5, 6, 7]
 		};
 	}
 
-	renderTabContent = () => {
-		if (this.state.tab === 0) {
-			return <TabFamily innerCircle={this.state.innerCircle} />;
-		}
-		if (this.state.tab === 1) {
-			return <TabRequest innerCircle={this.state.innerCircle} />;
-		}
-		if (this.state.tab === 2) {
-			return <TabPending innerCircle={this.state.innerCircle} />;
-		}
-	};
+	componentDidMount() {
+		this.getInnerCircle();
+	}
 
 	onPushScreen(screen) {
 		this.props.navigator.push(
 			{
-				screen,
+				screen
 			},
 			() =>
 				this.props.navigator.dismissAllModals({
@@ -46,6 +40,24 @@ class InnerCircleList extends Component {
 				})
 		);
 	}
+
+	getInnerCircle = async () => {
+		const { currentUser } = this.props.dataAuth;
+		const idToken = await AsyncStorage.getItem(authToken);
+		this.props.getInnerCircle(currentUser._id, idToken);
+	};
+
+	renderTabContent = () => {
+		if (this.state.tab === 0) {
+			return <TabFamily innerCircle={this.props.innerCircle.accepted} />;
+		}
+		if (this.state.tab === 1) {
+			return <TabRequest innerCircle={this.props.innerCircle.pending} />;
+		}
+		if (this.state.tab === 2) {
+			return <TabPending innerCircle={this.props.innerCircle.requested} />;
+		}
+	};
 
 	render() {
 		return (
@@ -63,27 +75,27 @@ class InnerCircleList extends Component {
 						/>
 					</TouchableOpacity>
 					<Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
-					<TouchableOpacity 
+					<TouchableOpacity
 						onPress={() => this.onPushScreen('TemanDiabets.InnerCircle')}
 						style={styles.rightButtonStyle}
 					>
-							<Image
-								resizeMode={'contain'}
-								style={styles.iconStyle}
-								tintColor={color.red}
-								source={require('../../../../assets/icons/username-dark.png')}
-							/>
+						<Image
+							resizeMode={'contain'}
+							style={styles.iconStyle}
+							tintColor={color.red}
+							source={require('../../../../assets/icons/username-dark.png')}
+						/>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.countContainerStyle}>
 					<View style={styles.countContentStyle}>
 						{listTabs.map((tab, index) => (
-							<TouchableOpacity onPress={() => this.setState({ tab: index })}>
+							<TouchableOpacity onPress={() => this.setState({ tab: index })} key={index}>
 								<Text
 									style={[
 										styles.countStyle,
 										{
-											fontWeight: this.state.tab === index ? '500' : '0',
+											fontWeight: this.state.tab === index ? '500' : 'normal',
 											color: this.state.tab === index ? color.black : color.gray
 										}
 									]}
@@ -171,4 +183,13 @@ const styles = {
 	}
 };
 
-export default InnerCircleList;
+const mapStateToProps = state => ({
+	dataAuth: state.authReducer,
+	innerCircle: state.innerCircleReducer
+});
+
+const mapDispatchToProps = dispatch => ({
+	getInnerCircle: (userID, idToken) => dispatch(getInnerCircle(userID, idToken))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(InnerCircleList);

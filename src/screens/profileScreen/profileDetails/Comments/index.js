@@ -6,18 +6,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { 
   View, 
-  Text, 
   Platform,
   FlatList, 
-  AsyncStorage, 
   TouchableOpacity 
 } from 'react-native';
 
-import { getThreads } from '../../actions/threadActions';
-import { Card, FooterThread, HeaderThread, Spinner } from '../../components';
-import ContentThread from '../../components/thread/contentThread';
+import { getThreads } from '../../../../actions/threadActions';
+import { Card, FooterThread, HeaderThread } from '../../../../components';
+import ContentThread from '../../../../components/thread/contentThread';
 
-class TabThreadByUser extends React.Component {
+class TabComments extends React.Component {
   constructor(props) {
 		super(props);
 		this.state = {
@@ -25,31 +23,29 @@ class TabThreadByUser extends React.Component {
 		};
 	}
 
+	// this.props.navi.push({
+	// 	screen: 'TemanDiabets.ThreadDetails',
+	// 	navigatorStyle: {
+	// 		navBarHidden: true,
+	// 	},
+	// 	passProps: threads
+	// })
+
   renderItem(threads) {
-		const { threadType } = threads.item;
 		const { nama } = this.props.dataAuth;
 		return (
 			<TouchableOpacity
 				key={threads.index}
-				onPress={() =>
-					this.props.navi.push({
-						screen: 'TemanDiabets.ThreadDetails',
-						navigatorStyle: {
-							navBarHidden: true,
-						},
-						passProps: threads
-					})
-				}
+				onPress={() => null}
 			>
 				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
 						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
 						name={nama}
-						category={threadType}
+						category={'Answer'}
 					/>
 					<ContentThread 
-						title={threads.item.topic}
-						content={threads.item.description} 
+						title={threads.item.text} 
 					/>
 					<FooterThread 
 						numOfComments={17} 
@@ -64,7 +60,7 @@ class TabThreadByUser extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff', marginBottom: 10, paddingBottom: 10 }}>
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
 				<FlatList
 					data={this.props.listThreads}
 					renderItem={item => this.renderItem(item)}
@@ -129,4 +125,4 @@ const mapDispatchToProps = dispatch => ({
 	// makeBookmark: (idThread, token) => dispatch(makeBookmark(idThread, token))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabThreadByUser);
+export default connect(mapStateToProps, mapDispatchToProps)(TabComments);

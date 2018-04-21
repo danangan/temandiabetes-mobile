@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
+import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
 import { Avatar, Indicator, NavigationBar } from '../../../components';
 import Event from './Event';
+import TabComments from './Comments';
 import TabInnerCircle from '../../tab-innerCircle';
 import TabThreadByUser from '../../tab-threadByUser';
 
@@ -23,21 +25,35 @@ class ProfileDetails extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { _id } = this.props.dataAuth;
+    this.props.getUserRecentThread(_id);
+    this.props.getUserRecentComment(_id);
+  }
+
   renderTabContent() {
     const { listThreads } = this.props.dataThreads;
+    const { recentThreads, recentComments } = this.props.dataRecentActivity;
     if (this.state.tab === 0) {
       return (
         <TabThreadByUser 
           navi={this.props.navigator}
-          listThreads={listThreads.item.data}
+          listThreads={recentThreads.data}
         />
       );
     } 
     if (this.state.tab === 1) {
+      if (recentComments.data.length === 0 && recentComments.status_code === 0) {
+        return (
+          <View>
+            <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+          </View>
+        );
+      }
       return (
-        <TabThreadByUser 
+        <TabComments 
           navi={this.props.navigator}
-          listThreads={listThreads.item.recentData}
+          listThreads={recentComments.data}
         />
       );
     }
@@ -62,6 +78,9 @@ class ProfileDetails extends React.Component {
   }
 
   render() {
+    const { nama, tipe_user } = this.props.dataAuth;
+    const { recentThreads } = this.props.dataRecentActivity;
+    console.log('PROPS PROFILE DETAILS ', this.props);
     return (
       <View style={styles.container}>
         {/* TOP */}
@@ -73,8 +92,8 @@ class ProfileDetails extends React.Component {
               imageSource="https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg"
             />
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ fontSize: 20, fontFamily: 'Monserrat-Regular', color: '#000' }}>Chealsea Islan</Text>
-              <Text style={{ fontSize: 12, fontFamily: 'Monserrat-Regular', color: '#414141' }}>Diabetesi Type II</Text>
+              <Text style={{ fontSize: 20, fontFamily: 'Monserrat-Regular', color: '#000' }}>{nama}</Text>
+              <Text style={{ fontSize: 12, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{tipe_user}</Text>
             </View>
           </View>
         </View>
@@ -93,6 +112,7 @@ class ProfileDetails extends React.Component {
             {
               listTabs.map((btn, index) => (
                 <TouchableOpacity
+                  key={index}
                   style={styles.buttonTab}
                   onPress={() => this.setState({
                     tab: index
@@ -122,8 +142,14 @@ class ProfileDetails extends React.Component {
         </View>
          {/* BOTTOM */}
         <View style={{ flex: 2, marginHorizontal: 10 }}>
-          {this.renderTabContent()}
-          {/* <Text>Daniel</Text> */}
+          {
+            recentThreads.data.length === 0 && recentThreads.status_code === 0 ?
+            <View>
+              <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+            </View>
+            :
+            this.renderTabContent()
+          }
         </View>
       </View>
     );
@@ -162,12 +188,16 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
+  dataAuth: state.authReducer.currentUser,
 	dataRegister: state.registerReducer,
-	dataThreads: state.threadsReducer,
+  dataThreads: state.threadsReducer,
+  dataRecentActivity: state.recentActivityReducer
 });
 
 const mapDispatchToProps = dispatch => ({
-	getThreads: (token) => dispatch(getThreads(token)),
+  getThreads: (token) => dispatch(getThreads(token)),
+  getUserRecentThread: (userId) => dispatch(getUserRecentThread(userId)),
+  getUserRecentComment: (userId) => dispatch(getUserRecentComment(userId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);

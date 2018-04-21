@@ -5,7 +5,9 @@ import {
 	registerReducer, 
 	threadsReducer, 
 	onBoardingReducer, 
-	authReducer 
+	authReducer,
+	innerCircleReducer,
+	recentActivityReducer 
 } from './appscreen';
 
 const rootReducer = combineReducers({
@@ -13,7 +15,9 @@ const rootReducer = combineReducers({
 	registerReducer,
 	threadsReducer,
 	onBoardingReducer,
-	authReducer
+	authReducer,
+	innerCircleReducer,
+	recentActivityReducer
 });
 
 export default rootReducer;

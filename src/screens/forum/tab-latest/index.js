@@ -43,7 +43,7 @@ class TabLatest extends Component {
 					<FooterThread numOfComments={17} />
 				</Card>
 			</TouchableOpacity>
-		)
+		);
 	}
 
 	render() {
