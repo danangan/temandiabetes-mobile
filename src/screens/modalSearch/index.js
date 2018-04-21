@@ -5,9 +5,10 @@ import { searchThread, saveUserSearch  } from '../../actions/threadActions';
 import { TextField } from '../../components';
 import CardResult from './CardResult';
 import searchIcon from '../../assets/icons/close.png';
-import Blood from '../../assets/icons/explorer_icon.png';
+import searchIcon2 from '../../assets/icons/search.png';
 
 import { authToken, keywordRecent } from '../../utils/constants';
+import color from '../../style/color';
 
 class ModalSearch extends React.Component {
   static navigatorStyle = {
@@ -149,7 +150,9 @@ class ModalSearch extends React.Component {
           <TextField
             onChangeText={this.changesKeyword}
             autoFocus
-            leftIcon={Blood}
+            tintColor={color.red}
+            iconLefteStyle={{ width: 30, height: 30, resizeModa: 'contain' }}
+            leftIcon={searchIcon2}
             rightIcon={searchIcon}
             onPressRight={() => this.props.navigator.pop()}
             placeholder={'Cari post, pengguna'}
