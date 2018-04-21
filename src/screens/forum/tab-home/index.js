@@ -37,6 +37,7 @@ class TabHome extends Component {
 
 		this.togleModal = this.togleModal.bind(this);
 		this.onPostBookmark = this.onPostBookmark.bind(this);
+		this.toThreadDetails = this.toThreadDetails.bind(this);
 		this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 	}
 
@@ -140,20 +141,22 @@ class TabHome extends Component {
 		);
 	}
 
+	toThreadDetails(threads) {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.ThreadDetails',
+			navigatorStyle: {
+				navBarHidden: true
+			},
+			passProps: threads
+		});
+	}
+
 	renderItem(threads) {
-		const { author } = threads.item;
+		const { author, comments } = threads.item;
 		return (
 			<TouchableOpacity
 				key={threads.index}
-				onPress={() =>
-					this.props.navigator.push({
-						screen: 'TemanDiabets.ThreadDetails',
-						navigatorStyle: {
-							navBarHidden: true
-						},
-						passProps: threads
-					})
-				}
+				onPress={() => this.toThreadDetails(threads)}
 			>
 				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
@@ -163,7 +166,8 @@ class TabHome extends Component {
 					/>
 					<ContentThread property={threads.item} />
 					<FooterThread
-						numOfComments={17}
+						leftAction={() => this.toThreadDetails(threads)}
+						numOfComments={comments.length === 0 ? '' : comments.length}
 						isOpen={this.togleModal}
 						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
