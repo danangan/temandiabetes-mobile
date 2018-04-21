@@ -2,12 +2,14 @@ import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import Style from '../style/defaultStyle';
 
-const Spinner = ({ containerStyle, textStyle, text, color, size }) => (
-	<View style={[styles.containerStyle, containerStyle]}>
-		<ActivityIndicator color={color} size={size} />
-		<Text style={[styles.textStyle, textStyle]}>{text}</Text>
-	</View>
-);
+const Spinner = ({ containerStyle, textStyle, text, color, size }) => {
+  return (
+    <View style={[styles.containerStyle, containerStyle]}>
+		  <ActivityIndicator color={color} size={size} />
+		  <Text style={[styles.textStyle, textStyle]}>{text}</Text>
+    </View>
+  )
+};
 
 const styles = {
 	containerStyle: {
