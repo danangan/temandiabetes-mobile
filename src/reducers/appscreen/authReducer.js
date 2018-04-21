@@ -5,7 +5,8 @@ const initialState = {
 };
 
 const getCurrentUser = (state, payload) => {
-  const { currentUser } = payload;
+  let { currentUser } = payload;
+  currentUser = currentUser || payload;
   return {
     ...state,
     currentUser

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 
 import PropTypes from 'prop-types';
-// import ViewPropTypes from '../../config/ViewPropTypes';
+import ViewPropTypes from '../../config/ViewPropTypes';
 
 const Avatar = ({ avatarSize, imageSource, avatarStyle, resizeMode }) => (
 	<View
@@ -29,7 +29,7 @@ const Avatar = ({ avatarSize, imageSource, avatarStyle, resizeMode }) => (
 Avatar.propTypes = {
 	imageSource: PropTypes.string,
 	avatarSize: PropTypes.string,
-	avatarStyle: PropTypes.style
+	avatarStyle: ViewPropTypes.style
 };
 
 const styles = {

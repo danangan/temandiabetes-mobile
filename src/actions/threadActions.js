@@ -1,10 +1,11 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
+import { API_CALL } from '../utils/ajaxRequestHelper';
 
-import { 
-	GET_THREADS, 
-	POST_THREDS, 
-	SEARCH_THREADS, 
+import {
+	GET_THREADS,
+	POST_THREDS,
+	SEARCH_THREADS,
 	GET_THREADS_STATIC,
 	REPORT_THREAD,
   BOOKMARK_THREAD,
@@ -33,19 +34,17 @@ export const getThreadStatic = idToken => async dispatch => {
 	}
 
 	try {
-    const instance = axios.create({
-      baseURL: API_BASE,
-      headers: {
-        authentication: idToken
-      }
-    });
+    const option = {
+      method: 'get',
+      url: 'api/threads?threadType=static'
+    }
 
-    const res = await instance.get('api/threads?threadType=static');
+    const res = await API_CALL(option)
     const threadsPayload = {
       message: res.data.message,
       threadStatic: res.data.data.threads
     };
-        
+
 		return onSuccess(threadsPayload);
 	} catch (error) {
 		onSuccess(error);
@@ -271,7 +270,7 @@ export const createComment = (comment) => async dispatch => {
 
 		return data;
   }
-  
+
   isPending();
 
   try {
@@ -311,7 +310,7 @@ export const commentToReply = (comment) => async dispatch => {
 
 		return data;
   }
-  
+
   isPending();
 
   try {

@@ -1,26 +1,31 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
 import { View, Text } from 'react-native';
-
 import { Avatar } from '../avatar';
+import { DEFAULT_PROFILE_IMAGE } from '../../utils/constants'
 
-const ProfileCard = (containerStyle) => (
-	<View style={[styles.containerStyle, containerStyle]}>
-		<View style={styles.backButtonStyle}>
-      <Avatar 
-        avatarSize="Medium"
-        imageSource='https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg'
-      />
-		</View>
-		<View style={styles.titleContainerStyle}>
-      <Text style={{ fontSize: 28, fontFamily: 'Monserrat-Regular', color: '#000' }}>Chealsea Islan</Text>
-      <Text style={{ fontSize: 14, fontFamily: 'Monserrat-Regular', color: '#414141' }}>Diabetesi Type II</Text>
-		</View>
-	</View>
-);
+const ProfileCard = (props) => {
+  const { currentUser } = props;
+  const profilePicture = currentUser.foto_profile && currentUser.foto_profile !== '' ? currentUser.foto_profile : DEFAULT_PROFILE_IMAGE;
+  return (
+    <View style={[styles.containerStyle]}>
+      <View style={styles.backButtonStyle}>
+        <Avatar
+          avatarSize="Medium"
+          imageSource={ profilePicture }
+        />
+      </View>
+      <View style={styles.titleContainerStyle}>
+        <Text style={{ fontSize: 20, fontFamily: 'Monserrat-Regular', color: '#000' }}>{ currentUser.nama }</Text>
+        <Text style={{ fontSize: 12, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{ currentUser.tipe_user }</Text>
+      </View>
+    </View>
+  )
+};
 
 const styles = {
 	containerStyle: {
+    paddingTop: 5,
     flexDirection: 'row',
 	},
 	backButtonStyle: {
@@ -33,10 +38,15 @@ const styles = {
 		height: 25
 	},
 	titleContainerStyle: {
+    paddingLeft: 10,
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'flex-start',
 	},
 };
 
-export default ProfileCard;
+const mapStateToProps = state => ({
+	currentUser: state.authReducer.currentUser
+});
+
+export default connect(mapStateToProps)(ProfileCard);

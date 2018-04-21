@@ -254,5 +254,5 @@ export function mainApp() {
 }
 
 export function appRegistry() {
-	appInitialized();
+  appInitialized();
 }

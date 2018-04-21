@@ -4,50 +4,46 @@ import { Dimensions, Platform, ScrollView, StyleSheet, View } from 'react-native
 import Button from './Button';
 
 // deteksi screen yang render width dan height
-const { width, height } = Dimensions.get('window');
+// declaring new variables to avoid confusion with state
+const dimension = Dimensions.get('window');
+const screenHeight = dimension.height;
+const screenWidth = dimension.width;
 
 export default class OnboardingScreens extends Component {
-	// Props for ScrollView component
-	static defaultProps = {
-		horizontal: true,
+  // Props for ScrollView component
+  constructor(props) {
+    super(props)
 
-		pagingEnabled: true,
+    this.state = {
+      // button
+      index: 0,
+			total: 0,
+			width: screenWidth,
+    }
+  }
 
-		showsHorizontalScrollIndicator: false,
-
-		showsVerticalScrollIndicator: false,
-
-		bounces: false,
-
-		scrollsToTop: false,
-		// Remove offscreen child views
-		removeClippedSubviews: true,
-
-		automaticallyAdjustContentInsets: false,
-
-		index: 0
-	};
-
-	state = this.initState(this.props);
+  componentWillReceiveProps(newProps) {
+    this.initState(newProps)
+  }
 
 	/**
 	 * Initialize the state
 	 */
 
 	initState(props) {
+    const { children } = props;
 		// Get the total number of slides passed as children
-		const total = props.children ? props.children.length || 1 : 0,
-			// Current index
-			index = total > 1 ? Math.min(props.index, total - 1) : 0,
-			// Current offset
-			offset = width * index;
+    const total = children ? children.length || 1 : 0;
+    // Current index
+    const index = total > 1 ? Math.min(this.state.index, total - 1) : 0;
 
-		const state = {
+		const offset = screenWidth * index;
+    const width = screenWidth * total;
+
+		const updatedState = {
 			total,
 			index,
-			offset,
-			width,
-			height
+			width
 		};
 
 		// Component internals as a class property,
@@ -57,7 +53,10 @@ export default class OnboardingScreens extends Component {
 			offset
 		};
 
-		return state;
+		this.setState({
+      ...this.state,
+      ...updatedState
+    })
 	}
 
 	/**
@@ -92,38 +91,34 @@ export default class OnboardingScreens extends Component {
    * @param {object} e native event
    */
 	onScrollDrag = e => {
-		const { contentOffset: { x: newOffset } } = e.nativeEvent,
-			{ children } = this.props,
-			{ index } = this.state,
-			{ offset } = this.internals;
+		const { contentOffset: { x: newOffset } } = e.nativeEvent;
+		const	{ index, total } = this.state;
+		const { offset } = this.internals;
 
 		// Update internal isScrolling state
 		// if swiped right on the last slide
 		// or left on the first one
-		if (offset === newOffset && (index === 0 || index === children.length - 1)) {
+		if (offset === newOffset && (index === 0 || index === total - 1)) {
 			this.internals.isScrolling = false;
 		}
 	};
 
 	updateIndex = offset => {
-		const state = this.state,
-			diff = offset - this.internals.offset,
-			step = state.width;
-		let index = state.index;
-
+    const { index, width } = this.state
+		const	diff = offset - this.internals.offset;
 		// Do nothing if offset didn't change
-		if (!diff) {
+		if (diff === 0) {
 			return;
 		}
 
 		// Make sure index is always an integer, brah..
-		index = parseInt(index + Math.round(diff / step), 10);
+		const newIndex = index + (diff > 0 ? 1 : -1);
 
 		// Update internal offset
 		this.internals.offset = offset;
 		// Update index in the state
 		this.setState({
-			index
+			index: newIndex
 		});
 	};
 
@@ -163,12 +158,23 @@ export default class OnboardingScreens extends Component {
 	 * @param {array} slides to swipe through
 	 */
 
-	renderScrollView = pages => (
-		<ScrollView
+	renderScrollView = pages => {
+    const config = {
+      horizontal: true,
+      pagingEnabled: true,
+      showsHorizontalScrollIndicator: false,
+      showsVerticalScrollIndicator: false,
+      bounces: false,
+      scrollsToTop: false,
+      removeClippedSubviews: true,
+      automaticallyAdjustContentInsets: false,
+    }
+    return (
+      <ScrollView
 			ref={component => {
 				this.scrollView = component;
 			}}
-			{...this.props}
+			{...config}
 			contentContainerStyle={([styles.wrapper], this.props.style)}
 			onScrollBeginDrag={this.onScrollBeginDrag}
 			onMomentumScrollEnd={this.onScrollEnd}
@@ -180,7 +186,8 @@ export default class OnboardingScreens extends Component {
 				</View>
 			))}
 		</ScrollView>
-	);
+    )
+  }
 
 	/**
 	 * Render pagination indicators
@@ -261,9 +268,9 @@ export default class OnboardingScreens extends Component {
 		<View style={[styles.container, styles.fullScreen]}>
 			{/* Render Screen */}
 			{this.renderScrollView(children)}
-			{/* Render pagination */}
+      {/* Render pagination */}
 			{this.renderPagination()}
-			{/* Render Continue or Done button */}
+      {/* Render Continue or Done button */}
 			{this.renderButton()}
 		</View>
 	);
@@ -272,8 +279,8 @@ export default class OnboardingScreens extends Component {
 const styles = StyleSheet.create({
 	// Set width and height to the screen size
 	fullScreen: {
-		width,
-		height
+		width: screenWidth,
+		height: screenHeight
 	},
 	// Main container
 	container: {

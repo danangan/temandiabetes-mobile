@@ -1,7 +1,8 @@
 import * as ActionTypes from '../../actions/constants';
 
 const initialState = {
-	message: null
+  message: null,
+  onboarding: []
 };
 
 const onBoarding = (state, payload) => ({

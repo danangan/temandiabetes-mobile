@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import { onSignOut } from '../../actions/loginActions';
 import { Avatar, Spinner } from '../../components';
-import { authToken } from '../../utils/constants';
+import { authToken, DEFAULT_PROFILE_IMAGE } from '../../utils/constants';
 
 class ProfileScreen extends React.Component {
 	static navigatorStyle = {
@@ -87,7 +87,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
-		// const { nama, tipe_user } = this.props.dataAuth;
+		const { nama, tipe_user, foto_profile, diabetesi_tipe } = this.props.dataAuth;
 
 		const spinner = this.state.isLoading ? (
 			<Spinner color="#FFDE00" text="Logout..." size="large" />
@@ -105,12 +105,12 @@ class ProfileScreen extends React.Component {
 					</View>
 					<View style={styles.itemTopRight}>
 						<View style={{ marginRight: 10 }}>
-							{/* <Text style={styles.buttonText}>{this.props.dataAuth.nama === undefined ? 'Token expired' :  this.props.dataAuth.nama}</Text> */}
-							{/* <Text style={styles.userDesc}>{this.props.dataAuth.tipe_user === undefined ? 'Token expired' :  this.props.dataAuth.tipe_user}</Text> */}
+							<Text style={styles.buttonText}>{ nama || 'John Doe' }</Text>
+							<Text style={styles.userDesc}>{ tipe_user === 'diabetesi' ? diabetesi_tipe || tipe_user : tipe_user || 'Tipe User' }</Text>
 						</View>
 						<Avatar
 							avatarSize="Small"
-							imageSource="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+							imageSource={ foto_profile || DEFAULT_PROFILE_IMAGE }
 						/>
 					</View>
 				</View>
@@ -128,7 +128,7 @@ class ProfileScreen extends React.Component {
 						<Text style={styles.buttonText}>FAQ</Text>
 					</TouchableOpacity>
 					<TouchableOpacity
-						onPress={() => this.handlePush('TemanDiabets.InnerCircle')}
+						onPress={() => null}
 					>
 						<Text style={styles.buttonText}>NOTIFIKASI</Text>
 					</TouchableOpacity>
@@ -203,7 +203,7 @@ const styles = {
 const mapStateToProps = state => ({
 	dataAuth: state.authReducer.currentUser,
 	dataLogin: state.loginReducer,
-	dataThreads: state.threadsReducer
+	dataThreads: state.threadsReducer,
 });
 
 const mapDispatchToProps = dispatch => ({

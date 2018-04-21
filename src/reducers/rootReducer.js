@@ -6,6 +6,7 @@ import {
 	threadsReducer, 
 	onBoardingReducer, 
 	authReducer,
+	// innerCircleReducer,
 	recentActivityReducer 
 } from './appscreen';
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
 	threadsReducer,
 	onBoardingReducer,
 	authReducer,
+	// innerCircleReducer,
 	recentActivityReducer
 });
 
