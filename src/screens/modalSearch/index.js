@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, FlatList, AsyncStorage, ActivityIndicator } from 'react-native';
-import { searchThread } from '../../actions/threadActions';
+import { searchThread, saveUserSearch  } from '../../actions/threadActions';
 import { TextField } from '../../components';
 import CardResult from './CardResult';
 import searchIcon from '../../assets/icons/close.png';
 import Blood from '../../assets/icons/explorer_icon.png';
 
-import { authToken } from '../../utils/constants';
+import { authToken, keywordRecent } from '../../utils/constants';
 
 class ModalSearch extends React.Component {
   static navigatorStyle = {
@@ -19,9 +19,25 @@ class ModalSearch extends React.Component {
     this.state = {
       nums: [1, 2, 3, 4, 5, 6],
       searchKeyword: '',
+      recentSearch: []
     };
     this.changesKeyword = this.changesKeyword.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
+    this.toSaveUserSearch = this.toSaveUserSearch.bind(this);
+  }
+
+  componentDidMount() {
+    this.getSearchRecent();
+  }
+
+  getSearchRecent = async () => {
+    const keyword = await AsyncStorage.getItem(keywordRecent);
+    if (keyword !== null) {
+      const toArray = keyword.split(',');
+      this.setState({
+        recentSearch: toArray
+      });
+    }
   }
 
   changesKeyword = async (e) => {
@@ -31,12 +47,17 @@ class ModalSearch extends React.Component {
     });
   }
 
+  toSaveUserSearch() {
+    this.props.saveUserSearch(this.state.searchKeyword);
+  }
+
   toRenderItem(threads) {
     return (
       <CardResult 
         // key={index} 
         threads={threads}
         onNavigate={this.toThreadDetails} 
+        toSaveUserSearch={this.toSaveUserSearch}
       />
     );
   }
@@ -66,9 +87,19 @@ class ModalSearch extends React.Component {
         <View style={{ flex: 2, paddingHorizontal: 20, marginVertical: 10 }}>
           <Text style={styles.titleElement}>Pencarian Terakhir</Text>
           <View style={{ paddingVertical: 10, marginVertical: 0 }}>
-            <Text style={styles.currentSearch}>Diabetes</Text>
-            <Text style={[styles.currentSearch, { paddingVertical: 5 }]}>Gula</Text>
-            <Text style={styles.currentSearch}>DNurse</Text>
+            {
+              this.state.recentSearch.length === 0 ? <Text>Loading...</Text> :
+              this.state.recentSearch.map((recent, index) => (
+                <Text 
+                  key={index} 
+                  style={[styles.currentSearch, index === 1 ? { paddingVertical: 5 } : '']}
+                >
+                  {recent}
+                </Text>
+              ))
+            }
+            {/* <Text style={[styles.currentSearch, ]}>Gula</Text>
+            <Text style={styles.currentSearch}>DNurse</Text> */}
           </View>
           <Text style={[styles.titleElement, { paddingVertical: 10 }]}>Rekomendasi Untuk Anda</Text>
         </View>
@@ -99,7 +130,7 @@ class ModalSearch extends React.Component {
   }
   
   render() {   
-    console.log('PROPS SEARCH INDEX', this.props);
+    console.log('STATE SEARCH RECENT', this.state.recentSearch);
     return (
       <View 
         style={styles.container}
@@ -166,7 +197,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	searchThread: (keyword, token) => dispatch(searchThread(keyword, token)),
+  searchThread: (keyword, token) => dispatch(searchThread(keyword, token)),
+  saveUserSearch: (keyword) => dispatch(saveUserSearch(keyword)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalSearch);

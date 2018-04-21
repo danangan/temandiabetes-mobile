@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import { getThreadDetails } from '../../../actions/threadActions';
@@ -10,7 +10,6 @@ import { CardSection, Spinner } from '../../../components';
 import { ContentDetail } from './contentDetail';
 import HeaderDetail from './headerDetail';
 import color from '../../../style/color';
-
 
 class ThreadDetails extends React.Component {
 	static navigatorStyle = {

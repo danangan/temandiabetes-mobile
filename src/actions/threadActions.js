@@ -10,13 +10,12 @@ import {
   BOOKMARK_THREAD,
   CREATE_COMMENT,
   GET_THREAD_DETAILS,
-  PENDING_FETCH,
-  PENDING,
-  COMMENT_TO_REPLY
+  COMMENT_TO_REPLY,
+  SAVE_USERS_SEARCH
 } from './constants';
 // import * as ActionTypes from './constants';
 import { API_BASE } from '../utils/API';
-import { authToken } from '../utils/constants';
+import { authToken, keywordRecent } from '../utils/constants';
 
 const getToken = async () => {
 	const token = await AsyncStorage.getItem(authToken);
@@ -167,6 +166,35 @@ export const searchThread = (searchKeyword, token) => {
         dispatch({ type: SEARCH_THREADS, payload: err });
       })
     );
+};
+
+export const saveUserSearch = (keyword) => async dispatch => {
+  try {
+    const value = await AsyncStorage.getItem(keywordRecent);
+    if (value === null) {
+      let dataSearch = '';
+      dataSearch += keyword;
+      await AsyncStorage.setItem(keywordRecent, dataSearch);
+    } else {
+      const data = value;
+      const toSetValue = data.split(',');
+      if (toSetValue.length === 3) {
+        // kalau keyword sudah 3
+        toSetValue.pop();
+        toSetValue.unshift(keyword);
+        const done = toSetValue.join(',');
+        await AsyncStorage.setItem(keywordRecent, done);
+      } else {
+        // kalau keyword < 3
+        // tambah keyword ke index paling awal
+        toSetValue.unshift(keyword);
+        const done = toSetValue.join(',');
+        await AsyncStorage.setItem(keywordRecent, done);
+      }
+    }
+  } catch (error) {
+    console.log('ERROR', error);
+  }
 };
 
 export const userReport = (dataThreads, token) => {

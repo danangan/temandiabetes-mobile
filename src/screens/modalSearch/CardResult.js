@@ -18,7 +18,10 @@ class CardResult extends React.Component {
     console.log('PROPS CARD ', this.props.threads);
     return (
       <TouchableOpacity 
-        onPress={() => this.props.onNavigate(this.props.threads)}
+        onPress={() => {
+          this.props.onNavigate(this.props.threads);
+          this.props.toSaveUserSearch();
+        }}
         style={{ flex: 2, paddingHorizontal: 20, paddingTop: 20 }}>
         <View 
           style={{ 

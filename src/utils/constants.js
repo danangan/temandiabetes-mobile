@@ -1,4 +1,5 @@
 export const authToken = 'temandiabets/token';
+export const keywordRecent = 'temandiabets/keywordSearch';
 export const buttonLabelNext = 'LANJUT';
 export const buttonLabelDone = 'SELESAI';
 export const typeOfUsers = ['diabetesi', 'non-diabetesi', 'ahli'];
