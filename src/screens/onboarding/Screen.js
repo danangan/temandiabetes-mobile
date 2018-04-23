@@ -47,7 +47,7 @@ class Screen extends Component {
         color="red"
         size="large"
         containerStyle={{ backgroundColor: 'white' }}
-        textStyle={{ color: 'gray1' }}
+        textStyle={{ color: 'gray' }}
         text="Loading your app..." />
     )
 

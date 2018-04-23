@@ -26,7 +26,6 @@ const updateProfile = userData => {
     } catch (error) {
 
     }
-    return Promise.resolve()
   }
 };
 

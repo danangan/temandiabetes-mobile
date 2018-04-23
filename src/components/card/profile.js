@@ -1,23 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { Avatar } from '../avatar';
-import { DEFAULT_PROFILE_IMAGE } from '../../utils/constants'
+import { DEFAULT_PROFILE_IMAGE, CAMERA_ICON } from '../../utils/constants'
+import ImageUploader from '../imageUploader'
 
 const ProfileCard = (props) => {
   const { currentUser } = props;
   const profilePicture = currentUser.foto_profile && currentUser.foto_profile !== '' ? currentUser.foto_profile : DEFAULT_PROFILE_IMAGE;
   return (
     <View style={[styles.containerStyle]}>
-      <View style={styles.backButtonStyle}>
+      <View style={{ width: 75, height: 75 }}>
         <Avatar
+          style={styles.imageStyle}
           avatarSize="Medium"
           imageSource={ profilePicture }
         />
+        <ImageUploader style={styles.imageOverlay}>
+          <Image
+            style={styles.image}
+            source={{ uri: CAMERA_ICON }}
+          />
+        </ImageUploader>
       </View>
       <View style={styles.titleContainerStyle}>
-        <Text style={{ fontSize: 20, fontFamily: 'Monserrat-Regular', color: '#000' }}>{ currentUser.nama }</Text>
-        <Text style={{ fontSize: 12, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{ currentUser.tipe_user }</Text>
+        <Text style={{ fontSize: 28, fontFamily: 'Monserrat-Regular', color: '#000' }}>{ currentUser.nama }</Text>
+        <Text style={{ fontSize: 14, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{ currentUser.tipe_user }</Text>
       </View>
     </View>
   )
@@ -25,24 +33,27 @@ const ProfileCard = (props) => {
 
 const styles = {
 	containerStyle: {
-    paddingTop: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
     flexDirection: 'row',
-	},
-	backButtonStyle: {
-		flex: 0.7,
-		justifyContent: 'flex-start',
-		alignItems: 'flex-end',
-	},
-	imageStyle: {
-		width: 25,
-		height: 25
+    justifyContent: 'center',
+    alignItems: 'center',
 	},
 	titleContainerStyle: {
     paddingLeft: 10,
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-	},
+  },
+  imageOverlay: {
+    position: 'absolute',
+    height: 41,
+    width: 41,
+    top: 17,
+    left: 23,
+    opacity: 0.8
+  },
+  image: {
+    height: 41,
+    width: 41
+  }
 };
 
 const mapStateToProps = state => ({

@@ -6,6 +6,7 @@ import com.reactnativenavigation.NavigationApplication;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,8 @@ public class MainApplication extends NavigationApplication {
             new RNGoogleSigninPackage(),
             new ReactNativeConfigPackage(),
             new RNFirebasePackage(),
-            new RNFirebaseAuthPackage()
+            new RNFirebaseAuthPackage(),
+            new RNFirebaseStoragePackage()
         );
     }
 

@@ -21,8 +21,9 @@ const styles = {
 		width: Style.DEVICE_WIDTH,
 		height: Style.DEVICE_HEIGHT,
 		alignItems: 'center',
-		borderRadius: 6,
-		opacity: 0.7
+		borderRadius: 0,
+    opacity: 0.7,
+    zIndex: 9999999999
 	},
 	textStyle: {
 		fontFamily: 'Montserrat-Regular',
