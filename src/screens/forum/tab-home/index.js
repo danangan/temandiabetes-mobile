@@ -62,10 +62,17 @@ class TabHome extends Component {
 	onNavigatorEvent(event) {
 		if (event.type === 'NavBarButtonPress') {
 			if (event.id === 'notification') {
-				alert('NavBar', 'Edit button pressed');
+				this.props.navigator.push({
+					screen: 'TemanDiabets.Notification',
+					navigatorStyle: {
+						navBarHidden: true
+					},
+					// passProps: threads
+				});
 			}
 			if (event.id === 'sideMenu') {
 				this.togleModal('TemanDiabets.ProfileScreen');
+				alert('hello');
 			}
 		}
 	}

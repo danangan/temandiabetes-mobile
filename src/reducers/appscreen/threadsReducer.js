@@ -43,6 +43,10 @@ const initialState = {
 			status_code: 0
 		}
 	},
+	followThread: {
+		status_code: 0,
+		message: ''
+	},
 	isFetch: false
 };
 
@@ -116,6 +120,11 @@ const postBookmark = (state, payload) => {
  * set default create comment to initialState
  */
 const getThreadsDetails = (state, payload) => {
+	// const thread = {
+	// 	...payload.thread,
+	// 	isSubscriber: payload.isSubscriber
+	// };
+	// console.log('INI THREDE ', thread);
 	return {
 		...state, 
 		listThreads: {
@@ -213,6 +222,20 @@ const threadsReducer = (state = initialState, action) => {
 			};
 		case ActionTypes.COMMENT_TO_REPLY:
 			return commentToReply(state, action.payload);
+		case 'PENDING_FOLLOW_THREADS':
+			return {
+				...state, 
+				followThread: {
+					...state.followThread, status_code: 0, message: ''
+				}
+			};
+		case ActionTypes.FOLLOW_THREADS: 
+			return {
+				...state, 
+				followThread: {
+					...state.followThread, status_code: 200, message: 'Success follow thread'
+				}
+			};
 		default:
 			return state;
 	}

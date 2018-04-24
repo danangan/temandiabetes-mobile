@@ -11,7 +11,8 @@ import {
   CREATE_COMMENT,
   GET_THREAD_DETAILS,
   COMMENT_TO_REPLY,
-  SAVE_USERS_SEARCH
+  SAVE_USERS_SEARCH,
+  FOLLOW_THREADS
 } from './constants';
 
 // import * as ActionTypes from './constants';
@@ -105,8 +106,16 @@ export const getThreadDetails = threadId => async dispatch => {
       method: 'get',
       url: `api/threads/${threadId}`
     }
-    const { data: { data } } = await API_CALL(option);
-    onSuccess(data);
+
+    const request = await API_CALL(option);
+
+    const threadItem = {
+      thread: {
+        ...request.data.data.thread, 
+        isSubscriber: request.data.data.isSubscriber
+      }
+    };
+    onSuccess(threadItem);
   } catch (error) {
     onSuccess(error);
   }
@@ -321,5 +330,43 @@ export const commentToReply = (comment) => async dispatch => {
   } catch (error) {
     onSuccess(error);
   }
-}
+};
+
+/**
+ * Subsribe threads
+ */
+
+export const toFollowThread = (idThread) => async dispatch => {
+  const isPending = () => {
+    dispatch({
+      type: 'PENDING_FOLLOW_THREADS',
+      payload: true
+    });
+    return true;
+  };
+
+  function onSuccess(data) {
+		dispatch({
+			type: FOLLOW_THREADS,
+			payload: data
+		});
+
+		return data;
+  }
+
+  isPending();
+
+  try {
+    const option = {
+      method: 'post',
+      url: `api/threads/${idThread}/threadsubscribers`
+    }
+
+    const request = await API_CALL(option)
+    console.log('RESPONSE SUBSCRIBE THREADS', request);
+    onSuccess(request);
+  } catch (error) {
+    onSuccess(error);
+  }
+};
 

@@ -30,17 +30,18 @@ class Screen extends Component {
       onboardingScreens.push(
         <Onboarding
           key={idx}
-          imageURL={ item.image.imageURL }
-          title={ item.title }
-          article={ item.article }/>
-      )
+          imageURL={item.image.imageURL}
+          title={item.title}
+          article={item.article}
+        />
+      );
     }
 
     const mainScreen = (
-			<Swipper navigation={this.props.navigation}>
+			<Swipper navigation={this.props.navigation} fcmToken={this.props.fcmToken}>
         { onboardingScreens }
 			</Swipper>
-    )
+    );
 
     const loader = (
       <Spinner
@@ -48,10 +49,11 @@ class Screen extends Component {
         size="large"
         containerStyle={{ backgroundColor: 'white' }}
         textStyle={{ color: 'gray' }}
-        text="Loading your app..." />
-    )
+        text="Loading your app..." 
+      />
+    );
 
-    return this.state.loading && onboarding.length === 0 ? loader  : mainScreen;
+    return this.state.loading && onboarding.length === 0 ? loader : mainScreen;
 	}
 }
 

@@ -242,7 +242,8 @@ export default class OnboardingScreens extends Component {
 						this.props.navigation.push({
 							screen: 'TemanDiabets.RegisterScreen',
 							navigatorStyle: {
-								navBarHidden: true
+								navBarHidden: true,
+								
 							}
 						})
 					}
@@ -255,7 +256,10 @@ export default class OnboardingScreens extends Component {
 						this.props.navigation.push({
 							screen: 'TemanDiabets.LoginScreen',
 							navigatorStyle: {
-								navBarHidden: true
+								navBarHidden: true,
+							},
+							passProps: {
+								fcmToken: this.props.fcmToken
 							}
 						})
 					}

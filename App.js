@@ -13,7 +13,7 @@ console.disableYellowBox = true;
 registerScreens(store, Provider);
 registerScreenVisibilityListener();
 
-export function startApp() {
+export const startApp = () => {
 	Navigation.startSingleScreenApp({
 		screen: {
 			screen: 'TemanDiabets.OnBoardingScreen',
@@ -22,7 +22,7 @@ export function startApp() {
 			}
 		}
 	});
-}
+};
 
 const tabs = [
 	{
@@ -212,7 +212,7 @@ const tabs = [
 	}
 ];
 
-export function mainApp() {
+export const mainApp = () => {
 	Navigation.startTabBasedApp({
 		tabs,
 		animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
@@ -251,8 +251,9 @@ export function mainApp() {
 			left: {}
 		}
 	});
-}
+};
 
-export function appRegistry() {
+export const appRegistry = () => {
   appInitialized();
-}
+};
+

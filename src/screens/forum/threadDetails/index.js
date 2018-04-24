@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { getThreadDetails } from '../../../actions/threadActions';
+import { getThreadDetails, toFollowThread } from '../../../actions/threadActions';
 
 import { CardSection, Spinner } from '../../../components';
 
@@ -20,8 +20,10 @@ class ThreadDetails extends React.Component {
 		super(props);
 		this.state = {
 			idThread: this.props.item._id,
-			isProcess: true
+			isProcess: true,
+			isLoadingSubscribe: false
 		};
+		this.requestFollowThread = this.requestFollowThread.bind(this);
 	}
 
 	componentDidMount() {
@@ -33,12 +35,29 @@ class ThreadDetails extends React.Component {
 	}
 
 	componentDidUpdate() {
-		const { listThreads } = this.props.dataThreads;
+		const { listThreads, followThread } = this.props.dataThreads;
 		if (listThreads.threadDetails !== null && this.state.isProcess) {
 			this.setState({
 				isProcess: false
 			});
+		} else if (followThread.status_code === 200 && this.state.isLoadingSubscribe) {
+			this.setState({
+				isLoadingSubscribe: false,
+				isProcess: true
+			}, () => {
+				setTimeout(() => {
+					this.props.getThreadDetails(this.state.idThread);
+				}, 3000);
+			});
 		}
+	}
+
+	requestFollowThread() {
+		this.setState({
+			isLoadingSubscribe: true
+		}, () => {
+			this.props.toFollowThread(this.state.idThread);
+		});
 	}
 
 	render() {
@@ -85,7 +104,11 @@ class ThreadDetails extends React.Component {
 								borderRadius: 15
 							}}
 						>
-							<TouchableOpacity style={{ backgroundColor: '#252c68', marginRight: 10 }}>
+						
+							<TouchableOpacity 
+								onPress={this.requestFollowThread}
+								style={{ backgroundColor: '#252c68', marginRight: 10 }}>
+								{/* <ActivityIndicator size="small" color="#0000ff" /> */}
 								<Text
 									style={{
 										fontSize: 12,
@@ -94,7 +117,12 @@ class ThreadDetails extends React.Component {
 										color: '#8084a7'
 									}}
 								>
-									Ikuti
+									{ this.state.isLoadingSubscribe ? 'Loading...' :
+										this.props.dataThreads.listThreads.threadDetails === null ? 'Loading...' :
+										this.props.dataThreads.listThreads.threadDetails.isSubscriber ? 
+										'Berhenti mengikuti' : 
+										'Ikuti' 
+									}
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity 
@@ -171,6 +199,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread)),
+	toFollowThread: (idThread) => dispatch(toFollowThread(idThread))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThreadDetails);

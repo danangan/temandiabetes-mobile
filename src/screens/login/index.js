@@ -25,6 +25,8 @@ import {
 	onFirebaseSignOut
 } from '../../actions/loginActions';
 
+import { updateFCMToken } from '../../actions/authAction';
+
 class Login extends Component {
 	constructor(props) {
 		super(props);
@@ -41,7 +43,7 @@ class Login extends Component {
 
 	componentDidUpdate() {
 		const self = this;
-		const { statusCode, message, isNewUser, name, email, isActive } = this.props.loginReducer;
+		const { statusCode, message, isNewUser, name, email, isActive, _id } = this.props.loginReducer;
 
 		// if (!isNewUser && !this.state.shouldRedirect) {
 		// 	mainApp();
@@ -65,8 +67,14 @@ class Login extends Component {
 						{ cancelable: false }
 					);
 				}
-
-				mainApp();
+				const params = {
+					idUser: _id,
+					token: {
+						messagingRegistrationToken: this.props.fcmToken
+					}
+				};
+				this.props.updateFCMToken(params);
+				// mainApp();
 			});
 		} else if (statusCode === 500 && this.state.shouldRedirect) {
 			return self.setState(
@@ -105,7 +113,9 @@ class Login extends Component {
 				});
 			});
 		} else {
-			this.setState({ shouldRedirect: true }, () => this.props.loginManual(user));
+			this.setState({ shouldRedirect: true }, () => {
+				this.props.loginManual(user);
+			});
 		}
 	};
 
@@ -119,6 +129,7 @@ class Login extends Component {
 	};
 
 	render() {
+		console.log('PROPS LOGIN ', this.props);
 		const spinner = this.state.shouldRedirect ? (
 			<Spinner color="#FFDE00" text="Logging In..." size="large" />
 		) : (
@@ -221,6 +232,7 @@ const mapDispatchToProps = dispatch => ({
 	loginOauth: () => dispatch(loginOauth()),
 	setupGoogleSignIn: () => dispatch(setupGoogleSignIn()),
 	onFirebaseSignOut: () => dispatch(onFirebaseSignOut()),
+	updateFCMToken: (params) => dispatch(updateFCMToken(params))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
