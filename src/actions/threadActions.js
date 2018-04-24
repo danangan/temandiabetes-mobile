@@ -1,5 +1,4 @@
 import { AsyncStorage } from 'react-native';
-import axios from 'axios';
 import { API_CALL } from '../utils/ajaxRequestHelper';
 
 import {
@@ -14,15 +13,14 @@ import {
   COMMENT_TO_REPLY,
   SAVE_USERS_SEARCH
 } from './constants';
+
 // import * as ActionTypes from './constants';
-import { API_BASE } from '../utils/API';
-import { authToken, keywordRecent } from '../utils/constants';
+import { keywordRecent } from '../utils/constants';
 
-const getToken = async () => {
-	const token = await AsyncStorage.getItem(authToken);
-	return token;
-};
-
+/**
+ * Get Static Thread
+ * @param {*} idToken
+ */
 export const getThreadStatic = idToken => async dispatch => {
 	function onSuccess(data) {
 		dispatch({
@@ -51,38 +49,39 @@ export const getThreadStatic = idToken => async dispatch => {
 	}
 };
 
-const getThreadsSuccess = data => ({
-	type: GET_THREADS,
-	payload: data
-});
+/**
+ * Get All Threads
+ * @param {*} token
+ */
+export const getThreads = token => async dispatch => {
+  const getThreadsSuccess = data => ({
+    type: GET_THREADS,
+    payload: data
+  });
 
-export const getThreads = token => {
-	const instance = axios.create({
-		baseURL: API_BASE,
-		headers: {
-			authentication: token
-		}
-	});
+  try {
+    const option = {
+      method: 'get',
+      url: 'api/threads'
+    }
 
-	return dispatch =>
-		instance
-			.get('/api/threads')
-			.then(res => {
-				const threadsPayload = {
-					status_code: res.status,
-					message: res.data.data.message,
-					threads: res.data.data.threads
-				};
-				// console.log('ini balikan dari GET THREADS', threadsPayload);
-				dispatch(getThreadsSuccess(threadsPayload));
-			})
-			.catch(err => dispatch(getThreadsSuccess(err)));
-};
+    const res = await API_CALL(option)
+    const threadsPayload = {
+      status_code: res.status,
+      message: res.data.data.message,
+      threads: res.data.data.threads
+    };
+    dispatch(getThreadsSuccess(threadsPayload));
+  } catch(err) {
+    dispatch(getThreadsSuccess(err))
+  }
+}
 
-// GET THREAD DETAILS
-export const getThreadDetails = (threadId) => async dispatch => {
-  const token = await AsyncStorage.getItem(authToken);
-
+/**
+ * Get Thread Details
+ * @param {*} threadId
+ */
+export const getThreadDetails = threadId => async dispatch => {
   const isPending = () => {
     dispatch({
       type: 'PENDING_THREAD_DETAILS',
@@ -91,7 +90,7 @@ export const getThreadDetails = (threadId) => async dispatch => {
     return true;
   };
 
-  const onSuccess = (data) => {
+  const onSuccess = data => {
     dispatch({
 			type: GET_THREAD_DETAILS,
 			payload: data
@@ -102,71 +101,74 @@ export const getThreadDetails = (threadId) => async dispatch => {
   isPending();
 
   try {
-    const instance = axios.create({
-      baseURL: API_BASE,
-      headers: {
-        authentication: token
-      }
-    });
-    const request = await instance.get(`api/threads/${threadId}`);
-    onSuccess(request.data.data);
+    const option = {
+      method: 'get',
+      url: `api/threads/${threadId}`
+    }
+    const { data: { data } } = await API_CALL(option);
+    onSuccess(data);
   } catch (error) {
     onSuccess(error);
   }
 };
 
+/**
+ * Post new Thread
+ * @param {*} token
+ * @param {*} dataThread
+ */
+export const userPostThread = (token, dataThread) => async dispatch => {
+  const postThredsSuccess = data => ({
+    type: POST_THREDS,
+    payload: data
+  });
 
-const postThredsSuccess = data => ({
-	type: POST_THREDS,
-	payload: data
-});
+  const option = {
+    method: 'post',
+    url: 'api/threads',
+    data: dataThread
+  }
 
-export const userPostThread = (token, dataThread) => {
-	const instance = axios.create({
-		baseURL: API_BASE,
-		headers: {
-			authentication: token
-		}
-	});
+  try {
+    const res = await API_CALL(option)
+    const threadsPayload = {
+      status_code: res.status,
+      message: res.data.message
+    };
+    dispatch(postThredsSuccess(threadsPayload));
+  } catch(err) {
+    dispatch(postThredsSuccess(err));
+  }
+}
 
-	return dispatch =>
-		instance
-			.post('/api/threads', dataThread)
-			.then(res => {
-				const threadsPayload = {
-					status_code: res.status,
-					message: res.data.message
-				};
-				dispatch(postThredsSuccess(threadsPayload));
-			})
-			.catch(err => dispatch(postThredsSuccess(err)));
+/**
+ * Search Thread
+ * @param {*} searchKeyword
+ * @param {*} token
+ */
+export const searchThread = (searchKeyword, token) => async dispatch => {
+  const option = {
+    method: 'get',
+    url: `api/threads?search=${searchKeyword}`
+  }
+
+  try {
+    const res = await API_CALL(option)
+    const threadsPayload = {
+      status_code: res.status,
+      message: res.data.data.message,
+      threads: res.data.data.threads
+    };
+    dispatch({ type: SEARCH_THREADS, payload: threadsPayload });
+  } catch (error) {
+    dispatch({ type: SEARCH_THREADS, payload: err });
+  }
 };
 
-export const searchThread = (searchKeyword, token) => {
-	console.log('SEARCH KEYWORD DI ACTION ', searchKeyword);
-	const instance = axios.create({
-		baseURL: API_BASE,
-		headers: {
-			authentication: token
-		}
-	});
-
-  return dispatch => (
-    instance.get(`/api/threads?search=${searchKeyword}`)
-      .then(res => {
-        const threadsPayload = {
-          status_code: res.status,
-          message: res.data.data.message,
-          threads: res.data.data.threads
-        };
-        dispatch({ type: SEARCH_THREADS, payload: threadsPayload });
-      })
-      .catch(err => {
-        dispatch({ type: SEARCH_THREADS, payload: err });
-      })
-    );
-};
-
+/**
+ * SAVE USER SEARCH IN ASYNC STORAGE
+ * @param {*} keyword
+ */
 export const saveUserSearch = (keyword) => async dispatch => {
   try {
     const value = await AsyncStorage.getItem(keywordRecent);
@@ -192,68 +194,68 @@ export const saveUserSearch = (keyword) => async dispatch => {
       }
     }
   } catch (error) {
-    console.log('ERROR', error);
+    console.log(error);
   }
 };
 
-export const userReport = (dataThreads, token) => {
+/**
+ * REPORT THREAD
+ * @param {*} dataThreads
+ * @param {*} token
+ */
+export const userReport = (dataThreads, token) => async dispatch => {
   // console.log('SEARCH KEYWORD DI ACTION ', searchKeyword);
   const dataReport = {
     reason: dataThreads.reason,
     description: dataThreads.description
   };
 
-  const instance = axios.create({
-    baseURL: API_BASE,
-    headers: {
-      authentication: token
-    }
-  });
+  const option = {
+    method: 'post',
+    url: `api/reports/${dataThreads.id}`,
+    data: dataReport
+  }
 
-  return dispatch => (
-    instance.post(`/api/reports/${dataThreads.id}`, dataReport)
-      .then(res => {
-        const reportPayload = {
-          status_code: res.status,
-          message: res.data.message,
-        };
-        dispatch({ type: REPORT_THREAD, payload: reportPayload });
-      })
-      .catch(err => {
-        dispatch({ type: REPORT_THREAD, payload: err });
-      })
-    );
+  try {
+    const result = await API_CALL(option)
+    const reportPayload = {
+      status_code: result.status,
+      message: result.data.message,
+    };
+    dispatch({ type: REPORT_THREAD, payload: reportPayload });
+  } catch (error) {
+    dispatch({ type: REPORT_THREAD, payload: err });
+  }
 };
 
-export const makeBookmark = (idThread, token) => {
-  // console.log('SEARCH KEYWORD DI ACTION ', searchKeyword);
-  const instance = axios.create({
-    baseURL: API_BASE,
-    headers: {
-      authentication: token
-    }
-  });
+/**
+ * CREATE BOOKMARK
+ * @param {*} idThread
+ * @param {*} token
+ */
+export const makeBookmark = (idThread, token) => async dispatch => {
+  const option = {
+    method: 'post',
+    url: `api/bookmarks/${idThread}`
+  }
 
-  return dispatch => (
-    instance.post(`/api/bookmarks/${idThread}`)
-      .then(res => {
-        const reportPayload = {
-          status_code: res.status,
-          message: res.data.message,
-        };
-        console.log('ini balikan dari BOOKMARK THREADS', res);
-        dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
-      })
-      .catch(err => {
-        dispatch({ type: BOOKMARK_THREAD, payload: err });
-      })
-    );
+  try {
+    const res = await API_CALL(option)
+    const reportPayload = {
+      status_code: res.status,
+      message: res.data.message,
+    };
+    dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
+  } catch (error) {
+    dispatch({ type: BOOKMARK_THREAD, payload: err });
+  }
 };
 
-// CREATE COMMENT
+/**
+ * POST COMMENT
+ * @param {*} comment
+ */
 export const createComment = (comment) => async dispatch => {
-  const token = await AsyncStorage.getItem(authToken);
-
   const isPending = () => {
     dispatch({
       type: 'PENDING_CREATE_COMMENT',
@@ -274,14 +276,11 @@ export const createComment = (comment) => async dispatch => {
   isPending();
 
   try {
-    const instance = axios.create({
-      baseURL: API_BASE,
-      headers: {
-        authentication: token
-      }
-    });
-    const request = await instance.post(`api/threads/${comment.idThread}/comment`, comment.params);
-    console.log('RESPONSE CURRENT USER', request);
+    const request = await API_CALL({
+      method: 'post',
+      url: `api/threads/${comment.idThread}/comment`,
+      data: comment.params
+    })
     onSuccess(request);
   } catch (error) {
     onSuccess(error);
@@ -292,7 +291,6 @@ export const createComment = (comment) => async dispatch => {
  * Comment To Reply
  */
 export const commentToReply = (comment) => async dispatch => {
-  const token = await AsyncStorage.getItem(authToken);
 
   const isPending = () => {
     dispatch({
@@ -314,14 +312,11 @@ export const commentToReply = (comment) => async dispatch => {
   isPending();
 
   try {
-    const instance = axios.create({
-      baseURL: API_BASE,
-      headers: {
-        authentication: token
-      }
-    });
-    const request = await instance.post(`api/threads/${comment.idComment}/reply`, comment.params);
-    console.log('RESPONSE CREATE COMMENT TO REPLY', request);
+    const request = await API_CALL({
+      method: 'post',
+      url: `api/threads/${comment.idComment}/reply`,
+      data: comment.params
+    })
     onSuccess(request);
   } catch (error) {
     onSuccess(error);
