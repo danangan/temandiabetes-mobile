@@ -1,14 +1,14 @@
 /*
-  @daniel 
+  @daniel
   List Thread by user's id
 */
 import React from 'react';
 import { connect } from 'react-redux';
-import { 
-  View, 
+import {
+  View,
   Platform,
-  FlatList, 
-  TouchableOpacity 
+  FlatList,
+  TouchableOpacity
 } from 'react-native';
 
 import { getThreads } from '../../../../actions/threadActions';
@@ -19,7 +19,7 @@ class TabComments extends React.Component {
   constructor(props) {
 		super(props);
 		this.state = {
-		
+
 		};
 	}
 
@@ -32,7 +32,7 @@ class TabComments extends React.Component {
 	// })
 
   renderItem(threads) {
-		const { nama } = this.props.dataAuth;
+		const { nama, foto_profile } = this.props.dataAuth;
 		return (
 			<TouchableOpacity
 				key={threads.index}
@@ -40,15 +40,15 @@ class TabComments extends React.Component {
 			>
 				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
-						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+						source={foto_profile}
 						name={nama}
 						category={'Answer'}
 					/>
-					<ContentThread 
-						title={threads.item.text} 
+					<ContentThread
+						title={threads.item.text}
 					/>
-					<FooterThread 
-						numOfComments={17} 
+					<FooterThread
+						numOfComments={17}
 						isOpen={this.togleModal}
 						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
@@ -85,11 +85,11 @@ const styles = {
 			}
 		})
 	},
-	wrapButonSearch: { 
-		flex: 2, 
-		flexDirection: 'row', 
-		justifyContent: 'center', 
-		alignItems: 'center', 
+	wrapButonSearch: {
+		flex: 2,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingVertical: 10,
 		backgroundColor: 'white',
 		borderWidth: 1,
@@ -98,7 +98,7 @@ const styles = {
 		marginVertical: 10,
 		marginHorizontal: 5,
 		elevation: 2.5,
-		height: 50 
+		height: 50
 	},
 	wrapPostThread: {
 		justifyContent: 'center',

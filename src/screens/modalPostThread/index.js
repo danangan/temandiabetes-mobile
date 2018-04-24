@@ -28,7 +28,7 @@ class ModalPostThred extends Component {
     const { submitThreads  } = this.props.dataThreads;
     if (submitThreads.status_code === 201 && this.state.isSubmit) {
       Navigation.dismissModal({
-        animationType: 'slide-down' 
+        animationType: 'slide-down'
       });
       this.setState({
         isSubmit: false
@@ -49,7 +49,7 @@ class ModalPostThred extends Component {
 		this.keyboardDidShowListener.remove();
 		this.keyboardDidHideListener.remove();
   }
-  
+
   onSubmitThread() {
     this.getToken();
   }
@@ -70,13 +70,14 @@ class ModalPostThred extends Component {
 	}
 
   render() {
+    const { currentUser } = this.props;
     if (this.state.isSubmit) {
       return (
 				<View style={{
-          flex: 1, 
-          backgroundColor: '#f3f5fe', 
-          paddingHorizontal: 10, 
-          justifyContent: 'center', 
+          flex: 1,
+          backgroundColor: '#f3f5fe',
+          paddingHorizontal: 10,
+          justifyContent: 'center',
           alignItems: 'center'
         }}>
 					<Text style={{ fontSize: 20, color: '#000', fontFamily: 'Montserrat-ExtraLight' }}>Loading...</Text>
@@ -87,13 +88,13 @@ class ModalPostThred extends Component {
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => Navigation.dismissModal({
-                animationType: 'slide-down' 
+                animationType: 'slide-down'
               })}
               style={{ flex: 0.5 }}
             >
-                <Image 
+                <Image
                   source={Closed}
                   style={{ width: 20, height: 20 }}
                 />
@@ -106,9 +107,10 @@ class ModalPostThred extends Component {
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
               <Avatar
                 avatarSize="ExtraSmall"
-                imageSource='http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg'
+                imageSource={null}
+                userName={currentUser.nama}
               />
-              <Text>Elisabet Olsen</Text>
+              <Text>{ currentUser.nama }</Text>
             </View>
             <TextInput
               multiline
@@ -129,7 +131,7 @@ class ModalPostThred extends Component {
             />
           </View>
           <TouchableOpacity
-            style={{ 
+            style={{
               display: !this.state.keyboardActive ? 'none' : null,
               position: 'absolute',
               width: '30%',
@@ -153,24 +155,24 @@ class ModalPostThred extends Component {
 
 const styles = {
   container: {
-    flex: 1, 
-    backgroundColor: '#f3f5fe', 
-    paddingHorizontal: 10, 
-    justifyContent: 'flex-start', 
+    flex: 1,
+    backgroundColor: '#f3f5fe',
+    paddingHorizontal: 10,
+    justifyContent: 'flex-start',
     alignItems: 'center'
   },
   innerWrapper: {
-    flex: 1, 
-    backgroundColor: '#fff', 
-    width: '100%', 
-    paddingHorizontal: 5, 
+    flex: 1,
+    backgroundColor: '#fff',
+    width: '100%',
+    paddingHorizontal: 5,
     alignItems: 'center'
   },
-  wrapNav: { 
-    flex: 0.6, 
-    flexDirection: 'row', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
+  wrapNav: {
+    flex: 0.6,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'absolute',
     paddingVertical: 10,
     paddingHorizontal: 10,
@@ -180,46 +182,47 @@ const styles = {
     backgroundColor: '#fff'
   },
   titleForm: {
-    fontFamily: 'Montserrat-Bold', color: '#99a0c2', fontSize: 16 
+    fontFamily: 'Montserrat-Bold', color: '#99a0c2', fontSize: 16
   },
-  wrapTextInput: { 
-    flex: 2, 
-    marginVertical: 40, 
-    width: '100%', 
+  wrapTextInput: {
+    flex: 2,
+    marginVertical: 40,
+    width: '100%',
     height: '100%',
     backgroundColor: '#fff',
     borderTopWidth: 2,
     borderTopColor: '#f2f3f7'
   },
-  wrapTextInputTitle: { 
-    flex: 1, 
-    marginVertical: 40, 
-    width: '100%', 
+  wrapTextInputTitle: {
+    flex: 1,
+    marginVertical: 40,
+    width: '100%',
     height: '100%',
     backgroundColor: '#fff',
     borderTopWidth: 2,
     borderTopColor: '#f2f3f7'
   },
   itemTextInputTitle: {
-    flexWrap: 'wrap', 
-    paddingHorizontal: 10, 
-    fontFamily: 'Montserrat-ExtraLight', 
-    color: '#4a4a4a', 
+    flexWrap: 'wrap',
+    paddingHorizontal: 10,
+    fontFamily: 'Montserrat-ExtraLight',
+    color: '#4a4a4a',
     fontSize: 14,
     height: '100%'
   },
   itemTextInput: {
-    flexWrap: 'wrap', 
-    paddingHorizontal: 10, 
-    fontFamily: 'Montserrat-ExtraLight', 
-    color: '#4a4a4a', 
+    flexWrap: 'wrap',
+    paddingHorizontal: 10,
+    fontFamily: 'Montserrat-ExtraLight',
+    color: '#4a4a4a',
     fontSize: 12,
     height: 50
   }
 };
 
 const mapStateToProps = state => ({
-	dataThreads: state.threadsReducer,
+  dataThreads: state.threadsReducer,
+  currentUser: state.authReducer.currentUser
 });
 
 const mapDispatchToProps = dispatch => ({

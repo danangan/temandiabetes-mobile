@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
 import { View, TouchableOpacity, CameraRoll } from 'react-native';
 import ImageBrowser from './ImageBrowser'
-import randomizer from '../../utils/randomizer'
+import { randomizer } from '../../utils/helpers'
 import { updateProfile } from '../../actions/profileActions'
 
 class ImageUploader extends Component {

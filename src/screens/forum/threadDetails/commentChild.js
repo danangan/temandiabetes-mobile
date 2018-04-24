@@ -8,13 +8,14 @@ const state = {
 
 const CommentChild = (props) => (
   <View style={{ flexDirection: 'row', padding: 5 }}>
-    <Avatar 
+    <Avatar
       avatarSize="ExtraSmall"
-      imageSource="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+      imageSource={props.comment.user.foto_profile}
+      userName={props.comment.user}
     />
     <Text style={{ color: '#000', fontSize: 10 }}>{props.comment.text}</Text>
   </View>
-  
+
 );
 
 export default CommentChild;

@@ -17,7 +17,7 @@ class ProfileDetails extends React.Component {
     navBarHidden: true,
     navBarBackgroundColor: 'white'
   };
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -36,12 +36,12 @@ class ProfileDetails extends React.Component {
     const { recentThreads, recentComments } = this.props.dataRecentActivity;
     if (this.state.tab === 0) {
       return (
-        <TabThreadByUser 
+        <TabThreadByUser
           navi={this.props.navigator}
           listThreads={recentThreads.data}
         />
       );
-    } 
+    }
     if (this.state.tab === 1) {
       if (recentComments.data.length === 0 && recentComments.status_code === 0) {
         return (
@@ -51,7 +51,7 @@ class ProfileDetails extends React.Component {
         );
       }
       return (
-        <TabComments 
+        <TabComments
           navi={this.props.navigator}
           listThreads={recentComments.data}
         />
@@ -59,7 +59,7 @@ class ProfileDetails extends React.Component {
     }
     if (this.state.tab === 2) {
       return (
-        <TabThreadByUser 
+        <TabThreadByUser
           navi={this.props.navigator}
           listThreads={listThreads.item.data}
         />
@@ -78,7 +78,7 @@ class ProfileDetails extends React.Component {
   }
 
   render() {
-    const { nama, tipe_user } = this.props.dataAuth;
+    const { nama, tipe_user, foto_profile } = this.props.dataAuth;
     const { recentThreads } = this.props.dataRecentActivity;
     console.log('PROPS PROFILE DETAILS ', this.props);
     return (
@@ -89,11 +89,12 @@ class ProfileDetails extends React.Component {
           <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center', paddingVertical: 10 }}>
             <Avatar
               avatarSize="Medium"
-              imageSource="https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg"
+              imageSource={foto_profile}
+              userName={nama}
             />
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ fontSize: 20, fontFamily: 'Monserrat-Regular', color: '#000' }}>{nama}</Text>
-              <Text style={{ fontSize: 12, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{tipe_user}</Text>
+              <Text style={{ fontSize: 13, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{tipe_user}</Text>
             </View>
           </View>
         </View>
@@ -118,11 +119,11 @@ class ProfileDetails extends React.Component {
                     tab: index
                   })}
                 >
-                  <Text 
-                    style={[styles.buttonTabText, 
-                      { 
+                  <Text
+                    style={[styles.buttonTabText,
+                      {
                         fontSize: this.state.tab === index ? 14 : 12,
-                        
+
                       }
                     ]}
                   >
@@ -157,31 +158,31 @@ class ProfileDetails extends React.Component {
 }
 
 const styles = {
-  container: { 
-    flex: 1,  
+  container: {
+    flex: 1,
     backgroundColor: '#fff',
-    paddingTop: 10, 
-    paddingBottom: 5, 
-    // paddingHorizontal: 5 
+    paddingTop: 10,
+    paddingBottom: 5,
+    // paddingHorizontal: 5
   },
   itemImage: {
-    width: 25, 
+    width: 25,
     height: 25
   },
   buttonTab: {
-    flex: 0, 
+    flex: 0,
     flexWrap: 'wrap',
     width: '20%',
-    height: '100%', 
-    marginHorizontal: 1, 
+    height: '100%',
+    marginHorizontal: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // borderWidth: 1, 
-    // borderColor: '#ccc' 
+    // borderWidth: 1,
+    // borderColor: '#ccc'
   },
   buttonTabText: {
-    fontSize: 12, 
-    color: '#ef434e', 
+    fontSize: 12,
+    color: '#ef434e',
     textAlign: 'center',
     fontFamily: 'Montserrat-Medium'
   }

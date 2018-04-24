@@ -10,16 +10,18 @@ class HeaderDetail extends React.Component {
 	}
 
 	render() {
+    const { author } = this.props;
 		return (
 			<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
 				<View style={styles.container}>
 					<Avatar
 						avatarSize="Small"
-						imageSource="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+						imageSource={author.foto_profile}
+						userName={author.nama}
 					/>
 					<View style={{ flex: 1, margin: 5 }}>
-						<Text style={{ fontSize: 12 }}>{this.props.author.nama}</Text>
-						<Text style={{ fontSize: 10 }}>{this.props.author.tipe_user}</Text>
+						<Text style={{ fontSize: 12 }}>{author.nama}</Text>
+						<Text style={{ fontSize: 10 }}>{author.tipe_user}</Text>
 					</View>
 					<View style={styles.wrapperButton}>
 						<Text style={styles.titleButton}>Stevia</Text>

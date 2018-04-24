@@ -26,14 +26,15 @@ class CommentThread extends React.Component {
 				<View style={styles.container}>
 					<View style={styles.wrapperHeader}>
 						<Avatar
-							avatarSize="ExtraSmall"
-							imageSource="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+              avatarSize="ExtraSmall"
+              userName={user.nama}
+							imageSource={user.foto_profile}
 						/>
 						<View style={{ flex: 1, margin: 5 }}>
 							<Text style={{ fontSize: 12 }}>{user.nama}</Text>
 							<Text style={{ fontSize: 10 }}>{updatedAt}</Text>
 						</View>
-						<TouchableOpacity 
+						<TouchableOpacity
 							onPress={() => Navigation.showModal({
 								screen: 'TemanDiabets.ModalReplyComment',
 								title: 'Modal',
@@ -77,11 +78,11 @@ class CommentThread extends React.Component {
 };
 
 const styles = {
-	container: { 
-		flex: 1, 
+	container: {
+		flex: 1,
 		borderRadius: 20,
-		elevation: 2, 
-		backgroundColor: '#fff', 
+		elevation: 2,
+		backgroundColor: '#fff',
 		marginHorizontal: 10,
 		marginVertical: 4
 	},
@@ -90,7 +91,7 @@ const styles = {
 		flexDirection: 'row',
 		alignItems: 'flex-end',
 		justifyContent: 'flex-end',
-		paddingTop: 15,
+		paddingVertical: 5,
 		backgroundColor: 'transparant',
 		borderTopLeftRadius: 15,
 		borderTopRightRadius: 15,
@@ -103,13 +104,13 @@ const styles = {
 		paddingHorizontal: 15,
 		backgroundColor: 'transparant'
 	},
-	containerCommentChild: { 
-    flex: 1, 
+	containerCommentChild: {
+    flex: 1,
     position: 'relative',
     top: -20,
-    flexDirection: 'column', 
-    justifyContent: 'flex-start', 
-    alignItems: 'flex-start', 
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     backgroundColor: '#fff',

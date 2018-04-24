@@ -9,7 +9,8 @@ const renderItem = ({ item }) => (
 		<View style={styles.contentStyle}>
 			<Avatar
 				avatarSize="Small"
-				imageSource="https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg"
+        userName={item.friend.nama}
+				imageSource={item.friend.foto_profile}
 				avatarStyle={[
 					styles.avatarStyle,
 					{

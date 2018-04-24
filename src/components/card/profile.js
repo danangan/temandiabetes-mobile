@@ -7,14 +7,15 @@ import ImageUploader from '../imageUploader'
 
 const ProfileCard = (props) => {
   const { currentUser } = props;
-  const profilePicture = currentUser.foto_profile && currentUser.foto_profile !== '' ? currentUser.foto_profile : DEFAULT_PROFILE_IMAGE;
+  const isProfpicExist = currentUser.foto_profile && currentUser.foto_profile !== ''
   return (
     <View style={[styles.containerStyle]}>
       <View style={{ width: 75, height: 75 }}>
         <Avatar
           style={styles.imageStyle}
           avatarSize="Medium"
-          imageSource={ profilePicture }
+          imageSource={ currentUser.foto_profile }
+          userName={ currentUser.nama }
         />
         <ImageUploader style={styles.imageOverlay}>
           <Image

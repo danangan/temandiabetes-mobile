@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
 	View,
-	Platform, 
-	TouchableOpacity, 
-	FlatList, 
-	Text, 
-	Image, 
+	Platform,
+	TouchableOpacity,
+	FlatList,
+	Text,
+	Image,
 	AsyncStorage,
 	Alert,
 	Modal
@@ -122,7 +122,7 @@ class TabHome extends Component {
 				onPress={() => this.togleModal('TemanDiabets.ModalPostThread')}
 				style={styles.wrapPostThread}
 			>
-				<Text 
+				<Text
 				style={{
 					fontSize: 16,
 				}}
@@ -160,7 +160,7 @@ class TabHome extends Component {
 			>
 				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
-						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+						source={author.foto_profile}
 						name={author.nama}
 						category={author.tipe_user.toUpperCase()}
 					/>
@@ -180,7 +180,7 @@ class TabHome extends Component {
 	renderButtonSearch() {
 		return (
 			<TouchableOpacity
-				onPress={() => 
+				onPress={() =>
 					this.props.navigator.push({
 						screen: 'TemanDiabets.ModalSearch',
 						navigatorStyle: {
@@ -236,7 +236,7 @@ class TabHome extends Component {
 		// 	</Modal>
 		// );
 		// return (
-		// 	<ModalSearch 
+		// 	<ModalSearch
 		// 		// visible={this.state.modalVisible}
 		// 		onClose={this.setModalVisible.bind(this)}
 		// 	/>
@@ -281,11 +281,11 @@ const styles = {
 			}
 		})
 	},
-	wrapButonSearch: { 
-		flex: 2, 
-		flexDirection: 'row', 
-		justifyContent: 'center', 
-		alignItems: 'center', 
+	wrapButonSearch: {
+		flex: 2,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingVertical: 10,
 		backgroundColor: 'white',
 		borderWidth: 1,

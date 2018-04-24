@@ -10,7 +10,8 @@ const HeaderThread = ({ containerStyles, nameStyle, categoryStyle, name, categor
 		<View style={[styles.containerStyles, containerStyles]}>
 			<Avatar
 				avatarSize="Small"
-				imageSource={source}
+        imageSource={source}
+        userName={name}
 			/>
 			<View style={{ margin: 5 }}>
 				<Text style={[styles.nameStyle, nameStyle]}>{name}</Text>

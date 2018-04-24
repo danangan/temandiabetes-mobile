@@ -1,5 +1,5 @@
 /**
- * LIKE A drawer open 
+ * LIKE A drawer open
  */
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
@@ -110,7 +110,8 @@ class ProfileScreen extends React.Component {
 						</View>
 						<Avatar
 							avatarSize="Small"
-							imageSource={ foto_profile || DEFAULT_PROFILE_IMAGE }
+              imageSource={ foto_profile }
+              userName={ nama }
 						/>
 					</View>
 				</View>
@@ -184,7 +185,7 @@ const styles = {
 	},
 	itemImage: { width: 25, height: 25 },
 	userDesc: {
-		fontSize: 10,
+		fontSize: 13,
 		alignSelf: 'flex-end'
 	},
 	wrappCenter: {

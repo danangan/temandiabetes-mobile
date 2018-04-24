@@ -1,16 +1,16 @@
 /*
-  @daniel 
+  @daniel
   List Thread by user's id
 */
 import React from 'react';
 import { connect } from 'react-redux';
-import { 
-  View, 
-  Text, 
+import {
+  View,
+  Text,
   Platform,
-  FlatList, 
-  AsyncStorage, 
-  TouchableOpacity 
+  FlatList,
+  AsyncStorage,
+  TouchableOpacity
 } from 'react-native';
 
 import { getThreads } from '../../actions/threadActions';
@@ -21,13 +21,13 @@ class TabThreadByUser extends React.Component {
   constructor(props) {
 		super(props);
 		this.state = {
-		
+
 		};
 	}
 
   renderItem(threads) {
 		const { threadType } = threads.item;
-		const { nama } = this.props.dataAuth;
+		const { nama, foto_profile } = this.props.dataAuth;
 		return (
 			<TouchableOpacity
 				key={threads.index}
@@ -43,16 +43,16 @@ class TabThreadByUser extends React.Component {
 			>
 				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
-						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
+						source={foto_profile}
 						name={nama}
 						category={threadType}
 					/>
-					<ContentThread 
+					<ContentThread
 						title={threads.item.topic}
-						content={threads.item.description} 
+						content={threads.item.description}
 					/>
-					<FooterThread 
-						numOfComments={17} 
+					<FooterThread
+						numOfComments={17}
 						isOpen={this.togleModal}
 						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
@@ -89,11 +89,11 @@ const styles = {
 			}
 		})
 	},
-	wrapButonSearch: { 
-		flex: 2, 
-		flexDirection: 'row', 
-		justifyContent: 'center', 
-		alignItems: 'center', 
+	wrapButonSearch: {
+		flex: 2,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
 		paddingVertical: 10,
 		backgroundColor: 'white',
 		borderWidth: 1,
@@ -102,7 +102,7 @@ const styles = {
 		marginVertical: 10,
 		marginHorizontal: 5,
 		elevation: 2.5,
-		height: 50 
+		height: 50
 	},
 	wrapPostThread: {
 		justifyContent: 'center',

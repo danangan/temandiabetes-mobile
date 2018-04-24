@@ -1,15 +1,19 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import Style from '../../../style/defaultStyle';
+import { Avatar } from '../../../components';
 
 const Footer = ({ author }) => (
 	<View style={styles.containerFooterStyle}>
-		<View style={styles.footerLeftStyle}>
-			<Image
-				style={styles.avatarStyle}
-				resizeMode={'cover'}
-				source={{ uri: 'http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg' }}
-			/>
+    <View style={styles.footerLeftStyle}>
+      <Avatar
+        avatarStyle={styles.avatarStyle}
+        imageSource={author.foto_profile}
+        userName={author.nama}
+        customSize={40}
+        initialStyle={{ paddingVertical: 8 }}
+        textStyle={{ fontSize: 18 }}
+      />
 			<View style={styles.nameAndMonthStyle}>
 				<Text style={styles.nameStyle}>{author.nama}</Text>
 				<Text style={styles.monthStyle}>{author.tipe_user}</Text>
