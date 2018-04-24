@@ -67,12 +67,10 @@ class TabHome extends Component {
 					navigatorStyle: {
 						navBarHidden: true
 					},
-					// passProps: threads
 				});
 			}
 			if (event.id === 'sideMenu') {
 				this.togleModal('TemanDiabets.ProfileScreen');
-				alert('hello');
 			}
 		}
 	}
