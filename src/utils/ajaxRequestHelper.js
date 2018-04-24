@@ -28,23 +28,24 @@ const API_CALL = async option => {
         authentication: TOKEN
       },
       ...option,
-    }
-    const res = await axios.request(API_OPTION)
-    return Promise.resolve(res)
+    };
+
+    const res = await axios.request(API_OPTION);
+    return Promise.resolve(res);
   } catch ({ response }) {
-    if (response.status ===  401 && firebase.auth().currentUser) {
+    if (response.status === 401 && firebase.auth().currentUser) {
       try {
-        const firebaseIdToken = await firebase.auth().currentUser.getIdToken()
-        await AsyncStorage.setItem(authToken, firebaseIdToken)
+        const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+        await AsyncStorage.setItem(authToken, firebaseIdToken);
         // call the function again
-        API_CALL(option)
+        API_CALL(option);
       } catch ({ response }) {
-        throw new Error(response)
+        throw new Error(response);
       }
     } else {
-      throw new Error(response)
+      throw new Error(response);
     }
   }
-}
+};
 
-export { API_CALL }
+export { API_CALL };

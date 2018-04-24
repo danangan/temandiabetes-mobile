@@ -44,6 +44,10 @@ export const PUT_INNER_CIRCLE = 'PUT_INNER_CIRCLE';
 export const DELETE_INNER_CIRCLE = 'DELETE_INNER_CIRCLE';
 export const PENDING_FETCH = 'PENDING_FETCH';
 
+// USERS
+export const GET_USERS = 'GET_USERS';
+export const GET_ONE_USER = 'GET_ONE_USER';
+
 /**
  * RECENT ACTIVITY
  */

@@ -3,6 +3,7 @@ import { View, Text, FlatList } from 'react-native';
 
 import { Avatar } from '../../../../components';
 import Style from '../../../../style/defaultStyle';
+import color from '../../../../style/color';
 
 const renderItem = ({ item }) => (
 	<View style={styles.containerStyle}>

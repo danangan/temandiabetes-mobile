@@ -10,8 +10,6 @@ import TabPending from './TabPending';
 import { getInnerCircle } from '../../../../actions';
 import { authToken } from '../../../../utils/constants';
 
-const listTabs = ['KELUARGA', 'PERMINTAAN', 'PENDING'];
-
 class InnerCircleList extends Component {
 	static navigatorStyle = {
 		navBarHidden: true,
@@ -21,7 +19,7 @@ class InnerCircleList extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tab: 0,
+			tab: 0
 		};
 	}
 
@@ -89,8 +87,12 @@ class InnerCircleList extends Component {
 				</View>
 				<View style={styles.countContainerStyle}>
 					<View style={styles.countContentStyle}>
-						{listTabs.map((tab, index) => (
-							<TouchableOpacity onPress={() => this.setState({ tab: index })} key={index}>
+						{this.props.innerCircle.tabs.map((item, index) => (
+							<TouchableOpacity
+								key={index}
+								onPress={() => this.setState({ tab: index })}
+								key={index}
+							>
 								<Text
 									style={[
 										styles.countStyle,
@@ -100,9 +102,9 @@ class InnerCircleList extends Component {
 										}
 									]}
 								>
-									12
+									{item.count.length}
 								</Text>
-								<Text style={styles.titleStyle}>{tab}</Text>
+								<Text style={styles.titleStyle}>{item.tab}</Text>
 								<Text
 									style={[
 										styles.indicatorStyle,
