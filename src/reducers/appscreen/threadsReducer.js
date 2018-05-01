@@ -45,7 +45,8 @@ const initialState = {
 	},
 	followThread: {
 		status_code: 0,
-		message: ''
+		message: '',
+		isFetch: false,
 	},
 	isFetch: false
 };
@@ -226,14 +227,40 @@ const threadsReducer = (state = initialState, action) => {
 			return {
 				...state, 
 				followThread: {
-					...state.followThread, status_code: 0, message: ''
+					...state.followThread, status_code: 0, message: '', isFetch: true
 				}
 			};
 		case ActionTypes.FOLLOW_THREADS: 
 			return {
 				...state, 
 				followThread: {
-					...state.followThread, status_code: 200, message: 'Success follow thread'
+					...state.followThread, status_code: 200, message: 'Success follow thread', isFetch: false
+				},
+				listThreads: {
+					...state.listThreads, 
+					threadDetails: {
+						...state.listThreads.threadDetails, isSubscriber: true
+					}
+				}
+			};
+		case 'PENDING_UNFOLLOW_THREADS': 
+			return {
+				...state,
+				followThread: {
+					...state.followThread, status_code: 0, message: '', isFetch: true
+				}
+			};
+		case ActionTypes.UNFOLLOW_THREADS: 
+			return {
+				...state, 
+				followThread: {
+					...state.followThread, status_code: 200, message: 'Success un-follow thread', isFetch: false
+				},
+				listThreads: {
+					...state.listThreads, 
+					threadDetails: {
+						...state.listThreads.threadDetails, isSubscriber: false
+					}
 				}
 			};
 		default:

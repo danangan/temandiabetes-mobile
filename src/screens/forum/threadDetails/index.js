@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { getThreadDetails, toFollowThread } from '../../../actions/threadActions';
+import { getThreadDetails, toFollowThread, toUnFollowThread } from '../../../actions/threadActions';
 
 import { CardSection, Spinner } from '../../../components';
 
@@ -24,6 +24,7 @@ class ThreadDetails extends React.Component {
 			isLoadingSubscribe: false
 		};
 		this.requestFollowThread = this.requestFollowThread.bind(this);
+		this.requestUnfollowThread = this.requestUnfollowThread.bind(this);
 	}
 
 	componentDidMount() {
@@ -41,15 +42,20 @@ class ThreadDetails extends React.Component {
 				isProcess: false
 			});
 		} else if (followThread.status_code === 200 && this.state.isLoadingSubscribe) {
-			this.setState({
-				isLoadingSubscribe: false,
-				isProcess: true
-			}, () => {
-				setTimeout(() => {
-					this.props.getThreadDetails(this.state.idThread);
-				}, 3000);
-			});
+			setTimeout(() => {
+				this.setState({
+					isLoadingSubscribe: false,
+				});
+			}, 1000);
 		}
+	}
+
+	requestUnfollowThread() {
+		this.setState({
+			isLoadingSubscribe: true
+		}, () => {
+			this.props.toUnFollowThread(this.state.idThread);
+		});	
 	}
 
 	requestFollowThread() {
@@ -60,10 +66,68 @@ class ThreadDetails extends React.Component {
 		});
 	}
 
+	renderButtonFollow() {
+		const { listThreads, followThread } = this.props.dataThreads;
+		if (followThread.isFetch) {
+			return (
+				<TouchableOpacity 
+					onPress={this.requestFollowThread}
+					style={{ justifyContent: 'center', minWidth: 100, height: 25, minHeight: 25, backgroundColor: '#252c68', marginRight: 10 }}>
+					<ActivityIndicator size="small" color="#8084a7" />
+					{/* <Text
+						style={{
+							fontSize: 12,
+							paddingHorizontal: 20,
+							paddingVertical: 3,
+							color: '#8084a7'
+						}}
+					>
+							Loading...
+					</Text> */}
+				</TouchableOpacity>
+			);
+		} else if (listThreads.threadDetails.isSubscriber) {
+			return (
+				<TouchableOpacity 
+					onPress={this.requestUnfollowThread}
+					style={{ justifyContent: 'center', minWidth: 100, height: 25, minHeight: 25, backgroundColor: '#252c68', marginRight: 10 }}>
+					<Text
+						style={{
+							fontSize: 12,
+							paddingHorizontal: 20,
+							paddingVertical: 3,
+							color: '#8084a7',
+							textAlign: 'center'
+						}}
+					>
+						Unsubscribe
+					</Text>
+				</TouchableOpacity>
+			);
+		} 
+		return (
+			<TouchableOpacity 
+				onPress={this.requestFollowThread}
+				style={{ justifyContent: 'center', minWidth: 100, height: 25, minHeight: 25, backgroundColor: '#252c68', marginRight: 10 }}>
+				<Text
+					style={{
+						fontSize: 12,
+						paddingHorizontal: 20,
+						paddingVertical: 3,
+						color: '#8084a7',
+						textAlign: 'center'
+					}}
+				>
+					Ikuti
+				</Text>
+			</TouchableOpacity>
+		);
+	}
+
 	render() {
 		const { topic, author, _id } = this.props.item;
 		const { listThreads } = this.props.dataThreads;
-		// console.log('this.state.isProcess ', this.state.isProcess);
+		console.log('this.state.isLoadingSubscribe  ===>>> ', this.state.isLoadingSubscribe);
 		if (this.state.isProcess) {
 			return (
 				<Spinner 
@@ -104,27 +168,10 @@ class ThreadDetails extends React.Component {
 								borderRadius: 15
 							}}
 						>
-						
-							<TouchableOpacity 
-								onPress={this.requestFollowThread}
-								style={{ backgroundColor: '#252c68', marginRight: 10 }}>
-								{/* <ActivityIndicator size="small" color="#0000ff" /> */}
-								<Text
-									style={{
-										fontSize: 12,
-										paddingHorizontal: 20,
-										paddingVertical: 3,
-										color: '#8084a7'
-									}}
-								>
-									{ this.state.isLoadingSubscribe ? 'Loading...' :
-										this.props.dataThreads.listThreads.threadDetails === null ? 'Loading...' :
-										this.props.dataThreads.listThreads.threadDetails.isSubscriber ? 
-										'Berhenti mengikuti' : 
-										'Ikuti' 
-									}
-								</Text>
-							</TouchableOpacity>
+					
+							{
+								this.renderButtonFollow()
+							}
 							<TouchableOpacity 
 								onPress={() => 
 									this.setState({
@@ -145,13 +192,14 @@ class ThreadDetails extends React.Component {
 										});
 									})
 								}
-								style={{ backgroundColor: '#252c68' }}>
+								style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, }}>
 								<Text
 									style={{
 										fontSize: 12,
 										paddingHorizontal: 20,
 										paddingVertical: 3,
-										color: '#8084a7'
+										color: '#8084a7',
+										textAlign: 'center'
 									}}
 								>
 									Balas
@@ -199,7 +247,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread)),
-	toFollowThread: (idThread) => dispatch(toFollowThread(idThread))
+	toFollowThread: (idThread) => dispatch(toFollowThread(idThread)),
+	toUnFollowThread: (idThread) => dispatch(toUnFollowThread(idThread))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThreadDetails);

@@ -2,7 +2,7 @@ import axios from 'axios';
 import firebase from 'react-native-firebase';
 import { AsyncStorage } from 'react-native';
 import { authToken } from '../utils/constants';
-import { API_BASE } from '../utils/API';
+import { API_BASE } from './API';
 
 /*
   ONLY USE THIS AXIOS WRAPPER FOR AUTH REQUIRED API

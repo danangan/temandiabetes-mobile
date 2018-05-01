@@ -11,8 +11,9 @@ import {
   CREATE_COMMENT,
   GET_THREAD_DETAILS,
   COMMENT_TO_REPLY,
-  SAVE_USERS_SEARCH,
-  FOLLOW_THREADS
+  // SAVE_USERS_SEARCH,
+  FOLLOW_THREADS,
+  UNFOLLOW_THREADS
 } from './constants';
 
 // import * as ActionTypes from './constants';
@@ -22,7 +23,7 @@ import { keywordRecent } from '../utils/constants';
  * Get Static Thread
  * @param {*} idToken
  */
-export const getThreadStatic = idToken => async dispatch => {
+export const getThreadStatic = () => async dispatch => {
 	function onSuccess(data) {
 		dispatch({
 			type: GET_THREADS_STATIC,
@@ -36,9 +37,9 @@ export const getThreadStatic = idToken => async dispatch => {
     const option = {
       method: 'get',
       url: 'api/threads?threadType=static'
-    }
+    };
 
-    const res = await API_CALL(option)
+    const res = await API_CALL(option);
     const threadsPayload = {
       message: res.data.message,
       threadStatic: res.data.data.threads
@@ -54,7 +55,7 @@ export const getThreadStatic = idToken => async dispatch => {
  * Get All Threads
  * @param {*} token
  */
-export const getThreads = token => async dispatch => {
+export const getThreads = () => async dispatch => {
   const getThreadsSuccess = data => ({
     type: GET_THREADS,
     payload: data
@@ -64,19 +65,19 @@ export const getThreads = token => async dispatch => {
     const option = {
       method: 'get',
       url: 'api/threads'
-    }
+    };
 
-    const res = await API_CALL(option)
+    const res = await API_CALL(option);
     const threadsPayload = {
       status_code: res.status,
       message: res.data.data.message,
       threads: res.data.data.threads
     };
     dispatch(getThreadsSuccess(threadsPayload));
-  } catch(err) {
-    dispatch(getThreadsSuccess(err))
+  } catch (err) {
+    dispatch(getThreadsSuccess(err));
   }
-}
+};
 
 /**
  * Get Thread Details
@@ -105,7 +106,7 @@ export const getThreadDetails = threadId => async dispatch => {
     const option = {
       method: 'get',
       url: `api/threads/${threadId}`
-    }
+    };
 
     const request = await API_CALL(option);
 
@@ -139,30 +140,30 @@ export const userPostThread = (token, dataThread) => async dispatch => {
   }
 
   try {
-    const res = await API_CALL(option)
+    const res = await API_CALL(option);
     const threadsPayload = {
       status_code: res.status,
       message: res.data.message
     };
     dispatch(postThredsSuccess(threadsPayload));
-  } catch(err) {
+  } catch (err) {
     dispatch(postThredsSuccess(err));
   }
-}
+};
 
 /**
  * Search Thread
  * @param {*} searchKeyword
  * @param {*} token
  */
-export const searchThread = (searchKeyword, token) => async dispatch => {
+export const searchThread = (searchKeyword) => async dispatch => {
   const option = {
     method: 'get',
     url: `api/threads?search=${searchKeyword}`
-  }
+  };
 
   try {
-    const res = await API_CALL(option)
+    const res = await API_CALL(option);
     const threadsPayload = {
       status_code: res.status,
       message: res.data.data.message,
@@ -170,7 +171,7 @@ export const searchThread = (searchKeyword, token) => async dispatch => {
     };
     dispatch({ type: SEARCH_THREADS, payload: threadsPayload });
   } catch (error) {
-    dispatch({ type: SEARCH_THREADS, payload: err });
+    dispatch({ type: SEARCH_THREADS, payload: error });
   }
 };
 
@@ -212,7 +213,7 @@ export const saveUserSearch = (keyword) => async dispatch => {
  * @param {*} dataThreads
  * @param {*} token
  */
-export const userReport = (dataThreads, token) => async dispatch => {
+export const userReport = (dataThreads) => async dispatch => {
   // console.log('SEARCH KEYWORD DI ACTION ', searchKeyword);
   const dataReport = {
     reason: dataThreads.reason,
@@ -223,17 +224,17 @@ export const userReport = (dataThreads, token) => async dispatch => {
     method: 'post',
     url: `api/reports/${dataThreads.id}`,
     data: dataReport
-  }
+  };
 
   try {
-    const result = await API_CALL(option)
+    const result = await API_CALL(option);
     const reportPayload = {
       status_code: result.status,
       message: result.data.message,
     };
     dispatch({ type: REPORT_THREAD, payload: reportPayload });
   } catch (error) {
-    dispatch({ type: REPORT_THREAD, payload: err });
+    dispatch({ type: REPORT_THREAD, payload: error });
   }
 };
 
@@ -242,21 +243,21 @@ export const userReport = (dataThreads, token) => async dispatch => {
  * @param {*} idThread
  * @param {*} token
  */
-export const makeBookmark = (idThread, token) => async dispatch => {
+export const makeBookmark = (idThread) => async dispatch => {
   const option = {
     method: 'post',
     url: `api/bookmarks/${idThread}`
-  }
+  };
 
   try {
-    const res = await API_CALL(option)
+    const res = await API_CALL(option);
     const reportPayload = {
       status_code: res.status,
       message: res.data.message,
     };
     dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
   } catch (error) {
-    dispatch({ type: BOOKMARK_THREAD, payload: err });
+    dispatch({ type: BOOKMARK_THREAD, payload: error });
   }
 };
 
@@ -289,7 +290,8 @@ export const createComment = (comment) => async dispatch => {
       method: 'post',
       url: `api/threads/${comment.idThread}/comment`,
       data: comment.params
-    })
+    });
+
     onSuccess(request);
   } catch (error) {
     onSuccess(error);
@@ -300,7 +302,6 @@ export const createComment = (comment) => async dispatch => {
  * Comment To Reply
  */
 export const commentToReply = (comment) => async dispatch => {
-
   const isPending = () => {
     dispatch({
       type: 'PENDING_COMMENT_TO_REPLY',
@@ -325,7 +326,8 @@ export const commentToReply = (comment) => async dispatch => {
       method: 'post',
       url: `api/threads/${comment.idComment}/reply`,
       data: comment.params
-    })
+    });
+
     onSuccess(request);
   } catch (error) {
     onSuccess(error);
@@ -360,9 +362,9 @@ export const toFollowThread = (idThread) => async dispatch => {
     const option = {
       method: 'post',
       url: `api/threads/${idThread}/threadsubscribers`
-    }
+    };
 
-    const request = await API_CALL(option)
+    const request = await API_CALL(option);
     console.log('RESPONSE SUBSCRIBE THREADS', request);
     onSuccess(request);
   } catch (error) {
@@ -370,3 +372,36 @@ export const toFollowThread = (idThread) => async dispatch => {
   }
 };
 
+export const toUnFollowThread = (idThread) => async dispatch => {
+  const isPending = () => {
+    dispatch({
+      type: 'PENDING_UNFOLLOW_THREADS',
+      payload: true
+    });
+    return true;
+  };
+  
+  function onSuccess(data) {
+		dispatch({
+			type: UNFOLLOW_THREADS,
+			payload: data
+		});
+
+		return data;
+  }
+
+  isPending();
+
+  try {
+    const option = {
+      method: 'DELETE',
+      url: `api/threads/${idThread}/threadsubscribers`
+    };
+
+    const request = await API_CALL(option);
+    console.log('RESPONSE UNFOLLOW THREADS ', request);
+    onSuccess(request);
+  } catch (error) {
+    onSuccess(error);
+  }
+};
