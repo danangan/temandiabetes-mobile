@@ -12,6 +12,11 @@ const initialState = {
 		status_code: 0,
 
 	},
+	commentDetails: {
+		data: null,
+		message: '',
+		status_code: 0
+	},
 	listThreadStatic: {
 		item: {
 			data: [],
@@ -254,13 +259,37 @@ const threadsReducer = (state = initialState, action) => {
 			return {
 				...state, 
 				followThread: {
-					...state.followThread, status_code: 200, message: 'Success un-follow thread', isFetch: false
+					...state.followThread, 
+					status_code: 200, 
+					message: 'Success un-follow thread', 
+					isFetch: false
 				},
 				listThreads: {
 					...state.listThreads, 
 					threadDetails: {
 						...state.listThreads.threadDetails, isSubscriber: false
 					}
+				}
+			};
+		case 'PENDING_GET_COMMENT_DETAILS': 
+			return {
+				...state, 
+				commentDetails: {
+					...state.commentDetails, 
+					data: null, 
+					message: '',
+					status_code: 0
+				}
+			};
+		case ActionTypes.GET_COMMENT_DETAILS: 
+			const { data, status } = action.payload;
+			return {
+				...state, 
+				commentDetails: { 
+					...state.commentDetails, 
+					data: data.data[0], 
+					message: 'Success get comment details', 
+					status_code: status
 				}
 			};
 		default:

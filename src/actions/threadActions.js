@@ -13,7 +13,8 @@ import {
   COMMENT_TO_REPLY,
   // SAVE_USERS_SEARCH,
   FOLLOW_THREADS,
-  UNFOLLOW_THREADS
+  UNFOLLOW_THREADS,
+  GET_COMMENT_DETAILS
 } from './constants';
 
 // import * as ActionTypes from './constants';
@@ -405,3 +406,38 @@ export const toUnFollowThread = (idThread) => async dispatch => {
     onSuccess(error);
   }
 };
+
+export const getCommentDetails = (idComment) => async dispatch => {
+  const isPending = () => {
+    dispatch({
+      type: 'PENDING_GET_COMMENT_DETAILS',
+      payload: true
+    });
+    return true;
+  };
+  
+  function onSuccess(data) {
+		dispatch({
+			type: GET_COMMENT_DETAILS,
+			payload: data
+		});
+
+		return data;
+  }
+
+  isPending();
+
+  try {
+    const option = {
+      method: 'GET',
+      url: `api/threads/${idComment}/comment`
+    };
+
+    const request = await API_CALL(option);
+    console.log('RESPONSE GET COMMENT DETAILS ', request);
+    onSuccess(request);
+  } catch (error) {
+    onSuccess(error);
+  }
+};
+
