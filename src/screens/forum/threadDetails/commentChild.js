@@ -15,7 +15,6 @@ const CommentChild = (props) => (
     />
     <Text style={{ color: '#000', fontSize: 10 }}>{props.comment.text}</Text>
   </View>
-
 );
 
 export default CommentChild;

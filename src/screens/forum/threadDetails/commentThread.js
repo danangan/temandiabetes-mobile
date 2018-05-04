@@ -11,18 +11,21 @@ class CommentThread extends React.Component {
 	}
 
 	renderCommentChild() {
-		const { replies, _id } = this.props.contentComment;
+		const { replies } = this.props.contentComment;
 		return replies.map((item, index) => <CommentChild key={index} comment={item} />);
 	}
 
 	render() {
-		// console.log('COMMENT --', this.props.contentComment);
-		const { _id, user, text, updatedAt, replies } = this.props.contentComment;
+		console.log('COMMENT -- PARENT', this.props);
+		const { user, text, updatedAt, replies } = this.props.contentComment;
 		if (this.props === null) {
 			return (<Text>Loading...</Text>);
 		}
 		return (
-			<View>
+			<TouchableOpacity 	
+				activeOpacity={0.7} 
+				onPress={() => this.props.navigator(this.props.idComment)}
+			>
 				<View style={styles.container}>
 					<View style={styles.wrapperHeader}>
 						<Avatar
@@ -72,7 +75,7 @@ class CommentThread extends React.Component {
 					{replies.length === 0 ? null : <View style={{ marginBottom: 25 }} /> }
 					{this.renderCommentChild()}
 				</View>
-			</View>
+			</TouchableOpacity>
 		);
 	}
 };
@@ -116,6 +119,6 @@ const styles = {
     backgroundColor: '#fff',
     marginHorizontal: 10,
   }
-}
+};
 
 export { CommentThread };

@@ -36,6 +36,7 @@ import InnerCircle from '../screens/profileScreen/innerCircle';
 import InnerCircleList from '../screens/profileScreen/innerCircle/innerCircleList';
 import ModalReplyComment from '../screens/forum/threadDetails/modalReplyComment';
 import Notification from '../screens/Notification';
+import CommentDetails from '../screens/forum/commentDetails';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -74,6 +75,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle, store, Provider);
 	Navigation.registerComponent('TemanDiabets.InnerCircleList', () => InnerCircleList, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalReplyComment', () => ModalReplyComment, store, Provider);
+	Navigation.registerComponent('TemanDiabets.CommentDetails', () => CommentDetails, store, Provider);
 }
 
 export function registerScreenVisibilityListener() {
