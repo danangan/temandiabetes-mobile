@@ -43,7 +43,7 @@ class Login extends Component {
 
 	componentDidUpdate() {
 		const self = this;
-		const { statusCode, message, isNewUser, name, email, isActive, _id } = this.props.loginReducer;
+		const { statusCode, message, isNewUser, name, email, is_active, _id } = this.props.loginReducer;
 
 		// if (!isNewUser && !this.state.shouldRedirect) {
 		// 	mainApp();
@@ -58,8 +58,8 @@ class Login extends Component {
 		// }
 
 		if (statusCode === 200 && message === 'success login' && this.state.shouldRedirect) {
-			return self.setState({ shouldRedirect: false }, () => {
-				if (!isActive) {
+			this.setState({ shouldRedirect: false }, () => {
+				if (!is_active) {	
 					return Alert.alert(
 						'Pemberitahuan',
 						'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silahkan tunggu beberapa email konfirmasi.',
@@ -67,6 +67,7 @@ class Login extends Component {
 						{ cancelable: false }
 					);
 				}
+				// alert('Jalan...');
 				const params = {
 					idUser: _id,
 					token: {
@@ -74,10 +75,11 @@ class Login extends Component {
 					}
 				};
 				this.props.updateFCMToken(params);
+				
 				// mainApp();
 			});
 		} else if (statusCode === 500 && this.state.shouldRedirect) {
-			return self.setState(
+			this.setState(
 				{
 					shouldRedirect: false
 				},
@@ -113,6 +115,7 @@ class Login extends Component {
 				});
 			});
 		} else {
+			// const { _id } = this.props.loginReducer;
 			this.setState({ shouldRedirect: true }, () => {
 				this.props.loginManual(user);
 			});
