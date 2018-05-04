@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { getThreadDetails, toFollowThread, toUnFollowThread } from '../../../actions/threadActions';
+import { getThreadDetails, toFollowThread, toUnFollowThread, getCommentDetails } from '../../../actions/threadActions';
 
 import { CardSection, Spinner } from '../../../components';
 
@@ -25,6 +25,7 @@ class ThreadDetails extends React.Component {
 		};
 		this.requestFollowThread = this.requestFollowThread.bind(this);
 		this.requestUnfollowThread = this.requestUnfollowThread.bind(this);
+		this.toCommentDetails = this.toCommentDetails.bind(this);
 	}
 
 	componentDidMount() {
@@ -63,6 +64,20 @@ class ThreadDetails extends React.Component {
 			isLoadingSubscribe: true
 		}, () => {
 			this.props.toFollowThread(this.state.idThread);
+		});
+	}
+
+	toCommentDetails(idComment) {
+		console.log('ID idThread ', idComment);
+		this.props.getCommentDetails(idComment);
+		this.props.navigator.push({
+			screen: 'TemanDiabets.CommentDetails',
+			navigatorStyle: {
+				navBarHidden: true
+			},
+			passProps: {
+				// commentItem: this.props.contentComment
+			}
 		});
 	}
 
@@ -127,7 +142,7 @@ class ThreadDetails extends React.Component {
 	render() {
 		const { topic, author, _id } = this.props.item;
 		const { listThreads } = this.props.dataThreads;
-		console.log('this.state.isLoadingSubscribe  ===>>> ', this.state.isLoadingSubscribe);
+		console.log('this.state.isLoadingSubscribe  ===>>> ', this.props);
 		if (this.state.isProcess) {
 			return (
 				<Spinner 
@@ -210,6 +225,7 @@ class ThreadDetails extends React.Component {
 					<ContentDetail 
 						threadItem={this.props.item}
 						threadDetails={listThreads.threadDetails}
+						navigator={this.toCommentDetails}
 					/>
 				</ScrollView>
 				<TouchableOpacity
@@ -248,7 +264,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread)),
 	toFollowThread: (idThread) => dispatch(toFollowThread(idThread)),
-	toUnFollowThread: (idThread) => dispatch(toUnFollowThread(idThread))
+	toUnFollowThread: (idThread) => dispatch(toUnFollowThread(idThread)),
+	getCommentDetails: (idComment) => dispatch(getCommentDetails(idComment))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThreadDetails);
