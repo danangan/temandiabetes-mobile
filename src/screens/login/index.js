@@ -58,9 +58,9 @@ class Login extends Component {
 		// }
 
 		if (statusCode === 200 && message === 'success login' && this.state.shouldRedirect) {
-			this.setState({ shouldRedirect: false }, () => {
-				if (!is_active) {	
-					return Alert.alert(
+			self.setState({ shouldRedirect: false }, () => {
+				if (!is_active) {
+					Alert.alert(
 						'Pemberitahuan',
 						'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silahkan tunggu beberapa email konfirmasi.',
 						[{ text: 'OK', onPress: () => self.props.onFirebaseSignOut() }],
@@ -75,11 +75,9 @@ class Login extends Component {
 					}
 				};
 				this.props.updateFCMToken(params);
-				
-				// mainApp();
 			});
 		} else if (statusCode === 500 && this.state.shouldRedirect) {
-			this.setState(
+			self.setState(
 				{
 					shouldRedirect: false
 				},
@@ -132,7 +130,6 @@ class Login extends Component {
 	};
 
 	render() {
-		console.log('PROPS LOGIN ', this.props);
 		const spinner = this.state.shouldRedirect ? (
 			<Spinner color="#FFDE00" text="Logging In..." size="large" />
 		) : (

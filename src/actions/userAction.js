@@ -26,14 +26,25 @@ export const getUsers = () => async dispatch => {
 };
 
 export const getOneUser = userID => async dispatch => {
+  function isPending() {
+    dispatch({
+      type: 'PENDING_GET_ONE_USER',
+      payload: true
+    });
+
+    return true;
+  }
+
   function onSuccess(user) {
     dispatch({
       type: ActionTypes.GET_ONE_USER,
       payload: user
     });
 
-    return onSuccess(user);
+    return user;
   }
+
+  isPending();
 
   try {
     const option = {
@@ -41,14 +52,7 @@ export const getOneUser = userID => async dispatch => {
       url: `api/users/${userID}`
     };
 
-    const { data } = await API_CALL(option);
-    console.log('GET ONE USER: ', data.data);
-    const res = {
-      user: {
-        innerCircleStatus: data.innerCircleStatus,
-        user: data.data.user
-      }
-    };
+    const res = await API_CALL(option);
 
     return onSuccess(res);
   } catch (error) {

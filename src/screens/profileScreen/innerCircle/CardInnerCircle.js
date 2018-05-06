@@ -7,11 +7,12 @@ import Style from '../../../style/defaultStyle';
 
 const CardInnerCircle = ({ item, navigation }) => (
   <View style={styles.containerStyle}>
-    <View style={styles.contentStyle}>
+    <TouchableOpacity style={styles.contentStyle} onPress={() => navigation(item)}>
       <View style={styles.leftContentStyle}>
         <Avatar
           avatarSize="Small"
-          imageSource="https://images-cdn.9gag.com/photo/aMjGOVM_700b.jpg"
+          userName={item.nama}
+          imageSource={item.foto_profile}
           avatarStyle={[
             styles.avatarStyle,
             {
@@ -26,12 +27,13 @@ const CardInnerCircle = ({ item, navigation }) => (
         />
         <View style={styles.nameContainerStyle}>
           <Text style={styles.nameStyle}>{item.nama}</Text>
+          <Text style={styles.relationStyle}>{item.tipe_user}</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.rightContentStyle} onPress={() => navigation(item)}>
         <Text style={styles.textButtonStyle}>+</Text>
       </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   </View>
 );
 
@@ -79,6 +81,10 @@ const styles = {
   avatarStyle: {
     borderWidth: 1.5,
     borderColor: 'rgba(126,211,33,1)'
+  },
+  relationStyle: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: Style.FONT_SIZE_SMALLER
   }
 };
 

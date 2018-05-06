@@ -154,7 +154,6 @@ class ThreadDetails extends React.Component {
 	render() {
 		const { topic, author, _id } = this.props.item;
 		const { listThreads } = this.props.dataThreads;
-		console.log('this.state.isLoadingSubscribe  ===>>> ', this.props);
 		if (this.state.isProcess) {
 			return (
 				<Spinner 
@@ -164,6 +163,7 @@ class ThreadDetails extends React.Component {
 				/>
 			);
 		}
+		
 		return (
 			<View style={{ flex: 2, backgroundColor: color.solitude }}>
 				<HeaderDetail authorItem={author} />

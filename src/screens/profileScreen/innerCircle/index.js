@@ -1,13 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { filter } from 'lodash/collection';
 import { View, ScrollView, TouchableOpacity, Image, Text } from 'react-native';
 
 import CardInnerCircle from './CardInnerCircle';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
 import SearchBar from './innerCircleList/Search';
-import { getUsers } from '../../../actions';
+import { getUsers, getOneUser } from '../../../actions';
 
 class InnerCircle extends React.Component {
   static navigatorStyle = {
@@ -30,6 +29,7 @@ class InnerCircle extends React.Component {
   hideSearchBar = () => this.searchBar.hide();
 
   pushNavigation = item => {
+    this.props.getOneUser(item._id);
     this.props.navigator.push({
       screen: 'TemanDiabets.ProfileDetails',
       passProps: {
@@ -66,7 +66,7 @@ class InnerCircle extends React.Component {
       </TouchableOpacity>
       <SearchBar
         ref={ref => (this.searchBar = ref)}
-        data={filter(this.props.users.docs, { role: 'user' })}
+        data={this.props.data.users}
         handleResults={this.handleResults}
         placeholder="Search..."
         onBack={this.hideSearchBar}
@@ -77,10 +77,9 @@ class InnerCircle extends React.Component {
   );
 
   renderData() {
-    const filterUser = this.props.users.docs.filter(item => item.role === 'user');
-
-    if (filterUser.length) {
-      return filterUser.map((item, index) => (
+    const { users } = this.props.data;
+    if (users.length) {
+      return users.map((item, index) => (
         <CardInnerCircle navigation={this.pushNavigation} item={item} key={index} />
       ));
     }
@@ -92,7 +91,7 @@ class InnerCircle extends React.Component {
       <View style={styles.contentStyle}>
         <ScrollView>
           {this.state.results.length === 0 ? (
-            this.props.users.status === null ? (
+            this.props.data.status === null ? (
               <View />
             ) : (
               this.renderData()
@@ -154,11 +153,12 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-  users: state.userReducer
+  data: state.userReducer
 });
 
 const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(getUsers()),
+  getOneUser: userId => dispatch(getOneUser(userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InnerCircle);
