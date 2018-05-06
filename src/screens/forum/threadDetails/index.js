@@ -81,6 +81,18 @@ class ThreadDetails extends React.Component {
 		});
 	}
 
+	toNavigateScreen(screen) {
+		this.props.navigator.push({
+			screen,
+			navigatorStyle: {
+				navBarHidden: true
+			},
+			passProps: {
+				// commentItem: this.props.contentComment
+			}
+		});
+	}
+
 	renderButtonFollow() {
 		const { listThreads, followThread } = this.props.dataThreads;
 		if (followThread.isFetch) {
@@ -183,27 +195,22 @@ class ThreadDetails extends React.Component {
 								borderRadius: 15
 							}}
 						>
-					
 							{
-								this.renderButtonFollow()
+								listThreads.threadDetails !== null ? this.renderButtonFollow() : null
 							}
 							<TouchableOpacity 
 								onPress={() => 
 									this.setState({
 										isProcess: true
 									}, () => {
-										Navigation.showModal({
+										this.props.navigator.push({
 											screen: 'TemanDiabets.ModalPostComment',
-											title: 'Modal',
+											navigatorStyle: {
+												navBarHidden: true
+											},
 											passProps: {
 												idThread: _id
 											},
-											navigatorButtons: {
-												leftButtons: [
-													{}
-												]
-											},
-											animationType: 'slide-up'
 										});
 									})
 								}

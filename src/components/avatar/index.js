@@ -73,7 +73,7 @@ const styles = {
     backgroundColor: '#E2E2E2',
     paddingVertical: 18
   },
-  textStyle :{
+  textStyle:{
 		fontFamily: 'Montserrat-Regular',
     color: '#424242',
     fontSize: 30,

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import {
   View,
-  Text
+  Text,
+  ScrollView
 } from 'react-native';
 import { NavigationBar, CardSection, Avatar, Spinner } from '../../../components';
 import CommentChild from '../threadDetails/commentChild';
@@ -31,14 +32,41 @@ class CommentDetails extends React.Component {
   }
 
   renderCommentChild() {
+    const { nama } = this.props.dataAuth;
     const { isComment } = this.state;
-    return isComment.replies.map((item, index) => <CommentChild key={index} comment={item} />);
+    const initialUser = {
+			user: nama,
+			text: 'Komentari'
+    };
+    
+    return (
+      <View stylw={{ flex: 1, width: '100%' }}>
+        {
+          isComment.replies.map((item, index) => <CommentChild key={index} containerStyle={styles.containerStyle} comment={item} />)
+        }
+        <CommentChild 
+          containerStyle={{ 
+            flex: 1, 
+            flexDirection: 'row', 
+            padding: 2, 
+            alignItems: 'center',
+            marginTop: 20, 
+            marginHorizontal: 20, 
+            borderBottomColor: '#f3f3f4', 
+            borderBottomWidth: 1, 
+            width: '100%' 
+          }}
+          comment={initialUser} 
+        />
+      </View>
+    );
   }
 
   render() {
     // console.log('THIS STATE = ', this.state);
     const { isComment } = this.state;
     const { commentDetails } = this.props.dataThreads;
+    
     if (commentDetails.data === null) {
       return (
         <View style={styles.container}>
@@ -85,13 +113,21 @@ class CommentDetails extends React.Component {
           </View>
         </CardSection>
         {
-          isComment.replies.length?
-          <View style={styles.containerCommentChild}>
-            {this.renderCommentChild()}
-          </View>
+          isComment.replies.length ?
+          <ScrollView>
+            <View style={styles.containerCommentChild}>
+              {this.renderCommentChild()}
+            </View>
+          </ScrollView>
           :
           null
         }
+        {/* <View style={{ 
+          backgroundColor: '#fff',  
+          }}
+        >
+          
+        </View> */}
       </View>
     );
   }
@@ -142,19 +178,33 @@ const styles = {
   containerCommentChild: {
     flex: 1,
     position: 'relative',
-    top: -5,
+    top: -45,
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'flex-start',
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
     backgroundColor: '#fff',
     marginHorizontal: 20,
+    borderRadius: 20
+  }, 
+  containerStyle: {
+    flex: 1,
+    flexDirection: 'row', 
+    alignItems: 'center',
+    padding: 2, 
+    // backgroundColor: '#ff1200',
+    marginTop: 20, 
+    paddingVertical: 2,
+    marginHorizontal: 25, 
+    // borderBottomColor: '#f3f3f4', 
+    // borderBottomWidth: 1, 
+    width: '100%',
+    borderRadius: 20
   }
 };
 
 const mapStateToProps = state => ({
-  dataThreads: state.threadsReducer
+  dataThreads: state.threadsReducer,
+  dataAuth: state.authReducer.currentUser
 });
 
 export default connect(mapStateToProps, null)(CommentDetails);

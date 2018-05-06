@@ -40,10 +40,7 @@ class ModalPostComponent extends Component {
       this.setState({
         isSubmit: false
       }, () => {
-        Navigation.dismissModal({
-          animationType: 'slide-down' 
-        });
-
+        this.props.navigator.pop();
       });
     } 
   }
@@ -77,9 +74,7 @@ class ModalPostComponent extends Component {
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
             <TouchableOpacity 
-              onPress={() => Navigation.dismissModal({
-                animationType: 'slide-down' 
-              })}
+              onPress={() => this.props.navigator.pop()}
               style={{ flex: 0.5 }}
             >
                 <Image 
@@ -94,6 +89,7 @@ class ModalPostComponent extends Component {
           <View style={styles.wrapTextInput}>
             <TextInput
               multiline
+              underlineColorAndroid="transparent"
               onChangeText={(komentar) => this.setState({ komentar })}
               style={styles.itemTextInput}
               placeholder="Tambahkan komen disini"

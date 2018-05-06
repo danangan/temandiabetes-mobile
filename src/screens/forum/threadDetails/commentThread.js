@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import { Avatar } from '../../../components';
 import CommentChild from './commentChild';
@@ -12,12 +13,79 @@ class CommentThread extends React.Component {
 
 	renderCommentChild() {
 		const { replies } = this.props.contentComment;
-		return replies.map((item, index) => <CommentChild key={index} comment={item} />);
+
+		return replies.map((item, index) => {
+			if (index < 2) {
+				return (
+					<CommentChild 
+						key={index} 
+						comment={item} 
+						containerStyle={{ 
+							flex: 0, 
+							flexDirection: 'row', 
+							padding: 2, 
+							alignItems: 'center',
+							marginTop: 20, 
+							marginHorizontal: 25, 
+							borderBottomColor: '#f3f3f4', 
+							borderBottomWidth: 1, 
+							width: '100%' 
+						}}
+					/>
+				);
+			}
+		});
+	}
+
+	renderInitialReply() {
+		const { replies } = this.props.contentComment;
+		const { nama, _id } = this.props.dataAuth;
+		const initialUser = {
+			user: nama,
+			text: 'Komentari'
+		};
+		// console.log('INITIAL USER ', initialUser);
+		if (replies.length) {
+			return (
+				<View style={{ justifyContent: 'flex-start', alignItems: 'center', width: '100%' }}>
+					<Text	
+						style={{ 
+							flexDirection: 'row', 
+							padding: 2, 
+							marginTop: 20, 
+							marginHorizontal: 25, 
+							borderBottomColor: '#f3f3f4', 
+							borderBottomWidth: 1, 
+							width: '100%', 
+							textAlign: 'left'
+						}}
+						onPress={() => this.props.navigator(this.props.idComment)}
+					>
+						View {replies.length} reply.
+					</Text>
+					<CommentChild 
+						containerStyle={{ 
+							flex: 0, 
+							flexDirection: 'row', 
+							padding: 2, 
+							alignItems: 'center',
+							marginTop: 20, 
+							marginHorizontal: 25, 
+							borderBottomColor: '#f3f3f4', 
+							borderBottomWidth: 1, 
+							width: '100%' 
+						}}
+						comment={initialUser} 
+					/>
+				</View>
+			);
+		}
+		return null;		
 	}
 
 	render() {
 		console.log('COMMENT -- PARENT', this.props);
-		const { user, text, updatedAt, replies } = this.props.contentComment;
+		const { _id, user, text, updatedAt, replies } = this.props.contentComment;
 		if (this.props === null) {
 			return (<Text>Loading...</Text>);
 		}
@@ -74,6 +142,7 @@ class CommentThread extends React.Component {
 				<View style={styles.containerCommentChild}>
 					{replies.length === 0 ? null : <View style={{ marginBottom: 25 }} /> }
 					{this.renderCommentChild()}
+					{this.renderInitialReply()}
 				</View>
 			</TouchableOpacity>
 		);
@@ -111,9 +180,10 @@ const styles = {
     flex: 1,
     position: 'relative',
     top: -20,
-    flexDirection: 'column',
+		flexDirection: 'column',
+		paddingHorizontal: 20,
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     backgroundColor: '#fff',
@@ -121,4 +191,8 @@ const styles = {
   }
 };
 
-export { CommentThread };
+const mapStateToProps = state => ({
+	dataAuth: state.authReducer.currentUser
+});
+
+export default connect(mapStateToProps, null)(CommentThread);

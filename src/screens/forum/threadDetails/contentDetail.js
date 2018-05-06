@@ -1,8 +1,7 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 
-import { CommentThread } from './commentThread';
-import CommentChild from './commentChild';
+import CommentThread from './commentThread';
 import ThreadDesc from './threadDesc';
 
 const ContentDetail = (props) => {

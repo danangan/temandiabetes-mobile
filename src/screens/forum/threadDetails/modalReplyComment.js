@@ -94,6 +94,7 @@ class ModalReplyComment extends Component {
           <View style={styles.wrapTextInput}>
             <TextInput
               multiline
+              underlineColorAndroid="transparent"
               onChangeText={(komentar) => this.setState({ komentar })}
               style={styles.itemTextInput}
               placeholder="Tambahkan komen disini"

@@ -31,6 +31,7 @@ export const getCurrentUser = () => async dispatch => {
  * Update FCM Token
  */
 export const updateFCMToken = (params) => async dispatch => {
+  // console.log('PARAMETER FCM ', params);
   const token = await AsyncStorage.getItem(authToken);
 
   function onSuccess(data) {
