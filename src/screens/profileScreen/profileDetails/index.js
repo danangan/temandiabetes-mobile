@@ -4,13 +4,13 @@ import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-na
 
 import { getThreads } from '../../../actions/threadActions';
 import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
-import { Avatar, Indicator, NavigationBar } from '../../../components';
+import { Avatar, Indicator, NavigationBar, Spinner } from '../../../components';
 import Event from './Event';
 import TabComments from './Comments';
 import TabInnerCircle from '../../tab-innerCircle';
 import TabThreadByUser from '../../tab-threadByUser';
 import Style from '../../../style/defaultStyle';
-import { addInnerCircle, getOneUser } from '../../../actions';
+import { addInnerCircle } from '../../../actions';
 import color from '../../../style/color';
 
 const listTabs = ['THREAD', 'ANSWER', 'RESPONSE', 'EVENT'];
@@ -24,7 +24,10 @@ class ProfileDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: 0
+      tab: 0,
+      disabled: false,
+      isProcess: true,
+      user: null
     };
   }
 
@@ -35,7 +38,15 @@ class ProfileDetails extends React.Component {
 
     this.props.getUserRecentThread(userId);
     this.props.getUserRecentComment(userId);
-    // this.props.getOneUser(userId);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.data.user !== null && this.state.isProcess && this.state.user === null) {
+      this.setState({
+        isProcess: false,
+        user: nextProps.data.user
+      });
+    }
   }
 
   userIsLoggedIn = () => (
@@ -50,18 +61,35 @@ class ProfileDetails extends React.Component {
     </View>
   );
 
-  notUserLoggedIn = userId => (
-    <TouchableOpacity style={styles.buttonStyle} onPress={() => this.props.addInnerCircle(userId)}>
-      <Image source={require('../../../assets/icons/check.png')} style={styles.imageButtonStyle} />
-      <Text style={styles.buttonTextStyle}>INNER CIRCLE</Text>
-    </TouchableOpacity>
-  );
+  notUserLoggedIn = () => {
+    const source =
+      this.state.user.innerCircleStatus === 'open'
+        ? require('../../../assets/icons/plus.png')
+        : this.state.user.innerCircleStatus === 'requested'
+          ? require('../../../assets/icons/hourglass.png')
+          : require('../../../assets/icons/check.png');
+
+    const disabled = this.state.user.innerCircleStatus !== 'open';
+    const buttonTitle =
+      this.state.user.innerCircleStatus === 'requested' ? 'TERTUNDA' : 'INNER CIRCLE';
+
+    return (
+      <TouchableOpacity
+        style={styles.buttonStyle}
+        onPress={() => this.props.addInnerCircle(this.props.id)}
+        disabled={disabled}
+      >
+        <Image source={source} style={styles.imageButtonStyle} tintColor={color.white} />
+        <Text style={styles.buttonTextStyle}>{buttonTitle}</Text>
+      </TouchableOpacity>
+    );
+  };
 
   renderViewProfile = () => {
     const userId = this.props.dataAuth._id === this.props.id;
 
     if (userId === false && this.props.visitProfile === 'visited') {
-      return this.notUserLoggedIn(this.props.id);
+      return this.notUserLoggedIn();
     } else if (userId === true) {
       return this.userIsLoggedIn();
     } else if (this.props.id === undefined) {
@@ -120,6 +148,17 @@ class ProfileDetails extends React.Component {
 
   render() {
     const { recentThreads } = this.props.dataRecentActivity;
+    if (this.state.isProcess) {
+      return (
+        <Spinner
+          containerStyle={{ backgroundColor: color.white }}
+          color="#FFDE00"
+          text={'Loading...'}
+          size="large"
+        />
+      );
+    }
+
     return (
       <View style={styles.container}>
         {this.renderDetailProfile()}
@@ -267,9 +306,9 @@ const styles = {
   },
   imageButtonStyle: {
     marginLeft: -10,
-    marginTop: 10,
+    marginTop: 5,
     width: 30,
-    height: 20
+    height: 30
   }
 };
 
@@ -278,15 +317,14 @@ const mapStateToProps = state => ({
   dataRegister: state.registerReducer,
   dataThreads: state.threadsReducer,
   dataRecentActivity: state.recentActivityReducer,
-  getOneUser: state.userReducer
+  data: state.userReducer
 });
 
 const mapDispatchToProps = dispatch => ({
   getThreads: token => dispatch(getThreads(token)),
   getUserRecentThread: userId => dispatch(getUserRecentThread(userId)),
   getUserRecentComment: userId => dispatch(getUserRecentComment(userId)),
-  addInnerCircle: userId => dispatch(addInnerCircle(userId)),
-  getOneUser: userId => dispatch(getOneUser(userId))
+  addInnerCircle: userId => dispatch(addInnerCircle(userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);

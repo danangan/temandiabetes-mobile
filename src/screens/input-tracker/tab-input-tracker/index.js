@@ -16,12 +16,7 @@ class TabInputTracker extends Component {
 	onNavigatorEvent(event) {
 		if (event.type === 'NavBarButtonPress') {
 			if (event.id === 'notification') {
-				alert('fdf')
-				this.props.navigator.push({
-					screen: 'TemanDiabets.Notification',
-					title: 'NOTIFICATION',
-					animationType: 'none'
-				});
+				alert('Development')
 			}
 			if (event.id === 'sideMenu') {
 				this.props.navigator.showModal({

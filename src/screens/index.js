@@ -35,7 +35,6 @@ import LightBox from '../screens/chart/LightBox';
 import InnerCircle from '../screens/profileScreen/innerCircle';
 import InnerCircleList from '../screens/profileScreen/innerCircle/innerCircleList';
 import ModalReplyComment from '../screens/forum/threadDetails/modalReplyComment';
-import Notification from '../screens/Notification';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -48,7 +47,6 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen);
 	Navigation.registerComponent('TemanDiabets.EmergencyScreen', () => EmergencyScreen);
 	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome, store, Provider);
-	Navigation.registerComponent('TemanDiabets.Notification', () => Notification, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabFeatured', () => TabFeatured, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabBookmarks', () => TabBookmarks);
