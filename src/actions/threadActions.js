@@ -74,8 +74,10 @@ export const getThreads = () => async dispatch => {
       message: res.data.data.message,
       threads: res.data.data.threads
     };
+    console.log('BALIKAN RESPONSE ', res);
     dispatch(getThreadsSuccess(threadsPayload));
   } catch (err) {
+    console.log('BALIKAN RESPONSE ERR', err);
     dispatch(getThreadsSuccess(err));
   }
 };

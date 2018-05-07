@@ -89,12 +89,13 @@ class TabHome extends Component {
 
 	getToken = async () => {
 		const token = await AsyncStorage.getItem(authToken);
+		console.log('TOKEN BRE')
 		this.props.getThreads(token);
 	};
 
 	togleModal(params, threadItem) {
 		Navigation.showModal({
-			screen: params,
+			screen: params,	
 			title: 'Modal',
 			navigatorButtons: {
 				leftButtons: [{}]
