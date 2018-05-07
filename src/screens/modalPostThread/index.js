@@ -107,7 +107,7 @@ class ModalPostThred extends Component {
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
               <Avatar
                 avatarSize="ExtraSmall"
-                imageSource={null}
+                imageSource={currentUser.foto_profile}
                 userName={currentUser.nama}
               />
               <Text>{ currentUser.nama }</Text>

@@ -47,13 +47,13 @@ class TabHome extends Component {
 
 	componentDidUpdate() {
 		const { saveBookmark } = this.props.dataThreads;
-		if (saveBookmark.status_code === 201 && this.state.isProses) {
+		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isProses) {
 			this.setState(
 				{
 					isProses: false
 				},
 				() => {
-					Alert.alert('Success', 'Thread saved into your bookmark list!');
+					Alert.alert('Success', saveBookmark.message);
 				}
 			);
 		}
@@ -75,14 +75,13 @@ class TabHome extends Component {
 		}
 	}
 
-	onPostBookmark = async thread => {
-		const token = await AsyncStorage.getItem(authToken);
+	onPostBookmark = async (thread, threadIndex) => {
 		this.setState(
 			{
 				isProses: true
 			},
 			() => {
-				this.props.makeBookmark(thread._id, token);
+				this.props.makeBookmark(thread, threadIndex);
 			}
 		);
 	};
@@ -176,6 +175,7 @@ class TabHome extends Component {
 						isOpen={this.togleModal}
 						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
+						threadIndex={threads.index}
 					/>
 				</Card>
 			</TouchableOpacity>
@@ -323,7 +323,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 	getThreads: token => dispatch(getThreads(token)),
 	getCurrentUser: () => dispatch(getCurrentUser()),
-	makeBookmark: (idThread, token) => dispatch(makeBookmark(idThread, token))
+	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabHome);

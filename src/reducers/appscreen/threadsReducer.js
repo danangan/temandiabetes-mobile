@@ -24,7 +24,23 @@ const initialState = {
 		},
 		message: null,
 		status_code: 0
-	},
+  },
+  listLatestThreads: {
+		item: {
+			data: [],
+			total: 0
+		},
+		message: null,
+		status_code: 0
+  },
+  listBookmarkedThreads: {
+		item: {
+			data: [],
+			total: 0
+		},
+		message: null,
+		status_code: 0
+  },
 	submitThreads: {
 		message: '',
 		status_code: 0
@@ -75,15 +91,50 @@ const getThreads = (state, payload) => {
   const threadRecent = docs.sort((a, b) => Date.parse(new Date(b.createdAt) - new Date(a.createdAt)));
 
   return {
-    ...state, 
-    listThreads: { ...state.listThreads, 
-      item: { ...state.listThreads.item, 
-        data: threads.docs, 
-        recentData: threadRecent, 
-        total: threads.total 
-      }, 
-      message, 
-      status_code 
+    ...state,
+    listThreads: { ...state.listThreads,
+      item: { ...state.listThreads.item,
+        data: threads.docs,
+        recentData: threadRecent,
+        total: threads.total
+      },
+      message,
+      status_code
+    },
+  };
+};
+
+const getLatestThreads = (state, payload) => {
+  const { threads, status_code, message } = payload;
+
+  return {
+    ...state,
+    listLatestThreads: { ...state.listLatestThreads,
+      item: { ...state.listThreads.item,
+        data: threads.docs,
+        total: threads.total
+      },
+      message,
+      status_code
+    },
+  };
+};
+
+const getBookmarkedThreads = (state, payload) => {
+  const { bookmarks, status_code, message } = payload;
+  // map bookmark into thread list
+  const threads = bookmarks.map(item => {
+    return item.thread
+  })
+  return {
+    ...state,
+    listBookmarkedThreads: { ...state.listBookmarkedThreads,
+      item: {
+        ...state.listBookmarkedThreads.item,
+        data: threads
+      },
+      message,
+      status_code
     },
   };
 };
@@ -107,19 +158,33 @@ const handleSearch = (state, payload) => {
 const handleReport = (state, payload) => {
   const { status_code, message } = payload;
   return {
-    ...state, reportThread: { ...state.reportThread, message, status_code } 
+    ...state, reportThread: { ...state.reportThread, message, status_code }
   };
 };
 
 const postBookmark = (state, payload) => {
-	const { status_code, message } = payload;
+  const { status_code, message, threadIndex } = payload;
+  const mutatedThread = state.listThreads.item.data[threadIndex]
+  mutatedThread.isBookmarked = !mutatedThread.isBookmarked
   return {
-    ...state, saveBookmark: { ...state.saveBookmark, message, status_code } 
+    ...state,
+    listThreads: {
+      ...state.listThreads,
+      item: {
+        ...state.listThreads.item,
+        data: [
+          ...state.listThreads.item.data.slice(0, threadIndex),
+          mutatedThread,
+          ...state.listThreads.item.data.slice(threadIndex+1),
+        ]
+      }
+    },
+    saveBookmark: { ...state.saveBookmark, message, status_code }
   };
 };
 
 /**
- * 
+ *
  * @param {*} state object
  * @param {*} payload object
  * Setelah post comment dan comment to reply
@@ -132,16 +197,16 @@ const getThreadsDetails = (state, payload) => {
 	// };
 	// console.log('INI THREDE ', thread);
 	return {
-		...state, 
+		...state,
 		listThreads: {
-			...state.listThreads, 
+			...state.listThreads,
 			threadDetails: payload.thread,
 			status_code: 200
 		},
 		createComment: {
 			...state.createComment,
 			status_code: 0,
-			commentToReply: { 
+			commentToReply: {
 				...state.createComment.commentToReply,
 				status_code: 0
 			}
@@ -152,7 +217,7 @@ const getThreadsDetails = (state, payload) => {
 
 const createComment = (state, payload) => {
 	return {
-		...state, 
+		...state,
 		createComment: { ...state.createComment, status_code: payload.status },
 		isFetch: false
 	};
@@ -161,8 +226,8 @@ const createComment = (state, payload) => {
 const commentToReply = (state, payload) => {
 	return {
 		...state,
-		createComment: { 
-			...state.createComment, 
+		createComment: {
+			...state.createComment,
 			commentToReply: {
 				...state.createComment.commentToReply, status_code: payload.status
 			}
@@ -181,14 +246,18 @@ const threadsReducer = (state = initialState, action) => {
 		case ActionTypes.REPORT_THREAD:
 			return handleReport(state, action.payload);
 		case ActionTypes.GET_THREADS_STATIC:
-			return getThreadStatic(state, action.payload);
+      return getThreadStatic(state, action.payload);
+    case ActionTypes.GET_LATEST_THREADS:
+			return getLatestThreads(state, action.payload);
 		case ActionTypes.BOOKMARK_THREAD:
-			return postBookmark(state, action.payload);
+      return postBookmark(state, action.payload);
+    case ActionTypes.GET_BOOKMARKED_THREADS:
+			return getBookmarkedThreads(state, action.payload);
 		case 'PENDING_THREAD_DETAILS':
 			return {
-				...state, 
+				...state,
 				listThreads: {
-					...state.listThreads, 
+					...state.listThreads,
 					threadDetails: null,
 					status_code: 0
 				},
@@ -197,9 +266,9 @@ const threadsReducer = (state = initialState, action) => {
 			return getThreadsDetails(state, action.payload);
 		case 'PENDING_CREATE_COMMENT':
 			return {
-				...state, 
+				...state,
 				listThreads: {
-					...state.listThreads, 
+					...state.listThreads,
 					threadDetails: null,
 					status_code: 0
 				},
@@ -208,19 +277,19 @@ const threadsReducer = (state = initialState, action) => {
 					status_code: 0
 				}
 			};
-		case ActionTypes.CREATE_COMMENT: 
+		case ActionTypes.CREATE_COMMENT:
 			return createComment(state, action.payload);
 		case 'PENDING_COMMENT_TO_REPLY':
 			return {
-				...state, 
+				...state,
 				listThreads: {
-					...state.listThreads, 
+					...state.listThreads,
 					threadDetails: null,
 					status_code: 0
 				},
 				createComment: {
 					...state.createComment,
-					commentToReply: { 
+					commentToReply: {
 						...state.createComment.commentToReply,
 						status_code: 0
 					}
@@ -230,34 +299,34 @@ const threadsReducer = (state = initialState, action) => {
 			return commentToReply(state, action.payload);
 		case 'PENDING_FOLLOW_THREADS':
 			return {
-				...state, 
+				...state,
 				followThread: {
 					...state.followThread, status_code: 0, message: '', isFetch: true
 				}
 			};
-		case ActionTypes.FOLLOW_THREADS: 
+		case ActionTypes.FOLLOW_THREADS:
 			return {
-				...state, 
+				...state,
 				followThread: {
 					...state.followThread, status_code: 200, message: 'Success follow thread', isFetch: false
 				},
 				listThreads: {
-					...state.listThreads, 
+					...state.listThreads,
 					threadDetails: {
 						...state.listThreads.threadDetails, isSubscriber: true
 					}
 				}
 			};
-		case 'PENDING_UNFOLLOW_THREADS': 
+		case 'PENDING_UNFOLLOW_THREADS':
 			return {
 				...state,
 				followThread: {
 					...state.followThread, status_code: 0, message: '', isFetch: true
 				}
 			};
-		case ActionTypes.UNFOLLOW_THREADS: 
+		case ActionTypes.UNFOLLOW_THREADS:
 			return {
-				...state, 
+				...state,
 				followThread: {
 					...state.followThread, 
 					status_code: 200, 
@@ -265,7 +334,7 @@ const threadsReducer = (state = initialState, action) => {
 					isFetch: false
 				},
 				listThreads: {
-					...state.listThreads, 
+					...state.listThreads,
 					threadDetails: {
 						...state.listThreads.threadDetails, isSubscriber: false
 					}

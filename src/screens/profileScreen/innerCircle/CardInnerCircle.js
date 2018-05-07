@@ -10,8 +10,8 @@ const CardInnerCircle = ({ item, navigation }) => (
     <TouchableOpacity style={styles.contentStyle} onPress={() => navigation(item)}>
       <View style={styles.leftContentStyle}>
         <Avatar
-          avatarSize="Small"
           userName={item.nama}
+          avatarSize="Small"
           imageSource={item.foto_profile}
           avatarStyle={[
             styles.avatarStyle,

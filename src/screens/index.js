@@ -50,7 +50,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabFeatured', () => TabFeatured, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabBookmarks', () => TabBookmarks);
+	Navigation.registerComponent('TemanDiabets.TabBookmarks', () => TabBookmarks, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabVideo', () => TabVideo);
 	Navigation.registerComponent('TemanDiabets.TabEvent', () => TabEvent);
 	Navigation.registerComponent('TemanDiabets.TabInputTracker', () => TabInputTracker);

@@ -17,6 +17,7 @@ import { Avatar, NavigationBar } from '../../../../components';
 import { updateProfile } from '../../../../actions/profileActions'
 import ProfileCard from '../../../../components/card/profile';
 import { Spinner } from '../../../../components';
+import { dateFormatter } from '../../../../utils/helpers';
 
 class EditProfile extends React.Component {
   static navigatorStyle = {
@@ -89,12 +90,12 @@ class EditProfile extends React.Component {
   async openDatePicker() {
     if (Platform.OS === 'android') {
       try {
-        const {action, year, month, day} = await DatePickerAndroid.open({
+        const result = await DatePickerAndroid.open({
           date: new Date(this.state.userData.tgl_lahir)
         });
-        if (action !== DatePickerAndroid.dismissedAction) {
+        if (result.action !== DatePickerAndroid.dismissedAction) {
           // Selected year, month (0-11), day
-          this.setUserData('tgl_lahir', `${day}-${month}-${year}`)
+          this.setUserData('tgl_lahir', `${result.year}-${result.month + 1}-${result.day}`)
         }
       } catch ({code, message}) {
         console.warn('Cannot open date picker', message);
@@ -132,7 +133,7 @@ class EditProfile extends React.Component {
                 style={[styles.pickerWrapper, { height:35, marginLeft: 5 }]}
                 onPress={() => { this.openDatePicker() }}
               >
-                <Text style={[styles.textInput, { marginTop:9 }]}>{userData.tgl_lahir}</Text>
+                <Text style={[styles.textInput, { marginTop:9 }]}>{dateFormatter(userData.tgl_lahir)}</Text>
               </TouchableOpacity>
             </View>
             <View>

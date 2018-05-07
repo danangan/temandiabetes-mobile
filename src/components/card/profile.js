@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Image } from 'react-native';
 import { Avatar } from '../avatar';
-import { DEFAULT_PROFILE_IMAGE, CAMERA_ICON } from '../../utils/constants'
+import { CAMERA_ICON } from '../../utils/constants'
 import ImageUploader from '../imageUploader'
 
 const ProfileCard = (props) => {
