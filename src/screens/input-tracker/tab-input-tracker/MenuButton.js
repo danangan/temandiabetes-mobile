@@ -15,15 +15,13 @@ class MenuButton extends React.Component {
       <View>
         <BloodGlucose onModalInput={this.props.onModalInput} />
         <Hba1c onModalInput={this.props.onModalInput} />
-        <Food />
-        <BloodPressure />
-        <Activity />
-        <Weight />
+        <Food onModalInput={this.props.onModalInput} />
+        <BloodPressure onModalInput={this.props.onModalInput} />
+        <Activity onModalInput={this.props.onModalInput} />
+        <Weight onModalInput={this.props.onModalInput} />
       </View>
     );
   } 
-  
-  
 };
 
 export default MenuButton;

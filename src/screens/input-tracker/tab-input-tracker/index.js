@@ -5,6 +5,7 @@ import {
   Modal, 
   Text, 
   TouchableOpacity, 
+  TouchableHighlight,
   DatePickerAndroid,
   TextInput,
   Keyboard
@@ -116,7 +117,8 @@ class InputTracker extends Component {
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingHorizontal: 10,
-        paddingVertical: 20
+        paddingVertical: 20,
+        backgroundColor: '#fff'
       }}
       >
         {this.renderButtonOpenDate()}
@@ -149,6 +151,220 @@ class InputTracker extends Component {
     );
   }
 
+  contentInputhba1c() {
+    return (
+      <View 
+        style={{  
+        flex: 2,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        backgroundColor: '#fff'
+      }}
+      >
+        {this.renderButtonOpenDate()}
+       <View 
+        style={{
+          flex: 1,
+          width: '70%',
+        }}
+       >
+          <TextInput
+            placeholder="70 mmol/mol"
+            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
+            underlineColorAndroid="#000"
+          />
+        </View>
+        <TouchableOpacity 
+          style={{
+            flex: 0.5,
+            width: '50%',
+            alignItems: 'center',
+            backgroundColor: '#ef434e',
+            justifyContent: 'center',
+          }}
+          onPress={() => {}}>
+            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
+            SIMPAN
+            </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  ModalInputHBA1C() {
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+        }}
+      >
+        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+          <View 
+            style={
+              [styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
+          >
+            {
+              this.contentInputhba1c()
+            }
+          </View>
+        </TouchableHighlight>
+      </Modal>
+    );
+  } 
+
+  ModalGlucose() {
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+        }}
+      >
+        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+          <View 
+            style={
+              [styles.modalContent, { height: this.state.keyboardActive ? '90%' : '40%' }]}
+          >
+            { this.contentGulaDarah() }
+          </View>
+        </TouchableHighlight>
+      </Modal>
+    );
+  }
+
+  ModalMakanan() {
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+        }}
+      >
+        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+          <View 
+            style={
+              [styles.modalContent, { height: this.state.keyboardActive ? '80%' : '80%' }]}
+          >
+            { this.contentMakanan() }
+          </View>
+        </TouchableHighlight>
+      </Modal>
+    );
+  }
+
+  contentMakanan() {
+    return (
+      <View 
+        style={{  
+        flex: 2,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        backgroundColor: '#fff'
+      }}
+      >
+        {this.renderButtonOpenDate()}
+       <View 
+        style={{
+          flex: 1,
+          width: '70%',
+        }}
+       >
+          <Text>Sarapan</Text>
+          <TextInput
+            placeholder="Nasi Uduk"
+            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
+            underlineColorAndroid="#000"
+          />
+        </View>
+        <View 
+        style={{
+          flex: 1,
+          width: '70%',
+          }}
+        >
+          <Text>Makan Siang</Text>
+          <TextInput
+            placeholder="Soto Ayam"
+            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
+            underlineColorAndroid="#000"
+          />
+        </View>
+        <View 
+        style={{
+          flex: 1,
+          width: '70%',
+          }}
+        >
+          <Text>Makan Malam</Text>
+          <TextInput
+            placeholder="Salad"
+            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
+            underlineColorAndroid="#000"
+          />
+        </View>
+        <View 
+        style={{
+          flex: 1,
+          width: '70%',
+          }}
+        >
+          <Text>Snack</Text>
+          <TextInput
+            placeholder="Gorengan"
+            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
+            underlineColorAndroid="#000"
+          />
+        </View>
+        <TouchableOpacity 
+          style={{
+            flex: 0.5,
+            width: '50%',
+            alignItems: 'center',
+            backgroundColor: '#ef434e',
+            justifyContent: 'center',
+          }}
+          onPress={() => {}}>
+            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
+            SIMPAN
+            </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  ModalTekananDarah() {
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+        }}
+      >
+        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+          <View 
+            style={
+              [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
+          >
+            { this.contentTekananDarah() }
+          </View>
+        </TouchableHighlight>
+      </Modal>
+    );
+  }
+
   contentTekananDarah() {
     return (
       <View 
@@ -157,7 +373,8 @@ class InputTracker extends Component {
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingHorizontal: 10,
-        paddingVertical: 20
+        paddingVertical: 20,
+        backgroundColor: '#fff'
       }}
       >
         {this.renderButtonOpenDate()}
@@ -204,7 +421,7 @@ class InputTracker extends Component {
     );
   }
 
-  ModalBloodPressure() {
+  ModalInputAktivitas() {
     return (
       <Modal
         animationType="none"
@@ -214,43 +431,100 @@ class InputTracker extends Component {
           alert('Modal has been closed.');
         }}
       >
-        <TouchableOpacity onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View 
             style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '60%' : '50%' }]}
+              [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
-            {
-              this.contentTekananDarah()
-            }
+            { this.contentAktivitas() }
           </View>
-        </TouchableOpacity>
-      </Modal>
-    );
-  } 
-
-  ModalGlucose() {
-    return (
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
-      >
-        <TouchableOpacity onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View 
-            style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '60%' : null }]}
-          >
-            { this.contentGulaDarah() }
-          </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </Modal>
     );
   }
 
-  ModalMakanan() {
+  contentAktivitas() {
+    return (
+      <View 
+        style={{  
+        flex: 2,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        backgroundColor: '#fff'
+      }}
+      >
+        {this.renderButtonOpenDate()}
+       
+        <TouchableOpacity 
+          style={{
+            flex: 0.5,
+            width: '50%',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            borderColor: '#ef434e',
+            borderWidth: 1,
+            justifyContent: 'center',
+            marginVertical: 5
+          }}
+          onPress={() => {}}>
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: '#ef434e' }}>
+            RINGAN
+            </Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={{
+            flex: 0.5,
+            width: '50%',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            borderColor: '#ef434e',
+            borderWidth: 1,
+            justifyContent: 'center',
+            marginVertical: 5
+          }}
+          onPress={() => {}}>
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: '#ef434e' }}>
+            SEDANG
+            </Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={{
+            flex: 0.5,
+            width: '50%',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            borderColor: '#ef434e',
+            borderWidth: 1,
+            justifyContent: 'center',
+            marginVertical: 5
+          }}
+          onPress={() => {}}>
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: '#ef434e' }}>
+            BERAT
+            </Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={{
+            flex: 0.5,
+            width: '60%',
+            alignItems: 'center',
+            backgroundColor: '#ef434e',
+            justifyContent: 'center', 
+            marginTop: 5,
+            marginBottom: 10
+          }}
+          onPress={() => {}}>
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: '#fff' }}>
+            SIMPAN
+            </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  ModalInputWeight() {
     return (
       <Modal
         animationType="none"
@@ -260,23 +534,73 @@ class InputTracker extends Component {
           alert('Modal has been closed.');
         }}
       >
-        <TouchableOpacity onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View 
             style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '60%' : null }]}
+              [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
-            { this.contentGulaDarah() }
+            { this.contentWeight() }
           </View>
-        </TouchableOpacity>
+        </TouchableHighlight>
       </Modal>
     );
   }
 
+  contentWeight() {
+    return (
+      <View 
+        style={{  
+        flex: 2,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        backgroundColor: '#fff'
+      }}
+      >
+        {this.renderButtonOpenDate()}
+       <View 
+        style={{
+          flex: 1,
+          width: '70%',
+        }}
+       >
+          <TextInput
+            placeholder="80 kg"
+            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
+            underlineColorAndroid="#000"
+          />
+        </View>
+        <TouchableOpacity 
+          style={{
+            flex: 0.5,
+            width: '50%',
+            alignItems: 'center',
+            backgroundColor: '#ef434e',
+            justifyContent: 'center',
+          }}
+          onPress={() => {}}>
+            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
+            SIMPAN
+            </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+ 
   renderModalInput() {
     if (this.state.isModal === 'BLOOD_GLUCOSE') {
       return this.ModalGlucose();
-    } else if (this.state.isModal === 'BLOOD_PRESSURE') {
-      return this.ModalBloodPressure();
+    } else if (this.state.isModal === 'INPUT_HBA1C') {
+      return this.ModalInputHBA1C();
+    } else if (this.state.isModal === 'INPUT_FOOD') {
+      return this.ModalMakanan();
+    } else if (this.state.isModal === 'INPUT_TEKANAN_DARAH') {
+      return this.ModalTekananDarah();
+    } else if (this.state.isModal === 'INPUT_ACTIVITY') {
+      return this.ModalInputAktivitas();
+    } else if (this.state.isModal === 'INPUT_WEIGHT') {
+      return this.ModalInputWeight();
     }
   }
 
@@ -373,8 +697,8 @@ const styles = {
     backgroundColor: '#fff', 
     opacity: 1, 
     width: '70%', 
-    minHeight: '40%',
-    maxHeight: '60%'
+    // minHeight: '40%',
+    // maxHeight: '60%'
   }
 };
 

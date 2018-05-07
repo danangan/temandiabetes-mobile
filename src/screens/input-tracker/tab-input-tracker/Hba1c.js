@@ -8,7 +8,7 @@ class hba1c extends React.Component {
   render() {
     return (
       <TouchableOpacity
-        onPress={() => this.props.onModalInput('BLOOD_PRESSURE')}
+        onPress={() => this.props.onModalInput('INPUT_HBA1C')}
       >
         <CardSection>
           <Image
