@@ -26,7 +26,8 @@ class InputTracker extends Component {
       isModal: '',
       isDate: '',
       isGulaDarah: '',
-      keyboardActive: false
+      keyboardActive: false,
+      activitySelected: ''
 
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
@@ -59,12 +60,15 @@ class InputTracker extends Component {
       console.log('DATE SELECTED 1', year, month)
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
+        
+        this.setState({
+          isDate: `${day} ${month} ${year}`
+        });
         console.log('DATE SELECTED 2', year, month)
       }
     } catch ({code, message}) {
       console.warn('Cannot open date picker', message);
     }
-    
   }
 
   onNavigatorEvent(event) {
@@ -104,7 +108,7 @@ class InputTracker extends Component {
         onPress={() => this.openDatePicker()}
       >
           <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light' }}>
-          {dateNow}
+          {this.state.isDate === '' ? dateNow : this.state.isDate}
           </Text>
       </TouchableOpacity>
     );
@@ -143,7 +147,8 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => {}}>
+          onPress={() => this.setModalVisible()}
+        >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
             </Text>
@@ -185,7 +190,8 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => {}}>
+          onPress={() => this.setModalVisible()}
+        >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
             </Text>
@@ -253,7 +259,7 @@ class InputTracker extends Component {
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View 
             style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '80%' : '80%' }]}
+              [styles.modalContent, { height: this.state.keyboardActive ? '100%' : '80%' }]}
           >
             { this.contentMakanan() }
           </View>
@@ -335,7 +341,8 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => {}}>
+          onPress={() => this.setModalVisible()}
+        >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
             </Text>
@@ -413,7 +420,8 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => {}}>
+          onPress={() => this.setModalVisible()}
+        >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
             </Text>
@@ -463,14 +471,17 @@ class InputTracker extends Component {
             flex: 0.5,
             width: '50%',
             alignItems: 'center',
-            backgroundColor: '#fff',
-            borderColor: '#ef434e',
+            backgroundColor: this.state.activitySelected === 'RINGAN' ? '#ef434e' : '#fff',
+            borderColor: this.state.activitySelected === 'RINGAN' ? '#fff' : '#ef434e',
             borderWidth: 1,
             justifyContent: 'center',
             marginVertical: 5
           }}
-          onPress={() => {}}>
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: '#ef434e' }}>
+          onPress={() => {
+            this.setState({ activitySelected: 'RINGAN' });
+          }}
+        >
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'RINGAN' ? '#fff' : '#ef434e' }}>
             RINGAN
             </Text>
         </TouchableOpacity>
@@ -479,14 +490,17 @@ class InputTracker extends Component {
             flex: 0.5,
             width: '50%',
             alignItems: 'center',
-            backgroundColor: '#fff',
-            borderColor: '#ef434e',
+            backgroundColor: this.state.activitySelected === 'SEDANG' ? '#ef434e' : '#fff',
+            borderColor: this.state.activitySelected === 'SEDANG' ? '#fff' : '#ef434e',
             borderWidth: 1,
             justifyContent: 'center',
             marginVertical: 5
           }}
-          onPress={() => {}}>
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: '#ef434e' }}>
+          onPress={() => {
+            this.setState({ activitySelected: 'SEDANG' });
+          }}
+        >
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'SEDANG' ? '#fff' : '#ef434e' }}>
             SEDANG
             </Text>
         </TouchableOpacity>
@@ -495,14 +509,17 @@ class InputTracker extends Component {
             flex: 0.5,
             width: '50%',
             alignItems: 'center',
-            backgroundColor: '#fff',
-            borderColor: '#ef434e',
+            backgroundColor: this.state.activitySelected === 'BERAT' ? '#ef434e' : '#fff',
+            borderColor: this.state.activitySelected === 'BERAT' ? '#fff' : '#ef434e',
             borderWidth: 1,
             justifyContent: 'center',
             marginVertical: 5
           }}
-          onPress={() => {}}>
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: '#ef434e' }}>
+          onPress={() => {
+            this.setState({ activitySelected: 'BERAT' });
+          }}
+        >
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'BERAT' ? '#fff' : '#ef434e' }}>
             BERAT
             </Text>
         </TouchableOpacity>
@@ -516,7 +533,8 @@ class InputTracker extends Component {
             marginTop: 5,
             marginBottom: 10
           }}
-          onPress={() => {}}>
+          onPress={() => this.setModalVisible()}
+        >
             <Text style={{ fontFamily: 'Montserrat-Regular', color: '#fff' }}>
             SIMPAN
             </Text>
@@ -580,7 +598,8 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => {}}>
+          onPress={() => this.setModalVisible()}
+        >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
             </Text>

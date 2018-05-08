@@ -17,7 +17,7 @@ class ThreadDetails extends React.Component {
 	};
 
 	constructor(props) {
-		super(props);
+    super(props);
 		this.state = {
 			idThread: this.props.item._id,
 			isProcess: true,
@@ -56,7 +56,7 @@ class ThreadDetails extends React.Component {
 			isLoadingSubscribe: true
 		}, () => {
 			this.props.toUnFollowThread(this.state.idThread);
-		});	
+		});
 	}
 
 	requestFollowThread() {
@@ -97,7 +97,7 @@ class ThreadDetails extends React.Component {
 		const { listThreads, followThread } = this.props.dataThreads;
 		if (followThread.isFetch) {
 			return (
-				<TouchableOpacity 
+				<TouchableOpacity
 					onPress={this.requestFollowThread}
 					style={{ justifyContent: 'center', minWidth: 100, height: 25, minHeight: 25, backgroundColor: '#252c68', marginRight: 10 }}>
 					<ActivityIndicator size="small" color="#8084a7" />
@@ -115,7 +115,7 @@ class ThreadDetails extends React.Component {
 			);
 		} else if (listThreads.threadDetails.isSubscriber) {
 			return (
-				<TouchableOpacity 
+				<TouchableOpacity
 					onPress={this.requestUnfollowThread}
 					style={{ justifyContent: 'center', minWidth: 100, height: 25, minHeight: 25, backgroundColor: '#252c68', marginRight: 10 }}>
 					<Text
@@ -131,9 +131,9 @@ class ThreadDetails extends React.Component {
 					</Text>
 				</TouchableOpacity>
 			);
-		} 
+		}
 		return (
-			<TouchableOpacity 
+			<TouchableOpacity
 				onPress={this.requestFollowThread}
 				style={{ justifyContent: 'center', minWidth: 100, height: 25, minHeight: 25, backgroundColor: '#252c68', marginRight: 10 }}>
 				<Text
@@ -152,18 +152,18 @@ class ThreadDetails extends React.Component {
 	}
 
 	render() {
-		const { topic, author, _id } = this.props.item;
+    const { topic, author, _id } = this.props.item;
 		const { listThreads } = this.props.dataThreads;
 		if (this.state.isProcess) {
 			return (
-				<Spinner 
+				<Spinner
 					containerStyle={{ backgroundColor: '#f2f4fd' }}
-					color="#FFDE00" 
+					color="#FFDE00"
 					size="large"
 				/>
 			);
 		}
-		
+
 		return (
 			<View style={{ flex: 2, backgroundColor: color.solitude }}>
 				<HeaderDetail authorItem={author} />
@@ -198,8 +198,8 @@ class ThreadDetails extends React.Component {
 							{
 								listThreads.threadDetails !== null ? this.renderButtonFollow() : null
 							}
-							<TouchableOpacity 
-								onPress={() => 
+							<TouchableOpacity
+								onPress={() =>
 									this.setState({
 										isProcess: true
 									}, () => {
@@ -229,7 +229,7 @@ class ThreadDetails extends React.Component {
 							</TouchableOpacity>
 						</View>
 					</CardSection>
-					<ContentDetail 
+					<ContentDetail
 						threadItem={this.props.item}
 						threadDetails={listThreads.threadDetails}
 						navigator={this.toCommentDetails}
@@ -258,9 +258,9 @@ const styles = {
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
-	buttonText: { 
-		color: '#fff', 
-		fontSize: 30 
+	buttonText: {
+		color: '#fff',
+		fontSize: 30
 	}
 };
 

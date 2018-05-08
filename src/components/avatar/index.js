@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ViewPropTypes from '../../config/ViewPropTypes';
 
 const Avatar = ({ avatarSize, imageSource, avatarStyle, textStyle, initialStyle, resizeMode, userName, customSize }) => {
-  const isImageExist = imageSource && imageSource !== ''
+  const isImageExist = !!imageSource && imageSource !== ''
   let size
   let paddingVertical = 16
   let fontSize = 32
@@ -47,9 +47,9 @@ const Avatar = ({ avatarSize, imageSource, avatarStyle, textStyle, initialStyle,
       {
         !isImageExist &&
         <View
-          style={[styles.avatarStyle, styles.initialStyle, { paddingVertical }, initialStyle]}
+          style={[styles.avatarStyle, styles.initialStyle, { paddingVertical }, initialStyle, avatarStyle]}
         >
-          <Text style={[styles.textStyle, { fontSize }, textStyle]}>{ getInitialName(userName || '') }</Text>
+          <Text style={[styles.textStyle, { fontSize }, textStyle]}>{ getInitialName(userName) || '' }</Text>
         </View>
       }
 

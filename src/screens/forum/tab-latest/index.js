@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, ScrollView, Platform, TouchableOpacity, FlatList } from 'react-native';
 
 import { Card, FooterThread, HeaderThread } from '../../../components';
+import { getLatestThreads, makeBookmark } from '../../../actions/threadActions';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
 
@@ -15,44 +16,70 @@ class TabLatest extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			nums: [1, 2, 3, 4, 5]
-		};
+      refreshing: false
+    };
+
+    this.toThreadDetails = this.toThreadDetails.bind(this)
+    this.onPostBookmark = this.onPostBookmark.bind(this)
 	}
 
+  componentDidMount() {
+    this.props.getLatestThreads()
+  }
+
+	toThreadDetails(threads) {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.ThreadDetails',
+			navigatorStyle: {
+				navBarHidden: true
+			},
+			passProps: threads
+		});
+	}
+
+	onPostBookmark = async (thread, threadIndex) => {
+		this.setState(
+			{
+				isProses: true
+			},
+			() => {
+				this.props.makeBookmark(thread, threadIndex);
+			}
+		);
+	};
+
 	renderItem(threads) {
+		const { author, comments } = threads.item;
 		return (
 			<TouchableOpacity
 				key={threads.index}
-				onPress={() =>
-					this.props.navigator.push({
-						screen: 'TemanDiabets.ThreadDetails',
-						navigatorStyle: {
-							navBarHidden: true
-						},
-						passProps: threads
-					})
-				}
+				onPress={() => this.toThreadDetails(threads)}
 			>
 				<Card containerStyle={styles.cardStyle}>
 					<HeaderThread
-						source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
-						name="Gloria James"
-						category="Teman Diabetes"
+						source={author.foto_profile}
+						name={author.nama}
+						category={author.tipe_user.toUpperCase()}
 					/>
-					<ContentThread />
-					<FooterThread numOfComments={17} />
+					<ContentThread property={threads.item} />
+					<FooterThread
+						leftAction={() => this.toThreadDetails(threads)}
+						numOfComments={comments.length === 0 ? '' : comments.length}
+						isOpen={this.togleModal}
+						saveBookmark={this.onPostBookmark}
+						threadItem={threads.item}
+						threadIndex={threads.index}
+					/>
 				</Card>
 			</TouchableOpacity>
 		);
 	}
 
 	render() {
-		const { listThreads } = this.props.dataThreads;
-
 		return (
 			<View style={styles.containerStyle}>
 				<FlatList
-					data={listThreads.item.data}
+					data={this.props.dataThreads.item.data}
 					renderItem={item => this.renderItem(item)}
 					refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
@@ -80,11 +107,12 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-	dataThreads: state.threadsReducer,
+	dataThreads: state.threadsReducer.listLatestThreads,
 });
 
-// const mapDispatchToProps = dispatch => ({
-// 	// getThreads: (token) => dispatch(getThreads(token)),
-// });
+const mapDispatchToProps = dispatch => ({
+	getLatestThreads: () => dispatch(getLatestThreads()),
+	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
+});
 
-export default connect(mapStateToProps, null)(TabLatest);
+export default connect(mapStateToProps, mapDispatchToProps)(TabLatest);

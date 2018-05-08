@@ -5,7 +5,9 @@ import {
 	GET_THREADS,
 	POST_THREDS,
 	SEARCH_THREADS,
-	GET_THREADS_STATIC,
+  GET_THREADS_STATIC,
+  GET_LATEST_THREADS,
+  GET_BOOKMARKED_THREADS,
 	REPORT_THREAD,
   BOOKMARK_THREAD,
   CREATE_COMMENT,
@@ -83,6 +85,63 @@ export const getThreads = () => async dispatch => {
 };
 
 /**
+ * Get Latest Threads
+ * @param {*} token
+ */
+export const getLatestThreads = () => async dispatch => {
+  const getLatestThreadsSuccess = data => ({
+    type: GET_LATEST_THREADS,
+    payload: data
+  });
+
+  try {
+    const option = {
+      method: 'get',
+      url: 'api/threads/feed'
+    };
+
+    const res = await API_CALL(option);
+    const threadsPayload = {
+      status_code: res.status,
+      message: res.data.data.message,
+      threads: res.data.data.threads
+    };
+    dispatch(getLatestThreadsSuccess(threadsPayload));
+  } catch (err) {
+    dispatch(getLatestThreadsSuccess(err));
+  }
+};
+
+/**
+ * Get Bookmarked Threads
+ * @param {*} token
+ */
+export const getBookmarkedThreads = () => async dispatch => {
+  const getBookmarkedThreadsSuccess = data => ({
+    type: GET_BOOKMARKED_THREADS,
+    payload: data
+  });
+
+  try {
+    const option = {
+      method: 'get',
+      url: 'api/bookmarks'
+    };
+
+    const res = await API_CALL(option);
+    const threadsPayload = {
+      status_code: res.status,
+      message: res.data.data.message,
+      bookmarks: res.data.data.bookmarks
+    };
+    console.log(threadsPayload)
+    dispatch(getBookmarkedThreadsSuccess(threadsPayload));
+  } catch (err) {
+    // dispatch(getBookmarkedThreadsSuccess(err));
+  }
+};
+
+/**
  * Get Thread Details
  * @param {*} threadId
  */
@@ -115,7 +174,7 @@ export const getThreadDetails = threadId => async dispatch => {
 
     const threadItem = {
       thread: {
-        ...request.data.data.thread, 
+        ...request.data.data.thread,
         isSubscriber: request.data.data.isSubscriber
       }
     };
@@ -246,10 +305,10 @@ export const userReport = (dataThreads) => async dispatch => {
  * @param {*} idThread
  * @param {*} token
  */
-export const makeBookmark = (idThread) => async dispatch => {
+export const makeBookmark = (thread, threadIndex) => async dispatch => {
   const option = {
-    method: 'post',
-    url: `api/bookmarks/${idThread}`
+    method: thread.isBookmarked ? 'delete' : 'post',
+    url: `api/bookmarks/${thread.isBookmarked ? 'deleteByThreadId/' : ''}${thread._id}`
   };
 
   try {
@@ -257,6 +316,7 @@ export const makeBookmark = (idThread) => async dispatch => {
     const reportPayload = {
       status_code: res.status,
       message: res.data.message,
+      threadIndex
     };
     dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
   } catch (error) {
@@ -383,7 +443,7 @@ export const toUnFollowThread = (idThread) => async dispatch => {
     });
     return true;
   };
-  
+
   function onSuccess(data) {
 		dispatch({
 			type: UNFOLLOW_THREADS,

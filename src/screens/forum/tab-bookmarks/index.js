@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Platform, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+import { View, ScrollView, Platform, TouchableOpacity, FlatList, Alert } from 'react-native';
 
 import { Card, FooterThread, HeaderThread } from '../../../components';
+import { getBookmarkedThreads, makeBookmark } from '../../../actions/threadActions';
+import { result } from '../../../utils/helpers';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
 
@@ -14,38 +17,144 @@ class TabBookmark extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			nums: [1, 2, 3, 4, 5]
-		};
+      refreshing: false
+    };
+
+		this.togleModal = this.togleModal.bind(this);
+		this.onPostBookmark = this.onPostBookmark.bind(this);
+		this.toThreadDetails = this.toThreadDetails.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.getBookmarkedThreads()
+  }
+
+	componentDidUpdate() {
+		const { saveBookmark } = this.props;
+		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isProses) {
+			this.setState(
+				{
+					isProses: false
+				},
+				() => {
+					Alert.alert('Success', saveBookmark.message);
+				}
+			);
+		}
+  }
+
+	onNavigatorEvent(event) {
+		if (event.type === 'NavBarButtonPress') {
+			if (event.id === 'notification') {
+				this.props.navigator.push({
+					screen: 'TemanDiabets.Notification',
+					navigatorStyle: {
+						navBarHidden: true
+					},
+				});
+			}
+			if (event.id === 'sideMenu') {
+				this.togleModal('TemanDiabets.ProfileScreen');
+			}
+		}
+	}
+
+	onPostBookmark = async (thread, threadIndex) => {
+		this.setState(
+			{
+				isProses: true
+			},
+			() => {
+				this.props.makeBookmark(thread, threadIndex);
+			}
+		);
+  };
+
+	togleModal(params, threadItem) {
+		Navigation.showModal({
+			screen: params,
+			title: 'Modal',
+			navigatorButtons: {
+				leftButtons: [{}]
+			},
+			passProps: {
+				idThread: threadItem === undefined ? null : threadItem._id
+			},
+			animationType: 'none'
+		});
+	}
+
+	toThreadDetails(threads) {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.ThreadDetails',
+			navigatorStyle: {
+				navBarHidden: true
+			},
+			passProps: {
+        item: threads
+      }
+		});
+  }
+
+	handleRefresh = () => {
+		this.setState(
+			{
+				refreshing: true
+			},
+			() => {
+				this.getToken();
+			}
+		);
+		this.setState({
+			refreshing: false
+		});
+	}
+
+	renderItem(threads) {
+    const author = result(threads.item, 'author')
+    const comments = result(threads.item, 'comments', [])
+    let foto_profile = ''
+    let nama = ''
+    let tipe_user = ''
+    if (author !== null && typeof author === 'object') {
+      foto_profile = author.foto_profile;
+      nama = author.nama
+      tipe_user = author.tipe_user
+    }
+		return (
+			<TouchableOpacity
+				key={threads.index}
+				onPress={() => this.toThreadDetails(threads.item)}
+			>
+				<Card containerStyle={styles.cardStyle}>
+					<HeaderThread
+						source={foto_profile}
+						name={nama}
+						category={tipe_user.toUpperCase()}
+					/>
+					<ContentThread property={threads.item} />
+					<FooterThread
+						leftAction={() => this.toThreadDetails(threads.item)}
+						numOfComments={comments.length === 0 ? '' : comments.length}
+						isOpen={this.togleModal}
+						saveBookmark={this.onPostBookmark}
+						threadItem={threads.item}
+						threadIndex={threads.index}
+					/>
+				</Card>
+			</TouchableOpacity>
+		);
 	}
 
 	render() {
 		return (
 			<View style={styles.containerStyle}>
-				<ScrollView>
-					{this.state.nums.map((item, index) => (
-						<TouchableOpacity
-							key={index}
-							onPress={() =>
-								this.props.navigator.push({
-									screen: 'TemanDiabets.ThreadDetails',
-									navigatorStyle: {
-										navBarHidden: true
-									}
-								})
-							}
-						>
-							<Card containerStyle={styles.cardStyle}>
-								<HeaderThread
-									source="http://s3.amazonaws.com/systemgravatars/avatar_6225.jpg"
-									name="Gloria James"
-									category="Teman Diabetes"
-								/>
-								<ContentThread />
-								<FooterThread numOfComments={17} />
-							</Card>
-						</TouchableOpacity>
-					))}
-				</ScrollView>
+        <FlatList
+          data={this.props.dataThreads.item.data}
+          renderItem={item => this.renderItem(item)}
+          refreshing={this.state.refreshing}
+          onRefresh={this.handleRefresh}
+        />
 			</View>
 		);
 	}
@@ -68,4 +177,15 @@ const styles = {
 	}
 };
 
-export default TabBookmark;
+
+const mapStateToProps = state => ({
+  dataThreads: state.threadsReducer.listBookmarkedThreads,
+  saveBookmark: state.threadsReducer.saveBookmark
+});
+
+const mapDispatchToProps = dispatch => ({
+	getBookmarkedThreads: () => dispatch(getBookmarkedThreads()),
+	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabBookmark);

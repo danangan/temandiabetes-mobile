@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import { onSignOut } from '../../actions/loginActions';
 import { Avatar, Spinner } from '../../components';
-import { authToken, DEFAULT_PROFILE_IMAGE } from '../../utils/constants';
+import { authToken } from '../../utils/constants';
 
 class ProfileScreen extends React.Component {
 	static navigatorStyle = {
