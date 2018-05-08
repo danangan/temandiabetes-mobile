@@ -21,6 +21,7 @@ class InputTracker extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isManually: false,
       modalVisible: false,
       isModal: '',
       isDate: '',
@@ -587,10 +588,96 @@ class InputTracker extends Component {
       </View>
     );
   }
+
+  ModalAlertInputGulaDarah() {
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+        }}
+      >
+        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+          <View 
+            style={
+              [styles.modalContent, { height: this.state.keyboardActive ? '40%' : '40%' }]}
+          >
+            { this.contentAlertGulaDarah() }
+          </View>
+        </TouchableHighlight>
+      </Modal>
+    ); 
+  }
+
+  contentAlertGulaDarah() {
+    return (
+      <View 
+        style={{  
+        flex: 2,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingHorizontal: 10,
+        paddingVertical: 20,
+        backgroundColor: '#fff'
+      }}
+      >
+        {/* {this.renderButtonOpenDate()} */}
+        <View 
+        style={{
+          flex: 4,
+          justifyContent: 'center',
+          alignItems: 'center'
+          }}
+        >
+          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'Montserrat-SemiBold', color: '#000' }}>
+            APAKAH ANDA INGIN MEMASUKKAN GULA DARAH SECARA
+            MANUAL ATAU MENGGUNAKAN DNURSE?
+          </Text>
+        </View>
+        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginHorizontal: 1, paddingVertical: 2 }}>
+          <TouchableOpacity 
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              backgroundColor: '#ef434e',
+              justifyContent: 'center',
+            }}
+            onPress={() => {
+              this.setState({ isManually: false });
+              alert('DNURSE READY');
+            }}
+          >
+              <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
+              DNURSE  
+              </Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              backgroundColor: '#fff',
+              borderWidth: 1,
+              borderColor: '#ef434e',
+              justifyContent: 'center',
+            }}
+            onPress={() => this.setState({ isManually: true })}
+          >
+              <Text style={{ fontFamily: 'Montserrat-Bold', color: '#ef434e' }}>
+                MANUAL
+              </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
  
   renderModalInput() {
-    if (this.state.isModal === 'BLOOD_GLUCOSE') {
-      return this.ModalGlucose();
+    if (this.state.isModal === 'BLOOD_GLUCOSE' && !this.state.isManually) {
+      return this.ModalAlertInputGulaDarah();
+    } else if (this.state.isModal === 'BLOOD_GLUCOSE' && this.state.isManually) {
+      return this.ModalGlucose(); 
     } else if (this.state.isModal === 'INPUT_HBA1C') {
       return this.ModalInputHBA1C();
     } else if (this.state.isModal === 'INPUT_FOOD') {
