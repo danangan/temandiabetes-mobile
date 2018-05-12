@@ -26,32 +26,33 @@ class ProfileSettings extends React.Component {
     return (
       <View style={styles.container}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
-        <View 
+        <View
           style={{ flex: 2 }}
         >
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.buttonWrapper}
           >
             <Text style={{ color: '#ccc', fontSize: 12 }}>AKUN</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.buttonWrapper}
             onPress={() => this.onPushScreen('TemanDiabets.EditProfile')}
           >
             <Text style={styles.buttonText}>SUNTING PROFILE</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => this.onPushScreen('TemanDiabets.InnerCircleList')}
             style={styles.buttonWrapper}
           >
             <Text style={styles.buttonText}>INNER CIRCLE LIST</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.buttonWrapper}
           >
             <Text style={styles.buttonText}>AJAK TEMAN</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
+            onPress={() => this.onPushScreen('TemanDiabets.ThreadTopic')}
             style={styles.buttonWrapper}
           >
             <Text style={styles.buttonText}>PILIHAN TOPIK FORUM</Text>
@@ -64,23 +65,23 @@ class ProfileSettings extends React.Component {
 }
 
 const styles = {
-  container: { 
-    flex: 1, 
+  container: {
+    flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 10, 
-    paddingVertical: 15 
+    paddingHorizontal: 10,
+    paddingVertical: 15
   },
   buttonWrapper: {
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'flex-start', 
-    borderBottomColor: '#303c45', 
-    borderBottomWidth: 0.5, 
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    borderBottomColor: '#303c45',
+    borderBottomWidth: 0.5,
     marginHorizontal: 20
   },
-  buttonText: { 
-    color: '#303c45', 
-    fontSize: 12 
+  buttonText: {
+    color: '#303c45',
+    fontSize: 12
   }
 }
 

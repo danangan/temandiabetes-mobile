@@ -25,7 +25,8 @@ const styles = {
     flexDirection: 'row',
 	},
 	backButtonStyle: {
-		flex: 0.7,
+    // flex: 0.7,
+    paddingLeft: 10,
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
 	},
@@ -39,9 +40,12 @@ const styles = {
 		alignItems: 'flex-start',
 	},
 	titleStyle: {
+    flex: 1,
 		fontSize: Style.FONT_SIZE,
     fontFamily: 'Montserrat-Regular',
     textAlign: 'center',
+    alignSelf: 'center',
+    paddingRight: 25,
     color: color.red
 	}
 };

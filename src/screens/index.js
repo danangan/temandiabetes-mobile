@@ -34,6 +34,7 @@ import DetailOrder from '../screens/chart/DetailOrder';
 import LightBox from '../screens/chart/LightBox';
 import InnerCircle from '../screens/profileScreen/innerCircle';
 import InnerCircleList from '../screens/profileScreen/innerCircle/innerCircleList';
+import ThreadTopic from '../screens/profileScreen/threadTopic';
 import ModalReplyComment from '../screens/forum/threadDetails/modalReplyComment';
 import CommentDetails from '../screens/forum/commentDetails';
 
@@ -70,8 +71,9 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.FaqScreen', () => FaqScreen);
 	Navigation.registerComponent('TemanDiabets.DetailOrder', () => DetailOrder);
 	Navigation.registerComponent('TemanDiabets.LightBox', () => LightBox);
-	Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle, store, Provider);
+  Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle, store, Provider);
 	Navigation.registerComponent('TemanDiabets.InnerCircleList', () => InnerCircleList, store, Provider);
+	Navigation.registerComponent('TemanDiabets.ThreadTopic', () => ThreadTopic, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalReplyComment', () => ModalReplyComment, store, Provider);
 	Navigation.registerComponent('TemanDiabets.CommentDetails', () => CommentDetails, store, Provider);
 }

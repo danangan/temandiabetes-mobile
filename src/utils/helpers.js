@@ -29,6 +29,13 @@ export const dateFormateName = (date) => {
 export const result = (obj, prop, defaultVal = null) => {
   if (obj.hasOwnProperty(prop)) {
     return obj[prop];
-  } 
+  }
   return defaultVal;
 };
+
+export const capitalize = (text) => {
+  if (!text || text.trim() === '') {
+    return ''
+  }
+  return text[0].toUpperCase() + text.slice(1).toLowerCase()
+}
