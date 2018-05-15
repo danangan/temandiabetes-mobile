@@ -6,17 +6,13 @@ import styles from './Styles';
 
 class bloodGlucose extends React.Component {
   render() {
-    console.log('PROPS DI BUTTON ', this.props);
     return (
       <TouchableOpacity
         onPress={() => this.props.onModalInput('BLOOD_GLUCOSE')}
       >
         <CardSection>
           <Image
-            source={{
-              uri:
-                'https://is1-ssl.mzstatic.com/image/thumb/Purple128/v4/8b/3a/0a/8b3a0a25-603a-3374-90e9-067df014fd60/source/512x512bb.jpg'
-            }}
+            source={require('../../../assets/icons/dnurse.png')}
             style={styles.iconStyle}
           />
           <View style={styles.containerTextStyle}>
