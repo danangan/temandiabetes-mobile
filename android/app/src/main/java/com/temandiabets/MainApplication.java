@@ -9,6 +9,8 @@ import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 
+import com.temandiabets.generator.*;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,7 +31,8 @@ public class MainApplication extends NavigationApplication {
             new RNFirebasePackage(),
             new RNFirebaseAuthPackage(),
             new RNFirebaseStoragePackage(),
-            new FIRMessagingPackage()
+            new FIRMessagingPackage(),
+            new DnursePackage()
         );
     }
 

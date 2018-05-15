@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import { 
-  View, 
-  Platform, 
-  Modal, 
-  Text, 
-  TouchableOpacity, 
+import {
+  View,
+  Platform,
+  Modal,
+  Text,
+  TouchableOpacity,
   TouchableHighlight,
   DatePickerAndroid,
   TextInput,
-  Keyboard
+  Keyboard,
+  ScrollView
 } from 'react-native';
-// import Moment from 'moment';
+
 import color from '../../../style/color';
 import { Card, Button, CardSection, TextField } from '../../../components';
 import MenuButton from './MenuButton';
@@ -60,7 +61,7 @@ class InputTracker extends Component {
       console.log('DATE SELECTED 1', year, month)
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
-        
+
         this.setState({
           isDate: `${day} ${month} ${year}`
         });
@@ -92,14 +93,13 @@ class InputTracker extends Component {
       modalVisible: !this.state.modalVisible,
       isModal
     });
-    // alert('MODAL SHOULD BE ACTIVE');
   }
 
   renderButtonOpenDate() {
     const dt = new Date();
     const dateNow = dateFormateName(dt);
     return (
-      <TouchableOpacity 
+      <TouchableOpacity
         style={{
           flex: 1,
           justifyContent: 'center',
@@ -116,8 +116,8 @@ class InputTracker extends Component {
 
   contentGulaDarah() {
     return (
-      <View 
-        style={{  
+      <View
+        style={{
         flex: 2,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -127,7 +127,7 @@ class InputTracker extends Component {
       }}
       >
         {this.renderButtonOpenDate()}
-       <View 
+       <View
        style={{
          flex: 1,
          width: '70%',
@@ -139,7 +139,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -159,8 +159,8 @@ class InputTracker extends Component {
 
   contentInputhba1c() {
     return (
-      <View 
-        style={{  
+      <View
+        style={{
         flex: 2,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -170,7 +170,7 @@ class InputTracker extends Component {
       }}
       >
         {this.renderButtonOpenDate()}
-       <View 
+       <View
         style={{
           flex: 1,
           width: '70%',
@@ -182,7 +182,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -211,7 +211,7 @@ class InputTracker extends Component {
         }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View 
+          <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
           >
@@ -222,7 +222,7 @@ class InputTracker extends Component {
         </TouchableHighlight>
       </Modal>
     );
-  } 
+  }
 
   ModalGlucose() {
     return (
@@ -235,7 +235,7 @@ class InputTracker extends Component {
         }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View 
+          <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '90%' : '40%' }]}
           >
@@ -257,7 +257,7 @@ class InputTracker extends Component {
         }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View 
+          <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '100%' : '80%' }]}
           >
@@ -270,8 +270,8 @@ class InputTracker extends Component {
 
   contentMakanan() {
     return (
-      <View 
-        style={{  
+      <View
+        style={{
         flex: 2,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -281,7 +281,7 @@ class InputTracker extends Component {
       }}
       >
         {this.renderButtonOpenDate()}
-       <View 
+       <View
         style={{
           flex: 1,
           width: '70%',
@@ -294,7 +294,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <View 
+        <View
         style={{
           flex: 1,
           width: '70%',
@@ -307,7 +307,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <View 
+        <View
         style={{
           flex: 1,
           width: '70%',
@@ -320,7 +320,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <View 
+        <View
         style={{
           flex: 1,
           width: '70%',
@@ -333,7 +333,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -362,7 +362,7 @@ class InputTracker extends Component {
         }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View 
+          <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
@@ -375,8 +375,8 @@ class InputTracker extends Component {
 
   contentTekananDarah() {
     return (
-      <View 
-        style={{  
+      <View
+        style={{
         flex: 2,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -386,7 +386,7 @@ class InputTracker extends Component {
       }}
       >
         {this.renderButtonOpenDate()}
-       <View 
+       <View
         style={{
           flex: 1,
           width: '70%',
@@ -399,7 +399,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <View 
+        <View
         style={{
           flex: 1,
           width: '70%',
@@ -412,7 +412,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -441,7 +441,7 @@ class InputTracker extends Component {
         }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View 
+          <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
@@ -454,8 +454,8 @@ class InputTracker extends Component {
 
   contentAktivitas() {
     return (
-      <View 
-        style={{  
+      <View
+        style={{
         flex: 2,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -465,8 +465,8 @@ class InputTracker extends Component {
       }}
       >
         {this.renderButtonOpenDate()}
-       
-        <TouchableOpacity 
+
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -485,7 +485,7 @@ class InputTracker extends Component {
             RINGAN
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -504,7 +504,7 @@ class InputTracker extends Component {
             SEDANG
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -523,13 +523,13 @@ class InputTracker extends Component {
             BERAT
             </Text>
         </TouchableOpacity>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '60%',
             alignItems: 'center',
             backgroundColor: '#ef434e',
-            justifyContent: 'center', 
+            justifyContent: 'center',
             marginTop: 5,
             marginBottom: 10
           }}
@@ -554,7 +554,7 @@ class InputTracker extends Component {
         }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View 
+          <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
@@ -567,8 +567,8 @@ class InputTracker extends Component {
 
   contentWeight() {
     return (
-      <View 
-        style={{  
+      <View
+        style={{
         flex: 2,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -578,7 +578,7 @@ class InputTracker extends Component {
       }}
       >
         {this.renderButtonOpenDate()}
-       <View 
+       <View
         style={{
           flex: 1,
           width: '70%',
@@ -590,7 +590,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -619,7 +619,7 @@ class InputTracker extends Component {
         }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View 
+          <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '40%' : '40%' }]}
           >
@@ -627,13 +627,13 @@ class InputTracker extends Component {
           </View>
         </TouchableHighlight>
       </Modal>
-    ); 
+    );
   }
 
   contentAlertGulaDarah() {
     return (
-      <View 
-        style={{  
+      <View
+        style={{
         flex: 2,
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -643,7 +643,7 @@ class InputTracker extends Component {
       }}
       >
         {/* {this.renderButtonOpenDate()} */}
-        <View 
+        <View
         style={{
           flex: 4,
           justifyContent: 'center',
@@ -656,7 +656,7 @@ class InputTracker extends Component {
           </Text>
         </View>
         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginHorizontal: 1, paddingVertical: 2 }}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={{
               flex: 1,
               alignItems: 'center',
@@ -664,15 +664,20 @@ class InputTracker extends Component {
               justifyContent: 'center',
             }}
             onPress={() => {
-              this.setState({ isManually: false });
-              alert('DNURSE READY');
+              this.setState({ isManually: false }, () => {
+                this.setModalVisible();
+                this.props.navigator.push({
+                  screen: 'TemanDiabets.StepOne',
+                  navigatorStyle: { tabBarHidden: true, navBarHidden: true }
+                });
+              });
             }}
           >
               <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-              DNURSE  
+              DNURSE
               </Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={{
               flex: 1,
               alignItems: 'center',
@@ -691,12 +696,12 @@ class InputTracker extends Component {
       </View>
     );
   }
- 
+
   renderModalInput() {
     if (this.state.isModal === 'BLOOD_GLUCOSE' && !this.state.isManually) {
       return this.ModalAlertInputGulaDarah();
     } else if (this.state.isModal === 'BLOOD_GLUCOSE' && this.state.isManually) {
-      return this.ModalGlucose(); 
+      return this.ModalGlucose();
     } else if (this.state.isModal === 'INPUT_HBA1C') {
       return this.ModalInputHBA1C();
     } else if (this.state.isModal === 'INPUT_FOOD') {
@@ -711,24 +716,14 @@ class InputTracker extends Component {
   }
 
   render() {
-    console.log('STATE ', this.state.isModal);
     return (
       <View style={styles.containerStyle}>
-        {this.renderModalInput()}
-        <Card containerStyle={styles.cardStyle}>
-          <MenuButton onModalInput={this.setModalVisible} />
-        </Card>
-        <View style={styles.buttonContainerStyle}>
-          <Button buttonStyle={styles.buttonStyle} textStyle={styles.textButtonStyle}>
-            KIRIM
-          </Button>
-          <Button
-            buttonStyle={[styles.buttonStyle, styles.buttonReset]}
-            textStyle={[styles.textButtonStyle, styles.textReset]}
-          >
-            ATUR ULANG
-          </Button>
-        </View>
+        <ScrollView>
+          {this.renderModalInput()}
+          <Card containerStyle={styles.cardStyle}>
+            <MenuButton onModalInput={this.setModalVisible} />
+          </Card>
+        </ScrollView>
       </View>
     );
   }
@@ -740,14 +735,15 @@ const styles = {
     backgroundColor: color.solitude
   },
   cardStyle: {
+    height: Style.DEVICE_HEIGHT / 1.5,  //default height => 463.51
     borderRadius: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    marginTop: 19.44,
     marginLeft: 8.8,
     marginRight: 8.8,
+    marginTop: 19.44,
     marginBottom: 22.59,
     paddingLeft: 29.2,
     paddingTop: 25.6,
@@ -791,20 +787,18 @@ const styles = {
   textReset: {
     color: color.red
   },
-  modalWrapper: { 
-    flex: 1, 
-    justifyContent: 'center', 
+  modalWrapper: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#4a4a4a',
     opacity: 0.9
   },
-  modalContent: { 
-    flex: 0, 
-    backgroundColor: '#fff', 
-    opacity: 1, 
-    width: '70%', 
-    // minHeight: '40%',
-    // maxHeight: '60%'
+  modalContent: {
+    flex: 0,
+    backgroundColor: '#fff',
+    opacity: 1,
+    width: '70%',
   }
 };
 

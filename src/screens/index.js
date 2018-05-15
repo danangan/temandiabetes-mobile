@@ -37,6 +37,10 @@ import InnerCircleList from '../screens/profileScreen/innerCircle/innerCircleLis
 import ThreadTopic from '../screens/profileScreen/threadTopic';
 import ModalReplyComment from '../screens/forum/threadDetails/modalReplyComment';
 import CommentDetails from '../screens/forum/commentDetails';
+import StepOne from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/StepOne';
+import StepTwo from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/StepTwo';
+import StepThree from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/StepThree';
+import DnurseResult from '../screens/input-tracker/tab-input-tracker/DnurseResult';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -76,6 +80,10 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ThreadTopic', () => ThreadTopic, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalReplyComment', () => ModalReplyComment, store, Provider);
 	Navigation.registerComponent('TemanDiabets.CommentDetails', () => CommentDetails, store, Provider);
+	Navigation.registerComponent('TemanDiabets.StepOne', () => StepOne);
+	Navigation.registerComponent('TemanDiabets.StepTwo', () => StepTwo);
+	Navigation.registerComponent('TemanDiabets.StepThree', () => StepThree);
+	Navigation.registerComponent('TemanDiabets.DnurseResult', () => DnurseResult);
 }
 
 export function registerScreenVisibilityListener() {

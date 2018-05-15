@@ -20,10 +20,12 @@ const styles = {
     color: 'rgba(65,65,65,1)',
     marginLeft: 25.24
   },
-  buttonContainerStyle: {},
   iconStyle: {
     width: 44.47,
     height: 44.47
+  },
+  buttonMenuStyle: {
+    marginTop: Style.PADDING - 5
   }
 };
 

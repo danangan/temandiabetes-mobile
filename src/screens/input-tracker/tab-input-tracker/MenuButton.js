@@ -10,7 +10,6 @@ import Weight from './Weight';
 
 class MenuButton extends React.Component {
   render() {
-    console.log('PROPS MENU BUTTON ', this.props);
     return (
       <View>
         <BloodGlucose onModalInput={this.props.onModalInput} />
@@ -22,6 +21,6 @@ class MenuButton extends React.Component {
       </View>
     );
   } 
-};
+}
 
 export default MenuButton;
