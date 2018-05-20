@@ -25,7 +25,7 @@ class DnurseResult extends React.Component {
 
   onNavigation = () => {
     this.props.navigator.resetTo({
-      screen: 'TemanDiabets.TabInputTracker',
+      screen: 'TemanDiabets.TabHistory',
       title: 'Teman Diabetes',
       navigatorStyle: {
         topBarCollapseOnScroll: true,
@@ -61,7 +61,16 @@ class DnurseResult extends React.Component {
   };
 
   render() {
-    const result = this.state.bloodSugarLevels * 18.018018;
+    const bloodSugar = this.state.bloodSugarLevels * 18.018018;
+    const result = () => {
+      if (bloodSugar < 0.5) {
+        return Math.floor(bloodSugar);
+      }
+
+      if (bloodSugar > 0.51) {
+        return Math.ceil(bloodSugar);
+      }
+    };
 
     return (
       <View style={styles.containerStyle}>
@@ -71,7 +80,7 @@ class DnurseResult extends React.Component {
             style={styles.imageStyle}
           />
           <Text style={styles.resultStyle}>
-            {this.state.bloodSugarLevels === null ? 'start' : result}
+            {this.state.bloodSugarLevels === null ? 'start' : result()}
             {'\n'}
           </Text>
           <Text style={styles.formatStyle}>
@@ -81,7 +90,7 @@ class DnurseResult extends React.Component {
         <Button
           buttonStyle={styles.buttonStyle}
           textStyle={styles.textButtonStyle}
-          onPress={() => this.onNavigation}
+          onPress={this.onNavigation}
         >
           GUNAKAN
         </Button>
@@ -117,7 +126,7 @@ const styles = {
   },
   resultStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_TITLE * 5,
+    fontSize: Style.FONT_SIZE_TITLE * 4.5,
     fontWeight: 'bold',
     color: color.white,
     zIndex: 1,
@@ -125,6 +134,7 @@ const styles = {
     justifyContent: 'center',
     textAlign: 'center',
     alignSelf: 'center',
+    padding: 12,
     marginTop: Style.PADDING * 4
   },
   formatStyle: {
