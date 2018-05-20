@@ -296,7 +296,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getThreads: (page) => dispatch(getThreads(page)),
+	getThreads: (page, isRefresh) => dispatch(getThreads(page, isRefresh)),
 	getCurrentUser: () => dispatch(getCurrentUser()),
 	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });

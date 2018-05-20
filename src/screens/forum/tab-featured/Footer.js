@@ -2,6 +2,8 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import Style from '../../../style/defaultStyle';
 import { Avatar } from '../../../components';
+import BookMark from '../../../assets/icons/bookmark.png';
+import BookMarked from '../../../assets/icons/bookmark_dark.png';
 
 const defaultAuthor = {
   nama: '',
@@ -9,7 +11,7 @@ const defaultAuthor = {
   foto_profile: ''
 }
 
-const Footer = ({ author }) => {
+const Footer = ({ author, saveBookmark, threadItem, threadIndex }) => {
   author = author || defaultAuthor
   return (
     <View style={styles.containerFooterStyle}>
@@ -41,9 +43,9 @@ const Footer = ({ author }) => {
             resizeMode={'contain'}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => null}>
+        <TouchableOpacity onPress={() => { saveBookmark(threadItem, threadIndex) }}>
           <Image
-            source={require('../../../assets/icons/bookmark.png')}
+            source={ threadItem.isBookmarked ? BookMarked : BookMark}
             style={styles.iconStyle}
             resizeMode={'contain'}
           />

@@ -112,17 +112,6 @@ class TabBookmark extends Component {
 		});
 	}
 
-	onPostBookmark = async (thread, threadIndex) => {
-		this.setState(
-			{
-				isLoading: true
-			},
-			() => {
-				this.props.makeBookmark(thread, threadIndex);
-			}
-		);
-	};
-
 	renderItem (threads) {
     const author = result(threads.item, 'author')
     const comments = result(threads.item, 'comments', [])
