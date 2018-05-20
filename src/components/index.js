@@ -10,4 +10,5 @@ export * from './thread/headerThread';
 export * from './Spinner';
 export * from './indicator/Indicator';
 export * from './NavigationBar';
+export * from './SearchButton';
 

@@ -29,20 +29,19 @@ class ModalPostComponent extends Component {
 			this.setState({ keyboardActive: false });
 		});
   }
-  
+
   componentDidUpdate() {
     const { status_code } = this.props.dataThreads.createComment;
     if (status_code === 201 && this.state.isSubmit) {
       // get thread details again
-      console.log('STATUS_CODE ', status_code + ' -> ' + this.state.isSubmit);
       this.props.getThreadDetails(this.props.idThread);
-      
+
       this.setState({
         isSubmit: false
       }, () => {
         this.props.navigator.pop();
       });
-    } 
+    }
   }
 
 	componentWillUnmount() {
@@ -62,22 +61,20 @@ class ModalPostComponent extends Component {
           text: this.state.komentar
         }
       };
-      console.log('APA INI ', comment);
       this.props.createComment(comment);
     });
   }
 
   render() {
-    console.log('PROPS comment ', this.props);
     return (
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => this.props.navigator.pop()}
               style={{ flex: 0.5 }}
             >
-                <Image 
+                <Image
                   source={Closed}
                   style={{ width: 20, height: 20 }}
                 />
@@ -97,7 +94,7 @@ class ModalPostComponent extends Component {
           </View>
         </View>
         <TouchableOpacity
-          style={{ 
+          style={{
             display: !this.state.keyboardActive ? 'none' : null,
             position: 'absolute',
             width: '30%',
@@ -120,24 +117,24 @@ class ModalPostComponent extends Component {
 
 const styles = {
   container: {
-    flex: 1, 
-    backgroundColor: '#f3f5fe', 
-    paddingHorizontal: 10, 
-    justifyContent: 'flex-start', 
+    flex: 1,
+    backgroundColor: '#f3f5fe',
+    paddingHorizontal: 10,
+    justifyContent: 'flex-start',
     alignItems: 'center'
   },
   innerWrapper: {
-    flex: 1, 
-    backgroundColor: '#fff', 
-    width: '100%', 
-    paddingHorizontal: 5, 
+    flex: 1,
+    backgroundColor: '#fff',
+    width: '100%',
+    paddingHorizontal: 5,
     alignItems: 'center'
   },
-  wrapNav: { 
-    flex: 1, 
-    flexDirection: 'row', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
+  wrapNav: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     position: 'absolute',
     paddingVertical: 10,
     paddingHorizontal: 10,
@@ -147,23 +144,23 @@ const styles = {
     backgroundColor: '#fff'
   },
   titleForm: {
-    fontFamily: 'Montserrat-Bold', color: '#99a0c2', fontSize: 16 
+    fontFamily: 'Montserrat-Bold', color: '#99a0c2', fontSize: 16
   },
-  wrapTextInput: { 
-    flex: 2, 
-    marginVertical: 40, 
-    width: '100%', 
+  wrapTextInput: {
+    flex: 2,
+    marginVertical: 40,
+    width: '100%',
     height: '100%',
     backgroundColor: '#fff',
     borderTopWidth: 2,
     borderTopColor: '#f2f3f7'
   },
   itemTextInput: {
-    flexWrap: 'wrap', 
-    paddingHorizontal: 10, 
-    fontFamily: 'Montserrat-ExtraLight', 
-    color: '#b7bbd2', 
-    fontSize: 14 
+    flexWrap: 'wrap',
+    paddingHorizontal: 10,
+    fontFamily: 'Montserrat-ExtraLight',
+    color: '#b7bbd2',
+    fontSize: 14
   }
 };
 

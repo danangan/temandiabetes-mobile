@@ -8,7 +8,6 @@ export default class TopicItem extends Component {
     return true;
   }
   render() {
-    console.log(this.props)
     const {index, data, onChange} = this.props
     return (
       <View style={styles.item}>

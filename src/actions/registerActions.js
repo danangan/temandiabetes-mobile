@@ -10,7 +10,6 @@ const registerActionSuccess = data => ({
 });
 
 const registerAction = userData => {
-	console.log('USER DATA ACTONS ', userData);
 	return dispatch => {
 			fetch(API_SIGN_UP, {
 				body: JSON.stringify(userData),
@@ -22,12 +21,10 @@ const registerAction = userData => {
 			})
 			.then(res => res.json())
 			.then(res => {
-				console.log('BALIKAN REGISTER ', res);
 				dispatch(registerActionSuccess(res));
 				// dispatch(putTheSipAhli(res.data.idToken));
 			})
 			.catch(error => {
-				console.log('ERR BRA ', error)
 				dispatch(registerActionSuccess(error));
 			});
 	};
@@ -48,12 +45,10 @@ export const putTheSip = idToken => dispatch => {
 		.auth()
 		.signInWithCustomToken(idToken)
 		.then(res => {
-			console.log('BALIKAN AUTH FIREBASE ', res);
 			dispatch(putTheSipSuccess(res));
 		})
 		.catch(error => {
 			// Handle Errors here.
-			console.log('BALIKAN AUTH FIREBASE ', error.response);
 			const errorCode = error.code;
 			const errorMessage = error.message;
 			dispatch(putTheSipSuccess(error.response));

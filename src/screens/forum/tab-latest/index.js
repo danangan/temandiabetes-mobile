@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView, Platform, TouchableOpacity, FlatList } from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  ScrollView,
+  Platform,
+  TouchableOpacity,
+  FlatList
+} from 'react-native';
 
-import { Card, FooterThread, HeaderThread } from '../../../components';
+import { Card, FooterThread, HeaderThread, SearchButton } from '../../../components';
 import { getLatestThreads, makeBookmark } from '../../../actions/threadActions';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
@@ -16,11 +23,16 @@ class TabLatest extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      refreshing: false
+      refreshing: false,
+      isLoadMorePage: false
     };
 
+    this.renderFooter = this.renderFooter.bind(this)
+    this.onEndReached = this.onEndReached.bind(this)
     this.toThreadDetails = this.toThreadDetails.bind(this)
     this.onPostBookmark = this.onPostBookmark.bind(this)
+    this.onPostBookmark = this.onPostBookmark.bind(this)
+    this.renderHeader = this.renderHeader.bind(this)
 	}
 
   componentDidMount() {
@@ -36,6 +48,34 @@ class TabLatest extends Component {
 			passProps: threads
 		});
 	}
+
+  onEndReached() {
+    this.setState({
+      isLoadMorePage: true
+    }, () => {
+      const { page, pages } = this.props.dataThreads.item
+
+      if (page < pages) {
+        this.props.getLatestThreads(page + 1);
+      }
+    })
+  }
+
+  renderFooter() {
+    const { page, pages } = this.props.dataThreads.item
+
+    const Loader = (
+      <View style={styles.loadMoreContent}>
+        <ActivityIndicator color='#EF434F' size={25} />
+      </View>
+    )
+
+    return (
+      <View style={styles.loadMoreContainer}>
+       {this.state.isLoadMorePage && page < pages ?  Loader : <View/>}
+      </View>
+    )
+  }
 
 	onPostBookmark = async (thread, threadIndex) => {
 		this.setState(
@@ -68,22 +108,65 @@ class TabLatest extends Component {
 						isOpen={this.togleModal}
 						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
-						threadIndex={threads.index}
+            threadIndex={threads.index}
+            onEndReached={this.onEndReached}
+            onEndReachedThreshold={0.3}
 					/>
 				</Card>
 			</TouchableOpacity>
 		);
-	}
+  }
+
+  renderHeader() {
+    return (
+      <SearchButton
+        style={{
+          marginBottom: 10
+        }}
+        onPress={() => {
+            this.props.navigator.push({
+              screen: 'TemanDiabets.ModalSearch',
+              navigatorStyle: {
+                navBarHidden: true
+              },
+              passProps: {
+                threadType: 'latest'
+              }
+            })
+          }
+        }
+      />
+    )
+  }
+
+	handleRefresh = () => {
+		this.setState(
+			{
+				refreshing: true
+			},
+			() => {
+        this.props.getLatestThreads(1, true)
+				this.setState({ refreshing: false });
+			}
+		);
+	};
 
 	render() {
 		return (
-			<View style={styles.containerStyle}>
-				<FlatList
+      <View style={styles.containerStyle}>
+      {
+          this.props.dataThreads.item.data.length > 0 &&
+        <FlatList
+					ListHeaderComponent={this.renderHeader}
+					ListFooterComponent={this.renderFooter}
 					data={this.props.dataThreads.item.data}
 					renderItem={item => this.renderItem(item)}
 					refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.3}
 				/>
+      }
 			</View>
 		);
 	}
@@ -91,7 +174,9 @@ class TabLatest extends Component {
 
 const styles = {
 	containerStyle: {
-		backgroundColor: color.solitude
+    backgroundColor: color.solitude,
+    paddingHorizontal: 5,
+    flex: 1
 	},
 	cardStyle: {
 		...Platform.select({
@@ -102,8 +187,20 @@ const styles = {
 				shadowOpacity: 0.1,
 				shadowRadius: 2.5
 			}
-		})
-	}
+    }),
+		borderRadius: 5,
+    marginBottom: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+  },
+  loadMoreContainer: {
+    marginBottom: 70,
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+  loadMoreContent: {
+    height: 25
+  }
 };
 
 const mapStateToProps = state => ({
@@ -111,7 +208,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getLatestThreads: () => dispatch(getLatestThreads()),
+	getLatestThreads: (page, isRefresh) => dispatch(getLatestThreads(page, isRefresh)),
 	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });
 

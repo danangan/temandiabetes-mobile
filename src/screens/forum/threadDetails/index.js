@@ -68,7 +68,6 @@ class ThreadDetails extends React.Component {
 	}
 
 	toCommentDetails(idComment) {
-		console.log('ID idThread ', idComment);
 		this.props.getCommentDetails(idComment);
 		this.props.navigator.push({
 			screen: 'TemanDiabets.CommentDetails',

@@ -49,7 +49,7 @@ const loginOauth = () => async dispatch => {
 
 	try {
 		const data = await GoogleSignin.signIn();
-					
+
 		if (data) {
 			const credential = firebase.auth.GoogleAuthProvider.credential(
 				data.idToken,
@@ -62,14 +62,13 @@ const loginOauth = () => async dispatch => {
 			// 			Authentication: firebaseIdToken
 			// 		}
 			// 	});
-				
+
 			// 	const payloadData = {
 			// 			firebaseIdToken,
 			// 			userFirebase
 			// 			currentUser
 			// 		};
-			console.log('DATA FROM ACTIONS: ', firebaseIdToken);
-			
+
 			AsyncStorage.setItem(authToken, firebaseIdToken, error => onSuccess(error));
 			return onSuccess(userFirebase);
 		}

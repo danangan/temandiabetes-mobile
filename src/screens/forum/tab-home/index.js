@@ -9,19 +9,16 @@ import {
 	Image,
 	AsyncStorage,
 	Alert,
-	Modal
+  Modal,
+  ActivityIndicator
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { getCurrentUser } from '../../../actions/authAction';
 
-import { Card, FooterThread, HeaderThread, Spinner } from '../../../components';
+import { Card, FooterThread, HeaderThread, Spinner, SearchButton } from '../../../components';
 import { getThreads, makeBookmark } from '../../../actions/threadActions';
 
-import ModalSearch from '../../modalSearch';
-
 import ContentThread from './contentThread';
-import searchIcon from '../../../assets/icons/close.png';
-import Blood from '../../../assets/icons/explorer_icon.png';
 import color from '../../../style/color';
 import { authToken } from '../../../utils/constants';
 
@@ -32,17 +29,20 @@ class TabHome extends Component {
 			currentUser: this.props.getCurrentUser(),
 			refreshing: false,
 			isProses: false,
-			modalVisible: false,
+      isLoadMorePage: false
 		};
 
-		this.togleModal = this.togleModal.bind(this);
-		this.onPostBookmark = this.onPostBookmark.bind(this);
-		this.toThreadDetails = this.toThreadDetails.bind(this);
-		this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.renderHeader = this.renderHeader.bind(this)
+    this.renderFooter = this.renderFooter.bind(this)
+		this.togleModal = this.togleModal.bind(this)
+    this.onPostBookmark = this.onPostBookmark.bind(this)
+    this.onEndReached = this.onEndReached.bind(this)
+		this.toThreadDetails = this.toThreadDetails.bind(this)
+		this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this))
 	}
 
 	componentDidMount() {
-		this.getToken();
+    this.props.getThreads()
 	}
 
 	componentDidUpdate() {
@@ -86,15 +86,9 @@ class TabHome extends Component {
 		);
 	};
 
-	getToken = async () => {
-		const token = await AsyncStorage.getItem(authToken);
-		console.log('TOKEN BRE')
-		this.props.getThreads(token);
-	};
-
 	togleModal(params, threadItem) {
 		Navigation.showModal({
-			screen: params,	
+			screen: params,
 			title: 'Modal',
 			navigatorButtons: {
 				leftButtons: [{}]
@@ -112,7 +106,7 @@ class TabHome extends Component {
 				refreshing: true
 			},
 			() => {
-				this.getToken();
+		    this.props.getThreads(1, true);
 			}
 		);
 		this.setState({
@@ -139,12 +133,53 @@ class TabHome extends Component {
 
 	renderHeader() {
 		return (
-			<View>
-				{this.renderButtonSearch()}
+      <View>
+        <SearchButton
+          onPress={() => {
+              this.props.navigator.push({
+                screen: 'TemanDiabets.ModalSearch',
+                navigatorStyle: {
+                  navBarHidden: true
+                },
+                passProps: {
+                  threadType: 'home'
+                }
+              })
+            }
+          }
+        />
 				{this.renderPostThread()}
 			</View>
 		);
-	}
+  }
+
+  renderFooter() {
+    const { page, pages } = this.props.dataThreads.listThreads.item
+
+    const Loader = (
+      <View style={styles.loadMoreContent}>
+        <ActivityIndicator color='#EF434F' size={25} />
+      </View>
+    )
+
+    return (
+      <View style={styles.loadMoreContainer}>
+       {this.state.isLoadMorePage && page < pages ?  Loader : <View/>}
+      </View>
+    )
+  }
+
+  onEndReached() {
+    this.setState({
+      isLoadMorePage: true
+    }, () => {
+      const { page, pages } = this.props.dataThreads.listThreads.item
+
+      if (page < pages) {
+        this.props.getThreads(page + 1);
+      }
+    })
+  }
 
 	toThreadDetails(threads) {
 		this.props.navigator.push({
@@ -183,72 +218,6 @@ class TabHome extends Component {
 		);
 	}
 
-	renderButtonSearch() {
-		return (
-			<TouchableOpacity
-				onPress={() =>
-					this.props.navigator.push({
-						screen: 'TemanDiabets.ModalSearch',
-						navigatorStyle: {
-							navBarHidden: true
-						},
-						// passProps: threads
-					})
-				}
-				// onPress={() => this.setModalVisible(true)}
-				style={styles.wrapButonSearch}
-			>
-				<View
-					style={{
-						flex: 0.2,
-						alignItems: 'center',
-						borderRightWidth: 0.7,
-						borderRightColor: 'red',
-						padding: 5
-					}}
-				>
-					<Image source={Blood} style={{ width: 25, height: 25 }} />
-				</View>
-				<View style={{ flex: 2, alignItems: 'flex-start', paddingHorizontal: 5 }}>
-					<Text>Cari post, pengguna</Text>
-				</View>
-				<View style={{ flex: 0.2, alignItems: 'center' }}>
-					<Image source={searchIcon} style={{ width: 25, height: 25 }} />
-				</View>
-			</TouchableOpacity>
-		);
-	}
-
-	setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
-  }
-
-	renderModalSearch() {
-		// return (
-		// 	<Modal
-		// 		animationType="slide"
-    //     transparent={false}
-		// 		visible={this.state.modalVisible}
-		// 	>
-		// 		<View>
-		// 			<Text>Modal Search</Text>
-		// 			<Text>Daniel Sidabutar</Text>
-		// 			<TouchableOpacity
-		// 				onPress={() => this.setModalVisible(false)}
-		// 			>
-		// 				<Text>Close</Text>
-		// 			</TouchableOpacity>
-		// 		</View>
-		// 	</Modal>
-		// );
-		// return (
-		// 	<ModalSearch
-		// 		// visible={this.state.modalVisible}
-		// 		onClose={this.setModalVisible.bind(this)}
-		// 	/>
-		// );
-	}
-
 	render() {
 		const { listThreads } = this.props.dataThreads;
 		const spinner = this.state.isProses ? (
@@ -258,14 +227,20 @@ class TabHome extends Component {
 		);
 
 		return (
-			<View style={styles.containerStyle}>
-				<FlatList
-					ListHeaderComponent={() => this.renderHeader()}
-					data={listThreads.item.data}
-					renderItem={item => this.renderItem(item)}
-					refreshing={this.state.refreshing}
-					onRefresh={this.handleRefresh}
-				/>
+      <View style={styles.containerStyle}>
+        {
+          listThreads.item.data.length > 0 &&
+          <FlatList
+            ListHeaderComponent={this.renderHeader}
+            ListFooterComponent={this.renderFooter}
+            data={listThreads.item.data}
+            renderItem={item => this.renderItem(item)}
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefresh}
+            onEndReached={this.onEndReached}
+            onEndReachedThreshold={0.3}
+          />
+        }
 				{spinner}
 			</View>
 		);
@@ -274,7 +249,9 @@ class TabHome extends Component {
 
 const styles = {
 	containerStyle: {
-		backgroundColor: color.solitude
+    flex: 1,
+    backgroundColor: color.solitude,
+    paddingHorizontal: 5,
 	},
 	cardStyle: {
 		...Platform.select({
@@ -285,22 +262,11 @@ const styles = {
 				shadowOpacity: 0.1,
 				shadowRadius: 2.5
 			}
-		})
-	},
-	wrapButonSearch: {
-		flex: 2,
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		paddingVertical: 10,
-		backgroundColor: 'white',
-		borderWidth: 1,
-		borderColor: '#fff',
+    }),
 		borderRadius: 5,
-		marginVertical: 10,
-		marginHorizontal: 5,
-		elevation: 2.5,
-		height: 50
+    marginBottom: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
 	},
 	wrapPostThread: {
 		justifyContent: 'center',
@@ -311,9 +277,17 @@ const styles = {
 		marginHorizontal: 5,
 		elevation: 2.5,
 		height: 70,
-		marginVertical: 10,
+		marginVertical: 12,
 		paddingHorizontal: 30
-	}
+  },
+  loadMoreContainer: {
+    marginBottom: 70,
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+  loadMoreContent: {
+    height: 25
+  }
 };
 
 const mapStateToProps = state => ({
@@ -322,7 +296,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getThreads: token => dispatch(getThreads(token)),
+	getThreads: (page) => dispatch(getThreads(page)),
 	getCurrentUser: () => dispatch(getCurrentUser()),
 	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });

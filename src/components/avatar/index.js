@@ -4,7 +4,7 @@ import { getInitialName } from '../../utils/helpers'
 import PropTypes from 'prop-types';
 import ViewPropTypes from '../../config/ViewPropTypes';
 
-const Avatar = ({ avatarSize, imageSource, avatarStyle, textStyle, initialStyle, resizeMode, userName, customSize }) => {
+const Avatar = ({ avatarSize, containerStyle, imageSource, avatarStyle, textStyle, initialStyle, resizeMode, userName, customSize }) => {
   const isImageExist = !!imageSource && imageSource !== ''
   let size
   let paddingVertical = 16
@@ -33,7 +33,8 @@ const Avatar = ({ avatarSize, imageSource, avatarStyle, textStyle, initialStyle,
       style={{
         width: size,
         height: size,
-        marginHorizontal: 5
+        marginHorizontal: 5,
+        ...containerStyle
       }}
     >
       {

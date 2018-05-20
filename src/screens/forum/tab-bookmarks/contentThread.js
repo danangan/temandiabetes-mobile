@@ -5,7 +5,7 @@ import { CardSection } from '../../../components';
 let statusPreview = false;
 
 const handleContent = (content = '', open) => {
-	const preview = content.substring(0, 150);
+  const  preview = content.substring(0, 150);
 	if (open) {
 		statusPreview = true;
 		return content;

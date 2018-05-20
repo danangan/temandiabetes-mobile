@@ -68,7 +68,6 @@ class ProfileScreen extends React.Component {
 
 	getToken = async () => {
 		const token = await AsyncStorage.getItem(authToken);
-		console.log('TOKEN -> ', token);
 	}
 
 	handlePush(screen) {

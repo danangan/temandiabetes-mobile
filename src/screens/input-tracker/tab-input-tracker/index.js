@@ -58,14 +58,12 @@ class InputTracker extends Component {
         // May 25 2020. Month 0 is January.
         date: new Date(2020, 4, 25)
       });
-      console.log('DATE SELECTED 1', year, month)
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
 
         this.setState({
           isDate: `${day} ${month} ${year}`
         });
-        console.log('DATE SELECTED 2', year, month)
       }
     } catch ({code, message}) {
       console.warn('Cannot open date picker', message);
@@ -88,7 +86,6 @@ class InputTracker extends Component {
   }
 
   setModalVisible(isModal) {
-    console.log('PARAMS SET MODAL ', isModal);
     this.setState({
       modalVisible: !this.state.modalVisible,
       isModal

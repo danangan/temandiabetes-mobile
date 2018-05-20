@@ -4,7 +4,9 @@ const initialState = {
 	listThreads: {
 		item: {
 			data: [],
-			recentData: [],
+      recentData: [],
+      page: 1,
+      pages: 1,
 			total: 0
 		},
 		threadDetails: null,
@@ -19,7 +21,9 @@ const initialState = {
 	},
 	listThreadStatic: {
 		item: {
-			data: [],
+      data: [],
+      page: 1,
+      pages: 1,
 			total: 0
 		},
 		message: null,
@@ -27,7 +31,9 @@ const initialState = {
   },
   listLatestThreads: {
 		item: {
-			data: [],
+      data: [],
+      page: 1,
+      pages: 1,
 			total: 0
 		},
 		message: null,
@@ -36,6 +42,8 @@ const initialState = {
   listBookmarkedThreads: {
 		item: {
 			data: [],
+      page: 1,
+      pages: 1,
 			total: 0
 		},
 		message: null,
@@ -73,12 +81,21 @@ const initialState = {
 };
 
 const getThreadStatic = (state, payload) => {
-	const { threadStatic, message, status_code } = payload;
+  const { threadStatic, message, status_code, refresh } = payload;
+  const data = refresh ? [] : state.listThreadStatic.item.data
 	return {
 		...state,
 		listThreadStatic: {
 			...state.listThreadStatic,
-			item: { ...state.listThreadStatic.item, data: threadStatic.docs, total: threadStatic.total },
+			item: {
+        ...state.listThreadStatic.item,
+        data: [
+          ...data,
+          ...threadStatic.docs
+        ],
+        page: threadStatic.page,
+        pages: threadStatic.pages,
+        total: threadStatic.total },
 			message,
 			status_code
 		}
@@ -86,17 +103,24 @@ const getThreadStatic = (state, payload) => {
 };
 
 const getThreads = (state, payload) => {
-  const { threads, status_code, message } = payload;
+  const { threads, status_code, message, refresh } = payload;
   const { docs } = threads;
   const threadRecent = docs.sort((a, b) => Date.parse(new Date(b.createdAt) - new Date(a.createdAt)));
+
+  const data = refresh ? [] : state.listThreads.item.data
 
   return {
     ...state,
     listThreads: { ...state.listThreads,
       item: { ...state.listThreads.item,
-        data: threads.docs,
+        data: [
+          ...data,
+          ...threads.docs
+        ],
         recentData: threadRecent,
-        total: threads.total
+        total: threads.total,
+        page: threads.page,
+        pages: threads.pages,
       },
       message,
       status_code
@@ -105,13 +129,20 @@ const getThreads = (state, payload) => {
 };
 
 const getLatestThreads = (state, payload) => {
-  const { threads, status_code, message } = payload;
+  const { threads, status_code, message, refresh } = payload;
+
+  const data = refresh ? [] : state.listLatestThreads.item.data
 
   return {
     ...state,
     listLatestThreads: { ...state.listLatestThreads,
       item: { ...state.listThreads.item,
-        data: threads.docs,
+        data: [
+          ...data,
+          ...threads.docs
+        ],
+        page: threads.page,
+        pages: threads.pages,
         total: threads.total
       },
       message,
@@ -124,7 +155,9 @@ const getBookmarkedThreads = (state, payload) => {
   const { bookmarks, status_code, message } = payload;
   // map bookmark into thread list
   const threads = bookmarks.map(item => {
-    return item.thread
+    const thread = item.thread
+    thread.isBookmarked = true
+    return thread
   })
   return {
     ...state,
@@ -328,9 +361,9 @@ const threadsReducer = (state = initialState, action) => {
 			return {
 				...state,
 				followThread: {
-					...state.followThread, 
-					status_code: 200, 
-					message: 'Success un-follow thread', 
+					...state.followThread,
+					status_code: 200,
+					message: 'Success un-follow thread',
 					isFetch: false
 				},
 				listThreads: {
@@ -340,24 +373,24 @@ const threadsReducer = (state = initialState, action) => {
 					}
 				}
 			};
-		case 'PENDING_GET_COMMENT_DETAILS': 
+		case 'PENDING_GET_COMMENT_DETAILS':
 			return {
-				...state, 
+				...state,
 				commentDetails: {
-					...state.commentDetails, 
-					data: null, 
+					...state.commentDetails,
+					data: null,
 					message: '',
 					status_code: 0
 				}
 			};
-		case ActionTypes.GET_COMMENT_DETAILS: 
+		case ActionTypes.GET_COMMENT_DETAILS:
 			const { data, status } = action.payload;
 			return {
-				...state, 
-				commentDetails: { 
-					...state.commentDetails, 
-					data: data.data[0], 
-					message: 'Success get comment details', 
+				...state,
+				commentDetails: {
+					...state.commentDetails,
+					data: data.data[0],
+					message: 'Success get comment details',
 					status_code: status
 				}
 			};

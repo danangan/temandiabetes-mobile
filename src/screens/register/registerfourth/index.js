@@ -39,7 +39,7 @@ class RegisterScreenFourth extends React.Component {
 								navBarHidden: true
 							}
 						});
-					} 
+					}
 				}
 			);
 		}
@@ -53,7 +53,6 @@ class RegisterScreenFourth extends React.Component {
 			password: this.props.password,
 			tipeuser: this.state.selected
 		};
-		console.log('DATA USER FINAL ', dataUser);
 		// this.props.registerAction(dataUser);
 		this.setState(
 			{
@@ -121,7 +120,6 @@ class RegisterScreenFourth extends React.Component {
 	}
 
 	render() {
-		console.log('PROPS FINAL ', this.props);
 		const { message, status_code } = this.props.dataRegister.dataUser;
 		if (this.state.shouldRedirect) {
 			return (

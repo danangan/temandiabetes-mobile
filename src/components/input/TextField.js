@@ -42,12 +42,12 @@ const TextField = ({
   sectionStyle,
   onPressRight,
   tintColor,
-  iconLefteStyle,
+  iconLeftStyle,
   iconRightStyle
 }) => (
   <View style={[styles.containerStyle, containerStyle]}>
     <View style={[styles.sectionStyle, sectionStyle]}>
-      <Image source={leftIcon} tintColor={tintColor} style={[styles.iconLefteStyle, iconLefteStyle]} />
+      <Image source={leftIcon} tintColor={tintColor} style={[styles.iconLeftStyle, iconLeftStyle]} />
       <TextInput
         value={value}
         placeholderTextColor={placeholderTextColor}
@@ -148,14 +148,14 @@ const styles = {
     height: 40,
     borderRadius: 5,
   },
-  iconLefteStyle: {
+  iconLeftStyle: {
     padding: 10,
     margin: 5,
     height: 25,
     width: 25,
     resizeMode: 'stretch',
     alignItems: 'center'
-  }, 
+  },
   iconRightStyle: {
     padding: 10,
     margin: 5,

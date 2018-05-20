@@ -13,7 +13,7 @@ const HeaderThread = ({ containerStyles, nameStyle, categoryStyle, name, categor
         imageSource={source}
         userName={name}
 			/>
-			<View style={{ margin: 5 }}>
+			<View style={{ margin: 5}}>
 				<Text style={[styles.nameStyle, nameStyle]}>{name}</Text>
 				<Text style={[styles.categoryStyle, categoryStyle]}>{category}</Text>
 			</View>
@@ -35,14 +35,13 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'flex-start',
-		paddingVertical: 15,
-		paddingHorizontal: 15,
 		borderRadius: 15
 	},
 	nameStyle: {
 		color: '#b6b6b6',
 		borderRadius: 10,
-		paddingHorizontal: 5,
+    paddingHorizontal: 5,
+    marginBottom: 5,
 		fontSize: 15,
 		fontFamily: 'Montserrat-Light'
 	},
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#68ba6e',
 		color: '#fff',
 		borderRadius: 10,
-		paddingHorizontal: 5,
+		paddingHorizontal: 10,
 		fontSize: 13,
 		fontFamily: 'Montserrat-Light',
 		textAlign: 'center'

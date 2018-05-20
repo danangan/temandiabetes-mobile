@@ -54,7 +54,6 @@ class RegisterFive extends React.Component {
 	}
 
 	render() {
-		console.log("PROPS REGISTER FIVE, ", this.props);
 		const { message, status_code } = this.props.dataRegister.dataUser;
 		if (this.state.shouldRedirect) {
 			return (

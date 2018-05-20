@@ -65,7 +65,6 @@ class Register extends Component {
 	}
 
 	render() {
-		console.log('NAMA SEKARANG ', this.state.name);
 		return (
 			<View style={styles.container}>
 				<ImageBackground
@@ -138,7 +137,6 @@ const stylesLocal = {
 };
 
 const mapStateToProps = state => {
-	console.log('PROPS DI REGISTER ', state);
 	return { registerReducer: state.registerReducer };
 };
 

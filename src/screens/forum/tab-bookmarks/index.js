@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, ScrollView, Platform, TouchableOpacity, FlatList, Alert } from 'react-native';
 
-import { Card, FooterThread, HeaderThread } from '../../../components';
+import { Card, FooterThread, HeaderThread, SearchButton } from '../../../components';
 import { getBookmarkedThreads, makeBookmark } from '../../../actions/threadActions';
 import { result } from '../../../utils/helpers';
 import ContentThread from './contentThread';
@@ -22,7 +22,8 @@ class TabBookmark extends Component {
 
 		this.togleModal = this.togleModal.bind(this);
 		this.onPostBookmark = this.onPostBookmark.bind(this);
-		this.toThreadDetails = this.toThreadDetails.bind(this);
+    this.toThreadDetails = this.toThreadDetails.bind(this);
+    this.renderHeader = this.renderHeader.bind(this);
   }
 
   componentDidMount() {
@@ -110,7 +111,7 @@ class TabBookmark extends Component {
 		});
 	}
 
-	renderItem(threads) {
+	renderItem (threads) {
     const author = result(threads.item, 'author')
     const comments = result(threads.item, 'comments', [])
     let foto_profile = ''
@@ -146,10 +147,33 @@ class TabBookmark extends Component {
 		);
 	}
 
+  renderHeader() {
+    return (
+      <SearchButton
+        style={{
+          marginBottom: 10
+        }}
+        onPress={() => {
+            this.props.navigator.push({
+              screen: 'TemanDiabets.ModalSearch',
+              navigatorStyle: {
+                navBarHidden: true
+              },
+              passProps: {
+                threadType: 'latest'
+              }
+            })
+          }
+        }
+      />
+    )
+  }
+
 	render() {
 		return (
 			<View style={styles.containerStyle}>
         <FlatList
+					ListHeaderComponent={this.renderHeader}
           data={this.props.dataThreads.item.data}
           renderItem={item => this.renderItem(item)}
           refreshing={this.state.refreshing}
@@ -162,7 +186,9 @@ class TabBookmark extends Component {
 
 const styles = {
 	containerStyle: {
-		backgroundColor: color.solitude
+    backgroundColor: color.solitude,
+    paddingHorizontal: 5,
+    flex: 1
 	},
 	cardStyle: {
 		...Platform.select({
@@ -173,7 +199,11 @@ const styles = {
 				shadowOpacity: 0.1,
 				shadowRadius: 2.5
 			}
-		})
+    }),
+		borderRadius: 5,
+    marginBottom: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
 	}
 };
 

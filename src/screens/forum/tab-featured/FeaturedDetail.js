@@ -17,8 +17,11 @@ class FeaturedDetail extends Component {
 
 	render() {
 		return (
-			<View style={styles.containerStyle}>
-				<HeaderDetail author={this.props.item.author} />
+      <View style={styles.containerStyle}>
+        {
+            this.props.item.author &&
+          <HeaderDetail author={this.props.item.author} />
+        }
 				<ContentFeatured item={this.props.item} />
 				<TouchableOpacity
 					style={styles.buttonContainerStyle}

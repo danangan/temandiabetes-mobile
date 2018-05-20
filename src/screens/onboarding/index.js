@@ -14,7 +14,7 @@ class OnBoardingScreen extends Component {
 		}
 		this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
 	}
-	
+
 	async componentDidMount() {
 		try {
       let result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
@@ -23,19 +23,17 @@ class OnBoardingScreen extends Component {
       //     console.log('INITIAL NOTIFICATION ', notif);
       //   });
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
-        console.log('NOTIFICATION BRA ', notif);
         if (Platform.OS === 'android') {
           this._displayNotificationAndroid(notif);
         }
       });
       FCM.getFCMToken().then(token => {
-        console.log('TOKEN (getFCMToken)', token);
         this.setState({ token: token || '' });
       });
     } catch (e) {
       console.error(e);
 		}
-		
+
 		StatusBar.setHidden(true);
 		this.props.onBoarding();
 	}

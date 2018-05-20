@@ -20,7 +20,7 @@ class MenuButton extends React.Component {
         <Weight onModalInput={this.props.onModalInput} />
       </View>
     );
-  } 
+  }
 }
 
 export default MenuButton;

@@ -3,40 +3,55 @@ import { View, Image, Text, TouchableOpacity } from 'react-native';
 import Style from '../../../style/defaultStyle';
 import { Avatar } from '../../../components';
 
-const Footer = ({ author }) => (
-	<View style={styles.containerFooterStyle}>
-    <View style={styles.footerLeftStyle}>
-      <Avatar
-        avatarStyle={styles.avatarStyle}
-        imageSource={author.foto_profile}
-        userName={author.nama}
-        customSize={40}
-        initialStyle={{ paddingVertical: 8 }}
-        textStyle={{ fontSize: 18 }}
-      />
-			<View style={styles.nameAndMonthStyle}>
-				<Text style={styles.nameStyle}>{author.nama}</Text>
-				<Text style={styles.monthStyle}>{author.tipe_user}</Text>
-			</View>
-		</View>
-		<View style={styles.footerRightStyle}>
-			<TouchableOpacity onPress={() => null}>
-				<Image
-					source={require('../../../assets/icons/share.png')}
-					style={styles.iconStyle}
-					resizeMode={'contain'}
-				/>
-			</TouchableOpacity>
-			<TouchableOpacity onPress={() => null}>
-				<Image
-					source={require('../../../assets/icons/bookmark.png')}
-					style={styles.iconStyle}
-					resizeMode={'contain'}
-				/>
-			</TouchableOpacity>
-		</View>
-	</View>
-);
+const defaultAuthor = {
+  nama: '',
+  tipe_user: '',
+  foto_profile: ''
+}
+
+const Footer = ({ author }) => {
+  author = author || defaultAuthor
+  return (
+    <View style={styles.containerFooterStyle}>
+      <View style={styles.footerLeftStyle}>
+        {
+          author.nama !== '' &&
+          <Avatar
+            avatarStyle={styles.avatarStyle}
+            imageSource={author.foto_profile}
+            userName={author.nama}
+            customSize={40}
+            initialStyle={{ paddingVertical: 8 }}
+            textStyle={{ fontSize: 18 }}
+          />
+        }
+        {
+          author.nama !== '' &&
+          <View style={styles.nameAndMonthStyle}>
+            <Text style={styles.nameStyle}>{author.nama}</Text>
+            <Text style={styles.monthStyle}>{author.tipe_user}</Text>
+          </View>
+        }
+      </View>
+      <View style={styles.footerRightStyle}>
+        <TouchableOpacity onPress={() => null}>
+          <Image
+            source={require('../../../assets/icons/share.png')}
+            style={styles.iconStyle}
+            resizeMode={'contain'}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => null}>
+          <Image
+            source={require('../../../assets/icons/bookmark.png')}
+            style={styles.iconStyle}
+            resizeMode={'contain'}
+          />
+        </TouchableOpacity>
+      </View>
+    </View>
+  )
+};
 
 const styles = {
 	containerFooterStyle: {

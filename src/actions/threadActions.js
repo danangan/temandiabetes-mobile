@@ -26,7 +26,7 @@ import { keywordRecent } from '../utils/constants';
  * Get Static Thread
  * @param {*} idToken
  */
-export const getThreadStatic = () => async dispatch => {
+export const getThreadStatic = (page = 1, refresh = false) => async dispatch => {
 	function onSuccess(data) {
 		dispatch({
 			type: GET_THREADS_STATIC,
@@ -39,18 +39,19 @@ export const getThreadStatic = () => async dispatch => {
 	try {
     const option = {
       method: 'get',
-      url: 'api/threads?threadType=static'
+      url: `api/threads?threadType=static&page=${page}`
     };
 
     const res = await API_CALL(option);
     const threadsPayload = {
       message: res.data.message,
-      threadStatic: res.data.data.threads
+      threadStatic: res.data.data.threads,
+      refresh
     };
 
-		return onSuccess(threadsPayload);
+		dispatch(onSuccess(threadsPayload));
 	} catch (error) {
-		onSuccess(error);
+		dispatch(onSuccess(error));
 	}
 };
 
@@ -58,7 +59,7 @@ export const getThreadStatic = () => async dispatch => {
  * Get All Threads
  * @param {*} token
  */
-export const getThreads = () => async dispatch => {
+export const getThreads = (page = 1, refresh = false) => async dispatch => {
   const getThreadsSuccess = data => ({
     type: GET_THREADS,
     payload: data
@@ -67,19 +68,18 @@ export const getThreads = () => async dispatch => {
   try {
     const option = {
       method: 'get',
-      url: 'api/threads'
+      url: `api/threads/feed?page=${page}`
     };
 
     const res = await API_CALL(option);
     const threadsPayload = {
       status_code: res.status,
       message: res.data.data.message,
-      threads: res.data.data.threads
+      threads: res.data.data.threads,
+      refresh
     };
-    console.log('BALIKAN RESPONSE ', res);
     dispatch(getThreadsSuccess(threadsPayload));
   } catch (err) {
-    console.log('BALIKAN RESPONSE ERR', err);
     dispatch(getThreadsSuccess(err));
   }
 };
@@ -88,7 +88,7 @@ export const getThreads = () => async dispatch => {
  * Get Latest Threads
  * @param {*} token
  */
-export const getLatestThreads = () => async dispatch => {
+export const getLatestThreads = (page = 1, refresh = false) => async dispatch => {
   const getLatestThreadsSuccess = data => ({
     type: GET_LATEST_THREADS,
     payload: data
@@ -97,14 +97,15 @@ export const getLatestThreads = () => async dispatch => {
   try {
     const option = {
       method: 'get',
-      url: 'api/threads/feed'
+      url: `api/threads?page=${page}`
     };
 
     const res = await API_CALL(option);
     const threadsPayload = {
       status_code: res.status,
       message: res.data.data.message,
-      threads: res.data.data.threads
+      threads: res.data.data.threads,
+      refresh
     };
     dispatch(getLatestThreadsSuccess(threadsPayload));
   } catch (err) {
@@ -134,7 +135,6 @@ export const getBookmarkedThreads = () => async dispatch => {
       message: res.data.data.message,
       bookmarks: res.data.data.bookmarks
     };
-    console.log(threadsPayload)
     dispatch(getBookmarkedThreadsSuccess(threadsPayload));
   } catch (err) {
     // dispatch(getBookmarkedThreadsSuccess(err));
@@ -428,7 +428,6 @@ export const toFollowThread = (idThread) => async dispatch => {
     };
 
     const request = await API_CALL(option);
-    console.log('RESPONSE SUBSCRIBE THREADS', request);
     onSuccess(request);
   } catch (error) {
     onSuccess(error);
@@ -462,7 +461,6 @@ export const toUnFollowThread = (idThread) => async dispatch => {
     };
 
     const request = await API_CALL(option);
-    console.log('RESPONSE UNFOLLOW THREADS ', request);
     onSuccess(request);
   } catch (error) {
     onSuccess(error);
@@ -477,7 +475,7 @@ export const getCommentDetails = (idComment) => async dispatch => {
     });
     return true;
   };
-  
+
   function onSuccess(data) {
 		dispatch({
 			type: GET_COMMENT_DETAILS,
@@ -496,7 +494,6 @@ export const getCommentDetails = (idComment) => async dispatch => {
     };
 
     const request = await API_CALL(option);
-    console.log('RESPONSE GET COMMENT DETAILS ', request);
     onSuccess(request);
   } catch (error) {
     onSuccess(error);

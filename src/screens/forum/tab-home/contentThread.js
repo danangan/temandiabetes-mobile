@@ -4,11 +4,10 @@ import { CardSection } from '../../../components';
 
 let statusPreview = false;
 
-const handleContent = (content, open) => {
+const handleContent = (content = '', open) => {
 	const preview = content.substring(0, 150);
 	if (open) {
 		statusPreview = true;
-		console.log('STATUS PREV ', statusPreview);
 		return content;
 	}
 	statusPreview = false;
@@ -46,7 +45,6 @@ const styles = {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'flex-start',
-		paddingHorizontal: 15
 	},
 	title: { fontSize: 22, fontFamily: 'Montserrat-Light' }
 };

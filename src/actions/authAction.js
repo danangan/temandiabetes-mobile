@@ -51,7 +51,6 @@ export const updateFCMToken = (params) => async dispatch => {
       }
     });
     const request = await instance.put(`api/users/${params.idUser}`, params.token);
-    console.log('RESPONSE UPDATE FCM TOKEN', request);
     onSuccess(request.data.data);
   } catch (error) {
     onSuccess(error);

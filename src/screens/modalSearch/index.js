@@ -54,10 +54,10 @@ class ModalSearch extends React.Component {
 
   toRenderItem(threads) {
     return (
-      <CardResult 
-        // key={index} 
+      <CardResult
+        // key={index}
         threads={threads}
-        onNavigate={this.toThreadDetails} 
+        onNavigate={this.toThreadDetails}
         toSaveUserSearch={this.toSaveUserSearch}
       />
     );
@@ -67,7 +67,7 @@ class ModalSearch extends React.Component {
     const { searchResult } = this.props.dataThreads;
     if (searchResult.data.length === 0 && this.state.searchKeyword === '') {
       return this.state.nums;
-    } 
+    }
     return searchResult.data;
   }
 
@@ -85,14 +85,14 @@ class ModalSearch extends React.Component {
     const { searchResult } = this.props.dataThreads;
     if (this.state.searchKeyword === '') {
       return (
-        <View style={{ flex: 2, paddingHorizontal: 20, marginVertical: 10 }}>
+        <View style={{ flex: 2, paddingHorizontal: 10, marginVertical: 10, paddingBottom: 20 }}>
           <Text style={styles.titleElement}>Pencarian Terakhir</Text>
           <View style={{ paddingVertical: 10, marginVertical: 0 }}>
             {
               this.state.recentSearch.length === 0 ? <Text>Loading...</Text> :
               this.state.recentSearch.map((recent, index) => (
-                <Text 
-                  key={index} 
+                <Text
+                  key={index}
                   style={[styles.currentSearch, index === 1 ? { paddingVertical: 5 } : '']}
                 >
                   {recent}
@@ -121,23 +121,22 @@ class ModalSearch extends React.Component {
       }
     }
     return (
-      <View>
-        <FlatList 
+      <View style={{paddingBottom: 80}}>
+        <FlatList
           data={searchResult.data}
           renderItem={item => this.toRenderItem(item)}
         />
       </View>
     );
   }
-  
-  render() {   
-    console.log('STATE SEARCH RECENT', this.state.recentSearch);
+
+  render() {
     return (
-      <View 
+      <View
         style={styles.container}
       >
-        <View 
-          style={{ 
+        <View
+          style={{
             backgroundColor: '#fff',
             flexDirection: 'row',
             justifyContent: 'center',
@@ -165,6 +164,10 @@ class ModalSearch extends React.Component {
               borderRadius: 5,
               margin: 0
             }}
+            iconLeftStyle={{
+              height: 20,
+              width: 25
+            }}
             inputStyle={{ fontFamily: 'OpenSans-Regular', color: '#b6b6b6', fontSize: 14, backgroundColor: '#fff' }}
           />
         </View>
@@ -178,20 +181,20 @@ class ModalSearch extends React.Component {
 
 const styles = {
   container: {
-    flex: 1, 
-    backgroundColor: '#fff', 
-    justifyContent: 'flex-start', 
-    alignItems: 'flex-start' 
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
-  titleElement: { 
-    color: '#ccc', 
-    fontSize: 16, 
-    fontFamily: 'Montserrat-Light' 
+  titleElement: {
+    color: '#ccc',
+    fontSize: 16,
+    fontFamily: 'Montserrat-Light'
   },
   currentSearch: {
-    color: '#000', 
-    fontSize: 16, 
-    fontFamily: 'Montserrat-Light' 
+    color: '#000',
+    fontSize: 16,
+    fontFamily: 'Montserrat-Light'
   }
 };
 

@@ -50,7 +50,6 @@ const styles = {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
-		paddingHorizontal: 15,
 		justifyContent: 'space-between',
 	},
 	itemContainer: {

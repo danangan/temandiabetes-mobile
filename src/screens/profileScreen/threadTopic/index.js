@@ -39,13 +39,10 @@ class ThreadTopic extends Component {
 
     try {
       const { data: { data : { categories: { docs, ...pagination }}} } = await API_CALL(option);
-      console.log(docs, pagination)
 
       this.setState({
         categories: this.mapCategories(docs),
         pagination
-      }, () => {
-        console.log(this.state)
       })
     } catch (error) {
       console.log(error)
@@ -65,8 +62,6 @@ class ThreadTopic extends Component {
     mutate[index].isChecked = !mutate[index].isChecked
     this.setState({
       categories: mutate
-    }, () => {
-      console.log(this.state)
     })
   }
 
@@ -74,7 +69,7 @@ class ThreadTopic extends Component {
     this.fetchTopics()
   }
 
-  async saveSelectedCategory() {
+  async saveSelectedCategory(cb) {
     this.setState({
       isLoading: true
     })
@@ -99,19 +94,26 @@ class ThreadTopic extends Component {
     } catch (error) {
       console.log(error)
     }
+
     this.setState({
       isLoading: false
     })
+
+    if (cb) cb()
   }
 
   render() {
+    let { header, onSubmitButton } = this.props
+    header = header || (
+      <NavigationBar onPress={() => this.props.navigator.pop()} title="PILIH TOPIK FORUM" />
+    )
     return (
       <View style={styles.container}>
         {
           this.state.isLoading &&
           <Spinner color="#FFDE00" text="Menyimpan..." size="large" />
         }
-        <NavigationBar onPress={() => this.props.navigator.pop()} title="PILIH TOPIK FORUM" />
+        { header }
         <ScrollView>
           <View style={styles.checkboxContainer}>
             {
@@ -128,7 +130,7 @@ class ThreadTopic extends Component {
         <Button
           textStyle={styles.buttonText}
           buttonStyle={styles.button}
-          onPress={this.saveSelectedCategory}>
+          onPress={() => {this.saveSelectedCategory(onSubmitButton)}}>
           <Text>
             SIMPAN
           </Text>
