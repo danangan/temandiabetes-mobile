@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, ScrollView, Platform, TouchableOpacity, FlatList, Alert } from 'react-native';
 
 import { Card, FooterThread, HeaderThread, SearchButton, Spinner } from '../../../components';
-import { getBookmarkedThreads, makeBookmarkFeaturedThreads } from '../../../actions/threadActions';
+import { getBookmarkedThreads, deleteBookmarkedThread } from '../../../actions/threadActions';
 import { result } from '../../../utils/helpers';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
@@ -22,7 +22,7 @@ class TabBookmark extends Component {
     };
 
 		this.togleModal = this.togleModal.bind(this);
-		this.onPostBookmark = this.onPostBookmark.bind(this);
+		this.deleteBookmarkedThread = this.deleteBookmarkedThread.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
   }
@@ -61,7 +61,7 @@ class TabBookmark extends Component {
 		}
 	}
 
-	onPostBookmark = async (thread, threadIndex) => {
+	deleteBookmarkedThread = async (thread, threadIndex) => {
 		this.setState(
 			{
 				isLoading: true
@@ -139,7 +139,7 @@ class TabBookmark extends Component {
 						leftAction={() => this.toThreadDetails(threads.item)}
 						numOfComments={comments.length === 0 ? '' : comments.length}
 						isOpen={this.togleModal}
-						saveBookmark={this.onPostBookmark}
+						saveBookmark={this.deleteBookmarkedThread}
 						threadItem={threads.item}
 						threadIndex={threads.index}
 					/>
@@ -171,15 +171,25 @@ class TabBookmark extends Component {
   }
 
 	render() {
+		const spinner = this.state.isLoading ? (
+			<Spinner color="#FFDE00" text="Menyimpan..." size="large" />
+		) : (
+			<View />
+    );
+
 		return (
-			<View style={styles.containerStyle}>
-        <FlatList
-					ListHeaderComponent={this.renderHeader}
-          data={this.props.dataThreads.item.data}
-          renderItem={item => this.renderItem(item)}
-          refreshing={this.state.refreshing}
-          onRefresh={this.handleRefresh}
-        />
+      <View style={styles.containerStyle}>
+        {
+          this.props.dataThreads.item.data.length > 0 &&
+          <FlatList
+            ListHeaderComponent={this.renderHeader}
+            data={this.props.dataThreads.item.data}
+            renderItem={item => this.renderItem(item)}
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefresh}
+          />
+        }
+				{spinner}
 			</View>
 		);
 	}
@@ -216,7 +226,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getBookmarkedThreads: () => dispatch(getBookmarkedThreads()),
-	makeBookmark: (thread, threadIndex) => dispatch(makeBookmarkFeaturedThreads(thread, threadIndex))
+	makeBookmark: (thread, threadIndex) => dispatch(deleteBookmarkedThread(thread, threadIndex))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabBookmark);

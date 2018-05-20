@@ -258,6 +258,24 @@ const postBookmarkFeaturedThreads = (state, payload) => {
   };
 };
 
+const deleteBookmarkedThread = (state, payload) => {
+  const { status_code, message, threadIndex } = payload;
+  return {
+    ...state,
+    listBookmarkedThreads: {
+      ...state.listBookmarkedThreads,
+      item: {
+        ...state.listBookmarkedThreads.item,
+        data: [
+          ...state.listBookmarkedThreads.item.data.slice(0, threadIndex),
+          ...state.listBookmarkedThreads.item.data.slice(threadIndex+1),
+        ]
+      }
+    },
+    saveBookmark: { ...state.saveBookmark, message, status_code }
+  };
+};
+
 /**
  *
  * @param {*} state object
@@ -330,6 +348,8 @@ const threadsReducer = (state = initialState, action) => {
       return postBookmarkLatestThreads(state, action.payload);
     case ActionTypes.BOOKMARK_FEATURED_THREAD:
       return postBookmarkFeaturedThreads(state, action.payload);
+    case ActionTypes.DELETE_BOOKMARKED_THREAD:
+      return deleteBookmarkedThread(state, action.payload);
     case ActionTypes.GET_BOOKMARKED_THREADS:
 			return getBookmarkedThreads(state, action.payload);
 		case 'PENDING_THREAD_DETAILS':
