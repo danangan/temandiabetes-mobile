@@ -221,7 +221,7 @@ class TabHome extends Component {
 	render() {
 		const { listThreads } = this.props.dataThreads;
 		const spinner = this.state.isProses ? (
-			<Spinner color="#FFDE00" text="Saving..." size="large" />
+			<Spinner color="#FFDE00" text="Menyimpan..." size="large" />
 		) : (
 			<View />
 		);

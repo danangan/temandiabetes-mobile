@@ -6,11 +6,12 @@ import {
   ScrollView,
   Platform,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
 
 import { Card, FooterThread, HeaderThread, SearchButton } from '../../../components';
-import { getLatestThreads, makeBookmark } from '../../../actions/threadActions';
+import { getLatestThreads, makeBookmarkLatestThreads } from '../../../actions/threadActions';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
 
@@ -24,19 +25,33 @@ class TabLatest extends Component {
 		super(props);
 		this.state = {
       refreshing: false,
-      isLoadMorePage: false
+      isLoadMorePage: false,
+      isLoading: false
     };
 
     this.renderFooter = this.renderFooter.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
     this.toThreadDetails = this.toThreadDetails.bind(this)
     this.onPostBookmark = this.onPostBookmark.bind(this)
-    this.onPostBookmark = this.onPostBookmark.bind(this)
     this.renderHeader = this.renderHeader.bind(this)
 	}
 
   componentDidMount() {
     this.props.getLatestThreads()
+  }
+
+  componentDidUpdate() {
+    const { saveBookmark } = this.props;
+		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isProses) {
+			this.setState(
+				{
+					isProses: false
+				},
+				() => {
+					Alert.alert('Success', saveBookmark.message);
+				}
+			);
+		}
   }
 
 	toThreadDetails(threads) {
@@ -76,6 +91,17 @@ class TabLatest extends Component {
       </View>
     )
   }
+
+	onPostBookmark = async (thread, threadIndex) => {
+		this.setState(
+			{
+				isLoading: true
+			},
+			() => {
+				this.props.makeBookmark(thread, threadIndex);
+			}
+		);
+	};
 
 	onPostBookmark = async (thread, threadIndex) => {
 		this.setState(
@@ -152,6 +178,11 @@ class TabLatest extends Component {
 	};
 
 	render() {
+		const spinner = this.state.isLoading ? (
+			<Spinner color="#FFDE00" text="Menyimpan..." size="large" />
+		) : (
+			<View />
+		);
 		return (
       <View style={styles.containerStyle}>
       {
@@ -167,6 +198,7 @@ class TabLatest extends Component {
           onEndReachedThreshold={0.3}
 				/>
       }
+			{spinner}
 			</View>
 		);
 	}
@@ -205,11 +237,12 @@ const styles = {
 
 const mapStateToProps = state => ({
 	dataThreads: state.threadsReducer.listLatestThreads,
+	saveBookmark: state.threadsReducer.saveBookmark,
 });
 
 const mapDispatchToProps = dispatch => ({
 	getLatestThreads: (page, isRefresh) => dispatch(getLatestThreads(page, isRefresh)),
-	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
+	makeBookmark: (thread, threadIndex) => dispatch(makeBookmarkLatestThreads(thread, threadIndex))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabLatest);
