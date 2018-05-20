@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { View, ScrollView, Text, Image, Platform, TouchableOpacity } from 'react-native';
 
 import HistoryBloodSugarLevels from './HistoryBloodSugarLevels';
@@ -7,8 +8,25 @@ import HistoryFoods from './HistoryFoods';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
 import { Card } from '../../../components';
+import {
+  getHistoryHba1c,
+  getHistoryActivity,
+  getHistoryBloodPressure,
+  getHistoryWeight,
+  getHistoryFoods,
+  getHistoryBloodSugarLevels
+} from '../../../actions';
 
 class TabHistoryEstimation extends Component {
+  componentDidMount() {
+    // this.props.getHistoryBloodSugarLevels();
+    this.props.getHistoryHba1c();
+    this.props.getHistoryActivity();
+    this.props.getHistoryBloodPressure();
+    this.props.getHistoryWeight();
+    this.props.getHistoryFoods();
+  }
+
   render() {
     return (
       <View style={styles.containerStyle}>
@@ -93,10 +111,19 @@ const styles = {
     height: 36
   },
   buttonStyle: {
-		height: 56,
-		paddingTop: 10,
-		marginBottom: 30
-	}
+    height: 56,
+    paddingTop: 10,
+    marginBottom: 30
+  }
 };
 
-export default TabHistoryEstimation;
+const mapDispatchToProps = dispatch => ({
+  getHistoryHba1c: () => dispatch(getHistoryHba1c()),
+  getHistoryActivity: () => dispatch(getHistoryActivity()),
+  getHistoryBloodPressure: () => dispatch(getHistoryBloodPressure()),
+  getHistoryWeight: () => dispatch(getHistoryWeight()),
+  getHistoryFoods: () => dispatch(getHistoryFoods()),
+  getHistoryBloodSugarLevels: () => dispatch(getHistoryBloodSugarLevels())
+});
+
+export default connect(null, mapDispatchToProps)(TabHistoryEstimation);

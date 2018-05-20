@@ -9,7 +9,8 @@ import {
 	innerCircleReducer,
 	recentActivityReducer,
 	userReducer,
-	ecommerceReducer
+	ecommerceReducer,
+	historyEstimationReducer
 } from './appscreen';
 
 const rootReducer = combineReducers({
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
 	innerCircleReducer,
 	recentActivityReducer,
 	userReducer,
-	ecommerceReducer
+	ecommerceReducer,
+	historyEstimationReducer
 });
 
 export default rootReducer;

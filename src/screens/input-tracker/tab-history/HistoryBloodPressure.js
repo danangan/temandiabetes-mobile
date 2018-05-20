@@ -1,25 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 
 import { Card } from '../../../components';
 import Style from '../../../style/defaultStyle';
 
-const HistoryBloodPressure = () => (
-  <View style={styles.containerStyle}>
-    <Text style={styles.titleStyle}>tekanan darah</Text>
-    <Card containerStyle={styles.cardStyle}>
-      <View style={styles.bloodPressureContainerStyle}>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.bloodPressureStyle}>120/80</Text>
-          <Text style={styles.unitBloodPressureStyle}>mm/Hg</Text>
-        </View>
-        <Text style={styles.textStyle}>
-          pertahankan pola makan, jaga kesehatan dan olahraga teratur
+const HistoryBloodPressure = ({ history }) => {
+  const bloodPressure = history.bloodPressure === null ? '0/0' : history.bloodPressure;
+
+  return (
+    <View style={styles.containerStyle}>
+      <Text style={styles.titleStyle}>tekanan darah</Text>
+      <Card containerStyle={styles.cardStyle}>
+        <View style={styles.bloodPressureContainerStyle}>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.bloodPressureStyle}>{bloodPressure}</Text>
+            <Text style={styles.unitBloodPressureStyle}>mm/Hg</Text>
+          </View>
+          <Text style={styles.textStyle}>
+            pertahankan pola makan, jaga kesehatan dan olahraga teratur
         </Text>
-      </View>
-    </Card>
-  </View>
-);
+        </View>
+      </Card>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -89,4 +94,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HistoryBloodPressure;
+const mapStateToProps = state => ({
+  history: state.historyEstimationReducer
+});
+
+export default connect(mapStateToProps, null)(HistoryBloodPressure);

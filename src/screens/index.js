@@ -41,6 +41,12 @@ import StepOne from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/S
 import StepTwo from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/StepTwo';
 import StepThree from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/StepThree';
 import DnurseResult from '../screens/input-tracker/tab-input-tracker/DnurseResult';
+import HistoryHba1c from '../screens/input-tracker/tab-history/HistoryHba1c';
+import HistoryActivity from '../screens/input-tracker/tab-history/HistoryActivity';
+import HistoryBloodPressure from '../screens/input-tracker/tab-history/HistoryBloodPressure';
+import HistoryWeight from '../screens/input-tracker/tab-history/HistoryWeight';
+import HistoryFoods from '../screens/input-tracker/tab-history/HistoryFoods';
+import HistoryBloodSugarLevels from '../screens/input-tracker/tab-history/HistoryBloodSugarLevels';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -59,7 +65,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.TabVideo', () => TabVideo);
 	Navigation.registerComponent('TemanDiabets.TabEvent', () => TabEvent);
 	Navigation.registerComponent('TemanDiabets.TabInputTracker', () => TabInputTracker);
-	Navigation.registerComponent('TemanDiabets.TabHistory', () => TabHistory);
+	Navigation.registerComponent('TemanDiabets.TabHistory', () => TabHistory, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalSearch', () => ModalSearch, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalPostThread', () => ModalPostThread, store, Provider);
@@ -84,6 +90,12 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.StepTwo', () => StepTwo);
 	Navigation.registerComponent('TemanDiabets.StepThree', () => StepThree);
 	Navigation.registerComponent('TemanDiabets.DnurseResult', () => DnurseResult);
+	Navigation.registerComponent('TemanDiabets.HistoryHba1c', () => HistoryHba1c, store, Provider);
+	Navigation.registerComponent('TemanDiabets.HistoryActivity', () => HistoryActivity, store, Provider);
+	Navigation.registerComponent('TemanDiabets.HistoryBloodPressure', () => HistoryBloodPressure, store, Provider);
+	Navigation.registerComponent('TemanDiabets.HistoryWeight', () => HistoryWeight, store, Provider);
+	Navigation.registerComponent('TemanDiabets.HistoryFoods', () => HistoryFoods, store, Provider);
+	Navigation.registerComponent('TemanDiabets.HistoryBloodSugarLevels', () => HistoryBloodSugarLevels, store, Provider);
 }
 
 export function registerScreenVisibilityListener() {

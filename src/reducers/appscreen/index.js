@@ -7,3 +7,4 @@ export * from './innerCircleReducer';
 export * from './recentActiviyReducer';
 export * from './userReducer';
 export * from './ecommerceReducer';
+export * from './historyEstimationReducer';

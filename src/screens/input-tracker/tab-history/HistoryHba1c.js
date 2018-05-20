@@ -1,26 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 
 import { Card } from '../../../components';
 import Style from '../../../style/defaultStyle';
 
-const HistoryHba1c = () => (
-  <View style={styles.containerStyle}>
-    <Text style={styles.titleStyle}>hba1c</Text>
-    <Card containerStyle={styles.cardStyle}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={styles.hba1cContainerStyle}>
-          <Text style={styles.hba1cStyle}>8%</Text>
-          <Text style={styles.statusHba1cStyle}>(normal)</Text>
+const HistoryHba1c = ({ history }) => {
+  const valueHba1c = history.hba1c === null ? 0 : history.hba1c;
+  const statusHba1c =
+    history.hba1c === null || (history.hba1c >= 0 && history.hba1c < 8) ? 'normal' : 'sedang';
+
+  return (
+    <View style={styles.containerStyle}>
+      <Text style={styles.titleStyle}>hba1c</Text>
+      <Card containerStyle={styles.cardStyle}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={styles.hba1cContainerStyle}>
+            <Text style={styles.hba1cStyle}>{valueHba1c}%</Text>
+            <Text style={styles.statusHba1cStyle}>({statusHba1c})</Text>
+          </View>
+          <Text style={styles.textStyle}>
+            pertahankan pola makan, jaga kesehatan dan olahraga teratur
+          </Text>
         </View>
-        <Text style={styles.textStyle}>
-          pertahankan pola makan, jaga kesehatan dan olahraga teratur
-        </Text>
-      </View>
-      <Text style={styles.textInfoStyle}>Keterangan : kurang 0-4 | normal 4-8 | parah 8-12</Text>
-    </Card>
-  </View>
-);
+        <Text style={styles.textInfoStyle}>Keterangan : kurang 0-4 | normal 4-8 | parah 8-12</Text>
+      </Card>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -51,7 +58,7 @@ const styles = StyleSheet.create({
       android: {
         elevation: 3.55
       }
-    }),
+    })
   },
   titleStyle: {
     fontFamily: 'Montserrat-Regular',
@@ -92,4 +99,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HistoryHba1c;
+const mapStateToProps = state => ({
+  history: state.historyEstimationReducer
+});
+
+export default connect(mapStateToProps, null)(HistoryHba1c);

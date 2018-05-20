@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import moment from 'moment';
 
@@ -9,7 +10,6 @@ import color from '../../../style/color';
 
 const today = new Date();
 const hours = moment(today).format('LT');
-
 const LineVertical = () => (
   <View
     style={{
@@ -20,54 +20,62 @@ const LineVertical = () => (
   />
 );
 
-const HistoryFoods = () => (
-  <View style={styles.containerStyle}>
-    <Text style={styles.titleStyle}>Log Makanan</Text>
-    <View style={{ flexDirection: 'row' }}>
-      <Text style={styles.todayStyle}>Hari Ini</Text>
-      <Text style={styles.hourStyle}>{hours}</Text>
-    </View>
-    <Card containerStyle={styles.cardStyle}>
-      <View style={styles.cardContentStyle}>
-        <MealTime foodStyle={styles.foodsStyle} />
-        <LineVertical />
-        <View style={styles.foodListStyle}>
-          <Text style={styles.foodsStyle}>Roti Bakar</Text>
-          <Text style={styles.foodsStyle}>Sop Ayam</Text>
-          <Text style={styles.foodsStyle}>Bubur Ayam</Text>
-          <Text style={styles.foodsStyle}>Jagung</Text>
-        </View>
-        <LineVertical />
-        <View style={styles.calorieStyle}>
-          <View style={styles.calorieListStyle}>
-            <Text style={[styles.foodsStyle]}>200</Text>
-            <Text style={styles.foodsStyle}>{' '}Kkl</Text>
-          </View>
-          <View style={styles.calorieListStyle}>
-            <Text style={styles.foodsStyle}>250</Text>
-            <Text style={styles.foodsStyle}>{' '}Kkl</Text>
-          </View>
-          <View style={styles.calorieListStyle}>
-            <Text style={styles.foodsStyle}>240</Text>
-            <Text style={styles.foodsStyle}>{' '}Kkl</Text>
-          </View>
-          <View style={styles.calorieListStyle}>
-            <Text style={styles.foodsStyle}>150</Text>
-            <Text style={styles.foodsStyle}>{' '}Kkl</Text>
-          </View>
-          <View style={styles.calorieListStyle}>
-            <Text style={styles.foodsStyle}>70</Text>
-            <Text style={styles.foodsStyle}>{' '}Kkl</Text>
-          </View>
-        </View>
+const HistoryFoods = ({ history }) => {
+  const mealTime =
+    history.foods === undefined
+      ? {
+        sarapan: { title: '', calories: '' },
+        makanSiang: { title: '', calories: '' },
+        makanMalam: { title: '', calories: '' },
+        snack: { title: '', calories: '' }
+        }
+      : history.foods;
+
+  return (
+    <View style={styles.containerStyle}>
+      <Text style={styles.titleStyle}>Log Makanan</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={styles.todayStyle}>Hari Ini</Text>
+        <Text style={styles.hourStyle}>{hours}</Text>
       </View>
-    </Card>
-  </View>
-);
+      <Card containerStyle={styles.cardStyle}>
+        <View style={styles.cardContentStyle}>
+          <MealTime foodStyle={styles.foodsStyle} />
+          <LineVertical />
+          <View style={styles.foodListStyle}>
+            <Text style={styles.foodsStyle}>{mealTime.sarapan.title}</Text>
+            <Text style={styles.foodsStyle}>{mealTime.makanSiang.title}</Text>
+            <Text style={styles.foodsStyle}>{mealTime.makanMalam.title}</Text>
+            <Text style={styles.foodsStyle}>{mealTime.snack.title}</Text>
+          </View>
+          <LineVertical />
+          <View style={styles.calorieStyle}>
+            <View style={styles.calorieListStyle}>
+              <Text style={[styles.foodsStyle]}>{mealTime.sarapan.calories}</Text>
+              <Text style={styles.foodsStyle}> Kkl</Text>
+            </View>
+            <View style={styles.calorieListStyle}>
+              <Text style={styles.foodsStyle}>{mealTime.makanSiang.calories}</Text>
+              <Text style={styles.foodsStyle}> Kkl</Text>
+            </View>
+            <View style={styles.calorieListStyle}>
+              <Text style={styles.foodsStyle}>{mealTime.makanMalam.calories}</Text>
+              <Text style={styles.foodsStyle}> Kkl</Text>
+            </View>
+            <View style={styles.calorieListStyle}>
+              <Text style={styles.foodsStyle}>{mealTime.snack.calories}</Text>
+              <Text style={styles.foodsStyle}> Kkl</Text>
+            </View>
+          </View>
+        </View>
+      </Card>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   containerStyle: {
-    flex: 1,
+    flex: 1
   },
   titleStyle: {
     fontFamily: 'Montserrat-Regular',
@@ -135,4 +143,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HistoryFoods;
+const mapStateToProps = state => ({
+  history: state.historyEstimationReducer
+});
+
+export default connect(mapStateToProps, null)(HistoryFoods);

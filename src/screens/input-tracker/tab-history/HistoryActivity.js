@@ -1,27 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Image, StyleSheet, Platform } from 'react-native';
 
 import { Card } from '../../../components';
 import Style from '../../../style/defaultStyle';
 
-const HistoryActivity = () => (
-  <View style={styles.containerStyle}>
-    <Text style={styles.titleStyle}>aktifitas</Text>
-    <Card containerStyle={styles.cardStyle}>
-      <View style={styles.activityContainerStyle}>
-        <Image
-          source={require('../../../assets/icons/activity.png')}
-          style={styles.iconActivityStyle}
-          tintColor={'#252C68'}
-        />
-        <Text style={styles.statusActivityStyle}>(sedang)</Text>
-      </View>
-      <Text style={styles.textStyle}>
-        Lorem ipsum dolor sit amet, cum dicunt epicuri efficiendi cuaca
-      </Text>
-    </Card>
-  </View>
-);
+const HistoryActivity = ({ history }) => {
+  const activity = history.activity === null ? '-' : history.activity;
+
+  return (
+    <View style={styles.containerStyle}>
+      <Text style={styles.titleStyle}>aktifitas</Text>
+      <Card containerStyle={styles.cardStyle}>
+        <View style={styles.activityContainerStyle}>
+          <Image
+            source={require('../../../assets/icons/activity.png')}
+            style={styles.iconActivityStyle}
+            tintColor={'#252C68'}
+          />
+          <Text style={styles.statusActivityStyle}>({activity})</Text>
+        </View>
+        <Text style={styles.textStyle}>
+          Lorem ipsum dolor sit amet, cum dicunt epicuri efficiendi cuaca
+        </Text>
+      </Card>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -83,8 +88,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER,
     fontWeight: 'bold',
-    color: '#556299',
+    color: '#556299'
   }
 });
 
-export default HistoryActivity;
+const mapStateToProps = state => ({
+  history: state.historyEstimationReducer
+});
+
+export default connect(mapStateToProps, null)(HistoryActivity);

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Image, Text } from 'react-native';
 
 import DotsInfo from './DotsInfo';
@@ -36,4 +37,8 @@ const styles = {
   }
 };
 
-export default HistoryBloodSugarLevels;
+const mapStateToProps = state => ({
+  history: state.historyEstimationReducer
+});
+
+export default connect(mapStateToProps, null)(HistoryBloodSugarLevels);

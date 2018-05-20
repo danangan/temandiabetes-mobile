@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 
 import { Card } from '../../../components';
@@ -91,4 +92,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HistoryWeight;
+const mapStateToProps = state => ({
+  history: state.historyEstimationReducer
+});
+
+export default connect(mapStateToProps, null)(HistoryWeight);

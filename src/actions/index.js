@@ -5,3 +5,4 @@ export * from './innerCircleAction';
 export * from './profileActions';
 export * from './userAction';
 export * from './ecommerceAction';
+export * from './historyEstimationAction';
