@@ -10,7 +10,7 @@ import {
   Alert
 } from 'react-native';
 
-import { Card, FooterThread, HeaderThread, SearchButton } from '../../../components';
+import { Card, FooterThread, HeaderThread, Spinner, SearchButton } from '../../../components';
 import { getLatestThreads, makeBookmarkLatestThreads } from '../../../actions/threadActions';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
@@ -42,10 +42,10 @@ class TabLatest extends Component {
 
   componentDidUpdate() {
     const { saveBookmark } = this.props;
-		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isProses) {
+		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isLoading) {
 			this.setState(
 				{
-					isProses: false
+					isLoading: false
 				},
 				() => {
 					Alert.alert('Success', saveBookmark.message);
@@ -96,17 +96,6 @@ class TabLatest extends Component {
 		this.setState(
 			{
 				isLoading: true
-			},
-			() => {
-				this.props.makeBookmark(thread, threadIndex);
-			}
-		);
-	};
-
-	onPostBookmark = async (thread, threadIndex) => {
-		this.setState(
-			{
-				isProses: true
 			},
 			() => {
 				this.props.makeBookmark(thread, threadIndex);

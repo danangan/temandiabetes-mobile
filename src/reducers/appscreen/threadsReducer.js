@@ -237,6 +237,27 @@ const postBookmarkLatestThreads = (state, payload) => {
   };
 };
 
+const postBookmarkFeaturedThreads = (state, payload) => {
+  const { status_code, message, threadIndex } = payload;
+  const mutatedThread = state.listThreadStatic.item.data[threadIndex]
+  mutatedThread.isBookmarked = !mutatedThread.isBookmarked
+  return {
+    ...state,
+    listThreadStatic: {
+      ...state.listThreadStatic,
+      item: {
+        ...state.listThreadStatic.item,
+        data: [
+          ...state.listThreadStatic.item.data.slice(0, threadIndex),
+          mutatedThread,
+          ...state.listThreadStatic.item.data.slice(threadIndex+1),
+        ]
+      }
+    },
+    saveBookmark: { ...state.saveBookmark, message, status_code }
+  };
+};
+
 /**
  *
  * @param {*} state object

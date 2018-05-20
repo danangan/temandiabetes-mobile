@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, ScrollView, Platform, TouchableOpacity, FlatList, Alert } from 'react-native';
 
-import { Card, FooterThread, HeaderThread, SearchButton } from '../../../components';
-import { getBookmarkedThreads, makeBookmark } from '../../../actions/threadActions';
+import { Card, FooterThread, HeaderThread, SearchButton, Spinner } from '../../../components';
+import { getBookmarkedThreads, makeBookmarkFeaturedThreads } from '../../../actions/threadActions';
 import { result } from '../../../utils/helpers';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
@@ -17,7 +17,8 @@ class TabBookmark extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      refreshing: false
+      refreshing: false,
+      isLoading: false
     };
 
 		this.togleModal = this.togleModal.bind(this);
@@ -32,10 +33,10 @@ class TabBookmark extends Component {
 
 	componentDidUpdate() {
 		const { saveBookmark } = this.props;
-		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isProses) {
+		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isLoading) {
 			this.setState(
 				{
-					isProses: false
+					isLoading: false
 				},
 				() => {
 					Alert.alert('Success', saveBookmark.message);
@@ -63,7 +64,7 @@ class TabBookmark extends Component {
 	onPostBookmark = async (thread, threadIndex) => {
 		this.setState(
 			{
-				isProses: true
+				isLoading: true
 			},
 			() => {
 				this.props.makeBookmark(thread, threadIndex);
@@ -103,13 +104,24 @@ class TabBookmark extends Component {
 				refreshing: true
 			},
 			() => {
-				this.getToken();
+        this.props.getBookmarkedThreads()
 			}
 		);
 		this.setState({
 			refreshing: false
 		});
 	}
+
+	onPostBookmark = async (thread, threadIndex) => {
+		this.setState(
+			{
+				isLoading: true
+			},
+			() => {
+				this.props.makeBookmark(thread, threadIndex);
+			}
+		);
+	};
 
 	renderItem (threads) {
     const author = result(threads.item, 'author')
@@ -215,7 +227,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	getBookmarkedThreads: () => dispatch(getBookmarkedThreads()),
-	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
+	makeBookmark: (thread, threadIndex) => dispatch(makeBookmarkFeaturedThreads(thread, threadIndex))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabBookmark);
