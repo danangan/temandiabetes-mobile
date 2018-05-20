@@ -6,3 +6,4 @@ export * from './authReducer';
 export * from './innerCircleReducer';
 export * from './recentActiviyReducer';
 export * from './userReducer';
+export * from './ecommerceReducer';

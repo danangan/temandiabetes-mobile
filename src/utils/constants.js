@@ -10,3 +10,4 @@ export const CAMERA_ICON = 'https://firebasestorage.googleapis.com/v0/b/temandia
 export const FirebaseConstants = {
 	KEY: 'AAAAzK9kXQc:APA91bEMcApQRifR0Kahk_UjIwKlxFyUi7TL2EG9piR4woJVPtQrLDO_bNmekfGxBUF-JthpGdtvegohhv5z_caa1j-vaaXnDW9pMoioLIroMmPQzBM40sVQM3TgrX6QcEwiFNd48WyJ'
 };
+export const tokenGOA = 'GoApotik:eyJhbGciOiJIUzI1NiJ9.MQ.uqtlW_34VuT6Amnbajp-mAmaAIZ7GznrTRzFtvtbigo';

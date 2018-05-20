@@ -1,14 +1,15 @@
 import { combineReducers } from 'redux';
 
-import { 
-	loginReducer, 
-	registerReducer, 
-	threadsReducer, 
-	onBoardingReducer, 
+import {
+	loginReducer,
+	registerReducer,
+	threadsReducer,
+	onBoardingReducer,
 	authReducer,
 	innerCircleReducer,
 	recentActivityReducer,
-	userReducer
+	userReducer,
+	ecommerceReducer
 } from './appscreen';
 
 const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
 	authReducer,
 	innerCircleReducer,
 	recentActivityReducer,
-	userReducer
+	userReducer,
+	ecommerceReducer
 });
 
 export default rootReducer;

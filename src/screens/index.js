@@ -30,7 +30,7 @@ import ProfileSettings from './profileScreen/profileSettings';
 import EditProfile from './profileScreen/profileSettings/editProfile';
 import AboutScreen from '../screens/profileScreen/about';
 import FaqScreen from '../screens/profileScreen/faq';
-import DetailOrder from '../screens/chart/DetailOrder';
+import ProductDetail from '../screens/chart/ProductDetail';
 import LightBox from '../screens/chart/LightBox';
 import InnerCircle from '../screens/profileScreen/innerCircle';
 import InnerCircleList from '../screens/profileScreen/innerCircle/innerCircleList';
@@ -50,7 +50,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.RegisterScreenThird', () => RegisterScreenThird);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenFourth', () => RegisterScreenFourth, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterFive', () => RegisterFive, store, Provider);
-	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen);
+	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.EmergencyScreen', () => EmergencyScreen);
 	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest, store, Provider);
@@ -73,7 +73,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.EditProfile', () => EditProfile, store, Provider);
 	Navigation.registerComponent('TemanDiabets.AboutScreen', () => AboutScreen);
 	Navigation.registerComponent('TemanDiabets.FaqScreen', () => FaqScreen);
-	Navigation.registerComponent('TemanDiabets.DetailOrder', () => DetailOrder);
+	Navigation.registerComponent('TemanDiabets.ProductDetail', () => ProductDetail);
 	Navigation.registerComponent('TemanDiabets.LightBox', () => LightBox);
   Navigation.registerComponent('TemanDiabets.InnerCircle', () => InnerCircle, store, Provider);
 	Navigation.registerComponent('TemanDiabets.InnerCircleList', () => InnerCircleList, store, Provider);

@@ -33,7 +33,6 @@ const getInnerCircle = (state, payload) => {
 };
 
 const addInnerCircle = (state, payload) => {
-  console.log('ADD INNER CIRCLE REDUCER: ', payload);
   return {
     ...state,
     status: payload.status,
