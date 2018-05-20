@@ -152,19 +152,28 @@ const getLatestThreads = (state, payload) => {
 };
 
 const getBookmarkedThreads = (state, payload) => {
-  const { bookmarks, status_code, message } = payload;
+  const { bookmarks, status_code, message, refresh } = payload;
   // map bookmark into thread list
-  const threads = bookmarks.map(item => {
+  const threads = bookmarks.docs.map(item => {
     const thread = item.thread
     thread.isBookmarked = true
     return thread
   })
+
+  const data = refresh ? [] : state.listBookmarkedThreads.item.data
+
   return {
     ...state,
     listBookmarkedThreads: { ...state.listBookmarkedThreads,
       item: {
         ...state.listBookmarkedThreads.item,
-        data: threads
+        data: [
+          ...data,
+          ...threads,
+        ],
+        page: bookmarks.page,
+        pages: bookmarks.pages,
+        total: bookmarks.total,
       },
       message,
       status_code

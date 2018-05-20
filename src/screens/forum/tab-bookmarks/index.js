@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView, Platform, TouchableOpacity, FlatList, Alert } from 'react-native';
+import {
+  View,
+  ScrollView,
+  Platform,
+  TouchableOpacity,
+  FlatList,
+  Alert,
+  ActivityIndicator
+} from 'react-native';
 
 import { Card, FooterThread, HeaderThread, SearchButton, Spinner } from '../../../components';
 import { getBookmarkedThreads, deleteBookmarkedThread } from '../../../actions/threadActions';
@@ -18,13 +26,16 @@ class TabBookmark extends Component {
 		super(props);
 		this.state = {
       refreshing: false,
-      isLoading: false
+      isLoading: false,
+      isLoadMorePage: false
     };
 
-		this.togleModal = this.togleModal.bind(this);
-		this.deleteBookmarkedThread = this.deleteBookmarkedThread.bind(this);
-    this.toThreadDetails = this.toThreadDetails.bind(this);
-    this.renderHeader = this.renderHeader.bind(this);
+		this.togleModal = this.togleModal.bind(this)
+		this.deleteBookmarkedThread = this.deleteBookmarkedThread.bind(this)
+    this.toThreadDetails = this.toThreadDetails.bind(this)
+    this.renderHeader = this.renderHeader.bind(this)
+    this.renderFooter = this.renderFooter.bind(this)
+    this.onEndReached = this.onEndReached.bind(this)
   }
 
   componentDidMount() {
@@ -104,7 +115,7 @@ class TabBookmark extends Component {
 				refreshing: true
 			},
 			() => {
-        this.props.getBookmarkedThreads()
+        this.props.getBookmarkedThreads(1, true)
 			}
 		);
 		this.setState({
@@ -170,6 +181,36 @@ class TabBookmark extends Component {
     )
   }
 
+  renderFooter() {
+    const { page, pages } = this.props.dataThreads.item
+
+    const Loader = (
+      <View style={styles.loadMoreContent}>
+        <ActivityIndicator color='#EF434F' size={25} />
+      </View>
+    )
+
+    return (
+      <View style={styles.loadMoreContainer}>
+       {this.state.isLoadMorePage && page < pages ?  Loader : <View/>}
+      </View>
+    )
+  }
+
+  onEndReached() {
+    this.setState({
+      isLoadMorePage: true
+    }, () => {
+      let { page, pages } = this.props.dataThreads.item
+      // convert page and pages to number
+      page = Number(page)
+      pages = Number(pages)
+      if (page < pages) {
+        this.props.getBookmarkedThreads(page + 1);
+      }
+    })
+  }
+
 	render() {
 		const spinner = this.state.isLoading ? (
 			<Spinner color="#FFDE00" text="Menyimpan..." size="large" />
@@ -183,10 +224,13 @@ class TabBookmark extends Component {
           this.props.dataThreads.item.data.length > 0 &&
           <FlatList
             ListHeaderComponent={this.renderHeader}
+            ListFooterComponent={this.renderFooter}
             data={this.props.dataThreads.item.data}
             renderItem={item => this.renderItem(item)}
             refreshing={this.state.refreshing}
             onRefresh={this.handleRefresh}
+            onEndReached={this.onEndReached}
+            onEndReachedThreshold={0.3}
           />
         }
 				{spinner}
@@ -215,7 +259,15 @@ const styles = {
     marginBottom: 12,
     paddingVertical: 10,
     paddingHorizontal: 20,
-	}
+  },
+  loadMoreContainer: {
+    marginBottom: 70,
+    marginTop: 10,
+    justifyContent: 'center',
+  },
+  loadMoreContent: {
+    height: 25
+  }
 };
 
 
@@ -225,7 +277,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getBookmarkedThreads: () => dispatch(getBookmarkedThreads()),
+	getBookmarkedThreads: (page, refresh) => dispatch(getBookmarkedThreads(page, refresh)),
 	makeBookmark: (thread, threadIndex) => dispatch(deleteBookmarkedThread(thread, threadIndex))
 });
 

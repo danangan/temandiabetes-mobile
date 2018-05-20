@@ -120,7 +120,7 @@ export const getLatestThreads = (page = 1, refresh = false) => async dispatch =>
  * Get Bookmarked Threads
  * @param {*} token
  */
-export const getBookmarkedThreads = () => async dispatch => {
+export const getBookmarkedThreads = (page = 1, refresh = false) => async dispatch => {
   const getBookmarkedThreadsSuccess = data => ({
     type: GET_BOOKMARKED_THREADS,
     payload: data
@@ -129,14 +129,15 @@ export const getBookmarkedThreads = () => async dispatch => {
   try {
     const option = {
       method: 'get',
-      url: 'api/bookmarks'
+      url: `api/bookmarks?page=${page}`
     };
 
     const res = await API_CALL(option);
     const threadsPayload = {
       status_code: res.status,
       message: res.data.data.message,
-      bookmarks: res.data.data.bookmarks
+      bookmarks: res.data.data.bookmarks,
+      refresh
     };
     dispatch(getBookmarkedThreadsSuccess(threadsPayload));
   } catch (err) {
