@@ -221,7 +221,7 @@ class TabHome extends Component {
 	render() {
 		const { listThreads } = this.props.dataThreads;
 		const spinner = this.state.isProses ? (
-			<Spinner color="#FFDE00" text="Saving..." size="large" />
+			<Spinner color="#FFDE00" text="Menyimpan..." size="large" />
 		) : (
 			<View />
 		);
@@ -296,7 +296,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	getThreads: (page) => dispatch(getThreads(page)),
+	getThreads: (page, isRefresh) => dispatch(getThreads(page, isRefresh)),
 	getCurrentUser: () => dispatch(getCurrentUser()),
 	makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });

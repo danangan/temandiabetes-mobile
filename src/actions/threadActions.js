@@ -10,6 +10,9 @@ import {
   GET_BOOKMARKED_THREADS,
 	REPORT_THREAD,
   BOOKMARK_THREAD,
+  BOOKMARK_LATEST_THREAD,
+  BOOKMARK_FEATURED_THREAD,
+  DELETE_BOOKMARKED_THREAD,
   CREATE_COMMENT,
   GET_THREAD_DETAILS,
   COMMENT_TO_REPLY,
@@ -321,6 +324,78 @@ export const makeBookmark = (thread, threadIndex) => async dispatch => {
     dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
   } catch (error) {
     dispatch({ type: BOOKMARK_THREAD, payload: error });
+  }
+};
+
+/**
+ * CREATE BOOKMARK ON LATEST THREADS
+ * @param {*} idThread
+ * @param {*} token
+ */
+export const makeBookmarkLatestThreads = (thread, threadIndex) => async dispatch => {
+  const option = {
+    method: thread.isBookmarked ? 'delete' : 'post',
+    url: `api/bookmarks/${thread.isBookmarked ? 'deleteByThreadId/' : ''}${thread._id}`
+  };
+
+  try {
+    const res = await API_CALL(option);
+    const reportPayload = {
+      status_code: res.status,
+      message: res.data.message,
+      threadIndex
+    };
+    dispatch({ type: BOOKMARK_LATEST_THREAD, payload: reportPayload });
+  } catch (error) {
+    dispatch({ type: BOOKMARK_LATEST_THREAD, payload: error });
+  }
+};
+
+/**
+ * CREATE BOOKMARK ON LATEST THREADS
+ * @param {*} idThread
+ * @param {*} token
+ */
+export const makeBookmarkFeaturedThreads = (thread, threadIndex) => async dispatch => {
+  const option = {
+    method: thread.isBookmarked ? 'delete' : 'post',
+    url: `api/bookmarks/${thread.isBookmarked ? 'deleteByThreadId/' : ''}${thread._id}`
+  };
+
+  try {
+    const res = await API_CALL(option);
+    const reportPayload = {
+      status_code: res.status,
+      message: res.data.message,
+      threadIndex
+    };
+    dispatch({ type: BOOKMARK_FEATURED_THREAD, payload: reportPayload });
+  } catch (error) {
+    dispatch({ type: BOOKMARK_FEATURED_THREAD, payload: error });
+  }
+};
+
+/**
+ * CREATE BOOKMARK ON LATEST THREADS
+ * @param {*} idThread
+ * @param {*} token
+ */
+export const deleteBookmarkedThread = (thread, threadIndex) => async dispatch => {
+  const option = {
+    method: 'delete',
+    url: `api/bookmarks/deleteByThreadId/${thread._id}`
+  };
+
+  try {
+    const res = await API_CALL(option);
+    const reportPayload = {
+      status_code: res.status,
+      message: res.data.message,
+      threadIndex
+    };
+    dispatch({ type: DELETE_BOOKMARKED_THREAD, payload: reportPayload });
+  } catch (error) {
+    dispatch({ type: DELETE_BOOKMARKED_THREAD, payload: error });
   }
 };
 
