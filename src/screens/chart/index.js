@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image, ScrollView, TouchableOpacity, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Linking,
+  RefreshControl
+} from 'react-native';
 import { Card, Spinner } from '../../components';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
@@ -10,7 +18,8 @@ class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      url: null
+      url: null,
+      refreshing: false
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
@@ -33,6 +42,18 @@ class Chart extends Component {
       }
     }
   }
+
+  onRefresh = () => {
+    this.setState({
+      refreshing: true
+    });
+
+    this.props.getProductFromGOA().then(() =>
+      this.setState({
+        refreshing: false
+      })
+    );
+  };
 
   handleOpenUrl = async () => {
     try {
@@ -99,7 +120,14 @@ class Chart extends Component {
 
     return (
       <View style={styles.containerStyle}>
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh}
+            />
+          }
+        >
           <View style={styles.contentStyle}>
             {products.map((item, index) => (
               <Card containerStyle={styles.cardStyle} key={index}>
@@ -144,13 +172,10 @@ const styles = {
     justifyContent: 'center'
   },
   cardStyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    height: Style.CARD_WIDTH - 109,
+    height: Style.CARD_WIDTH / 1.35,
     width: Style.CARD_WIDTH / 2,
     padding: Style.PADDING,
-    marginLeft: 5,
-    marginRight: 5
+    margin: 5
   },
   imageStyle: {
     height: 108.26,
@@ -194,7 +219,7 @@ const styles = {
     width: Style.CARD_WIDTH,
     marginLeft: -30,
     marginTop: 23.2,
-    marginBottom: 12.87
+    marginBottom: 5
   },
   spinnerStyle: {
     backgroundColor: 'transparent',

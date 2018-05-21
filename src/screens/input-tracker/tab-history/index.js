@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView, Text, Image, Platform, TouchableOpacity } from 'react-native';
+import {
+  View,
+  ScrollView,
+  Text,
+  Image,
+  Platform,
+  TouchableOpacity,
+  RefreshControl
+} from 'react-native';
 
 import HistoryBloodSugarLevels from './HistoryBloodSugarLevels';
 import HistoryInputTracker from './HistoryInputTracker';
@@ -18,19 +26,43 @@ import {
 } from '../../../actions';
 
 class TabHistoryEstimation extends Component {
-  componentDidMount() {
-    // this.props.getHistoryBloodSugarLevels();
-    this.props.getHistoryHba1c();
-    this.props.getHistoryActivity();
-    this.props.getHistoryBloodPressure();
-    this.props.getHistoryWeight();
-    this.props.getHistoryFoods();
+  constructor(props) {
+    super(props);
+    this.state = {
+      refreshing: false
+    };
   }
+
+  componentDidMount() {
+    this.getMakeRequest();
+  }
+
+  onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.getMakeRequest().then(() => this.setState({ refreshing: false }));
+  };
+
+  getMakeRequest = async () => {
+    try {
+      // this.props.getHistoryBloodSugarLevels();
+      await this.props.getHistoryHba1c();
+      await this.props.getHistoryActivity();
+      await this.props.getHistoryBloodPressure();
+      await this.props.getHistoryWeight();
+      await this.props.getHistoryFoods();
+    } catch (error) {
+      throw error;
+    }
+  };
 
   render() {
     return (
       <View style={styles.containerStyle}>
-        <ScrollView style={{ padding: Style.PADDING }}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+          }
+        >
           <HistoryBloodSugarLevels />
           <HistoryInputTracker />
           <HistoryFoods />
@@ -66,7 +98,8 @@ class TabHistoryEstimation extends Component {
 const styles = {
   containerStyle: {
     flex: 1,
-    backgroundColor: color.solitude
+    backgroundColor: color.solitude,
+    padding: Style.PADDING
   },
   cardTitleStyle: {
     borderTopLeftRadius: 30,
