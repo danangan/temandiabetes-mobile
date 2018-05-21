@@ -34,7 +34,17 @@ class TabHistoryEstimation extends Component {
           <HistoryBloodSugarLevels />
           <HistoryInputTracker />
           <HistoryFoods />
-          <TouchableOpacity style={styles.buttonStyle} onPress={() => null}>
+          <TouchableOpacity 
+            style={styles.buttonStyle} 
+            onPress={() => {
+              this.props.navigator.push({
+                screen: 'TemanDiabets.DrugReminder',
+                navigatorStyle: {
+                  navBarHidden: true
+                },
+              });
+            }}
+          >
             <View style={{ alignSelf: 'center', right: 20 }}>
               <Card containerStyle={styles.cardTitleStyle}>
                 <Text style={styles.titleStyle}>PENGINGAT OBAT</Text>

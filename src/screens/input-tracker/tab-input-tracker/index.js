@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Platform,
-  Modal,
-  Text,
-  TouchableOpacity,
+import { connect } from 'react-redux';
+import { 
+  View, 
+  Platform, 
+  Modal, 
+  Text, 
+  TouchableOpacity, 
   TouchableHighlight,
   DatePickerAndroid,
   TextInput,
   Keyboard,
   ScrollView
 } from 'react-native';
-
+// import Moment from 'moment';
+import { inputTrackerManually } from '../../../actions';
 import color from '../../../style/color';
 import { Card, Button, CardSection, TextField } from '../../../components';
 import MenuButton from './MenuButton';
@@ -28,8 +30,13 @@ class InputTracker extends Component {
       isDate: '',
       isGulaDarah: '',
       keyboardActive: false,
-      activitySelected: ''
-
+      activitySelected: '',
+      gulaDarah: 0,
+      tekananDarah: 0,
+      hba1c: 0,
+      beratBadan: 0,
+      distolic: 0,
+      sisstolic: 0
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.setModalVisible = this.setModalVisible.bind(this);
@@ -49,20 +56,21 @@ class InputTracker extends Component {
 	componentWillUnmount() {
 		this.keyboardDidShowListener.remove();
 		this.keyboardDidHideListener.remove();
-	}
+  }
 
   async openDatePicker() {
     try {
       const {action, year, month, day} = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
         // May 25 2020. Month 0 is January.
-        date: new Date(2020, 4, 25)
+        date: new Date()
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
 
         this.setState({
-          isDate: `${day} ${month} ${year}`
+          isDate: `${day} ${month} ${year}`,
+          dateInput: ` ${year}-${month}-${day}`
         });
       }
     } catch ({code, message}) {
@@ -90,6 +98,52 @@ class InputTracker extends Component {
       modalVisible: !this.state.modalVisible,
       isModal
     });
+  }
+
+  handleSave(casing) {
+    const { 
+      dateInput, 
+      gulaDarah,
+      distolic,
+      sistolic,
+      hba1c,
+      activitySelected,
+      beratBadan
+    } = this.state;
+    const inputDate = new Date(dateInput);
+    if (casing === 'GULA_DARAH') {
+      const value = {
+        gulaDarah,
+        waktuInput: inputDate
+      };
+      this.props.inputTrackerManually({ method: 'post', value });
+    } else if (casing === 'TEKANAN_DARAH') {
+      const tekananDarah = `${sistolic}/${distolic}`;
+      const value = {
+        tekananDarah,
+        waktuInput: inputDate
+      };
+      this.props.inputTrackerManually({ method: 'post', value });
+    } else if (casing === 'HBA1C') {
+      const value = {
+        hba1c,
+        waktuInput: inputDate
+      };
+      this.props.inputTrackerManually({ method: 'post', value });
+    } else if (casing === 'ACTIVITY') {
+      const value = {
+        jenisAktifitas: activitySelected,
+        waktuInput: inputDate
+      };
+      this.props.inputTrackerManually({ method: 'post', value });
+    } else if (casing === 'WEIGHT') {
+      const value = {
+        beratBadan,
+        waktuInput: inputDate
+      };
+      this.props.inputTrackerManually({ method: 'post', value });
+    }
+    this.setModalVisible();
   }
 
   renderButtonOpenDate() {
@@ -132,6 +186,7 @@ class InputTracker extends Component {
        >
           <TextInput
             placeholder="75/80mm/hg"
+            onChangeText={(gulaDarah) => this.setState({ gulaDarah })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
@@ -144,7 +199,7 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => this.setModalVisible()}
+          onPress={() => this.handleSave('GULA_DARAH')}
         >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
@@ -174,6 +229,7 @@ class InputTracker extends Component {
         }}
        >
           <TextInput
+            onChangeText={(hba1c) => this.setState({ hba1c })}
             placeholder="70 mmol/mol"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
@@ -187,7 +243,7 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => this.setModalVisible()}
+          onPress={() => this.handleSave('HBA1C')}
         >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
@@ -391,6 +447,7 @@ class InputTracker extends Component {
        >
           <Text>Sistolic</Text>
           <TextInput
+            onChangeText={(sistolic) => this.setState({ sistolic })}
             placeholder="20 mm/hg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
@@ -405,6 +462,7 @@ class InputTracker extends Component {
           <Text>Distolic</Text>
           <TextInput
             placeholder="100 mm/hg"
+            onChangeText={(distolic) => this.setState({ distolic })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
@@ -417,7 +475,7 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => this.setModalVisible()}
+          onPress={() => this.handleSave('TEKANAN_DARAH')}
         >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
@@ -468,17 +526,17 @@ class InputTracker extends Component {
             flex: 0.5,
             width: '50%',
             alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'RINGAN' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'RINGAN' ? '#fff' : '#ef434e',
+            backgroundColor: this.state.activitySelected === 'Ringan' ? '#ef434e' : '#fff',
+            borderColor: this.state.activitySelected === 'Ringan' ? '#fff' : '#ef434e',
             borderWidth: 1,
             justifyContent: 'center',
             marginVertical: 5
           }}
           onPress={() => {
-            this.setState({ activitySelected: 'RINGAN' });
+            this.setState({ activitySelected: 'Ringan' });
           }}
         >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'RINGAN' ? '#fff' : '#ef434e' }}>
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Ringan' ? '#fff' : '#ef434e' }}>
             RINGAN
             </Text>
         </TouchableOpacity>
@@ -487,17 +545,17 @@ class InputTracker extends Component {
             flex: 0.5,
             width: '50%',
             alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'SEDANG' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'SEDANG' ? '#fff' : '#ef434e',
+            backgroundColor: this.state.activitySelected === 'Sedang' ? '#ef434e' : '#fff',
+            borderColor: this.state.activitySelected === 'Sedang' ? '#fff' : '#ef434e',
             borderWidth: 1,
             justifyContent: 'center',
             marginVertical: 5
           }}
           onPress={() => {
-            this.setState({ activitySelected: 'SEDANG' });
+            this.setState({ activitySelected: 'Sedang' });
           }}
         >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'SEDANG' ? '#fff' : '#ef434e' }}>
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Sedang' ? '#fff' : '#ef434e' }}>
             SEDANG
             </Text>
         </TouchableOpacity>
@@ -506,17 +564,17 @@ class InputTracker extends Component {
             flex: 0.5,
             width: '50%',
             alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'BERAT' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'BERAT' ? '#fff' : '#ef434e',
+            backgroundColor: this.state.activitySelected === 'Berat' ? '#ef434e' : '#fff',
+            borderColor: this.state.activitySelected === 'Berat' ? '#fff' : '#ef434e',
             borderWidth: 1,
             justifyContent: 'center',
             marginVertical: 5
           }}
           onPress={() => {
-            this.setState({ activitySelected: 'BERAT' });
+            this.setState({ activitySelected: 'Berat' });
           }}
         >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'BERAT' ? '#fff' : '#ef434e' }}>
+            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Berat' ? '#fff' : '#ef434e' }}>
             BERAT
             </Text>
         </TouchableOpacity>
@@ -530,7 +588,7 @@ class InputTracker extends Component {
             marginTop: 5,
             marginBottom: 10
           }}
-          onPress={() => this.setModalVisible()}
+          onPress={() => this.handleSave('ACTIVITY')}
         >
             <Text style={{ fontFamily: 'Montserrat-Regular', color: '#fff' }}>
             SIMPAN
@@ -582,6 +640,7 @@ class InputTracker extends Component {
         }}
        >
           <TextInput
+            onChangeText={(beratBadan) => this.setState({ beratBadan })}
             placeholder="80 kg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
@@ -595,7 +654,7 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => this.setModalVisible()}
+          onPress={() => this.handleSave('WEIGHT')}
         >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
@@ -799,4 +858,8 @@ const styles = {
   }
 };
 
-export default InputTracker;
+const mapDispatchToProps = dispatch => ({
+	inputTrackerManually: (method, params) => dispatch(inputTrackerManually(method, params))
+});
+
+export default connect(null, mapDispatchToProps)(InputTracker);

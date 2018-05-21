@@ -8,3 +8,5 @@ export * from './recentActiviyReducer';
 export * from './userReducer';
 export * from './ecommerceReducer';
 export * from './historyEstimationReducer';
+export * from './reminderReducer';
+

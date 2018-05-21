@@ -47,6 +47,7 @@ import HistoryBloodPressure from '../screens/input-tracker/tab-history/HistoryBl
 import HistoryWeight from '../screens/input-tracker/tab-history/HistoryWeight';
 import HistoryFoods from '../screens/input-tracker/tab-history/HistoryFoods';
 import HistoryBloodSugarLevels from '../screens/input-tracker/tab-history/HistoryBloodSugarLevels';
+import DrugReminder from '../screens/input-tracker/DrugReminder';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -64,7 +65,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.TabBookmarks', () => TabBookmarks, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabVideo', () => TabVideo);
 	Navigation.registerComponent('TemanDiabets.TabEvent', () => TabEvent);
-	Navigation.registerComponent('TemanDiabets.TabInputTracker', () => TabInputTracker);
+	Navigation.registerComponent('TemanDiabets.TabInputTracker', () => TabInputTracker, store, Provider);
 	Navigation.registerComponent('TemanDiabets.TabHistory', () => TabHistory, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalSearch', () => ModalSearch, store, Provider);
@@ -96,6 +97,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.HistoryWeight', () => HistoryWeight, store, Provider);
 	Navigation.registerComponent('TemanDiabets.HistoryFoods', () => HistoryFoods, store, Provider);
 	Navigation.registerComponent('TemanDiabets.HistoryBloodSugarLevels', () => HistoryBloodSugarLevels, store, Provider);
+	Navigation.registerComponent('TemanDiabets.DrugReminder', () => DrugReminder, store, Provider);
 }
 
 export function registerScreenVisibilityListener() {
