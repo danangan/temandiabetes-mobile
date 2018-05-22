@@ -10,7 +10,8 @@ import {
   DatePickerAndroid,
   TextInput,
   Keyboard,
-  ScrollView
+  ScrollView,
+  Picker
 } from 'react-native';
 // import Moment from 'moment';
 import { inputTrackerManually } from '../../../actions';
@@ -19,6 +20,7 @@ import { Card, Button, CardSection, TextField } from '../../../components';
 import MenuButton from './MenuButton';
 import Style from '../../../style/defaultStyle';
 import { dateFormateName } from '../../../utils/helpers';
+import { activityList } from './initialValue';
 
 class InputTracker extends Component {
   constructor(props) {
@@ -31,6 +33,7 @@ class InputTracker extends Component {
       isGulaDarah: '',
       keyboardActive: false,
       activitySelected: '',
+      descActivity: '',
       gulaDarah: 0,
       tekananDarah: 0,
       hba1c: 0,
@@ -116,7 +119,11 @@ class InputTracker extends Component {
         gulaDarah,
         waktuInput: inputDate
       };
-      this.props.inputTrackerManually({ method: 'post', value });
+      this.setState({
+        isManually: false
+      }, () => {
+        this.props.inputTrackerManually({ method: 'post', value });
+      });
     } else if (casing === 'TEKANAN_DARAH') {
       const tekananDarah = `${sistolic}/${distolic}`;
       const value = {
@@ -521,63 +528,28 @@ class InputTracker extends Component {
       >
         {this.renderButtonOpenDate()}
 
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'Ringan' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'Ringan' ? '#fff' : '#ef434e',
-            borderWidth: 1,
-            justifyContent: 'center',
-            marginVertical: 5
-          }}
-          onPress={() => {
-            this.setState({ activitySelected: 'Ringan' });
-          }}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Ringan' ? '#fff' : '#ef434e' }}>
-            RINGAN
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'Sedang' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'Sedang' ? '#fff' : '#ef434e',
-            borderWidth: 1,
-            justifyContent: 'center',
-            marginVertical: 5
-          }}
-          onPress={() => {
-            this.setState({ activitySelected: 'Sedang' });
-          }}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Sedang' ? '#fff' : '#ef434e' }}>
-            SEDANG
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'Berat' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'Berat' ? '#fff' : '#ef434e',
-            borderWidth: 1,
-            justifyContent: 'center',
-            marginVertical: 5
-          }}
-          onPress={() => {
-            this.setState({ activitySelected: 'Berat' });
-          }}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Berat' ? '#fff' : '#ef434e' }}>
-            BERAT
-            </Text>
-        </TouchableOpacity>
+        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start',  borderBottomColor: '#ff1200', borderBottomWidth: 1 }}>
+          <Text style={{ fontFamily: 'Montserrat-Light', color: '#4a4a4a' }}>Jenis Aktivitas</Text>
+          <Picker
+            mode="dialog"
+            selectedValue={this.state.activitySelected}
+            style={{ padding: 0, margin: 0, height: 50, width: 200, borderBottomColor: '#ff1200', borderBottomWidth: 1 }}
+            onValueChange={(itemValue) => this.setState({ activitySelected: itemValue })}
+          >
+              <Picker.Item label="Pilih Aktifitas" value="" />
+              <Picker.Item label="Ringan" value="ringan" />
+              <Picker.Item label="Sedang" value="sedang" />
+              <Picker.Item label="Berat" value="berat" />
+          </Picker>
+        </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          {
+            this.state.activitySelected !== '' ?
+            this.renderDescAktivity()
+            :
+            null
+          }
+        </View>
         <TouchableOpacity
           style={{
             flex: 0.5,
@@ -595,6 +567,15 @@ class InputTracker extends Component {
             </Text>
         </TouchableOpacity>
       </View>
+    );
+  }
+
+  renderDescAktivity() {
+    const desc = activityList.filter(item => item.type === this.state.activitySelected);
+    return (
+      <Text style={{ fontFamily: 'Montserrat-Light', color: '#4a4a4a', textAlign: 'center' }}>
+        {desc[0].description}
+      </Text> 
     );
   }
 

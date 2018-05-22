@@ -177,7 +177,7 @@ class ModalCreateReminder extends React.Component {
 
   render() {
     // onPress={() => this.props.setModalVisible()} 
-    console.log('STATE MODAL', this.state);
+    // console.log('STATE MODAL', this.state);
     return (
       <Modal
         animationType="none"
