@@ -14,9 +14,10 @@ import {
   Keyboard,
   ScrollView,
   Picker,
-  AsyncStorage
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native';
-// import Moment from 'moment';
+
 import { 
   inputTrackerBloodGlucose,
   inputTrackerBloodPressure,
@@ -27,6 +28,7 @@ import {
   inputTrackerWeight,
   getFoodSuggetion 
 } from '../../../actions';
+
 import color from '../../../style/color';
 import { Card, Button, CardSection, TextField } from '../../../components';
 import MenuButton from './MenuButton';
@@ -42,6 +44,7 @@ class InputTracker extends Component {
       isManually: false,
       modalVisible: false,
       isModal: '',
+      isProcessing: false,
       isDate: '',
       isTime: '',
       isGulaDarah: '',
@@ -84,6 +87,16 @@ class InputTracker extends Component {
 	componentWillUnmount() {
 		this.keyboardDidShowListener.remove();
 		this.keyboardDidHideListener.remove();
+  }
+
+  componentDidUpdate() {
+    const { isModal } = this.state;
+    const { inputTracker } = this.props.dataInputTracker;
+    if (isModal === 'IS_LOADING' && inputTracker.status_code === 200) {
+      setTimeout(() => {
+        this.setModalVisible();
+      }, 5000);
+    }
   }
 
   async openDatePicker() {
@@ -141,9 +154,10 @@ class InputTracker extends Component {
   }
 
   setModalVisible(isModal) {
+    const params = isModal === undefined ? '' : isModal;
     this.setState({
       modalVisible: !this.state.modalVisible,
-      isModal
+      isModal: params
     });
   }
 
@@ -170,9 +184,13 @@ class InputTracker extends Component {
         gulaDarah
       };
       this.setState({
-        isManually: false
+        isManually: false,
+        modalVisible: true,
+        isModal: 'IS_LOADING',
       }, () => {
-        this.props.inputTrackerBloodGlucose(value);
+        setTimeout(() => {
+          this.props.inputTrackerBloodGlucose(value);
+        }, 2000);
       });
     } else if (casing === 'TEKANAN_DARAH') {
       const value = {
@@ -213,7 +231,7 @@ class InputTracker extends Component {
       };
       this.props.inputTrackerFood(value);
     }
-    this.setModalVisible();
+    this.setModalVisible('IS_LOADING');
   }
 
   renderButtonOpenDate() {
@@ -903,11 +921,35 @@ class InputTracker extends Component {
     );
   }
 
+  ModalLoading() {
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+        }}
+      >
+        <TouchableHighlight style={styles.modalLoading}>
+          <View
+            style={{ justifyContent: 'center', alignItems: 'center', height: this.state.keyboardActive ? '70%' : '50%' }}
+          >
+            <ActivityIndicator size="large" color="#ff1200" />
+          </View>
+        </TouchableHighlight>
+      </Modal>
+    );
+  }
+
   renderModalInput() {
     if (this.state.isModal === 'BLOOD_GLUCOSE' && !this.state.isManually) {
       return this.ModalAlertInputGulaDarah();
     } else if (this.state.isModal === 'BLOOD_GLUCOSE' && this.state.isManually) {
       return this.ModalGlucose();
+      // return this.ModalLoading();
+    } else if (this.state.isModal === 'IS_LOADING') {
+      return this.ModalLoading();
     } else if (this.state.isModal === 'INPUT_HBA1C') {
       return this.ModalInputHBA1C();
     } else if (this.state.isModal === 'INPUT_FOOD') {
@@ -995,6 +1037,13 @@ const styles = {
     color: color.red
   },
   modalWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4a4a4a',
+    opacity: 0.9
+  },
+  modalLoading: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
