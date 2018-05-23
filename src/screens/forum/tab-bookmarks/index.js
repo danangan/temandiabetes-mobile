@@ -9,6 +9,7 @@ import {
   Alert,
   ActivityIndicator
 } from 'react-native';
+import Share from 'react-native-share';
 
 import { Card, FooterThread, HeaderThread, SearchButton, Spinner } from '../../../components';
 import { getBookmarkedThreads, deleteBookmarkedThread } from '../../../actions/threadActions';
@@ -36,6 +37,7 @@ class TabBookmark extends Component {
     this.renderHeader = this.renderHeader.bind(this)
     this.renderFooter = this.renderFooter.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
+    this.onShareThread = this.onShareThread.bind(this)
   }
 
   componentDidMount() {
@@ -123,6 +125,16 @@ class TabBookmark extends Component {
 		});
 	}
 
+  onShareThread(thread) {
+    let options = {
+      title: thread.topic,
+      message: thread.topic,
+      url: `https://temandiabetes.com/thread/${thread._id}`,
+      subject: "Article from Teman Diabetes" //  for email
+    };
+    Share.open(options).catch((err) => { err && console.log(err); })
+  }
+
 	renderItem (threads) {
     const author = result(threads.item, 'author')
     const comments = result(threads.item, 'comments', [])
@@ -152,7 +164,8 @@ class TabBookmark extends Component {
 						isOpen={this.togleModal}
 						saveBookmark={this.deleteBookmarkedThread}
 						threadItem={threads.item}
-						threadIndex={threads.index}
+            threadIndex={threads.index}
+            shareThread={this.onShareThread}
 					/>
 				</Card>
 			</TouchableOpacity>

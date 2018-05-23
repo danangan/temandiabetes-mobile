@@ -6,4 +6,6 @@ target 'TemanDiabets' do
   # use_frameworks!
     pod 'Firebase/Core'
     pod 'Firebase/Auth'
+    pod 'react-native-fcm', :path => '../node_modules/react-native-fcm'
+    pod 'RNShare', :path => '../node_modules/react-native-share'
 end

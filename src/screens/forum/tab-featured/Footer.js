@@ -4,6 +4,7 @@ import Style from '../../../style/defaultStyle';
 import { Avatar } from '../../../components';
 import BookMark from '../../../assets/icons/bookmark.png';
 import BookMarked from '../../../assets/icons/bookmark_dark.png';
+import Share from '../../../assets/icons/share.png';
 
 const defaultAuthor = {
   nama: '',
@@ -11,7 +12,7 @@ const defaultAuthor = {
   foto_profile: ''
 }
 
-const Footer = ({ author, saveBookmark, threadItem, threadIndex }) => {
+const Footer = ({ author, saveBookmark, shareThread, threadItem, threadIndex }) => {
   author = author || defaultAuthor
   return (
     <View style={styles.containerFooterStyle}>
@@ -36,9 +37,9 @@ const Footer = ({ author, saveBookmark, threadItem, threadIndex }) => {
         }
       </View>
       <View style={styles.footerRightStyle}>
-        <TouchableOpacity onPress={() => null}>
+        <TouchableOpacity onPress={() => { shareThread(threadItem)}}>
           <Image
-            source={require('../../../assets/icons/share.png')}
+            source={Share}
             style={styles.iconStyle}
             resizeMode={'contain'}
           />

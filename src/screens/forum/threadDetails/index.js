@@ -151,8 +151,9 @@ class ThreadDetails extends React.Component {
 	}
 
 	render() {
-    const { topic, author, _id } = this.props.item;
-		const { listThreads } = this.props.dataThreads;
+    const { _id } = this.props.item;
+    const { listThreads } = this.props.dataThreads;
+    const { threadDetails } = listThreads
 		if (this.state.isProcess) {
 			return (
 				<Spinner
@@ -165,7 +166,7 @@ class ThreadDetails extends React.Component {
 
 		return (
 			<View style={{ flex: 2, backgroundColor: color.solitude }}>
-				<HeaderDetail authorItem={author} />
+				<HeaderDetail authorItem={threadDetails.author} />
 				<ScrollView>
 					{/* <ContentDetail /> */}
 					<CardSection containerStyle={{ backgroundColor: color.solitude, margin: 0 }}>
@@ -179,7 +180,7 @@ class ThreadDetails extends React.Component {
 							}}
 						>
 							<Text style={{ fontSize: 22 }}>
-								{topic}
+								{threadDetails.topic}
 							</Text>
 						</View>
 					</CardSection>
@@ -213,7 +214,7 @@ class ThreadDetails extends React.Component {
 										});
 									})
 								}
-								style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, }}>
+								style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, marginRight: 10 }}>
 								<Text
 									style={{
 										fontSize: 12,
@@ -224,6 +225,33 @@ class ThreadDetails extends React.Component {
 									}}
 								>
 									Balas
+								</Text>
+              </TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => {
+                  Navigation.showModal({
+                    screen: 'TemanDiabets.ModalReport',
+                    title: 'Modal',
+                    navigatorButtons: {
+                      leftButtons: [{}]
+                    },
+                    passProps: {
+                      idThread: _id
+                    },
+                    animationType: 'none'
+                  });
+                }}
+								style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, }}>
+								<Text
+									style={{
+										fontSize: 12,
+										paddingHorizontal: 20,
+										paddingVertical: 3,
+										color: '#8084a7',
+										textAlign: 'center'
+									}}
+								>
+									Laporkan
 								</Text>
 							</TouchableOpacity>
 						</View>

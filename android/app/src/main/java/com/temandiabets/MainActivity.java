@@ -1,5 +1,6 @@
 package com.temandiabets;
 
+import android.net.Uri;
 import android.widget.LinearLayout;
 import android.graphics.Color;
 import android.widget.TextView;
@@ -37,6 +38,10 @@ public class MainActivity extends SplashActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
+        // ATTENTION: This was auto-generated to handle app links.
+        Intent appLinkIntent = getIntent();
+        String appLinkAction = appLinkIntent.getAction();
+        Uri appLinkData = appLinkIntent.getData();
     }
 
     @Override

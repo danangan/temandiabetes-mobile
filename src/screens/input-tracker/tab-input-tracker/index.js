@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { 
-  View, 
-  Platform, 
-  Modal, 
-  Text, 
-  TouchableOpacity, 
+import {
+  View,
+  Platform,
+  Modal,
+  Text,
+  TouchableOpacity,
   TouchableHighlight,
   DatePickerAndroid,
   TextInput,
@@ -42,7 +42,37 @@ class InputTracker extends Component {
     this.setModalVisible = this.setModalVisible.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    // analyze the deeplink
+    const { deepLink } = this.props
+    if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
+      let pathname = deepLink.currentDeepLink.replace('https://temandiabetes.com/', '');
+      pathname = pathname.split('/')
+      let screen
+      switch (pathname[0]) {
+        case 'thread':
+          screen = 'TemanDiabets.ThreadDetails'
+          break;
+        case 'thread-static':
+          screen = 'TemanDiabets.FeaturedDetail'
+          break;
+        default:
+          break;
+      }
+
+      this.props.navigator.push({
+        screen: screen,
+        navigatorStyle: {
+          navBarHidden: true
+        },
+        passProps: {
+          item: {
+            _id: pathname[1],
+          }
+        }
+      });
+    }
+  }
 
   componentWillMount() {
 		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -91,6 +121,14 @@ class InputTracker extends Component {
         });
       }
     }
+
+    // handle a deep link
+    if (event.type == 'DeepLink') {
+      alert('deep link detected')
+      const parts = event.link.split('/'); // Link parts
+      const payload = event.payload; // (optional) The payload
+      console.log(parts, payload)
+    }
   }
 
   setModalVisible(isModal) {
@@ -101,8 +139,8 @@ class InputTracker extends Component {
   }
 
   handleSave(casing) {
-    const { 
-      dateInput, 
+    const {
+      dateInput,
       gulaDarah,
       distolic,
       sistolic,
@@ -862,4 +900,8 @@ const mapDispatchToProps = dispatch => ({
 	inputTrackerManually: (method, params) => dispatch(inputTrackerManually(method, params))
 });
 
-export default connect(null, mapDispatchToProps)(InputTracker);
+const mapStateToProps = state => ({
+	deepLink: state.appReducer.deepLink
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(InputTracker);

@@ -156,6 +156,8 @@ android {
 }
 
 dependencies {
+    implementation(project(':react-native-share')) // Add dependencies
+
     implementation(project(":react-native-google-signin")){
         exclude group: "com.google.android.gms" // very important
     }
