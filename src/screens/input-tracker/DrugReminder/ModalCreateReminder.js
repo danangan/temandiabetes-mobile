@@ -129,12 +129,10 @@ class ModalCreateReminder extends React.Component {
       });
 
       const dt = new Date(year, month, day);
-      console.log('DT --> ', dt);
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
         const transformDate = this.transformDate(dt);
         const datetimeConsume = this.handleDefaultDate(dt);
-        console.log('DATE BREE ---> datetimeConsume ', datetimeConsume);
         this.setState({
           isDate: transformDate,
           datetimeConsume
@@ -142,9 +140,9 @@ class ModalCreateReminder extends React.Component {
           this.openTimePicker();
         });
         
-        console.log('DATE SELECTED 2', year, month)
+        console.log('DATE SELECTED 2', year, month);
       }
-    } catch ({code, message}) {
+    } catch ({ code, message }) {
       console.warn('Cannot open date picker', message);
     }
   }
