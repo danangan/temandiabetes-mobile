@@ -9,4 +9,5 @@ export * from './userReducer';
 export * from './ecommerceReducer';
 export * from './historyEstimationReducer';
 export * from './reminderReducer';
+export * from './inputTrackerReducer';
 
