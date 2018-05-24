@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { StatusBar, Platform } from 'react-native';
+import { StatusBar, Platform, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
 
 import Screen from './Screen';
-import { onBoarding } from '../../actions';
+import { onBoarding, updateDeepLink } from '../../actions';
 
 class OnBoardingScreen extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			token: ''
+      token: ''
 		}
 		this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
 	}
@@ -35,7 +35,15 @@ class OnBoardingScreen extends Component {
 		}
 
 		StatusBar.setHidden(true);
-		this.props.onBoarding();
+    this.props.onBoarding();
+
+    // handling deeplink here
+    // save to store to handle later in main app
+    const url = Linking.getInitialURL().then(url => {
+      if (url) {
+        this.props.updateDeepLink(url)
+      }
+    });
 	}
 
 	_displayNotificationAndroid(notif) {
@@ -57,7 +65,8 @@ class OnBoardingScreen extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-	onBoarding: () => dispatch(onBoarding())
+	onBoarding: () => dispatch(onBoarding()),
+	updateDeepLink: (deepLink) => dispatch(updateDeepLink(deepLink)),
 });
 
 export default connect(null, mapDispatchToProps)(OnBoardingScreen);

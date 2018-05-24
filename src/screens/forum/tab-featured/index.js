@@ -10,6 +10,7 @@ import {
   Alert
 } from 'react-native';
 import { connect } from 'react-redux';
+import Share from 'react-native-share';
 
 import { Card, CardSection, SearchButton, Spinner } from '../../../components';
 import Style from '../../../style/defaultStyle';
@@ -39,6 +40,7 @@ class TabFeatured extends Component {
 		this.onPostBookmark = this.onPostBookmark.bind(this)
     this.renderFooter = this.renderFooter.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
+    this.onShareThread = this.onShareThread.bind(this)
 	}
 
 	componentDidMount() {
@@ -104,7 +106,17 @@ class TabFeatured extends Component {
 				this.setState({ refreshing: false });
 			}
 		);
-	};
+  };
+
+  onShareThread(thread) {
+    let options = {
+      title: thread.topic,
+      message: thread.topic,
+      url: `https://temandiabetes.com/thread-static/${thread._id}`,
+      subject: "Article from Teman Diabetes" //  for email
+    };
+    Share.open(options).catch((err) => { err && console.log(err); })
+  }
 
 	renderItem = (threads) => {
     const { item, index } = threads
@@ -128,6 +140,7 @@ class TabFeatured extends Component {
                 threadIndex={index}
                 saveBookmark={this.onPostBookmark}
                 author={item.author}
+                shareThread={this.onShareThread}
               />
             </View>
           </CardSection>

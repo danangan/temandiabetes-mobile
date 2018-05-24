@@ -12,6 +12,8 @@ import {
   Modal,
   ActivityIndicator
 } from 'react-native';
+import Share from 'react-native-share';
+
 import { Navigation } from 'react-native-navigation';
 import { getCurrentUser } from '../../../actions/authAction';
 
@@ -38,7 +40,8 @@ class TabHome extends Component {
     this.onPostBookmark = this.onPostBookmark.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
 		this.toThreadDetails = this.toThreadDetails.bind(this)
-		this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this))
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this))
+    this.onShareThread = this.onShareThread.bind(this)
 	}
 
 	componentDidMount() {
@@ -181,6 +184,16 @@ class TabHome extends Component {
     })
   }
 
+  onShareThread(thread) {
+    let options = {
+      title: thread.topic,
+      message: thread.topic,
+      url: `https://temandiabetes.com/thread/${thread._id}`,
+      subject: "Article from Teman Diabetes" //  for email
+    };
+    Share.open(options).catch((err) => { err && console.log(err); })
+  }
+
 	toThreadDetails(threads) {
 		this.props.navigator.push({
 			screen: 'TemanDiabets.ThreadDetails',
@@ -211,7 +224,8 @@ class TabHome extends Component {
 						isOpen={this.togleModal}
 						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
-						threadIndex={threads.index}
+            threadIndex={threads.index}
+            shareThread={this.onShareThread}
 					/>
 				</Card>
 			</TouchableOpacity>

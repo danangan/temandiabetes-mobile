@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { 
-  View, 
-  Platform, 
-  Modal, 
-  Text, 
-  TouchableOpacity, 
+
+import {
+  View,
+  Platform,
+  Modal,
+  Text,
+  TouchableOpacity,
   TouchableHighlight,
   DatePickerAndroid,
   TimePickerAndroid,
@@ -72,8 +73,37 @@ class InputTracker extends Component {
     const token = await AsyncStorage.getItem(authToken);
     console.log('TOKEN INI BRA ', token);
     this.props.getFoodSuggetion();
-  }
 
+    // analyze the deeplink
+    const { deepLink } = this.props
+    if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
+      let pathname = deepLink.currentDeepLink.replace('https://temandiabetes.com/', '');
+      pathname = pathname.split('/')
+      let screen
+      switch (pathname[0]) {
+        case 'thread':
+          screen = 'TemanDiabets.ThreadDetails'
+          break;
+        case 'thread-static':
+          screen = 'TemanDiabets.FeaturedDetail'
+          break;
+        default:
+          break;
+      }
+
+      this.props.navigator.push({
+        screen: screen,
+        navigatorStyle: {
+          navBarHidden: true
+        },
+        passProps: {
+          item: {
+            _id: pathname[1],
+          }
+        }
+      });
+    }
+  }
 
   componentWillMount() {
 		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -151,6 +181,14 @@ class InputTracker extends Component {
         });
       }
     }
+
+    // handle a deep link
+    if (event.type == 'DeepLink') {
+      alert('deep link detected')
+      const parts = event.link.split('/'); // Link parts
+      const payload = event.payload; // (optional) The payload
+      console.log(parts, payload)
+    }
   }
 
   setModalVisible(isModal) {
@@ -162,8 +200,8 @@ class InputTracker extends Component {
   }
 
   handleSave(casing) {
-    const { 
-      dateInput, 
+    const {
+      dateInput,
       gulaDarah,
       distolic,
       sistolic,
@@ -1059,7 +1097,8 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-  dataInputTracker: state.inputTrackerReducer
+  dataInputTracker: state.inputTrackerReducer,
+  deepLink: state.appReducer.deepLink
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -10,6 +10,7 @@ import {
   Alert
 } from 'react-native';
 
+import Share from 'react-native-share';
 import { Card, FooterThread, HeaderThread, Spinner, SearchButton } from '../../../components';
 import { getLatestThreads, makeBookmarkLatestThreads } from '../../../actions/threadActions';
 import ContentThread from './contentThread';
@@ -34,6 +35,7 @@ class TabLatest extends Component {
     this.toThreadDetails = this.toThreadDetails.bind(this)
     this.onPostBookmark = this.onPostBookmark.bind(this)
     this.renderHeader = this.renderHeader.bind(this)
+    this.onShareThread = this.onShareThread.bind(this)
 	}
 
   componentDidMount() {
@@ -103,6 +105,16 @@ class TabLatest extends Component {
 		);
 	};
 
+  onShareThread(thread) {
+    let options = {
+      title: thread.topic,
+      message: thread.topic,
+      url: `https://temandiabetes.com/thread/${thread._id}`,
+      subject: "Article from Teman Diabetes" //  for email
+    };
+    Share.open(options).catch((err) => { err && console.log(err); })
+  }
+
 	renderItem(threads) {
 		const { author, comments } = threads.item;
 		return (
@@ -124,8 +136,7 @@ class TabLatest extends Component {
 						saveBookmark={this.onPostBookmark}
 						threadItem={threads.item}
             threadIndex={threads.index}
-            onEndReached={this.onEndReached}
-            onEndReachedThreshold={0.3}
+            shareThread={this.onShareThread}
 					/>
 				</Card>
 			</TouchableOpacity>

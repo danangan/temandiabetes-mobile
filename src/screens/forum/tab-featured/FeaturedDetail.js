@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Image } from 'react-native';
 
 import HeaderDetail from './HeaderDetail';
 import color from '../../../style/color';
+import { API_CALL } from '../../../utils/ajaxRequestHelper'
 import ContentFeatured from './ContentFeatured';
 
 class FeaturedDetail extends Component {
@@ -12,17 +13,38 @@ class FeaturedDetail extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {};
-	}
+		this.state = {
+      thread: {}
+    };
+  }
+
+  async fetchFeaturedDetail() {
+    const option = {
+      method: 'get',
+      url: `/api/threads/${this.props.item._id}`,
+    };
+
+    try {
+      const { data: { data : { thread } } } = await API_CALL(option);
+      this.setState({thread})
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  componentDidMount(){
+    this.fetchFeaturedDetail()
+  }
 
 	render() {
+    const { thread } = this.state
 		return (
       <View style={styles.containerStyle}>
         {
-            this.props.item.author &&
-          <HeaderDetail author={this.props.item.author} />
+          thread.author &&
+          <HeaderDetail author={thread.author} />
         }
-				<ContentFeatured item={this.props.item} />
+				<ContentFeatured item={thread} />
 				<TouchableOpacity
 					style={styles.buttonContainerStyle}
 					onPress={() => this.props.navigator.pop()}

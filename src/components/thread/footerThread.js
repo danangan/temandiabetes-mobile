@@ -6,10 +6,11 @@ import { CardSection } from '../card/CardSection';
 import ViewPropTypes from '../../config/ViewPropTypes';
 import BookMark from '../../assets/icons/bookmark.png';
 import BookMarked from '../../assets/icons/bookmark_dark.png';
-import Report from '../../assets/icons/flag.png';
+// import Report from '../../assets/icons/flag.png';
+import Share from '../../assets/icons/share.png';
 import Comment from '../../assets/icons/comment.png';
 
-const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem, threadIndex, saveBookmark, leftAction }) => {
+const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem, threadIndex, saveBookmark, leftAction, shareThread }) => {
   threadItem = threadItem || {}
   const isBookmarked = threadItem.hasOwnProperty('isBookmarked') ? threadItem.isBookmarked : false
   return (
@@ -30,14 +31,20 @@ const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem, threa
           <Text style={styles.titleItem}>Tandai</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.itemContainer}
-          onPress={() => isOpen('TemanDiabets.ModalReport', threadItem)}>
-          <Image source={Report} style={{ width: 20, height: 20 }} />
-          <Text style={styles.titleItem}>Laporkan</Text>
+          onPress={() => shareThread(threadItem)}>
+          <Image source={Share} style={{ width: 20, height: 20 }} />
+          <Text style={styles.titleItem}>Bagikan</Text>
         </TouchableOpacity>
       </View>
     </CardSection>
   );
 }
+
+// <TouchableOpacity style={styles.itemContainer}
+// onPress={() => isOpen('TemanDiabets.ModalReport', threadItem)}>
+// <Image source={Report} style={{ width: 20, height: 20 }} />
+// <Text style={styles.titleItem}>Laporkan</Text>
+// </TouchableOpacity>
 
 FooterThread.propTypes = {
 	containerStyle: ViewPropTypes.style,

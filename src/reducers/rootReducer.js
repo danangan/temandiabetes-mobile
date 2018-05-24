@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import {
+	appReducer,
 	loginReducer,
 	registerReducer,
 	threadsReducer,
@@ -16,6 +17,7 @@ import {
 } from './appscreen';
 
 const rootReducer = combineReducers({
+	appReducer,
 	loginReducer,
 	registerReducer,
 	threadsReducer,
