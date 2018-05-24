@@ -143,16 +143,17 @@ class TabHome extends Component {
       <View>
         <SearchButton
           onPress={() => {
-            this.props.navigator.push({
-              screen: 'TemanDiabets.ModalSearch',
-              navigatorStyle: {
-                navBarHidden: true
-              },
-              passProps: {
-                threadType: 'home'
-              }
-            });
-          }}
+              this.props.navigator.push({
+                screen: 'TemanDiabets.ModalSearch',
+                navigatorStyle: {
+                  tabBarHidden: true
+                },
+                passProps: {
+                  threadType: 'home'
+                }
+              })
+            }
+          }
         />
         {this.renderPostThread()}
       </View>
@@ -190,7 +191,6 @@ class TabHome extends Component {
     );
   }
 
-<<<<<<< HEAD
   onShareThread(thread) {
     let options = {
       title: thread.topic,
@@ -212,7 +212,14 @@ class TabHome extends Component {
 	}
 
 	renderItem(threads) {
-		const { author, comments } = threads.item;
+    let { author, comments } = threads.item;
+    if(!author) {
+      author = {
+        nama: '',
+        foto_profile: '',
+        tipe_user: '',
+      }
+    }
 		return (
 			<TouchableOpacity
 				key={threads.index}
@@ -238,41 +245,6 @@ class TabHome extends Component {
 			</TouchableOpacity>
 		);
 	}
-=======
-  toThreadDetails(threads) {
-    this.props.navigator.push({
-      screen: 'TemanDiabets.ThreadDetails',
-      navigatorStyle: {
-        navBarHidden: true
-      },
-      passProps: threads
-    });
-  }
-
-  renderItem(threads) {
-    const { author, comments } = threads.item;
-    return (
-      <TouchableOpacity key={threads.index} onPress={() => this.toThreadDetails(threads)}>
-        <Card containerStyle={styles.cardStyle}>
-          <HeaderThread
-            source={author.foto_profile}
-            name={author.nama}
-            category={author.tipe_user.toUpperCase()}
-          />
-          <ContentThread property={threads.item} />
-          <FooterThread
-            leftAction={() => this.toThreadDetails(threads)}
-            numOfComments={comments.length === 0 ? '' : comments.length}
-            isOpen={this.togleModal}
-            saveBookmark={this.onPostBookmark}
-            threadItem={threads.item}
-            threadIndex={threads.index}
-          />
-        </Card>
-      </TouchableOpacity>
-    );
-  }
->>>>>>> wiring blood sugar levels is done
 
   render() {
     const { listThreads } = this.props.dataThreads;

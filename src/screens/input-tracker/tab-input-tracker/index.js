@@ -19,15 +19,15 @@ import {
   ActivityIndicator
 } from 'react-native';
 
-import { 
+import {
   inputTrackerBloodGlucose,
   inputTrackerBloodPressure,
-  inputTrackerManually, 
+  inputTrackerManually,
   inputTrackerHba1c,
   inputTrackerFood,
   inputTrackerActivity,
   inputTrackerWeight,
-  getFoodSuggetion 
+  getFoodSuggetion
 } from '../../../actions';
 
 import color from '../../../style/color';
@@ -156,7 +156,7 @@ class InputTracker extends Component {
       const { action, hour, minute } = await TimePickerAndroid.open({
         hour: 14,
         minute: 0,
-        is24Hour: false, 
+        is24Hour: false,
       });
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
@@ -171,7 +171,12 @@ class InputTracker extends Component {
   onNavigatorEvent(event) {
     if (event.type === 'NavBarButtonPress') {
       if (event.id === 'notification') {
-        alert('Development');
+				this.props.navigator.push({
+					screen: 'TemanDiabets.Notification',
+					navigatorStyle: {
+						navBarHidden: true
+					},
+				});
       }
       if (event.id === 'sideMenu') {
         this.props.navigator.showModal({
@@ -491,7 +496,7 @@ class InputTracker extends Component {
             <ScrollView>
               {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <Text 
+                  <Text
                     onPress={() => this.setState({ sarapan: item, isSuggest: '' })}
                     key={index}
                     style={{ color: '#000', padding: 5, marginVertical: 10 }}
@@ -527,7 +532,7 @@ class InputTracker extends Component {
             <ScrollView>
               {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <Text 
+                  <Text
                     onPress={() => this.setState({ makanSiang: item, isSuggest: '' })}
                     key={index}
                     style={{ color: '#000', padding: 5, marginVertical: 10 }}
@@ -563,7 +568,7 @@ class InputTracker extends Component {
             <ScrollView>
               {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <Text 
+                  <Text
                     onPress={() => this.setState({ makanMalam: item, isSuggest: '' })}
                     key={index}
                     style={{ color: '#000', padding: 5, marginVertical: 10 }}
@@ -599,7 +604,7 @@ class InputTracker extends Component {
             <ScrollView>
               {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <Text 
+                  <Text
                     onPress={() => this.setState({ snack: item, isSuggest: '' })}
                     key={index}
                     style={{ color: '#000', padding: 5, marginVertical: 10 }}
@@ -752,8 +757,8 @@ class InputTracker extends Component {
             mode="dialog"
             selectedValue={this.state.activitySelected}
             style={{ padding: 0, margin: 0, height: 50, width: 200, borderBottomColor: '#ff1200', borderBottomWidth: 1 }}
-            onValueChange={(itemValue) => this.setState({ 
-              activitySelected: itemValue 
+            onValueChange={(itemValue) => this.setState({
+              activitySelected: itemValue
             }, () => {
               const desc = activityList.filter(item => item.type === this.state.activitySelected);
               this.setState({
@@ -800,7 +805,7 @@ class InputTracker extends Component {
     return (
       <Text style={{ fontFamily: 'Montserrat-Light', color: '#4a4a4a', textAlign: 'center' }}>
         {desc[0].description}
-      </Text> 
+      </Text>
     );
   }
 

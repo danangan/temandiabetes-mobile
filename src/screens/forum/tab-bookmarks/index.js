@@ -182,7 +182,7 @@ class TabBookmark extends Component {
             this.props.navigator.push({
               screen: 'TemanDiabets.ModalSearch',
               navigatorStyle: {
-                navBarHidden: true
+                tabBarHidden: true
               },
               passProps: {
                 threadType: 'latest'

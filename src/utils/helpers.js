@@ -27,13 +27,13 @@ export const dateFormateName = (date) => {
   return `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
 };
 
-export const formatTimeFromDate = (date) => {
+export const formatTimeFromDate = (date, separator = ':') => {
   date = new Date(date)
-  let hours = date.getHours()
-  hours = hours.length === 1 ? `0${hours}` : hours
-  let minutes = date.getMinutes()
-  minutes = minutes.length === 1 ? `0${minutes}` : minutes
-  return `${hours}:${minutes}`
+  let hours = String(date.getHours())
+  hours = String(hours).length <= 1 ? `0${hours}` : hours
+  let minutes = String(date.getMinutes())
+  minutes = minutes.length <= 1 ? `0${minutes}` : minutes
+  return hours + separator + minutes
 }
 
 export const formatDateTime = date => {
