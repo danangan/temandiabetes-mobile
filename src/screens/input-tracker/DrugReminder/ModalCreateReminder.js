@@ -29,7 +29,9 @@ class ModalCreateReminder extends React.Component {
       preReminders: [
         
       ],
-      prefieldData: null
+      prefieldData: null,
+      status_action: 'CREATE_NEW',
+      idReminder: ''
     };
     this.onSetReminder = this.onSetReminder.bind(this);
   }
@@ -54,8 +56,10 @@ class ModalCreateReminder extends React.Component {
     console.log('PROPS RECEIPE MODAL ', nexProps);
     if (nexProps.preData !== null) {
       this.setState({
+        idReminder: nexProps.preData._id,
         drugName: nexProps.preData.drugName,
-        preReminders: nexProps.preData.reminders
+        preReminders: nexProps.preData.reminders,
+        status_action: 'UPDATE'
       });
     }
   }
@@ -116,20 +120,29 @@ class ModalCreateReminder extends React.Component {
   }
 
   onSubmit() {
-    const { drugName, preReminders } = this.state;
+    const { drugName, preReminders, status_action, idReminder } = this.state;
     const reduceKey = preReminders;
-    reduceKey.map((item) => {
-      delete item.hours;
-      delete item.drugName;
-    });
-    const reminder = {
-      drugName,
-      reminders: reduceKey
-    };
-
-    console.log('CREATE', reduceKey);
-
-    this.props.onSubmit(reminder);
+    if (status_action === 'CREATE_NEW') {
+      reduceKey.map((item) => {
+        delete item.hours;
+        delete item.drugName;
+      });
+      const reminder = {
+        drugName,
+        reminders: reduceKey
+      };
+  
+      console.log('CREATE', reduceKey);
+  
+      this.props.onSubmit(reminder);
+    } else {
+      const reminder = {
+        drugReminderId: idReminder,
+        drugName,
+        reminders: preReminders,
+      };
+      this.props.toUpdateReminder(reminder);
+    }
     this.props.setModalVisible();
   }
 
@@ -193,8 +206,8 @@ class ModalCreateReminder extends React.Component {
 
   render() {
     // onPress={() => this.props.setModalVisible()} 
-    console.log('PROPS MODAL', this.props);
-    console.log('STATE MODAL', this.state);
+    // console.log('PROPS MODAL', this.props);
+    // console.log('STATE MODAL', this.state);
     return (
       <Modal
         animationType="none"

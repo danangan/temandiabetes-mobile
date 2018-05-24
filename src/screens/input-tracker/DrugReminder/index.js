@@ -17,7 +17,6 @@ import {
 
 import { NavigationBar } from '../../../components';
 import ReminderCard from './ReminderCard';
-import Dot from './Dot';
 import ModalCreateReminder from './ModalCreateReminder';
 
 class DrugReminder extends React.Component {
@@ -29,13 +28,14 @@ class DrugReminder extends React.Component {
       indexChange: null,
       item: [],
       isProcess: false,
-      getDtails: false
+      getDetails: false
     };
     this.onChangeSwitch = this.onChangeSwitch.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
     this.onSubmitReminder = this.onSubmitReminder.bind(this);
     this.toUpdateStatusReminder = this.toUpdateStatusReminder.bind(this);
     this.getReminderDetails = this.getReminderDetails.bind(this);
+    this.updateReminder = this.updateReminder.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +44,7 @@ class DrugReminder extends React.Component {
 
   componentWillReceiveProps(nexProps) {
     console.log('WILL RECEIPE ', nexProps);
+    const { updateReminder } = this.props.dataReminder;
     if (this.props.dataReminder.listReminder.data.length !== nexProps.dataReminder.listReminder.data.length) {
       this.setState({
         item: nexProps.dataReminder.listReminder.data
@@ -54,11 +55,17 @@ class DrugReminder extends React.Component {
       }, () => {
         this.props.getListReminder();
       });
-    } else if (this.props.dataReminder.detailsReminder !== nexProps.dataReminder.detailsReminder && this.state.getDtails) {
+    } else if (this.props.dataReminder.detailsReminder !== nexProps.dataReminder.detailsReminder && this.state.getDetails) {
       this.setState({
-        getDtails: false
+        getDetails: false
       }, () => {
         this.setModalVisible();
+      });
+    } else if (updateReminder.status_code === 200 && this.state.isProcess) {
+      this.setState({
+        isProcess: false
+      }, () => {
+        this.props.getListReminder();
       });
     }
   }
@@ -111,6 +118,14 @@ class DrugReminder extends React.Component {
     });
   }
 
+  updateReminder(reminder) {
+    this.setState({
+      isProcess: true
+    }, () => {
+      this.props.updateDrugReminder(reminder);
+    });
+  }
+
   renderModalCreate() {
     const { detailsReminder: { data } } = this.props.dataReminder;
     if (this.state.isProcess) {
@@ -127,6 +142,7 @@ class DrugReminder extends React.Component {
           setModalVisible={this.setModalVisible}
           onSubmit={this.onSubmitReminder}
           preData={data}
+          toUpdateReminder={this.updateReminder}
         />
       </ScrollView>
     );
@@ -134,7 +150,7 @@ class DrugReminder extends React.Component {
 
   getReminderDetails(id) {
     this.setState({
-      getDtails: true
+      getDetails: true
     }, () => {
       this.props.getDetailsReminder(id);
     });
@@ -157,7 +173,7 @@ class DrugReminder extends React.Component {
   }
 
   render() {
-    console.log('STATE ', this.state);
+    // console.log('STATE ', this.state);
     const { listReminder } = this.props.dataReminder;
     return (
       <View style={styles.container}>
@@ -167,7 +183,6 @@ class DrugReminder extends React.Component {
         />
         <View style={styles.centerWrapper}>
           { 
-            // 
             this.state.item.length === 0 ?
             this.isLoadingData()
             :

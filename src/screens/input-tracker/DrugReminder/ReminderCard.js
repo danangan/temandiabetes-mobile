@@ -20,7 +20,7 @@ class ReminderCard extends React.Component {
   }
 
   render() {
-    console.log('KEY ADA ', this.props)
+    // console.log('KEY ADA ', this.props)
     const { _id, is_active } = this.props.item;
     const { index } = this.props;
     return (

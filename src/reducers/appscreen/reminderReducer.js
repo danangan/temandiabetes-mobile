@@ -13,6 +13,10 @@ const initialState = {
   detailsReminder: {
     data: null,
     status_code: 0
+  },
+  updateReminder: {
+    message: '',
+    status_code: 0
   }
 };
 
@@ -63,6 +67,18 @@ const reminderReducer = (state = initialState, action) => {
         ...state, 
         detailsReminder: {
           ...state.detailsReminder, data, status_code: 200
+        }
+      };
+    case 'PENDING_UPDATE_DRUG_REMINDER': {
+      return {
+        ...state, updateReminder: initialState.updateReminder
+      };
+    }
+    case ActionTypes.UPDATE_DRUG_REMINDER: 
+      return {
+        ...state, 
+        updateReminder: {
+          ...state.updateReminder, status_code: 200, message: 'Success' 
         }
       };
 		default:
