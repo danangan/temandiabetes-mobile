@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-
 import { getThreadDetails, toFollowThread, toUnFollowThread, getCommentDetails } from '../../../actions/threadActions';
 
 import { CardSection, Spinner } from '../../../components';
+import Closed from '../../../assets/icons/close_white.png';
 
 import { ContentDetail } from './contentDetail';
 import HeaderDetail from './headerDetail';
@@ -166,7 +166,10 @@ class ThreadDetails extends React.Component {
 
 		return (
 			<View style={{ flex: 2, backgroundColor: color.solitude }}>
-				<HeaderDetail authorItem={threadDetails.author} />
+        <HeaderDetail
+          categoryItem={threadDetails.category}
+          date={threadDetails.createdAt}
+          authorItem={threadDetails.author} />
 				<ScrollView>
 					{/* <ContentDetail /> */}
 					<CardSection containerStyle={{ backgroundColor: color.solitude, margin: 0 }}>
@@ -270,8 +273,11 @@ class ThreadDetails extends React.Component {
 						this.props.navigator.pop();
 					}}
 					style={styles.buttonBack}
-				>
-					<Text style={styles.buttonText}>X</Text>
+        >
+          <Image
+            source={Closed}
+            style={{ width: 20, height: 20 }}
+          />
 				</TouchableOpacity>
 			</View>
 		);
@@ -281,9 +287,10 @@ class ThreadDetails extends React.Component {
 const styles = {
 	buttonBack: {
 		width: '100%',
-		backgroundColor: 'red',
+		backgroundColor: '#EF434F',
 		justifyContent: 'center',
-		alignItems: 'center'
+    alignItems: 'center',
+    padding: 10,
 	},
 	buttonText: {
 		color: '#fff',

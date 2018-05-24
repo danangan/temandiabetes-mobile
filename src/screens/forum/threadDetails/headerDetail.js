@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { CardSection, Avatar } from '../../../components';
+import { formatDateTime, capitalize } from '../../../utils/helpers';
 
 class HeaderDetail extends React.Component {
 	constructor(props) {
@@ -9,8 +10,24 @@ class HeaderDetail extends React.Component {
 		this.state = {};
 	}
 
+  renderCategory(categoryItem) {
+    let category = ''
+    if (categoryItem) {
+      if (categoryItem.length > 0) {
+        category = categoryItem[0] !== null ? categoryItem[0].category : category
+      }
+    }
+    if (category !== '') {
+      return (
+        <View style={styles.wrapperButton}>
+          <Text style={styles.titleButton}>{capitalize(category)}</Text>
+        </View>
+      )
+    }
+  }
+
 	render() {
-    const { authorItem } = this.props;
+    const { authorItem, categoryItem, date } = this.props;
 		// console.log("PROPS ", this.props);
 		return (
 			<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
@@ -21,15 +38,10 @@ class HeaderDetail extends React.Component {
 						imageSource={authorItem.foto_profile}
 					/>
 					<View style={{ flex: 1, margin: 5 }}>
-						<Text style={{ fontSize: 12 }}>{this.props.authorItem.nama}</Text>
-						<Text style={{ fontSize: 10 }}>a minutes ago</Text>
-					</View>
-					<View style={styles.wrapperButton}>
-						<Text style={styles.titleButton}>Stevia</Text>
-					</View>
-					<View style={styles.wrapperButton}>
-						<Text style={styles.titleButton}>Sweteners</Text>
-					</View>
+						<Text style={{ fontSize: 12 }}>{authorItem.nama}</Text>
+						<Text style={{ fontSize: 10 }}>Posted on {formatDateTime(date)}</Text>
+          </View>
+          {this.renderCategory(categoryItem)}
 				</View>
 			</CardSection>
 		);

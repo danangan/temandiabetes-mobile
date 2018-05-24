@@ -1,3 +1,5 @@
+import { min } from "moment";
+
 export const randomizer = () => Math.floor((1 + Math.random()) * 0x100000000000).toString(16);
 
 export const getInitialName = (name, defaultVal = 'NA') => {
@@ -24,6 +26,19 @@ export const dateFormateName = (date) => {
   // the month is added 1 because month is defined 0-11
   return `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
 };
+
+export const formatTimeFromDate = (date) => {
+  date = new Date(date)
+  let hours = date.getHours()
+  hours = hours.length === 1 ? `0${hours}` : hours
+  let minutes = date.getMinutes()
+  minutes = minutes.length === 1 ? `0${minutes}` : minutes
+  return `${hours}:${minutes}`
+}
+
+export const formatDateTime = date => {
+  return dateFormateName(date) + ' ' + formatTimeFromDate(date)
+}
 
 // result is like result from lodash
 export const result = (obj, prop, defaultVal = null) => {
