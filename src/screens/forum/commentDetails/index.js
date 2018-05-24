@@ -38,25 +38,18 @@ class CommentDetails extends React.Component {
 			user: nama,
 			text: 'Komentari'
     };
-    
+
     return (
-      <View stylw={{ flex: 1, width: '100%' }}>
+      <View style={{ flex: 1, width: '100%' }}>
         {
           isComment.replies.map((item, index) => <CommentChild key={index} containerStyle={styles.containerStyle} comment={item} />)
         }
-        <CommentChild 
-          containerStyle={{ 
-            flex: 1, 
-            flexDirection: 'row', 
-            padding: 2, 
-            alignItems: 'center',
-            marginTop: 20, 
-            marginHorizontal: 20, 
-            borderBottomColor: '#f3f3f4', 
-            borderBottomWidth: 1, 
-            width: '100%' 
+        <CommentChild
+          containerStyle={{
+            ...styles.containerStyle,
+            borderBottomWidth: 0
           }}
-          comment={initialUser} 
+          comment={initialUser}
         />
       </View>
     );
@@ -66,13 +59,13 @@ class CommentDetails extends React.Component {
     // console.log('THIS STATE = ', this.state);
     const { isComment } = this.state;
     const { commentDetails } = this.props.dataThreads;
-    
+
     if (commentDetails.data === null) {
       return (
         <View style={styles.container}>
-          <Spinner 
+          <Spinner
             containerStyle={{ backgroundColor: '#f2f4fd' }}
-            color="#FFDE00" 
+            color="#FFDE00"
             size="large"
           />
         </View>
@@ -83,27 +76,27 @@ class CommentDetails extends React.Component {
         <NavigationBar
           onPress={() => this.props.navigator.pop()} title="COMMENTS"
         />
-        <CardSection 
-          containerStyle={{ 
-            flex: 1, 
-            flexDirection: 'column', 
-            backgroundColor: '#fff', 
+        <CardSection
+          containerStyle={{
+            flex: 1,
+            flexDirection: 'column',
+            backgroundColor: '#fff',
             marginTop: 20,
             marginHorizontal: 20,
-            elevation: 3, 
+            elevation: 3,
             maxHeight: '50%',
-            borderRadius: 20 
+            borderRadius: 20
           }}
         >
           <View style={styles.innerContainer}>
             <Avatar
               avatarSize="Small"
               userName={isComment.user.nama}
-              // imageSource='https://cdn-images-1.medium.com/fit/c/200/200/1*ulfSFHKUwRjNdueNEZbmog@2x.jpeg'
+              imageSource={isComment.user.foto_profile}
             />
             <View style={{ flex: 1, margin: 5 }}>
               <Text style={{ fontSize: 12 }}>{isComment.user.nama}</Text>
-              <Text style={{ fontSize: 10 }}>a minutes ago</Text>
+              <Text style={{ fontSize: 10 }}></Text>
             </View>
           </View>
           <View style={styles.innerText}>
@@ -122,11 +115,11 @@ class CommentDetails extends React.Component {
           :
           null
         }
-        {/* <View style={{ 
-          backgroundColor: '#fff',  
+        {/* <View style={{
+          backgroundColor: '#fff',
           }}
         >
-          
+
         </View> */}
       </View>
     );
@@ -134,11 +127,11 @@ class CommentDetails extends React.Component {
 }
 
 const styles = {
-  container: { 
-    flex: 1, 
+  container: {
+    flex: 1,
     backgroundColor: '#f3f5fe',
-    paddingHorizontal: 10, 
-    paddingVertical: 15 
+    paddingHorizontal: 10,
+    paddingVertical: 15
   },
   innerContainer: {
 		flex: 0.5,
@@ -146,10 +139,8 @@ const styles = {
 		alignItems: 'center',
 		justifyContent: 'center',
     paddingTop: 15,
-    // borderWidth: 1,
-    // borderColor: '#000',
 		paddingHorizontal: 15,
-		borderRadius: 15
+		borderRadius: 20
   },
   innerText: {
 		flex: 2,
@@ -158,10 +149,7 @@ const styles = {
     justifyContent: 'flex-start',
     flexWrap: 'wrap',
     paddingTop: 15,
-    // borderWidth: 1,
-    // borderColor: '#000',
 		paddingHorizontal: 15,
-		borderRadius: 15
 	},
   wrapperButton: {
 		marginVertical: 5,
@@ -178,26 +166,24 @@ const styles = {
   containerCommentChild: {
     flex: 1,
     position: 'relative',
-    top: -45,
+    top: -20,
+    paddingTop: 20,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
     backgroundColor: '#fff',
     marginHorizontal: 20,
     borderRadius: 20
-  }, 
+  },
   containerStyle: {
     flex: 1,
-    flexDirection: 'row', 
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: 2, 
-    // backgroundColor: '#ff1200',
-    marginTop: 20, 
-    paddingVertical: 2,
-    marginHorizontal: 25, 
-    // borderBottomColor: '#f3f3f4', 
-    // borderBottomWidth: 1, 
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     width: '100%',
+    borderBottomColor: '#f3f3f4',
+    borderBottomWidth: 1,
     borderRadius: 20
   }
 };

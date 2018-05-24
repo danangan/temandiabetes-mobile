@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Image } from 'react-native';
 
 import HeaderDetail from './HeaderDetail';
 import color from '../../../style/color';
+import { Spinner } from '../../../components';
 import { API_CALL } from '../../../utils/ajaxRequestHelper'
 import ContentFeatured from './ContentFeatured';
 
@@ -14,7 +15,8 @@ class FeaturedDetail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      thread: {}
+      thread: {},
+      isLoading: true
     };
   }
 
@@ -30,6 +32,10 @@ class FeaturedDetail extends Component {
     } catch (error) {
       console.log(error)
     }
+
+    this.setState({
+      isLoading: false
+    })
   }
 
   componentDidMount(){
@@ -37,28 +43,42 @@ class FeaturedDetail extends Component {
   }
 
 	render() {
-    const { thread } = this.state
-		return (
-      <View style={styles.containerStyle}>
-        {
-          thread.author &&
-          <HeaderDetail author={thread.author} />
-        }
-				<ContentFeatured item={thread} />
-				<TouchableOpacity
-					style={styles.buttonContainerStyle}
-					onPress={() => this.props.navigator.pop()}
-				>
-					<Image
-						tintColor={color.white}
-						borderWidth={15}
-						resizeMode={'contain'}
-						source={require('../../../assets/icons/close.png')}
-						style={styles.buttonImageStyle}
-					/>
-				</TouchableOpacity>
-			</View>
-		);
+    const { thread, isLoading } = this.state
+    if (isLoading) {
+      return (
+        <Spinner
+        containerStyle={{ backgroundColor: '#f2f4fd' }}
+        color="#FFDE00"
+        size="large"
+      />
+      )
+    } else {
+      return (
+        <View style={styles.containerStyle}>
+          {
+            thread.author &&
+            <HeaderDetail
+              category={thread.category}
+              date={thread.createdAt}
+              author={thread.author}
+            />
+          }
+          <ContentFeatured item={thread} />
+          <TouchableOpacity
+            style={styles.buttonContainerStyle}
+            onPress={() => this.props.navigator.pop()}
+          >
+            <Image
+              tintColor={color.white}
+              borderWidth={15}
+              resizeMode={'contain'}
+              source={require('../../../assets/icons/close.png')}
+              style={styles.buttonImageStyle}
+            />
+          </TouchableOpacity>
+        </View>
+      );
+    }
 	}
 }
 

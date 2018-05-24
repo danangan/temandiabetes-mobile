@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 import { Avatar } from '../../../components';
+import { formatDateTime } from '../../../utils/helpers';
 import CommentChild from './commentChild';
 
 class CommentThread extends React.Component {
@@ -17,19 +18,17 @@ class CommentThread extends React.Component {
 		return replies.map((item, index) => {
 			if (index < 2) {
 				return (
-					<CommentChild 
-						key={index} 
-						comment={item} 
-						containerStyle={{ 
-							flex: 0, 
-							flexDirection: 'row', 
-							padding: 2, 
+					<CommentChild
+						key={index}
+						comment={item}
+						containerStyle={{
+							flex: 0,
+							flexDirection: 'row',
+							paddingVertical: 10,
 							alignItems: 'center',
-							marginTop: 20, 
-							marginHorizontal: 25, 
-							borderBottomColor: '#f3f3f4', 
-							borderBottomWidth: 1, 
-							width: '100%' 
+							borderBottomColor: '#f3f3f4',
+							borderBottomWidth: 1,
+              width: '100%',
 						}}
 					/>
 				);
@@ -48,39 +47,34 @@ class CommentThread extends React.Component {
 		if (replies.length) {
 			return (
 				<View style={{ justifyContent: 'flex-start', alignItems: 'center', width: '100%' }}>
-					<Text	
-						style={{ 
-							flexDirection: 'row', 
-							padding: 2, 
-							marginTop: 20, 
-							marginHorizontal: 25, 
-							borderBottomColor: '#f3f3f4', 
-							borderBottomWidth: 1, 
-							width: '100%', 
-							textAlign: 'left'
+					<Text
+						style={{
+							flexDirection: 'row',
+              padding: 10,
+							borderBottomColor: '#f3f3f4',
+							borderBottomWidth: 1,
+							width: '100%',
+              textAlign: 'left',
+              fontSize: 11
 						}}
 						onPress={() => this.props.navigator(this.props.idComment)}
 					>
 						View {replies.length} reply.
 					</Text>
-					<CommentChild 
-						containerStyle={{ 
-							flex: 0, 
-							flexDirection: 'row', 
-							padding: 2, 
+					<CommentChild
+						containerStyle={{
+							flex: 0,
+							flexDirection: 'row',
+							paddingVertical: 10,
 							alignItems: 'center',
-							marginTop: 20, 
-							marginHorizontal: 25, 
-							borderBottomColor: '#f3f3f4', 
-							borderBottomWidth: 1, 
-							width: '100%' 
+							width: '100%'
 						}}
-						comment={initialUser} 
+						comment={initialUser}
 					/>
 				</View>
 			);
 		}
-		return null;		
+		return null;
 	}
 
 	render() {
@@ -90,8 +84,8 @@ class CommentThread extends React.Component {
 			return (<Text>Loading...</Text>);
 		}
 		return (
-			<TouchableOpacity 	
-				activeOpacity={0.7} 
+			<TouchableOpacity
+				activeOpacity={0.7}
 				onPress={() => this.props.navigator(this.props.idComment)}
 			>
 				<View style={styles.container}>
@@ -103,7 +97,7 @@ class CommentThread extends React.Component {
 						/>
 						<View style={{ flex: 1, margin: 5 }}>
 							<Text style={{ fontSize: 12 }}>{user.nama}</Text>
-							<Text style={{ fontSize: 10 }}>{updatedAt}</Text>
+							<Text style={{ fontSize: 10 }}>Posted on {formatDateTime(updatedAt)}</Text>
 						</View>
 						<TouchableOpacity
 							onPress={() => Navigation.showModal({
@@ -173,8 +167,9 @@ const styles = {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'flex-start',
-		paddingHorizontal: 15,
-		backgroundColor: 'transparant'
+		paddingHorizontal: 20,
+    backgroundColor: 'transparant',
+    paddingBottom: 10,
 	},
 	containerCommentChild: {
     flex: 1,

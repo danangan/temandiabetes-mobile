@@ -14,7 +14,7 @@ const ContentFeatured = ({ item }) => (
 			</Text>
 		</CardSection>
 		<View style={styles.borderLine} />
-		<CardSection>
+		<CardSection style={styles.cardSectionStyle}>
 			<HTMLView html={item.description} />
 		</CardSection>
 	</ScrollView>
@@ -22,7 +22,9 @@ const ContentFeatured = ({ item }) => (
 
 const styles = {
 	containerStyle: {
-		flex: 1
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 10
 	},
 	cardSectionStyle: {
 		backgroundColor: color.solitude,
@@ -32,15 +34,13 @@ const styles = {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: Style.FONT_SIZE_TITLE,
 		fontStyle: 'normal',
-		paddingLeft: 10,
-		paddingRight: 5,
 		textAlign: 'justify'
 	},
 	borderLine: {
 		borderBottomColor: color.midGray,
 		borderBottomWidth: 2,
 		opacity: 0.2,
-		width: '90%',
+		width: '100%',
 		alignSelf: 'center',
 		marginTop: 10
 	},

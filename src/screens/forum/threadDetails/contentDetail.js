@@ -20,7 +20,7 @@ const ContentDetail = (props) => {
 				</View>
 				:
 				props.threadDetails.comments.map((comment, index) => (
-					<CommentThread 
+					<CommentThread
 						key={index}
 						contentComment={comment}
 						idThread={props.threadItem._id}

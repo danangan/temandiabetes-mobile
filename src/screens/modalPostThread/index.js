@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image, TouchableOpacity, Text, TextInput, Keyboard, AsyncStorage } from 'react-native';
+import { View, Image, TouchableOpacity, Text, TextInput, Keyboard, AsyncStorage, Picker } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Closed from '../../assets/icons/close.png';
 import { Avatar } from '../../components';
 import { authToken } from '../../utils/constants';
+import { API_CALL } from '../../utils/ajaxRequestHelper'
+import { capitalize } from '../../utils/helpers'
 
 import { userPostThread } from '../../actions/threadActions';
 
@@ -20,6 +22,8 @@ class ModalPostThred extends Component {
       description: '',
       keyboardActive: false,
       isSubmit: false,
+      selectedCategory: '',
+      categories: []
     };
     this.onSubmitThread = this.onSubmitThread.bind(this);
   }
@@ -33,6 +37,23 @@ class ModalPostThred extends Component {
       this.setState({
         isSubmit: false
       });
+    }
+  }
+
+  async fetchCategories() {
+    const option = {
+      method: 'get',
+      url: '/api/categories?limit=100',
+    };
+
+    try {
+      const { data: { data : { categories: { docs }}} } = await API_CALL(option);
+
+      this.setState({
+        categories: docs,
+      })
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -50,6 +71,10 @@ class ModalPostThred extends Component {
 		this.keyboardDidHideListener.remove();
   }
 
+  componentDidMount() {
+    this.fetchCategories()
+  }
+
   onSubmitThread() {
     this.getToken();
   }
@@ -57,7 +82,9 @@ class ModalPostThred extends Component {
   getToken = async () => {
     const token = await AsyncStorage.getItem(authToken);
     const dataThreads = {
-      category: 2,
+      category: [{
+        _id: this.state.selectedCategory
+      }],
       threadType: 'sharing',
       topic: this.state.topic,
       description: this.state.description
@@ -92,18 +119,17 @@ class ModalPostThred extends Component {
               onPress={() => Navigation.dismissModal({
                 animationType: 'slide-down'
               })}
-              style={{ flex: 0.5 }}
             >
                 <Image
                   source={Closed}
-                  style={{ width: 20, height: 20 }}
+                  style={{ width: 15, height: 15 }}
                 />
               </TouchableOpacity>
-              <View style={{ flex: 1.5 }}>
+              <View style={{ flex: 1, justifyContent: 'flex-end', marginRight: 15 }}>
                 <Text style={styles.titleForm}>Tanyakan atau bagikan sesuatu</Text>
               </View>
           </View>
-          <View style={styles.wrapTextInputTitle}>
+          <View style={styles.titleInputWrapper}>
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
               <Avatar
                 avatarSize="ExtraSmall"
@@ -115,38 +141,63 @@ class ModalPostThred extends Component {
             <TextInput
               multiline
               underlineColorAndroid={'#fff'}
-              style={styles.itemTextInputTitle}
+              style={styles.titleInput}
               placeholder="Judul Threads"
               onChangeText={(topic) => this.setState({ topic })}
               returnKeyType={'done'}
             />
           </View>
-          <View style={styles.wrapTextInput}>
+          <View style={styles.contentInputWrapper}>
             <TextInput
               underlineColorAndroid={'#fff'}
               multiline
-              style={styles.itemTextInput}
+              style={styles.contentInput}
               placeholder={'Optional: masukkan link yang dapat mendukung konteks'}
               onChangeText={(description) => this.setState({ description })}
             />
           </View>
-          <TouchableOpacity
-            style={{
-              display: !this.state.keyboardActive ? 'none' : null,
-              position: 'absolute',
-              width: '30%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              bottom: 0,
-              right: 10,
-              backgroundColor: '#262d67',
-              paddingHorizontal: 15,
-              paddingVertical: 5
-            }}
-            onPress={this.onSubmitThread}
-          >
-            <Text style={{ color: '#fff' }}>Kirim</Text>
-          </TouchableOpacity>
+          <View style={{
+            flexDirection: 'row',
+            paddingHorizontal: 10,
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            borderTopWidth: 1,
+            borderTopColor: '#f2f3f7',
+          }}>
+            <Picker
+              style={{
+                flex:1,
+                width: 150,
+              }}
+              selectedValue={this.state.selectedCategory}
+              prompt="Pilih Kategori"
+              mode="dropdown"
+              onValueChange={itemValue => {
+                console.log(itemValue)
+                this.setState({selectedCategory: itemValue})
+              }
+              }>
+              <Picker.Item label="Pilih kategori" value="" />
+              {
+                this.state.categories.map((item) => (
+                  <Picker.Item label={capitalize(item.category)} value={item._id} />
+                ))
+              }
+            </Picker>
+            <TouchableOpacity
+              style={{
+                // display: !this.state.keyboardActive ? 'none' : null,
+                backgroundColor: '#262d67',
+                width: 70,
+                paddingHorizontal: 15,
+                paddingVertical: 5,
+                height: 33
+              }}
+              onPress={this.onSubmitThread}
+            >
+              <Text style={{ color: '#fff', textAlign: 'center' }}>Kirim</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -157,7 +208,7 @@ const styles = {
   container: {
     flex: 1,
     backgroundColor: '#f3f5fe',
-    paddingHorizontal: 10,
+    padding: 10,
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
@@ -166,6 +217,7 @@ const styles = {
     backgroundColor: '#fff',
     width: '100%',
     paddingHorizontal: 5,
+    borderRadius: 10,
     alignItems: 'center'
   },
   wrapNav: {
@@ -182,41 +234,40 @@ const styles = {
     backgroundColor: '#fff'
   },
   titleForm: {
-    fontFamily: 'Montserrat-Bold', color: '#99a0c2', fontSize: 16
+    textAlign: 'center',
+    fontFamily: 'Montserrat-Bold',
+    color: '#99a0c2',
+    fontSize: 13
   },
-  wrapTextInput: {
-    flex: 2,
-    marginVertical: 40,
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#fff',
-    borderTopWidth: 2,
-    borderTopColor: '#f2f3f7'
-  },
-  wrapTextInputTitle: {
+  contentInputWrapper: {
     flex: 1,
     marginVertical: 40,
     width: '100%',
-    height: '100%',
     backgroundColor: '#fff',
     borderTopWidth: 2,
     borderTopColor: '#f2f3f7'
   },
-  itemTextInputTitle: {
+  titleInputWrapper: {
+    marginTop: 40,
+    width: '100%',
+    backgroundColor: '#fff',
+    borderTopWidth: 2,
+    borderTopColor: '#f2f3f7',
+    paddingTop: 5
+  },
+  titleInput: {
     flexWrap: 'wrap',
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
     color: '#4a4a4a',
     fontSize: 14,
-    height: '100%'
   },
-  itemTextInput: {
+  contentInput: {
     flexWrap: 'wrap',
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
     color: '#4a4a4a',
     fontSize: 12,
-    height: 50
   }
 };
 
