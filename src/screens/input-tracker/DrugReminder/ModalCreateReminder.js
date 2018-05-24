@@ -28,7 +28,8 @@ class ModalCreateReminder extends React.Component {
       ruleConsume: '',
       preReminders: [
         
-      ]
+      ],
+      prefieldData: null
     };
     this.onSetReminder = this.onSetReminder.bind(this);
   }
@@ -40,13 +41,30 @@ class ModalCreateReminder extends React.Component {
 		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
 			this.setState({ keyboardActive: false });
 		});
-	}
+  }
+  
+  componentDidMount() {
+    console.log('ADA BELUM ', this.props.preData);
+    this.setState({
+      prefieldData: this.props.preData
+    });
+  }
+
+  componentWillReceiveProps(nexProps) {
+    console.log('PROPS RECEIPE MODAL ', nexProps);
+    if (nexProps.preData !== null) {
+      this.setState({
+        drugName: nexProps.preData.drugName,
+        preReminders: nexProps.preData.reminders
+      });
+    }
+  }
 
 	componentWillUnmount() {
 		this.keyboardDidShowListener.remove();
 		this.keyboardDidHideListener.remove();
   }
-  
+
   onSetReminder() {
     const { drugName, isTime, ruleConsume, datetimeConsume, hours } = this.state;
     const currentReminder = this.state.preReminders;
@@ -175,21 +193,31 @@ class ModalCreateReminder extends React.Component {
 
   render() {
     // onPress={() => this.props.setModalVisible()} 
-    // console.log('STATE MODAL', this.state);
+    console.log('PROPS MODAL', this.props);
+    console.log('STATE MODAL', this.state);
     return (
       <Modal
         animationType="none"
         transparent={true}
         visible={this.props.modalVisible}
       >
-        <TouchableHighlight style={styles.modalWrapper}>
+        <View 
+          style={styles.modalWrapper}
+        >
           <View style={[styles.modalContent, { height: this.state.keyboardActive ? '80%' : '60%' }]}>
+              <TouchableOpacity
+                style={{ flex: 0, justifyContent: 'flex-end', alignItems: 'flex-end' }}
+                onPress={() => this.props.setModalVisible()}
+              >
+                <Text>X</Text>
+              </TouchableOpacity>
               <View style={{ flex: 1, borderBottomColor: '#000' }}>
                 <Text style={{ fontFamily: 'OpenSans-Light', color: '#000' }}>Nama Obat</Text>
                 <TextInput
+                  value={this.state.drugName}
                   onChangeText={(text) => this.setState({ drugName: text })}
                   placeholder="masukkan nama obat"
-                  style={{ textAlign: 'left', fontSize: 9, fontFamily: 'OpenSans-Light', paddingVertical: 1 }}
+                  style={{ textAlign: 'left', fontSize: 12, fontFamily: 'OpenSans-Light', paddingVertical: 1 }}
                   underlineColorAndroid="#000"
                 />
               </View>
@@ -281,7 +309,7 @@ class ModalCreateReminder extends React.Component {
             </View>
             
           </View>
-        </TouchableHighlight>
+        </View>
       </Modal>
     );
   }

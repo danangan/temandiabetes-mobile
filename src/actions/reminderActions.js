@@ -3,7 +3,8 @@ import { API_CALL } from '../utils/ajaxRequestHelper';
 import {
 	GET_LIST_REMINDER,
 	CREATE_DRUG_REMINDER,
-	UPDATE_DRUG_REMINDER
+	UPDATE_DRUG_REMINDER,
+	GET_DETAILS_REMINDER
 } from './constants';
 
 /**
@@ -114,6 +115,41 @@ export const updateDrugReminder = (reminder) => async dispatch => {
 
 		const res = await API_CALL(option);
 		console.log('BALIKAN UPDATE REMINDER ', res);
+		return onSuccess(res.data);
+	} catch (error) {
+		onSuccess(error);
+	}
+};
+
+
+export const getDetailsReminder = (idReminder) => async dispatch => {
+	const isPending = () => {
+    dispatch({
+      type: 'PENDING_GET_DETAILS_REMINDER',
+      payload: true
+    });
+    return true;
+	};
+	
+	function onSuccess(data) {
+		dispatch({
+			type: GET_DETAILS_REMINDER,
+			payload: data
+		});
+
+		return data;
+	}
+
+	isPending();
+	
+	try {
+    const option = {
+      method: 'GET',
+			url: `api/drugs-reminder/${idReminder}`,
+    };
+
+		const res = await API_CALL(option);
+		console.log('BALIKAN DETAILS REMINDER ', res);
 		return onSuccess(res.data);
 	} catch (error) {
 		onSuccess(error);

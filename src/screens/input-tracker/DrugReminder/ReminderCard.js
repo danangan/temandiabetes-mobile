@@ -3,7 +3,8 @@ import React from 'react';
 import {
   View,
   Text,
-  Switch
+  Switch,
+  TouchableOpacity
 } from 'react-native';
 
 import Dot from './Dot';
@@ -21,6 +22,7 @@ class ReminderCard extends React.Component {
   render() {
     console.log('KEY ADA ', this.props)
     const { _id, is_active } = this.props.item;
+    const { index } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.leftSide}>
@@ -39,10 +41,15 @@ class ReminderCard extends React.Component {
           </View>
         </View>
         <View style={styles.rightSide}>
-          <Text style={styles.btnRight}>UBAH</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => this.props.getReminderDetails(_id)}
+          >
+            <Text style={styles.btnRight}>UBAH</Text>
+          </TouchableOpacity>
           <Switch 
             style={{ borderColor: '#000', borderWidth: 1 }}
-            onValueChange={() => this.props.toUpdateStatusReminder({ _id, is_active })}
+            onValueChange={() => this.props.toUpdateStatusReminder({ index, _id, is_active })}
             value={this.props.statusReminder} 
           />
         </View>

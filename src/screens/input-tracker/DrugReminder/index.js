@@ -11,7 +11,8 @@ import {
 import { 
   getListReminder,
   createDrugReminder,
-  updateDrugReminder
+  updateDrugReminder,
+  getDetailsReminder
 } from '../../../actions';
 
 import { NavigationBar } from '../../../components';
@@ -25,13 +26,16 @@ class DrugReminder extends React.Component {
     this.state = {
       isActive: false,
       modalActive: false,
-      item: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-      isProcess: false
+      indexChange: null,
+      item: [],
+      isProcess: false,
+      getDtails: false
     };
     this.onChangeSwitch = this.onChangeSwitch.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
     this.onSubmitReminder = this.onSubmitReminder.bind(this);
     this.toUpdateStatusReminder = this.toUpdateStatusReminder.bind(this);
+    this.getReminderDetails = this.getReminderDetails.bind(this);
   }
 
   componentDidMount() {
@@ -40,14 +44,36 @@ class DrugReminder extends React.Component {
 
   componentWillReceiveProps(nexProps) {
     console.log('WILL RECEIPE ', nexProps);
-    if (nexProps.dataReminder.createReminder.status_code === 200 && this.state.isProcess) {
+    if (this.props.dataReminder.listReminder.data.length !== nexProps.dataReminder.listReminder.data.length) {
+      this.setState({
+        item: nexProps.dataReminder.listReminder.data
+      });
+    } else if (nexProps.dataReminder.createReminder.status_code === 200 && this.state.isProcess) {
       this.setState({
         isProcess: false
       }, () => {
         this.props.getListReminder();
       });
+    } else if (this.props.dataReminder.detailsReminder !== nexProps.dataReminder.detailsReminder && this.state.getDtails) {
+      this.setState({
+        getDtails: false
+      }, () => {
+        this.setModalVisible();
+      });
     }
   }
+  /**
+   * SOON -->
+   */
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   const { indexChange } = this.state;
+  //   console.log('NEXTPROPS ', nextProps);
+  //   console.log('nextState ', nextState);
+  //   if (this.state.item[indexChange] !== nextState.item[indexChange]) {
+  //     return true;
+  //   }
+  //   return true;
+  // }
 
   onChangeSwitch() {
     this.setState({
@@ -69,20 +95,24 @@ class DrugReminder extends React.Component {
     });
   }
 
-  toUpdateStatusReminder({ _id, is_active }) {
+  toUpdateStatusReminder({ index, _id, is_active }) {
+    const listReminder = this.state.item;
     const updateReminder = {
       drugReminderId: _id,
       is_active: !is_active
     };
+    listReminder[index].is_active = !listReminder[index].is_active;
     this.setState({
-      isProcess: true
+      isProcess: true,
+      indexChange: index,
+      item: listReminder
     }, () => {
       this.props.updateDrugReminder(updateReminder);
-      this.props.getListReminder();
     });
   }
 
   renderModalCreate() {
+    const { detailsReminder: { data } } = this.props.dataReminder;
     if (this.state.isProcess) {
       return (
         <View>
@@ -96,12 +126,38 @@ class DrugReminder extends React.Component {
           modalVisible={this.state.modalActive}
           setModalVisible={this.setModalVisible}
           onSubmit={this.onSubmitReminder}
+          preData={data}
         />
       </ScrollView>
     );
   }
 
+  getReminderDetails(id) {
+    this.setState({
+      getDtails: true
+    }, () => {
+      this.props.getDetailsReminder(id);
+    });
+  }
+
+  isLoadingData() {
+    const { listReminder } = this.props.dataReminder;
+    if (listReminder.meessage === 'Empty List') {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Light' }}>Anda belum memiliki list reminder saat ini.</Text>
+        </View>
+      );
+    }
+    return (
+      <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+      </View>
+    );
+  }
+
   render() {
+    console.log('STATE ', this.state);
     const { listReminder } = this.props.dataReminder;
     return (
       <View style={styles.container}>
@@ -110,15 +166,14 @@ class DrugReminder extends React.Component {
           onPress={() => this.props.navigator.pop()} title="PENGINGAT OBAT"
         />
         <View style={styles.centerWrapper}>
-          {
-            listReminder.data.length === 0 ?
-            <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-              <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
-            </View>
+          { 
+            // 
+            this.state.item.length === 0 ?
+            this.isLoadingData()
             :
             <ScrollView>
             { 
-              listReminder.data.map((item, index) => (
+              this.state.item.map((item, index) => (
                 <ReminderCard 
                   key={index} 
                   item={item}
@@ -126,6 +181,7 @@ class DrugReminder extends React.Component {
                   statusReminder={item.is_active}
                   onChangeSwitch={this.onChangeSwitch}
                   toUpdateStatusReminder={this.toUpdateStatusReminder}
+                  getReminderDetails={this.getReminderDetails}
                 />
               ))
             }
@@ -169,6 +225,7 @@ const mapDispatchToProps = dispatch => ({
   getListReminder: () => dispatch(getListReminder()),
   createDrugReminder: (reminder) => dispatch(createDrugReminder(reminder)),
   updateDrugReminder: (reminder) => dispatch(updateDrugReminder(reminder)),
+  getDetailsReminder: (idReminder) => dispatch(getDetailsReminder(idReminder)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrugReminder);
