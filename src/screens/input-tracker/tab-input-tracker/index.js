@@ -71,7 +71,7 @@ class InputTracker extends Component {
 
   async componentDidMount() {
     const token = await AsyncStorage.getItem(authToken);
-    console.log('TOKEN INI BRA ', token);
+    // console.log('TOKEN INI BRA ', token);
     this.props.getFoodSuggetion();
 
     // analyze the deeplink
@@ -1002,7 +1002,6 @@ class InputTracker extends Component {
   }
 
   render() {
-    console.log('STATE ---> ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
