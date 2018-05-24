@@ -12,7 +12,8 @@ import {
 	userReducer,
 	ecommerceReducer,
 	historyEstimationReducer,
-	reminderReducer
+	reminderReducer,
+	inputTrackerReducer
 } from './appscreen';
 
 const rootReducer = combineReducers({
@@ -27,7 +28,8 @@ const rootReducer = combineReducers({
 	userReducer,
 	ecommerceReducer,
 	historyEstimationReducer,
-	reminderReducer
+	reminderReducer,
+	inputTrackerReducer
 });
 
 export default rootReducer;

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
+
 import {
   View,
   Platform,
@@ -8,17 +10,33 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   DatePickerAndroid,
+  TimePickerAndroid,
   TextInput,
   Keyboard,
-  ScrollView
+  ScrollView,
+  Picker,
+  AsyncStorage,
+  ActivityIndicator
 } from 'react-native';
-// import Moment from 'moment';
-import { inputTrackerManually } from '../../../actions';
+
+import { 
+  inputTrackerBloodGlucose,
+  inputTrackerBloodPressure,
+  inputTrackerManually, 
+  inputTrackerHba1c,
+  inputTrackerFood,
+  inputTrackerActivity,
+  inputTrackerWeight,
+  getFoodSuggetion 
+} from '../../../actions';
+
 import color from '../../../style/color';
 import { Card, Button, CardSection, TextField } from '../../../components';
 import MenuButton from './MenuButton';
 import Style from '../../../style/defaultStyle';
 import { dateFormateName } from '../../../utils/helpers';
+import { activityList } from './initialValue';
+import { authToken } from '../../../utils/constants';
 
 class InputTracker extends Component {
   constructor(props) {
@@ -27,22 +45,35 @@ class InputTracker extends Component {
       isManually: false,
       modalVisible: false,
       isModal: '',
+      isProcessing: false,
       isDate: '',
+      isTime: '',
       isGulaDarah: '',
       keyboardActive: false,
       activitySelected: '',
+      descActivity: '',
       gulaDarah: 0,
       tekananDarah: 0,
       hba1c: 0,
       beratBadan: 0,
       distolic: 0,
-      sisstolic: 0
+      sisstolic: 0,
+      preText: null,
+      isSuggest: '',
+      sarapan: null,
+      makanSiang: null,
+      makanMalam: null,
+      snack: null
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.setModalVisible = this.setModalVisible.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const token = await AsyncStorage.getItem(authToken);
+    console.log('TOKEN INI BRA ', token);
+    this.props.getFoodSuggetion();
+
     // analyze the deeplink
     const { deepLink } = this.props
     if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
@@ -88,9 +119,19 @@ class InputTracker extends Component {
 		this.keyboardDidHideListener.remove();
   }
 
+  componentDidUpdate() {
+    const { isModal } = this.state;
+    const { inputTracker } = this.props.dataInputTracker;
+    if (isModal === 'IS_LOADING' && inputTracker.status_code === 200) {
+      setTimeout(() => {
+        this.setModalVisible();
+      }, 5000);
+    }
+  }
+
   async openDatePicker() {
     try {
-      const {action, year, month, day} = await DatePickerAndroid.open({
+      const { action, year, month, day } = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
         // May 25 2020. Month 0 is January.
         date: new Date()
@@ -101,10 +142,29 @@ class InputTracker extends Component {
         this.setState({
           isDate: `${day} ${month} ${year}`,
           dateInput: ` ${year}-${month}-${day}`
+        }, () => {
+          this.openTimePicker();
         });
       }
-    } catch ({code, message}) {
+    } catch ({ code, message }) {
       console.warn('Cannot open date picker', message);
+    }
+  }
+
+  async openTimePicker() {
+    try {
+      const { action, hour, minute } = await TimePickerAndroid.open({
+        hour: 14,
+        minute: 0,
+        is24Hour: false, 
+      });
+      if (action !== TimePickerAndroid.dismissedAction) {
+        this.setState({
+          isTime: `${hour}:${minute}`
+        });
+      }
+    } catch ({ code, message }) {
+      console.warn('Cannot open time picker', message);
     }
   }
 
@@ -132,9 +192,10 @@ class InputTracker extends Component {
   }
 
   setModalVisible(isModal) {
+    const params = isModal === undefined ? '' : isModal;
     this.setState({
       modalVisible: !this.state.modalVisible,
-      isModal
+      isModal: params
     });
   }
 
@@ -146,46 +207,77 @@ class InputTracker extends Component {
       sistolic,
       hba1c,
       activitySelected,
-      beratBadan
+      descActivity,
+      beratBadan,
+      sarapan,
+      makanSiang,
+      makanMalam,
+      snack,
+      isTime
     } = this.state;
-    const inputDate = new Date(dateInput);
+    const inputDate = new Date(dateInput + ' ' + isTime + ':00');
     if (casing === 'GULA_DARAH') {
       const value = {
-        gulaDarah,
-        waktuInput: inputDate
+        waktuInput: inputDate,
+        gulaDarah
       };
-      this.props.inputTrackerManually({ method: 'post', value });
+      this.setState({
+        isManually: false,
+        modalVisible: true,
+        isModal: 'IS_LOADING',
+      }, () => {
+        setTimeout(() => {
+          this.props.inputTrackerBloodGlucose(value);
+        }, 2000);
+      });
     } else if (casing === 'TEKANAN_DARAH') {
-      const tekananDarah = `${sistolic}/${distolic}`;
       const value = {
-        tekananDarah,
-        waktuInput: inputDate
+        waktuInput: inputDate,
+        tekananDarah: {
+          sistolic,
+          distolic
+        }
       };
-      this.props.inputTrackerManually({ method: 'post', value });
+      this.props.inputTrackerBloodPressure(value);
     } else if (casing === 'HBA1C') {
       const value = {
-        hba1c,
-        waktuInput: inputDate
+        waktuInput: inputDate,
+        hba1c
       };
-      this.props.inputTrackerManually({ method: 'post', value });
+      this.props.inputTrackerHba1c(value);
     } else if (casing === 'ACTIVITY') {
       const value = {
-        jenisAktifitas: activitySelected,
-        waktuInput: inputDate
+        waktuInput: inputDate,
+        jenisAktifitas: 'kurang',
+        kategori: activitySelected,
+        deskripsi: descActivity
       };
-      this.props.inputTrackerManually({ method: 'post', value });
+      this.props.inputTrackerActivity(value);
     } else if (casing === 'WEIGHT') {
       const value = {
-        beratBadan,
-        waktuInput: inputDate
+        waktuInput: inputDate,
+        beratBadan
       };
-      this.props.inputTrackerManually({ method: 'post', value });
+      this.props.inputTrackerWeight(value);
+    } else if (casing) {
+      const value = {
+        waktuInput: inputDate,
+        sarapan,
+        makanSiang,
+        makanMalam,
+        snack
+      };
+      this.props.inputTrackerFood(value);
     }
-    this.setModalVisible();
+    this.setModalVisible('IS_LOADING');
   }
 
   renderButtonOpenDate() {
+    const { isDate, isTime } = this.state;
     const dt = new Date();
+    // const dateMoment = moment(this.state.isDate);
+    // `${now.year()}-${now.month()}-${now.date()}`;
+    const displayDate = `${isDate} at ${isTime}`;
     const dateNow = dateFormateName(dt);
     return (
       <TouchableOpacity
@@ -197,7 +289,7 @@ class InputTracker extends Component {
         onPress={() => this.openDatePicker()}
       >
           <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light' }}>
-          {this.state.isDate === '' ? dateNow : this.state.isDate}
+          {this.state.isDate === '' ? dateNow : displayDate}
           </Text>
       </TouchableOpacity>
     );
@@ -380,11 +472,37 @@ class InputTracker extends Component {
        >
           <Text>Sarapan</Text>
           <TextInput
+            onFocus={() => this.setState({ isSuggest: 'SARAPAN' })}
+            onChangeText={(preText) => {
+              this.setState({ preText });
+            }}
+            value={this.state.sarapan === null ? '' : this.state.sarapan.title}
             placeholder="Nasi Uduk"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
         </View>
+        {/* ---- */}
+        {
+          this.state.preText !== '' && this.state.isSuggest !== 'SARAPAN' ?
+          null
+          :
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccc' }}>
+            <ScrollView>
+              {
+                this.props.dataInputTracker.suggetion.food.map((item, index) => (
+                  <Text 
+                    onPress={() => this.setState({ sarapan: item, isSuggest: '' })}
+                    key={index}
+                    style={{ color: '#000', padding: 5, marginVertical: 10 }}
+                  >
+                    {item.suggest}
+                  </Text>
+                ))
+              }
+            </ScrollView>
+          </View>
+        }
         <View
         style={{
           flex: 1,
@@ -393,11 +511,34 @@ class InputTracker extends Component {
         >
           <Text>Makan Siang</Text>
           <TextInput
+            onFocus={() => this.setState({ isSuggest: 'MAKAN_SIANG' })}
+            value={this.state.makanSiang === null ? '' : this.state.makanSiang.title}
             placeholder="Soto Ayam"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
         </View>
+        {/* ---- */}
+        {
+          this.state.preText !== '' && this.state.isSuggest !== 'MAKAN_SIANG' ?
+          null
+          :
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccc' }}>
+            <ScrollView>
+              {
+                this.props.dataInputTracker.suggetion.food.map((item, index) => (
+                  <Text 
+                    onPress={() => this.setState({ makanSiang: item, isSuggest: '' })}
+                    key={index}
+                    style={{ color: '#000', padding: 5, marginVertical: 10 }}
+                  >
+                    {item.suggest}
+                  </Text>
+                ))
+              }
+            </ScrollView>
+          </View>
+        }
         <View
         style={{
           flex: 1,
@@ -406,11 +547,34 @@ class InputTracker extends Component {
         >
           <Text>Makan Malam</Text>
           <TextInput
+            onFocus={() => this.setState({ isSuggest: 'MAKAN_MALAM' })}
             placeholder="Salad"
+            value={this.state.makanMalam === null ? '' : this.state.makanMalam.title}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
         </View>
+         {/* ---- */}
+         {
+          this.state.preText !== '' && this.state.isSuggest !== 'MAKAN_MALAM' ?
+          null
+          :
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccc' }}>
+            <ScrollView>
+              {
+                this.props.dataInputTracker.suggetion.food.map((item, index) => (
+                  <Text 
+                    onPress={() => this.setState({ makanMalam: item, isSuggest: '' })}
+                    key={index}
+                    style={{ color: '#000', padding: 5, marginVertical: 10 }}
+                  >
+                    {item.suggest}
+                  </Text>
+                ))
+              }
+            </ScrollView>
+          </View>
+        }
         <View
         style={{
           flex: 1,
@@ -419,11 +583,34 @@ class InputTracker extends Component {
         >
           <Text>Snack</Text>
           <TextInput
+            onFocus={() => this.setState({ isSuggest: 'SNACK' })}
             placeholder="Gorengan"
+            value={this.state.snack === null ? '' : this.state.snack.title}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
         </View>
+        {/* ---- */}
+        {
+          this.state.preText !== '' && this.state.isSuggest !== 'SNACK' ?
+          null
+          :
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccc' }}>
+            <ScrollView>
+              {
+                this.props.dataInputTracker.suggetion.food.map((item, index) => (
+                  <Text 
+                    onPress={() => this.setState({ snack: item, isSuggest: '' })}
+                    key={index}
+                    style={{ color: '#000', padding: 5, marginVertical: 10 }}
+                  >
+                    {item.suggest}
+                  </Text>
+                ))
+              }
+            </ScrollView>
+          </View>
+        }
         <TouchableOpacity
           style={{
             flex: 0.5,
@@ -432,7 +619,7 @@ class InputTracker extends Component {
             backgroundColor: '#ef434e',
             justifyContent: 'center',
           }}
-          onPress={() => this.setModalVisible()}
+          onPress={() => this.handleSave('FOOD')}
         >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
@@ -559,63 +746,35 @@ class InputTracker extends Component {
       >
         {this.renderButtonOpenDate()}
 
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'Ringan' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'Ringan' ? '#fff' : '#ef434e',
-            borderWidth: 1,
-            justifyContent: 'center',
-            marginVertical: 5
-          }}
-          onPress={() => {
-            this.setState({ activitySelected: 'Ringan' });
-          }}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Ringan' ? '#fff' : '#ef434e' }}>
-            RINGAN
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'Sedang' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'Sedang' ? '#fff' : '#ef434e',
-            borderWidth: 1,
-            justifyContent: 'center',
-            marginVertical: 5
-          }}
-          onPress={() => {
-            this.setState({ activitySelected: 'Sedang' });
-          }}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Sedang' ? '#fff' : '#ef434e' }}>
-            SEDANG
-            </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: this.state.activitySelected === 'Berat' ? '#ef434e' : '#fff',
-            borderColor: this.state.activitySelected === 'Berat' ? '#fff' : '#ef434e',
-            borderWidth: 1,
-            justifyContent: 'center',
-            marginVertical: 5
-          }}
-          onPress={() => {
-            this.setState({ activitySelected: 'Berat' });
-          }}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: this.state.activitySelected === 'Berat' ? '#fff' : '#ef434e' }}>
-            BERAT
-            </Text>
-        </TouchableOpacity>
+        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start',  borderBottomColor: '#ff1200', borderBottomWidth: 1 }}>
+          <Text style={{ fontFamily: 'Montserrat-Light', color: '#4a4a4a' }}>Jenis Aktivitas</Text>
+          <Picker
+            mode="dialog"
+            selectedValue={this.state.activitySelected}
+            style={{ padding: 0, margin: 0, height: 50, width: 200, borderBottomColor: '#ff1200', borderBottomWidth: 1 }}
+            onValueChange={(itemValue) => this.setState({ 
+              activitySelected: itemValue 
+            }, () => {
+              const desc = activityList.filter(item => item.type === this.state.activitySelected);
+              this.setState({
+                descActivity: this.state.activitySelected === '' ? '' : desc[0].description
+              });
+            })}
+          >
+              <Picker.Item label="Pilih Aktifitas" value="" />
+              <Picker.Item label="Ringan" value="ringan" />
+              <Picker.Item label="Sedang" value="sedang" />
+              <Picker.Item label="Berat" value="berat" />
+          </Picker>
+        </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          {
+            this.state.activitySelected !== '' ?
+            this.renderDescAktivity()
+            :
+            null
+          }
+        </View>
         <TouchableOpacity
           style={{
             flex: 0.5,
@@ -633,6 +792,15 @@ class InputTracker extends Component {
             </Text>
         </TouchableOpacity>
       </View>
+    );
+  }
+
+  renderDescAktivity() {
+    const desc = activityList.filter(item => item.type === this.state.activitySelected);
+    return (
+      <Text style={{ fontFamily: 'Montserrat-Light', color: '#4a4a4a', textAlign: 'center' }}>
+        {desc[0].description}
+      </Text> 
     );
   }
 
@@ -791,11 +959,35 @@ class InputTracker extends Component {
     );
   }
 
+  ModalLoading() {
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={this.state.modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+        }}
+      >
+        <TouchableHighlight style={styles.modalLoading}>
+          <View
+            style={{ justifyContent: 'center', alignItems: 'center', height: this.state.keyboardActive ? '70%' : '50%' }}
+          >
+            <ActivityIndicator size="large" color="#ff1200" />
+          </View>
+        </TouchableHighlight>
+      </Modal>
+    );
+  }
+
   renderModalInput() {
     if (this.state.isModal === 'BLOOD_GLUCOSE' && !this.state.isManually) {
       return this.ModalAlertInputGulaDarah();
     } else if (this.state.isModal === 'BLOOD_GLUCOSE' && this.state.isManually) {
       return this.ModalGlucose();
+      // return this.ModalLoading();
+    } else if (this.state.isModal === 'IS_LOADING') {
+      return this.ModalLoading();
     } else if (this.state.isModal === 'INPUT_HBA1C') {
       return this.ModalInputHBA1C();
     } else if (this.state.isModal === 'INPUT_FOOD') {
@@ -810,6 +1002,7 @@ class InputTracker extends Component {
   }
 
   render() {
+    console.log('STATE ---> ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
@@ -888,6 +1081,13 @@ const styles = {
     backgroundColor: '#4a4a4a',
     opacity: 0.9
   },
+  modalLoading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#4a4a4a',
+    opacity: 0.9
+  },
   modalContent: {
     flex: 0,
     backgroundColor: '#fff',
@@ -896,12 +1096,20 @@ const styles = {
   }
 };
 
-const mapDispatchToProps = dispatch => ({
-	inputTrackerManually: (method, params) => dispatch(inputTrackerManually(method, params))
+const mapStateToProps = state => ({
+  dataInputTracker: state.inputTrackerReducer,
+  deepLink: state.appReducer.deepLink
 });
 
-const mapStateToProps = state => ({
-	deepLink: state.appReducer.deepLink
+const mapDispatchToProps = dispatch => ({
+  inputTrackerBloodGlucose: (params) => dispatch(inputTrackerBloodGlucose(params)),
+  inputTrackerHba1c: (params) => dispatch(inputTrackerHba1c(params)),
+  inputTrackerFood: (params) => dispatch(inputTrackerFood(params)),
+  inputTrackerBloodPressure: (params) => dispatch(inputTrackerBloodPressure(params)),
+  inputTrackerActivity: (params) => dispatch(inputTrackerActivity(params)),
+  inputTrackerWeight: (params) => dispatch(inputTrackerWeight(params)),
+  inputTrackerManually: (method, params) => dispatch(inputTrackerManually(method, params)),
+  getFoodSuggetion: () => dispatch(getFoodSuggetion()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputTracker);
