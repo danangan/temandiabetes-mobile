@@ -2,49 +2,53 @@ import * as ActionTypes from '../../actions/constants';
 
 const initialState = {
   status: null,
-  message: null
+  message: null,
+  hba1c: null,
+  activity: null,
+  bloodPressure: null,
+  weight: null
 };
 
 const getHistoryHba1c = (state, payload) => ({
   ...state,
   status: 200,
   message: 'success',
-  hba1c: payload
+  hba1c: payload.hba1c
 });
 
 const getHistoryActivity = (state, payload) => ({
   ...state,
   status: 200,
   message: 'success',
-  activity: payload
+  activity: payload.kategori
 });
 
 const getHistoryBloodPressure = (state, payload) => ({
   ...state,
   status: 200,
   message: 'success',
-  bloodPressure: payload
+  bloodPressure: payload.tekananDarah
 });
 
 const getHistoryWeight = (state, payload) => ({
   ...state,
   status: null,
   message: null,
-  weight: payload
+  weight: payload.beratBadan
 });
 
 const getHistoryFoods = (state, payload) => ({
-    ...state,
-    status: 200,
-    message: 'success',
-    foods: payload
-  });
+  ...state,
+  status: 200,
+  message: 'success',
+  foods: payload
+});
 
 const getHistoryBloodSugarLevels = (state, payload) => ({
   ...state,
   status: 200,
   message: 'success',
-  foods: payload
+  bloodSugar: payload
 });
 
 const historyEstimationReducer = (state = initialState, action) => {
@@ -59,7 +63,7 @@ const historyEstimationReducer = (state = initialState, action) => {
       return getHistoryWeight(state, action.payload);
     case ActionTypes.GET_HISTORY_FOODS:
       return getHistoryFoods(state, action.payload);
-    case ActionTypes.GET_HISTORY_BLOOD_SUGAR_LEVELS:
+    case ActionTypes.GET_BLOOD_GLUCOSE_GRAPH:
       return getHistoryBloodSugarLevels(state, action.payload);
     default:
       return state;

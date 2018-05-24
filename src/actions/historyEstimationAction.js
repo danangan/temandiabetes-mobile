@@ -17,7 +17,11 @@ export const getHistoryHba1c = () => async dispatch => {
       url: '/api/hba1c-tracker'
     };
 
-    const { data: { data: { hba1c: { hba1c } } } } = await API_CALL(option);
+    const {
+      data: {
+        data: { hba1c }
+      }
+    } = await API_CALL(option);
     return onSuccess(hba1c);
   } catch (error) {
     return onSuccess(error);
@@ -40,8 +44,12 @@ export const getHistoryActivity = () => async dispatch => {
       url: 'api/body-activity-tracker'
     };
 
-    const { data: { data: { bodyActivity: { jenisAktifitas } } } } = await API_CALL(option);
-    return onSuccess(jenisAktifitas);
+    const {
+      data: {
+        data: { bodyActivity }
+      }
+    } = await API_CALL(option);
+    return onSuccess(bodyActivity);
   } catch (error) {
     return onSuccess(error);
   }
@@ -63,8 +71,12 @@ export const getHistoryBloodPressure = () => async dispatch => {
       url: 'api/blood-pressure-tracker'
     };
 
-    const { data: { data: { bloodPressure: { tekananDarah } } } } = await API_CALL(option);
-    return onSuccess(tekananDarah);
+    const {
+      data: {
+        data: { bloodPressure }
+      }
+    } = await API_CALL(option);
+    return onSuccess(bloodPressure);
   } catch (error) {
     return onSuccess(error);
   }
@@ -86,8 +98,12 @@ export const getHistoryWeight = () => async dispatch => {
       url: 'api/body-weight-tracker'
     };
 
-    const { data: { data: { bodyWeight: { beratBadan } } } } = await API_CALL(option);
-    return onSuccess(beratBadan);
+    const {
+      data: {
+        data: { bodyWeight }
+      }
+    } = await API_CALL(option);
+    return onSuccess(bodyWeight);
   } catch (error) {
     return onSuccess(error);
   }
@@ -109,7 +125,11 @@ export const getHistoryFoods = () => async dispatch => {
       url: 'api/food-tracker'
     };
 
-    const { data: { data: { food } } } = await API_CALL(option);
+    const {
+      data: {
+        data: { food }
+      }
+    } = await API_CALL(option);
     return onSuccess(food);
   } catch (error) {
     return onSuccess(error);
@@ -132,7 +152,9 @@ export const getHistoryBloodSugarLevels = () => async dispatch => {
       url: 'api/blood-glucose-tracker/graph'
     };
 
-    const { data } = await API_CALL(option);
+    const {
+      data: { data }
+    } = await API_CALL(option);
     return onSuccess(data);
   } catch (error) {
     return onSuccess(error);

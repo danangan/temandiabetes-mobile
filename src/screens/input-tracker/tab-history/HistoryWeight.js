@@ -5,22 +5,30 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 import { Card } from '../../../components';
 import Style from '../../../style/defaultStyle';
 
-const HistoryWeight = () => (
-  <View style={styles.containerStyle}>
-    <Text style={styles.titleStyle}>berat badan</Text>
-    <Card containerStyle={styles.cardStyle}>
-      <View style={styles.weightContainerStyle}>
-        <View style={{ flexDirection: 'row' }}>
-          <Text style={styles.weightStyle}>60</Text>
-          <Text style={styles.unitWeightStyle}>kg</Text>
+const HistoryWeight = ({ history }) => {
+  const weight = history.weight === null || history.weight === undefined ? 0 : history.weight;
+  const wording = {
+    cta: 'Masukkan data berat badan anda',
+    weight: 'Jaga berat badan anda agar selalu ideal '
+  };
+
+  const description = weight === 0 ? wording.cta : wording.weight;
+
+  return (
+    <View style={styles.containerStyle}>
+      <Text style={styles.titleStyle}>berat badan</Text>
+      <Card containerStyle={styles.cardStyle}>
+        <View style={styles.weightContainerStyle}>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.weightStyle}>{weight}</Text>
+            <Text style={styles.unitWeightStyle}>kg</Text>
+          </View>
+          <Text style={styles.textStyle}>{description}</Text>
         </View>
-        <Text style={styles.textStyle}>
-          pertahankan pola makan, jaga kesehatan dan olahraga teratur
-        </Text>
-      </View>
-    </Card>
-  </View>
-);
+      </Card>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   containerStyle: {
@@ -77,7 +85,7 @@ const styles = StyleSheet.create({
   },
   weightStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_TITLE * 1.7,
+    fontSize: Style.FONT_SIZE_TITLE * 1.2,
     fontWeight: 'bold',
     color: '#556299',
     bottom: 3
@@ -87,7 +95,7 @@ const styles = StyleSheet.create({
     fontSize: Style.FONT_SIZE_SMALLER,
     fontWeight: 'bold',
     color: '#556299',
-    marginTop: 17,
+    marginTop: 10,
     left: 1
   }
 });

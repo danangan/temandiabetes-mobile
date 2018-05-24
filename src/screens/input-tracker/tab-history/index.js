@@ -31,6 +31,7 @@ class TabHistoryEstimation extends Component {
     this.state = {
       refreshing: false
     };
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -42,9 +43,24 @@ class TabHistoryEstimation extends Component {
     this.getMakeRequest().then(() => this.setState({ refreshing: false }));
   };
 
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'notification') {
+        alert('Development');
+      }
+      if (event.id === 'sideMenu') {
+        this.props.navigator.showModal({
+          screen: 'TemanDiabets.ProfileScreen',
+          title: 'Modal',
+          animationType: 'none'
+        });
+      }
+    }
+  }
+
   getMakeRequest = async () => {
     try {
-      // this.props.getHistoryBloodSugarLevels();
+      await this.props.getHistoryBloodSugarLevels();
       await this.props.getHistoryHba1c();
       await this.props.getHistoryActivity();
       await this.props.getHistoryBloodPressure();
@@ -57,23 +73,23 @@ class TabHistoryEstimation extends Component {
 
   render() {
     return (
-      <View style={styles.containerStyle}>
-        <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
-          }
-        >
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
+        }
+      >
+        <View style={styles.containerStyle}>
           <HistoryBloodSugarLevels />
           <HistoryInputTracker />
           <HistoryFoods />
-          <TouchableOpacity 
-            style={styles.buttonStyle} 
+          <TouchableOpacity
+            style={styles.buttonStyle}
             onPress={() => {
               this.props.navigator.push({
                 screen: 'TemanDiabets.DrugReminder',
                 navigatorStyle: {
                   navBarHidden: true
-                },
+                }
               });
             }}
           >
@@ -89,8 +105,8 @@ class TabHistoryEstimation extends Component {
               />
             </Card>
           </TouchableOpacity>
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 }

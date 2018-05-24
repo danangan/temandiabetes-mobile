@@ -22,12 +22,12 @@ const LineVertical = () => (
 
 const HistoryFoods = ({ history }) => {
   const mealTime =
-    history.foods === undefined
+    history.foods === undefined || history.foods === null
       ? {
-        sarapan: { title: '', calories: '' },
-        makanSiang: { title: '', calories: '' },
-        makanMalam: { title: '', calories: '' },
-        snack: { title: '', calories: '' }
+          sarapan: { title: '-', calories: 0 },
+          makanSiang: { title: '-', calories: 0 },
+          makanMalam: { title: '-', calories: 0 },
+          snack: { title: '-', calories: 0 }
         }
       : history.foods;
 

@@ -6,7 +6,23 @@ import { Card } from '../../../components';
 import Style from '../../../style/defaultStyle';
 
 const HistoryActivity = ({ history }) => {
-  const activity = history.activity === null ? '-' : history.activity;
+  const activity =
+    history.activity === null || history.activity === undefined ? 'cta' : history.activity;
+  const wording = {
+    cta: 'Masukan data aktifitas anda',
+    light: 'Jalan kaki santai',
+    medium: 'Jalan cepat, jogging, berenang, bersepeda santai',
+    hard: 'Sepakbola, bulutangkis, basket'
+  };
+
+  const description =
+    activity.toLowerCase() === 'ringan'
+      ? wording.light
+      : activity.toLowerCase() === 'sedang'
+        ? wording.medium
+        : activity.toLowerCase() === 'berat'
+          ? wording.hard
+          : wording.cta;
 
   return (
     <View style={styles.containerStyle}>
@@ -20,9 +36,7 @@ const HistoryActivity = ({ history }) => {
           />
           <Text style={styles.statusActivityStyle}>({activity})</Text>
         </View>
-        <Text style={styles.textStyle}>
-          Lorem ipsum dolor sit amet, cum dicunt epicuri efficiendi cuaca
-        </Text>
+        <Text style={styles.textStyle}>{description}</Text>
       </Card>
     </View>
   );

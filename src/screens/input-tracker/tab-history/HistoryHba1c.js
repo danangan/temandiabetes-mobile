@@ -6,9 +6,31 @@ import { Card } from '../../../components';
 import Style from '../../../style/defaultStyle';
 
 const HistoryHba1c = ({ history }) => {
-  const valueHba1c = history.hba1c === null ? 0 : history.hba1c;
+  const valueHba1c = history.hba1c === null || history.hba1c === undefined ? 0 : history.hba1c;
   const statusHba1c =
-    history.hba1c === null || (history.hba1c >= 0 && history.hba1c < 8) ? 'normal' : 'sedang';
+    valueHba1c >= 0 || valueHba1c <= 5.69
+      ? 'normal'
+      : valueHba1c > 5.7 || valueHba1c <= 6.4
+        ? 'prediabetes'
+        : valueHba1c >= 6.41
+          ? 'diabetes'
+          : 'cta';
+
+  const wording = {
+    cta: 'Masukkan data HbA1c anda',
+    normal: 'Pertahankan pola makan dan lakukan aktifitas fisik secara teratur',
+    prediabetes: 'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur',
+    diabetes: 'terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur'
+  };
+
+  const description =
+    statusHba1c === 'normal'
+      ? wording.normal
+      : statusHba1c === 'prediabetes'
+        ? wording.prediabetes
+        : statusHba1c === 'diabetes'
+          ? wording.diabetes
+          : wording.cta;
 
   return (
     <View style={styles.containerStyle}>
@@ -19,11 +41,8 @@ const HistoryHba1c = ({ history }) => {
             <Text style={styles.hba1cStyle}>{valueHba1c}%</Text>
             <Text style={styles.statusHba1cStyle}>({statusHba1c})</Text>
           </View>
-          <Text style={styles.textStyle}>
-            pertahankan pola makan, jaga kesehatan dan olahraga teratur
-          </Text>
+          <Text style={styles.textStyle}>{description}</Text>
         </View>
-        <Text style={styles.textInfoStyle}>Keterangan : kurang 0-4 | normal 4-8 | parah 8-12</Text>
       </Card>
     </View>
   );
@@ -41,7 +60,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    paddingLeft: 11.18,
+    paddingLeft: 10,
     paddingTop: 6.42,
     paddingBottom: 10,
     paddingRight: 45,
@@ -79,7 +98,7 @@ const styles = StyleSheet.create({
   },
   hba1cStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_TITLE * 1.7,
+    fontSize: Style.FONT_SIZE_TITLE * 1.2,
     fontWeight: 'bold',
     color: '#556299'
   },
@@ -89,13 +108,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#556299',
     top: -10
-  },
-  textInfoStyle: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER - 6,
-    fontWeight: '200',
-    color: '#556299',
-    fontStyle: 'italic'
   }
 });
 
