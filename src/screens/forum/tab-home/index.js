@@ -34,15 +34,15 @@ class TabHome extends Component {
       isLoadMorePage: false
     };
 
-    this.renderHeader = this.renderHeader.bind(this)
-    this.renderFooter = this.renderFooter.bind(this)
-		this.togleModal = this.togleModal.bind(this)
-    this.onPostBookmark = this.onPostBookmark.bind(this)
-    this.onEndReached = this.onEndReached.bind(this)
-		this.toThreadDetails = this.toThreadDetails.bind(this)
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this))
-    this.onShareThread = this.onShareThread.bind(this)
-	}
+    this.renderHeader = this.renderHeader.bind(this);
+    this.renderFooter = this.renderFooter.bind(this);
+    this.togleModal = this.togleModal.bind(this);
+    this.onPostBookmark = this.onPostBookmark.bind(this);
+    this.onEndReached = this.onEndReached.bind(this);
+    this.toThreadDetails = this.toThreadDetails.bind(this);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+    this.onShareThread = this.onShareThread.bind(this);
+  }
 
   componentDidMount() {
     this.props.getThreads();
@@ -143,17 +143,16 @@ class TabHome extends Component {
       <View>
         <SearchButton
           onPress={() => {
-              this.props.navigator.push({
-                screen: 'TemanDiabets.ModalSearch',
-                navigatorStyle: {
-                  tabBarHidden: true
-                },
-                passProps: {
-                  threadType: 'home'
-                }
-              })
-            }
-          }
+            this.props.navigator.push({
+              screen: 'TemanDiabets.ModalSearch',
+              navigatorStyle: {
+                tabBarHidden: true
+              },
+              passProps: {
+                threadType: 'home'
+              }
+            });
+          }}
         />
         {this.renderPostThread()}
       </View>
@@ -192,59 +191,58 @@ class TabHome extends Component {
   }
 
   onShareThread(thread) {
-    let options = {
+    const options = {
       title: thread.topic,
       message: thread.topic,
       url: `https://temandiabetes.com/thread/${thread._id}`,
-      subject: "Article from Teman Diabetes" //  for email
+      subject: 'Article from Teman Diabetes' //  for email
     };
-    Share.open(options).catch((err) => { err && console.log(err); })
+    Share.open(options).catch(err => {
+      err && console.log(err);
+    });
   }
 
-	toThreadDetails(threads) {
-		this.props.navigator.push({
-			screen: 'TemanDiabets.ThreadDetails',
-			navigatorStyle: {
-				navBarHidden: true
-			},
-			passProps: threads
-		});
-	}
+  toThreadDetails(threads) {
+    this.props.navigator.push({
+      screen: 'TemanDiabets.ThreadDetails',
+      navigatorStyle: {
+        navBarHidden: true
+      },
+      passProps: threads
+    });
+  }
 
-	renderItem(threads) {
+  renderItem(threads) {
     let { author, comments } = threads.item;
-    if(!author) {
+    if (!author) {
       author = {
         nama: '',
         foto_profile: '',
-        tipe_user: '',
-      }
+        tipe_user: ''
+      };
     }
-		return (
-			<TouchableOpacity
-				key={threads.index}
-				onPress={() => this.toThreadDetails(threads)}
-			>
-				<Card containerStyle={styles.cardStyle}>
-					<HeaderThread
-						source={author.foto_profile}
-						name={author.nama}
-						category={author.tipe_user.toUpperCase()}
-					/>
-					<ContentThread property={threads.item} />
-					<FooterThread
-						leftAction={() => this.toThreadDetails(threads)}
-						numOfComments={comments.length === 0 ? '' : comments.length}
-						isOpen={this.togleModal}
-						saveBookmark={this.onPostBookmark}
-						threadItem={threads.item}
+    return (
+      <TouchableOpacity key={threads.index} onPress={() => this.toThreadDetails(threads)}>
+        <Card containerStyle={styles.cardStyle}>
+          <HeaderThread
+            source={author.foto_profile}
+            name={author.nama}
+            category={author.tipe_user.toUpperCase()}
+          />
+          <ContentThread property={threads.item} />
+          <FooterThread
+            leftAction={() => this.toThreadDetails(threads)}
+            numOfComments={comments.length === 0 ? '' : comments.length}
+            isOpen={this.togleModal}
+            saveBookmark={this.onPostBookmark}
+            threadItem={threads.item}
             threadIndex={threads.index}
             shareThread={this.onShareThread}
-					/>
-				</Card>
-			</TouchableOpacity>
-		);
-	}
+          />
+        </Card>
+      </TouchableOpacity>
+    );
+  }
 
   render() {
     const { listThreads } = this.props.dataThreads;

@@ -4,6 +4,7 @@ import { View, Image, Text, NativeModules } from 'react-native';
 import color from '../../../style/color';
 import { Button } from '../../../components';
 import Style from '../../../style/defaultStyle';
+import { API_CALL } from '../../../utils/ajaxRequestHelper';
 
 const dNurse = NativeModules.DnurseModule;
 
@@ -60,7 +61,26 @@ class DnurseResult extends React.Component {
     });
   };
 
+  onHandleClick = async blood => {
+    try {
+      const option = {
+        method: 'POST',
+        url: 'api/blood-glucose-tracker',
+        data: {
+          waktuInput: new Date(),
+          gulaDarah: blood
+        }
+      };
+
+      await API_CALL(option);
+      this.onNavigation();
+    } catch (error) {
+      throw error;
+    }
+  };
+
   render() {
+    const { bloodSugarLevels } = this.state;
     const bloodSugar = this.state.bloodSugarLevels * 18.018018;
     const result = () => {
       if (bloodSugar < 0.5) {
@@ -76,7 +96,17 @@ class DnurseResult extends React.Component {
       <View style={styles.containerStyle}>
         <View style={styles.contentStyle}>
           <Image
-            source={require('../../../assets/images/result_dnurse.png')}
+            source={
+              bloodSugarLevels === null
+                ? require('../../../assets/images/dnurse-start.gif')
+                : bloodSugarLevels === 0 || bloodSugarLevels <= 70 || bloodSugarLevels > 200
+                  ? require('../../../assets/images/red.png')
+                  : bloodSugarLevels > 71 || bloodSugarLevels <= 140
+                    ? require('../../../assets/images/green.png')
+                    : bloodSugarLevels >= 141 || bloodSugarLevels <= 199
+                      ? require('../../../assets/images/yellow.png')
+                      : require('../../../assets/images/result_dnurse.png')
+            }
             style={styles.imageStyle}
           />
           <Text style={styles.resultStyle}>
@@ -90,7 +120,7 @@ class DnurseResult extends React.Component {
         <Button
           buttonStyle={styles.buttonStyle}
           textStyle={styles.textButtonStyle}
-          onPress={this.onNavigation}
+          onPress={() => this.onHandleClick(result())}
         >
           GUNAKAN
         </Button>
