@@ -4,6 +4,7 @@ import moment from 'moment';
 import {
   View,
   Text,
+  Image,
   TouchableHighlight,
   Modal,
   TextInput,
@@ -120,29 +121,32 @@ class ModalCreateReminder extends React.Component {
   }
 
   onSubmit() {
-    const { drugName, preReminders, status_action, idReminder } = this.state;
+    const { drugName, preReminders, status_action, idReminder, ruleConsume, datetimeConsume } = this.state;
     const reduceKey = preReminders;
-    if (status_action === 'CREATE_NEW') {
-      reduceKey.map((item) => {
-        delete item.hours;
-        delete item.drugName;
-      });
-      const reminder = {
-        drugName,
-        reminders: reduceKey
-      };
-  
-      console.log('CREATE', reduceKey);
-  
-      this.props.onSubmit(reminder);
+    if (drugName === '' || preReminders.length === 0 || ruleConsume === '' || datetimeConsume === '') {
+      alert('Silahkan lengkapi inputan Anda.');
     } else {
-      const reminder = {
-        drugReminderId: idReminder,
-        drugName,
-        reminders: preReminders,
-      };
-      this.props.toUpdateReminder(reminder);
+      if (status_action === 'CREATE_NEW') {
+        reduceKey.map((item) => {
+          delete item.hours;
+          delete item.drugName;
+        });
+        const reminder = {
+          drugName,
+          reminders: reduceKey
+        };
+    
+        this.props.onSubmit(reminder);
+      } else {
+        const reminder = {
+          drugReminderId: idReminder,
+          drugName,
+          reminders: preReminders,
+        };
+        this.props.toUpdateReminder(reminder);
+      }
     }
+    
     this.props.setModalVisible();
   }
 
@@ -204,10 +208,18 @@ class ModalCreateReminder extends React.Component {
     );
   }
 
+  removePreReminders(index) {
+    const currentReminders = this.state.preReminders;
+    currentReminders.splice(index, 1);
+    this.setState({
+      preReminders: currentReminders
+    });
+  }
+
   render() {
     // onPress={() => this.props.setModalVisible()} 
     // console.log('PROPS MODAL', this.props);
-    // console.log('STATE MODAL', this.state);
+    console.log('STATE MODAL', this.state);
     return (
       <Modal
         animationType="none"
@@ -222,7 +234,11 @@ class ModalCreateReminder extends React.Component {
                 style={{ flex: 0, justifyContent: 'flex-end', alignItems: 'flex-end' }}
                 onPress={() => this.props.setModalVisible()}
               >
-                <Text>X</Text>
+                <Image 
+                  resizeModa={'contain'}
+                  style={{ width: 20, height: 20 }}
+                  source={require('../../../assets/icons/close.png')}
+                />
               </TouchableOpacity>
               <View style={{ flex: 1, borderBottomColor: '#000' }}>
                 <Text style={{ fontFamily: 'OpenSans-Light', color: '#000' }}>Nama Obat</Text>
@@ -299,10 +315,20 @@ class ModalCreateReminder extends React.Component {
                 <ScrollView>
                   {
                     this.state.preReminders.map((item, index) => (
-                      <View key={index} style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>
+                      <View key={index} style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style={{ fontSize: 14, fontFamily: 'Montserrat-Light', paddingVertical: 5, textAlign: 'left' }}>
                           {item.hours} - {item.ruleConsume === 'sesudahMakan' ? 'Sesudah Makan' : 'Sebelum Makan'}
                         </Text>
+                        <TouchableOpacity
+                          style={{ flex: 0, justifyContent: 'center', alignItems: 'center', paddingHorizontal: 15 }}
+                          onPress={() => this.removePreReminders(index)}
+                        >
+                          <Image 
+                            resizeModa={'contain'}
+                            style={{ width: 15, height: 15 }}
+                            source={require('../../../assets/icons/close.png')}
+                          />
+                        </TouchableOpacity>
                       </View>
                     ))
                   }

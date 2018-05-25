@@ -16,7 +16,8 @@ const initialState = {
   },
   updateReminder: {
     message: '',
-    status_code: 0
+    status_code: 0,
+    index: null
   }
 };
 
@@ -78,7 +79,10 @@ const reminderReducer = (state = initialState, action) => {
       return {
         ...state, 
         updateReminder: {
-          ...state.updateReminder, status_code: 200, message: 'Success' 
+          ...state.updateReminder, 
+            status_code: 200, 
+            message: 'Success',
+            index: action.payload.index 
         }
       };
 		default:

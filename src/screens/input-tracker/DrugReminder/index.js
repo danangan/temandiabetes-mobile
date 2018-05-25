@@ -72,15 +72,27 @@ class DrugReminder extends React.Component {
   /**
    * SOON -->
    */
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   const { indexChange } = this.state;
-  //   console.log('NEXTPROPS ', nextProps);
-  //   console.log('nextState ', nextState);
-  //   if (this.state.item[indexChange] !== nextState.item[indexChange]) {
-  //     return true;
-  //   }
-  //   return true;
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    const { indexChange } = this.state;
+    // console.log('nextState ', nextState);
+    // console.log('nextProps ', nextProps);
+    const { index } = nextProps.dataReminder.updateReminder;
+    if (nextState.item.length && this.state.item.length && index !== null) {
+      if (this.state.item[index].is_active !== nextState.item[index].is_active) {
+        return false;
+      } 
+    } else if (this.state.item.length === 0) {
+      return true;
+    } else if (this.state.modalActive !== nextState.modalActive) {
+      return true;
+    }
+    return true;
+    
+    // if (this.state.item[indexChange] !== nextState.item[indexChange]) {
+    //   return true;
+    // }
+    // return true;
+  }
 
   onChangeSwitch() {
     this.setState({
@@ -103,6 +115,7 @@ class DrugReminder extends React.Component {
   }
 
   toUpdateStatusReminder({ index, _id, is_active }) {
+    console.log('INDEX', index);
     const listReminder = this.state.item;
     const updateReminder = {
       drugReminderId: _id,
@@ -114,7 +127,7 @@ class DrugReminder extends React.Component {
       indexChange: index,
       item: listReminder
     }, () => {
-      this.props.updateDrugReminder(updateReminder);
+      this.props.updateDrugReminder(updateReminder, index);
     });
   }
 
@@ -173,7 +186,7 @@ class DrugReminder extends React.Component {
   }
 
   render() {
-    // console.log('STATE ', this.state);
+    console.log('STATE ', this.state);
     const { listReminder } = this.props.dataReminder;
     return (
       <View style={styles.container}>
@@ -239,7 +252,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getListReminder: () => dispatch(getListReminder()),
   createDrugReminder: (reminder) => dispatch(createDrugReminder(reminder)),
-  updateDrugReminder: (reminder) => dispatch(updateDrugReminder(reminder)),
+  updateDrugReminder: (reminder, index) => dispatch(updateDrugReminder(reminder, index)),
   getDetailsReminder: (idReminder) => dispatch(getDetailsReminder(idReminder)),
 });
 

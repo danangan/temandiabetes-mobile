@@ -85,8 +85,9 @@ export const createDrugReminder = (reminder) => async dispatch => {
 	}
 };
 
-export const updateDrugReminder = (reminder) => async dispatch => {
-	console.log('UPDATE REMINDER ', reminder);
+export const updateDrugReminder = (reminder, index) => async dispatch => {
+	// console.log('UPDATE REMINDER ', reminder);
+	// console.log('indexNYaaa.... ', index);
 	const isPending = () => {
     dispatch({
       type: 'PENDING_UPDATE_DRUG_REMINDER',
@@ -98,7 +99,7 @@ export const updateDrugReminder = (reminder) => async dispatch => {
 	function onSuccess(data) {
 		dispatch({
 			type: UPDATE_DRUG_REMINDER,
-			payload: data
+			payload: { ...data, index }
 		});
 
 		return data;
