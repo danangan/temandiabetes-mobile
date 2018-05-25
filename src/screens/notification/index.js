@@ -118,7 +118,7 @@ class Notification extends React.Component {
         backgroundColor: '#eee',
       }}>
         <Text style={styles.emptyText}>
-          Empty notification
+          Notifikasi Kosong
         </Text>
       </View>
     )
