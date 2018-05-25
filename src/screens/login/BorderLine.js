@@ -17,21 +17,21 @@ const styles = {
 		flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		paddingLeft: 30,
-		paddingRight: 30
+		paddingLeft: 35,
+		paddingRight: 35
 	},
 	borderLine: {
-		borderBottomColor: color.gray1,
-		borderBottomWidth: 2,
-		width: 75
+		borderBottomColor: '#9C9C9C',
+    borderBottomWidth: 2,
+    flex: 1,
 	},
 	borderText: {
 		fontFamily: 'Montserrat-Regular',
 		fontSize: Style.FONT_SIZE_SMALL,
-		fontWeight: 'bold',
 		alignItems: 'center',
 		justifyContent: 'center',
-		color: color.gray1
+    color: '#9C9C9C',
+    marginHorizontal: 10,
 	},
 };
 

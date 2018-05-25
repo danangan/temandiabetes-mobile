@@ -185,14 +185,6 @@ class InputTracker extends Component {
         });
       }
     }
-
-    // handle a deep link
-    if (event.type == 'DeepLink') {
-      alert('deep link detected')
-      const parts = event.link.split('/'); // Link parts
-      const payload = event.payload; // (optional) The payload
-      console.log(parts, payload)
-    }
   }
 
   setModalVisible(isModal) {

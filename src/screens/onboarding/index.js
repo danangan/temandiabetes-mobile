@@ -39,8 +39,24 @@ class OnBoardingScreen extends Component {
 
     // handling deeplink here
     // save to store to handle later in main app
-    const url = Linking.getInitialURL().then(url => {
-      if (url) {
+    let url = Linking.getInitialURL().then(url => {
+      // check if it is a reset password
+      // if not save it to redux store
+      if (url.includes('reset-password')) {
+        let pathname = url.replace('https://temandiabetes.com/', '');
+        pathname = pathname.split('/')
+        this.props.navigator.push({
+          screen: 'TemanDiabets.ForgotPasswordInputNewPassword',
+          navigatorStyle: {
+            navBarHidden: true
+          },
+          animated: true,
+          animationType: 'fade',
+          passProps: {
+            token: pathname[1]
+          }
+        });
+      } else {
         this.props.updateDeepLink(url)
       }
     });

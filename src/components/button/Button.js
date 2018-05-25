@@ -17,7 +17,6 @@ const Button = ({ onPress, buttonStyle, textStyle, children }) => (
 Button.propTypes = {
 	children: PropTypes.any,
 	buttonStyles: ViewPropTypes.style,
-	textStyle: ViewPropTypes.style,
 	onPress: PropTypes.func
 };
 

@@ -133,7 +133,8 @@ const stylesLocal = {
 	indicatorStyle: { width: '20%' },
 	errMessage: {
 		fontSize: Style.FONT_SIZE_SMALL * 1.2,
-		color: 'red',
+    color: 'red',
+    marginTop: 10,
 		fontFamily: 'Montserrat-Regular'
 	}
 };

@@ -6,12 +6,12 @@ import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 
 const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) => (
-  <Card containerStyle={{ marginLeft: 35, marginRight: 35 }}>
-    <Text style={[styles.labelStyle, { marginTop: 25 }]}>USERNAME</Text>
+  <Card containerStyle={{ marginLeft: 35, marginRight: 35, borderWidth: 0, paddingVertical: 5, paddingHorizontal: 10, elevation: 0, borderRadius: 0, }}>
+    <Text style={[styles.labelStyle, { marginTop: 15 }]}>USERNAME</Text>
     <CardSection>
       <TextField
         value={onValue.email}
-        placeholder="Masukan username"
+        placeholder="masukkan username"
         onChangeText={email => onChangeTextHandlerEmail(email)}
         rightIcon={require('../../assets/icons/username-dark.png')}
         inputStyle={styles.inputStyle}
@@ -24,7 +24,7 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
       <TextField
         value={onValue.pass}
         secureTextEntry
-        placeholder="Masukan password"
+        placeholder="masukkan password"
         onChangeText={pass => onChangeTextHandlerPass(pass)}
         rightIcon={require('../../assets/icons/pasword_black.png')}
         inputStyle={styles.inputStyle}
@@ -37,12 +37,14 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
 const styles = {
 	labelStyle: {
 		fontFamily: 'Montserrat-Regular',
-		fontSize: Style.FONT_SIZE,
-		marginLeft: 10,
-		marginBottom: -5
+    fontSize: Style.FONT_SIZE,
+    fontWeight: 'normal',
+    marginLeft: 10,
+    marginBottom: -7
 	},
 	inputStyle: {
-		fontStyle: 'italic',
+    fontStyle: 'italic',
+    fontWeight: 'normal',
 	},
 	borderLine: {
 		borderBottomColor: color.midGray,

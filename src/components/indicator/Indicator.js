@@ -19,8 +19,8 @@ Indicator.propTypes = {
 
 const styles = {
 	parentStyle: {
-    borderWidth: 1,
-    borderColor: '#ccc',
+    borderWidth: 0,
+    // borderColor: '#ccc',
     backgroundColor: '#fff',
     width: '100%',
     borderRadius: 30,
@@ -28,7 +28,7 @@ const styles = {
   },
 	parameterStyle: {
     borderRadius: 30,
-    backgroundColor: 'red',
+    backgroundColor: '#EF434F',
     height: 10
   }
 };

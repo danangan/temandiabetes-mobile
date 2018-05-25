@@ -138,6 +138,17 @@ class Login extends Component {
     });
   };
 
+	forgotPassword = () => {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.ForgotPasswordInputEmail',
+			animated: true,
+      animationType: 'fade',
+      navigatorStyle: {
+        navBarHidden: true
+      },
+		});
+	};
+
   render() {
     const spinner = this.state.shouldRedirect ? (
       <Spinner color="#FFDE00" text="Logging In..." size="large" />
@@ -176,6 +187,9 @@ class Login extends Component {
               text="Masuk dengan Google"
               textStyle={styles.buttonSocialTextStyle}
             />
+						<Text style={styles.forgotPasswordLink} onPress={this.forgotPassword}>
+							Lupa password?
+						</Text>
             <Text style={styles.textLink} onPress={this.createAccount}>
               BUAT AKUN
             </Text>
@@ -188,48 +202,61 @@ class Login extends Component {
 }
 
 const styles = {
-  containerStyle: {
-    flex: 1
-  },
-  contentStyle: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-around'
-  },
-  contentCenterStyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  contentBottomStyle: {
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  logoStyle: {
-    width: Style.DEVICE_WIDTH - 80,
-    height: Style.DEVICE_WIDTH / 8.5,
-    alignSelf: 'center',
-    marginTop: 40
-  },
-  textLink: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_TITLE,
+	containerStyle: {
+		flex: 1
+	},
+	contentStyle: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'space-around'
+	},
+	contentCenterStyle: {
+		flexDirection: 'column',
+		justifyContent: 'space-between'
+	},
+	contentBottomStyle: {
+		flexDirection: 'column',
+		justifyContent: 'space-between'
+	},
+	logoStyle: {
+		width: Style.DEVICE_WIDTH - 80,
+		height: Style.DEVICE_WIDTH / 8.5,
+		alignSelf: 'center',
+		marginTop: 40
+	},
+	forgotPasswordLink: {
+		fontFamily: 'Montserrat-Regular',
+		fontSize: 16,
     color: color.gray,
-    fontWeight: 'bold',
+    fontStyle: 'italic',
+		// fontWeight: 'bold',
     alignSelf: 'center',
-    marginTop: 30
+    marginTop: 8
   },
-  buttonStyle: {
-    height: 55,
-    marginLeft: 35,
-    marginRight: 35
+	textLink: {
+		fontFamily: 'Montserrat-Regular',
+		fontSize: Style.FONT_SIZE_TITLE,
+		color: color.gray,
+		fontWeight: 'bold',
+		alignSelf: 'center',
+		marginTop: 30
+	},
+	buttonStyle: {
+		height: 55,
+		marginLeft: 35,
+    marginRight: 35,
+    borderRadius: 0,
   },
-  buttonSocialStyle: {
-    margin: 10
+  textStyle: {
+    // fontSize: 16
   },
-  buttonSocialTextStyle: {
-    fontSize: Style.FONT_SIZE,
-    paddingTop: 2
-  }
+	buttonSocialStyle: {
+		margin: 10
+	},
+	buttonSocialTextStyle: {
+		fontSize: Style.FONT_SIZE,
+		paddingTop: 2
+	}
 };
 
 const mapStateToProps = state => ({
