@@ -190,7 +190,7 @@ const tabs = [
   }
 ];
 
-export const mainApp = () => {
+export const mainApp = tabIndex => {
   Navigation.startTabBasedApp({
     tabs,
     animationType: Platform.OS === 'ios' ? 'slide-down' : 'fade',
@@ -213,7 +213,7 @@ export const mainApp = () => {
       tabFontFamily: 'Montserrat-Regular',
       tabFontSize: 10,
       selectedTabFontSize: 12,
-      initialTabIndex: 2,
+      initialTabIndex: tabIndex,
       forceTitlesDisplay: true,
 
       topTabTextFontFamily: 'Montserrat-Regular',
