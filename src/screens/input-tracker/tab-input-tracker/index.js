@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import {
   View,
@@ -31,7 +30,7 @@ import {
 } from '../../../actions';
 
 import color from '../../../style/color';
-import { Card, Button, CardSection, TextField } from '../../../components';
+import { Card } from '../../../components';
 import MenuButton from './MenuButton';
 import Style from '../../../style/defaultStyle';
 import { dateFormateName } from '../../../utils/helpers';
@@ -273,6 +272,13 @@ class InputTracker extends Component {
         snack
       };
       this.props.inputTrackerFood(value);
+      this.setState({
+        waktuInput: '',
+        sarapan: '',
+        makanMalam: '',
+        makanSiang: '',
+        snack: ''
+      });
     }
     this.setModalVisible('IS_LOADING');
   }
@@ -479,9 +485,11 @@ class InputTracker extends Component {
           <TextInput
             onFocus={() => this.setState({ isSuggest: 'SARAPAN' })}
             onChangeText={(preText) => {
-              this.setState({ preText });
+              this.setState({ preText }, () => {
+                this.props.getFoodSuggetion(preText);
+              });
             }}
-            value={this.state.sarapan === null ? '' : this.state.sarapan.title}
+            value={this.state.sarapan === null ? this.state.sarapan : this.state.sarapan.title}
             placeholder="Nasi Uduk"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
@@ -496,13 +504,16 @@ class InputTracker extends Component {
             <ScrollView>
               {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <Text
+                  <TouchableOpacity
                     onPress={() => this.setState({ sarapan: item, isSuggest: '' })}
-                    key={index}
-                    style={{ color: '#000', padding: 5, marginVertical: 10 }}
-                  >
-                    {item.suggest}
-                  </Text>
+                  > 
+                    <Text
+                      key={index}
+                      style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
+                    >
+                      {item.suggest}
+                    </Text>
+                  </TouchableOpacity>
                 ))
               }
             </ScrollView>
@@ -517,6 +528,11 @@ class InputTracker extends Component {
           <Text>Makan Siang</Text>
           <TextInput
             onFocus={() => this.setState({ isSuggest: 'MAKAN_SIANG' })}
+            onChangeText={(preText) => {
+              this.setState({ preText }, () => {
+                this.props.getFoodSuggetion(preText);
+              });
+            }}
             value={this.state.makanSiang === null ? '' : this.state.makanSiang.title}
             placeholder="Soto Ayam"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
@@ -532,13 +548,16 @@ class InputTracker extends Component {
             <ScrollView>
               {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <Text
+                  <TouchableOpacity
                     onPress={() => this.setState({ makanSiang: item, isSuggest: '' })}
-                    key={index}
-                    style={{ color: '#000', padding: 5, marginVertical: 10 }}
-                  >
-                    {item.suggest}
-                  </Text>
+                  > 
+                    <Text
+                      key={index}
+                      style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
+                    >
+                      {item.suggest}
+                    </Text>
+                  </TouchableOpacity>
                 ))
               }
             </ScrollView>
@@ -554,6 +573,11 @@ class InputTracker extends Component {
           <TextInput
             onFocus={() => this.setState({ isSuggest: 'MAKAN_MALAM' })}
             placeholder="Salad"
+            onChangeText={(preText) => {
+              this.setState({ preText }, () => {
+                this.props.getFoodSuggetion(preText);
+              });
+            }}
             value={this.state.makanMalam === null ? '' : this.state.makanMalam.title}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
@@ -568,13 +592,16 @@ class InputTracker extends Component {
             <ScrollView>
               {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <Text
+                  <TouchableOpacity
                     onPress={() => this.setState({ makanMalam: item, isSuggest: '' })}
-                    key={index}
-                    style={{ color: '#000', padding: 5, marginVertical: 10 }}
-                  >
-                    {item.suggest}
-                  </Text>
+                  > 
+                    <Text
+                      key={index}
+                      style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
+                    >
+                      {item.suggest}
+                    </Text>
+                  </TouchableOpacity>
                 ))
               }
             </ScrollView>
@@ -590,7 +617,12 @@ class InputTracker extends Component {
           <TextInput
             onFocus={() => this.setState({ isSuggest: 'SNACK' })}
             placeholder="Gorengan"
-            value={this.state.snack === null ? '' : this.state.snack.title}
+            onChangeText={(preText) => {
+              this.setState({ preText }, () => {
+                this.props.getFoodSuggetion(preText);
+              });
+            }}
+            value={this.state.snack === null ? this.state.snack : this.state.snack.title}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
@@ -604,13 +636,16 @@ class InputTracker extends Component {
             <ScrollView>
               {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <Text
+                  <TouchableOpacity
                     onPress={() => this.setState({ snack: item, isSuggest: '' })}
-                    key={index}
-                    style={{ color: '#000', padding: 5, marginVertical: 10 }}
-                  >
-                    {item.suggest}
-                  </Text>
+                  > 
+                    <Text
+                      key={index}
+                      style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
+                    >
+                      {item.suggest}
+                    </Text>
+                  </TouchableOpacity>
                 ))
               }
             </ScrollView>
@@ -1007,6 +1042,7 @@ class InputTracker extends Component {
   }
 
   render() {
+    console.log('STATE PORE ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
@@ -1113,7 +1149,7 @@ const mapDispatchToProps = dispatch => ({
   inputTrackerActivity: (params) => dispatch(inputTrackerActivity(params)),
   inputTrackerWeight: (params) => dispatch(inputTrackerWeight(params)),
   inputTrackerManually: (method, params) => dispatch(inputTrackerManually(method, params)),
-  getFoodSuggetion: () => dispatch(getFoodSuggetion()),
+  getFoodSuggetion: (keyword) => dispatch(getFoodSuggetion(keyword)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InputTracker);
