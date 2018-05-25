@@ -102,6 +102,7 @@ class RegisterFive extends React.Component {
 							<TextInput
 								placeholder={'Surat Izin Praktek'}
 								onChangeText={sip => this.setState({ sip })}
+								value={this.state.sip}
 								underlineColorAndroid={'#fff'}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>

@@ -119,6 +119,7 @@ class RegisterScreenThird extends React.Component {
 							<TextInput
 								placeholder={'*********'}
 								underlineColorAndroid={'#fff'}
+								value={this.state.password}
 								secureTextEntry
 								onChangeText={password => this.setState({ password })}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
@@ -127,6 +128,7 @@ class RegisterScreenThird extends React.Component {
 								placeholder={'*********'}
 								underlineColorAndroid={'#fff'}
 								secureTextEntry
+								value={this.state.confirmPassword}
 								onChangeText={confirmPassword => this.setState({ confirmPassword })}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>

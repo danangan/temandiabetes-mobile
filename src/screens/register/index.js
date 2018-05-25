@@ -100,6 +100,7 @@ class Register extends Component {
 							<TextInput
 								placeholder={'Your Fullname'}
 								underlineColorAndroid={'#fff'}
+								value={this.state.name}
 								onChangeText={name => this.setState({ name })}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
