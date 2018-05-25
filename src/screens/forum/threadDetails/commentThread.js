@@ -158,7 +158,7 @@ const styles = {
 		alignItems: 'flex-end',
 		justifyContent: 'flex-end',
 		paddingVertical: 5,
-		backgroundColor: 'transparant',
+		backgroundColor: 'transparent',
 		borderTopLeftRadius: 15,
 		borderTopRightRadius: 15,
 		paddingHorizontal: 15
@@ -168,7 +168,7 @@ const styles = {
 		flexDirection: 'row',
 		alignItems: 'flex-start',
 		paddingHorizontal: 20,
-    backgroundColor: 'transparant',
+    backgroundColor: 'transparent',
     paddingBottom: 10,
 	},
 	containerCommentChild: {
