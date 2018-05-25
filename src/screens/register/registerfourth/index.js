@@ -4,7 +4,8 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, ImageBackground } from
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
-import { registerAction } from '../../../actions';
+import { registerAction, loginManual } from '../../../actions';
+import { Spinner } from '../../../components/';
 import { buttonLabelDone, buttonLabelNext, URL_IMAGE, typeOfUsers } from '../../../utils/constants';
 import { mainApp } from '../../../../App';
 
@@ -19,29 +20,57 @@ class RegisterScreenFourth extends React.Component {
 			selected: '',
 			persentase: '80%',
 			btn_submit: buttonLabelNext,
-			shouldRedirect: false
+			shouldRedirect: false,
+			shouldUserLogin: false
 		};
 		this.handleFinalRegister = this.handleFinalRegister.bind(this);
 		this.handleNavigation = this.handleNavigation.bind(this);
 	}
 
 	componentDidUpdate() {
+		const self = this;
 		const { status_code, tipe_user } = this.props.dataRegister.dataUser;
 		if (status_code === 200 && this.state.shouldRedirect) {
 			this.setState({
-					shouldRedirect: false
+					shouldRedirect: false,
+					shouldUserLogin: true
 				}, () => {
 					if (tipe_user !== 'ahli') {
 						// harus balik ke Home
-						this.props.navigator.resetTo({
-							screen: 'TemanDiabets.OnBoardingScreen',
-							navigatorStyle: {
-								navBarHidden: true
-							}
-						});
+						// Hit login first to get Firebase token (JWT)
+						const user = {
+							email: this.props.email,
+							password: this.props.password,
+						};
+						this.props.loginManual(user);
+						// this.props.navigator.resetTo({
+						// 	screen: 'TemanDiabets.OnBoardingScreen',
+						// 	navigatorStyle: {
+						// 		navBarHidden: true
+						// 	}
+						// });
 					}
 				}
 			);
+		} else if (this.props.loginReducer.statusCode === 200 && this.props.loginReducer.message === 'success login' && this.state.shouldRedirect) {
+			self.setState({ shouldRedirect: false }, () => {
+				if (!this.props.loginReducer.is_active) {
+					Alert.alert(
+						'Pemberitahuan',
+						'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silahkan tunggu beberapa email konfirmasi.',
+						[{ text: 'OK', onPress: () => self.props.onFirebaseSignOut() }],
+						{ cancelable: false }
+					);
+				}
+				// alert('Jalan...');
+				const params = {
+					idUser: this.props.loginReducer._id,
+					token: {
+						messagingRegistrationToken: this.props.fcmToken
+					}
+				};
+				this.props.updateFCMToken(params);
+			});
 		}
 	}
 
@@ -97,8 +126,32 @@ class RegisterScreenFourth extends React.Component {
 				}
 				onPress={() => this.handleUserDecision(item)}
 			>
-				<Image resizeMode={'contain'} style={stylesLocal.images} source={{ uri: URL_IMAGE }} />
-				<Text style={{ fontSize: 12, color: '#000', textAlign: 'center' }}>{item}</Text>
+				{
+					index === 0 ? 
+						<Image 
+							resizeMode={'contain'} 
+							style={stylesLocal.images} 
+							source={require('../../../assets/images/siapakah_nama_anda.jpg')} 
+						/>
+					:
+					index === 1 ?
+						<Image 
+							resizeMode={'contain'} 
+							style={stylesLocal.images} 
+							source={require('../../../assets/images/TD-Nutrisionist-FIX.jpg')} 
+						/>
+					:
+					index === 2 ?
+						<Image 
+							resizeMode={'contain'} 
+							style={stylesLocal.images} 
+							source={require('../../../assets/images/input_sip.jpg')} 
+						/>
+					:
+					null
+				}
+				
+				<Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 12, color: '#000', textAlign: 'center' }}>{item}</Text>
 			</TouchableOpacity>
 		));
 	}
@@ -121,10 +174,10 @@ class RegisterScreenFourth extends React.Component {
 
 	render() {
 		const { message, status_code } = this.props.dataRegister.dataUser;
-		if (this.state.shouldRedirect) {
+		if (this.state.shouldRedirect || this.state.shouldUserLogin) {
 			return (
-				<View style={{ flex: 1 }}>
-					<Text style={{ fontSize: 20, color: '#000' }}>Loading...</Text>
+				<View style={{ flex: 1, opacity: 0.7, justifyContent: 'center', alignItems: 'center' }}>
+					<Spinner color="#FFDE00" text="Loading..." size="large" />
 				</View>
 			);
 		} else if (message === 'registration data incomplete' && status_code === 400) {
@@ -206,11 +259,14 @@ const stylesLocal = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-	dataRegister: state.registerReducer
+	dataRegister: state.registerReducer,
+	loginReducer: state.loginReducer
 });
 
 const mapDispatchToProps = dispatch => ({
-	registerAction: dataUser => dispatch(registerAction(dataUser))
+	registerAction: dataUser => dispatch(registerAction(dataUser)),
+	loginManual: user => dispatch(loginManual(user)),
+	updateFCMToken: (params) => dispatch(updateFCMToken(params))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreenFourth);

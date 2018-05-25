@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, ImageBackground, Image } from 
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
-import { mainApp } from '../../../../App';
+import { Spinner } from '../../../components/';
 import Style from '../../../style/defaultStyle';
 import { registerAction } from '../../../actions';
 
@@ -21,7 +21,7 @@ class RegisterFive extends React.Component {
 	}
 
 	componentDidUpdate() {
-		const { status_code, tipe_user } = this.props.dataRegister.dataUser;
+		const { status_code } = this.props.dataRegister.dataUser;
 		if (status_code === 200 && this.state.shouldRedirect) {
 			this.setState({
 					shouldRedirect: false
@@ -39,26 +39,30 @@ class RegisterFive extends React.Component {
 
 	toHome() {
 		// mainApp();
-		const dataUser = {
-			nama: this.props.name,
-			email: this.props.email,
-			password: this.props.password,
-			tipeuser: this.props.tipeuser,
-			sip: this.state.sip
-		};
-		this.setState({
-			shouldRedirect: true
-		}, () => {
-			this.props.registerAction(dataUser);
-		})
+		if (this.state.sip !== '') {
+			const dataUser = {
+				nama: this.props.name,
+				email: this.props.email,
+				password: this.props.password,
+				tipeuser: this.props.tipeuser,
+				sip: this.state.sip
+			};
+			this.setState({
+				shouldRedirect: true
+			}, () => {
+				this.props.registerAction(dataUser);
+			});
+		} else {
+			alert('Harap input nomor SIP Anda.');
+		}
 	}
 
 	render() {
 		const { message, status_code } = this.props.dataRegister.dataUser;
 		if (this.state.shouldRedirect) {
 			return (
-				<View style={{ flex: 1 }}>
-					<Text style={{ fontSize: 20, color: '#000' }}>Loading...</Text>
+				<View style={{ flex: 1, opacity: 0.7, justifyContent: 'center', alignItems: 'center' }}>
+					<Spinner color="#FFDE00" text="Loading..." size="large" />
 				</View>
 			);
 		} else if (message === 'registration data incomplete' && status_code === 400) {

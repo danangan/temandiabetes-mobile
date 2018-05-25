@@ -65,6 +65,7 @@ class Register extends Component {
 	}
 
 	render() {
+		// console.log('STATE ', this.state);
 		return (
 			<View style={styles.container}>
 				<ImageBackground
