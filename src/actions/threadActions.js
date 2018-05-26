@@ -193,7 +193,7 @@ export const getThreadDetails = threadId => async dispatch => {
  * @param {*} token
  * @param {*} dataThread
  */
-export const userPostThread = (token, dataThread) => async dispatch => {
+export const userPostThread = (dataThread, cb) => async dispatch => {
   const postThredsSuccess = data => ({
     type: POST_THREDS,
     payload: data
@@ -212,6 +212,7 @@ export const userPostThread = (token, dataThread) => async dispatch => {
       message: res.data.message
     };
     dispatch(postThredsSuccess(threadsPayload));
+    cb()
   } catch (err) {
     dispatch(postThredsSuccess(err));
   }

@@ -23,7 +23,12 @@ class ModalPostThred extends Component {
       keyboardActive: false,
       isSubmit: false,
       selectedCategory: '',
-      categories: []
+      threadType: 'sharing',
+      categories: [],
+      errors: {
+        title: false,
+        description: false
+      },
     };
     this.onSubmitThread = this.onSubmitThread.bind(this);
   }
@@ -75,29 +80,62 @@ class ModalPostThred extends Component {
     this.fetchCategories()
   }
 
-  onSubmitThread() {
-    this.getToken();
+  isValid() {
+    return !this.state.errors.topic && !this.state.errors.description
   }
 
-  getToken = async () => {
-    const token = await AsyncStorage.getItem(authToken);
-    const dataThreads = {
-      category: [{
-        _id: this.state.selectedCategory
-      }],
-      threadType: 'sharing',
-      topic: this.state.topic,
-      description: this.state.description
-    };
+  validate(cb) {
+    const { topic, description } = this.state
+    let isTopicError = false
+    let isDescriptionError = false
+
+    if (topic.trim() === '') {
+      isTopicError = true
+    }
+
+    if (description.trim() === '') {
+      isDescriptionError = true
+    }
+
     this.setState({
-      isSubmit: true
-    }, () => {
-      this.props.userPostThread(token, dataThreads);
-    });
+      errors: {
+        description: isDescriptionError,
+        topic: isTopicError
+      }
+    }, cb)
+  }
+
+  async onSubmitThread() {
+    this.validate(() => {
+      if (this.isValid()) {
+        const dataThreads = {
+          category: [{
+            _id: this.state.selectedCategory
+          }],
+          threadType: this.state.threadType,
+          topic: this.state.topic,
+          description: this.state.description
+        };
+        console.log(this.state, this.isValid())
+        this.setState({
+          isSubmit: true
+        }, () => {
+          this.props.userPostThread(dataThreads, () => {
+            this.props.navigator.pop()
+            // this.setState({
+            //   isSubmit: false,
+            //   topic: '',
+            //   description: '',
+            // })
+          });
+        });
+      }
+    })
 	}
 
   render() {
     const { currentUser } = this.props;
+    const { errors } = this.state;
     if (this.state.isSubmit) {
       return (
 				<View style={{
@@ -116,9 +154,7 @@ class ModalPostThred extends Component {
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
             <TouchableOpacity
-              onPress={() => Navigation.dismissModal({
-                animationType: 'slide-down'
-              })}
+              onPress={() => {this.props.navigator.pop()}}
             >
                 <Image
                   source={Closed}
@@ -144,9 +180,12 @@ class ModalPostThred extends Component {
               style={styles.titleInput}
               placeholder="Judul Threads"
               onChangeText={(topic) => this.setState({ topic })}
-              returnKeyType={'done'}
             />
           </View>
+          {
+            errors.topic &&
+            <Text style={styles.errorText}>Judul thread tidak boleh kosong</Text>
+          }
           <View style={styles.contentInputWrapper}>
             <TextInput
               underlineColorAndroid={'#fff'}
@@ -156,6 +195,10 @@ class ModalPostThred extends Component {
               onChangeText={(description) => this.setState({ description })}
             />
           </View>
+          {
+            errors.description &&
+            <Text style={styles.errorText}>Konten thread tidak boleh kosong</Text>
+          }
           <View style={{
             flexDirection: 'row',
             paddingHorizontal: 10,
@@ -165,22 +208,33 @@ class ModalPostThred extends Component {
             borderTopColor: '#f2f3f7',
           }}>
             <Picker
-              style={{
-                flex:1,
-                width: 150,
-              }}
+            style={{
+              flex:1,
+            }}
               selectedValue={this.state.selectedCategory}
-              prompt="Pilih Kategori"
               mode="dropdown"
               onValueChange={itemValue => {
-                console.log(itemValue)
+                this.setState({threadType: itemValue})
+              }
+              }>
+              <Picker.Item label="Prefix" value="sharing" />
+              <Picker.Item label="Sharing" value="sharing" />
+              <Picker.Item label="Pertanyaan" value="question" />
+            </Picker>
+            <Picker
+              style={{
+                flex:1.2,
+              }}
+              selectedValue={this.state.selectedCategory}
+              mode="dropdown"
+              onValueChange={itemValue => {
                 this.setState({selectedCategory: itemValue})
               }
               }>
-              <Picker.Item label="Pilih kategori" value="" />
+              <Picker.Item label="Kategori" value="" />
               {
-                this.state.categories.map((item) => (
-                  <Picker.Item label={capitalize(item.category)} value={item._id} />
+                this.state.categories.map((item, id) => (
+                  <Picker.Item key={id} label={capitalize(item.category)} value={item._id} />
                 ))
               }
             </Picker>
@@ -240,18 +294,19 @@ const styles = {
     fontSize: 13
   },
   contentInputWrapper: {
-    flex: 1,
-    marginVertical: 40,
+    flex: 1.5,
+    marginVertical: 10,
     width: '100%',
     backgroundColor: '#fff',
-    borderTopWidth: 2,
+    borderTopWidth: 1,
     borderTopColor: '#f2f3f7'
   },
   titleInputWrapper: {
+    flex: 1,
     marginTop: 40,
     width: '100%',
     backgroundColor: '#fff',
-    borderTopWidth: 2,
+    borderTopWidth: 1,
     borderTopColor: '#f2f3f7',
     paddingTop: 5
   },
@@ -268,6 +323,12 @@ const styles = {
     fontFamily: 'Montserrat-ExtraLight',
     color: '#4a4a4a',
     fontSize: 12,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginBottom: 5,
+    marginHorizontal: 5,
   }
 };
 
@@ -277,7 +338,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	userPostThread: (token, dataThreads) => dispatch(userPostThread(token, dataThreads)),
+	userPostThread: (dataThreads, cb) => dispatch(userPostThread(dataThreads, cb)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalPostThred);
