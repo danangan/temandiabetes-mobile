@@ -69,7 +69,7 @@ class ModalReplyComment extends Component {
   }
 
   render() {
-    // console.log('PROPS comment -- ', this.props);
+    console.log('PROPS comment -- ', this.props);
     return (
       <View style={styles.container}>
         <View style={styles.innerWrapper}>

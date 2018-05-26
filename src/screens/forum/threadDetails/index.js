@@ -38,7 +38,9 @@ class ThreadDetails extends React.Component {
 
 	componentDidUpdate() {
 		const { listThreads, followThread } = this.props.dataThreads;
+		console.log('INI KAH ... ? ', listThreads);
 		if (listThreads.threadDetails !== null && this.state.isProcess) {
+			console.log('listThreads is null ', listThreads);
 			this.setState({
 				isProcess: false
 			});
@@ -153,7 +155,8 @@ class ThreadDetails extends React.Component {
 	render() {
     const { _id } = this.props.item;
     const { listThreads } = this.props.dataThreads;
-    const { threadDetails } = listThreads
+		const { threadDetails } = listThreads;
+		console.log('Apa ini category ', threadDetails);
 		if (this.state.isProcess) {
 			return (
 				<Spinner
@@ -166,105 +169,118 @@ class ThreadDetails extends React.Component {
 
 		return (
 			<View style={{ flex: 2, backgroundColor: color.solitude }}>
-        <HeaderDetail
-          categoryItem={threadDetails.category}
-          date={threadDetails.createdAt}
-          authorItem={threadDetails.author} />
-				<ScrollView>
-					{/* <ContentDetail /> */}
-					<CardSection containerStyle={{ backgroundColor: color.solitude, margin: 0 }}>
-						<View
-							style={{
-								flex: 1,
-								flexDirection: 'row',
-								alignItems: 'flex-start',
-								paddingHorizontal: 15,
-								borderRadius: 15
-							}}
-						>
-							<Text style={{ fontSize: 22 }}>
-								{threadDetails.topic}
-							</Text>
-						</View>
-					</CardSection>
-					<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
-						<View
-							style={{
-								flex: 1,
-								flexDirection: 'row',
-								alignItems: 'flex-start',
-								paddingVertical: 5,
-								paddingHorizontal: 15,
-								borderRadius: 15
-							}}
-						>
-							{
-								listThreads.threadDetails !== null ? this.renderButtonFollow() : null
-							}
-							<TouchableOpacity
-								onPress={() =>
-									this.setState({
-										isProcess: true
-									}, () => {
-										this.props.navigator.push({
-											screen: 'TemanDiabets.ModalPostComment',
-											navigatorStyle: {
-												navBarHidden: true
+        {
+					listThreads.threadDetails === null ?
+					<View>
+							<Spinner
+								containerStyle={{ backgroundColor: '#f2f4fd' }}
+								color="#FFDE00"
+								size="small"
+							/>
+					</View>
+					:
+					<HeaderDetail 
+						categoryItem={threadDetails.category}
+          	date={threadDetails.createdAt}
+          	authorItem={threadDetails.author} 
+					/>
+				}
+					<ScrollView>
+						{/* <ContentDetail /> */}
+						<CardSection containerStyle={{ backgroundColor: color.solitude, margin: 0 }}>
+							<View
+								style={{
+									flex: 1,
+									flexDirection: 'row',
+									alignItems: 'flex-start',
+									paddingHorizontal: 15,
+									borderRadius: 15
+								}}
+							>
+								
+								<Text style={{ fontSize: 22 }}>
+									{listThreads.threadDetails === null ? 'Loading' : threadDetails.topic}
+								</Text>
+							</View>
+						</CardSection>
+						<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
+							<View
+								style={{
+									flex: 1,
+									flexDirection: 'row',
+									alignItems: 'flex-start',
+									paddingVertical: 5,
+									paddingHorizontal: 15,
+									borderRadius: 15
+								}}
+							>
+								{
+									listThreads.threadDetails !== null ? this.renderButtonFollow() : null
+								}
+								<TouchableOpacity
+									onPress={() =>
+										this.setState({
+											isProcess: true
+										}, () => {
+											this.props.navigator.push({
+												screen: 'TemanDiabets.ModalPostComment',
+												navigatorStyle: {
+													navBarHidden: true
+												},
+												passProps: {
+													idThread: _id
+												},
+											});
+										})
+									}
+									style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, marginRight: 10 }}>
+									<Text
+										style={{
+											fontSize: 12,
+											paddingHorizontal: 20,
+											paddingVertical: 3,
+											color: '#8084a7',
+											textAlign: 'center'
+										}}
+									>
+										Balas
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									onPress={() => {
+										Navigation.showModal({
+											screen: 'TemanDiabets.ModalReport',
+											title: 'Modal',
+											navigatorButtons: {
+												leftButtons: [{}]
 											},
 											passProps: {
 												idThread: _id
 											},
+											animationType: 'none'
 										});
-									})
-								}
-								style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, marginRight: 10 }}>
-								<Text
-									style={{
-										fontSize: 12,
-										paddingHorizontal: 20,
-										paddingVertical: 3,
-										color: '#8084a7',
-										textAlign: 'center'
 									}}
-								>
-									Balas
-								</Text>
-              </TouchableOpacity>
-							<TouchableOpacity
-								onPress={() => {
-                  Navigation.showModal({
-                    screen: 'TemanDiabets.ModalReport',
-                    title: 'Modal',
-                    navigatorButtons: {
-                      leftButtons: [{}]
-                    },
-                    passProps: {
-                      idThread: _id
-                    },
-                    animationType: 'none'
-                  });
-                }}
-								style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, }}>
-								<Text
-									style={{
-										fontSize: 12,
-										paddingHorizontal: 20,
-										paddingVertical: 3,
-										color: '#8084a7',
-										textAlign: 'center'
-									}}
-								>
-									Laporkan
-								</Text>
-							</TouchableOpacity>
-						</View>
-					</CardSection>
-					<ContentDetail
-						threadItem={this.props.item}
-						threadDetails={listThreads.threadDetails}
-						navigator={this.toCommentDetails}
-					/>
-				</ScrollView>
+									style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, }}>
+									<Text
+										style={{
+											fontSize: 12,
+											paddingHorizontal: 20,
+											paddingVertical: 3,
+											color: '#8084a7',
+											textAlign: 'center'
+										}}
+									>
+										Laporkan
+									</Text>
+								</TouchableOpacity>
+							</View>
+						</CardSection>
+						<ContentDetail
+							threadItem={this.props.item}
+							threadDetails={listThreads.threadDetails}
+							navigator={this.toCommentDetails}
+						/>
+					</ScrollView>
 				<TouchableOpacity
 					onPress={() => {
 						this.setState({
