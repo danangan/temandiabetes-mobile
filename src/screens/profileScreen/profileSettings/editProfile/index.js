@@ -34,7 +34,7 @@ class EditProfile extends React.Component {
         tgl_lahir: '',
         alamat: '',
         jenis_kelamin: 'L',
-        tipe_diabetesi: 'Pre-diabetes',
+        diabetesi_tipe: 'Pre-diabetes',
         no_telp: '',
       },
       errors: {
@@ -144,6 +144,7 @@ class EditProfile extends React.Component {
 
   render() {
     const { userData, isLoading, errors } = this.state;
+    const { currentUser } = this.props
     return (
       <View
         style={styles.container}
@@ -201,21 +202,24 @@ class EditProfile extends React.Component {
                 </Picker>
               </View>
             </View>
-            <View>
-              <Text style={styles.titleTextInput}>Jenis Diabetes</Text>
-              <View style={styles.pickerWrapper}>
-                <Picker
-                  pickerStyle={{ fontSize: 25 }}
-                  selectedValue={userData.jenis_diabetes}
-                  style={styles.picker}
-                  onValueChange={(itemValue) => this.setUserData('jenis_diabetes', itemValue)}>
-                  <Picker.Item label="Pre-diabetes" value="Pre-diabetes" />
-                  <Picker.Item label="Diabetes type1" value="Diabetes type1" />
-                  <Picker.Item label="Diabetes type2" value="Diabetes type2" />
-                  <Picker.Item label="Gestational" value="Gestational" />
-                </Picker>
+            {
+              currentUser.tipe_user === 'diabetesi' &&
+              <View>
+                <Text style={styles.titleTextInput}>Jenis Diabetes</Text>
+                <View style={styles.pickerWrapper}>
+                  <Picker
+                    pickerStyle={{ fontSize: 25 }}
+                    selectedValue={userData.diabetesi_tipe}
+                    style={styles.picker}
+                    onValueChange={(itemValue) => this.setUserData('diabetesi_tipe', itemValue)}>
+                    <Picker.Item label="Pre-diabetes" value="Pre-diabetes" />
+                    <Picker.Item label="Diabetes type1" value="Diabetes type1" />
+                    <Picker.Item label="Diabetes type2" value="Diabetes type2" />
+                    <Picker.Item label="Gestational" value="Gestational" />
+                  </Picker>
+                </View>
               </View>
-            </View>
+            }
             <View>
               <Text style={styles.titleTextInput}>No Hp</Text>
               <TextInput
