@@ -9,6 +9,8 @@ import { onSignOut } from '../../actions/loginActions';
 import { Avatar, Spinner } from '../../components';
 import { authToken } from '../../utils/constants';
 
+import { mainApp } from '../../../App';
+
 class ProfileScreen extends React.Component {
 	static navigatorStyle = {
 		navBarHidden: true
@@ -51,12 +53,12 @@ class ProfileScreen extends React.Component {
 
 	onSignOut = () => this.setState({ isLoading: true }, () => this.props.onSignOut());
 
-	onPushScreen(screen) {
+	onPushScreen(screen, navBarHidden = true) {
 		this.props.navigator.push(
 			{
 				screen,
 				navigatorStyle: {
-					navBarHidden: true
+					navBarHidden
 				}
 			},
 			() =>
@@ -64,25 +66,31 @@ class ProfileScreen extends React.Component {
 					animationType: 'none'
 				})
 		);
-	}
+  }
+
+  onHome(screen) {
+    // non diabetesi dan ahli
+    switch (this.props.dataAuth.tipe_user) {
+      case 'ahli':
+        mainApp(0);
+        break;
+      case 'non-diabetesi':
+        mainApp(0);
+        break;
+      case 'diabetesi':
+        mainApp(2);
+        break;
+      default:
+        break;
+    }
+
+    this.props.navigator.dismissAllModals({
+      animationType: 'none'
+    })
+  }
 
 	getToken = async () => {
 		const token = await AsyncStorage.getItem(authToken);
-	}
-
-	handlePush(screen) {
-		this.props.navigator.push(
-			{
-				screen,
-				navigatorStyle: {
-					navBarHidden: true
-				}
-			},
-			() =>
-				this.props.navigator.dismissAllModals({
-					animationType: 'none'
-				})
-		);
 	}
 
 	render() {
@@ -115,7 +123,7 @@ class ProfileScreen extends React.Component {
 					</View>
 				</View>
 				<View style={styles.wrappCenter}>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={() => this.onHome('TemanDiabets.TabInputTracker')}>
 						<Text style={styles.buttonText}>HOME</Text>
 					</TouchableOpacity>
 					<TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.ProfileDetails')}>
@@ -127,9 +135,7 @@ class ProfileScreen extends React.Component {
 					<TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.FaqScreen')}>
 						<Text style={styles.buttonText}>FAQ</Text>
 					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => null}
-					>
+					<TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.Notification')}>
 						<Text style={styles.buttonText}>NOTIFIKASI</Text>
 					</TouchableOpacity>
 					<TouchableOpacity>
