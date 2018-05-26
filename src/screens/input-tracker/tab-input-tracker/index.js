@@ -498,7 +498,7 @@ class InputTracker extends Component {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
                   <TouchableOpacity
                     onPress={() => this.setState({ sarapan: item, isSuggest: '' })}
-                  > 
+                  >
                     <Text
                       key={index}
                       style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
@@ -542,7 +542,7 @@ class InputTracker extends Component {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
                   <TouchableOpacity
                     onPress={() => this.setState({ makanSiang: item, isSuggest: '' })}
-                  > 
+                  >
                     <Text
                       key={index}
                       style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
@@ -586,7 +586,7 @@ class InputTracker extends Component {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
                   <TouchableOpacity
                     onPress={() => this.setState({ makanMalam: item, isSuggest: '' })}
-                  > 
+                  >
                     <Text
                       key={index}
                       style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
@@ -630,7 +630,7 @@ class InputTracker extends Component {
                 this.props.dataInputTracker.suggetion.food.map((item, index) => (
                   <TouchableOpacity
                     onPress={() => this.setState({ snack: item, isSuggest: '' })}
-                  > 
+                  >
                     <Text
                       key={index}
                       style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
@@ -1034,7 +1034,6 @@ class InputTracker extends Component {
   }
 
   render() {
-    console.log('STATE PORE ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
