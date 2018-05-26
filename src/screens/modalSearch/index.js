@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, AsyncStorage, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { searchThread, saveUserSearch  } from '../../actions/threadActions';
 import { TextField } from '../../components';
 import CardResult from './CardResult';
@@ -25,10 +25,20 @@ class ModalSearch extends React.Component {
     this.changesKeyword = this.changesKeyword.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
     this.toSaveUserSearch = this.toSaveUserSearch.bind(this);
+    this.onPressHistory = this.onPressHistory.bind(this);
   }
 
   componentDidMount() {
     this.getSearchRecent();
+  }
+
+  onPressHistory = async (keyword) => {
+    const token = await AsyncStorage.getItem(authToken);
+    this.setState({
+      searchKeyword: keyword
+    }, () => {
+      this.props.searchThread(keyword, token);
+    });
   }
 
   getSearchRecent = async () => {
@@ -91,12 +101,16 @@ class ModalSearch extends React.Component {
             {
               this.state.recentSearch.length === 0 ? <Text>Loading...</Text> :
               this.state.recentSearch.map((recent, index) => (
-                <Text
-                  key={index}
-                  style={[styles.currentSearch, index === 1 ? { paddingVertical: 5 } : '']}
+                <TouchableOpacity
+                  onPress={() => this.onPressHistory(recent)}
                 >
-                  {recent}
-                </Text>
+                  <Text
+                    key={index}
+                    style={[styles.currentSearch, index === 1 ? { paddingVertical: 5 } : '']}
+                  >
+                    {recent}
+                  </Text>
+                </TouchableOpacity>
               ))
             }
             {/* <Text style={[styles.currentSearch, ]}>Gula</Text>
@@ -121,7 +135,7 @@ class ModalSearch extends React.Component {
       }
     }
     return (
-      <View style={{paddingBottom: 80}}>
+      <View style={{ paddingBottom: 80 }}>
         <FlatList
           data={searchResult.data}
           renderItem={item => this.toRenderItem(item)}
@@ -147,6 +161,7 @@ class ModalSearch extends React.Component {
           }}
         >
           <TextField
+            value={this.state.searchKeyword}
             onChangeText={this.changesKeyword}
             autoFocus
             tintColor={color.red}
