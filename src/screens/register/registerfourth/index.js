@@ -136,6 +136,7 @@ class RegisterScreenFourth extends React.Component {
 	}
 
 	handleUserDecision(item) {
+		console.log('TEST ', item);
 		if (item !== 'ahli') {
 			this.setState({ selected: item, persentase: '100%', btn_submit: buttonLabelDone });
 		} else {
