@@ -58,7 +58,8 @@ class RegisterScreenSecond extends React.Component {
 					title: 'Next Step 3',
 					passProps: {
 						name: this.props.name,
-						email: this.state.email
+						email: this.state.email,
+						fcmToken: this.props.fcmToken
 					}
 				});
 				this.setState({

@@ -50,7 +50,8 @@ class Register extends Component {
 				screen: 'TemanDiabets.RegisterScreenSecond',
 				title: 'Next Step 2',
 				passProps: {
-					name: this.state.name
+					name: this.state.name,
+					fcmToken: this.props.fcmToken
 				}
 			});
 			this.setState({
@@ -65,7 +66,7 @@ class Register extends Component {
 	}
 
 	render() {
-		// console.log('STATE ', this.state);
+		// console.log('PROPS ', this.props.fcmToken);
 		return (
 			<View style={styles.container}>
 				<ImageBackground

@@ -7,7 +7,7 @@ import { Indicator } from '../../../components/indicator/Indicator';
 import { registerAction, loginManual } from '../../../actions';
 import { Spinner } from '../../../components/';
 import { buttonLabelDone, buttonLabelNext, URL_IMAGE, typeOfUsers } from '../../../utils/constants';
-import { mainApp } from '../../../../App';
+import { updateFCMToken } from '../../../actions/authAction';
 
 class RegisterScreenFourth extends React.Component {
 	static navigatorStyle = {
@@ -21,15 +21,34 @@ class RegisterScreenFourth extends React.Component {
 			persentase: '80%',
 			btn_submit: buttonLabelNext,
 			shouldRedirect: false,
-			shouldUserLogin: false
+			shouldUserLogin: false,
+			updateFcm: false,
 		};
 		this.handleFinalRegister = this.handleFinalRegister.bind(this);
 		this.handleNavigation = this.handleNavigation.bind(this);
 	}
 
+	componentWillReceiveProps(nextProps) {
+		// console.log('NEXPROPS ', nextProps);
+		if (nextProps.dataRegister.dataUser.status_code === 200 && nextProps.loginReducer.statusCode === 200 && this.state.updateFcm && nextProps.dataRegister.dataUser.email !== null) {
+			this.setState({
+				updateFcm: false
+			}, () => {
+				const params = {
+					idUser: nextProps.dataRegister.dataUser.id,
+					token: {
+						messagingRegistrationToken: this.props.fcmToken
+					}
+				};
+				console.log('FCM TOKEN JALANA ', params);
+				this.props.updateFCMToken(params);
+			});
+		}
+	}
+
 	componentDidUpdate() {
 		const self = this;
-		const { status_code, tipe_user } = this.props.dataRegister.dataUser;
+		const { _id, status_code, tipe_user } = this.props.dataRegister.dataUser;
 		if (status_code === 200 && this.state.shouldRedirect) {
 			this.setState({
 					shouldRedirect: false,
@@ -43,6 +62,7 @@ class RegisterScreenFourth extends React.Component {
 							password: this.props.password,
 						};
 						this.props.loginManual(user);
+						
 						// this.props.navigator.resetTo({
 						// 	screen: 'TemanDiabets.OnBoardingScreen',
 						// 	navigatorStyle: {
@@ -52,6 +72,18 @@ class RegisterScreenFourth extends React.Component {
 					}
 				}
 			);
+		} else if (status_code === 500 && this.state.shouldRedirect) {
+			this.setState({
+				shouldRedirect: false
+			}, () => {
+				alert('Maaf, email Anda sudah pernah digunakan.');
+				this.props.navigator.resetTo({
+					screen: 'TemanDiabets.OnBoardingScreen',
+					navigatorStyle: {
+						navBarHidden: true
+					},
+				});
+			});
 		} else if (this.props.loginReducer.statusCode === 200 && this.props.loginReducer.message === 'success login' && this.state.shouldRedirect) {
 			self.setState({ shouldRedirect: false }, () => {
 				if (!this.props.loginReducer.is_active) {
@@ -63,13 +95,6 @@ class RegisterScreenFourth extends React.Component {
 					);
 				}
 				// alert('Jalan...');
-				const params = {
-					idUser: this.props.loginReducer._id,
-					token: {
-						messagingRegistrationToken: this.props.fcmToken
-					}
-				};
-				this.props.updateFCMToken(params);
 			});
 		}
 	}
@@ -85,15 +110,18 @@ class RegisterScreenFourth extends React.Component {
 		// this.props.registerAction(dataUser);
 		this.setState(
 			{
-				shouldRedirect: true
+				shouldRedirect: selected !== 'ahli' ? true : false
 			},
 			() => {
 				if (selected !== 'ahli') {
 					// mainApp();
 					this.props.registerAction(dataUser);
 				} else {
-					this.props.navigator.resetTo({
+					this.props.navigator.push({
 						screen: 'TemanDiabets.RegisterFive',
+						navigatorStyle: {
+							navBarHidden: true
+						},
 						title: 'SIP Screen',
 						passProps: {
 							name: this.props.name,
@@ -161,7 +189,8 @@ class RegisterScreenFourth extends React.Component {
 		if (selected !== '') {
 			this.setState(
 				{
-					shouldRedirect: true
+					shouldRedirect: true,
+					updateFcm: true
 				},
 				() => {
 					this.handleFinalRegister();
@@ -173,6 +202,7 @@ class RegisterScreenFourth extends React.Component {
 	}
 
 	render() {
+		// console.log('PROPS 4', this.props.fcmToken);
 		const { message, status_code } = this.props.dataRegister.dataUser;
 		if (this.state.shouldRedirect || this.state.shouldUserLogin) {
 			return (

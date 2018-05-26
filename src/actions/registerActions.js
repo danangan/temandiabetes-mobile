@@ -36,7 +36,11 @@ export const registerAction = (value) => async dispatch => {
 		console.log('REGISTER BALIKAN ', res);
 		return onSuccess(res.data);
 	} catch (error) {
-		onSuccess(error);
+		const errMsg = {
+			err: error,
+			status_code: 500
+		};
+		onSuccess(errMsg);
 	}
 };
 

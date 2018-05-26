@@ -243,7 +243,9 @@ export default class OnboardingScreens extends Component {
 							screen: 'TemanDiabets.RegisterScreen',
 							navigatorStyle: {
 								navBarHidden: true,
-								
+							},
+							passProps: {
+								fcmToken: this.props.fcmToken
 							}
 						})
 					}

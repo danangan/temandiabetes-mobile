@@ -34,6 +34,18 @@ class RegisterFive extends React.Component {
 					});
 				}
 			);
+		} else if (status_code === 500 && this.state.shouldRedirect) {
+			this.setState({
+				shouldRedirect: false
+			}, () => {
+				alert('Maaf, email Anda sudah pernah digunakan.');
+				this.props.navigator.resetTo({
+					screen: 'TemanDiabets.OnBoardingScreen',
+					navigatorStyle: {
+						navBarHidden: true
+					},
+				});
+			});
 		}
 	}
 

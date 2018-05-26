@@ -68,7 +68,8 @@ class RegisterScreenThird extends React.Component {
 						passProps: {
 							name: this.props.name,
 							email: this.props.email,
-							password: this.state.password
+							password: this.state.password,
+							fcmToken: this.props.fcmToken
 						}
 					});
 					this.setState({
