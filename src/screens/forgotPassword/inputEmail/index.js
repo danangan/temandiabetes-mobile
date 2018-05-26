@@ -5,6 +5,7 @@ import {
 } from 'react-native'
 
 import { NavigationBar, Button, Spinner, TextField, CardSection } from '../../../components'
+import { API_CALL } from '../../../utils/ajaxRequestHelper'
 
 class InputEmail extends Component {
   constructor(props) {
@@ -12,19 +13,81 @@ class InputEmail extends Component {
 
     this.state = {
       email: '',
+      showForm: true,
       isError: false,
+      errorMessage: '',
       isLoading: false
     }
 
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit() {
+  checkEmail(email) {
+    const rgx = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g
+    return rgx.test(email)
+  }
 
+  errorValidation(cb) {
+    if (this.state.email.trim() === '') {
+      this.setState({
+        isError: true,
+        errorMessage: 'Email tidak boleh kosong'
+      }, cb)
+    } else if (!this.checkEmail(this.state.email)) {
+      this.setState({
+        isError: true,
+        errorMessage: 'Format email salah'
+      }, cb)
+    } else {
+      this.setState({
+        isError: false,
+        errorMessage: ''
+      }, cb)
+    }
+  }
+
+  onSubmit() {
+    this.errorValidation(() => {
+      if (!this.state.isError) {
+        this.apiCall()
+      }
+    })
+  }
+
+  async apiCall() {
+    this.setState({
+      isLoading: true
+    })
+
+    const option = {
+      method: 'post',
+      url: '/api/users/reset-password',
+      data: {
+        email: this.state.email
+      }
+    };
+
+    try {
+      const res = await API_CALL(option);
+      this.setState({
+        showForm: false
+      })
+      console.log(res)
+    } catch (error) {
+      this.setState({
+        isError: true,
+        errorMessage: 'Email anda tidak valid/belum terdaftar',
+      })
+      console.log(error)
+    }
+
+    this.setState({
+      isLoading: false
+    })
   }
 
   render(){
-    const {isLoading, isError, email} = this.state
+    const {isLoading, isError, email, errorMessage, showForm} = this.state
     return (
       <View style={styles.container}>
 			  {isLoading && <Spinner color="#EF434F" text="Menunggu..." size="large" />}
@@ -34,23 +97,41 @@ class InputEmail extends Component {
           title="LUPA PASSWORD"
         />
         <View style={styles.innerContainer}>
-          <CardSection containerStyle={styles.containerStyle}>
-            <TextField
-              value={email}
-              placeholder="masukkan email anda"
-              onChangeText={email => this.setState({email})}
-              inputStyle={styles.inputStyle}
-              underlineColorAndroid="rgba(0,0,0,0)"
-            />
-          </CardSection>
-          <Button buttonStyle={styles.buttonStyle} textStyle={styles.textStyle} onPress={this.onSubmit}>
-            KIRIM
-          </Button>
           {
-            isError &&
-            <Text style={styles.errorText}>
-              Email anda tidak valid/belum terdaftar
-            </Text>
+            showForm &&
+            <View>
+              <CardSection containerStyle={styles.containerStyle}>
+                <TextField
+                  value={email}
+                  placeholder="masukkan email anda"
+                  onChangeText={email => this.setState({email})}
+                  inputStyle={styles.inputStyle}
+                  underlineColorAndroid="rgba(0,0,0,0)"
+                />
+              </CardSection>
+              <Button buttonStyle={styles.buttonStyle} textStyle={styles.textStyle} onPress={this.onSubmit}>
+                KIRIM
+              </Button>
+              {
+                isError &&
+                <Text style={styles.errorText}>
+                  {errorMessage}
+                </Text>
+              }
+            </View>
+          }
+          {
+            !showForm &&
+            <View>
+              <CardSection containerStyle={[styles.containerStyle, { backgroundColor: '#eee', height: 70 }]}>
+                <Text style={styles.notificationText}>
+                  Link untuk merubah password telah dikirim ke email Anda.
+                </Text>
+              </CardSection>
+              <Button buttonStyle={styles.buttonStyle} textStyle={styles.textStyle} onPress={() => {this.props.navigator.pop()}}>
+                KEMBALI KE LOGIN
+              </Button>
+            </View>
           }
         </View>
       </View>
@@ -72,7 +153,8 @@ const styles = {
   },
   errorText: {
     color: 'red',
-    textAlign: 'center'
+    textAlign: 'center',
+    marginTop: 10
   },
   containerStyle: {
     marginTop: 20,
@@ -85,7 +167,6 @@ const styles = {
   inputStyle: {
     paddingHorizontal: 10,
     marginHorizontal: 10,
-    // height: 20,
     fontSize: 16
   },
 	buttonStyle: {
@@ -98,6 +179,11 @@ const styles = {
     fontSize: 16,
     paddingTop: 5,
   },
+  notificationText: {
+    textAlign: 'center',
+    marginTop: 10,
+    fontSize: 17,
+  }
 }
 
 export default InputEmail
