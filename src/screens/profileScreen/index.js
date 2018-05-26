@@ -87,7 +87,7 @@ class ProfileScreen extends React.Component {
 
 	render() {
 		const { nama, tipe_user, foto_profile, diabetesi_tipe } = this.props.dataAuth;
-
+		console.log('CHECKKKK ', this.props.dataAuth);
 		const spinner = this.state.isLoading ? (
 			<Spinner color="#FFDE00" text="Logout..." size="large" />
 		) : (
