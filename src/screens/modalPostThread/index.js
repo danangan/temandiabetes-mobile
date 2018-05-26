@@ -116,7 +116,6 @@ class ModalPostThred extends Component {
           topic: this.state.topic,
           description: this.state.description
         };
-        console.log(this.state, this.isValid())
         this.setState({
           isSubmit: true
         }, () => {
