@@ -124,7 +124,12 @@ class TabHome extends Component {
     // ModalPostThread
     return (
       <TouchableOpacity
-        onPress={() => this.togleModal('TemanDiabets.ModalPostThread')}
+        onPress={() => this.props.navigator.push({
+          screen: 'TemanDiabets.ModalPostThread',
+          navigatorStyle: {
+            tabBarHidden: true
+          }
+        })}
         style={styles.wrapPostThread}
       >
         <Text
