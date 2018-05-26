@@ -22,23 +22,23 @@ class HeaderDetail extends React.Component {
         <View style={styles.wrapperButton}>
           <Text style={styles.titleButton}>{capitalize(category)}</Text>
         </View>
-      )
+      );
     }
   }
 
 	render() {
     const { authorItem, categoryItem, date } = this.props;
-		// console.log("PROPS ", this.props);
+		console.log("PROPS --->", this.props);
 		return (
 			<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
 				<View style={styles.container}>
 					<Avatar
             avatarSize="Small"
-            userName={authorItem.nama}
+            userName={authorItem.nama === null ? 'Loading' : authorItem.nama}
 						imageSource={authorItem.foto_profile}
 					/>
 					<View style={{ flex: 1, margin: 5 }}>
-						<Text style={{ fontSize: 12 }}>{authorItem.nama}</Text>
+						<Text style={{ fontSize: 12 }}>{authorItem.nama === null ? 'Loading' : authorItem.nama}</Text>
 						<Text style={{ fontSize: 10 }}>Posted on {formatDateTime(date)}</Text>
           </View>
           {this.renderCategory(categoryItem)}
