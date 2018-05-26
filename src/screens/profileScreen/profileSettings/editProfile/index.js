@@ -37,8 +37,43 @@ class EditProfile extends React.Component {
         tipe_diabetesi: 'Pre-diabetes',
         no_telp: '',
       },
+      errors: {
+        nama: {
+          label: 'Username tidak boleh kosong',
+          isError: false
+        }
+      },
+      submitted: false,
       isLoading: false
     };
+  }
+
+  submitValidation(cb) {
+    if (this.state.userData.nama.trim() === '') {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          nama: {
+            ...this.state.errors.nama,
+            isError: true
+          }
+        }
+      }, cb)
+    } else {
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          nama: {
+            ...this.state.errors.nama,
+            isError: false
+          }
+        }
+      }, cb)
+    }
+  }
+
+  isValid() {
+    return !this.state.errors.nama.isError
   }
 
   copyUserData(obj) {
@@ -67,14 +102,18 @@ class EditProfile extends React.Component {
   }
 
   updateProfileOnCLick = () => {
-    this.setState({
-      isLoading: true
-    })
+    this.submitValidation(() => {
+      if(this.isValid()) {
+        this.setState({
+          isLoading: true
+        })
 
-    this.props.updateProfile(this.state.userData).then(() => {
-      this.setState({
-        isLoading: false
-      })
+        this.props.updateProfile(this.state.userData).then(() => {
+          this.setState({
+            isLoading: false
+          })
+        })
+      }
     })
   }
 
@@ -104,7 +143,7 @@ class EditProfile extends React.Component {
   }
 
   render() {
-    const { userData, isLoading } = this.state;
+    const { userData, isLoading, errors } = this.state;
     return (
       <View
         style={styles.container}
@@ -126,6 +165,10 @@ class EditProfile extends React.Component {
                 onChangeText={(text) => this.setUserData('nama', text)}
                 underlineColorAndroid="#ef434e"
               />
+              {
+                errors.nama.isError &&
+                <Text style={styles.errorText}>{errors.nama.label}</Text>
+              }
             </View>
             <View>
               <Text style={styles.titleTextInput}>Tanggal Lahir</Text>
@@ -178,6 +221,7 @@ class EditProfile extends React.Component {
               <TextInput
                 value={userData.no_telp}
                 style={styles.textInput}
+                keyboardType="numeric"
                 placeholderTextColor="#4a4a4a"
                 onChangeText={(text) => this.setUserData('no_telp', text)}
                 underlineColorAndroid="#ef434e"
@@ -225,6 +269,12 @@ const styles = StyleSheet.create({
     height: 45,
     color: '#4a4a4a',
     fontFamily: 'OpenSans-Regular',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginBottom: 10,
+    marginHorizontal: 5,
   }
 });
 
