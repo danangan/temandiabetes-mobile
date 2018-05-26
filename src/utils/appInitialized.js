@@ -21,13 +21,15 @@ const appInitialized = async () => {
             };
 
             API_CALL(option).then(res => {
-              const typeUser = res.data.data.currentUser.tipe_user;
-              if (typeUser === 'non-diabetesi') {
+              const { tipe_user, is_active } = res.data.data.currentUser;
+              if (tipe_user === 'non-diabetesi' && is_active) {
                 mainApp(0);
-              } else if (typeUser === 'diabetesi') {
+              } else if (tipe_user === 'diabetesi' && is_active) {
                 mainApp(2);
-              } else {
+              } else if (tipe_user === 'ahli' && is_active) {
                 mainApp(0);
+              } else {
+                startApp();
               }
             });
           });
