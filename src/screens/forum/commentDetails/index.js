@@ -4,10 +4,17 @@ import { connect } from 'react-redux';
 import {
   View,
   Text,
-  ScrollView
+  ScrollView,
+  TextInput,
+  TouchableOpacity
 } from 'react-native';
 import { NavigationBar, CardSection, Avatar, Spinner } from '../../../components';
 import CommentChild from '../threadDetails/commentChild';
+import { 
+  commentToReply, 
+  getCommentDetails, 
+  getThreadDetails 
+} from '../../../actions/threadActions';
 
 class CommentDetails extends React.Component {
   static navigatorStyle = {
@@ -18,7 +25,9 @@ class CommentDetails extends React.Component {
     super(props);
     this.state = {
       params: 0,
-      isComment: null
+      isComment: null,
+      komentar: '',
+      isSubmit: false
     };
   }
 
@@ -31,34 +40,91 @@ class CommentDetails extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    const { status_code } = this.props.dataThreads.createComment.commentToReply;
+    const { data } = this.props.dataThreads.commentDetails;
+    if (status_code === 201 && this.state.isSubmit) {
+      // get thread details again
+      // this.props.getCommentDetails(data._id);
+
+      this.setState({
+        isSubmit: false
+      }, () => {
+        this.props.navigator.pop();
+        this.props.getThreadDetails(this.props.idThread);
+        // alert('Comment berhasil');
+      });
+    }
+  }
+
+  onSubmitComment() {
+    const { currentUser } = this.props.dataAuth;
+    const { data } = this.props.dataThreads.commentDetails;
+    console.log('BERRREEE ', data);
+    console.log('USER CURRENT ', currentUser);
+   if (this.state.komentar !== '') {
+    this.setState({
+      isSubmit: true
+    }, () => {
+      const comment = {
+        idComment: data._id,
+        params: {
+          user: currentUser._id,
+          text: this.state.komentar
+        }
+      };
+      this.props.commentToReply(comment);
+    });
+   } else {
+    alert('Silahkan input komentar Anda.');
+   }
+  }
+
   renderCommentChild() {
     const { nama } = this.props.dataAuth;
     const { isComment } = this.state;
-    const initialUser = {
-			user: nama,
-			text: 'Komentari'
-    };
 
     return (
       <View style={{ flex: 1, width: '100%' }}>
         {
           isComment.replies.map((item, index) => <CommentChild key={index} containerStyle={styles.containerStyle} comment={item} />)
         }
-        <CommentChild
-          containerStyle={{
-            ...styles.containerStyle,
-            borderBottomWidth: 0
-          }}
-          comment={initialUser}
-        />
+        <View style={styles.innerContainer}>
+          <Avatar
+            avatarSize="ExtraSmall"
+            userName={nama}
+            // imageSource={isComment.user.foto_profile}
+          />
+          <TextInput 
+            value={this.state.komentar}
+            placeholder="Komentari"
+            style={{ flex: 1, margin: 5 }}
+            underlineColorAndroid={'#fff'}
+            onChangeText={(komentar) => this.setState({ komentar })}
+          />
+          <TouchableOpacity
+            style={{ backgroundColor: '#252c68' }}
+            onPress={() => this.onSubmitComment()}
+          >
+            <Text
+              style={{
+                fontSize: 12,
+                paddingHorizontal: 20,
+                paddingVertical: 3,
+                color: '#8084a7'
+              }}
+            >Balas</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
 
   render() {
-    // console.log('THIS STATE = ', this.state);
+    console.log('THIS PROPS = ', this.props);
     const { isComment } = this.state;
     const { commentDetails } = this.props.dataThreads;
+    const { nama } = this.props.dataAuth;
 
     if (commentDetails.data === null) {
       return (
@@ -113,7 +179,36 @@ class CommentDetails extends React.Component {
             </View>
           </ScrollView>
           :
-          null
+          <View style={styles.containerCommentChild}>
+              <View style={styles.innerContainer}>
+              <Avatar
+                avatarSize="ExtraSmall"
+                userName={nama}
+                // imageSource={isComment.user.foto_profile}
+              />
+              <TextInput 
+                value={this.state.komentar}
+                placeholder="Komentari"
+                style={{ flex: 1, margin: 5 }}
+                underlineColorAndroid={'#fff'}
+                onChangeText={(komentar) => this.setState({ komentar })}
+              />
+              <TouchableOpacity
+                style={{ backgroundColor: '#252c68' }}
+                onPress={() => this.onSubmitComment()}
+              >
+                <Text
+                  style={{
+                    fontSize: 12,
+                    paddingHorizontal: 20,
+                    paddingVertical: 3,
+                    color: '#8084a7'
+                  }}
+                >Balas</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          
         }
         {/* <View style={{
           backgroundColor: '#fff',
@@ -190,8 +285,15 @@ const styles = {
 
 const mapStateToProps = state => ({
   dataThreads: state.threadsReducer,
-  dataAuth: state.authReducer.currentUser
+  dataAuth: state.authReducer
 });
 
-export default connect(mapStateToProps, null)(CommentDetails);
+const mapDispatchToProps = dispatch => ({
+  commentToReply: (comment) => dispatch(commentToReply(comment)),
+  getCommentDetails: (idComment) => dispatch(getCommentDetails(idComment)),
+  getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread)),
+  
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentDetails);
 

@@ -114,7 +114,8 @@ class CommentThread extends React.Component {
 								},
 								animationType: 'slide-up'
 							})}
-							style={{ backgroundColor: '#252c68' }}>
+							style={{ backgroundColor: '#252c68' }}
+						>
 							<Text
 								style={{
 									fontSize: 12,

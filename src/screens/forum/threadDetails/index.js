@@ -77,6 +77,7 @@ class ThreadDetails extends React.Component {
 				navBarHidden: true
 			},
 			passProps: {
+				idThread: this.state.idThread
 				// commentItem: this.props.contentComment
 			}
 		});
@@ -89,6 +90,7 @@ class ThreadDetails extends React.Component {
 				navBarHidden: true
 			},
 			passProps: {
+				
 				// commentItem: this.props.contentComment
 			}
 		});
@@ -246,33 +248,39 @@ class ThreadDetails extends React.Component {
 										Balas
 									</Text>
 								</TouchableOpacity>
-								<TouchableOpacity
-									onPress={() => {
-										Navigation.showModal({
-											screen: 'TemanDiabets.ModalReport',
-											title: 'Modal',
-											navigatorButtons: {
-												leftButtons: [{}]
-											},
-											passProps: {
-												idThread: _id
-											},
-											animationType: 'none'
-										});
-									}}
-									style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, }}>
-									<Text
-										style={{
-											fontSize: 12,
-											paddingHorizontal: 20,
-											paddingVertical: 3,
-											color: '#8084a7',
-											textAlign: 'center'
+								{
+									this.props.dataAuth.currentUser._id !== threadDetails.author._id ?
+										<TouchableOpacity
+										onPress={() => {
+											Navigation.showModal({
+												screen: 'TemanDiabets.ModalReport',
+												title: 'Modal',
+												navigatorButtons: {
+													leftButtons: [{}]
+												},
+												passProps: {
+													idThread: _id
+												},
+												animationType: 'none'
+											});
 										}}
-									>
-										Laporkan
-									</Text>
-								</TouchableOpacity>
+											style={{ justifyContent: 'center', backgroundColor: '#252c68', minWidth: 100, height: 25, minHeight: 25, }}>
+											<Text
+												style={{
+													fontSize: 12,
+													paddingHorizontal: 20,
+													paddingVertical: 3,
+													color: '#8084a7',
+													textAlign: 'center'
+												}}
+											>
+												Laporkan
+											</Text>
+										</TouchableOpacity>
+										:
+										null
+								}
+								
 							</View>
 						</CardSection>
 						<ContentDetail
@@ -316,6 +324,7 @@ const styles = {
 
 const mapStateToProps = state => ({
 	dataThreads: state.threadsReducer,
+	dataAuth: state.authReducer
 });
 
 const mapDispatchToProps = dispatch => ({
