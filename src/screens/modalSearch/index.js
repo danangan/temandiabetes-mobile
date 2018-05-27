@@ -9,6 +9,7 @@ import CardResult from './CardResult';
 import searchIcon from '../../assets/icons/close.png';
 import searchIcon2 from '../../assets/icons/search.png';
 
+import landingPageURL from '../../config/landingPageURL';
 import { authToken, keywordRecent } from '../../utils/constants';
 import color from '../../style/color';
 
@@ -38,7 +39,7 @@ class ModalSearch extends React.Component {
     let options = {
       title: thread.topic,
       message: thread.topic,
-      url: `https://temandiabetes.com/thread/${thread._id}`,
+      url: `${landingPageURL}/thread/${thread._id}`,
       subject: "Article from Teman Diabetes" //  for email
     };
     Share.open(options).catch((err) => { err && console.log(err); })

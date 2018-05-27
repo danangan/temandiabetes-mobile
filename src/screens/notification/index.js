@@ -145,7 +145,7 @@ class Notification extends React.Component {
   render() {
     const { notifications, isLoading, isRefreshing } = this.state
 		const content = isLoading ? (
-			<Spinner color="#FFDE00" size="large" />
+			<Spinner color="#EF434F" size="large" />
 		) : (
       <View style={styles.listContainer}>
         <FlatList

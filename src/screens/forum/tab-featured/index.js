@@ -20,6 +20,7 @@ import color from '../../../style/color';
 import { getThreadStatic, makeBookmarkFeaturedThreads } from '../../../actions/threadActions';
 import { authToken } from '../../../utils/constants';
 import { sliceString } from '../../../utils/helpers';
+import landingPageURL from '../../../config/landingPageURL';
 
 import Blood from '../../../assets/icons/explorer_icon.png';
 
@@ -137,7 +138,7 @@ class TabFeatured extends Component {
     let options = {
       title: thread.topic,
       message: thread.topic,
-      url: `https://temandiabetes.com/thread-static/${thread._id}`,
+      url: `${landingPageURL}/thread-static/${thread._id}`,
       subject: "Article from Teman Diabetes" //  for email
     };
     Share.open(options).catch((err) => { err && console.log(err); })

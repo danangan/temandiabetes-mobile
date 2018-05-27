@@ -15,6 +15,7 @@ import Share from 'react-native-share';
 import { Card, FooterThread, HeaderThread, SearchButton, Spinner } from '../../../components';
 import { getBookmarkedThreads, deleteBookmarkedThread } from '../../../actions/threadActions';
 import { result } from '../../../utils/helpers';
+import landingPageURL from '../../../config/landingPageURL';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
 
@@ -138,7 +139,7 @@ class TabBookmark extends Component {
     let options = {
       title: thread.topic,
       message: thread.topic,
-      url: `https://temandiabetes.com/thread/${thread._id}`,
+      url: `${landingPageURL}/thread/${thread._id}`,
       subject: "Article from Teman Diabetes" //  for email
     };
     Share.open(options).catch((err) => { err && console.log(err); })
