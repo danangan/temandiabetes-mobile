@@ -97,7 +97,7 @@ class ProfileScreen extends React.Component {
   shareApp() {
     const options = {
       title: 'Ajakan bergabung di Teman Diabetes',
-      message: 'Ayo bergabung di Teman Diabetes!',
+      message: 'Dapatkan aplikasi Teman Diabetes dengan klik link berikut',
       url: landingPageURL,
       subject: 'Ajakan bergabung di Teman Diabetes' //  for email
     };
