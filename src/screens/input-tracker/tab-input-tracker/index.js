@@ -15,7 +15,7 @@ import {
   ScrollView,
   Picker,
   AsyncStorage,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 
 import {
@@ -66,6 +66,7 @@ class InputTracker extends Component {
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.setModalVisible = this.setModalVisible.bind(this);
+    this.toNavigate = this.toNavigate.bind(this);
   }
 
   async componentDidMount() {
@@ -77,21 +78,21 @@ class InputTracker extends Component {
     const { deepLink } = this.props
     if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
       let pathname = deepLink.currentDeepLink.replace('https://temandiabetes.com/', '');
-      pathname = pathname.split('/')
+      pathname = pathname.split('/');
       let screen
       switch (pathname[0]) {
         case 'thread':
-          screen = 'TemanDiabets.ThreadDetails'
+          screen = 'TemanDiabets.ThreadDetails';
           break;
         case 'thread-static':
-          screen = 'TemanDiabets.FeaturedDetail'
+          screen = 'TemanDiabets.FeaturedDetail';
           break;
         default:
           break;
       }
 
       this.props.navigator.push({
-        screen: screen,
+        screen,
         navigatorStyle: {
           navBarHidden: true
         },
@@ -255,23 +256,7 @@ class InputTracker extends Component {
         beratBadan
       };
       this.props.inputTrackerWeight(value);
-    } else if (casing) {
-      const value = {
-        waktuInput: inputDate,
-        sarapan,
-        makanSiang,
-        makanMalam,
-        snack
-      };
-      this.props.inputTrackerFood(value);
-      this.setState({
-        waktuInput: '',
-        sarapan: '',
-        makanMalam: '',
-        makanSiang: '',
-        snack: ''
-      });
-    }
+    } 
     this.setModalVisible('IS_LOADING');
   }
 
@@ -392,9 +377,9 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
+        // onRequestClose={() => {
+        //   alert('Modal has been closed.');
+        // }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -416,9 +401,7 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
+        
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -432,234 +415,30 @@ class InputTracker extends Component {
     );
   }
 
-  ModalMakanan() {
-    return (
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
-      >
-        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
-          <View
-            style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '100%' : '80%' }]}
-          >
-            { this.contentMakanan() }
-          </View>
-        </TouchableHighlight>
-      </Modal>
-    );
-  }
+  // ModalMakanan() {
+  //   return (
+  //     <Modal
+  //       animationType="none"
+  //       transparent={true}
+  //       visible={this.state.modalVisible}
+  //     >
+  //       <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+  //         <View
+  //           style={
+  //             [styles.modalContent, { height: '60%' }]}
+  //         >
+  //           { this.contentMakanan() }
+  //         </View>
+  //       </TouchableHighlight>
+  //     </Modal>
+  //   );
+  // }
 
-  contentMakanan() {
-    return (
-      <View
-        style={{
-        flex: 2,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 20,
-        backgroundColor: '#fff'
-      }}
-      >
-        {this.renderButtonOpenDate()}
-       <View
-        style={{
-          flex: 1,
-          width: '70%',
-        }}
-       >
-          <Text>Sarapan</Text>
-          <TextInput
-            onFocus={() => this.setState({ isSuggest: 'SARAPAN' })}
-            onChangeText={(preText) => {
-              this.setState({ preText }, () => {
-                this.props.getFoodSuggetion(preText);
-              });
-            }}
-            value={this.state.sarapan === null ? this.state.sarapan : this.state.sarapan.title}
-            placeholder="Nasi Uduk"
-            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
-          />
-        </View>
-        {/* ---- */}
-        {
-          this.state.preText !== '' && this.state.isSuggest !== 'SARAPAN' ?
-          null
-          :
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccc' }}>
-            <ScrollView>
-              {
-                this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <TouchableOpacity
-                    onPress={() => this.setState({ sarapan: item, isSuggest: '' })}
-                  >
-                    <Text
-                      key={index}
-                      style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
-                    >
-                      {item.suggest}
-                    </Text>
-                  </TouchableOpacity>
-                ))
-              }
-            </ScrollView>
-          </View>
-        }
-        <View
-        style={{
-          flex: 1,
-          width: '70%',
-          }}
-        >
-          <Text>Makan Siang</Text>
-          <TextInput
-            onFocus={() => this.setState({ isSuggest: 'MAKAN_SIANG' })}
-            onChangeText={(preText) => {
-              this.setState({ preText }, () => {
-                this.props.getFoodSuggetion(preText);
-              });
-            }}
-            value={this.state.makanSiang === null ? '' : this.state.makanSiang.title}
-            placeholder="Soto Ayam"
-            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
-          />
-        </View>
-        {/* ---- */}
-        {
-          this.state.preText !== '' && this.state.isSuggest !== 'MAKAN_SIANG' ?
-          null
-          :
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccc' }}>
-            <ScrollView>
-              {
-                this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <TouchableOpacity
-                    onPress={() => this.setState({ makanSiang: item, isSuggest: '' })}
-                  >
-                    <Text
-                      key={index}
-                      style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
-                    >
-                      {item.suggest}
-                    </Text>
-                  </TouchableOpacity>
-                ))
-              }
-            </ScrollView>
-          </View>
-        }
-        <View
-        style={{
-          flex: 1,
-          width: '70%',
-          }}
-        >
-          <Text>Makan Malam</Text>
-          <TextInput
-            onFocus={() => this.setState({ isSuggest: 'MAKAN_MALAM' })}
-            placeholder="Salad"
-            onChangeText={(preText) => {
-              this.setState({ preText }, () => {
-                this.props.getFoodSuggetion(preText);
-              });
-            }}
-            value={this.state.makanMalam === null ? '' : this.state.makanMalam.title}
-            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
-          />
-        </View>
-         {/* ---- */}
-         {
-          this.state.preText !== '' && this.state.isSuggest !== 'MAKAN_MALAM' ?
-          null
-          :
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccc' }}>
-            <ScrollView>
-              {
-                this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <TouchableOpacity
-                    onPress={() => this.setState({ makanMalam: item, isSuggest: '' })}
-                  >
-                    <Text
-                      key={index}
-                      style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
-                    >
-                      {item.suggest}
-                    </Text>
-                  </TouchableOpacity>
-                ))
-              }
-            </ScrollView>
-          </View>
-        }
-        <View
-        style={{
-          flex: 1,
-          width: '70%',
-          }}
-        >
-          <Text>Snack</Text>
-          <TextInput
-            onFocus={() => this.setState({ isSuggest: 'SNACK' })}
-            placeholder="Gorengan"
-            onChangeText={(preText) => {
-              this.setState({ preText }, () => {
-                this.props.getFoodSuggetion(preText);
-              });
-            }}
-            value={this.state.snack === null ? this.state.snack : this.state.snack.title}
-            style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
-          />
-        </View>
-        {/* ---- */}
-        {
-          this.state.preText !== '' && this.state.isSuggest !== 'SNACK' ?
-          null
-          :
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ccc' }}>
-            <ScrollView>
-              {
-                this.props.dataInputTracker.suggetion.food.map((item, index) => (
-                  <TouchableOpacity
-                    onPress={() => this.setState({ snack: item, isSuggest: '' })}
-                  >
-                    <Text
-                      key={index}
-                      style={{ fontFamily: 'OpenSans-Italic', color: '#000', padding: 5, marginVertical: 10, borderBottomColor: '#fff', borderBottomWidth: 1 }}
-                    >
-                      {item.suggest}
-                    </Text>
-                  </TouchableOpacity>
-                ))
-              }
-            </ScrollView>
-          </View>
-        }
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: '#ef434e',
-            justifyContent: 'center',
-          }}
-          onPress={() => this.handleSave('FOOD')}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-            SIMPAN
-            </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+  // contentMakanan() {
+  //   return (
+      
+  //   );
+  // }
 
   ModalTekananDarah() {
     return (
@@ -667,9 +446,7 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
+       
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -735,7 +512,7 @@ class InputTracker extends Component {
           onPress={() => this.handleSave('TEKANAN_DARAH')}
         >
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-            SIMPAN
+              SIMPAN
             </Text>
         </TouchableOpacity>
       </View>
@@ -748,9 +525,6 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -842,9 +616,6 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -908,9 +679,6 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -997,9 +765,6 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        onRequestClose={() => {
-          alert('Modal has been closed.');
-        }}
       >
         <TouchableHighlight style={styles.modalLoading}>
           <View
@@ -1022,8 +787,6 @@ class InputTracker extends Component {
       return this.ModalLoading();
     } else if (this.state.isModal === 'INPUT_HBA1C') {
       return this.ModalInputHBA1C();
-    } else if (this.state.isModal === 'INPUT_FOOD') {
-      return this.ModalMakanan();
     } else if (this.state.isModal === 'INPUT_TEKANAN_DARAH') {
       return this.ModalTekananDarah();
     } else if (this.state.isModal === 'INPUT_ACTIVITY') {
@@ -1033,13 +796,28 @@ class InputTracker extends Component {
     }
   }
 
+  toNavigate() {
+    this.props.navigator.push({
+      screen: 'TemanDiabets.PreviewSearchMakanan',
+      navigatorStyle: {
+        navBarHidden: true
+      },
+      animated: true,
+      animationType: 'fade',
+      passProps: {}
+    });
+  }
+
   render() {
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
           {this.renderModalInput()}
           <Card containerStyle={styles.cardStyle}>
-            <MenuButton onModalInput={this.setModalVisible} />
+            <MenuButton 
+              toNavigate={this.toNavigate}
+              onModalInput={this.setModalVisible} 
+            />
           </Card>
         </ScrollView>
       </View>

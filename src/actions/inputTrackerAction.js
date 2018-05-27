@@ -243,6 +243,7 @@ export const inputTrackerWeight = (value) => async dispatch => {
  * get suggetion
  */
 export const getFoodSuggetion = (keyword) => async dispatch => {
+	// console.log('Keyword nya masuk ', keyword);
 	const isPending = () => {
     dispatch({
       type: 'PENDING_GET_FOOD_SUGGESTION',
@@ -265,7 +266,7 @@ export const getFoodSuggetion = (keyword) => async dispatch => {
 	try {
     const option = {
       method: 'GET',
-      url: `api/food/suggest?name=${keyword}`,
+      url: `api/food/suggest?name=${keyword}&page=1`,
     };
 
     const res = await API_CALL(option);

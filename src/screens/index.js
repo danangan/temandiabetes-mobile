@@ -51,6 +51,7 @@ import DrugReminder from '../screens/input-tracker/DrugReminder';
 import Notification from '../screens/notification';
 import ForgotPasswordInputEmail from '../screens/forgotPassword/inputEmail';
 import ForgotPasswordInputNewPassword from '../screens/forgotPassword/inputNewPassword';
+import PreviewSearchMakanan from '../screens/input-tracker/tab-input-tracker/PreviewSearchMakanan';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
@@ -103,7 +104,8 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.DrugReminder', () => DrugReminder, store, Provider);
 	Navigation.registerComponent('TemanDiabets.Notification', () => Notification, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ForgotPasswordInputEmail', () => ForgotPasswordInputEmail);
-	Navigation.registerComponent('TemanDiabets.ForgotPasswordInputNewPassword', () => ForgotPasswordInputNewPassword);
+	Navigation.registerComponent('TemanDiabets.ForgotPasswordInputNewPassword', () => ForgotPasswordInputNewPassword);  
+	Navigation.registerComponent('TemanDiabets.PreviewSearchMakanan', () => PreviewSearchMakanan, store, Provider);
 }
 
 export function registerScreenVisibilityListener() {

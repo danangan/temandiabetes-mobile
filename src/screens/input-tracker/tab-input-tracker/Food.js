@@ -9,7 +9,7 @@ class Food extends React.Component {
     return (
       <TouchableOpacity
         style={styles.buttonMenuStyle}
-        onPress={() => this.props.onModalInput('INPUT_FOOD')}
+        onPress={() => this.props.toNavigate()}
       >
         <CardSection>
           <Image
