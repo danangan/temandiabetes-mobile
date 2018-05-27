@@ -58,10 +58,9 @@ class CommentDetails extends React.Component {
   }
 
   onSubmitComment() {
-    const { currentUser } = this.props.dataAuth;
+    const { _id } = this.props.dataAuth;
     const { data } = this.props.dataThreads.commentDetails;
     console.log('BERRREEE ', data);
-    console.log('USER CURRENT ', currentUser);
    if (this.state.komentar !== '') {
     this.setState({
       isSubmit: true
@@ -69,7 +68,7 @@ class CommentDetails extends React.Component {
       const comment = {
         idComment: data._id,
         params: {
-          user: currentUser._id,
+          user: _id,
           text: this.state.komentar
         }
       };
@@ -179,8 +178,8 @@ class CommentDetails extends React.Component {
             </View>
           </ScrollView>
           :
-          <View style={styles.containerCommentChild}>
-              <View style={styles.innerContainer}>
+          <View style={styles.containerEmptyCommentChild}>
+              <View style={styles.innerContainerEmptyComment}>
               <Avatar
                 avatarSize="ExtraSmall"
                 userName={nama}
@@ -237,6 +236,15 @@ const styles = {
 		paddingHorizontal: 15,
 		borderRadius: 20
   },
+  innerContainerEmptyComment: {
+		flex: 0,
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-start',
+    paddingTop: 0,
+		paddingHorizontal: 15,
+		borderRadius: 20
+  },
   innerText: {
 		flex: 2,
 		flexDirection: 'row',
@@ -262,7 +270,19 @@ const styles = {
     flex: 1,
     position: 'relative',
     top: -20,
-    paddingTop: 20,
+    paddingTop: 15,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    borderRadius: 20
+  },
+  containerEmptyCommentChild: {
+    flex: 0,
+    position: 'relative',
+    top: -20,
+    paddingTop: 15,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -285,7 +305,7 @@ const styles = {
 
 const mapStateToProps = state => ({
   dataThreads: state.threadsReducer,
-  dataAuth: state.authReducer
+  dataAuth: state.authReducer.currentUser
 });
 
 const mapDispatchToProps = dispatch => ({

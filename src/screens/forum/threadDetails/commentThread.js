@@ -80,8 +80,8 @@ class CommentThread extends React.Component {
 	render() {
 		console.log('COMMENT -- PARENT', this.props);
 		const { _id, user, text, updatedAt, replies } = this.props.contentComment;
-		if (this.props === null) {
-			return (<Text>Loading...</Text>);
+		if (this.props === null && user === null) {
+			return null;
 		}
 		return (
 			<TouchableOpacity
@@ -92,11 +92,11 @@ class CommentThread extends React.Component {
 					<View style={styles.wrapperHeader}>
 						<Avatar
               avatarSize="ExtraSmall"
-              userName={user.nama}
-							imageSource={user.foto_profile}
+              userName={user === null ? 'Author not found' : user.nama}
+							imageSource={user === null ? '' : user.foto_profile}
 						/>
 						<View style={{ flex: 1, margin: 5 }}>
-							<Text style={{ fontSize: 12 }}>{user.nama}</Text>
+							<Text style={{ fontSize: 12 }}>{user === null ? 'Author not found' : user.nama}</Text>
 							<Text style={{ fontSize: 10 }}>Posted on {formatDateTime(updatedAt)}</Text>
 						</View>
 						<TouchableOpacity
