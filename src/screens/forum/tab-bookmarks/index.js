@@ -39,6 +39,7 @@ class TabBookmark extends Component {
     this.renderFooter = this.renderFooter.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
     this.onShareThread = this.onShareThread.bind(this)
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
