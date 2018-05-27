@@ -69,9 +69,16 @@ class TabBookmark extends Component {
 					},
 				});
 			}
-			if (event.id === 'sideMenu') {
-				this.togleModal('TemanDiabets.ProfileScreen');
-			}
+      if (event.id === 'sideMenu') {
+        this.props.navigator.push({
+          screen: 'TemanDiabets.ProfileScreen',
+          animated: true,
+          animationType: 'slide-up',
+					navigatorStyle: {
+						tabBarHidden: true
+					},
+        });
+      }
 		}
 	}
 

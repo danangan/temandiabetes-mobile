@@ -32,6 +32,10 @@ class ThreadTopic extends Component {
   }
 
   async fetchTopics() {
+    this.setState({
+      isLoading: true
+    })
+
     const option = {
       method: 'get',
       url: '/api/categories?limit=100',
@@ -42,6 +46,7 @@ class ThreadTopic extends Component {
 
       this.setState({
         categories: this.mapCategories(docs),
+        isLoading: false,
         pagination
       })
     } catch (error) {
@@ -90,7 +95,12 @@ class ThreadTopic extends Component {
     };
 
     try {
-      await API_CALL(option)
+      const { data: { data: {user} }} = await API_CALL(option);
+      this.props.dispatch({
+        type: 'GET_CURRENT_USER',
+        payload: user
+      })
+
     } catch (error) {
       console.log(error)
     }
@@ -111,7 +121,7 @@ class ThreadTopic extends Component {
       <View style={styles.container}>
         {
           this.state.isLoading &&
-          <Spinner color="#FFDE00" text="Menyimpan..." size="large" />
+          <Spinner color="#EF434F" text="" size="large" />
         }
         { header }
         <ScrollView>

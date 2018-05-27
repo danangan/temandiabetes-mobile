@@ -46,9 +46,10 @@ class ProfileScreen extends React.Component {
 	}
 
 	onDismissModal = () => {
-		this.props.navigator.dismissAllModals({
-			animationType: 'none'
-		});
+		this.props.navigator.pop({
+      animated: true,
+      animationType: 'slide-down'
+    })
 	};
 
 	onSignOut = () => this.setState({ isLoading: true }, () => this.props.onSignOut());
@@ -58,13 +59,10 @@ class ProfileScreen extends React.Component {
 			{
 				screen,
 				navigatorStyle: {
-					navBarHidden
+          navBarHidden,
+          tabBarHidden: true
 				}
-			},
-			() =>
-				this.props.navigator.dismissAllModals({
-					animationType: 'none'
-				})
+			}
 		);
   }
 

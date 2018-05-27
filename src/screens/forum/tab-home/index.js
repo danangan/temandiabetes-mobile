@@ -76,7 +76,14 @@ class TabHome extends Component {
         });
       }
       if (event.id === 'sideMenu') {
-        this.togleModal('TemanDiabets.ProfileScreen');
+        this.props.navigator.push({
+          screen: 'TemanDiabets.ProfileScreen',
+          animated: true,
+          animationType: 'slide-up',
+					navigatorStyle: {
+						tabBarHidden: true
+					},
+        });
       }
     }
   }

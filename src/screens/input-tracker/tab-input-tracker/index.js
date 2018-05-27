@@ -178,10 +178,13 @@ class InputTracker extends Component {
 				});
       }
       if (event.id === 'sideMenu') {
-        this.props.navigator.showModal({
+        this.props.navigator.push({
           screen: 'TemanDiabets.ProfileScreen',
-          title: 'Modal',
-          animationType: 'none'
+          animated: true,
+          animationType: 'slide-up',
+					navigatorStyle: {
+						tabBarHidden: true
+					},
         });
       }
     }

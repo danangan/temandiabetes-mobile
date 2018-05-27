@@ -13,12 +13,11 @@ class ProfileSettings extends React.Component {
   onPushScreen(screen) {
 		this.props.navigator.push(
 			{
-				screen,
-			},
-			() =>
-				this.props.navigator.dismissAllModals({
-					animationType: 'none'
-				})
+        screen,
+        navigatorStyle: {
+          tabBarHidden: true
+        }
+			}
 		);
 	}
 
