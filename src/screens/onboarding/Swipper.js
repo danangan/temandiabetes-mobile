@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions, Platform, ScrollView, StyleSheet, View } from 'react-native';
 
+import { debounce } from '../../utils/helpers'
 import Button from './Button';
 
 // deteksi screen yang render width dan height
@@ -238,7 +239,7 @@ export default class OnboardingScreens extends Component {
 					text="Daftar"
 					backGroundColor="#ef434f"
 					colorText="#fff"
-					actionBtn={() =>
+					actionBtn={debounce(() =>
 						this.props.navigation.push({
 							screen: 'TemanDiabets.RegisterScreen',
 							navigatorStyle: {
@@ -247,14 +248,14 @@ export default class OnboardingScreens extends Component {
 							passProps: {
 								fcmToken: this.props.fcmToken
 							}
-						})
+						}), 100)
 					}
 				/>
 				<Button
 					text="Masuk"
 					backGroundColor="#fff"
 					colorText="#ef434f"
-					actionBtn={() =>
+					actionBtn={debounce(() =>
 						this.props.navigation.push({
 							screen: 'TemanDiabets.LoginScreen',
 							navigatorStyle: {
@@ -263,7 +264,7 @@ export default class OnboardingScreens extends Component {
 							passProps: {
 								fcmToken: this.props.fcmToken
 							}
-						})
+						}), 100)
 					}
 				/>
 			</View>

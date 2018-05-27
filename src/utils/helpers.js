@@ -55,15 +55,19 @@ export const capitalize = (text) => {
   return text[0].toUpperCase() + text.slice(1).toLowerCase()
 }
 
-export const debounce = (fn, time) => {
-  let timeout;
-
-  return function() {
-    const functionCall = () => fn.apply(this, arguments);
-
-    clearTimeout(timeout);
-    timeout = setTimeout(functionCall, time);
-  }
+export const debounce = (func, wait, immediate) => {
+	let timeout;
+	return function() {
+		let context = this, args = arguments;
+		let later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		let callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
 }
 
 export const sliceString = (str, length, postFix = '...') => {
