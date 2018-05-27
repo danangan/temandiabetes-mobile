@@ -46,11 +46,6 @@ class ProfileSettings extends React.Component {
             <Text style={styles.buttonText}>INNER CIRCLE LIST</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.buttonWrapper}
-          >
-            <Text style={styles.buttonText}>AJAK TEMAN</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             onPress={() => this.onPushScreen('TemanDiabets.ThreadTopic')}
             style={styles.buttonWrapper}
           >
@@ -76,11 +71,11 @@ const styles = {
     alignItems: 'flex-start',
     borderBottomColor: '#303c45',
     borderBottomWidth: 0.5,
-    marginHorizontal: 20
+    marginHorizontal: 20,
   },
   buttonText: {
     color: '#303c45',
-    fontSize: 12
+    fontSize: 12,
   }
 }
 
