@@ -101,7 +101,7 @@ export const getLatestThreads = (page = 1, refresh = false) => async dispatch =>
   try {
     const option = {
       method: 'get',
-      url: `api/threads?page=${page}`
+      url: `api/threads?threadType=question&threadType=sharing&page=${page}`
     };
 
     const res = await API_CALL(option);
@@ -337,6 +337,7 @@ export const makeBookmark = (thread, threadIndex) => async dispatch => {
       message: res.data.message,
       threadIndex
     };
+
     dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
   } catch (error) {
     dispatch({ type: BOOKMARK_THREAD, payload: error });

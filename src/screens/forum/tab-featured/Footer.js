@@ -12,6 +12,15 @@ const defaultAuthor = {
   foto_profile: ''
 }
 
+const processName = (name) => {
+  let a = name.split(' ')
+  if (a.length > 1) {
+    return a[0] + ' ' + a[1][0]
+  } else {
+    return a[0]
+  }
+}
+
 const Footer = ({ author, saveBookmark, shareThread, threadItem, threadIndex }) => {
   author = author || defaultAuthor
   return (
@@ -31,7 +40,7 @@ const Footer = ({ author, saveBookmark, shareThread, threadItem, threadIndex }) 
         {
           author.nama !== '' &&
           <View style={styles.nameAndMonthStyle}>
-            <Text style={styles.nameStyle}>{author.nama}</Text>
+            <Text style={styles.nameStyle}>{processName(author.nama)}</Text>
             <Text style={styles.monthStyle}>{author.tipe_user}</Text>
           </View>
         }

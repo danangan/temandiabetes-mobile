@@ -186,7 +186,7 @@ class TabLatest extends Component {
 		return (
       <View style={styles.containerStyle}>
       {
-          this.props.dataThreads.item.data.length > 0 &&
+        this.props.dataThreads.item.data.length > 0 &&
         <FlatList
 					ListHeaderComponent={this.renderHeader}
 					ListFooterComponent={this.renderFooter}
