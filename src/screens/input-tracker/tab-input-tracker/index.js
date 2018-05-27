@@ -141,8 +141,8 @@ class InputTracker extends Component {
         // Selected year, month (0-11), day
 
         this.setState({
-          isDate: `${day} ${month} ${year}`,
-          dateInput: ` ${year}-${month}-${day}`
+          isDate: `${day} ${month + 1} ${year}`,
+          dateInput: ` ${year}-${month + 1}-${day}`
         }, () => {
           this.openTimePicker();
         });
