@@ -54,18 +54,22 @@ class ModalReplyComment extends Component {
   onSubmitComment() {
     const { currentUser } = this.props.dataAuth;
 
-    this.setState({
-      isSubmit: true
-    }, () => {
-      const comment = {
-        idComment: this.props.idComment,
-        params: {
-          user: currentUser._id,
-          text: this.state.komentar
-        }
-      };
-      this.props.commentToReply(comment);
-    });
+    if (this.state.komentar === '') {
+      alert('Silahkan input komentar Anda.');
+    } else {
+      this.setState({
+        isSubmit: true
+      }, () => {
+        const comment = {
+          idComment: this.props.idComment,
+          params: {
+            user: currentUser._id,
+            text: this.state.komentar
+          }
+        };
+        this.props.commentToReply(comment);
+      });
+    }
   }
 
   render() {

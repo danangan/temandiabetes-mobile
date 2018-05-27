@@ -167,8 +167,15 @@ class ThreadDetails extends React.Component {
 					size="large"
 				/>
 			);
+		} else if (threadDetails === null) {
+			return (
+				<Spinner
+					containerStyle={{ backgroundColor: '#f2f4fd' }}
+					color="#FFDE00"
+					size="large"
+				/>
+			);
 		}
-
 		return (
 			<View style={{ flex: 2, backgroundColor: color.solitude }}>
         {
@@ -249,7 +256,7 @@ class ThreadDetails extends React.Component {
 									</Text>
 								</TouchableOpacity>
 								{
-									this.props.dataAuth.currentUser._id !== threadDetails.author._id ?
+									this.props.dataAuth.currentUser._id !== threadDetails.author._id && threadDetails !== null ?
 										<TouchableOpacity
 										onPress={() => {
 											Navigation.showModal({

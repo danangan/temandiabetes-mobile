@@ -50,19 +50,23 @@ class ModalPostComponent extends Component {
   }
 
   onSubmitComment() {
-    const { currentUser } = this.props.dataAuth;
-    this.setState({
-      isSubmit: true
-    }, () => {
-      const comment = {
-        idThread: this.props.idThread,
-        params: {
-          user: currentUser._id,
-          text: this.state.komentar
-        }
-      };
-      this.props.createComment(comment);
-    });
+    if (this.state.komentar === '') {
+      alert('Komentar tidak boleh kosong');
+    } else {
+      const { currentUser } = this.props.dataAuth;
+      this.setState({
+        isSubmit: true
+      }, () => {
+        const comment = {
+          idThread: this.props.idThread,
+          params: {
+            user: currentUser._id,
+            text: this.state.komentar
+          }
+        };
+        this.props.createComment(comment);
+      });
+    }
   }
 
   render() {
