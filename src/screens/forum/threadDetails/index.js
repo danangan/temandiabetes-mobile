@@ -38,7 +38,6 @@ class ThreadDetails extends React.Component {
 
 	componentDidUpdate() {
 		const { listThreads, followThread } = this.props.dataThreads;
-		console.log('INI KAH ... ? ', listThreads);
 		if (listThreads.threadDetails !== null && this.state.isProcess) {
 			console.log('listThreads is null ', listThreads);
 			this.setState({
@@ -90,7 +89,7 @@ class ThreadDetails extends React.Component {
 				navBarHidden: true
 			},
 			passProps: {
-				
+
 				// commentItem: this.props.contentComment
 			}
 		});
@@ -188,10 +187,10 @@ class ThreadDetails extends React.Component {
 							/>
 					</View>
 					:
-					<HeaderDetail 
+					<HeaderDetail
 						categoryItem={threadDetails.category}
           	date={threadDetails.createdAt}
-          	authorItem={threadDetails.author} 
+          	authorItem={threadDetails.author}
 					/>
 				}
 					<ScrollView>
@@ -206,7 +205,7 @@ class ThreadDetails extends React.Component {
 									borderRadius: 15
 								}}
 							>
-								
+
 								<Text style={{ fontSize: 22 }}>
 									{listThreads.threadDetails === null ? 'Loading' : threadDetails.topic}
 								</Text>
@@ -287,7 +286,7 @@ class ThreadDetails extends React.Component {
 										:
 										null
 								}
-								
+
 							</View>
 						</CardSection>
 						<ContentDetail

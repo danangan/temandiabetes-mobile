@@ -54,3 +54,22 @@ export const capitalize = (text) => {
   }
   return text[0].toUpperCase() + text.slice(1).toLowerCase()
 }
+
+export const debounce = (fn, time) => {
+  let timeout;
+
+  return function() {
+    const functionCall = () => fn.apply(this, arguments);
+
+    clearTimeout(timeout);
+    timeout = setTimeout(functionCall, time);
+  }
+}
+
+export const sliceString = (str, length, postFix = '...') => {
+  if (str.length >  length) {
+    return str.substring(0, length) + postFix
+  } else {
+    return str
+  }
+}

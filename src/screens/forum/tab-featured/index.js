@@ -19,6 +19,7 @@ import color from '../../../style/color';
 
 import { getThreadStatic, makeBookmarkFeaturedThreads } from '../../../actions/threadActions';
 import { authToken } from '../../../utils/constants';
+import { sliceString } from '../../../utils/helpers';
 
 import Blood from '../../../assets/icons/explorer_icon.png';
 
@@ -134,7 +135,7 @@ class TabFeatured extends Component {
               }}
             />
             <View style={styles.contentStyle}>
-              <Text style={styles.titleStyle}>{item.topic}</Text>
+              <Text style={styles.titleStyle}>{sliceString(item.topic, 25)}</Text>
               <Footer
                 threadItem={item}
                 threadIndex={index}

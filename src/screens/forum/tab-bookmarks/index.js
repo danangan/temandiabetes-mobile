@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
+  Text,
   ScrollView,
   Platform,
   TouchableOpacity,
@@ -185,7 +186,7 @@ class TabBookmark extends Component {
                 tabBarHidden: true
               },
               passProps: {
-                threadType: 'latest'
+                threadType: 'bookmark'
               }
             })
           }
@@ -231,21 +232,56 @@ class TabBookmark extends Component {
 			<View />
     );
 
+    const content = this.props.dataThreads.item.data.length > 0 ?
+      <FlatList
+        ListHeaderComponent={this.renderHeader}
+        ListFooterComponent={this.renderFooter}
+        data={this.props.dataThreads.item.data}
+        renderItem={item => this.renderItem(item)}
+        refreshing={this.state.refreshing}
+        onRefresh={this.handleRefresh}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.3}
+      /> :
+      <View style={{
+        flex: 1,
+        alignContent: 'center'
+      }}>
+        <Text style={{
+          textAlign: 'center',
+          marginTop: 30,
+          marginBottom: 10,
+          color: '#afafaf'
+        }}>
+          Daftar Bookmark Anda Kosong
+        </Text>
+        <TouchableOpacity
+          onPress={() => { this.props.getBookmarkedThreads()
+          }}
+          style={{
+            alignSelf: 'center'
+          }}
+        >
+          <View style={{
+            margin: 10,
+            elevation: 2,
+            backgroundColor: '#fff',
+            width: 100,
+            borderRadius:50
+          }}>
+            <Text style={{
+              textAlign: 'center',
+              marginVertical: 10,
+              color: '#afafaf'
+            }}>
+              Refresh
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
 		return (
       <View style={styles.containerStyle}>
-        {
-          this.props.dataThreads.item.data.length > 0 &&
-          <FlatList
-            ListHeaderComponent={this.renderHeader}
-            ListFooterComponent={this.renderFooter}
-            data={this.props.dataThreads.item.data}
-            renderItem={item => this.renderItem(item)}
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleRefresh}
-            onEndReached={this.onEndReached}
-            onEndReachedThreshold={0.3}
-          />
-        }
+        {content}
 				{spinner}
 			</View>
 		);

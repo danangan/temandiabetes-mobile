@@ -267,6 +267,24 @@ const postBookmarkFeaturedThreads = (state, payload) => {
   };
 };
 
+const postBookmarkSearchThreads = (state, payload) => {
+  const { status_code, message, threadIndex } = payload;
+  const mutatedThread = state.searchResult.data[threadIndex]
+  mutatedThread.isBookmarked = !mutatedThread.isBookmarked
+  return {
+    ...state,
+    searchResult: {
+      ...state.searchResult,
+      data: [
+        ...state.searchResult.data.slice(0, threadIndex),
+        mutatedThread,
+        ...state.searchResult.data.slice(threadIndex+1),
+      ]
+    },
+    saveBookmark: { ...state.saveBookmark, message, status_code }
+  };
+};
+
 const deleteBookmarkedThread = (state, payload) => {
   const { status_code, message, threadIndex } = payload;
   return {
@@ -357,6 +375,8 @@ const threadsReducer = (state = initialState, action) => {
       return postBookmarkLatestThreads(state, action.payload);
     case ActionTypes.BOOKMARK_FEATURED_THREAD:
       return postBookmarkFeaturedThreads(state, action.payload);
+    case ActionTypes.BOOKMARK_SEARCH_THREAD:
+      return postBookmarkSearchThreads(state, action.payload);
     case ActionTypes.DELETE_BOOKMARKED_THREAD:
       return deleteBookmarkedThread(state, action.payload);
     case ActionTypes.GET_BOOKMARKED_THREADS:

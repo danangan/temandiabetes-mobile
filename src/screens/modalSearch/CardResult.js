@@ -10,12 +10,20 @@ import {
 import { Avatar, } from '../../components';
 
 import BookMark from '../../assets/icons/bookmark.png';
+import BookMarked from '../../assets/icons/bookmark_dark.png';
 import ShareBtn from '../../assets/icons/share.png';
 import { dateFormatter } from '../../utils/helpers';
 
 class CardResult extends React.Component {
   render() {
-    const { topic, author, createdAt } = this.props.threads.item;
+    const { share, bookmark, threadIndex, threads : { item, index } } = this.props
+    const { topic, author, createdAt, isBookmarked, _id } = item;
+
+    let formattedTopic = ''.concat(topic)
+    if (formattedTopic.length > 30) {
+      formattedTopic = formattedTopic.slice(0, 31)
+      formattedTopic = formattedTopic + '...'
+    }
     return (
       <TouchableOpacity
         onPress={() => {
@@ -48,7 +56,7 @@ class CardResult extends React.Component {
           </View>
           <View style={{ width: '75%', padding: 20 }}>
             <View>
-              <Text style={styles.currentSearch}>{topic}</Text>
+              <Text style={styles.currentSearch}>{formattedTopic}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
               {
@@ -66,20 +74,24 @@ class CardResult extends React.Component {
               </View>
               }
               <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 15 }}>
-                <View style={{ height: 20, width: 20 }}>
-                  <Image
-                    resizeMode={'center'}
-                    style={{ width: '100%', height: '100%' }}
-                    source={ShareBtn}
-                  />
-                </View>
-                <View style={{ height: 20, width: 20 }}>
-                  <Image
-                    resizeMode={'center'}
-                    style={{ width: '100%', height: '100%' }}
-                    source={BookMark}
-                  />
-                </View>
+                <TouchableOpacity onPress={() => { share(item) }}>
+                  <View style={{ height: 30, width: 30, margin: 0 }}>
+                    <Image
+                      resizeMode={'center'}
+                      style={{ width: '100%', height: '100%' }}
+                      source={ShareBtn}
+                    />
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { bookmark(item, index) }}>
+                  <View style={{ height: 30, width: 30, margin: 0 }}>
+                    <Image
+                      resizeMode={'center'}
+                      style={{ width: '100%', height: '100%' }}
+                      source={isBookmarked ? BookMarked : BookMark}
+                    />
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
