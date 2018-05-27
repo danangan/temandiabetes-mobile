@@ -24,7 +24,7 @@ class ProfileSettings extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
+        <NavigationBar onPress={() => this.props.navigator.pop()} title="SETTING" />
         <View
           style={{ flex: 2 }}
         >

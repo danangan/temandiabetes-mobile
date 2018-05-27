@@ -151,10 +151,10 @@ class EditProfile extends React.Component {
       >
         {
           isLoading &&
-			    <Spinner color="#FFDE00" text="Updating profile..." size="large" />
+			    <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />
         }
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
-        <ProfileCard />
+        <ProfileCard updateLoadingState={(isLoading, cb) => {this.setState({isLoading}, cb)}} />
         <View style={{ flex: 3, marginTop: 10, paddingLeft: 20, paddingRight: 20 }}>
           <ScrollView>
             <View>
