@@ -5,6 +5,7 @@ import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
 
 import Screen from './Screen';
 import { onBoarding, updateDeepLink } from '../../actions';
+import landingPageURL from '../../config/landingPageURL';
 
 class OnBoardingScreen extends Component {
 	constructor(props) {
@@ -43,7 +44,7 @@ class OnBoardingScreen extends Component {
       // check if it is a reset password
       // if not save it to redux store
       if (url.includes('reset-password')) {
-        let pathname = url.replace('https://temandiabetes.com/', '');
+        let pathname = url.replace(`${landingPageURL}/`, '');
         pathname = pathname.split('/')
         this.props.navigator.push({
           screen: 'TemanDiabets.ForgotPasswordInputNewPassword',

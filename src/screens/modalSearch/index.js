@@ -1,12 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { searchThread, saveUserSearch  } from '../../actions/threadActions';
-import { TextField } from '../../components';
+import { View, Text, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
+import Share from 'react-native-share';
+
+import { searchThread, saveUserSearch, makeBookmarkSearhedThread } from '../../actions/threadActions';
+import { TextField, Spinner } from '../../components';
 import CardResult from './CardResult';
 import searchIcon from '../../assets/icons/close.png';
 import searchIcon2 from '../../assets/icons/search.png';
 
+import landingPageURL from '../../config/landingPageURL';
 import { authToken, keywordRecent } from '../../utils/constants';
 import color from '../../style/color';
 
@@ -20,12 +23,54 @@ class ModalSearch extends React.Component {
     this.state = {
       nums: [1, 2, 3, 4, 5, 6],
       searchKeyword: '',
+      isLoading: false,
       recentSearch: []
     };
+
+    this.onShareThread = this.onShareThread.bind(this)
+    this.onBookmark = this.onBookmark.bind(this)
     this.changesKeyword = this.changesKeyword.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
     this.toSaveUserSearch = this.toSaveUserSearch.bind(this);
     this.onPressHistory = this.onPressHistory.bind(this);
+  }
+
+  onShareThread(thread) {
+    let options = {
+      title: thread.topic,
+      message: thread.topic,
+      url: `${landingPageURL}/thread/${thread._id}`,
+      subject: "Article from Teman Diabetes" //  for email
+    };
+    Share.open(options).catch((err) => { err && console.log(err); })
+  }
+
+  componentDidUpdate() {
+    const { saveBookmark } = this.props.dataThreads;
+    if (
+      (saveBookmark.status_code === 201 || saveBookmark.status_code === 200) &&
+      this.state.isLoading
+    ) {
+      this.setState(
+        {
+          isLoading: false
+        },
+        () => {
+          Alert.alert('Success', saveBookmark.message);
+        }
+      );
+    }
+  }
+
+  onBookmark(thread, threadIndex) {
+    this.setState(
+      {
+        isLoading: true
+      },
+      () => {
+        this.props.makeBookmarkSearhedThread(thread, threadIndex);
+      }
+    );
   }
 
   componentDidMount() {
@@ -51,10 +96,9 @@ class ModalSearch extends React.Component {
     }
   }
 
-  changesKeyword = async (e) => {
-    const token = await AsyncStorage.getItem(authToken);
-    this.setState({ searchKeyword: e }, () => {
-      this.props.searchThread(e, token);
+  changesKeyword = async (searchKeyword) => {
+    this.setState({ searchKeyword }, () => {
+      this.props.searchThread(searchKeyword, this.props.threadType);
     });
   }
 
@@ -67,6 +111,8 @@ class ModalSearch extends React.Component {
       <CardResult
         // key={index}
         threads={threads}
+        share={this.onShareThread}
+        bookmark={this.onBookmark}
         onNavigate={this.toThreadDetails}
         toSaveUserSearch={this.toSaveUserSearch}
       />
@@ -145,10 +191,14 @@ class ModalSearch extends React.Component {
   }
 
   render() {
+    const { isLoading } = this.state;
     return (
       <View
         style={styles.container}
       >
+        {
+          isLoading && <Spinner color="#EF434F" size="large"/>
+        }
         <View
           style={{
             backgroundColor: '#fff',
@@ -218,7 +268,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  searchThread: (keyword, token) => dispatch(searchThread(keyword, token)),
+  makeBookmarkSearhedThread: (thread, index) => dispatch(makeBookmarkSearhedThread(thread, index)),
+  searchThread: (keyword, threadType) => dispatch(searchThread(keyword, threadType)),
   saveUserSearch: (keyword) => dispatch(saveUserSearch(keyword)),
 });
 

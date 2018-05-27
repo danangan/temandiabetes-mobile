@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   View,
+  Text,
   ScrollView,
   Platform,
   TouchableOpacity,
@@ -14,6 +15,7 @@ import Share from 'react-native-share';
 import { Card, FooterThread, HeaderThread, SearchButton, Spinner } from '../../../components';
 import { getBookmarkedThreads, deleteBookmarkedThread } from '../../../actions/threadActions';
 import { result } from '../../../utils/helpers';
+import landingPageURL from '../../../config/landingPageURL';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
 
@@ -38,6 +40,7 @@ class TabBookmark extends Component {
     this.renderFooter = this.renderFooter.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
     this.onShareThread = this.onShareThread.bind(this)
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -68,9 +71,16 @@ class TabBookmark extends Component {
 					},
 				});
 			}
-			if (event.id === 'sideMenu') {
-				this.togleModal('TemanDiabets.ProfileScreen');
-			}
+      if (event.id === 'sideMenu') {
+        this.props.navigator.push({
+          screen: 'TemanDiabets.ProfileScreen',
+          animated: true,
+          animationType: 'slide-up',
+					navigatorStyle: {
+						tabBarHidden: true
+					},
+        });
+      }
 		}
 	}
 
@@ -129,7 +139,7 @@ class TabBookmark extends Component {
     let options = {
       title: thread.topic,
       message: thread.topic,
-      url: `https://temandiabetes.com/thread/${thread._id}`,
+      url: `${landingPageURL}/thread/${thread._id}`,
       subject: "Article from Teman Diabetes" //  for email
     };
     Share.open(options).catch((err) => { err && console.log(err); })
@@ -185,7 +195,7 @@ class TabBookmark extends Component {
                 tabBarHidden: true
               },
               passProps: {
-                threadType: 'latest'
+                threadType: 'bookmark'
               }
             })
           }
@@ -231,21 +241,56 @@ class TabBookmark extends Component {
 			<View />
     );
 
+    const content = this.props.dataThreads.item.data.length > 0 ?
+      <FlatList
+        ListHeaderComponent={this.renderHeader}
+        ListFooterComponent={this.renderFooter}
+        data={this.props.dataThreads.item.data}
+        renderItem={item => this.renderItem(item)}
+        refreshing={this.state.refreshing}
+        onRefresh={this.handleRefresh}
+        onEndReached={this.onEndReached}
+        onEndReachedThreshold={0.3}
+      /> :
+      <View style={{
+        flex: 1,
+        alignContent: 'center'
+      }}>
+        <Text style={{
+          textAlign: 'center',
+          marginTop: 30,
+          marginBottom: 10,
+          color: '#afafaf'
+        }}>
+          Daftar Bookmark Anda Kosong
+        </Text>
+        <TouchableOpacity
+          onPress={() => { this.props.getBookmarkedThreads()
+          }}
+          style={{
+            alignSelf: 'center'
+          }}
+        >
+          <View style={{
+            margin: 10,
+            elevation: 2,
+            backgroundColor: '#fff',
+            width: 100,
+            borderRadius:50
+          }}>
+            <Text style={{
+              textAlign: 'center',
+              marginVertical: 10,
+              color: '#afafaf'
+            }}>
+              Refresh
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
 		return (
       <View style={styles.containerStyle}>
-        {
-          this.props.dataThreads.item.data.length > 0 &&
-          <FlatList
-            ListHeaderComponent={this.renderHeader}
-            ListFooterComponent={this.renderFooter}
-            data={this.props.dataThreads.item.data}
-            renderItem={item => this.renderItem(item)}
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleRefresh}
-            onEndReached={this.onEndReached}
-            onEndReachedThreshold={0.3}
-          />
-        }
+        {content}
 				{spinner}
 			</View>
 		);

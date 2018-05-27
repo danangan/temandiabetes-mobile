@@ -11,6 +11,7 @@ import {
 	REPORT_THREAD,
   BOOKMARK_THREAD,
   BOOKMARK_LATEST_THREAD,
+  BOOKMARK_SEARCH_THREAD,
   BOOKMARK_FEATURED_THREAD,
   DELETE_BOOKMARKED_THREAD,
   CREATE_COMMENT,
@@ -100,7 +101,7 @@ export const getLatestThreads = (page = 1, refresh = false) => async dispatch =>
   try {
     const option = {
       method: 'get',
-      url: `api/threads?page=${page}`
+      url: `api/threads?threadType=question&threadType=sharing&page=${page}`
     };
 
     const res = await API_CALL(option);
@@ -223,19 +224,32 @@ export const userPostThread = (dataThread, cb) => async dispatch => {
  * @param {*} searchKeyword
  * @param {*} token
  */
-export const searchThread = (searchKeyword) => async dispatch => {
+export const searchThread = (searchKeyword, threadType = 'thread') => async dispatch => {
   const option = {
     method: 'get',
-    url: `api/threads?search=${searchKeyword}`
+    url: `api/${threadType ===  'bookmark' ? 'bookmarks' : 'threads'}?search=${searchKeyword}`
   };
 
   try {
     const res = await API_CALL(option);
-    const threadsPayload = {
+
+    let threadsPayload = {
       status_code: res.status,
       message: res.data.data.message,
-      threads: res.data.data.threads
-    };
+    }
+    if (threadType === 'bookmark') {
+      let threads = {
+        ...res.data.data.bookmarks,
+        docs: res.data.data.bookmarks.docs.map(item => {
+          item.thread.isBookmarked = true
+          return item.thread
+        })
+      }
+      threadsPayload.threads = threads
+    } else {
+      threadsPayload.threads = res.data.data.threads
+    }
+
     dispatch({ type: SEARCH_THREADS, payload: threadsPayload });
   } catch (error) {
     dispatch({ type: SEARCH_THREADS, payload: error });
@@ -323,6 +337,7 @@ export const makeBookmark = (thread, threadIndex) => async dispatch => {
       message: res.data.message,
       threadIndex
     };
+
     dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
   } catch (error) {
     dispatch({ type: BOOKMARK_THREAD, payload: error });
@@ -358,6 +373,30 @@ export const makeBookmarkLatestThreads = (thread, threadIndex) => async dispatch
  * @param {*} idThread
  * @param {*} token
  */
+export const makeBookmarkSearhedThread = (thread, threadIndex) => async dispatch => {
+  const option = {
+    method: thread.isBookmarked ? 'delete' : 'post',
+    url: `api/bookmarks/${thread.isBookmarked ? 'deleteByThreadId/' : ''}${thread._id}`
+  };
+
+  try {
+    const res = await API_CALL(option);
+    const reportPayload = {
+      status_code: res.status,
+      message: res.data.message,
+      threadIndex
+    };
+    dispatch({ type: BOOKMARK_SEARCH_THREAD, payload: reportPayload });
+  } catch (error) {
+    dispatch({ type: BOOKMARK_SEARCH_THREAD, payload: error });
+  }
+};
+
+/**
+ * CREATE BOOKMARK ON FEATURED THREADS
+ * @param {*} idThread
+ * @param {*} token
+ */
 export const makeBookmarkFeaturedThreads = (thread, threadIndex) => async dispatch => {
   const option = {
     method: thread.isBookmarked ? 'delete' : 'post',
@@ -378,7 +417,7 @@ export const makeBookmarkFeaturedThreads = (thread, threadIndex) => async dispat
 };
 
 /**
- * CREATE BOOKMARK ON LATEST THREADS
+ * CREATE BOOKMARK ON BOOKMARKED THREADS
  * @param {*} idThread
  * @param {*} token
  */

@@ -23,6 +23,7 @@ import { getThreads, makeBookmark } from '../../../actions/threadActions';
 import ContentThread from './contentThread';
 import color from '../../../style/color';
 import { authToken } from '../../../utils/constants';
+import landingPageURL from '../../../config/landingPageURL';
 
 class TabHome extends Component {
   constructor(props) {
@@ -76,7 +77,14 @@ class TabHome extends Component {
         });
       }
       if (event.id === 'sideMenu') {
-        this.togleModal('TemanDiabets.ProfileScreen');
+        this.props.navigator.push({
+          screen: 'TemanDiabets.ProfileScreen',
+          animated: true,
+          animationType: 'slide-up',
+					navigatorStyle: {
+						tabBarHidden: true
+					},
+        });
       }
     }
   }
@@ -199,7 +207,7 @@ class TabHome extends Component {
     const options = {
       title: thread.topic,
       message: thread.topic,
-      url: `https://temandiabetes.com/thread/${thread._id}`,
+      url: `${landingPageURL}/thread/${thread._id}`,
       subject: 'Article from Teman Diabetes' //  for email
     };
     Share.open(options).catch(err => {

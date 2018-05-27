@@ -36,6 +36,7 @@ import Style from '../../../style/defaultStyle';
 import { dateFormateName } from '../../../utils/helpers';
 import { activityList } from './initialValue';
 import { authToken } from '../../../utils/constants';
+import landingPageURL from '../../../config/landingPageURL';
 
 class InputTracker extends Component {
   constructor(props) {
@@ -75,10 +76,10 @@ class InputTracker extends Component {
     this.props.getFoodSuggetion();
 
     // analyze the deeplink
-    const { deepLink } = this.props
+    const { deepLink } = this.props;
     if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
-      let pathname = deepLink.currentDeepLink.replace('https://temandiabetes.com/', '');
-      pathname = pathname.split('/');
+      let pathname = deepLink.currentDeepLink.replace(`${landingPageURL}/`, '');
+      pathname = pathname.split('/')
       let screen
       switch (pathname[0]) {
         case 'thread':
@@ -179,10 +180,13 @@ class InputTracker extends Component {
 				});
       }
       if (event.id === 'sideMenu') {
-        this.props.navigator.showModal({
+        this.props.navigator.push({
           screen: 'TemanDiabets.ProfileScreen',
-          title: 'Modal',
-          animationType: 'none'
+          animated: true,
+          animationType: 'slide-up',
+					navigatorStyle: {
+						tabBarHidden: true
+					},
         });
       }
     }

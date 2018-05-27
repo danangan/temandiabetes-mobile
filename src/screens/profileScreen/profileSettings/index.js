@@ -13,19 +13,18 @@ class ProfileSettings extends React.Component {
   onPushScreen(screen) {
 		this.props.navigator.push(
 			{
-				screen,
-			},
-			() =>
-				this.props.navigator.dismissAllModals({
-					animationType: 'none'
-				})
+        screen,
+        navigatorStyle: {
+          tabBarHidden: true
+        }
+			}
 		);
 	}
 
   render() {
     return (
       <View style={styles.container}>
-        <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
+        <NavigationBar onPress={() => this.props.navigator.pop()} title="SETTING" />
         <View
           style={{ flex: 2 }}
         >

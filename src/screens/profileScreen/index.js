@@ -46,9 +46,10 @@ class ProfileScreen extends React.Component {
 	}
 
 	onDismissModal = () => {
-		this.props.navigator.dismissAllModals({
-			animationType: 'none'
-		});
+		this.props.navigator.pop({
+      animated: true,
+      animationType: 'slide-down'
+    })
 	};
 
 	onSignOut = () => this.setState({ isLoading: true }, () => this.props.onSignOut());
@@ -58,13 +59,10 @@ class ProfileScreen extends React.Component {
 			{
 				screen,
 				navigatorStyle: {
-					navBarHidden
+          navBarHidden,
+          tabBarHidden: true
 				}
-			},
-			() =>
-				this.props.navigator.dismissAllModals({
-					animationType: 'none'
-				})
+			}
 		);
   }
 
@@ -95,7 +93,6 @@ class ProfileScreen extends React.Component {
 
 	render() {
 		const { nama, tipe_user, foto_profile, diabetesi_tipe } = this.props.dataAuth;
-		console.log('CHECKKKK ', this.props.dataAuth);
 		const spinner = this.state.isLoading ? (
 			<Spinner color="#FFDE00" text="Logout..." size="large" />
 		) : (

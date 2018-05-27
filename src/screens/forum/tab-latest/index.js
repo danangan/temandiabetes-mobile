@@ -14,6 +14,7 @@ import Share from 'react-native-share';
 import { Card, FooterThread, HeaderThread, Spinner, SearchButton } from '../../../components';
 import { getLatestThreads, makeBookmarkLatestThreads } from '../../../actions/threadActions';
 import ContentThread from './contentThread';
+import landingPageURL from '../../../config/landingPageURL';
 import color from '../../../style/color';
 
 class TabLatest extends Component {
@@ -36,6 +37,7 @@ class TabLatest extends Component {
     this.onPostBookmark = this.onPostBookmark.bind(this)
     this.renderHeader = this.renderHeader.bind(this)
     this.onShareThread = this.onShareThread.bind(this)
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 	}
 
   componentDidMount() {
@@ -54,6 +56,29 @@ class TabLatest extends Component {
 				}
 			);
 		}
+  }
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'notification') {
+        this.props.navigator.push({
+          screen: 'TemanDiabets.Notification',
+          navigatorStyle: {
+            navBarHidden: true
+          }
+        });
+      }
+      if (event.id === 'sideMenu') {
+        this.props.navigator.push({
+          screen: 'TemanDiabets.ProfileScreen',
+          animated: true,
+          animationType: 'slide-up',
+					navigatorStyle: {
+						tabBarHidden: true
+					},
+        });
+      }
+    }
   }
 
 	toThreadDetails(threads) {
@@ -109,7 +134,7 @@ class TabLatest extends Component {
     let options = {
       title: thread.topic,
       message: thread.topic,
-      url: `https://temandiabetes.com/thread/${thread._id}`,
+      url: `${landingPageURL}/thread/${thread._id}`,
       subject: "Article from Teman Diabetes" //  for email
     };
     Share.open(options).catch((err) => { err && console.log(err); })
@@ -186,7 +211,7 @@ class TabLatest extends Component {
 		return (
       <View style={styles.containerStyle}>
       {
-          this.props.dataThreads.item.data.length > 0 &&
+        this.props.dataThreads.item.data.length > 0 &&
         <FlatList
 					ListHeaderComponent={this.renderHeader}
 					ListFooterComponent={this.renderFooter}

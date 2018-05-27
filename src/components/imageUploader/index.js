@@ -1,48 +1,63 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ImagePicker from 'react-native-image-picker';
 import firebase from 'react-native-firebase';
-import { View, TouchableOpacity, CameraRoll } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import ImageBrowser from './ImageBrowser'
 import { randomizer } from '../../utils/helpers'
 import { updateProfile } from '../../actions/profileActions'
 
+const imagePickerOption = {
+  title: 'Select Avatar',
+  customButtons: [
+    {name: 'fb', title: 'Choose Photo from Facebook'},
+  ],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+};
+
 class ImageUploader extends Component {
   constructor(props){
     super(props)
-    this.state = {
-      photos: [],
-      modalVisible: false,
-      isLoading: false
-    }
   }
 
   getImages() {
-    CameraRoll.getPhotos({
-      first: 20,
-      assetType: 'Photos',
-    })
-    .then(res => {
-      this.setState({ photos: res.edges, modalVisible: true });
-    })
-    .catch((err) => {
-      console.log(err)
-       //Error Loading Images
+    ImagePicker.showImagePicker(imagePickerOption, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      }
+      else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      }
+      else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      }
+      else {
+        // let source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
+        // console.log(response.uri)
+        this.props.updateLoadingState(true, () => {
+          this.onSelectedImage(response.uri)
+        })
+      }
     });
   }
 
-  toggleModal() {
-    this.setState({ modalVisible: !this.state.modalVisible })
-  }
-
-  async onSelectedImage(idx) {
+  async onSelectedImage(imgURI) {
     // trigger the loading
-    this.setState({ isLoading: true })
-    const imgURI = this.state.photos[idx].node.image.uri
     try {
       // generate random image name
       const filename = `${randomizer()}.png`;
       // uploading to firebase storage
       const result = await firebase.storage().ref().child(`users/${filename}`).putFile(imgURI);
+
+      console.log(result)
 
       const payload = {
         _id: this.props.currentUserId,
@@ -51,7 +66,7 @@ class ImageUploader extends Component {
       // update the redux
       await this.props.updateProfile(payload)
       // turn off the loader and closing modal
-      this.setState({ isLoading: false, modalVisible: false,  })
+      this.props.updateLoadingState(false)
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +74,6 @@ class ImageUploader extends Component {
 
   render() {
     const { style, children } = this.props
-    const { modalVisible, photos, isLoading} = this.state
     // main content
     return (
       <View style={ style }>
@@ -68,14 +82,6 @@ class ImageUploader extends Component {
         >
           { children }
         </TouchableOpacity>
-        <ImageBrowser
-          isLoading={ isLoading }
-          photos={ photos }
-          modalVisible={ modalVisible }
-          onSelectedImage={ (idx) => { this.onSelectedImage(idx) } }
-          closeModal={ () => { this.toggleModal() } }
-        >
-        </ImageBrowser>
       </View>
     )
   }

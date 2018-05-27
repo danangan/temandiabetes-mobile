@@ -19,6 +19,8 @@ import color from '../../../style/color';
 
 import { getThreadStatic, makeBookmarkFeaturedThreads } from '../../../actions/threadActions';
 import { authToken } from '../../../utils/constants';
+import { sliceString } from '../../../utils/helpers';
+import landingPageURL from '../../../config/landingPageURL';
 
 import Blood from '../../../assets/icons/explorer_icon.png';
 
@@ -41,11 +43,35 @@ class TabFeatured extends Component {
     this.renderFooter = this.renderFooter.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
     this.onShareThread = this.onShareThread.bind(this)
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 	}
 
 	componentDidMount() {
 		this.props.getThreadStatic();
 	}
+
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      if (event.id === 'notification') {
+        this.props.navigator.push({
+          screen: 'TemanDiabets.Notification',
+          navigatorStyle: {
+            navBarHidden: true
+          }
+        });
+      }
+      if (event.id === 'sideMenu') {
+        this.props.navigator.push({
+          screen: 'TemanDiabets.ProfileScreen',
+          animated: true,
+          animationType: 'slide-up',
+					navigatorStyle: {
+						tabBarHidden: true
+					},
+        });
+      }
+    }
+  }
 
 	componentDidUpdate() {
 		const { saveBookmark } = this.props;
@@ -112,7 +138,7 @@ class TabFeatured extends Component {
     let options = {
       title: thread.topic,
       message: thread.topic,
-      url: `https://temandiabetes.com/thread-static/${thread._id}`,
+      url: `${landingPageURL}/thread-static/${thread._id}`,
       subject: "Article from Teman Diabetes" //  for email
     };
     Share.open(options).catch((err) => { err && console.log(err); })
@@ -134,7 +160,7 @@ class TabFeatured extends Component {
               }}
             />
             <View style={styles.contentStyle}>
-              <Text style={styles.titleStyle}>{item.topic}</Text>
+              <Text style={styles.titleStyle}>{sliceString(item.topic, 25)}</Text>
               <Footer
                 threadItem={item}
                 threadIndex={index}

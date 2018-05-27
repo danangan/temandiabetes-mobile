@@ -6,19 +6,20 @@ import { CAMERA_ICON } from '../../utils/constants'
 import ImageUploader from '../imageUploader'
 
 const ProfileCard = (props) => {
-  const { currentUser } = props;
+  const { currentUser, updateLoadingState } = props;
   const isProfpicExist = currentUser.foto_profile && currentUser.foto_profile !== ''
   return (
     <View style={[styles.containerStyle]}>
-      <View style={{ width: 75, height: 75 }}>
+      <View>
         <Avatar
           style={styles.imageStyle}
           avatarSize="Medium"
           imageSource={ currentUser.foto_profile }
           userName={ currentUser.nama }
         />
-        <ImageUploader style={styles.imageOverlay}>
+        <ImageUploader style={styles.imageOverlay} updateLoadingState={updateLoadingState}>
           <Image
+            tintColor="#EF434F"
             style={styles.image}
             source={{ uri: CAMERA_ICON }}
           />
@@ -34,14 +35,14 @@ const ProfileCard = (props) => {
 
 const styles = {
 	containerStyle: {
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
 	},
 	titleContainerStyle: {
-    paddingLeft: 10,
+    paddingLeft: 15,
   },
   imageOverlay: {
     position: 'absolute',
