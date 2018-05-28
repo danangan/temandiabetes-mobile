@@ -4,11 +4,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
+import Share from 'react-native-share';
 
 import { onSignOut } from '../../actions/loginActions';
 import { Avatar, Spinner } from '../../components';
 import { authToken } from '../../utils/constants';
-
+import landingPageURL from '../../config/landingPageURL';
 import { mainApp } from '../../../App';
 
 class ProfileScreen extends React.Component {
@@ -20,7 +21,9 @@ class ProfileScreen extends React.Component {
 		super(props);
 		this.state = {
 			isLoading: false
-		};
+    };
+
+    this.shareApp = this.shareApp.bind(this)
 	}
 
 	componentDidMount() {
@@ -100,6 +103,18 @@ class ProfileScreen extends React.Component {
 		const token = await AsyncStorage.getItem(authToken);
 	}
 
+  shareApp() {
+    const options = {
+      title: 'Ajakan bergabung di Teman Diabetes',
+      message: 'Dapatkan aplikasi Teman Diabetes dengan klik link berikut',
+      url: landingPageURL,
+      subject: 'Ajakan bergabung di Teman Diabetes' //  for email
+    };
+    Share.open(options).catch(err => {
+      err && console.log(err);
+    });
+  }
+
 	render() {
 		const { nama, tipe_user, foto_profile, diabetesi_tipe } = this.props.dataAuth;
 		const spinner = this.state.isLoading ? (
@@ -144,7 +159,7 @@ class ProfileScreen extends React.Component {
 					<TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.Notification')}>
 						<Text style={styles.buttonText}>NOTIFIKASI</Text>
 					</TouchableOpacity>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={this.shareApp}>
 						<Text style={styles.buttonText}>AJAK TEMAN</Text>
 					</TouchableOpacity>
 				</View>
