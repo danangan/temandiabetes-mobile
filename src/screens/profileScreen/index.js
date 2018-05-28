@@ -49,10 +49,19 @@ class ProfileScreen extends React.Component {
 		this.props.navigator.pop({
       animated: true,
       animationType: 'slide-down'
-    })
+		});
 	};
 
-	onSignOut = () => this.setState({ isLoading: true }, () => this.props.onSignOut());
+	onSignOut = () => this.setState({ isLoading: true }, () => {
+		this.props.navigator.resetTo({
+			screen: 'TemanDiabets.LoginScreen',
+			navigatorStyle: {
+				tabBarHidden: true,
+				navBarHidden: true
+			},
+		});
+		this.props.onSignOut();
+	});
 
 	onPushScreen(screen, navBarHidden = true) {
 		this.props.navigator.push(

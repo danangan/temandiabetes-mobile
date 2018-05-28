@@ -77,6 +77,7 @@ class TabHome extends Component {
         });
       }
       if (event.id === 'sideMenu') {
+        // alert('Profile');
         this.props.navigator.push({
           screen: 'TemanDiabets.ProfileScreen',
           animated: true,
