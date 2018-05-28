@@ -6,9 +6,12 @@ import { Navigation } from 'react-native-navigation';
 import { createComment, getThreadDetails } from '../../actions/threadActions';
 import Closed from '../../assets/icons/close.png';
 
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 class ModalPostComponent extends Component {
   static navigatorStyle = {
-		navBarHidden: true
+    navBarHidden: true,
+    tabBarHidden: true
   };
 
   constructor(props) {
@@ -97,23 +100,25 @@ class ModalPostComponent extends Component {
             />
           </View>
         </View>
-        <TouchableOpacity
-          style={{
-            display: !this.state.keyboardActive ? 'none' : null,
-            position: 'absolute',
-            width: '30%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            bottom: 0,
-            right: 10,
-            backgroundColor: '#262d67',
-            paddingHorizontal: 15,
-            paddingVertical: 5
-          }}
-          onPress={this.state.isSubmit ? null : this.onSubmitComment}
-        >
-          <Text style={{ color: '#fff' }}>{this.state.isSubmit ? 'Loading' : 'Kirim'}</Text>
-        </TouchableOpacity>
+        
+        <View style={styles.wrapFooter}>
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#262d67',
+              width: '25%',
+              paddingHorizontal: 15,
+              paddingVertical: 5,
+              height: 33
+            }}
+            onPress={this.state.isSubmit ? null : this.onSubmitComment}
+          >
+            <Text style={{ fontSize: 14, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>
+              { this.state.isSubmit ? 'Loading' : 'Kirim' }
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -165,6 +170,18 @@ const styles = {
     fontFamily: 'Montserrat-ExtraLight',
     color: '#b7bbd2',
     fontSize: 14
+  },
+  wrapFooter: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    borderTopWidth: 1,
+    backgroundColor: '#fff',
+    borderTopColor: '#f2f3f7',
+    elevation: 4,
+    paddingVertical: 10
   }
 };
 
