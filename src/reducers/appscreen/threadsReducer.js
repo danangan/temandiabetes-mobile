@@ -371,6 +371,14 @@ const threadsReducer = (state = initialState, action) => {
 			return getLatestThreads(state, action.payload);
 		case ActionTypes.BOOKMARK_THREAD:
       return postBookmark(state, action.payload);
+    case ActionTypes.RESET_SAVE_BOOKMARK:
+      return {
+        ...state,
+        saveBookmark: {
+          message: '',
+          status_code: 0
+        }
+      };
     case ActionTypes.BOOKMARK_LATEST_THREAD:
       return postBookmarkLatestThreads(state, action.payload);
     case ActionTypes.BOOKMARK_FEATURED_THREAD:

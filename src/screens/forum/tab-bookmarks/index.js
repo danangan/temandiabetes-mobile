@@ -47,8 +47,7 @@ class TabBookmark extends Component {
     this.props.getBookmarkedThreads()
   }
 
-	componentDidUpdate() {
-		const { saveBookmark } = this.props;
+	componentWillReceiveProps({saveBookmark}) {
 		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isLoading) {
 			this.setState(
 				{

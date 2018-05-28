@@ -20,7 +20,8 @@ import {
   // SAVE_USERS_SEARCH,
   FOLLOW_THREADS,
   UNFOLLOW_THREADS,
-  GET_COMMENT_DETAILS
+  GET_COMMENT_DETAILS,
+  RESET_SAVE_BOOKMARK
 } from './constants';
 
 // import * as ActionTypes from './constants';
@@ -325,6 +326,8 @@ export const userReport = (dataThreads) => async dispatch => {
  * @param {*} token
  */
 export const makeBookmark = (thread, threadIndex) => async dispatch => {
+  dispatch({ type: RESET_SAVE_BOOKMARK });
+
   const option = {
     method: thread.isBookmarked ? 'delete' : 'post',
     url: `api/bookmarks/${thread.isBookmarked ? 'deleteByThreadId/' : ''}${thread._id}`
@@ -350,6 +353,8 @@ export const makeBookmark = (thread, threadIndex) => async dispatch => {
  * @param {*} token
  */
 export const makeBookmarkLatestThreads = (thread, threadIndex) => async dispatch => {
+  dispatch({ type: RESET_SAVE_BOOKMARK });
+
   const option = {
     method: thread.isBookmarked ? 'delete' : 'post',
     url: `api/bookmarks/${thread.isBookmarked ? 'deleteByThreadId/' : ''}${thread._id}`
@@ -398,6 +403,8 @@ export const makeBookmarkSearhedThread = (thread, threadIndex) => async dispatch
  * @param {*} token
  */
 export const makeBookmarkFeaturedThreads = (thread, threadIndex) => async dispatch => {
+  dispatch({ type: RESET_SAVE_BOOKMARK });
+
   const option = {
     method: thread.isBookmarked ? 'delete' : 'post',
     url: `api/bookmarks/${thread.isBookmarked ? 'deleteByThreadId/' : ''}${thread._id}`
@@ -422,6 +429,8 @@ export const makeBookmarkFeaturedThreads = (thread, threadIndex) => async dispat
  * @param {*} token
  */
 export const deleteBookmarkedThread = (thread, threadIndex) => async dispatch => {
+  dispatch({ type: RESET_SAVE_BOOKMARK });
+
   const option = {
     method: 'delete',
     url: `api/bookmarks/deleteByThreadId/${thread._id}`
