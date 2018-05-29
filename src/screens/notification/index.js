@@ -4,12 +4,14 @@ import {
   View,
   Text,
   ActivityIndicator,
-  FlatList
+  FlatList,
+  TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux'
 
 import { NavigationBar, Button, Spinner } from '../../components'
 import { API_CALL } from '../../utils/ajaxRequestHelper'
+import { sliceString } from '../../utils/helpers'
 import { dateFormateName, formatTimeFromDate, capitalize } from '../../utils/helpers'
 
 class Notification extends React.Component {
@@ -27,6 +29,7 @@ class Notification extends React.Component {
       pagination: {
         page: 1,
         pages: 0,
+        limit: 15
       }
     };
 
@@ -35,6 +38,7 @@ class Notification extends React.Component {
     this.renderItem = this.renderItem.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
+    this.onPressHandler = this.onPressHandler.bind(this)
   }
 
   componentDidMount() {
@@ -57,21 +61,29 @@ class Notification extends React.Component {
     )
   }
 
-  async fetchNotifications() {
+  onPressHandler(notificationType) {
+
+  }
+
+  async fetchNotifications({ refresh = false } = {}) {
+    const { page, limit } = this.state.pagination
     const option = {
       method: 'get',
-      url: `/api/notification/${this.props.currentUserId}/list?page=${this.state.pagination.page}`,
+      url: `/api/notification/${this.props.currentUserId}/list?page=${page}&limit=${limit}`,
     };
 
     try {
       const res = await API_CALL(option);
-      const { data: { data : { notifications }} } = await API_CALL(option);
+      const { data: { data : { notifications: { docs, ...pagination } }} } = await API_CALL(option);
+
+      const data = refresh ? [] : this.state.notifications
 
       this.setState({
         notifications: [
-          ...this.state.notifications,
-          ...notifications
-        ]
+          ...data,
+          ...docs
+        ],
+        pagination
       })
     } catch (error) {
       console.log(error)
@@ -84,30 +96,70 @@ class Notification extends React.Component {
 
   renderItem({item}) {
     return (
-      <View style={styles.notificationWrapper}>
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between'
-        }}>
-          <Text style={{
-            color: '#354052',
-            fontWeight: 'bold'
+      <TouchableOpacity onPress={() => {this.onPressHandler(item.activity.activityType)}}>
+        <View style={[styles.notificationWrapper, item.has_read ? {} : styles.unread]}>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between'
           }}>
-            {dateFormateName(item.createdAt)}
-          </Text>
+            <Text style={{
+              color: '#354052',
+              fontWeight: 'bold'
+            }}>
+              {dateFormateName(item.createdAt)}
+            </Text>
+            <Text style={{
+              color: '#AFAFAF'
+            }}>
+              {formatTimeFromDate(item.createdAt, '.')}
+            </Text>
+          </View>
           <Text style={{
-            color: '#AFAFAF'
+            marginTop: 5
           }}>
-            {formatTimeFromDate(item.createdAt, '.')}
+            {this.renderActivityContent(item.activity)}
           </Text>
         </View>
-        <Text style={{
-          marginTop: 10
-        }}>
-          {capitalize(item.activity.activityType)}
-        </Text>
-      </View>
+      </TouchableOpacity>
     )
+  }
+
+  renderActivityContent(activity) {
+    switch (activity.activityType) {
+      case 'comment':
+        return (
+          <Text>
+            <Text style={activity.comment.user ? styles.boldText: {}}>
+            {activity.comment.user ? activity.comment.user.nama : 'Seseorang'}
+            </Text>
+            <Text> memberikan komentar </Text>
+            <Text style={styles.boldText}>
+              "{sliceString(activity.comment.text, 30)}"
+            </Text>
+            <Text> di thread Anda </Text>
+            <Text style={styles.boldText}>
+              {sliceString(activity.comment.thread.topic, 50)}
+            </Text>
+          </Text>
+        )
+        break;
+      case 'follow':
+        return (
+          <Text>
+            <Text style={activity.thread.user ? styles.boldText: {}}>
+              {activity.thread.user ? activity.thread.user.nama : 'Seseorang'}
+            </Text>
+            <Text> mengikuti thread Anda </Text>
+            <Text style={styles.boldText}>
+              {sliceString(activity.thread.topic, 50)}
+            </Text>
+          </Text>
+        )
+        break;
+      default:
+        return activity.activityType
+        break;
+    }
   }
 
   renderEmpty() {
@@ -139,7 +191,9 @@ class Notification extends React.Component {
   onRefresh() {
     this.setState({
       isLoading: true
-    }, this.fetchNotifications)
+    }, () => {
+      this.fetchNotifications({refresh: true})
+    })
   }
 
   render() {
@@ -156,7 +210,7 @@ class Notification extends React.Component {
           refreshing={isRefreshing}
           onRefresh={this.onRefresh}
           onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.3}
+          onEndReachedThreshold={0.2}
         />
       </View>
 		);
@@ -175,12 +229,12 @@ class Notification extends React.Component {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#eee',
+    backgroundColor: '#fff',
     paddingHorizontal: 10,
     paddingVertical: 20,
   },
   listContainer: {
-    paddingVertical: 10,
+    paddingVertical: 20,
   },
   notificationWrapper: {
 		...Platform.select({
@@ -193,13 +247,20 @@ const styles = {
 			}
     }),
     marginHorizontal: 10,
-    marginBottom: 10,
-    padding: 20,
+    marginBottom: 12,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     borderRadius: 15,
 		backgroundColor: '#fff',
   },
+  unread: {
+    backgroundColor: '#eee',
+  },
+  boldText: {
+    fontWeight: 'bold'
+  },
   loadMoreContainer: {
-    marginBottom: 70,
+    // marginBottom: 70,
     marginTop: 10,
     justifyContent: 'center',
   },
