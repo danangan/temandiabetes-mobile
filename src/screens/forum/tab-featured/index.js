@@ -43,35 +43,11 @@ class TabFeatured extends Component {
     this.renderFooter = this.renderFooter.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
     this.onShareThread = this.onShareThread.bind(this)
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 	}
 
 	componentDidMount() {
 		this.props.getThreadStatic();
 	}
-
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'notification') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.Notification',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        });
-      }
-      if (event.id === 'sideMenu') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.ProfileScreen',
-          animated: true,
-          animationType: 'slide-up',
-					navigatorStyle: {
-						tabBarHidden: true
-					},
-        });
-      }
-    }
-  }
 
 	componentWillReceiveProps({saveBookmark}) {
 		if ((saveBookmark.status_code === 201 || saveBookmark.status_code === 200) && this.state.isLoading) {
@@ -244,7 +220,6 @@ const styles = {
 	containerStyle: {
     backgroundColor: color.solitude,
     paddingHorizontal: 5,
-    flex: 1
 	},
 	contentStyle: {
 		flex: 1,

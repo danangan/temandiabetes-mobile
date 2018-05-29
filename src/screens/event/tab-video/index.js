@@ -6,30 +6,6 @@ import color from '../../../style/color';
 class TabVideo extends Component {
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'notification') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.Notification',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        });
-      }
-      if (event.id === 'sideMenu') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.ProfileScreen',
-          animated: true,
-          animationType: 'slide-up',
-					navigatorStyle: {
-						tabBarHidden: true
-					},
-        });
-      }
-    }
   }
 
   render() {
@@ -40,7 +16,7 @@ class TabVideo extends Component {
             source={require('../../../assets/icons/event_active.png')}
             style={styles.iconStyle}
           />
-          <Text style={styles.subTitleStyle}>Event</Text>
+          <Text style={styles.subTitleStyle}>Video</Text>
         </View>
         <Text style={styles.titleStyle}>Coming Soon</Text>
         <Text style={styles.descStyle}>

@@ -41,7 +41,6 @@ class TabHome extends Component {
     this.onPostBookmark = this.onPostBookmark.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.onShareThread = this.onShareThread.bind(this);
   }
 
@@ -62,30 +61,6 @@ class TabHome extends Component {
           Alert.alert('Success', saveBookmark.message);
         }
       );
-    }
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'notification') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.Notification',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        });
-      }
-      if (event.id === 'sideMenu') {
-        // alert('Profile');
-        this.props.navigator.push({
-          screen: 'TemanDiabets.ProfileScreen',
-          animated: true,
-          animationType: 'slide-up',
-					navigatorStyle: {
-						tabBarHidden: true
-					},
-        });
-      }
     }
   }
 
@@ -287,7 +262,7 @@ class TabHome extends Component {
 
 const styles = {
   containerStyle: {
-    flex: 1,
+    // flex: 1,
     backgroundColor: color.solitude,
     paddingHorizontal: 5
   },

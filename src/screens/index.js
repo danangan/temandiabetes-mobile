@@ -1,5 +1,6 @@
 import { Navigation, ScreenVisibilityListener } from 'react-native-navigation';
 
+import AppContainer from './App';
 import OnBoardingScreen from './onboarding';
 import LoginScreen from './login';
 import RegisterScreen from './register';
@@ -7,16 +8,6 @@ import RegisterScreenSecond from './register/registersecond';
 import RegisterScreenThird from './register/registerthird';
 import RegisterScreenFourth from './register/registerfourth';
 import RegisterFive from './register/registerfive';
-import ChartScreen from './chart';
-import EmergencyScreen from './emergency';
-import TabHome from '../screens/forum/tab-home';
-import TabLatest from '../screens/forum/tab-latest';
-import TabFeatured from '../screens/forum/tab-featured';
-import TabBookmarks from '../screens/forum/tab-bookmarks';
-import TabVideo from '../screens/event/tab-video';
-import TabEvent from '../screens/event/tab-event';
-import TabInputTracker from '../screens/input-tracker/tab-input-tracker';
-import TabHistory from '../screens/input-tracker/tab-history';
 import ThreadDetails from '../screens/forum/threadDetails';
 import ModalSearch from '../screens/modalSearch';
 import ModalPostThread from '../screens/modalPostThread';
@@ -54,6 +45,7 @@ import ForgotPasswordInputNewPassword from '../screens/forgotPassword/inputNewPa
 import PreviewSearchMakanan from '../screens/input-tracker/tab-input-tracker/PreviewSearchMakanan';
 
 export function registerScreens(store, Provider) {
+	Navigation.registerComponent('TemanDiabets.AppContainer', () => AppContainer, store, Provider);
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.LoginScreen', () => LoginScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterScreen', () => RegisterScreen, store, Provider);
@@ -61,16 +53,6 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.RegisterScreenThird', () => RegisterScreenThird);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenFourth', () => RegisterScreenFourth, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterFive', () => RegisterFive, store, Provider);
-	Navigation.registerComponent('TemanDiabets.ChartScreen', () => ChartScreen, store, Provider);
-	Navigation.registerComponent('TemanDiabets.EmergencyScreen', () => EmergencyScreen);
-	Navigation.registerComponent('TemanDiabets.TabHome', () => TabHome, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabLatest', () => TabLatest, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabFeatured', () => TabFeatured, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabBookmarks', () => TabBookmarks, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabVideo', () => TabVideo);
-	Navigation.registerComponent('TemanDiabets.TabEvent', () => TabEvent);
-	Navigation.registerComponent('TemanDiabets.TabInputTracker', () => TabInputTracker, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabHistory', () => TabHistory, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalSearch', () => ModalSearch, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ModalPostThread', () => ModalPostThread, store, Provider);
@@ -104,7 +86,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.DrugReminder', () => DrugReminder, store, Provider);
 	Navigation.registerComponent('TemanDiabets.Notification', () => Notification, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ForgotPasswordInputEmail', () => ForgotPasswordInputEmail);
-	Navigation.registerComponent('TemanDiabets.ForgotPasswordInputNewPassword', () => ForgotPasswordInputNewPassword);  
+	Navigation.registerComponent('TemanDiabets.ForgotPasswordInputNewPassword', () => ForgotPasswordInputNewPassword);
 	Navigation.registerComponent('TemanDiabets.PreviewSearchMakanan', () => PreviewSearchMakanan, store, Provider);
 }
 

@@ -21,34 +21,10 @@ class Chart extends Component {
       url: null,
       refreshing: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
     this.props.getProductFromGOA();
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'notification') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.Notification',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        });
-      }
-      if (event.id === 'sideMenu') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.ProfileScreen',
-          animated: true,
-          animationType: 'slide-up',
-					navigatorStyle: {
-						tabBarHidden: true
-					},
-        });
-      }
-    }
   }
 
   onRefresh = () => {
@@ -170,7 +146,6 @@ class Chart extends Component {
 const styles = {
   containerStyle: {
     flex: 1,
-    paddingBottom: Style.PADDING,
     backgroundColor: color.solitude
   },
   contentStyle: {
