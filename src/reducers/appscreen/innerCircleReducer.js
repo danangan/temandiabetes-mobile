@@ -32,39 +32,48 @@ const getInnerCircle = (state, payload) => {
   };
 };
 
-const addInnerCircle = (state, payload) => {
-  return {
-    ...state,
-    status: payload.status,
-    message: payload.message,
-    ...payload
-  };
-};
-
-const updateInnerCircle = (state, payload) => ({
+const addInnerCircle = (state, payload) => ({
   ...state,
   status: payload.status,
   message: payload.message,
-  ...payload
+  addInnerCircle: payload.data
 });
 
-const removeInnerCircle = (state, payload) => ({
+const rejectInnerCircle = (state, payload) => ({
   ...state,
   status: payload.status,
   message: payload.message,
-  ...payload
+  rejectInnerCircle: payload
+});
+
+const acceptInnerCircle = (state, payload) => ({
+  ...state,
+  status: payload.status,
+  message: payload.message,
+  acceptInnerCircle: payload
+});
+
+const deleteInnerCircle = (state, payload) => ({
+  ...state,
+  status: payload.status,
+  message: payload.message,
+  deleteInnerCircle: payload
 });
 
 const innerCircleReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.GET_INNER_CIRCLE:
       return getInnerCircle(state, action.payload);
+    case 'IS_PENDING':
+      return { ...state, status: null, message: null };
     case ActionTypes.POST_INNER_CIRCLE:
       return addInnerCircle(state, action.payload);
+    case ActionTypes.ACCEPT_REQUEST_TO_INNER_CIRCLE:
+      return acceptInnerCircle(state, action.payload);
     case ActionTypes.DELETE_INNER_CIRCLE:
-      return removeInnerCircle(state, action.payload);
-    case ActionTypes.PUT_INNER_CIRCLE:
-      return updateInnerCircle(state, action.payload);
+      return deleteInnerCircle(state, action.payload);
+    case ActionTypes.DECLINE_REQUEST_TO_INNER_CIRCLE:
+      return rejectInnerCircle(state, action.payload);
     default:
       return state;
   }

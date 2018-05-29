@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image, Alert } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
 import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
@@ -12,6 +12,11 @@ import TabThreadByUser from '../../tab-threadByUser';
 import Style from '../../../style/defaultStyle';
 import { addInnerCircle } from '../../../actions';
 import color from '../../../style/color';
+
+//ICON
+import plus from '../../../assets/icons/plus.png';
+import hourglass from '../../../assets/icons/hourglass.png';
+import check from '../../../assets/icons/check.png';
 
 const listTabs = ['THREAD', 'ANSWER', 'RESPONSE', 'EVENT'];
 
@@ -27,8 +32,19 @@ class ProfileDetails extends React.Component {
       tab: 0,
       disabled: false,
       isProcess: true,
-      user: null
+      user: null,
+      loading: false,
+      source: plus,
+      status: 'TAMBAHKAN'
     };
+  }
+
+  componentWillMount() {
+    if (this.props.userIsLogging) {
+      this.setState({
+        isProcess: false
+      });
+    }
   }
 
   componentDidMount() {
@@ -49,6 +65,21 @@ class ProfileDetails extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    const self = this;
+    const { status, message } = this.props.dataInnerCircle;
+    const { loading } = this.state;
+
+    if ((status === 201 && loading) || (status === 400 && loading)) {
+      self.setState(
+        { loading: false, source: hourglass, status: 'TERTUNDA', disabled: true },
+        () => {
+          Alert.alert(message);
+        }
+      );
+    }
+  }
+
   userIsLoggedIn = () => (
     <View style={styles.contentCenterStyle}>
       <View style={styles.indicatorStyle}>
@@ -62,24 +93,33 @@ class ProfileDetails extends React.Component {
   );
 
   notUserLoggedIn = () => {
-    const source =
-      this.state.user.innerCircleStatus === 'open'
-        ? require('../../../assets/icons/plus.png')
-        : this.state.user.innerCircleStatus === 'requested'
-          ? require('../../../assets/icons/hourglass.png')
-          : require('../../../assets/icons/check.png');
-
-    const disabled = this.state.user.innerCircleStatus !== 'open';
+    const { source, status, disabled } = this.state;
+    const { innerCircleStatus } = this.state.user;
+    const icon =
+      innerCircleStatus === 'open' ? source : innerCircleStatus === 'requested' ? hourglass : check;
     const buttonTitle =
-      this.state.user.innerCircleStatus === 'requested' ? 'TERTUNDA' : 'INNER CIRCLE';
+      innerCircleStatus === 'requested'
+        ? 'TERTUNDA'
+        : innerCircleStatus === 'accepted'
+          ? 'INNER CIRCLE'
+          : status;
+    const buttonDisabled =
+      innerCircleStatus === 'requested' || innerCircleStatus === 'accepted' ? !disabled : disabled;
 
     return (
       <TouchableOpacity
         style={styles.buttonStyle}
-        onPress={() => this.props.addInnerCircle(this.props.id)}
-        disabled={disabled}
+        disabled={buttonDisabled}
+        onPress={() => {
+          this.setState(
+            {
+              loading: true
+            },
+            () => this.props.addInnerCircle(this.props.id)
+          );
+        }}
       >
-        <Image source={source} style={styles.imageButtonStyle} tintColor={color.white} />
+        <Image source={icon} style={styles.imageButtonStyle} tintColor={color.white} />
         <Text style={styles.buttonTextStyle}>{buttonTitle}</Text>
       </TouchableOpacity>
     );
@@ -159,9 +199,17 @@ class ProfileDetails extends React.Component {
       );
     }
 
+    const spinner =
+      this.state.loading === true ? (
+        <Spinner color="##FFDE00" text={'Loading...'} size="large" />
+      ) : (
+        <View />
+      );
+
     return (
       <View style={styles.container}>
         {this.renderDetailProfile()}
+        {spinner}
         <View style={{ flex: 0.5 }}>
           {this.renderViewProfile()}
           <View style={styles.tabContainerStyle}>
@@ -314,7 +362,7 @@ const styles = {
 
 const mapStateToProps = state => ({
   dataAuth: state.authReducer.currentUser,
-  dataRegister: state.registerReducer,
+  dataInnerCircle: state.innerCircleReducer,
   dataThreads: state.threadsReducer,
   dataRecentActivity: state.recentActivityReducer,
   data: state.userReducer

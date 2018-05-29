@@ -11,187 +11,183 @@ import { getInnerCircle } from '../../../../actions';
 import { authToken } from '../../../../utils/constants';
 
 class InnerCircleList extends Component {
-	static navigatorStyle = {
-		navBarHidden: true,
-		navBarBackgroundColor: 'white'
-	};
+  static navigatorStyle = {
+    navBarHidden: true,
+    navBarBackgroundColor: 'white'
+  };
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			tab: 0
-		};
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      tab: 0
+    };
+  }
 
-	componentDidMount() {
-		this.getInnerCircle();
-	}
+  componentDidMount() {
+    this.getInnerCircle();
+  }
 
-	onPushScreen(screen) {
-		this.props.navigator.push(
-			{
-				screen
-			},
-			() =>
-				this.props.navigator.dismissAllModals({
-					animationType: 'none'
-				})
-		);
-	}
+  onPushScreen(screen) {
+    this.props.navigator.push(
+      {
+        screen
+      },
+      () =>
+        this.props.navigator.dismissAllModals({
+          animationType: 'none'
+        })
+    );
+  }
 
-	getInnerCircle = async () => {
-		const { currentUser } = this.props.dataAuth;
-		const idToken = await AsyncStorage.getItem(authToken);
-		this.props.getInnerCircle(currentUser._id, idToken);
-	};
+  getInnerCircle = async () => {
+    const { currentUser } = this.props.dataAuth;
+    const idToken = await AsyncStorage.getItem(authToken);
+    this.props.getInnerCircle(currentUser._id, idToken);
+  };
 
-	renderTabContent = () => {
-		if (this.state.tab === 0) {
-			return <TabFamily innerCircle={this.props.innerCircle.accepted} />;
-		}
-		if (this.state.tab === 1) {
-			return <TabRequest innerCircle={this.props.innerCircle.pending} />;
-		}
-		if (this.state.tab === 2) {
-			return <TabPending innerCircle={this.props.innerCircle.requested} />;
-		}
-	};
+  renderTabContent = () => {
+    if (this.state.tab === 0) {
+      return <TabFamily innerCircle={this.props.innerCircle.accepted} />;
+    }
+    if (this.state.tab === 1) {
+      return <TabRequest innerCircle={this.props.innerCircle.pending} />;
+    }
+    if (this.state.tab === 2) {
+      return <TabPending innerCircle={this.props.innerCircle.requested} />;
+    }
+  };
 
-	render() {
-		return (
-			<View style={styles.containerStyle}>
-				<View style={styles.navBarContainerStyle}>
-					<TouchableOpacity
-						style={styles.leftButtonStyle}
-						onPress={() => this.props.navigator.pop()}
-					>
-						<Image
-							resizeMode={'contain'}
-							style={styles.iconStyle}
-							tintColor={color.red}
-							source={require('../../../../assets/icons/back.png')}
-						/>
-					</TouchableOpacity>
-					<Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
-					<TouchableOpacity
-						onPress={() => this.onPushScreen('TemanDiabets.InnerCircle')}
-						style={styles.rightButtonStyle}
-					>
-						<Image
-							resizeMode={'contain'}
-							style={styles.iconStyle}
-							tintColor={color.red}
-							source={require('../../../../assets/icons/username-dark.png')}
-						/>
-					</TouchableOpacity>
-				</View>
-				<View style={styles.countContainerStyle}>
-					<View style={styles.countContentStyle}>
-						{this.props.innerCircle.tabs.map((item, index) => (
-							<TouchableOpacity
-								key={index}
-								onPress={() => this.setState({ tab: index })}
-								key={index}
-							>
-								<Text
-									style={[
-										styles.countStyle,
-										{
-											fontWeight: this.state.tab === index ? '500' : 'normal',
-											color: this.state.tab === index ? color.black : color.gray
-										}
-									]}
-								>
-									{item.count.length}
-								</Text>
-								<Text style={styles.titleStyle}>{item.tab}</Text>
-								<Text
-									style={[
-										styles.indicatorStyle,
-										{
-											borderBottomWidth: this.state.tab === index ? 3 : 0,
-											borderBottomColor: this.state.tab === index ? color.red : color.white
-										}
-									]}
-								/>
-							</TouchableOpacity>
-						))}
-					</View>
-					<View style={{ flex: 5 }}>{this.renderTabContent()}</View>
-				</View>
-			</View>
-		);
-	}
+  render() {
+    return (
+      <View style={styles.containerStyle}>
+        <View style={styles.navBarContainerStyle}>
+          <TouchableOpacity
+            style={styles.leftButtonStyle}
+            onPress={() => this.props.navigator.pop()}
+          >
+            <Image
+              resizeMode={'contain'}
+              style={styles.iconStyle}
+              tintColor={color.red}
+              source={require('../../../../assets/icons/back.png')}
+            />
+          </TouchableOpacity>
+          <Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
+          <TouchableOpacity
+            onPress={() => this.onPushScreen('TemanDiabets.InnerCircle')}
+            style={styles.rightButtonStyle}
+          >
+            <Image
+              resizeMode={'contain'}
+              style={styles.iconStyle}
+              tintColor={color.red}
+              source={require('../../../../assets/icons/username-dark.png')}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.countContainerStyle}>
+          <View style={styles.countContentStyle}>
+            {this.props.innerCircle.tabs.map((item, index) => (
+              <TouchableOpacity key={index} onPress={() => this.setState({ tab: index })}>
+                <Text
+                  style={[
+                    styles.countStyle,
+                    {
+                      fontWeight: this.state.tab === index ? '500' : 'normal',
+                      color: this.state.tab === index ? color.black : color.gray
+                    }
+                  ]}
+                >
+                  {item.count.length}
+                </Text>
+                <Text style={styles.titleStyle}>{item.tab}</Text>
+                <Text
+                  style={[
+                    styles.indicatorStyle,
+                    {
+                      borderBottomWidth: this.state.tab === index ? 3 : 0,
+                      borderBottomColor: this.state.tab === index ? color.red : color.white
+                    }
+                  ]}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+          <View style={{ flex: 5 }}>{this.renderTabContent()}</View>
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = {
-	containerStyle: {
-		flex: 1,
-		backgroundColor: color.white,
-		padding: Style.PADDING
-	},
-	countContainerStyle: {
-		flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'space-around'
-	},
-	countContentStyle: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		paddingTop: Style.PADDING * 1.5
-	},
-	countStyle: {
-		fontFamily: 'Montserrat-Regular',
-		fontSize: Style.FONT_SIZE_TITLE * 1.5,
-		textAlign: 'center'
-	},
-	titleStyle: {
-		fontFamily: 'Montserrat-Regular',
-		fontSize: Style.FONT_SIZE_SMALL,
-		color: 'rgba(74,74,74,1)',
-		fontWeight: '300'
-	},
-	indicatorStyle: {
-		width: '50%',
-		borderBottomWidth: 3,
-		borderBottomColor: color.red,
-		alignSelf: 'center'
-	},
-	navBarContainerStyle: {
-		flexDirection: 'row',
-		justifyContent: 'space-between'
-	},
-	leftButtonStyle: {
-		justifyContent: 'flex-start',
-		alignItems: 'flex-start',
-		width: 50
-	},
-	iconStyle: {
-		width: 25,
-		height: 25
-	},
-	navBarTitleStyle: {
-		fontSize: Style.FONT_SIZE,
-		fontFamily: 'Montserrat-Regular',
-		fontWeight: '500',
-		textAlign: 'center',
-		color: color.red
-	},
-	rightButtonStyle: {
-		justifyContent: 'flex-end',
-		alignItems: 'flex-end',
-		width: 50
-	}
+  containerStyle: {
+    flex: 1,
+    backgroundColor: color.white,
+    padding: Style.PADDING
+  },
+  countContainerStyle: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around'
+  },
+  countContentStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingTop: Style.PADDING * 1.5
+  },
+  countStyle: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: Style.FONT_SIZE_TITLE * 1.5,
+    textAlign: 'center'
+  },
+  titleStyle: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: Style.FONT_SIZE_SMALL,
+    color: 'rgba(74,74,74,1)',
+    fontWeight: '300'
+  },
+  indicatorStyle: {
+    width: '50%',
+    borderBottomWidth: 3,
+    borderBottomColor: color.red,
+    alignSelf: 'center'
+  },
+  navBarContainerStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  leftButtonStyle: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: 50
+  },
+  iconStyle: {
+    width: 25,
+    height: 25
+  },
+  navBarTitleStyle: {
+    fontSize: Style.FONT_SIZE,
+    fontFamily: 'Montserrat-Regular',
+    fontWeight: '500',
+    textAlign: 'center',
+    color: color.red
+  },
+  rightButtonStyle: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    width: 50
+  }
 };
 
 const mapStateToProps = state => ({
-	dataAuth: state.authReducer,
-	innerCircle: state.innerCircleReducer
+  dataAuth: state.authReducer,
+  innerCircle: state.innerCircleReducer
 });
 
 const mapDispatchToProps = dispatch => ({
-	getInnerCircle: (userID, idToken) => dispatch(getInnerCircle(userID, idToken))
+  getInnerCircle: (userID, idToken) => dispatch(getInnerCircle(userID, idToken))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InnerCircleList);

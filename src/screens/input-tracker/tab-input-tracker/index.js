@@ -259,7 +259,7 @@ class InputTracker extends Component {
           }, 2000);
         });
       }
-    } 
+    }
   }
 
   renderButtonOpenDate() {
