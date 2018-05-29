@@ -21,10 +21,10 @@ import EventIcon from '../../assets/icons/event.png'
 import EventActiveIcon from '../../assets/icons/event_active.png'
 import InputTrackerIcon from '../../assets/icons/explorer_icon.png'
 import InputTrackerActiveIcon from '../../assets/icons/explorer_icon.png'
-import CartIcon from'../../assets/icons/cart.png'
-import CartActiveIcon from'../../assets/icons/cart_active.png'
-import EmergencyIcon from'../../assets/icons/emergency.png'
-import EmergencyActiveIcon from'../../assets/icons/emergency_active.png'
+import CartIcon from '../../assets/icons/cart.png'
+import CartActiveIcon from '../../assets/icons/cart_active.png'
+import EmergencyIcon from '../../assets/icons/emergency.png'
+import EmergencyActiveIcon from '../../assets/icons/emergency_active.png'
 
 // FORUM TAb
 import HomeTab from '../forum/tab-home'
@@ -124,7 +124,7 @@ class App extends Component {
             </View>
           </TopTabs>
           <TopTabs title="darurat" icon={EmergencyIcon} activeIcon={EmergencyActiveIcon}>
-            <View title="KATALOG" style={styles.content}>
+            <View title="DARURAT" style={styles.content}>
               <EmergencyTab navigator={this.props.navigator}/>
             </View>
           </TopTabs>

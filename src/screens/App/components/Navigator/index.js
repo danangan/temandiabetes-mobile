@@ -33,7 +33,7 @@ export default class Navigator extends Component {
   render() {
     return(
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => {this.openScreen('TemanDiabets.ProfileSettings')}}>
+        <TouchableOpacity onPress={() => {this.openScreen('TemanDiabets.ProfileScreen')}}>
           <Image
             style={styles.iconStyle}
             source={Menu}
