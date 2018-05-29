@@ -145,7 +145,7 @@ class ModalSearch extends React.Component {
           <Text style={styles.titleElement}>Pencarian Terakhir</Text>
           <View style={{ paddingVertical: 10, marginVertical: 0 }}>
             {
-              this.state.recentSearch.length === 0 ? <Text>Loading...</Text> :
+              this.state.recentSearch.length === 0 ? <Text></Text> :
               this.state.recentSearch.map((recent, index) => (
                 <TouchableOpacity
                   onPress={() => this.onPressHistory(recent)}

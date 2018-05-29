@@ -73,7 +73,7 @@ export const getThreads = (page = 1, refresh = false) => async dispatch => {
   try {
     const option = {
       method: 'get',
-      url: `api/threads/feed?page=${page}`
+      url: `api/threads?sort[comments]=desc&page=${page}`
     };
 
     const res = await API_CALL(option);

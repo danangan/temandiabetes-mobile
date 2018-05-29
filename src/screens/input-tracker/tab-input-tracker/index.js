@@ -57,7 +57,7 @@ class InputTracker extends Component {
       hba1c: 0,
       beratBadan: 0,
       distolic: 0,
-      sisstolic: 0,
+      sistolic: 0,
       preText: null,
       isSuggest: '',
       sarapan: null,
@@ -123,10 +123,11 @@ class InputTracker extends Component {
   componentDidUpdate() {
     const { isModal } = this.state;
     const { inputTracker } = this.props.dataInputTracker;
-    if (isModal === 'IS_LOADING' && inputTracker.status_code === 200) {
+    if (isModal === 'IS_LOADING' && inputTracker.status_code === 201) {
+      // alert('Inputan Anda berhasil disimpan.');
       setTimeout(() => {
         this.setModalVisible();
-      }, 5000);
+      }, 2000);
     }
   }
 
@@ -222,15 +223,20 @@ class InputTracker extends Component {
         waktuInput: inputDate,
         gulaDarah
       };
-      this.setState({
-        isManually: false,
-        modalVisible: true,
-        isModal: 'IS_LOADING',
-      }, () => {
-        setTimeout(() => {
-          this.props.inputTrackerBloodGlucose(value);
-        }, 2000);
-      });
+      if (gulaDarah === 0 || gulaDarah === '') {
+        alert('Silahkan input Gula darah Anda.');
+      } else {
+        this.setModalVisible('IS_LOADING');
+        this.setState({
+          isManually: false,
+          modalVisible: true,
+          isModal: 'IS_LOADING',
+        }, () => {
+          setTimeout(() => {
+            this.props.inputTrackerBloodGlucose(value);
+          }, 2000);
+        });
+      }
     } else if (casing === 'TEKANAN_DARAH') {
       const value = {
         waktuInput: inputDate,
@@ -239,13 +245,38 @@ class InputTracker extends Component {
           distolic
         }
       };
-      this.props.inputTrackerBloodPressure(value);
+      if (sistolic === 0 || sistolic === '' ) {
+        alert('Silahkan input Sistolic Anda.');
+      } else if (distolic === 0 || distolic === '') {
+        alert('Silahkan input Distolic Anda.');
+      } else {
+        this.setState({
+          modalVisible: true,
+          isModal: 'IS_LOADING',
+        }, () => {
+          setTimeout(() => {
+            this.props.inputTrackerBloodPressure(value);
+          }, 2000);
+        });
+      }
     } else if (casing === 'HBA1C') {
-      const value = {
-        waktuInput: inputDate,
-        hba1c
-      };
-      this.props.inputTrackerHba1c(value);
+      if (hba1c === 0 || hba1c === '') {
+        alert('Silahkan input HBA1C Anda.');
+      } else {
+        this.setModalVisible('IS_LOADING');
+        this.setState({
+          modalVisible: true,
+          isModal: 'IS_LOADING',
+        }, () => {
+          const value = {
+            waktuInput: inputDate,
+            hba1c
+          };
+          setTimeout(() => {
+            this.props.inputTrackerHba1c(value);
+          }, 2000);
+        });
+      }
     } else if (casing === 'ACTIVITY') {
       const value = {
         waktuInput: inputDate,
@@ -253,15 +284,36 @@ class InputTracker extends Component {
         kategori: activitySelected,
         deskripsi: descActivity
       };
-      this.props.inputTrackerActivity(value);
+      if (activitySelected === '') {
+        alert('Silahkan pilih jenis aktivitas Anda');
+      } else {
+        this.setState({
+          modalVisible: true,
+          isModal: 'IS_LOADING',
+        }, () => {
+          setTimeout(() => {
+            this.props.inputTrackerActivity(value);
+          }, 2000);
+        });
+      }
     } else if (casing === 'WEIGHT') {
       const value = {
         waktuInput: inputDate,
         beratBadan
       };
-      this.props.inputTrackerWeight(value);
+      if (beratBadan === 0 || beratBadan === '') {
+        alert('Silahkan input berat badan Anda.');
+      } else {
+        this.setState({
+          modalVisible: true,
+          isModal: 'IS_LOADING',
+        }, () => {
+          setTimeout(() => {
+            this.props.inputTrackerWeight(value);
+          }, 2000);
+        });
+      }
     } 
-    this.setModalVisible('IS_LOADING');
   }
 
   renderButtonOpenDate() {
@@ -307,6 +359,8 @@ class InputTracker extends Component {
         }}
        >
           <TextInput
+            value={this.state.gulaDarah}
+            keyboardType={'numeric'}
             placeholder="75/80mm/hg"
             onChangeText={(gulaDarah) => this.setState({ gulaDarah })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
@@ -351,6 +405,8 @@ class InputTracker extends Component {
         }}
        >
           <TextInput
+            value={this.state.hba1c}
+            keyboardType={'numeric'}
             onChangeText={(hba1c) => this.setState({ hba1c })}
             placeholder="70 mmol/mol"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
@@ -485,6 +541,8 @@ class InputTracker extends Component {
        >
           <Text>Sistolic</Text>
           <TextInput
+            value={this.state.sistolic}
+            keyboardType={'numeric'}
             onChangeText={(sistolic) => this.setState({ sistolic })}
             placeholder="20 mm/hg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
@@ -499,6 +557,8 @@ class InputTracker extends Component {
         >
           <Text>Distolic</Text>
           <TextInput
+            value={this.state.distolic}
+            keyboardType={'numeric'}
             placeholder="100 mm/hg"
             onChangeText={(distolic) => this.setState({ distolic })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
@@ -653,6 +713,8 @@ class InputTracker extends Component {
         }}
        >
           <TextInput
+            value={this.state.beratBadan}
+            keyboardType={'numeric'}
             onChangeText={(beratBadan) => this.setState({ beratBadan })}
             placeholder="80 kg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
@@ -813,6 +875,7 @@ class InputTracker extends Component {
   }
 
   render() {
+    console.log('THIS STATE ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>

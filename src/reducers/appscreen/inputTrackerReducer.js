@@ -73,6 +73,48 @@ const inputTrackerReducer = (state = initialState, action) => {
         }
       };
     }
+    case 'PENDING_INPUT_TRACKER_HBA1CE': {
+      return {
+        ...state, 
+          inputTracker: initialState.inputTracker
+      };
+    }
+    case ActionTypes.INPUT_TRACKER_HBA1C: {
+      return {
+        ...state,
+        inputTracker: {
+          ...state.inputTracker, status_code: action.payload.status, message: 'Success'
+        }
+      };
+    }
+    case 'PENDING_INPUT_TRACKER_BLOOD_PREASURE': {
+      return {
+        ...state, 
+          inputTracker: initialState.inputTracker
+      };
+    }
+    case ActionTypes.INPUT_TRACKER_BLOOD_PREASURE: {
+      return {
+        ...state,
+        inputTracker: {
+          ...state.inputTracker, status_code: action.payload.status, message: 'Success'
+        }
+      };
+    }
+    case 'PENDING_INPUT_TRACKER_WEIGHT': {
+      return {
+        ...state, 
+          inputTracker: initialState.inputTracker
+      };
+    }
+    case ActionTypes.INPUT_TRACKER_WEIGHT: {
+      return {
+        ...state,
+        inputTracker: {
+          ...state.inputTracker, status_code: action.payload.status, message: 'Success'
+        }
+      };
+    }
 		default:
 			return state;
 	}
