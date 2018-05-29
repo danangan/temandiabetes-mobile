@@ -1,11 +1,9 @@
-import { Platform, PixelRatio } from 'react-native';
 import { Provider } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
 
 import { registerScreens, registerScreenVisibilityListener } from './src/screens';
 import appInitialized from './src/utils/appInitialized';
 import configureStore from './src/store/configureStore';
-import color from './src/style/color';
 
 const store = configureStore();
 console.disableYellowBox = true;
