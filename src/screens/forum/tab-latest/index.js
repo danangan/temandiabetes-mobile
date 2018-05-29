@@ -37,7 +37,6 @@ class TabLatest extends Component {
     this.onPostBookmark = this.onPostBookmark.bind(this)
     this.renderHeader = this.renderHeader.bind(this)
     this.onShareThread = this.onShareThread.bind(this)
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 	}
 
   componentDidMount() {
@@ -55,29 +54,6 @@ class TabLatest extends Component {
 				}
 			);
 		}
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'notification') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.Notification',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        });
-      }
-      if (event.id === 'sideMenu') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.ProfileScreen',
-          animated: true,
-          animationType: 'slide-up',
-					navigatorStyle: {
-						tabBarHidden: true
-					},
-        });
-      }
-    }
   }
 
 	toThreadDetails(threads) {
@@ -232,7 +208,6 @@ const styles = {
 	containerStyle: {
     backgroundColor: color.solitude,
     paddingHorizontal: 5,
-    flex: 1
 	},
 	cardStyle: {
 		...Platform.select({

@@ -65,7 +65,6 @@ class InputTracker extends Component {
       makanMalam: null,
       snack: null
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
     this.setModalVisible = this.setModalVisible.bind(this);
     this.toNavigate = this.toNavigate.bind(this);
   }
@@ -74,36 +73,6 @@ class InputTracker extends Component {
     const token = await AsyncStorage.getItem(authToken);
     // console.log('TOKEN INI BRA ', token);
     this.props.getFoodSuggetion();
-
-    // analyze the deeplink
-    const { deepLink } = this.props;
-    if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
-      let pathname = deepLink.currentDeepLink.replace(`${landingPageURL}/`, '');
-      pathname = pathname.split('/')
-      let screen
-      switch (pathname[0]) {
-        case 'thread':
-          screen = 'TemanDiabets.ThreadDetails';
-          break;
-        case 'thread-static':
-          screen = 'TemanDiabets.FeaturedDetail';
-          break;
-        default:
-          break;
-      }
-
-      this.props.navigator.push({
-        screen,
-        navigatorStyle: {
-          navBarHidden: true
-        },
-        passProps: {
-          item: {
-            _id: pathname[1],
-          }
-        }
-      });
-    }
   }
 
   componentWillMount() {
@@ -167,29 +136,6 @@ class InputTracker extends Component {
       }
     } catch ({ code, message }) {
       console.warn('Cannot open time picker', message);
-    }
-  }
-
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'notification') {
-				this.props.navigator.push({
-					screen: 'TemanDiabets.Notification',
-					navigatorStyle: {
-						navBarHidden: true
-					},
-				});
-      }
-      if (event.id === 'sideMenu') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.ProfileScreen',
-          animated: true,
-          animationType: 'slide-up',
-					navigatorStyle: {
-						tabBarHidden: true
-					},
-        });
-      }
     }
   }
 
@@ -461,7 +407,7 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        
+
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -496,7 +442,7 @@ class InputTracker extends Component {
 
   // contentMakanan() {
   //   return (
-      
+
   //   );
   // }
 
@@ -506,7 +452,7 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-       
+
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -881,9 +827,9 @@ class InputTracker extends Component {
         <ScrollView>
           {this.renderModalInput()}
           <Card containerStyle={styles.cardStyle}>
-            <MenuButton 
+            <MenuButton
               toNavigate={this.toNavigate}
-              onModalInput={this.setModalVisible} 
+              onModalInput={this.setModalVisible}
             />
           </Card>
         </ScrollView>

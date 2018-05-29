@@ -31,7 +31,6 @@ class TabHistoryEstimation extends Component {
     this.state = {
       refreshing: false
     };
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
   }
 
   componentDidMount() {
@@ -42,29 +41,6 @@ class TabHistoryEstimation extends Component {
     this.setState({ refreshing: true });
     this.getMakeRequest().then(() => this.setState({ refreshing: false }));
   };
-
-  onNavigatorEvent(event) {
-    if (event.type === 'NavBarButtonPress') {
-      if (event.id === 'notification') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.Notification',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        });
-      }
-      if (event.id === 'sideMenu') {
-        this.props.navigator.push({
-          screen: 'TemanDiabets.ProfileScreen',
-          animated: true,
-          animationType: 'slide-up',
-					navigatorStyle: {
-						tabBarHidden: true
-					},
-        });
-      }
-    }
-  }
 
   getMakeRequest = async () => {
     try {
