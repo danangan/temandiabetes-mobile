@@ -11,8 +11,8 @@ const initialState = {
 		},
 		threadDetails: null,
 		message: '',
-		status_code: 0,
-
+    status_code: 0,
+    initialLoading: true
 	},
 	commentDetails: {
 		data: null,
@@ -27,7 +27,8 @@ const initialState = {
 			total: 0
 		},
 		message: null,
-		status_code: 0
+    status_code: 0,
+    initialLoading: true
   },
   listLatestThreads: {
 		item: {
@@ -37,7 +38,8 @@ const initialState = {
 			total: 0
 		},
 		message: null,
-		status_code: 0
+    status_code: 0,
+    initialLoading: true
   },
   listBookmarkedThreads: {
 		item: {
@@ -47,7 +49,8 @@ const initialState = {
 			total: 0
 		},
 		message: null,
-		status_code: 0
+    status_code: 0,
+    initialLoading: true
   },
 	submitThreads: {
 		message: '',
@@ -80,28 +83,6 @@ const initialState = {
 	isFetch: false
 };
 
-const getThreadStatic = (state, payload) => {
-  const { threadStatic, message, status_code, refresh } = payload;
-  const data = refresh ? [] : state.listThreadStatic.item.data
-	return {
-		...state,
-		listThreadStatic: {
-			...state.listThreadStatic,
-			item: {
-        ...state.listThreadStatic.item,
-        data: [
-          ...data,
-          ...threadStatic.docs
-        ],
-        page: threadStatic.page,
-        pages: threadStatic.pages,
-        total: threadStatic.total },
-			message,
-			status_code
-		}
-	};
-};
-
 const getThreads = (state, payload) => {
   const { threads, status_code, message, refresh } = payload;
   const { docs } = threads;
@@ -122,10 +103,34 @@ const getThreads = (state, payload) => {
         page: threads.page,
         pages: threads.pages,
       },
+      initialLoading: false,
       message,
       status_code
     },
   };
+};
+
+const getThreadStatic = (state, payload) => {
+  const { threadStatic, message, status_code, refresh } = payload;
+  const data = refresh ? [] : state.listThreadStatic.item.data
+	return {
+		...state,
+		listThreadStatic: {
+			...state.listThreadStatic,
+			item: {
+        ...state.listThreadStatic.item,
+        data: [
+          ...data,
+          ...threadStatic.docs
+        ],
+        page: threadStatic.page,
+        pages: threadStatic.pages,
+        total: threadStatic.total },
+      initialLoading: false,
+			message,
+			status_code
+		}
+	};
 };
 
 const getLatestThreads = (state, payload) => {
@@ -145,6 +150,7 @@ const getLatestThreads = (state, payload) => {
         pages: threads.pages,
         total: threads.total
       },
+      initialLoading: false,
       message,
       status_code
     },
@@ -175,6 +181,7 @@ const getBookmarkedThreads = (state, payload) => {
         pages: bookmarks.pages,
         total: bookmarks.total,
       },
+      initialLoading: false,
       message,
       status_code
     },
@@ -303,6 +310,103 @@ const deleteBookmarkedThread = (state, payload) => {
   };
 };
 
+const updateBookmarkThreadsByThreadId = (state, { threadId }) => {
+  // get thread index by id
+  const { data } = state.listThreads.item
+
+  let found = false
+  let threadIndex = 0
+  for (let idx = 0; idx < data.length && !found; idx++) {
+    if (data[idx]._id === threadId) {
+      found = true
+      threadIndex = idx
+    }
+  }
+  console.log(threadIndex, found)
+
+  if (found) {
+    const mutatedThread = state.listThreads.item.data[threadIndex]
+    mutatedThread.isBookmarked = !mutatedThread.isBookmarked
+    return {
+      ...state,
+      listThreads: {
+        ...state.listThreads,
+        data: [
+          ...state.listThreads.item.data.slice(0, threadIndex),
+          mutatedThread,
+          ...state.listThreads.item.data.slice(threadIndex+1),
+        ]
+      },
+    };
+  } else {
+    return state
+  }
+}
+
+const updateBookmarkLatestThreadsByThreadId = (state, { threadId }) => {
+  // get thread index by id
+  const { data } = state.listLatestThreads.item
+
+  let found = false
+  let threadIndex
+  for (let idx = 0; idx < data.length && !found; idx++) {
+    if (data[idx]._id === threadId) {
+      found = true
+      threadIndex = idx
+    }
+  }
+
+  if (found) {
+    const mutatedThread = state.listLatestThreads.item.data[threadIndex]
+    mutatedThread.isBookmarked = !mutatedThread.isBookmarked
+    return {
+      ...state,
+      listLatestThreads: {
+        ...state.listLatestThreads,
+        data: [
+          ...state.listLatestThreads.item.data.slice(0, threadIndex),
+          mutatedThread,
+          ...state.listLatestThreads.item.data.slice(threadIndex+1),
+        ]
+      },
+    };
+  } else {
+    return state
+  }
+}
+
+const updateBookmarkFeaturedThreadsByThreadId = (state, { threadId }) => {
+  // get thread index by id
+  const { data } = state.listThreadStatic.item
+
+  let found = false
+  let threadIndex
+  for (let idx = 0; idx < data.length && !found; idx++) {
+    if (data[idx]._id === threadId) {
+      found = true
+      threadIndex = idx
+    }
+  }
+
+  if (found) {
+    const mutatedThread = state.listThreadStatic.item.data[threadIndex]
+    mutatedThread.isBookmarked = !mutatedThread.isBookmarked
+    return {
+      ...state,
+      listThreadStatic: {
+        ...state.listThreadStatic,
+        data: [
+          ...state.listThreadStatic.item.data.slice(0, threadIndex),
+          mutatedThread,
+          ...state.listThreadStatic.item.data.slice(threadIndex+1),
+        ]
+      },
+    };
+  } else {
+    return state
+  }
+}
+
 /**
  *
  * @param {*} state object
@@ -371,6 +475,12 @@ const threadsReducer = (state = initialState, action) => {
 			return getLatestThreads(state, action.payload);
 		case ActionTypes.BOOKMARK_THREAD:
       return postBookmark(state, action.payload);
+    case ActionTypes.UPDATE_BOOKMARK_THREADS_BY_ID:
+      return updateBookmarkThreadsByThreadId(state, action.payload)
+    case ActionTypes.UPDATE_BOOKMARK_LATEST_THREADS_BY_ID:
+      return updateBookmarkLatestThreadsByThreadId(state, action.payload)
+    case ActionTypes.UPDATE_BOOKMARK_FEATURED_THREADS_BY_ID:
+      return updateBookmarkFeaturedThreadsByThreadId(state, action.payload)
     case ActionTypes.RESET_SAVE_BOOKMARK:
       return {
         ...state,

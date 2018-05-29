@@ -38,12 +38,15 @@ class TabBookmark extends Component {
     this.toThreadDetails = this.toThreadDetails.bind(this)
     this.renderHeader = this.renderHeader.bind(this)
     this.renderFooter = this.renderFooter.bind(this)
+    this.renderEmptySection = this.renderEmptySection.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
     this.onShareThread = this.onShareThread.bind(this)
   }
 
   componentDidMount() {
-    this.props.getBookmarkedThreads()
+    if (this.props.dataThreads.initialLoading) {
+      this.props.getBookmarkedThreads()
+    }
   }
 
 	componentWillReceiveProps({saveBookmark}) {
@@ -195,6 +198,19 @@ class TabBookmark extends Component {
     )
   }
 
+  renderEmptySection() {
+    return (
+      <Text style={{
+        textAlign: 'center',
+        marginTop: 30,
+        marginBottom: 10,
+        color: '#afafaf'
+      }}>
+        Beranda Anda Kosong
+      </Text>
+    )
+  }
+
   onEndReached() {
     this.setState({
       isLoadMorePage: true
@@ -210,17 +226,19 @@ class TabBookmark extends Component {
   }
 
 	render() {
+    const { initialLoading, item } = this.props.dataThreads;
 		const spinner = this.state.isLoading ? (
-			<Spinner color="#FFDE00" text="Menyimpan..." size="large" />
+			<Spinner color="#EF434F" text="Menyimpan..." size="large" />
 		) : (
 			<View />
     );
 
     const content = this.props.dataThreads.item.data.length > 0 ?
       <FlatList
+        ListEmptyComponent={this.renderEmptySection}
         ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-        data={this.props.dataThreads.item.data}
+        data={item.data}
         renderItem={item => this.renderItem(item)}
         refreshing={this.state.refreshing}
         onRefresh={this.handleRefresh}
@@ -265,7 +283,13 @@ class TabBookmark extends Component {
       </View>
 		return (
       <View style={styles.containerStyle}>
-        {content}
+        { !initialLoading && content }
+        {
+          initialLoading &&
+          <View style={styles.initialLoading}>
+            <ActivityIndicator color="#1a1a1a" size="large" />
+          </View>
+        }
 				{spinner}
 			</View>
 		);
@@ -276,6 +300,7 @@ const styles = {
 	containerStyle: {
     backgroundColor: color.solitude,
     paddingHorizontal: 5,
+    flex: 1
 	},
 	cardStyle: {
 		...Platform.select({
@@ -293,12 +318,15 @@ const styles = {
     paddingHorizontal: 20,
   },
   loadMoreContainer: {
-    marginBottom: 70,
-    marginTop: 10,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   loadMoreContent: {
+    marginVertical: 10,
     height: 25
+  },
+  initialLoading: {
+    flex: 1,
+    justifyContent: 'center'
   }
 };
 

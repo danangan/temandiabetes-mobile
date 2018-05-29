@@ -37,6 +37,7 @@ class TabHome extends Component {
 
     this.renderHeader = this.renderHeader.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
+    this.renderEmptySection = this.renderEmptySection.bind(this);
     this.togleModal = this.togleModal.bind(this);
     this.onPostBookmark = this.onPostBookmark.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
@@ -45,7 +46,9 @@ class TabHome extends Component {
   }
 
   componentDidMount() {
-    this.props.getThreads();
+    if (this.props.dataThreads.listThreads.initialLoading) {
+      this.props.getThreads();
+    }
   }
 
   componentWillReceiveProps({ dataThreads: {saveBookmark}}) {
@@ -170,7 +173,6 @@ class TabHome extends Component {
       },
       () => {
         const { page, pages } = this.props.dataThreads.listThreads.item;
-
         if (page < pages) {
           this.props.getThreads(page + 1);
         }
@@ -200,6 +202,19 @@ class TabHome extends Component {
     });
   }
 
+  renderEmptySection() {
+    return (
+      <Text style={{
+        textAlign: 'center',
+        marginTop: 30,
+        marginBottom: 10,
+        color: '#afafaf'
+      }}>
+        Beranda Anda Kosong
+      </Text>
+    )
+  }
+
   renderItem(threads) {
     let { author, comments } = threads.item;
     if (!author) {
@@ -210,40 +225,41 @@ class TabHome extends Component {
       };
     }
     return (
-      <TouchableOpacity key={threads.index} onPress={() => this.toThreadDetails(threads)}>
-        <Card containerStyle={styles.cardStyle}>
+      <Card containerStyle={styles.cardStyle}>
+        <TouchableOpacity key={threads.index} onPress={() => this.toThreadDetails(threads)}>
           <HeaderThread
             source={author.foto_profile}
             name={author.nama}
             category={author.tipe_user.toUpperCase()}
           />
           <ContentThread property={threads.item} />
-          <FooterThread
-            leftAction={() => this.toThreadDetails(threads)}
-            numOfComments={comments.length === 0 ? '' : comments.length}
-            isOpen={this.togleModal}
-            saveBookmark={this.onPostBookmark}
-            threadItem={threads.item}
-            threadIndex={threads.index}
-            shareThread={this.onShareThread}
-          />
-        </Card>
-      </TouchableOpacity>
+        </TouchableOpacity>
+        <FooterThread
+          leftAction={() => this.toThreadDetails(threads)}
+          numOfComments={comments.length === 0 ? '' : comments.length}
+          isOpen={this.togleModal}
+          saveBookmark={this.onPostBookmark}
+          threadItem={threads.item}
+          threadIndex={threads.index}
+          shareThread={this.onShareThread}
+        />
+      </Card>
     );
   }
 
   render() {
     const { listThreads } = this.props.dataThreads;
     const spinner = this.state.isProses ? (
-      <Spinner color="#FFDE00" text="Menyimpan..." size="large" />
+      <Spinner color="#EF434F" text="Menyimpan" size="large" />
     ) : (
       <View />
     );
 
     return (
       <View style={styles.containerStyle}>
-        {listThreads.item.data.length > 0 && (
+        {!listThreads.initialLoading && (
           <FlatList
+            ListEmptyComponent={this.renderEmptySection}
             ListHeaderComponent={this.renderHeader}
             ListFooterComponent={this.renderFooter}
             data={listThreads.item.data}
@@ -254,6 +270,12 @@ class TabHome extends Component {
             onEndReachedThreshold={0.3}
           />
         )}
+        {
+          listThreads.initialLoading &&
+          <View style={styles.initialLoading}>
+            <ActivityIndicator color="#1a1a1a" size="large" />
+          </View>
+        }
         {spinner}
       </View>
     );
@@ -262,7 +284,7 @@ class TabHome extends Component {
 
 const styles = {
   containerStyle: {
-    // flex: 1,
+    flex: 1,
     backgroundColor: color.solitude,
     paddingHorizontal: 5
   },
@@ -294,12 +316,15 @@ const styles = {
     paddingHorizontal: 30
   },
   loadMoreContainer: {
-    marginBottom: 70,
-    marginTop: 10,
     justifyContent: 'center'
   },
   loadMoreContent: {
+    marginVertical: 10,
     height: 25
+  },
+  initialLoading: {
+    flex: 1,
+    justifyContent: 'center'
   }
 };
 

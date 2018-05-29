@@ -7,7 +7,8 @@ import {
   Platform,
   TouchableOpacity,
   FlatList,
-  Alert
+  Alert,
+  Text
 } from 'react-native';
 
 import Share from 'react-native-share';
@@ -36,11 +37,14 @@ class TabLatest extends Component {
     this.toThreadDetails = this.toThreadDetails.bind(this)
     this.onPostBookmark = this.onPostBookmark.bind(this)
     this.renderHeader = this.renderHeader.bind(this)
+    this.renderEmptySection = this.renderEmptySection.bind(this)
     this.onShareThread = this.onShareThread.bind(this)
 	}
 
   componentDidMount() {
-    this.props.getLatestThreads()
+    if (this.props.dataThreads.initialLoading) {
+      this.props.getLatestThreads()
+    }
   }
 
   componentWillReceiveProps({saveBookmark}) {
@@ -118,29 +122,42 @@ class TabLatest extends Component {
 	renderItem(threads) {
 		const { author, comments } = threads.item;
 		return (
-			<TouchableOpacity
-				key={threads.index}
-				onPress={() => this.toThreadDetails(threads)}
-			>
-				<Card containerStyle={styles.cardStyle}>
-					{/* <HeaderThread
+      <Card containerStyle={styles.cardStyle}>
+        <TouchableOpacity
+          key={threads.index}
+          onPress={() => this.toThreadDetails(threads)}
+        >
+					<HeaderThread
 						source={author.foto_profile}
 						name={author.nama}
 						category={author.tipe_user.toUpperCase()}
-					/> */}
-					<ContentThread property={threads.item} />
-					<FooterThread
-						leftAction={() => this.toThreadDetails(threads)}
-						numOfComments={comments.length === 0 ? '' : comments.length}
-						isOpen={this.togleModal}
-						saveBookmark={this.onPostBookmark}
-						threadItem={threads.item}
-            threadIndex={threads.index}
-            shareThread={this.onShareThread}
 					/>
-				</Card>
-			</TouchableOpacity>
+          <ContentThread property={threads.item} />
+			  </TouchableOpacity>
+        <FooterThread
+          leftAction={() => this.toThreadDetails(threads)}
+          numOfComments={comments.length === 0 ? '' : comments.length}
+          isOpen={this.togleModal}
+          saveBookmark={this.onPostBookmark}
+          threadItem={threads.item}
+          threadIndex={threads.index}
+          shareThread={this.onShareThread}
+        />
+      </Card>
 		);
+  }
+
+  renderEmptySection() {
+    return (
+      <Text style={{
+        textAlign: 'center',
+        marginTop: 30,
+        marginBottom: 10,
+        color: '#afafaf'
+      }}>
+        Thread Terbaru Anda Kosong
+      </Text>
+    )
   }
 
   renderHeader() {
@@ -178,16 +195,18 @@ class TabLatest extends Component {
 	};
 
 	render() {
+    const { initialLoading, item } = this.props.dataThreads
 		const spinner = this.state.isLoading ? (
-			<Spinner color="#FFDE00" text="Menyimpan..." size="large" />
+			<Spinner color="#EF434E" text="Menyimpan..." size="large" />
 		) : (
 			<View />
 		);
 		return (
       <View style={styles.containerStyle}>
       {
-        this.props.dataThreads.item.data.length > 0 &&
+        !initialLoading &&
         <FlatList
+          ListEmptyComponent={this.renderEmptySection}
 					ListHeaderComponent={this.renderHeader}
 					ListFooterComponent={this.renderFooter}
 					data={this.props.dataThreads.item.data}
@@ -198,6 +217,12 @@ class TabLatest extends Component {
           onEndReachedThreshold={0.3}
 				/>
       }
+      {
+        initialLoading &&
+        <View style={styles.initialLoading}>
+          <ActivityIndicator color="#1a1a1a" size="large" />
+        </View>
+      }
 			{spinner}
 			</View>
 		);
@@ -206,6 +231,7 @@ class TabLatest extends Component {
 
 const styles = {
 	containerStyle: {
+    flex: 1,
     backgroundColor: color.solitude,
     paddingHorizontal: 5,
 	},
@@ -225,12 +251,15 @@ const styles = {
     paddingHorizontal: 20,
   },
   loadMoreContainer: {
-    marginBottom: 70,
-    marginTop: 10,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   loadMoreContent: {
+    marginVertical: 10,
     height: 25
+  },
+  initialLoading: {
+    flex: 1,
+    justifyContent: 'center'
   }
 };
 
