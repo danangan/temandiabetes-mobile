@@ -194,7 +194,7 @@ class InputTracker extends Component {
       if (sistolic === 0 || sistolic === '' ) {
         alert('Silahkan input Sistolic Anda.');
       } else if (distolic === 0 || distolic === '') {
-        alert('Silahkan input Distolic Anda.');
+        alert('Silahkan input Diastolic Anda.');
       } else {
         this.setState({
           modalVisible: true,
@@ -501,7 +501,7 @@ class InputTracker extends Component {
           width: '70%',
           }}
         >
-          <Text>Distolic</Text>
+          <Text>Diastolic</Text>
           <TextInput
             value={this.state.distolic}
             keyboardType={'numeric'}

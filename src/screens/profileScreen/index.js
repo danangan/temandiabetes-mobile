@@ -73,6 +73,9 @@ class ProfileScreen extends React.Component {
       navigatorStyle: {
         navBarHidden,
         tabBarHidden: true
+      },
+      passProps: {
+        userIsLogging: true
       }
     });
   }
