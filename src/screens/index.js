@@ -43,6 +43,7 @@ import Notification from '../screens/notification';
 import ForgotPasswordInputEmail from '../screens/forgotPassword/inputEmail';
 import ForgotPasswordInputNewPassword from '../screens/forgotPassword/inputNewPassword';
 import PreviewSearchMakanan from '../screens/input-tracker/tab-input-tracker/PreviewSearchMakanan';
+import Request from '../screens/profileScreen/innerCircle/innerCircleList/TabRequest';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.AppContainer', () => AppContainer, store, Provider);
@@ -88,12 +89,14 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.ForgotPasswordInputEmail', () => ForgotPasswordInputEmail);
 	Navigation.registerComponent('TemanDiabets.ForgotPasswordInputNewPassword', () => ForgotPasswordInputNewPassword);
 	Navigation.registerComponent('TemanDiabets.PreviewSearchMakanan', () => PreviewSearchMakanan, store, Provider);
+  Navigation.registerComponent('TemanDiabets.Notification', () => Notification, store, Provider);
+  Navigation.registerComponent('TemanDiabets.Request', () => Request, store, Provider)
 }
 
 export function registerScreenVisibilityListener() {
 	new ScreenVisibilityListener({
 		willAppear: ({ screen }) => console.log(`Displaying screen ${screen}`),
-		didAppear: ({ screen, startTime, endTime, commandType }) => {
+		didAppear: ({ screen, startTime, endTime,git commandType }) => {
 			console.log('screenVisibility',
 				`Screen ${screen} displayed in ${endTime - startTime} millis [${commandType}]`
 			);

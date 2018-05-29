@@ -44,12 +44,14 @@ class TabHistoryEstimation extends Component {
 
   getMakeRequest = async () => {
     try {
-      await this.props.getHistoryBloodSugarLevels();
-      await this.props.getHistoryHba1c();
-      await this.props.getHistoryActivity();
-      await this.props.getHistoryBloodPressure();
-      await this.props.getHistoryWeight();
-      await this.props.getHistoryFoods();
+      Promise.all([
+        this.props.getHistoryBloodSugarLevels(),
+        this.props.getHistoryHba1c(),
+        this.props.getHistoryActivity(),
+        this.props.getHistoryBloodPressure(),
+        this.props.getHistoryWeight(),
+        this.props.getHistoryFoods()
+      ]);
     } catch (error) {
       throw error;
     }

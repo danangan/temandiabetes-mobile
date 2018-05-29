@@ -5,7 +5,7 @@ import { Avatar } from '../../../components';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
 
-const CardInnerCircle = ({ item, navigation }) => (
+const UsersList = ({ item, navigation }) => (
   <View style={styles.containerStyle}>
     <TouchableOpacity style={styles.contentStyle} onPress={() => navigation(item)}>
       <View style={styles.leftContentStyle}>
@@ -88,4 +88,4 @@ const styles = {
   }
 };
 
-export default CardInnerCircle;
+export default UsersList;

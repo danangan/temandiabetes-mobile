@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, ScrollView, TouchableOpacity, Image, Text } from 'react-native';
 
-import CardInnerCircle from './CardInnerCircle';
+import UsersList from './UsersList';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
 import SearchBar from './innerCircleList/Search';
@@ -80,7 +80,7 @@ class InnerCircle extends React.Component {
     const { users } = this.props.data;
     if (users.length) {
       return users.map((item, index) => (
-        <CardInnerCircle navigation={this.pushNavigation} item={item} key={index} />
+        <UsersList navigation={this.pushNavigation} item={item} key={index} />
       ));
     }
   }
@@ -98,7 +98,7 @@ class InnerCircle extends React.Component {
             )
           ) : (
             this.state.results.map((item, index) => (
-              <CardInnerCircle navigation={this.pushNavigation} item={item} key={index} />
+              <UsersList navigation={this.pushNavigation} item={item} key={index} />
             ))
           )}
         </ScrollView>

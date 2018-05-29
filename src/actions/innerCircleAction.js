@@ -17,8 +17,8 @@ export const getInnerCircle = userID => async dispatch => {
       url: `api/users/${userID}/innercircles`
     };
 
-		const { data } = await API_CALL(option);
-		
+    const { data } = await API_CALL(option);
+
     return onSuccess(data);
   } catch (error) {
     return onSuccess(error);
@@ -26,12 +26,23 @@ export const getInnerCircle = userID => async dispatch => {
 };
 
 export const addInnerCircle = userID => async dispatch => {
+  function isPending() {
+    dispatch({
+      type: 'IS_PENDING',
+      payload: true
+    });
+
+    return true;
+  }
+
   function onSuccess(data) {
     dispatch({
       type: ActionTypes.POST_INNER_CIRCLE,
       payload: data
     });
   }
+
+  isPending();
 
   try {
     const option = {
@@ -42,10 +53,91 @@ export const addInnerCircle = userID => async dispatch => {
       }
     };
 
-		const { data } = await API_CALL(option);
-		
+    const { data } = await API_CALL(option);
+
     return onSuccess(data);
   } catch (error) {
-    return onSuccess(error);
+    const errMessage = {
+      status: 400,
+      message: 'Hanya diabetesi yang boleh menambahkan inner circle'
+    };
+    return onSuccess(errMessage);
+  }
+};
+
+export const deleteInnerCircle = (userId, innerCircleId) => async dispatch => {
+  function onSuccess(response) {
+    dispatch({
+      type: ActionTypes.DELETE_INNER_CIRCLE,
+      payload: response
+    });
+
+    return response;
+  }
+
+  try {
+    const option = {
+      method: 'DELETE',
+      url: `api/users/${userId}/innercircles/${innerCircleId}`
+    };
+
+    const res = await API_CALL(option);
+    onSuccess(res);
+  } catch (error) {
+    onSuccess(error);
+  }
+};
+
+export const acceptRequestToInnerCircle = (friendId, innerCircleId) => async dispatch => {
+  function onSuccess(response) {
+    dispatch({
+      type: ActionTypes.ACCEPT_REQUEST_TO_INNER_CIRCLE,
+      payload: response
+    });
+
+    return response;
+  }
+
+  try {
+    const option = {
+      method: 'PUT',
+      url: `api/users/${friendId}/innercircles/${innerCircleId}`,
+      data: {
+        status: 'accepted',
+        action: 'accept'
+      }
+    };
+
+    const res = await API_CALL(option);
+    onSuccess(res);
+  } catch (error) {
+    onSuccess(error);
+  }
+};
+
+export const declineRequestToInnerCircle = (friendId, innerCircleId) => async dispatch => {
+  function onSuccess(response) {
+    dispatch({
+      type: ActionTypes.DECLINE_REQUEST_TO_INNER_CIRCLE,
+      payload: response
+    });
+
+    return response;
+  }
+
+  try {
+    const option = {
+      method: 'PUT',
+      url: `api/users/${friendId}/innercircles/${innerCircleId}`,
+      data: {
+        status: 'rejected',
+        action: 'reject'
+      }
+    };
+
+    const res = await API_CALL(option);
+    onSuccess(res);
+  } catch (error) {
+    onSuccess(error);
   }
 };

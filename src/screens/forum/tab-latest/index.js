@@ -123,11 +123,11 @@ class TabLatest extends Component {
 				onPress={() => this.toThreadDetails(threads)}
 			>
 				<Card containerStyle={styles.cardStyle}>
-					<HeaderThread
+					{/* <HeaderThread
 						source={author.foto_profile}
 						name={author.nama}
 						category={author.tipe_user.toUpperCase()}
-					/>
+					/> */}
 					<ContentThread property={threads.item} />
 					<FooterThread
 						leftAction={() => this.toThreadDetails(threads)}

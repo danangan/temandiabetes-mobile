@@ -11,4 +11,4 @@ export * from './Spinner';
 export * from './indicator/Indicator';
 export * from './NavigationBar';
 export * from './SearchButton';
-
+export * from './Toast';
