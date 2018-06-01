@@ -41,23 +41,23 @@ const addInnerCircle = (state, payload) => ({
 
 const rejectInnerCircle = (state, payload) => ({
   ...state,
-  status: payload.status,
-  message: payload.message,
-  rejectInnerCircle: payload
+  status: payload.data.status,
+  message: payload.data.message,
+  rejectInnerCircle: payload.data
 });
 
 const acceptInnerCircle = (state, payload) => ({
   ...state,
-  status: payload.status,
-  message: payload.message,
-  acceptInnerCircle: payload
+  status: payload.data.status,
+  message: payload.data.message,
+  acceptInnerCircle: payload.data.data
 });
 
 const deleteInnerCircle = (state, payload) => ({
   ...state,
-  status: payload.status,
-  message: payload.message,
-  deleteInnerCircle: payload
+  status: payload.data.status,
+  message: payload.data.message,
+  deleteInnerCircle: payload.data
 });
 
 const innerCircleReducer = (state = initialState, action) => {
