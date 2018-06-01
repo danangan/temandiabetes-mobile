@@ -273,7 +273,7 @@ class TabHome extends Component {
         {
           listThreads.initialLoading &&
           <View style={styles.initialLoading}>
-            <ActivityIndicator color="#1a1a1a" size="large" />
+            <ActivityIndicator color="rgb(239, 67, 79)" size="large" />
           </View>
         }
         {spinner}
