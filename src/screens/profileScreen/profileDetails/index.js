@@ -10,7 +10,7 @@ import TabComments from './Comments';
 import TabInnerCircle from '../../tab-innerCircle';
 import TabThreadByUser from '../../tab-threadByUser';
 import Style from '../../../style/defaultStyle';
-import { addInnerCircle } from '../../../actions';
+import { addInnerCircle, getOneUser } from '../../../actions';
 import color from '../../../style/color';
 
 //ICON
@@ -48,10 +48,11 @@ class ProfileDetails extends React.Component {
   }
 
   componentDidMount() {
-    const { _id } = this.props.dataAuth._id;
+    const { _id } = this.props.dataAuth;
     const { id } = this.props;
     const userId = _id === id ? _id : id;
 
+    this.props.getOneUser(userId);
     this.props.getUserRecentThread(userId);
     this.props.getUserRecentComment(userId);
   }
@@ -60,7 +61,7 @@ class ProfileDetails extends React.Component {
     if (nextProps.data.user !== null && this.state.isProcess && this.state.user === null) {
       this.setState({
         isProcess: false,
-        user: nextProps.data.user
+        // user: nextProps.data.user
       });
     }
   }
@@ -94,7 +95,7 @@ class ProfileDetails extends React.Component {
 
   notUserLoggedIn = () => {
     const { source, status, disabled } = this.state;
-    const { innerCircleStatus } = this.state.user;
+    const { innerCircleStatus } = this.props.data.user;
     const icon =
       innerCircleStatus === 'open' ? source : innerCircleStatus === 'requested' ? hourglass : check;
     const buttonTitle =
@@ -126,14 +127,12 @@ class ProfileDetails extends React.Component {
   };
 
   renderViewProfile = () => {
-    const userId = this.props.dataAuth._id === this.props.id;
-
-    if (userId === false && this.props.visitProfile === 'visited') {
+    console.log(this.props)
+    if (this.props.dataAuth._id === this.props.id) {
+      // console.log('this is current user')
+      return this.userIsLoggedIn();
+    } else {
       return this.notUserLoggedIn();
-    } else if (userId === true) {
-      return this.userIsLoggedIn();
-    } else if (this.props.id === undefined) {
-      return this.userIsLoggedIn();
     }
   };
 
@@ -165,21 +164,21 @@ class ProfileDetails extends React.Component {
   }
 
   renderDetailProfile = () => {
-    const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
-    const { id, name, typeOfUser, profilePicture } = this.props;
-    const isCurrentUser = _id === id;
-    const fullName = isCurrentUser || id === undefined ? nama : name;
-    const profilePic = isCurrentUser || id === undefined ? foto_profile : profilePicture;
-    const typeUser = isCurrentUser || id === undefined ? tipe_user : typeOfUser;
+    // const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
+    const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
+    // const isCurrentUser = _id === id;
+    // const fullName = isCurrentUser || id === undefined ? nama : name;
+    // const profilePic = isCurrentUser || id === undefined ? foto_profile : profilePicture;
+    // const typeUser = isCurrentUser || id === undefined ? tipe_user : typeOfUser;
 
     return (
       <View style={styles.contentTopStyle}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
         <View style={styles.profileStyle}>
-          <Avatar avatarSize="Medium" imageSource={profilePic} userName={fullName} />
+          <Avatar avatarSize="Medium" imageSource={foto_profile} userName={nama} />
           <View style={styles.attributeProfileStyle}>
-            <Text style={styles.nameStyle}>{fullName}</Text>
-            <Text style={styles.typeStyle}>{typeUser}</Text>
+            <Text style={styles.nameStyle}>{nama}</Text>
+            <Text style={styles.typeStyle}>{tipe_user}</Text>
           </View>
         </View>
       </View>
@@ -372,7 +371,8 @@ const mapDispatchToProps = dispatch => ({
   getThreads: token => dispatch(getThreads(token)),
   getUserRecentThread: userId => dispatch(getUserRecentThread(userId)),
   getUserRecentComment: userId => dispatch(getUserRecentComment(userId)),
-  addInnerCircle: userId => dispatch(addInnerCircle(userId))
+  addInnerCircle: userId => dispatch(addInnerCircle(userId)),
+  getOneUser: userId => dispatch(getOneUser(userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);

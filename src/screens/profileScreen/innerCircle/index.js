@@ -6,7 +6,7 @@ import UsersList from './UsersList';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
 import SearchBar from './innerCircleList/Search';
-import { getUsers, getOneUser } from '../../../actions';
+import { getUsers } from '../../../actions';
 
 class InnerCircle extends React.Component {
   static navigatorStyle = {
@@ -29,7 +29,6 @@ class InnerCircle extends React.Component {
   hideSearchBar = () => this.searchBar.hide();
 
   pushNavigation = item => {
-    this.props.getOneUser(item._id);
     this.props.navigator.push({
       screen: 'TemanDiabets.ProfileDetails',
       passProps: {
@@ -157,8 +156,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUsers: () => dispatch(getUsers()),
-  getOneUser: userId => dispatch(getOneUser(userId))
+  getUsers: () => dispatch(getUsers())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InnerCircle);

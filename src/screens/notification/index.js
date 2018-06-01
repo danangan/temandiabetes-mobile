@@ -38,7 +38,7 @@ class Notification extends React.Component {
     this.renderItem = this.renderItem.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
-    this.onPressHandler = this.onPressHandler.bind(this)
+    this.redirectOnPress = this.redirectOnPress.bind(this)
   }
 
   componentDidMount() {
@@ -59,10 +59,6 @@ class Notification extends React.Component {
        {this.state.isLoadMorePage && page < pages ?  Loader : <View/>}
       </View>
     )
-  }
-
-  onPressHandler(notificationType) {
-
   }
 
   async fetchNotifications({ refresh = false } = {}) {
@@ -96,7 +92,7 @@ class Notification extends React.Component {
 
   renderItem({item}) {
     return (
-      <TouchableOpacity onPress={() => {this.onPressHandler(item.activity.activityType)}}>
+      <TouchableOpacity onPress={this.redirectOnPress(item.activity)}>
         <View style={[styles.notificationWrapper, item.has_read ? {} : styles.unread]}>
           <View style={{
             flexDirection: 'row',
@@ -124,13 +120,43 @@ class Notification extends React.Component {
     )
   }
 
+  redirectOnPress(activity) {
+    let screen
+    let passProps
+    switch (activity.activityType) {
+      case 'comment':
+        screen = 'TemanDiabets.ThreadDetails'
+        passProps = { item: activity.comment.thread }
+        break;
+      case 'reply_comment':
+        screen = 'TemanDiabets.CommentDetails'
+        passProps = { commentId: activity.comment._id }
+        break;
+      case 'followed':
+        screen = 'TemanDiabets.ProfileDetails'
+        passProps = { id: activity.followedUser ? activity.followedUser._id : activity.user._id }
+        break;
+      default:
+        break;
+    }
+    return () => {
+      this.props.navigator.push({
+        screen,
+        passProps,
+        navigatorStyle: {
+          navBarHidden: true
+        },
+      });
+    }
+  }
+
   renderActivityContent(activity) {
     switch (activity.activityType) {
       case 'comment':
         return (
           <Text>
-            <Text style={activity.comment.user ? styles.boldText: {}}>
-            {activity.comment.user ? activity.comment.user.nama : 'Seseorang'}
+            <Text style={activity.user ? styles.boldText: {}}>
+            {activity.user ? activity.user.nama : 'Seseorang'}
             </Text>
             <Text> memberikan komentar </Text>
             <Text style={styles.boldText}>
@@ -142,17 +168,43 @@ class Notification extends React.Component {
             </Text>
           </Text>
         )
-        break;
-      case 'follow':
+      case 'reply_comment':
         return (
           <Text>
-            <Text style={activity.thread.user ? styles.boldText: {}}>
-              {activity.thread.user ? activity.thread.user.nama : 'Seseorang'}
+            <Text style={activity.user ? styles.boldText: {}}>
+            {activity.user ? activity.user.nama : 'Seseorang'}
+            </Text>
+            <Text> membalas komentar </Text>
+            <Text style={styles.boldText}>
+              "{sliceString(activity.comment.text, 30)}"
+            </Text>
+            <Text> di thread Anda </Text>
+            <Text style={styles.boldText}>
+              {sliceString(activity.comment.thread.topic, 50)}
+            </Text>
+          </Text>
+        )
+        break;
+      case 'followed':
+        return (
+          <Text>
+            <Text style={activity.followedUser ? styles.boldText: {}}>
+              {activity.followedUser ? activity.followedUser.nama : 'Seseorang'}
             </Text>
             <Text> mengikuti thread Anda </Text>
             <Text style={styles.boldText}>
               {sliceString(activity.thread.topic, 50)}
             </Text>
+          </Text>
+        )
+        break;
+      case 'drug_reminder':
+        return (
+          <Text>
+            <Text>Jadwal Anda mengkonsumsi obat </Text>
+            <Text style={styles.boldText}>Nama Obat Goes Here</Text>
+            <Text> pada </Text>
+            <Text style={styles.boldText}>1 Mei 2018</Text>
           </Text>
         )
         break;
@@ -182,7 +234,7 @@ class Notification extends React.Component {
       this.setState({
         pagination: {
           ...this.state.pagination,
-          page: this.state.pagination.page +1
+          page: this.state.pagination.page + 1
         },
       }, this.fetchNotifications)
     }

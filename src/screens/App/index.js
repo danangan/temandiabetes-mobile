@@ -2,9 +2,12 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 import { connect } from 'react-redux';
+import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
+
 
 // COMPONENTS
 import Navigator from './components/Navigator'
@@ -49,9 +52,31 @@ import EmergencyTab from '../emergency'
 class App extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      token: ''
+    }
+		this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+		try {
+      let result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
+      // FCM.getInitialNotification()
+      //   .then(notif => {
+      //     console.log('INITIAL NOTIFICATION ', notif);
+      //   });
+      this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
+        if (Platform.OS === 'android') {
+          this._displayNotificationAndroid(notif);
+        }
+      });
+      FCM.getFCMToken().then(token => {
+        this.setState({ token: token || '' });
+      });
+    } catch (e) {
+      console.error(e);
+		}
+
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
@@ -83,6 +108,40 @@ class App extends Component {
     }
   }
 
+	_displayNotificationAndroid(notif) {
+    let title = ''
+    let body = 'Sentuh untuk info lebih lanjut'
+    switch (notif.type) {
+      case 'comment':
+        title = `${notif.commentator} memberikan komentar di thread Anda`
+        break;
+      case 'reply':
+        title = `${notif.commentator} membalas komentar di thread Anda`
+        break;
+      case 'followed':
+        title = `User mengikuti thread Anda`
+        break;
+      case 'drug_reminder':
+        title = `Pengingat obat`
+        break;
+      default:
+        break;
+    }
+
+    if (notif.opened_from_tray) {
+      // do the redirect here
+      alert('handle dong redirect nya')
+    } else {
+      FCM.presentLocalNotification({
+        title,
+        body,
+        priority: 'high',
+        show_in_foreground: true,
+        local: true
+      });
+    }
+  }
+
   render() {
     return(
       <View style={styles.container}>
@@ -110,14 +169,20 @@ class App extends Component {
               <VideoTab />
             </View>
           </TopTabs>
-          <TopTabs title="rekaman" icon={InputTrackerIcon} activeIcon={InputTrackerActiveIcon}>
-            <View title="MASUKKAN PELACAK" style={styles.content}>
-              <InputTrackerTab navigator={this.props.navigator}/>
-            </View>
-            <View title="RIWAYAT DAN ESTIMASI" style={styles.content}>
-              <HistoryTab navigator={this.props.navigator}/>
-            </View>
-          </TopTabs>
+
+          {
+            // only render if the user is a diabetesi
+            this.props.currentUser.tipe_user === 'diabetesi' ?
+            <TopTabs title="rekaman" icon={InputTrackerIcon} activeIcon={InputTrackerActiveIcon}>
+              <View title="MASUKKAN PELACAK" style={styles.content}>
+                <InputTrackerTab navigator={this.props.navigator}/>
+              </View>
+              <View title="RIWAYAT DAN ESTIMASI" style={styles.content}>
+                <HistoryTab navigator={this.props.navigator}/>
+              </View>
+            </TopTabs>
+            : null
+          }
           <TopTabs title="belanja" icon={CartIcon} activeIcon={CartActiveIcon}>
             <View title="KATALOG" style={styles.content}>
               <ShopTab navigator={this.props.navigator}/>
@@ -146,7 +211,8 @@ const styles = StyleSheet.create({
 
 
 const mapStateToProps = state => ({
-  deepLink: state.appReducer.deepLink
+  deepLink: state.appReducer.deepLink,
+  currentUser: state.authReducer.currentUser
 });
 
 export default connect(mapStateToProps)(App);

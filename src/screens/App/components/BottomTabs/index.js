@@ -30,28 +30,36 @@ export default class BottomTabs extends Component {
         {/* Tabs row */}
         <View style={styles.tabsContainer}>
           {/* Pull props out of children, and pull title out of props */}
-          {children.map(({ props: { title, icon, activeIcon } }, index) =>
-            <TouchableOpacity
-              style={[
-                // Default style for every tab
-                styles.tabContainer,
-              ]}
-              // Change active tab
-              onPress={() => this.setState({ activeTab: index }) }
-              // Required key prop for components generated returned by map iterator
-              key={index}
-            >
-              {/* active underline */}
-              <View style={[styles.underline, index === this.state.activeTab ?  styles.underlineActive : {} ]}>
-              </View>
-              <Image
-                style={styles.iconStyle}
-                source={index === this.state.activeTab ? activeIcon : icon }
-              />
-              <Text style={styles.tabText}>
-                {title}
-              </Text>
-            </TouchableOpacity>
+          {
+            children.map((item, index) => {
+              if (!item) {
+                return null
+              }
+              const { props: { title, icon, activeIcon } } = item
+              return (
+                <TouchableOpacity
+                  style={[
+                    // Default style for every tab
+                    styles.tabContainer,
+                  ]}
+                  // Change active tab
+                  onPress={() => this.setState({ activeTab: index }) }
+                  // Required key prop for components generated returned by map iterator
+                  key={index}
+                >
+                  {/* active underline */}
+                  <View style={[styles.underline, index === this.state.activeTab ?  styles.underlineActive : {} ]}>
+                  </View>
+                  <Image
+                    style={styles.iconStyle}
+                    source={index === this.state.activeTab ? activeIcon : icon }
+                  />
+                  <Text style={styles.tabText}>
+                    {title}
+                  </Text>
+                </TouchableOpacity>
+              )
+            }
           )}
         </View>
       </View>

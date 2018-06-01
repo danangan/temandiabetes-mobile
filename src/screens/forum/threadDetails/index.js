@@ -39,7 +39,6 @@ class ThreadDetails extends React.Component {
 	componentDidUpdate() {
 		const { listThreads, followThread } = this.props.dataThreads;
 		if (listThreads.threadDetails !== null && this.state.isProcess) {
-			console.log('listThreads is null ', listThreads);
 			this.setState({
 				isProcess: false
 			});
@@ -69,15 +68,15 @@ class ThreadDetails extends React.Component {
 	}
 
 	toCommentDetails(idComment) {
-		this.props.getCommentDetails(idComment);
+		// this.props.getCommentDetails(idComment);
 		this.props.navigator.push({
 			screen: 'TemanDiabets.CommentDetails',
 			navigatorStyle: {
 				navBarHidden: true
 			},
 			passProps: {
-				idThread: this.state.idThread
-				// commentItem: this.props.contentComment
+				idThread: this.state.idThread,
+				commentId: idComment
 			}
 		});
 	}
@@ -157,7 +156,6 @@ class ThreadDetails extends React.Component {
     const { _id } = this.props.item;
     const { listThreads } = this.props.dataThreads;
 		const { threadDetails } = listThreads;
-		console.log('Apa ini category ', threadDetails);
 		if (this.state.isProcess) {
 			return (
 				<Spinner
