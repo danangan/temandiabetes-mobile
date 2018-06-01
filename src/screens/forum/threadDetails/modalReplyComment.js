@@ -103,7 +103,25 @@ class ModalReplyComment extends Component {
             />
           </View>
         </View>
-        <TouchableOpacity
+        <View style={styles.wrapFooter}>
+          <TouchableOpacity
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#262d67',
+              width: '25%',
+              paddingHorizontal: 15,
+              paddingVertical: 5,
+              height: 33
+            }}
+            onPress={this.state.isSubmit ? null : this.onSubmitComment}
+          >
+            <Text style={{ fontSize: 14, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>
+              { this.state.isSubmit ? 'Loading' : 'Kirim' }
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* <TouchableOpacity
           style={{
             display: !this.state.keyboardActive ? 'none' : null,
             position: 'absolute',
@@ -119,7 +137,7 @@ class ModalReplyComment extends Component {
           onPress={this.state.isSubmit ? null : this.onSubmitComment}
         >
           <Text style={{ color: '#fff' }}>{this.state.isSubmit ? 'Loading' : 'Kirim'}</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }
@@ -171,6 +189,18 @@ const styles = {
     fontFamily: 'Montserrat-ExtraLight',
     color: '#b7bbd2',
     fontSize: 14
+  },
+  wrapFooter: {
+    width: '100%',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    borderTopWidth: 1,
+    backgroundColor: '#fff',
+    borderTopColor: '#f2f3f7',
+    elevation: 4,
+    paddingVertical: 10
   }
 };
 
