@@ -329,7 +329,8 @@ const styles = {
     alignItems: 'center',
   },
   listContainer: {
-    paddingVertical: 20,
+    flex: 1,
+    paddingTop: 20,
   },
   notificationWrapper: {
 		...Platform.select({
