@@ -36,8 +36,7 @@ import Style from '../../../style/defaultStyle';
 import { dateFormateName } from '../../../utils/helpers';
 import { activityList } from './initialValue';
 import { authToken } from '../../../utils/constants';
-import landingPageURL from '../../../config/landingPageURL';
-import { min } from 'moment';
+import ButtonSave from './ButtonSave';
 
 class InputTracker extends Component {
   constructor(props) {
@@ -68,6 +67,7 @@ class InputTracker extends Component {
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.toNavigate = this.toNavigate.bind(this);
+    this.handleSave = this.handleSave.bind(this);
   }
 
   async componentDidMount() {
@@ -93,11 +93,21 @@ class InputTracker extends Component {
   componentDidUpdate() {
     const { isModal } = this.state;
     const { inputTracker } = this.props.dataInputTracker;
-    if (isModal === 'IS_LOADING' && inputTracker.status_code === 201) {
-      // alert('Inputan Anda berhasil disimpan.');
-      setTimeout(() => {
-        this.setModalVisible();
-      }, 2000);
+    if (isModal === 'IS_LOADING' && inputTracker.message === 'Success') {
+      alert('Inputan Anda berhasil disimpan.');
+      this.setState({
+        modalVisible: false,
+        isModal: '',
+        gulaDarah: 0,
+        hba1c: 0,
+        sarapan: null,
+        makanSiang: null,
+        makanMalam: null,
+        snack: null
+      });
+      // setTimeout(() => {
+      //   this.setModalVisible();
+      // }, 1500);
     }
   }
 
@@ -146,7 +156,9 @@ class InputTracker extends Component {
     const params = isModal === undefined ? '' : isModal;
     this.setState({
       modalVisible: !this.state.modalVisible,
-      isModal: params
+      isModal: params,
+      activitySelected: '',
+      descActivity: ''
     });
   }
 
@@ -175,7 +187,7 @@ class InputTracker extends Component {
       if (gulaDarah === 0 || gulaDarah === '') {
         alert('Silahkan input Gula darah Anda.');
       } else {
-        this.setModalVisible('IS_LOADING');
+        // this.setModalVisible('IS_LOADING');
         this.setState({
           isManually: false,
           modalVisible: true,
@@ -183,7 +195,7 @@ class InputTracker extends Component {
         }, () => {
           setTimeout(() => {
             this.props.inputTrackerBloodGlucose(value);
-          }, 2000);
+          }, 1500);
         });
       }
     } else if (casing === 'TEKANAN_DARAH') {
@@ -205,7 +217,7 @@ class InputTracker extends Component {
         }, () => {
           setTimeout(() => {
             this.props.inputTrackerBloodPressure(value);
-          }, 2000);
+          }, 1500);
         });
       }
     } else if (casing === 'HBA1C') {
@@ -217,13 +229,24 @@ class InputTracker extends Component {
           modalVisible: true,
           isModal: 'IS_LOADING',
         }, () => {
-          const value = {
-            waktuInput: inputDate,
-            hba1c
-          };
-          setTimeout(() => {
-            this.props.inputTrackerHba1c(value);
-          }, 2000);
+          if (hba1c.indexOf(',') !== -1) {
+            const manipulateDot = hba1c.replace(',', '.');
+            const value = {
+              waktuInput: inputDate,
+              hba1c: manipulateDot
+            };
+            setTimeout(() => {
+              this.props.inputTrackerHba1c(value);
+            }, 1500);
+          } else {
+            const value = {
+              waktuInput: inputDate,
+              hba1c
+            };
+            setTimeout(() => {
+              this.props.inputTrackerHba1c(value);
+            }, 1500);
+          }
         });
       }
     } else if (casing === 'ACTIVITY') {
@@ -242,7 +265,7 @@ class InputTracker extends Component {
         }, () => {
           setTimeout(() => {
             this.props.inputTrackerActivity(value);
-          }, 2000);
+          }, 1500);
         });
       }
     } else if (casing === 'WEIGHT') {
@@ -259,7 +282,7 @@ class InputTracker extends Component {
         }, () => {
           setTimeout(() => {
             this.props.inputTrackerWeight(value);
-          }, 2000);
+          }, 1500);
         });
       }
     }
@@ -316,7 +339,12 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity
+        <ButtonSave 
+          onSubmit={this.handleSave}
+          type="GULA_DARAH"
+          title="SIMPAN"
+        />
+        {/* <TouchableOpacity
           style={{
             flex: 0.5,
             width: '50%',
@@ -329,7 +357,7 @@ class InputTracker extends Component {
             <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
             SIMPAN
             </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     );
   }
@@ -356,26 +384,26 @@ class InputTracker extends Component {
           <TextInput
             value={this.state.hba1c}
             keyboardType={'numeric'}
-            onChangeText={(hba1c) => this.setState({ hba1c })}
+            onChangeText={(hba1c) => {
+              if (hba1c.indexOf('.') !== -1) {
+                const manipulateDot = hba1c.replace('.', ',');
+                this.setState({
+                  hba1c: manipulateDot
+                });
+              } else {
+                this.setState({ hba1c });
+              }
+            }}
             placeholder="70 mmol/mol"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: '#ef434e',
-            justifyContent: 'center',
-          }}
-          onPress={() => this.handleSave('HBA1C')}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-            SIMPAN
-            </Text>
-        </TouchableOpacity>
+        <ButtonSave 
+          onSubmit={this.handleSave}
+          type="HBA1C"
+          title="SIMPAN"
+        />
       </View>
     );
   }
@@ -386,9 +414,9 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-        // onRequestClose={() => {
-        //   alert('Modal has been closed.');
-        // }}
+        onRequestClose={() => {
+          // alert('Modal has been closed.');
+        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -410,12 +438,14 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-
+        onRequestClose={() => {
+          // alert('Modal has been closed.');
+        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
             style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '90%' : '40%' }]}
+              [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
             { this.contentGulaDarah() }
           </View>
@@ -455,7 +485,9 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
-
+        onRequestClose={() => {
+          // alert('Modal has been closed.');
+        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -514,20 +546,11 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: '#ef434e',
-            justifyContent: 'center',
-          }}
-          onPress={() => this.handleSave('TEKANAN_DARAH')}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-              SIMPAN
-            </Text>
-        </TouchableOpacity>
+        <ButtonSave 
+          onSubmit={this.handleSave}
+          type="TEKANAN_DARAH"
+          title="SIMPAN"
+        />
       </View>
     );
   }
@@ -538,6 +561,9 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
+        onRequestClose={() => {
+          // alert('Modal has been closed.');
+        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -594,22 +620,11 @@ class InputTracker extends Component {
             null
           }
         </View>
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '60%',
-            alignItems: 'center',
-            backgroundColor: '#ef434e',
-            justifyContent: 'center',
-            marginTop: 5,
-            marginBottom: 10
-          }}
-          onPress={() => this.handleSave('ACTIVITY')}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Regular', color: '#fff' }}>
-            SIMPAN
-            </Text>
-        </TouchableOpacity>
+        <ButtonSave 
+          onSubmit={this.handleSave}
+          type="ACTIVITY"
+          title="SIMPAN"
+        />
       </View>
     );
   }
@@ -629,6 +644,9 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
+        onRequestClose={() => {
+          // alert('Modal has been closed.');
+        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -670,20 +688,11 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: '#ef434e',
-            justifyContent: 'center',
-          }}
-          onPress={() => this.handleSave('WEIGHT')}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-            SIMPAN
-            </Text>
-        </TouchableOpacity>
+        <ButtonSave 
+          onSubmit={this.handleSave}
+          type="WEIGHT"
+          title="SIMPAN"
+        />
       </View>
     );
   }
@@ -694,6 +703,9 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
+        onRequestClose={() => {
+          // alert('Modal has been closed.');
+        }}
       >
         <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
           <View
@@ -780,6 +792,9 @@ class InputTracker extends Component {
         animationType="none"
         transparent={true}
         visible={this.state.modalVisible}
+        onRequestClose={() => {
+          // alert('Modal has been closed.');
+        }}
       >
         <TouchableHighlight style={styles.modalLoading}>
           <View

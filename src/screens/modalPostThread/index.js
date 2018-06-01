@@ -129,7 +129,7 @@ class ModalPostThred extends Component {
           });
         });
       }
-    })
+    });
 	}
 
   render() {
