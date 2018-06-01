@@ -37,6 +37,7 @@ import { dateFormateName } from '../../../utils/helpers';
 import { activityList } from './initialValue';
 import { authToken } from '../../../utils/constants';
 import landingPageURL from '../../../config/landingPageURL';
+import { min } from 'moment';
 
 class InputTracker extends Component {
   constructor(props) {
@@ -126,12 +127,14 @@ class InputTracker extends Component {
     try {
       const { action, hour, minute } = await TimePickerAndroid.open({
         hour: 14,
-        minute: 0,
+        minute: null,
         is24Hour: false,
       });
+      const menit = minute === 0 ? '00' : minute;
+      // console.log('MENIT BRE ', minute);
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
-          isTime: `${hour}:${minute}`
+          isTime: `${hour}:${menit}`
         });
       }
     } catch ({ code, message }) {

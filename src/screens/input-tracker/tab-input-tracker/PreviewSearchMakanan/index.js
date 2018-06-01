@@ -118,9 +118,11 @@ class PreviewSearchMakanan extends React.Component {
         minute: 0,
         is24Hour: false,
       });
+      const menit = minute === 0 ? '00' : minute;
+      // console.log('MENITE BRE ', minute);
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
-          isTime: `${hour}:${minute}`
+          isTime: `${hour}:${menit}`
         });
       }
     } catch ({ code, message }) {
