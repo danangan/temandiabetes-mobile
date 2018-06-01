@@ -6,21 +6,20 @@ import {
   Switch,
   TouchableOpacity
 } from 'react-native';
+import moment from 'moment';
 
 import Dot from './Dot';
 
 class ReminderCard extends React.Component {
 
   renderReminderDetail(dateTime, rules) {
-    const dt = new Date(dateTime);
-    const jam = dt.toTimeString();
     const rulesDrugs = rules === 'sesudahMakan' ? 'Sesudah Makan' : 'Sebelum Makan';
-
-    return jam + '- ' + rulesDrugs;
+    const now = moment(dateTime);
+    const clock = now.hours() + ':' + now.minutes();
+    return `${clock} - ${rulesDrugs}`;
   }
 
   render() {
-    // console.log('KEY ADA ', this.props)
     const { _id, is_active } = this.props.item;
     const { index } = this.props;
     return (
@@ -50,7 +49,7 @@ class ReminderCard extends React.Component {
           <Switch 
             style={{ borderColor: '#000', borderWidth: 1 }}
             onValueChange={() => this.props.toUpdateStatusReminder({ index, _id, is_active })}
-            value={this.props.statusReminder} 
+            value={this.props.statusReminder}
           />
         </View>
       </View>

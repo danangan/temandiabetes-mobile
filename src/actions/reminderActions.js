@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { API_CALL } from '../utils/ajaxRequestHelper';
 import {
 	GET_LIST_REMINDER,
@@ -91,7 +90,10 @@ export const updateDrugReminder = (reminder, index) => async dispatch => {
 	const isPending = () => {
     dispatch({
       type: 'PENDING_UPDATE_DRUG_REMINDER',
-      payload: reminder
+      payload: {
+				reminder,
+				index
+			}
     });
     return reminder;
 	};

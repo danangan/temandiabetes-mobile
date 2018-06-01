@@ -4,7 +4,8 @@ const initialState = {
 	listReminder: {
     data: [],
     page: 1,
-    message: ''
+    message: '',
+    isLoading: false,
   },
   createReminder: {
     message: '',
@@ -23,14 +24,15 @@ const initialState = {
 
 function getListReminder(state, payload) {
   const { data, page } = payload;
-  const message = data.length ? 'Success' : 'Empty List';
+  const message = data.length ? 'Success' : 'EmptyList';
   return {
     ...state, 
       listReminder: { 
         ...state.listReminder, 
         data, 
         page,
-        message
+        message,
+        isLoading: false
     }
   };
 }
@@ -40,7 +42,12 @@ const reminderReducer = (state = initialState, action) => {
     case 'PENDING_GET_LIST_REMINDER': 
       return {
         ...state, 
-          listReminder: initialState.listReminder
+          listReminder: {
+            data: [],
+            page: 1,
+            message: '',
+            isLoading: true,
+          }
       };
 		case ActionTypes.GET_LIST_REMINDER:
       return getListReminder(state, action.payload);
@@ -71,8 +78,14 @@ const reminderReducer = (state = initialState, action) => {
         }
       };
     case 'PENDING_UPDATE_DRUG_REMINDER': {
+      console.log('INDEX UDAH ADA ', action.payload.index);
       return {
-        ...state, updateReminder: initialState.updateReminder
+        ...state, 
+        updateReminder: {
+          message: '',
+          status_code: 0,
+          index: action.payload.index
+        }
       };
     }
     case ActionTypes.UPDATE_DRUG_REMINDER: 
