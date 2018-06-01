@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
 
 // ACTIONS
-import { updateNotificationCount, resetNotificationCount } from '../../actions';
+import { updateNotificationCount, resetNotificationCount, getCurrentUser } from '../../actions';
 
 // COMPONENTS
 import Navigator from './components/Navigator'
@@ -62,6 +62,9 @@ class App extends Component {
   }
 
   async componentDidMount() {
+    // get current user
+    this.props.getCurrentUser()
+
 		try {
       let result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
       // FCM.getInitialNotification()
@@ -232,6 +235,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  getCurrentUser: () => dispatch(getCurrentUser()),
   updateNotificationCount: currentUserId => dispatch(updateNotificationCount(currentUserId)),
   resetNotificationCount : currentUserId => dispatch(resetNotificationCount(currentUserId))
 })
