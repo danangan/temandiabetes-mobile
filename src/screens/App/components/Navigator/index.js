@@ -15,7 +15,9 @@ import Notification from '../../../../assets/icons/notification.png'
 export default class Navigator extends Component {
   constructor(props) {
     super(props)
+
     this.openScreen = this.openScreen.bind(this)
+    this.onPressNofiticationIcon = this.onPressNofiticationIcon.bind(this)
   }
 
   openScreen(screen) {
@@ -30,8 +32,14 @@ export default class Navigator extends Component {
     });
   }
 
+  onPressNofiticationIcon() {
+    this.props.onResetNotificationCount()
+    this.openScreen('TemanDiabets.Notification')
+  }
+
   render() {
-    return(
+    const { notificationCount } = this.props
+    return (
       <View style={styles.container}>
         <TouchableOpacity onPress={() => {this.openScreen('TemanDiabets.ProfileScreen')}}>
           <Image
@@ -40,11 +48,19 @@ export default class Navigator extends Component {
           />
         </TouchableOpacity>
         <Text style={styles.navbarText}>Teman Diabetes</Text>
-        <TouchableOpacity onPress={() => {this.openScreen('TemanDiabets.Notification')}}>
-          <Image
-            style={styles.iconStyle}
-            source={Notification}
-          />
+        <TouchableOpacity onPress={this.onPressNofiticationIcon}>
+          <View style={styles.notificationContainer}>
+            {
+              notificationCount > 0 &&
+              <View style={styles.notificationBadge}>
+                <Text style={styles.notificationText}>{notificationCount}</Text>
+              </View>
+            }
+            <Image
+              style={styles.iconStyle}
+              source={Notification}
+            />
+          </View>
         </TouchableOpacity>
       </View>
     )
@@ -61,10 +77,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // alignContent: 'center',
   },
+  notificationBadge: {
+    position:'absolute',
+    top: 5,
+    right:5,
+    padding: 0,
+    minWidth:20,
+    zIndex: 999,
+    height: 25,
+    width: 25,
+    borderRadius:15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff'
+  },
+  notificationText: {
+    textAlign: 'center'
+  },
+  notificationContainer: {
+    height: '100%',
+    justifyContent: 'center'
+  },
   iconStyle: {
     height: 25,
     width: 25,
-    marginHorizontal: 15,
+    marginHorizontal: 18,
   },
   navbarText: {
     fontFamily: 'Arista-Pro-Alternate-Light-trial',

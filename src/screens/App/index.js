@@ -8,6 +8,8 @@ import {
 import { connect } from 'react-redux';
 import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
 
+// ACTIONS
+import { updateNotificationCount, resetNotificationCount } from '../../actions';
 
 // COMPONENTS
 import Navigator from './components/Navigator'
@@ -55,6 +57,7 @@ class App extends Component {
     this.state = {
       token: ''
     }
+    this.onResetNotificationCount = this.onResetNotificationCount.bind(this)
 		this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
   }
 
@@ -131,6 +134,8 @@ class App extends Component {
     if (notif.opened_from_tray) {
       // do the redirect here
       alert('handle dong redirect nya')
+
+
     } else {
       FCM.presentLocalNotification({
         title,
@@ -139,13 +144,24 @@ class App extends Component {
         show_in_foreground: true,
         local: true
       });
+
+      // increment the notif
+      this.props.dispatch({ type: 'ADD_NOTIFICATION_COUNT' })
     }
+  }
+
+  onResetNotificationCount() {
+    this.props.resetNotificationCount(this.props.currentUser._id)
   }
 
   render() {
     return(
       <View style={styles.container}>
-        <Navigator navigator={this.props.navigator}/>
+        <Navigator
+          navigator={this.props.navigator}
+          onResetNotificationCount={this.onResetNotificationCount}
+          notificationCount={this.props.notificationCount}
+          />
         <BottomTabs>
           <TopTabs title="forum" icon={ForumIcon} activeIcon={ForumActiveIcon}>
             <View title="BERANDA" style={styles.content}>
@@ -209,10 +225,15 @@ const styles = StyleSheet.create({
   }
 });
 
-
 const mapStateToProps = state => ({
   deepLink: state.appReducer.deepLink,
-  currentUser: state.authReducer.currentUser
+  currentUser: state.authReducer.currentUser,
+  notificationCount: state.authReducer.notificationCount,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  updateNotificationCount: currentUserId => dispatch(updateNotificationCount(currentUserId)),
+  resetNotificationCount : currentUserId => dispatch(resetNotificationCount(currentUserId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
