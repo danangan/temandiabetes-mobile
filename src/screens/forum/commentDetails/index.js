@@ -168,7 +168,7 @@ class CommentDetails extends React.Component {
         </CardSection>
         {
           commentDetails.replies.length ?
-          <ScrollView>
+          <ScrollView style={{ marginTop: -50 }}>
             <View style={styles.containerCommentChild}>
               {this.renderCommentChild()}
             </View>
@@ -265,8 +265,7 @@ const styles = {
   containerCommentChild: {
     flex: 1,
     position: 'relative',
-    top: -20,
-    paddingTop: 15,
+    paddingTop: 50,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',

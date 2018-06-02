@@ -20,8 +20,13 @@ export const getCurrentUser = () => async dispatch => {
       method: 'get',
       url: 'api/users/getcurrentuser'
     };
-    const request = await API_CALL(option);
-    onSuccess(request.data.data);
+    const { data : { data }} = await API_CALL(option);
+    onSuccess(data);
+
+    // dispatch action to get notification count here
+    if (data.currentUser) {
+      dispatch(getNotificationCount(data.currentUser._id))
+    }
   } catch (error) {
     onSuccess(error);
   }
@@ -56,3 +61,39 @@ export const updateFCMToken = (params) => async dispatch => {
     onSuccess(error);
   }
 };
+
+export const getNotificationCount = (userId) => async dispatch => {
+  try {
+    const option = {
+      method: 'get',
+      url: `/api/notification/${userId}/count/is-new`,
+    };
+
+    const { data: { data : { totalNewNotification }} } = await API_CALL(option);
+
+    dispatch({
+      type: 'SET_NOTIFICATION_COUNT',
+      payload: totalNewNotification
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const resetNotificationCount = (userId) => async dispatch => {
+  try {
+    const option = {
+      method: 'put',
+      url: `/api/notification/${userId}/update-count-new`,
+    };
+
+    await API_CALL(option);
+
+    dispatch({
+      type: 'RESET_NOTIFICATION_COUNT',
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+

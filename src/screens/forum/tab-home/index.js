@@ -15,7 +15,6 @@ import {
 import Share from 'react-native-share';
 
 import { Navigation } from 'react-native-navigation';
-import { getCurrentUser } from '../../../actions/authAction';
 
 import { Card, FooterThread, HeaderThread, Spinner, SearchButton } from '../../../components';
 import { getThreads, makeBookmark } from '../../../actions/threadActions';
@@ -29,7 +28,6 @@ class TabHome extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: this.props.getCurrentUser(),
       refreshing: false,
       isProses: false,
       isLoadMorePage: false
@@ -335,7 +333,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getThreads: (page, isRefresh) => dispatch(getThreads(page, isRefresh)),
-  getCurrentUser: () => dispatch(getCurrentUser()),
   makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });
 
