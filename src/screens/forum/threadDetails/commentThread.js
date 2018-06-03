@@ -78,7 +78,6 @@ class CommentThread extends React.Component {
 	}
 
 	render() {
-		console.log('COMMENT -- PARENT', this.props);
 		const { _id, user, text, updatedAt, replies } = this.props.contentComment;
 		if (this.props === null && user === null) {
 			return null;

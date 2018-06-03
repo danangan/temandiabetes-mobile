@@ -6,7 +6,8 @@ import UsersList from './UsersList';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
 import SearchBar from './innerCircleList/Search';
-import { getUsers, getOneUser } from '../../../actions';
+import { getUsers } from '../../../actions';
+import { Spinner } from '../../../components';
 
 class InnerCircle extends React.Component {
   static navigatorStyle = {
@@ -29,7 +30,6 @@ class InnerCircle extends React.Component {
   hideSearchBar = () => this.searchBar.hide();
 
   pushNavigation = item => {
-    this.props.getOneUser(item._id);
     this.props.navigator.push({
       screen: 'TemanDiabets.ProfileDetails',
       passProps: {
@@ -78,7 +78,7 @@ class InnerCircle extends React.Component {
 
   renderData() {
     const { users } = this.props.data;
-    if (users.length) {
+    if (users !== undefined) {
       return users.map((item, index) => (
         <UsersList navigation={this.pushNavigation} item={item} key={index} />
       ));
@@ -88,8 +88,8 @@ class InnerCircle extends React.Component {
   renderContent = () => (
     <View style={styles.containerStyle}>
       {this.renderNavBar()}
-      <View style={styles.contentStyle}>
-        <ScrollView>
+      <ScrollView>
+        <View style={styles.contentStyle}>
           {this.state.results.length === 0 ? (
             this.props.data.status === null ? (
               <View />
@@ -101,12 +101,17 @@ class InnerCircle extends React.Component {
               <UsersList navigation={this.pushNavigation} item={item} key={index} />
             ))
           )}
-        </ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     </View>
   );
 
   render() {
+    const { users } = this.props.data;
+    if (users === undefined) {
+      return <Spinner color={color.red} text="Logging In..." size="large" />;
+    }
+
     return this.renderContent();
   }
 }
@@ -157,8 +162,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUsers: () => dispatch(getUsers()),
-  getOneUser: userId => dispatch(getOneUser(userId))
+  getUsers: () => dispatch(getUsers())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(InnerCircle);

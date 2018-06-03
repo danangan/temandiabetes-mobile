@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import { NavigationBar, CardSection, Avatar, Spinner } from '../../../components';
 import CommentChild from '../threadDetails/commentChild';
-import { 
-  commentToReply, 
-  getCommentDetails, 
-  getThreadDetails 
+import {
+  commentToReply,
+  getCommentDetails,
+  getThreadDetails
 } from '../../../actions/threadActions';
 
 class CommentDetails extends React.Component {
@@ -25,48 +25,43 @@ class CommentDetails extends React.Component {
     super(props);
     this.state = {
       params: 0,
-      isComment: null,
+      isComment: true,
       komentar: '',
       isSubmit: false
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { commentDetails } = nextProps.dataThreads;
-    if (commentDetails.data && this.state.isComment === null) {
-      this.setState({
-        isComment: commentDetails.data
-      });
-    }
+  componentDidMount() {
+    this.props.getCommentDetails(this.props.commentId);
   }
 
-  componentDidUpdate() {
-    const { status_code } = this.props.dataThreads.createComment.commentToReply;
-    const { data } = this.props.dataThreads.commentDetails;
+  componentWillReceiveProps(nextProps) {
+    const { status_code } = nextProps.createComment.commentToReply;
+    const { commentDetails } = nextProps;
     if (status_code === 201 && this.state.isSubmit) {
       // get thread details again
-      // this.props.getCommentDetails(data._id);
+      this.props.getCommentDetails(commentDetails._id);
 
       this.setState({
         isSubmit: false
       }, () => {
         this.props.navigator.pop();
-        this.props.getThreadDetails(this.props.idThread);
-        // alert('Comment berhasil');
+        if (this.props.idThread) {
+          this.props.getThreadDetails(this.props.idThread);
+        }
       });
     }
   }
 
   onSubmitComment() {
     const { _id } = this.props.dataAuth;
-    const { data } = this.props.dataThreads.commentDetails;
-    console.log('BERRREEE ', data);
+    const { commentDetails } = this.props;
    if (this.state.komentar !== '') {
     this.setState({
       isSubmit: true
     }, () => {
       const comment = {
-        idComment: data._id,
+        idComment: commentDetails._id,
         params: {
           user: _id,
           text: this.state.komentar
@@ -81,12 +76,13 @@ class CommentDetails extends React.Component {
 
   renderCommentChild() {
     const { nama } = this.props.dataAuth;
-    const { isComment } = this.state;
-
+    const { commentDetails } = this.props;
     return (
       <View style={{ flex: 1, width: '100%' }}>
         {
-          isComment.replies.map((item, index) => <CommentChild key={index} containerStyle={styles.containerStyle} comment={item} />)
+          commentDetails ?
+          commentDetails.replies.map((item, index) => <CommentChild key={index} containerStyle={styles.containerStyle} comment={item} />)
+          : commentDetails
         }
         <View style={styles.innerContainer}>
           <Avatar
@@ -94,7 +90,7 @@ class CommentDetails extends React.Component {
             userName={nama}
             // imageSource={isComment.user.foto_profile}
           />
-          <TextInput 
+          <TextInput
             value={this.state.komentar}
             placeholder="Komentari"
             style={{ flex: 1, margin: 5 }}
@@ -120,12 +116,12 @@ class CommentDetails extends React.Component {
   }
 
   render() {
-    console.log('THIS PROPS = ', this.props);
     const { isComment } = this.state;
-    const { commentDetails } = this.props.dataThreads;
+    const { commentDetails } = this.props;
+    console.log(this.props)
     const { nama } = this.props.dataAuth;
 
-    if (commentDetails.data === null) {
+    if (commentDetails === null) {
       return (
         <View style={styles.container}>
           <Spinner
@@ -156,36 +152,36 @@ class CommentDetails extends React.Component {
           <View style={styles.innerContainer}>
             <Avatar
               avatarSize="Small"
-              userName={isComment.user.nama}
-              imageSource={isComment.user.foto_profile}
+              userName={commentDetails.user.nama}
+              imageSource={commentDetails.user.foto_profile}
             />
             <View style={{ flex: 1, margin: 5 }}>
-              <Text style={{ fontSize: 12 }}>{isComment.user.nama}</Text>
+              <Text style={{ fontSize: 12 }}>{commentDetails.user.nama}</Text>
               <Text style={{ fontSize: 10 }}></Text>
             </View>
           </View>
           <View style={styles.innerText}>
             <Text style={{ fontSize: 22 }}>
-              { isComment.text }
+              { commentDetails.text }
             </Text>
           </View>
         </CardSection>
         {
-          isComment.replies.length ?
-          <ScrollView>
+          commentDetails.replies.length ?
+          <ScrollView style={{ marginTop: -50 }}>
             <View style={styles.containerCommentChild}>
               {this.renderCommentChild()}
             </View>
           </ScrollView>
           :
           <View style={styles.containerEmptyCommentChild}>
-              <View style={styles.innerContainerEmptyComment}>
+            <View style={styles.innerContainerEmptyComment}>
               <Avatar
                 avatarSize="ExtraSmall"
                 userName={nama}
                 // imageSource={isComment.user.foto_profile}
               />
-              <TextInput 
+              <TextInput
                 value={this.state.komentar}
                 placeholder="Komentari"
                 style={{ flex: 1, margin: 5 }}
@@ -207,7 +203,7 @@ class CommentDetails extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-          
+
         }
         {/* <View style={{
           backgroundColor: '#fff',
@@ -269,8 +265,7 @@ const styles = {
   containerCommentChild: {
     flex: 1,
     position: 'relative',
-    top: -20,
-    paddingTop: 15,
+    paddingTop: 50,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -304,7 +299,8 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-  dataThreads: state.threadsReducer,
+  commentDetails: state.threadsReducer.commentDetails.data,
+  createComment: state.threadsReducer.createComment,
   dataAuth: state.authReducer.currentUser
 });
 
@@ -312,7 +308,7 @@ const mapDispatchToProps = dispatch => ({
   commentToReply: (comment) => dispatch(commentToReply(comment)),
   getCommentDetails: (idComment) => dispatch(getCommentDetails(idComment)),
   getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread)),
-  
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentDetails);

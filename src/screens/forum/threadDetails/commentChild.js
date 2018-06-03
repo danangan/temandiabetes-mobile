@@ -13,7 +13,7 @@ const CommentChild = (props) => {
       <Avatar
         avatarSize="ExtraSmall"
         imageSource={props.comment.user.foto_profile}
-        userName={props.comment.user}
+        userName={props.comment.user.nama || 'N A'}
       />
       <Text style={{ color: '#000', fontSize: 10 }}>{props.comment.text}</Text>
     </View>

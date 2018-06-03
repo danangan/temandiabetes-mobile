@@ -70,7 +70,7 @@ class Chart extends Component {
   };
 
   showLightBox = item => {
-    this.setState({ url: item.product_url }, () => {
+    this.setState({ url: item.product_dl }, () => {
       this.props.navigator.showLightBox({
         screen: 'TemanDiabets.LightBox',
         passProps: {
@@ -106,10 +106,7 @@ class Chart extends Component {
       <View style={styles.containerStyle}>
         <ScrollView
           refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this.onRefresh}
-            />
+            <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
           }
         >
           <View style={styles.contentStyle}>

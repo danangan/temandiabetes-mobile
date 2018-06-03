@@ -38,7 +38,8 @@ class Notification extends React.Component {
     this.renderItem = this.renderItem.bind(this)
     this.onRefresh = this.onRefresh.bind(this)
     this.onEndReached = this.onEndReached.bind(this)
-    this.onPressHandler = this.onPressHandler.bind(this)
+    this.redirectOnPress = this.redirectOnPress.bind(this)
+    this.markAllAsRead = this.markAllAsRead.bind(this)
   }
 
   componentDidMount() {
@@ -61,42 +62,61 @@ class Notification extends React.Component {
     )
   }
 
-  onPressHandler(notificationType) {
+  async markAllAsRead() {
+    const option = {
+      method: 'put',
+      url: `/api/notification/${this.props.currentUserId}/update-to-read`,
+    };
 
+    try {
+      await API_CALL(option);
+      this.setState({
+        notifications: this.state.notifications.map((item) => {
+          item.has_read = true
+          return item
+        })
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  async fetchNotifications({ refresh = false } = {}) {
+  fetchNotifications({ refresh = false } = {}) {
     const { page, limit } = this.state.pagination
     const option = {
       method: 'get',
       url: `/api/notification/${this.props.currentUserId}/list?page=${page}&limit=${limit}`,
     };
 
-    try {
-      const res = await API_CALL(option);
-      const { data: { data : { notifications: { docs, ...pagination } }} } = await API_CALL(option);
+    this.setState({
+      isLoading: true
+    }, async () => {
+      try {
+        const res = await API_CALL(option);
+        const { data: { data : { notifications: { docs, ...pagination } }} } = await API_CALL(option);
 
-      const data = refresh ? [] : this.state.notifications
+        const data = refresh ? [] : this.state.notifications
+
+        this.setState({
+          notifications: [
+            ...data,
+            ...docs
+          ],
+          pagination
+        })
+      } catch (error) {
+        console.log(error)
+      }
 
       this.setState({
-        notifications: [
-          ...data,
-          ...docs
-        ],
-        pagination
+        isLoading: false
       })
-    } catch (error) {
-      console.log(error)
-    }
-
-    this.setState({
-      isLoading: false
     })
   }
 
   renderItem({item}) {
     return (
-      <TouchableOpacity onPress={() => {this.onPressHandler(item.activity.activityType)}}>
+      <TouchableOpacity onPress={this.redirectOnPress(item)} style={{padding: 1}}>
         <View style={[styles.notificationWrapper, item.has_read ? {} : styles.unread]}>
           <View style={{
             flexDirection: 'row',
@@ -124,13 +144,59 @@ class Notification extends React.Component {
     )
   }
 
+  redirectOnPress({ activity, has_read, _id}) {
+    let screen
+    let passProps
+    switch (activity.activityType) {
+      case 'comment':
+        screen = 'TemanDiabets.ThreadDetails'
+        passProps = { item: activity.comment.thread }
+        break;
+      case 'reply_comment':
+        screen = 'TemanDiabets.CommentDetails'
+        passProps = { commentId: activity.comment._id }
+        break;
+      case 'followed':
+        screen = 'TemanDiabets.ProfileDetails'
+        passProps = { id: activity.followedUser ? activity.followedUser._id : activity.user._id }
+        break;
+      default:
+        break;
+    }
+    return () => {
+      // hit the api to set the status to has_read
+      // let it be asynchronous operation
+      if (!has_read || true) {
+        const option = {
+          method: 'put',
+          url: `/api/notification/${this.props.currentUserId}/update-to-read/specific`,
+          data: {
+            notificationId: _id
+          }
+        };
+
+        API_CALL(option).then((res) => {
+          console.log(res)
+        })
+      }
+
+      this.props.navigator.push({
+        screen,
+        passProps,
+        navigatorStyle: {
+          navBarHidden: true
+        },
+      });
+    }
+  }
+
   renderActivityContent(activity) {
     switch (activity.activityType) {
       case 'comment':
         return (
           <Text>
-            <Text style={activity.comment.user ? styles.boldText: {}}>
-            {activity.comment.user ? activity.comment.user.nama : 'Seseorang'}
+            <Text style={activity.user ? styles.boldText: {}}>
+            {activity.user ? activity.user.nama : 'Seseorang'}
             </Text>
             <Text> memberikan komentar </Text>
             <Text style={styles.boldText}>
@@ -142,17 +208,59 @@ class Notification extends React.Component {
             </Text>
           </Text>
         )
-        break;
-      case 'follow':
+      case 'reply_comment':
         return (
           <Text>
-            <Text style={activity.thread.user ? styles.boldText: {}}>
-              {activity.thread.user ? activity.thread.user.nama : 'Seseorang'}
+            <Text style={activity.user ? styles.boldText: {}}>
+            {activity.user ? activity.user.nama : 'Seseorang'}
+            </Text>
+            <Text> membalas komentar </Text>
+            <Text style={styles.boldText}>
+              "{sliceString(activity.comment.text, 30)}"
+            </Text>
+            <Text> di thread Anda </Text>
+            <Text style={styles.boldText}>
+              {sliceString(activity.comment.thread.topic, 50)}
+            </Text>
+          </Text>
+        )
+        break;
+      case 'followed':
+        return (
+          <Text>
+            <Text style={activity.followedUser ? styles.boldText: {}}>
+              {activity.followedUser ? activity.followedUser.nama : 'Seseorang'}
             </Text>
             <Text> mengikuti thread Anda </Text>
             <Text style={styles.boldText}>
               {sliceString(activity.thread.topic, 50)}
             </Text>
+          </Text>
+        )
+        break;
+      case 'drug_reminder':
+        return (
+          <Text>
+            <Text>Jadwal Anda mengkonsumsi obat </Text>
+            <Text style={styles.boldText}>Nama Obat Goes Here</Text>
+            <Text> pada </Text>
+            <Text style={styles.boldText}>1 Mei 2018</Text>
+          </Text>
+        )
+        break;
+      case 'inner_circle_request':
+        return (
+          <Text>
+            <Text style={styles.boldText}>User</Text>
+            <Text> mengirimkan permintaan inner circle </Text>
+          </Text>
+        )
+        break;
+      case 'inner_circle_accepted':
+        return (
+          <Text>
+            <Text style={styles.boldText}>User</Text>
+            <Text> menerima permintaan inner circle Anda </Text>
           </Text>
         )
         break;
@@ -182,7 +290,7 @@ class Notification extends React.Component {
       this.setState({
         pagination: {
           ...this.state.pagination,
-          page: this.state.pagination.page +1
+          page: this.state.pagination.page + 1
         },
       }, this.fetchNotifications)
     }
@@ -220,6 +328,12 @@ class Notification extends React.Component {
           onPress={() => this.props.navigator.pop()}
           title="NOTIFIKASI"
         />
+        {
+          this.state.notifications.length > 0 &&
+          <TouchableOpacity onPress={this.markAllAsRead} style={{padding: 5}}>
+            <Text style={styles.markAllAsRead}>Tandai semua sebagai telah dibaca</Text>
+          </TouchableOpacity>
+        }
 				{content}
       </View>
     )
@@ -232,9 +346,11 @@ const styles = {
     backgroundColor: '#fff',
     paddingHorizontal: 10,
     paddingVertical: 20,
+    alignItems: 'center',
   },
   listContainer: {
-    paddingVertical: 20,
+    flex: 1,
+    paddingTop: 20,
   },
   notificationWrapper: {
 		...Platform.select({
@@ -271,6 +387,17 @@ const styles = {
     fontStyle: 'italic',
     color: '#aaa',
     textAlign: 'center',
+  },
+  markAllAsRead: {
+    textAlign: 'center',
+    color: '#EF434F',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 15,
+    width: '80%',
+    elevation: 2
   }
 }
 

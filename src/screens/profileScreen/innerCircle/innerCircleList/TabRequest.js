@@ -23,7 +23,7 @@ const borderColor = typeOfUser => {
   }
 };
 
-const TabRequest = ({ innerCircle, accept, reject }) => {
+const TabRequest = ({ innerCircle, accept, reject, onChangeIsProcess, navigator }) => {
   if (innerCircle.length === 0) {
     return (
       <View style={styles.placeholderContainerStyle}>
@@ -38,7 +38,13 @@ const TabRequest = ({ innerCircle, accept, reject }) => {
       'Apakah anda ingin menolak permintaan sebagai inner circle ?',
       [
         { text: 'Cancel', onPress: () => null, style: 'cancel' },
-        { text: 'OK', onPress: () => reject(friendId, innerCircleId) }
+        {
+          text: 'OK',
+          onPress: () => {
+            reject(friendId, innerCircleId);
+            onChangeIsProcess(true);
+          }
+        }
       ],
       { cancelable: false }
     );
@@ -50,53 +56,72 @@ const TabRequest = ({ innerCircle, accept, reject }) => {
       'Apakah anda ingin menerima permintaan sebagai inner circle ?',
       [
         { text: 'Cancel', onPress: () => null, style: 'cancel' },
-        { text: 'OK', onPress: () => accept(friendId, innerCircleId) }
+        {
+          text: 'OK',
+          onPress: () => {
+            accept(friendId, innerCircleId);
+            onChangeIsProcess(true);
+          }
+        }
       ],
       { cancelable: false }
     );
+  };
+
+  const pushNavigation = item => {
+    navigator.push({
+      screen: 'TemanDiabets.ProfileDetails',
+      passProps: {
+        id: item.friend._id
+      },
+      animation: true,
+      animationType: 'fade'
+    });
   };
 
   return (
     <FlatList
       data={innerCircle}
       renderItem={({ item, index }) => (
-        <View style={styles.containerStyle} key={index}>
-          <View style={styles.contentStyle}>
-            <Avatar
-              avatarSize="Small"
-              userName={item.friend.nama}
-              imageSource={item.friend.foto_profile}
-              avatarStyle={[
-                styles.avatarStyle,
-                {
-                  borderColor: borderColor(item)
-                }
-              ]}
-            />
-            <View style={{ margin: 10 }}>
-              <Text style={styles.nameStyle}>{item.friend.nama}</Text>
-              <Text style={styles.relationStyle}>{item.friend.tipe_user}</Text>
+        <TouchableOpacity key={index} onPress={() => pushNavigation(item)}>
+          <View style={styles.containerStyle}>
+            <View style={styles.contentStyle}>
+              <Avatar
+                avatarSize="Small"
+                userName={item.friend.nama}
+                imageSource={item.friend.foto_profile}
+                avatarStyle={[
+                  styles.avatarStyle,
+                  {
+                    borderColor: borderColor(item)
+                  }
+                ]}
+              />
+              <View style={{ margin: 10 }}>
+                <Text style={styles.nameStyle}>{item.friend.nama}</Text>
+                <Text style={styles.relationStyle}>{item.friend.tipe_user}</Text>
+              </View>
+            </View>
+            <View style={styles.buttonContainerStyle}>
+              <TouchableOpacity
+                style={styles.closeButtonStyle}
+                onPress={() => rejectRequest(item.friend._id, item._id)}
+              >
+                <Image source={close} tintColor={color.red} style={styles.iconStyle} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.closeButtonStyle}
+                onPress={() => acceptRequest(item.friend._id, item._id)}
+              >
+                <Image
+                  source={checklist}
+                  tintColor={color.green}
+                  style={[styles.iconStyle, { width: 25, height: 25, marginTop: 7 }]}
+                />
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.buttonContainerStyle}>
-            <TouchableOpacity
-              style={styles.closeButtonStyle}
-              onPress={() => rejectRequest(item.friend._id, item._id)}
-            >
-              <Image source={close} tintColor={color.red} style={styles.iconStyle} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.closeButtonStyle}
-              onPress={() => acceptRequest(item.friend._id, item._id)}
-            >
-              <Image
-                source={checklist}
-                tintColor={color.green}
-                style={[styles.iconStyle, { width: 25, height: 25, marginTop: 7 }]}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
+        </TouchableOpacity>
       )}
     />
   );

@@ -1,6 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, ActivityIndicator, Image, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ActivityIndicator,
+  Image,
+  Alert,
+  AsyncStorage
+} from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
 import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
@@ -10,13 +18,14 @@ import TabComments from './Comments';
 import TabInnerCircle from '../../tab-innerCircle';
 import TabThreadByUser from '../../tab-threadByUser';
 import Style from '../../../style/defaultStyle';
-import { addInnerCircle } from '../../../actions';
+import { addInnerCircle, getOneUser, getInnerCircle } from '../../../actions';
 import color from '../../../style/color';
 
 //ICON
 import plus from '../../../assets/icons/plus.png';
 import hourglass from '../../../assets/icons/hourglass.png';
 import check from '../../../assets/icons/check.png';
+import { authToken } from '../../../utils/constants';
 
 const listTabs = ['THREAD', 'ANSWER', 'RESPONSE', 'EVENT'];
 
@@ -39,19 +48,15 @@ class ProfileDetails extends React.Component {
     };
   }
 
-  componentWillMount() {
-    if (this.props.userIsLogging) {
-      this.setState({
-        isProcess: false
-      });
-    }
-  }
-
   componentDidMount() {
-    const { _id } = this.props.dataAuth._id;
-    const { id } = this.props;
-    const userId = _id === id ? _id : id;
+    let userId
+    if (this.props.id) {
+      userId = this.props.id
+    } else {
+      userId = this.props.dataAuth._id
+    }
 
+    this.props.getOneUser(userId);
     this.props.getUserRecentThread(userId);
     this.props.getUserRecentComment(userId);
   }
@@ -59,8 +64,8 @@ class ProfileDetails extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.data.user !== null && this.state.isProcess && this.state.user === null) {
       this.setState({
-        isProcess: false,
-        user: nextProps.data.user
+        isProcess: false
+        // user: nextProps.data.user
       });
     }
   }
@@ -74,7 +79,23 @@ class ProfileDetails extends React.Component {
       self.setState(
         { loading: false, source: hourglass, status: 'TERTUNDA', disabled: true },
         () => {
-          Alert.alert(message);
+          Alert.alert(
+            'Information',
+            `${message}`,
+            [
+              { text: 'Cancel', onPress: () => null, style: 'cancel' },
+              {
+                text: 'OK',
+                onPress: () => {
+                  const { _id } = this.props.dataAuth;
+                  AsyncStorage.getItem(authToken).then(idToken => {
+                    this.props.getInnerCircle(_id, idToken);
+                  });
+                }
+              }
+            ],
+            { cancelable: false }
+          );
         }
       );
     }
@@ -94,7 +115,7 @@ class ProfileDetails extends React.Component {
 
   notUserLoggedIn = () => {
     const { source, status, disabled } = this.state;
-    const { innerCircleStatus } = this.state.user;
+    const { innerCircleStatus } = this.props.data.user;
     const icon =
       innerCircleStatus === 'open' ? source : innerCircleStatus === 'requested' ? hourglass : check;
     const buttonTitle =
@@ -126,15 +147,11 @@ class ProfileDetails extends React.Component {
   };
 
   renderViewProfile = () => {
-    const userId = this.props.dataAuth._id === this.props.id;
-
-    if (userId === false && this.props.visitProfile === 'visited') {
-      return this.notUserLoggedIn();
-    } else if (userId === true) {
-      return this.userIsLoggedIn();
-    } else if (this.props.id === undefined) {
+    if (this.props.dataAuth._id === this.props.data.user._id) {
+      // console.log('this is current user')
       return this.userIsLoggedIn();
     }
+    return this.notUserLoggedIn();
   };
 
   renderTabContent() {
@@ -165,21 +182,21 @@ class ProfileDetails extends React.Component {
   }
 
   renderDetailProfile = () => {
-    const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
-    const { id, name, typeOfUser, profilePicture } = this.props;
-    const isCurrentUser = _id === id;
-    const fullName = isCurrentUser || id === undefined ? nama : name;
-    const profilePic = isCurrentUser || id === undefined ? foto_profile : profilePicture;
-    const typeUser = isCurrentUser || id === undefined ? tipe_user : typeOfUser;
+    // const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
+    const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
+    // const isCurrentUser = _id === id;
+    // const fullName = isCurrentUser || id === undefined ? nama : name;
+    // const profilePic = isCurrentUser || id === undefined ? foto_profile : profilePicture;
+    // const typeUser = isCurrentUser || id === undefined ? tipe_user : typeOfUser;
 
     return (
       <View style={styles.contentTopStyle}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
         <View style={styles.profileStyle}>
-          <Avatar avatarSize="Medium" imageSource={profilePic} userName={fullName} />
+          <Avatar avatarSize="Medium" imageSource={foto_profile} userName={nama} />
           <View style={styles.attributeProfileStyle}>
-            <Text style={styles.nameStyle}>{fullName}</Text>
-            <Text style={styles.typeStyle}>{typeUser}</Text>
+            <Text style={styles.nameStyle}>{nama}</Text>
+            <Text style={styles.typeStyle}>{tipe_user}</Text>
           </View>
         </View>
       </View>
@@ -372,7 +389,9 @@ const mapDispatchToProps = dispatch => ({
   getThreads: token => dispatch(getThreads(token)),
   getUserRecentThread: userId => dispatch(getUserRecentThread(userId)),
   getUserRecentComment: userId => dispatch(getUserRecentComment(userId)),
-  addInnerCircle: userId => dispatch(addInnerCircle(userId))
+  addInnerCircle: userId => dispatch(addInnerCircle(userId)),
+  getOneUser: userId => dispatch(getOneUser(userId)),
+  getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);

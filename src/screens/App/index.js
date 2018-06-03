@@ -2,9 +2,14 @@ import React, { Component } from 'react'
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Platform
 } from 'react-native'
 import { connect } from 'react-redux';
+import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
+
+// ACTIONS
+import { updateNotificationCount, resetNotificationCount, getCurrentUser } from '../../actions';
 
 // COMPONENTS
 import Navigator from './components/Navigator'
@@ -49,9 +54,35 @@ import EmergencyTab from '../emergency'
 class App extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      token: ''
+    }
+    this.onResetNotificationCount = this.onResetNotificationCount.bind(this)
+		this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    // get current user
+    this.props.getCurrentUser()
+
+		try {
+      let result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
+      // FCM.getInitialNotification()
+      //   .then(notif => {
+      //     console.log('INITIAL NOTIFICATION ', notif);
+      //   });
+      this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
+        if (Platform.OS === 'android') {
+          this._displayNotificationAndroid(notif);
+        }
+      });
+      FCM.getFCMToken().then(token => {
+        this.setState({ token: token || '' });
+      });
+    } catch (e) {
+      console.error(e);
+		}
+
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
@@ -83,10 +114,56 @@ class App extends Component {
     }
   }
 
+	_displayNotificationAndroid(notif) {
+    let title = ''
+    let body = 'Sentuh untuk info lebih lanjut'
+    switch (notif.type) {
+      case 'comment':
+        title = `${notif.commentator} memberikan komentar di thread Anda`
+        break;
+      case 'reply':
+        title = `${notif.commentator} membalas komentar di thread Anda`
+        break;
+      case 'followed':
+        title = `User mengikuti thread Anda`
+        break;
+      case 'drug_reminder':
+        title = `Pengingat obat`
+        break;
+      default:
+        break;
+    }
+
+    if (notif.opened_from_tray) {
+      // do the redirect here
+      // alert('handle dong redirect nya')
+
+    } else {
+      FCM.presentLocalNotification({
+        title,
+        body,
+        priority: 'high',
+        show_in_foreground: true,
+        local: true
+      });
+
+      // increment the notif
+      this.props.dispatch({ type: 'ADD_NOTIFICATION_COUNT' })
+    }
+  }
+
+  onResetNotificationCount() {
+    this.props.resetNotificationCount(this.props.currentUser._id)
+  }
+
   render() {
     return(
       <View style={styles.container}>
-        <Navigator navigator={this.props.navigator}/>
+        <Navigator
+          navigator={this.props.navigator}
+          onResetNotificationCount={this.onResetNotificationCount}
+          notificationCount={this.props.notificationCount}
+          />
         <BottomTabs>
           <TopTabs title="forum" icon={ForumIcon} activeIcon={ForumActiveIcon}>
             <View title="BERANDA" style={styles.content}>
@@ -110,14 +187,20 @@ class App extends Component {
               <VideoTab />
             </View>
           </TopTabs>
-          <TopTabs title="rekaman" icon={InputTrackerIcon} activeIcon={InputTrackerActiveIcon}>
-            <View title="MASUKKAN PELACAK" style={styles.content}>
-              <InputTrackerTab navigator={this.props.navigator}/>
-            </View>
-            <View title="RIWAYAT DAN ESTIMASI" style={styles.content}>
-              <HistoryTab navigator={this.props.navigator}/>
-            </View>
-          </TopTabs>
+
+          {
+            // only render if the user is a diabetesi
+            this.props.currentUser.tipe_user === 'diabetesi' ?
+            <TopTabs title="rekaman" icon={InputTrackerIcon} activeIcon={InputTrackerActiveIcon}>
+              <View title="MASUKKAN PELACAK" style={styles.content}>
+                <InputTrackerTab navigator={this.props.navigator}/>
+              </View>
+              <View title="RIWAYAT DAN ESTIMASI" style={styles.content}>
+                <HistoryTab navigator={this.props.navigator}/>
+              </View>
+            </TopTabs>
+            : null
+          }
           <TopTabs title="belanja" icon={CartIcon} activeIcon={CartActiveIcon}>
             <View title="KATALOG" style={styles.content}>
               <ShopTab navigator={this.props.navigator}/>
@@ -144,9 +227,16 @@ const styles = StyleSheet.create({
   }
 });
 
-
 const mapStateToProps = state => ({
-  deepLink: state.appReducer.deepLink
+  deepLink: state.appReducer.deepLink,
+  currentUser: state.authReducer.currentUser,
+  notificationCount: state.authReducer.notificationCount,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  getCurrentUser: () => dispatch(getCurrentUser()),
+  updateNotificationCount: currentUserId => dispatch(updateNotificationCount(currentUserId)),
+  resetNotificationCount : currentUserId => dispatch(resetNotificationCount(currentUserId))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

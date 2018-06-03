@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
+import { View, Text, TouchableOpacity, Image, AsyncStorage, Alert } from 'react-native';
 
 import color from '../../../../style/color';
 import Style from '../../../../style/defaultStyle';
@@ -19,7 +19,8 @@ class InnerCircleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: 0
+      tab: 0,
+      isProcess: false
     };
   }
 
@@ -27,7 +28,31 @@ class InnerCircleList extends Component {
     this.getInnerCircle();
   }
 
+  componentDidUpdate() {
+    const { status, message } = this.props.innerCircle;
+    const { isProcess } = this.state;
+    const acceptedOrRejected = 'Inner Circle status updated';
+    const deleted = 'Inner circle successfully deleted';
+
+    if (
+      (status === 200 && message === acceptedOrRejected && isProcess) ||
+      (status === 200 && message === deleted && isProcess)
+    ) {
+      this.setState(
+        {
+          isProcess: false
+        },
+        () => this.getInnerCircle()
+      );
+    }
+  }
+
   onPushScreen(screen) {
+    const { pending } = this.props.innerCircle;
+    if (pending.length === 10) {
+      return Alert.alert('Maaf, Batas permintaan maksimal 10 orang.');
+    }
+
     this.props.navigator.push(
       {
         screen
@@ -39,6 +64,12 @@ class InnerCircleList extends Component {
     );
   }
 
+  onChangeIsProcess = value => {
+    this.setState({
+      isProcess: value
+    });
+  };
+
   getInnerCircle = async () => {
     const { currentUser } = this.props.dataAuth;
     const idToken = await AsyncStorage.getItem(authToken);
@@ -47,13 +78,31 @@ class InnerCircleList extends Component {
 
   renderTabContent = () => {
     if (this.state.tab === 0) {
-      return <TabFamily innerCircle={this.props.innerCircle.accepted} />;
+      return (
+        <TabFamily
+          innerCircle={this.props.innerCircle.accepted}
+          onChangeIsProcess={this.onChangeIsProcess}
+          navigator={this.props.navigator}
+        />
+      );
     }
     if (this.state.tab === 1) {
-      return <TabRequest innerCircle={this.props.innerCircle.pending} />;
+      return (
+        <TabRequest
+          innerCircle={this.props.innerCircle.pending}
+          onChangeIsProcess={this.onChangeIsProcess}
+          navigator={this.props.navigator}
+        />
+      );
     }
     if (this.state.tab === 2) {
-      return <TabPending innerCircle={this.props.innerCircle.requested} />;
+      return (
+        <TabPending
+          innerCircle={this.props.innerCircle.requested}
+          onChangeIsProcess={this.onChangeIsProcess}
+          navigator={this.props.navigator}
+        />
+      );
     }
   };
 
