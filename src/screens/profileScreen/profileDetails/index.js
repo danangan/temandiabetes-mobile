@@ -48,18 +48,13 @@ class ProfileDetails extends React.Component {
     };
   }
 
-  componentWillMount() {
-    if (this.props.userIsLogging) {
-      this.setState({
-        isProcess: false
-      });
-    }
-  }
-
   componentDidMount() {
-    const { _id } = this.props.dataAuth;
-    const { id } = this.props;
-    const userId = _id === id ? _id : id;
+    let userId
+    if (this.props.id) {
+      userId = this.props.id
+    } else {
+      userId = this.props.dataAuth._id
+    }
 
     this.props.getOneUser(userId);
     this.props.getUserRecentThread(userId);
@@ -152,8 +147,7 @@ class ProfileDetails extends React.Component {
   };
 
   renderViewProfile = () => {
-    console.log(this.props);
-    if (this.props.dataAuth._id === this.props.id) {
+    if (this.props.dataAuth._id === this.props.data.user._id) {
       // console.log('this is current user')
       return this.userIsLoggedIn();
     }
