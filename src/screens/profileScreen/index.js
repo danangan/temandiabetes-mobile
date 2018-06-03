@@ -4,13 +4,12 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import Share from 'react-native-share';
 
 import { onSignOut } from '../../actions/loginActions';
 import { Avatar, Spinner } from '../../components';
 import { authToken } from '../../utils/constants';
-import landingPageURL from '../../config/landingPageURL';
 import { mainApp } from '../../../App';
+import color from '../../style/color';
 
 class ProfileScreen extends React.Component {
   static navigatorStyle = {
@@ -22,8 +21,6 @@ class ProfileScreen extends React.Component {
     this.state = {
       isLoading: false
     };
-
-    this.shareApp = this.shareApp.bind(this);
   }
 
   componentDidMount() {
@@ -102,22 +99,10 @@ class ProfileScreen extends React.Component {
     const token = await AsyncStorage.getItem(authToken);
   };
 
-  shareApp() {
-    const options = {
-      title: 'Ajakan bergabung di Teman Diabetes',
-      message: 'Dapatkan aplikasi Teman Diabetes dengan klik link berikut',
-      url: landingPageURL,
-      subject: 'Ajakan bergabung di Teman Diabetes' //  for email
-    };
-    Share.open(options).catch(err => {
-      err && console.log(err);
-    });
-  }
-
   render() {
     const { nama, tipe_user, foto_profile, diabetesi_tipe } = this.props.dataAuth;
     const spinner = this.state.isLoading ? (
-      <Spinner color="#FFDE00" text="Logout..." size="large" />
+      <Spinner color={color.red} text="Logout..." size="large" />
     ) : (
       <View />
     );
@@ -156,7 +141,16 @@ class ProfileScreen extends React.Component {
           <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.Notification')}>
             <Text style={styles.buttonText}>NOTIFIKASI</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.shareApp}>
+          <TouchableOpacity
+            onPress={() => {
+              this.props.navigator.push({
+                screen: 'TemanDiabets.InviteFriends',
+                navigatorStyle: {
+                  navBarHidden: true
+                }
+              });
+            }}
+          >
             <Text style={styles.buttonText}>AJAK TEMAN</Text>
           </TouchableOpacity>
         </View>
