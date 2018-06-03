@@ -71,7 +71,7 @@ class Notification extends React.Component {
     try {
       await API_CALL(option);
       this.setState({
-        notifications: this.setState.notifications.map((item) => {
+        notifications: this.state.notifications.map((item) => {
           item.has_read = true
           return item
         })
@@ -81,38 +81,42 @@ class Notification extends React.Component {
     }
   }
 
-  async fetchNotifications({ refresh = false } = {}) {
+  fetchNotifications({ refresh = false } = {}) {
     const { page, limit } = this.state.pagination
     const option = {
       method: 'get',
       url: `/api/notification/${this.props.currentUserId}/list?page=${page}&limit=${limit}`,
     };
 
-    try {
-      const res = await API_CALL(option);
-      const { data: { data : { notifications: { docs, ...pagination } }} } = await API_CALL(option);
+    this.setState({
+      isLoading: true
+    }, async () => {
+      try {
+        const res = await API_CALL(option);
+        const { data: { data : { notifications: { docs, ...pagination } }} } = await API_CALL(option);
 
-      const data = refresh ? [] : this.state.notifications
+        const data = refresh ? [] : this.state.notifications
+
+        this.setState({
+          notifications: [
+            ...data,
+            ...docs
+          ],
+          pagination
+        })
+      } catch (error) {
+        console.log(error)
+      }
 
       this.setState({
-        notifications: [
-          ...data,
-          ...docs
-        ],
-        pagination
+        isLoading: false
       })
-    } catch (error) {
-      console.log(error)
-    }
-
-    this.setState({
-      isLoading: false
     })
   }
 
   renderItem({item}) {
     return (
-      <TouchableOpacity onPress={this.redirectOnPress(item.activity)} style={{padding: 1}}>
+      <TouchableOpacity onPress={this.redirectOnPress(item)} style={{padding: 1}}>
         <View style={[styles.notificationWrapper, item.has_read ? {} : styles.unread]}>
           <View style={{
             flexDirection: 'row',
@@ -140,7 +144,7 @@ class Notification extends React.Component {
     )
   }
 
-  redirectOnPress(activity) {
+  redirectOnPress({ activity, has_read, _id}) {
     let screen
     let passProps
     switch (activity.activityType) {
@@ -160,6 +164,22 @@ class Notification extends React.Component {
         break;
     }
     return () => {
+      // hit the api to set the status to has_read
+      // let it be asynchronous operation
+      if (!has_read || true) {
+        const option = {
+          method: 'put',
+          url: `/api/notification/${this.props.currentUserId}/update-to-read/specific`,
+          data: {
+            notificationId: _id
+          }
+        };
+
+        API_CALL(option).then((res) => {
+          console.log(res)
+        })
+      }
+
       this.props.navigator.push({
         screen,
         passProps,
