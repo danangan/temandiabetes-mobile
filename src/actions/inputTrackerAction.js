@@ -55,9 +55,9 @@ export const inputTrackerBloodGlucose = (value) => async dispatch => {
 	const isPending = () => {
     dispatch({
       type: 'PENDING_INPUT_TRACKER_BLOOD_GLUCOSE',
-      payload: true
+      payload: value
     });
-    return true;
+    return value;
 	};
 	
 	function onSuccess(data) {
@@ -93,9 +93,9 @@ export const inputTrackerHba1c = (value) => async dispatch => {
 	const isPending = () => {
     dispatch({
       type: 'PENDING_INPUT_TRACKER_HBA1CE',
-      payload: true
+      payload: value
     });
-    return true;
+    return value;
 	};
 	
 	function onSuccess(data) {

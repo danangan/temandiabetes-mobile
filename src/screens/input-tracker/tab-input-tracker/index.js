@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import moment from 'moment';
 import {
   View,
   Platform,
@@ -116,11 +116,19 @@ class InputTracker extends Component {
       const { action, year, month, day } = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
         // May 25 2020. Month 0 is January.
-        date: new Date()
+        date: new Date(),
+        maxDate: new Date()
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
-
+        // const isDate = new Date();
+        // const inDateNow = moment(isDate);
+        // const selectedDate = moment(`${year}-${month + 1}-${day}`);
+        // const differentDays = inDateNow.diff(selectedDate + 1, 'days');
+        // console.log('---->>> isDate ', isDate);
+        // console.log('---->>> inDateNow ', inDateNow);
+        // console.log('---->>> selectedDate ', selectedDate);
+        // console.log('---->>> differentDays ', differentDays);
         this.setState({
           isDate: `${day} ${month + 1} ${year}`,
           dateInput: ` ${year}-${month + 1}-${day}`
@@ -141,7 +149,7 @@ class InputTracker extends Component {
         is24Hour: false,
       });
       const menit = minute === 0 ? '00' : minute;
-      // console.log('MENIT BRE ', minute);
+      console.log(`INI DATE NYA BRE --> ${hour}:${menit}`);
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
           isTime: `${hour}:${menit}`
@@ -153,12 +161,14 @@ class InputTracker extends Component {
   }
 
   setModalVisible(isModal) {
+    console.log('PARAMS SET MODAL ', isModal);
     const params = isModal === undefined ? '' : isModal;
     this.setState({
       modalVisible: !this.state.modalVisible,
       isModal: params,
       activitySelected: '',
-      descActivity: ''
+      descActivity: '',
+      isManually: false
     });
   }
 
@@ -178,7 +188,8 @@ class InputTracker extends Component {
       snack,
       isTime
     } = this.state;
-    const inputDate = new Date(dateInput + ' ' + isTime + ':00');
+    console.log('IS TIME ', isTime);
+    const inputDate = new Date(dateInput + ' ' + isTime + ':00').toUTCString();
     if (casing === 'GULA_DARAH') {
       const value = {
         waktuInput: inputDate,
@@ -391,7 +402,13 @@ class InputTracker extends Component {
                   hba1c: manipulateDot
                 });
               } else {
-                this.setState({ hba1c });
+                this.setState({ hba1c }, () => {
+                  const valHba1c = this.state.hba1c;
+                  const manipulasiDot = valHba1c.replace('.', ',');
+                  this.setState({
+                    hba1c: manipulasiDot
+                  });
+                });
               }
             }}
             placeholder="70 mmol/mol"
