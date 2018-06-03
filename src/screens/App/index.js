@@ -136,8 +136,7 @@ class App extends Component {
 
     if (notif.opened_from_tray) {
       // do the redirect here
-      alert('handle dong redirect nya')
-
+      // alert('handle dong redirect nya')
 
     } else {
       FCM.presentLocalNotification({
