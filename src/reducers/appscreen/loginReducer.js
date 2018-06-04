@@ -16,7 +16,7 @@ const onLogin = (state, payload) => {
   if (payloadCode === 'auth/wrong-password') {
     return {
       ...state,
-      message: 'Kata sandi tidak salah',
+      message: 'Kata sandi salah',
       statusCode: 500
     };
   } else if (payloadCode === 'auth/user-not-found') {
@@ -50,7 +50,7 @@ const oAuthLogin = (state, payload) => ({
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionTypes.CLEAR_STATE:
+    case 'RESET_STATE':
       return { ...state, message: null, statusCode: null };
     case ActionTypes.LOGIN_MANUAL:
       return onLogin(state, action.payload);
