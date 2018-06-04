@@ -1,12 +1,25 @@
 import { AsyncStorage } from 'react-native';
 import firebase from 'react-native-firebase';
 
-import { startApp, mainApp } from '../../App';
+import { startApp, mainApp, startLoginPage } from '../../App';
 import { authToken } from '../utils/constants';
 import { API_CALL } from './ajaxRequestHelper';
 
 const appInitialized = async () => {
-  startApp();
+
+  try {
+    const val = await AsyncStorage.getItem('goToLoginPage')
+    if (val !== null) {
+      startLoginPage()
+    } else {
+      AsyncStorage.setItem('goToLoginPage', 'true')
+      startApp()
+    }
+  } catch (error) {
+    await AsyncStorage.setItem('goToLoginPage', 'true')
+    const val = await AsyncStorage.getItem('goToLoginPage')
+    startApp()
+  }
 
   firebase.auth().onAuthStateChanged(user => {
     if (user) {

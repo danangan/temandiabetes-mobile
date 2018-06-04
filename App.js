@@ -21,6 +21,17 @@ export const startApp = () => {
   });
 };
 
+export const startLoginPage = () => {
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: 'TemanDiabets.LoginScreen',
+      navigatorStyle: {
+        navBarHidden: true
+      }
+    }
+  });
+};
+
 export const mainApp = () => {
   Navigation.startSingleScreenApp({
     screen: {
