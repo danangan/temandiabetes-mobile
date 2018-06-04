@@ -109,7 +109,7 @@ class InnerCircle extends React.Component {
   render() {
     const { users } = this.props.data;
     if (users === undefined) {
-      return <Spinner color={color.red} text="Logging In..." size="large" />;
+      return <Spinner color={color.red} text="" size="large" />;
     }
 
     return this.renderContent();

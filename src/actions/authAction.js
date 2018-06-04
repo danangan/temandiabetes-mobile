@@ -5,6 +5,12 @@ import { GET_CURRENT_USER, UPDATE_FCM_TOKEN } from './constants';
 import { API_BASE } from '../utils/API';
 import { authToken } from '../utils/constants';
 
+export const addNotificationCount = () => dispatch => {
+  dispatch({
+    type: 'ADD_NOTIFICATION_COUNT'
+  })
+}
+
 export const getCurrentUser = () => async dispatch => {
   function onSuccess(data) {
 		dispatch({
@@ -49,14 +55,15 @@ export const updateFCMToken = (params) => async dispatch => {
 	}
 
   try {
-    const instance = axios.create({
-      baseURL: API_BASE,
-      headers: {
-        authentication: token
-      }
-    });
-    const request = await instance.put(`api/users/${params.idUser}`, params.token);
-    onSuccess(request.data.data);
+
+    const option = {
+      method: 'put',
+      url: `api/users/${params.idUser || params.userId}`,
+      data: params.token
+    };
+
+    const {data: { data }} = await API_CALL(option)
+    onSuccess(data);
   } catch (error) {
     onSuccess(error);
   }
