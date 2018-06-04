@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import {
   View,
   Platform,
@@ -65,7 +64,9 @@ class InputTracker extends Component {
       makanMalam: null,
       snack: null,
       iniJam: '',
-      iniMenit: ''
+      iniMenit: '',
+      date: '',
+      time: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.toNavigate = this.toNavigate.bind(this);
@@ -122,22 +123,16 @@ class InputTracker extends Component {
         maxDate: new Date()
       });
       if (action !== DatePickerAndroid.dismissedAction) {
-        // Selected year, month (0-11), day
-        // const isDate = new Date();
-        // const inDateNow = moment(isDate);
-        // const selectedDate = moment(`${year}-${month + 1}-${day}`);
-        // const differentDays = inDateNow.diff(selectedDate + 1, 'days');
-        // console.log('---->>> isDate ', isDate);
-        // console.log('---->>> inDateNow ', inDateNow);
-        // console.log('---->>> selectedDate ', selectedDate);
-        // console.log('---->>> differentDays ', differentDays);
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+          'July', 'August', 'September', 'October', 'November', 'December'
+        ];
         this.setState({
           date: {
             day,
             month: month + 1,
             year
           },
-          isDate: `${day} ${month + 1} ${year}`,
+          isDate: `${day} ${monthNames[month + 1]} ${year}`,
           dateInput: ` ${year}-${month + 1}-${day}`
         }, () => {
           this.openTimePicker();
@@ -240,7 +235,7 @@ class InputTracker extends Component {
           distolic
         }
       };
-      if (sistolic === 0 || sistolic === '' ) {
+      if (sistolic === 0 || sistolic === '') {
         alert('Silahkan input Sistolic Anda.');
       } else if (distolic === 0 || distolic === '') {
         alert('Silahkan input Diastolic Anda.');

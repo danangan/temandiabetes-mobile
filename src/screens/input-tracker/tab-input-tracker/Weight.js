@@ -17,7 +17,7 @@ class weight extends React.Component {
             style={styles.iconStyle}
           />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>weight</Text>
+            <Text style={styles.titleStyle}>berat badan</Text>
             <Text style={styles.valueStyle}>masukkan berat anda</Text>
           </View>
         </CardSection>

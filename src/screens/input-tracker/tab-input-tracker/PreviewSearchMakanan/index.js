@@ -94,13 +94,21 @@ class PreviewSearchMakanan extends React.Component {
       const { action, year, month, day } = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
         // May 25 2020. Month 0 is January.
-        date: new Date()
+        date: new Date(),
+        maxDate: new Date()
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
-
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+          'July', 'August', 'September', 'October', 'November', 'December'
+        ];
         this.setState({
-          isDate: `${day} ${month + 1} ${year}`,
+          date: {
+            day,
+            month: month + 1,
+            year
+          },
+          isDate: `${day} ${monthNames[month + 1]} ${year}`,
           dateInput: ` ${year}-${month + 1}-${day}`
         }, () => {
           this.openTimePicker();
@@ -122,6 +130,10 @@ class PreviewSearchMakanan extends React.Component {
       // console.log('MENITE BRE ', minute);
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
+          time: {
+            hour,
+            minute
+          },
           isTime: `${hour}:${menit}`
         });
       }
@@ -174,20 +186,26 @@ class PreviewSearchMakanan extends React.Component {
 
   submitInputFood() {
     const { sarapan, makanSiang, makanMalam, snack } = this.state.selected;
-    const { dateInput, isTime } = this.state;
-    const inputDate = new Date(dateInput + ' ' + isTime + ':00');
-    const value = {
-      waktuInput: inputDate,
-      sarapan,
-      makanSiang,
-      makanMalam,
-      snack
-    };
-    this.setState({
-      isProcess: true
-    }, () => {
-      this.props.inputTrackerFood(value);
-    });
+    const { date, time } = this.state;
+    // const inputDate = new Date(dateInput + ' ' + isTime + ':00');
+    const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
+    inputDate.toUTCString();
+    if (sarapan === null || makanSiang === null || makanMalam === null || snack === null) {
+      alert('Silahkan lengkapi semua inputan');
+    } else {
+      const value = {
+        waktuInput: inputDate,
+        sarapan,
+        makanSiang,
+        makanMalam,
+        snack
+      };
+      this.setState({
+        isProcess: true
+      }, () => {
+        this.props.inputTrackerFood(value);
+      });
+    }
   }
 
   renderFoodSuggetion(paramsState) {

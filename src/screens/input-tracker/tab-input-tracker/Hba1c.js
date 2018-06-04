@@ -14,8 +14,8 @@ class hba1c extends React.Component {
         <CardSection>
           <Image source={require('../../../assets/icons/hba1c.png')} style={styles.iconStyle} />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>hba1c</Text>
-            <Text style={styles.valueStyle}>masukkan hba1c anda</Text>
+            <Text style={styles.titleStyle}>HbA1c</Text>
+            <Text style={styles.valueStyle}>masukkan HbA1c anda</Text>
           </View>
         </CardSection>
       </TouchableOpacity>

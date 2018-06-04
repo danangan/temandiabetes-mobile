@@ -65,6 +65,20 @@ const inputTrackerReducer = (state = initialState, action) => {
           inputTracker: initialState.inputTracker
       };
     }
+    case 'PENDING_INPUT_TRACKER_ACTIVITY': {
+      return {
+        ...state, 
+          inputTracker: initialState.inputTracker
+      };
+    }
+    case ActionTypes.INPUT_TRACKER_ACTIVITY: {
+      return {
+        ...state,
+        inputTracker: {
+          ...state.inputTracker, status_code: action.payload.status, message: 'Success'
+        }
+      };
+    }
     case ActionTypes.INPUT_TRACKER_FOOD: {
       return {
         ...state,
