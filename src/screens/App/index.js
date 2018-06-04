@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
 
 // ACTIONS
-import { updateNotificationCount, resetNotificationCount, getCurrentUser } from '../../actions';
+import { updateNotificationCount, resetNotificationCount, getCurrentUser, updateFCMToken, addNotificationCount } from '../../actions';
 
 // COMPONENTS
 import Navigator from './components/Navigator'
@@ -61,23 +61,32 @@ class App extends Component {
 		this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
   }
 
+  async componentWillReceiveProps(nextProps) {
+    try {
+      if (nextProps.currentUser._id && this.props.currentUser._id !== nextProps.currentUser._id) {
+        const token = await FCM.getFCMToken()
+        this.props.updateFCMToken({
+          userId: nextProps.currentUser._id,
+          token: {
+            messagingRegistrationToken: token
+          }
+        })
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   async componentDidMount() {
     // get current user
     this.props.getCurrentUser()
 
 		try {
       let result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
-      // FCM.getInitialNotification()
-      //   .then(notif => {
-      //     console.log('INITIAL NOTIFICATION ', notif);
-      //   });
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
         if (Platform.OS === 'android') {
           this._displayNotificationAndroid(notif);
         }
-      });
-      FCM.getFCMToken().then(token => {
-        this.setState({ token: token || '' });
       });
     } catch (e) {
       console.error(e);
@@ -130,13 +139,19 @@ class App extends Component {
       case 'drug_reminder':
         title = `Pengingat obat`
         break;
+      case 'receiver_innercircle':
+        title = `Permintaan inner circle baru`
+        break;
+      case 'sender_innercircle':
+        title = `Permintaan inner circle Anda telah diterima`
+        break;
       default:
         break;
     }
 
     if (notif.opened_from_tray) {
       // do the redirect here
-      // alert('handle dong redirect nya')
+      console.log('handle redirect dari fcm di sini gan')
 
     } else {
       FCM.presentLocalNotification({
@@ -147,8 +162,7 @@ class App extends Component {
         local: true
       });
 
-      // increment the notif
-      this.props.dispatch({ type: 'ADD_NOTIFICATION_COUNT' })
+      this.props.addNotificationCount()
     }
   }
 
@@ -234,9 +248,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  addNotificationCount: () => dispatch(addNotificationCount()),
   getCurrentUser: () => dispatch(getCurrentUser()),
   updateNotificationCount: currentUserId => dispatch(updateNotificationCount(currentUserId)),
-  resetNotificationCount : currentUserId => dispatch(resetNotificationCount(currentUserId))
+  resetNotificationCount : currentUserId => dispatch(resetNotificationCount(currentUserId)),
+  updateFCMToken: param => dispatch(updateFCMToken(param))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
