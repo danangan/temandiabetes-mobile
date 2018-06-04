@@ -132,6 +132,11 @@ class InputTracker extends Component {
         // console.log('---->>> selectedDate ', selectedDate);
         // console.log('---->>> differentDays ', differentDays);
         this.setState({
+          date: {
+            day,
+            month: month + 1,
+            year
+          },
           isDate: `${day} ${month + 1} ${year}`,
           dateInput: ` ${year}-${month + 1}-${day}`
         }, () => {
@@ -154,6 +159,10 @@ class InputTracker extends Component {
       console.log(`INI DATE NYA BRE --> ${hour}:${menit}`);
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
+          time: {
+            hour,
+            minute
+          },
           isTime: `${hour}:${menit}`,
           iniJam: `${hour}`,
           iniMenit: `${menit}`
@@ -192,13 +201,18 @@ class InputTracker extends Component {
       snack,
       isTime,
       iniJam,
-      iniMenit
+      iniMenit,
+      date,
+      time
     } = this.state;
-    console.log('IS TIME -->', iniJam, ' ', iniMenit);
-    // const inputDate = new Date(dateInput + ' ' + isTime + ':00').toUTCString();
-    const inputDate = new Date(dateInput);
-    inputDate.setHours(iniJam, iniMenit, '00');
+    // console.log('IS TIME -->', iniJam, ' ', iniMenit);
+    const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
     inputDate.toUTCString();
+    // console.log('FINAL TIME', dateFinal);
+    // const inputDate = new Date(dateInput + ' ' + isTime + ':00').toUTCString();
+    // const inputDate = new Date(dateInput);
+    // inputDate.setHours(iniJam, iniMenit, '00');
+    // inputDate.toUTCString();
     if (casing === 'GULA_DARAH') {
       const value = {
         waktuInput: inputDate,
