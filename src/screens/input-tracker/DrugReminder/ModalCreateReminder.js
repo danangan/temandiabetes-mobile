@@ -237,7 +237,8 @@ class ModalCreateReminder extends React.Component {
         visible={this.props.modalVisible}
       >
         {
-          detailsReminder.status_code === 0 ?
+          // detailsReminder.status_code === 0
+          false ?
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator color="rgb(239, 67, 79)" size="large" />
           </View>
