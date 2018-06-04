@@ -13,8 +13,11 @@ export const getInitialName = (name, defaultVal = 'NA') => {
 export const dateFormatter = (date) => {
   if (!date) return '';
   date = new Date(date);
+  let formattedDate = date.toDateString()
+  formattedDate = formattedDate.split(' ')
+  return formattedDate.slice(1).join(' ')
   // the month is added 1 because month is defined 0-11
-  return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  // return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 };
 
 export const dateFormateName = (date) => {
