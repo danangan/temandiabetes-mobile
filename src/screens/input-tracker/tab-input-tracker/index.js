@@ -63,7 +63,9 @@ class InputTracker extends Component {
       sarapan: null,
       makanSiang: null,
       makanMalam: null,
-      snack: null
+      snack: null,
+      iniJam: '',
+      iniMenit: ''
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.toNavigate = this.toNavigate.bind(this);
@@ -152,7 +154,9 @@ class InputTracker extends Component {
       console.log(`INI DATE NYA BRE --> ${hour}:${menit}`);
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
-          isTime: `${hour}:${menit}`
+          isTime: `${hour}:${menit}`,
+          iniJam: `${hour}`,
+          iniMenit: `${menit}`
         });
       }
     } catch ({ code, message }) {
@@ -186,10 +190,15 @@ class InputTracker extends Component {
       makanSiang,
       makanMalam,
       snack,
-      isTime
+      isTime,
+      iniJam,
+      iniMenit
     } = this.state;
-    console.log('IS TIME ', isTime);
-    const inputDate = new Date(dateInput + ' ' + isTime + ':00').toUTCString();
+    console.log('IS TIME -->', iniJam, ' ', iniMenit);
+    // const inputDate = new Date(dateInput + ' ' + isTime + ':00').toUTCString();
+    const inputDate = new Date(dateInput);
+    inputDate.setHours(iniJam, iniMenit, '00');
+    inputDate.toUTCString();
     if (casing === 'GULA_DARAH') {
       const value = {
         waktuInput: inputDate,
