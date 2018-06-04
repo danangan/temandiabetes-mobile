@@ -37,17 +37,17 @@ const TextInputHoc = (props) => (
         onChangeText={props.onChangesText(props.type)}
         value={props.value}
         placeholder={props.placeholder}
-        style={{ 
-          textAlign: 'center', 
-          fontSize: 19, 
-          fontFamily: 'OpenSans-Italic', 
+        style={{
+          textAlign: 'center',
+          fontSize: 19,
+          fontFamily: 'OpenSans-Italic',
         }}
         underlineColorAndroid="#ef434e"
       />
     </View>
   </View>
 );
- 
+
 class PreviewSearchMakanan extends React.Component {
   constructor(props) {
     super(props);
@@ -75,7 +75,7 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
-  //   return nextState != this.state;      
+  //   return nextState != this.state;
   // }
 
   componentDidUpdate() {
@@ -105,7 +105,7 @@ class PreviewSearchMakanan extends React.Component {
         this.setState({
           date: {
             day,
-            month: month + 1,
+            month,
             year
           },
           isDate: `${day} ${monthNames[month + 1]} ${year}`,
@@ -174,7 +174,7 @@ class PreviewSearchMakanan extends React.Component {
           }
         });
       });
-  
+
       // It's debounced!
       this.getRecomendation(type);
     };
@@ -230,19 +230,19 @@ class PreviewSearchMakanan extends React.Component {
           {
            suggetion.food.map((item, index) => (
               <TouchableOpacity
-                style={{ 
-                  paddingHorizontal: 10, 
-                  paddingVertical: 5, 
-                  width: '100%', 
+                style={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  width: '100%',
                   backgroundColor: index % 2 === 1 ? '#EEEEEE' : '#FAFAFA',
-                  alignItems: 'center', 
-                  justifyContent: 'center' 
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
                 onPress={() => {
-                  this.setState({ 
-                    selected: { 
-                      ...this.state.selected, 
-                      [paramsState]: item 
+                  this.setState({
+                    selected: {
+                      ...this.state.selected,
+                      [paramsState]: item
                     },
                     [paramsState]: ''
                   });
@@ -270,22 +270,22 @@ class PreviewSearchMakanan extends React.Component {
     return (
       <KeyboardAwareScrollView
         style={{ flex: 1, backgroundColor: 'trasparent', paddingVertical: 15 }}
-        resetScrollToCoords={{ 
-          x: 120, 
-          y: 120 
+        resetScrollToCoords={{
+          x: 120,
+          y: 120
         }}
         // contentContainerStyle={{ flex: 1, backgroundColor: '#000' }}
         scrollEnabled
       >
         { this.renderButtonOpenDate() }
-        <TextInputHoc 
+        <TextInputHoc
           title="Sarapan"
           type="sarapan"
           onFocus={() => this.setState({ typingText: 'MAKAN_SIANG' })}
           placeholder="Nasi Uduk"
           value={
-            this.state.selected.sarapan === null ? 
-            this.state.sarapan : 
+            this.state.selected.sarapan === null ?
+            this.state.sarapan :
             this.state.selected.sarapan.title
           }
           onChangesText={this.onChangesText}
@@ -295,13 +295,13 @@ class PreviewSearchMakanan extends React.Component {
             this.renderFoodSuggetion('sarapan')
           }
 
-          <TextInputHoc 
+          <TextInputHoc
             type="makanSiang"
             title="Makan Siang"
             placeholder="Soto Ayam"
             value={
-              this.state.selected.makanSiang === null ? 
-              this.state.makanSiang : 
+              this.state.selected.makanSiang === null ?
+              this.state.makanSiang :
               this.state.selected.makanSiang.title
             }
             onChangesText={this.onChangesText}
@@ -311,13 +311,13 @@ class PreviewSearchMakanan extends React.Component {
             this.renderFoodSuggetion('makanSiang')
           }
 
-          <TextInputHoc 
+          <TextInputHoc
             type="makanMalam"
             title="Makan Malam"
             placeholder="Salad"
             value={
-              this.state.selected.makanMalam === null ? 
-              this.state.makanMalam : 
+              this.state.selected.makanMalam === null ?
+              this.state.makanMalam :
               this.state.selected.makanMalam.title
             }
             onChangesText={this.onChangesText}
@@ -327,13 +327,13 @@ class PreviewSearchMakanan extends React.Component {
             this.renderFoodSuggetion('makanMalam')
           }
 
-          <TextInputHoc 
+          <TextInputHoc
             type="snack"
             title="Snack"
             placeholder="Snack"
             value={
-              this.state.selected.snack === null ? 
-              this.state.snack : 
+              this.state.selected.snack === null ?
+              this.state.snack :
               this.state.selected.snack.title
             }
             onChangesText={this.onChangesText}
@@ -342,8 +342,8 @@ class PreviewSearchMakanan extends React.Component {
             this.state.snack === '' ? null :
             this.renderFoodSuggetion('snack')
           }
-          
-          <View 
+
+          <View
             style={{
               flex: 2,
               justifyContent: 'flex-start',
@@ -357,7 +357,7 @@ class PreviewSearchMakanan extends React.Component {
               style={{
                 flex: 0,
                 width: '40%',
-                
+
                 paddingHorizontal: 5,
                 alignItems: 'center',
                 backgroundColor: '#ef434e',
@@ -376,11 +376,11 @@ class PreviewSearchMakanan extends React.Component {
 }
 
 const styles = {
-  cardResult: { 
-    flex: 1, 
-    width: '70%', 
+  cardResult: {
+    flex: 1,
+    width: '70%',
     alignSelf: 'center',
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f1f1f1'
   }
