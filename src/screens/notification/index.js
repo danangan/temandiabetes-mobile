@@ -169,10 +169,7 @@ class Notification extends React.Component {
       if (!has_read || true) {
         const option = {
           method: 'put',
-          url: `/api/notification/${this.props.currentUserId}/update-to-read/specific`,
-          data: {
-            notificationId: _id
-          }
+          url: `/api/notification/${this.props.currentUserId}/update-to-read/specific/${_id}`,
         };
 
         API_CALL(option).then((res) => {

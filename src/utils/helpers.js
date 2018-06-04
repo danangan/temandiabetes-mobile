@@ -13,9 +13,9 @@ export const getInitialName = (name, defaultVal = 'NA') => {
 export const dateFormatter = (date) => {
   if (!date) return '';
   date = new Date(date);
-  let formattedDate = date.toDateString()
+  let formattedDate = date.toUTCString()
   formattedDate = formattedDate.split(' ')
-  return formattedDate.slice(1).join(' ')
+  return formattedDate.slice(1, 4).join(' ')
   // the month is added 1 because month is defined 0-11
   // return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 };

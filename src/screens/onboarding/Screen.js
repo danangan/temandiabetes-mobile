@@ -10,16 +10,6 @@ import Style from '../../style/defaultStyle';
 class Screen extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      loading: true
-    }
-  }
-
-  componentDidMount() {
-    // giving the time for the firebase to log in
-    setTimeout(() => {
-      this.setState({ loading: false })
-    }, 500)
   }
 
 	render() {
@@ -49,11 +39,11 @@ class Screen extends Component {
         size="large"
         containerStyle={{ backgroundColor: 'white' }}
         textStyle={{ color: 'gray' }}
-        text="Loading your app..." 
+        text="Loading your app..."
       />
     );
 
-    return this.state.loading && onboarding.length === 0 ? loader : mainScreen;
+    return mainScreen;
 	}
 }
 
