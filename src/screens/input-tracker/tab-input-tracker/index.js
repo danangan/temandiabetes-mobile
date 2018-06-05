@@ -122,17 +122,19 @@ class InputTracker extends Component {
         date: new Date(),
         maxDate: new Date()
       });
+      console.log('INI MONTH ', month);
       if (action !== DatePickerAndroid.dismissedAction) {
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
           'July', 'August', 'September', 'October', 'November', 'December'
         ];
         this.setState({
+          // using key date 
           date: {
             day,
-            month: month + 1,
+            month: month + 1, 
             year
           },
-          isDate: `${day} ${monthNames[month + 1]} ${year}`,
+          isDate: `${day} ${monthNames[month]} ${year}`,
           dateInput: ` ${year}-${month + 1}-${day}`
         }, () => {
           this.openTimePicker();
@@ -150,8 +152,10 @@ class InputTracker extends Component {
         minute: null,
         is24Hour: false,
       });
-      const menit = minute === 0 ? '00' : minute;
-      console.log(`INI DATE NYA BRE --> ${hour}:${menit}`);
+      // console.log('INI MENIT KAN... ', minute);
+      const menit = minute === 0 ? '00' : 
+                    minute.toString().length === 1 ? `0${minute}` : '00';
+      // console.log(`INI DATE NYA BRE --> ${hour}:${menit}`);
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
           time: {
@@ -164,7 +168,7 @@ class InputTracker extends Component {
         });
       }
     } catch ({ code, message }) {
-      console.warn('Cannot open time picker', message);
+      console.log('Cannot open time picker', message);
     }
   }
 

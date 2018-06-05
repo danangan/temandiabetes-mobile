@@ -108,7 +108,7 @@ class PreviewSearchMakanan extends React.Component {
             month: month + 1,
             year
           },
-          isDate: `${day} ${monthNames[month + 1]} ${year}`,
+          isDate: `${day} ${monthNames[month]} ${year}`,
           dateInput: ` ${year}-${month + 1}-${day}`
         }, () => {
           this.openTimePicker();
@@ -126,7 +126,8 @@ class PreviewSearchMakanan extends React.Component {
         minute: 0,
         is24Hour: false,
       });
-      const menit = minute === 0 ? '00' : minute;
+      const menit = minute === 0 ? '00' : 
+                    minute.toString().length === 1 ? `0${minute}` : '00';
       // console.log('MENITE BRE ', minute);
       if (action !== TimePickerAndroid.dismissedAction) {
         this.setState({
