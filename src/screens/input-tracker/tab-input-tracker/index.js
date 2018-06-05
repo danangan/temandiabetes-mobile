@@ -128,7 +128,7 @@ class InputTracker extends Component {
           'July', 'August', 'September', 'October', 'November', 'December'
         ];
         this.setState({
-          // using key date 
+          // using key date
           date: {
             day,
             month,
@@ -153,7 +153,7 @@ class InputTracker extends Component {
         is24Hour: false,
       });
       // console.log('INI MENIT KAN... ', minute);
-      const menit = minute === 0 ? '00' : 
+      const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
       // console.log(`INI DATE NYA BRE --> ${hour}:${menit}`);
       if (action !== TimePickerAndroid.dismissedAction) {
@@ -433,7 +433,7 @@ class InputTracker extends Component {
                 });
               }
             }}
-            placeholder="70 mmol/mol"
+            placeholder="6.0 %"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
@@ -564,7 +564,7 @@ class InputTracker extends Component {
             value={this.state.sistolic}
             keyboardType={'numeric'}
             onChangeText={(sistolic) => this.setState({ sistolic })}
-            placeholder="20 mm/hg"
+            placeholder="120 mm/Hg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
@@ -579,7 +579,7 @@ class InputTracker extends Component {
           <TextInput
             value={this.state.distolic}
             keyboardType={'numeric'}
-            placeholder="100 mm/hg"
+            placeholder="80 mm/Hg"
             onChangeText={(distolic) => this.setState({ distolic })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"

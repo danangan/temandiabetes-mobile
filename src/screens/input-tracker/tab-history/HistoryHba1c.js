@@ -34,7 +34,7 @@ const HistoryHba1c = ({ history }) => {
 
   return (
     <View style={styles.containerStyle}>
-      <Text style={styles.titleStyle}>hba1c</Text>
+      <Text style={styles.titleStyle}>HbA1c</Text>
       <Card containerStyle={styles.cardStyle}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={styles.hba1cContainerStyle}>
