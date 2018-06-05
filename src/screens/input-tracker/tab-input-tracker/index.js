@@ -131,7 +131,7 @@ class InputTracker extends Component {
           // using key date 
           date: {
             day,
-            month: month + 1, 
+            month,
             year
           },
           isDate: `${day} ${monthNames[month]} ${year}`,
