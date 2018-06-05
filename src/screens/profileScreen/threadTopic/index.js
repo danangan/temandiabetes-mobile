@@ -47,6 +47,7 @@ class ThreadTopic extends Component {
       this.setState({
         categories: this.mapCategories(docs),
         isLoading: false,
+        isError: false,
         pagination
       })
     } catch (error) {
@@ -86,24 +87,35 @@ class ThreadTopic extends Component {
       }
     })
 
-    const option = {
-      method: 'put',
-      url: `/api/users/${this.props.currentUserId}`,
-      data: {
-        threadCategoryPreferences
-      }
-    };
-
-    try {
-      const { data: { data: {user} }} = await API_CALL(option);
-      this.props.dispatch({
-        type: 'GET_CURRENT_USER',
-        payload: user
+    if (threadCategoryPreferences.length > 0 && this.state.categories.length > 0) {
+      this.setState({
+        isError: false
       })
 
-    } catch (error) {
-      console.log(error)
+      const option = {
+        method: 'put',
+        url: `/api/users/${this.props.currentUserId}`,
+        data: {
+          threadCategoryPreferences
+        }
+      };
+
+      try {
+        const { data: { data: {user} }} = await API_CALL(option);
+        this.props.dispatch({
+          type: 'GET_CURRENT_USER',
+          payload: user
+        })
+
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      this.setState({
+        isError: true
+      })
     }
+
 
     this.setState({
       isLoading: false
@@ -137,6 +149,10 @@ class ThreadTopic extends Component {
             }
           </View>
         </ScrollView>
+        {
+          this.state.isError &&
+          <Text style={styles.errorText}>Minimal pilihan topik thread adalah 1</Text>
+        }
         <Button
           textStyle={styles.buttonText}
           buttonStyle={styles.button}
@@ -144,7 +160,7 @@ class ThreadTopic extends Component {
           <Text>
             SIMPAN
           </Text>
-      </Button>
+        </Button>
       </View>
     )
   }
@@ -160,6 +176,11 @@ const styles = {
   checkboxContainer: {
     paddingHorizontal: 20,
     paddingVertical: 30,
+  },
+  errorText: {
+    color: 'red',
+    textAlign: 'center',
+    marginTop: 10
   },
   button: {
     alignSelf: 'center',

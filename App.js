@@ -17,7 +17,20 @@ export const startApp = () => {
       navigatorStyle: {
         navBarHidden: true
       }
-    }
+    },
+    animationType: 'fade'
+  });
+};
+
+export const startLoginPage = () => {
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: 'TemanDiabets.LoginScreen',
+      navigatorStyle: {
+        navBarHidden: true
+      }
+    },
+    animationType: 'fade'
   });
 };
 
@@ -28,7 +41,20 @@ export const mainApp = () => {
       navigatorStyle: {
         navBarHidden: true
       }
-    }
+    },
+    animationType: 'fade'
+  });
+};
+
+export const mainLoader = () => {
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: 'TemanDiabets.AppLoader',
+      navigatorStyle: {
+        navBarHidden: true
+      }
+    },
+    animationType: 'fade'
   });
 };
 

@@ -372,7 +372,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <ButtonSave 
+        <ButtonSave
           onSubmit={this.handleSave}
           type="GULA_DARAH"
           title="SIMPAN"
@@ -438,7 +438,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <ButtonSave 
+        <ButtonSave
           onSubmit={this.handleSave}
           type="HBA1C"
           title="SIMPAN"
@@ -585,7 +585,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <ButtonSave 
+        <ButtonSave
           onSubmit={this.handleSave}
           type="TEKANAN_DARAH"
           title="SIMPAN"
@@ -659,7 +659,7 @@ class InputTracker extends Component {
             null
           }
         </View>
-        <ButtonSave 
+        <ButtonSave
           onSubmit={this.handleSave}
           type="ACTIVITY"
           title="SIMPAN"
@@ -727,7 +727,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#000"
           />
         </View>
-        <ButtonSave 
+        <ButtonSave
           onSubmit={this.handleSave}
           type="WEIGHT"
           title="SIMPAN"

@@ -45,8 +45,10 @@ import ForgotPasswordInputNewPassword from '../screens/forgotPassword/inputNewPa
 import PreviewSearchMakanan from '../screens/input-tracker/tab-input-tracker/PreviewSearchMakanan';
 import Request from '../screens/profileScreen/innerCircle/innerCircleList/TabRequest';
 import InviteFriend from '../screens/profileScreen/inviteFriends';
+import AppLoader from '../screens/AppLoader';
 
 export function registerScreens(store, Provider) {
+	Navigation.registerComponent('TemanDiabets.AppLoader', () => AppLoader);
 	Navigation.registerComponent('TemanDiabets.AppContainer', () => AppContainer, store, Provider);
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.LoginScreen', () => LoginScreen, store, Provider);
