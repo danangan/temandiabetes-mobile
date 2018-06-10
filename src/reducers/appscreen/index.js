@@ -1,4 +1,5 @@
 export * from './appReducer';
+export * from './appNavigatorReducer';
 export * from './loginReducer';
 export * from './registerReducer';
 export * from './threadsReducer';

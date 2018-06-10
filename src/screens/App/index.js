@@ -171,29 +171,42 @@ class App extends Component {
   }
 
   render() {
+    const { activeTopTab, activeBottomTab, navigator, notificationCount, currentUser } = this.props
     return(
       <View style={styles.container}>
         <Navigator
-          navigator={this.props.navigator}
+          navigator={navigator}
           onResetNotificationCount={this.onResetNotificationCount}
-          notificationCount={this.props.notificationCount}
+          notificationCount={notificationCount}
           />
-        <BottomTabs>
-          <TopTabs title="forum" icon={ForumIcon} activeIcon={ForumActiveIcon}>
+        <BottomTabs activeTab={activeBottomTab} updateActiveTab={this.props.updateBottomTab}>
+          <TopTabs
+            title="forum"
+            icon={ForumIcon}
+            activeIcon={ForumActiveIcon}
+            activeTab={activeTopTab}
+            updateActiveTab={this.props.updateTopTab}
+          >
             <View title="BERANDA" style={styles.content}>
-              <HomeTab navigator={this.props.navigator} />
+              <HomeTab navigator={navigator} />
             </View>
             <View title="TERBARU" style={styles.content}>
-              <LatestTab navigator={this.props.navigator} />
+              <LatestTab navigator={navigator} />
             </View>
             <View title="TERPILIH" style={styles.content}>
               <FeaturedTab navigator={this.props.navigator}/>
             </View>
             <View title="BOOKMARK" style={styles.content}>
-              <BookmarkTab navigator={this.props.navigator}/>
+              <BookmarkTab navigator={navigator}/>
             </View>
           </TopTabs>
-          <TopTabs title="event" icon={EventIcon} activeIcon={EventActiveIcon}>
+          <TopTabs
+            title="event"
+            icon={EventIcon}
+            activeIcon={EventActiveIcon}
+            activeTab={activeTopTab}
+            updateActiveTab={this.props.updateTopTab}
+          >
             <View title="EVENT" style={styles.content}>
               <EventTab />
             </View>
@@ -204,25 +217,43 @@ class App extends Component {
 
           {
             // only render if the user is a diabetesi
-            this.props.currentUser.tipe_user === 'diabetesi' ?
-            <TopTabs title="rekaman" icon={InputTrackerIcon} activeIcon={InputTrackerActiveIcon}>
+            currentUser.tipe_user === 'diabetesi' ?
+            <TopTabs
+              title="rekaman"
+              icon={InputTrackerIcon}
+              activeIcon={InputTrackerActiveIcon}
+              activeTab={activeTopTab}
+              updateActiveTab={this.props.updateTopTab}
+            >
               <View title="MASUKKAN PELACAK" style={styles.content}>
-                <InputTrackerTab navigator={this.props.navigator}/>
+                <InputTrackerTab navigator={navigator}/>
               </View>
               <View title="RIWAYAT DAN ESTIMASI" style={styles.content}>
-                <HistoryTab navigator={this.props.navigator}/>
+                <HistoryTab navigator={navigator}/>
               </View>
             </TopTabs>
             : null
           }
-          <TopTabs title="belanja" icon={CartIcon} activeIcon={CartActiveIcon}>
+          <TopTabs
+            title="belanja"
+            icon={CartIcon}
+            activeIcon={CartActiveIcon}
+            activeTab={activeTopTab}
+            updateActiveTab={this.props.updateTopTab}
+          >
             <View title="KATALOG" style={styles.content}>
-              <ShopTab navigator={this.props.navigator}/>
+              <ShopTab navigator={navigator}/>
             </View>
           </TopTabs>
-          <TopTabs title="darurat" icon={EmergencyIcon} activeIcon={EmergencyActiveIcon}>
+          <TopTabs
+            title="darurat"
+            icon={EmergencyIcon}
+            activeIcon={EmergencyActiveIcon}
+            activeTab={activeTopTab}
+            updateActiveTab={this.props.updateTopTab}
+          >
             <View title="DARURAT" style={styles.content}>
-              <EmergencyTab navigator={this.props.navigator}/>
+              <EmergencyTab navigator={navigator}/>
             </View>
           </TopTabs>
         </BottomTabs>
@@ -245,10 +276,14 @@ const mapStateToProps = state => ({
   deepLink: state.appReducer.deepLink,
   currentUser: state.authReducer.currentUser,
   notificationCount: state.authReducer.notificationCount,
+  activeTopTab: state.appNavigatorReducer.activeTopTab,
+  activeBottomTab: state.appNavigatorReducer.activeBottomTab,
 });
 
 const mapDispatchToProps = dispatch => ({
   addNotificationCount: () => dispatch(addNotificationCount()),
+  updateTopTab: (activeTab) => dispatch({type: 'UPDATE_ACTIVE_TOP_TAB', payload: activeTab}),
+  updateBottomTab: (activeTab) => dispatch({type: 'UPDATE_ACTIVE_BOTTOM_TAB', payload: activeTab}),
   getCurrentUser: () => dispatch(getCurrentUser()),
   updateNotificationCount: currentUserId => dispatch(updateNotificationCount(currentUserId)),
   resetNotificationCount : currentUserId => dispatch(resetNotificationCount(currentUserId)),

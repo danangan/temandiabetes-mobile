@@ -25,7 +25,7 @@ export default class BottomTabs extends Component {
       <View style={styles.container}>
         {/* Content */}
         <View style={styles.contentContainer}>
-          {children[this.state.activeTab]}
+          {children[this.props.activeTab - 1]}
         </View>
         {/* Tabs row */}
         <View style={styles.tabsContainer}>
@@ -42,17 +42,16 @@ export default class BottomTabs extends Component {
                     // Default style for every tab
                     styles.tabContainer,
                   ]}
-                  // Change active tab
-                  onPress={() => this.setState({ activeTab: index }) }
+                  onPress={() => { if (this.props.activeTab - 1 !== index) this.props.updateActiveTab(index + 1)}}
                   // Required key prop for components generated returned by map iterator
                   key={index}
                 >
                   {/* active underline */}
-                  <View style={[styles.underline, index === this.state.activeTab ?  styles.underlineActive : {} ]}>
+                  <View style={[styles.underline, index === this.props.activeTab - 1 ?  styles.underlineActive : {} ]}>
                   </View>
                   <Image
                     style={styles.iconStyle}
-                    source={index === this.state.activeTab ? activeIcon : icon }
+                    source={index === this.props.activeTab - 1 ? activeIcon : icon }
                   />
                   <Text style={styles.tabText}>
                     {title}

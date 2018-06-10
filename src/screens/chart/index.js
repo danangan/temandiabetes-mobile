@@ -95,8 +95,8 @@ class Chart extends Component {
         <Spinner
           containerStyle={styles.spinnerStyle}
           textStyle={{ color: color.black }}
-          color="#FFDE00"
-          text={'Loading...'}
+          color="#1a1a1a"
+          text={''}
           size="large"
         />
       );

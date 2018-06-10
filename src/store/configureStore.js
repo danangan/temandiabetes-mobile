@@ -10,6 +10,7 @@ if (__DEV__) {
   const logger = createLogger({ collapsed: true });
   middleware = [...middleware, logger];
 } else {
+  const logger = createLogger({ collapsed: true });
   middleware = [...middleware];
 }
 

@@ -9,14 +9,6 @@ import {
 import defaultStyle from '../../../../style/defaultStyle'
 
 export default class TopTabs extends Component {
-  constructor(props) {
-    super(props)
-    // Initialize State
-    this.state = {
-      // First tab is active by default
-      activeTab: 0
-    }
-  }
 
   renderTabs() {
     const { children } = this.props
@@ -27,16 +19,15 @@ export default class TopTabs extends Component {
                 // Default style for every tab
                 styles.tabContainer,
               ]}
-              // Change active tab
-              onPress={() => this.setState({ activeTab: index }) }
               // Required key prop for components generated returned by map iterator
               key={index}
+              onPress={() => { if (this.props.activeTab - 1 !== index) this.props.updateActiveTab(index + 1)}}
             >
               <Text style={styles.tabText}>
                 {title}
               </Text>
               {/* active underline */}
-              <View style={[styles.underline, index === this.state.activeTab ?  styles.underlineActive : {} ]}>
+              <View style={[styles.underline, index + 1 === this.props.activeTab ?  styles.underlineActive : {} ]}>
               </View>
             </TouchableOpacity>
             )
@@ -67,7 +58,7 @@ export default class TopTabs extends Component {
         </View>
         {/* Content */}
         <View style={styles.contentContainer}>
-          {Array.isArray(children) ? children[this.state.activeTab] : children}
+          {Array.isArray(children) ? children[this.props.activeTab - 1] : children}
         </View>
       </View>
     );
