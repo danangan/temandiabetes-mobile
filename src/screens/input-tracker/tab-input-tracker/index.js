@@ -15,6 +15,7 @@ import {
   Picker,
   AsyncStorage,
   ActivityIndicator,
+  Image
 } from 'react-native';
 
 import {
@@ -66,7 +67,8 @@ class InputTracker extends Component {
       iniJam: '',
       iniMenit: '',
       date: '',
-      time: ''
+      time: '',
+      hasSetTime: false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
     this.toNavigate = this.toNavigate.bind(this);
@@ -77,6 +79,7 @@ class InputTracker extends Component {
     const token = await AsyncStorage.getItem(authToken);
     // console.log('TOKEN INI BRA ', token);
     this.props.getFoodSuggetion();
+    this.Clock = setInterval(() => this.GetTime(), 1000);
   }
 
   componentWillMount() {
@@ -90,7 +93,8 @@ class InputTracker extends Component {
 
 	componentWillUnmount() {
 		this.keyboardDidShowListener.remove();
-		this.keyboardDidHideListener.remove();
+    this.keyboardDidHideListener.remove();
+    clearInterval(this.Clock);
   }
 
   componentDidUpdate() {
@@ -164,11 +168,70 @@ class InputTracker extends Component {
           },
           isTime: `${hour}:${menit}`,
           iniJam: `${hour}`,
-          iniMenit: `${menit}`
+          iniMenit: `${menit}`,
+          hasSetTime: true
         });
       }
     } catch ({ code, message }) {
       console.log('Cannot open time picker', message);
+    }
+  }
+
+  GetTime() {
+    // Creating variables to hold time.
+    let date = '';
+    let TimeType = '';
+    let hour = '';
+    let minutes = '';
+    // let seconds = '';
+    let fullTime = '';
+ 
+    // Creating Date() function object.
+    date = new Date();
+ 
+    // Getting current hour from Date object.
+    hour = date.getHours(); 
+ 
+    // Checking if the Hour is less than equals to 11 then Set the Time format as AM.
+    if (hour <= 11) {
+      TimeType = 'AM';
+    } else {
+      // If the Hour is Not less than equals to 11 then Set the Time format as PM.
+      TimeType = 'PM';
+    }
+    // IF current hour is grater than 12 then minus 12 from current hour to make it in 12 Hours Format.
+    if (hour > 12) {
+      hour = hour - 12;
+    }
+ 
+    // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format. 
+    if (hour === 0) {
+      hour = 12;
+    } 
+ 
+    // Getting the current minutes from date object.
+    minutes = date.getMinutes();
+ 
+    // Checking if the minutes value is less then 10 then add 0 before minutes.
+    if (minutes < 10) {
+      minutes = '0' + minutes.toString();
+    }
+ 
+    //Getting current seconds from date object.
+    seconds = date.getSeconds();
+    // If seconds value is less than 10 then add 0 before seconds.
+    // if (seconds < 10) {
+    //   seconds = '0' + seconds.toString();
+    // }
+    // Adding all the variables in fullTime variable.
+    fullTime = hour.toString() + ':' + minutes.toString();
+    // + ':' + seconds.toString()
+    // + ' ' + TimeType.toString()
+    // Setting up fullTime variable in State.
+    if (!this.state.hasSetTime) {
+      this.setState({
+        time: fullTime
+      });
     }
   }
 
@@ -184,6 +247,15 @@ class InputTracker extends Component {
     });
   }
 
+  validationInput(params) {
+    const checking = params.split('');
+    if (checking[0] === ',' || checking[0] === '.') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+ 
   handleSave(casing) {
     const {
       dateInput,
@@ -204,32 +276,33 @@ class InputTracker extends Component {
       date,
       time
     } = this.state;
-    // console.log('IS TIME -->', iniJam, ' ', iniMenit);
+    
     const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
     inputDate.toUTCString();
-    // console.log('FINAL TIME', dateFinal);
-    // const inputDate = new Date(dateInput + ' ' + isTime + ':00').toUTCString();
-    // const inputDate = new Date(dateInput);
-    // inputDate.setHours(iniJam, iniMenit, '00');
-    // inputDate.toUTCString();
+    
     if (casing === 'GULA_DARAH') {
       const value = {
         waktuInput: inputDate,
         gulaDarah
       };
+      
       if (gulaDarah === 0 || gulaDarah === '') {
         alert('Silahkan input Gula darah Anda.');
       } else {
-        // this.setModalVisible('IS_LOADING');
-        this.setState({
-          isManually: false,
-          modalVisible: true,
-          isModal: 'IS_LOADING',
-        }, () => {
-          setTimeout(() => {
-            this.props.inputTrackerBloodGlucose(value);
-          }, 1500);
-        });
+        const checking = this.validationInput(gulaDarah);
+        if (!checking) {
+          alert('Data yang Anda input salah.');
+        } else {
+          this.setState({
+            isManually: false,
+            modalVisible: true,
+            isModal: 'IS_LOADING',
+          }, () => {
+            setTimeout(() => {
+              this.props.inputTrackerBloodGlucose(value);
+            }, 1500);
+          });
+        }
       }
     } else if (casing === 'TEKANAN_DARAH') {
       const value = {
@@ -239,48 +312,60 @@ class InputTracker extends Component {
           distolic
         }
       };
+            
       if (sistolic === 0 || sistolic === '') {
         alert('Silahkan input Sistolic Anda.');
       } else if (distolic === 0 || distolic === '') {
         alert('Silahkan input Diastolic Anda.');
       } else {
-        this.setState({
-          modalVisible: true,
-          isModal: 'IS_LOADING',
-        }, () => {
-          setTimeout(() => {
-            this.props.inputTrackerBloodPressure(value);
-          }, 1500);
-        });
+        const checkingSistolic = this.validationInput(sistolic);
+        const checkingDistolic = this.validationInput(distolic);
+        if (!checkingSistolic || !checkingDistolic) {
+          alert('Data yang Anda input salah.');
+        } else {
+          this.setState({
+            modalVisible: true,
+            isModal: 'IS_LOADING',
+          }, () => {
+            setTimeout(() => {
+              this.props.inputTrackerBloodPressure(value);
+            }, 1500);
+          });
+        }
       }
     } else if (casing === 'HBA1C') {
       if (hba1c === 0 || hba1c === '') {
         alert('Silahkan input HBA1C Anda.');
       } else {
-        this.setModalVisible('IS_LOADING');
-        this.setState({
-          modalVisible: true,
-          isModal: 'IS_LOADING',
-        }, () => {
-          if (hba1c.indexOf(',') !== -1) {
-            const manipulateDot = hba1c.replace(',', '.');
-            const value = {
-              waktuInput: inputDate,
-              hba1c: manipulateDot
-            };
-            setTimeout(() => {
-              this.props.inputTrackerHba1c(value);
-            }, 1500);
-          } else {
-            const value = {
-              waktuInput: inputDate,
-              hba1c
-            };
-            setTimeout(() => {
-              this.props.inputTrackerHba1c(value);
-            }, 1500);
-          }
-        });
+        const checkinghba1c = this.validationInput(hba1c);
+        if (!checkinghba1c) {
+          alert('Data yang Anda input salah.');
+        } else {
+          this.setModalVisible('IS_LOADING');
+          this.setState({
+            modalVisible: true,
+            isModal: 'IS_LOADING',
+          }, () => {
+            if (hba1c.indexOf(',') !== -1) {
+              const manipulateDot = hba1c.replace(',', '.');
+              const value = {
+                waktuInput: inputDate,
+                hba1c: manipulateDot
+              };
+              setTimeout(() => {
+                this.props.inputTrackerHba1c(value);
+              }, 1500);
+            } else {
+              const value = {
+                waktuInput: inputDate,
+                hba1c
+              };
+              setTimeout(() => {
+                this.props.inputTrackerHba1c(value);
+              }, 1500);
+            }
+          });
+        }
       }
     } else if (casing === 'ACTIVITY') {
       const value = {
@@ -309,37 +394,58 @@ class InputTracker extends Component {
       if (beratBadan === 0 || beratBadan === '') {
         alert('Silahkan input berat badan Anda.');
       } else {
-        this.setState({
-          modalVisible: true,
-          isModal: 'IS_LOADING',
-        }, () => {
-          setTimeout(() => {
-            this.props.inputTrackerWeight(value);
-          }, 1500);
-        });
+        const checkingWeight = this.validationInput(beratBadan);
+        if (!checkingWeight) {
+          alert('Data yang Anda input salah.');
+        } else {
+          this.setState({
+            modalVisible: true,
+            isModal: 'IS_LOADING',
+          }, () => {
+            setTimeout(() => {
+              this.props.inputTrackerWeight(value);
+            }, 1500);
+          });
+        }
       }
     }
   }
 
   renderButtonOpenDate() {
-    const { isDate, isTime } = this.state;
+    const { isDate, isTime, time, hasSetTime } = this.state;
     const dt = new Date();
-    // const dateMoment = moment(this.state.isDate);
-    // `${now.year()}-${now.month()}-${now.date()}`;
-    const displayDate = `${isDate} at ${isTime}`;
     const dateNow = dateFormateName(dt);
+    const displayTime = !hasSetTime ? time : `${time.hour}:${time.minute}`;
+    const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
+    
     return (
       <TouchableOpacity
         style={{
           flex: 1,
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
         }}
         onPress={() => this.openDatePicker()}
       >
           <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light' }}>
-          {this.state.isDate === '' ? dateNow : displayDate}
+          {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
+          { displayDate }
           </Text>
+      </TouchableOpacity>
+    );
+  }
+
+  renderButtonClose() {
+    return (
+      <TouchableOpacity
+        style={{ flex: 0, alignSelf: 'flex-end', justifyContent: 'flex-end', alignItems: 'center' }}
+        onPress={() => this.setModalVisible()}
+      >
+        <Image 
+          resizeModa={'contain'}
+          style={{ width: 20, height: 20 }}
+          source={require('../../../assets/icons/close.png')}
+        />
       </TouchableOpacity>
     );
   }
@@ -356,6 +462,7 @@ class InputTracker extends Component {
         backgroundColor: '#fff'
       }}
       >
+        { this.renderButtonClose() }
         {this.renderButtonOpenDate()}
        <View
        style={{
@@ -407,6 +514,7 @@ class InputTracker extends Component {
         backgroundColor: '#fff'
       }}
       >
+        { this.renderButtonClose() }
         {this.renderButtonOpenDate()}
        <View
         style={{
@@ -457,7 +565,7 @@ class InputTracker extends Component {
           // alert('Modal has been closed.');
         }}
       >
-        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+        <View style={styles.modalWrapper}>
           <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
@@ -466,7 +574,7 @@ class InputTracker extends Component {
               this.contentInputhba1c()
             }
           </View>
-        </TouchableHighlight>
+        </View>
       </Modal>
     );
   }
@@ -481,14 +589,14 @@ class InputTracker extends Component {
           // alert('Modal has been closed.');
         }}
       >
-        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+        <View style={styles.modalWrapper}>
           <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
             { this.contentGulaDarah() }
           </View>
-        </TouchableHighlight>
+        </View>
       </Modal>
     );
   }
@@ -528,14 +636,14 @@ class InputTracker extends Component {
           // alert('Modal has been closed.');
         }}
       >
-        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+        <View style={styles.modalWrapper}>
           <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
             { this.contentTekananDarah() }
           </View>
-        </TouchableHighlight>
+        </View>
       </Modal>
     );
   }
@@ -552,6 +660,7 @@ class InputTracker extends Component {
         backgroundColor: '#fff'
       }}
       >
+        { this.renderButtonClose() }
         {this.renderButtonOpenDate()}
        <View
         style={{
@@ -604,14 +713,15 @@ class InputTracker extends Component {
           // alert('Modal has been closed.');
         }}
       >
-        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+        {/* this.setModalVisible() */}
+        <View onPress={() => null} style={styles.modalWrapper}>
           <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
             { this.contentAktivitas() }
           </View>
-        </TouchableHighlight>
+        </View>
       </Modal>
     );
   }
@@ -628,9 +738,10 @@ class InputTracker extends Component {
         backgroundColor: '#fff'
       }}
       >
-        {this.renderButtonOpenDate()}
+        { this.renderButtonClose()}
+        { this.renderButtonOpenDate() }
 
-        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start',  borderBottomColor: '#ff1200', borderBottomWidth: 1 }}>
+        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
           <Text style={{ fontFamily: 'Montserrat-Light', color: '#4a4a4a' }}>Jenis Aktivitas</Text>
           <Picker
             mode="dialog"
@@ -687,14 +798,14 @@ class InputTracker extends Component {
           // alert('Modal has been closed.');
         }}
       >
-        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+        <View style={styles.modalWrapper}>
           <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
             { this.contentWeight() }
           </View>
-        </TouchableHighlight>
+        </View>
       </Modal>
     );
   }
@@ -711,6 +822,7 @@ class InputTracker extends Component {
         backgroundColor: '#fff'
       }}
       >
+        { this.renderButtonClose() }
         {this.renderButtonOpenDate()}
        <View
         style={{
@@ -746,14 +858,14 @@ class InputTracker extends Component {
           // alert('Modal has been closed.');
         }}
       >
-        <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+        <View style={styles.modalWrapper}>
           <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '40%' : '40%' }]}
           >
             { this.contentAlertGulaDarah() }
           </View>
-        </TouchableHighlight>
+        </View>
       </Modal>
     );
   }

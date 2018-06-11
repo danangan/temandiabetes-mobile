@@ -68,7 +68,10 @@ class PreviewSearchMakanan extends React.Component {
       isDate: '',
       inputDate: '',
       isTime: '',
-      isProcess: false
+      isProcess: false,
+      date: null,
+      time: '',
+      hasSetTime: false
     };
     this.onChangesText = this.onChangesText.bind(this);
     this.getRecomendation = debounce(this.getRecomendation, 500);
@@ -77,6 +80,14 @@ class PreviewSearchMakanan extends React.Component {
   // shouldComponentUpdate(nextProps, nextState) {
   //   return nextState != this.state;
   // }
+
+  componentDidMount() {
+    this.Clock = setInterval(() => this.GetTime(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.Clock);
+  }
 
   componentDidUpdate() {
     const { inputTracker } = this.props.dataInputTracker;
@@ -133,9 +144,10 @@ class PreviewSearchMakanan extends React.Component {
         this.setState({
           time: {
             hour,
-            minute
+            minute: menit
           },
-          isTime: `${hour}:${menit}`
+          isTime: `${hour}:${menit}`,
+          hasSetTime: true
         });
       }
     } catch ({ code, message }) {
@@ -143,11 +155,72 @@ class PreviewSearchMakanan extends React.Component {
     }
   }
 
+  GetTime() {
+    console.log('Jalan get time ');
+    // Creating variables to hold time.
+    let date = '';
+    let TimeType = '';
+    let hour = '';
+    let minutes = '';
+    // let seconds = '';
+    let fullTime = '';
+ 
+    // Creating Date() function object.
+    date = new Date();
+ 
+    // Getting current hour from Date object.
+    hour = date.getHours(); 
+ 
+    // Checking if the Hour is less than equals to 11 then Set the Time format as AM.
+    if (hour <= 11) {
+      TimeType = 'AM';
+    } else {
+      // If the Hour is Not less than equals to 11 then Set the Time format as PM.
+      TimeType = 'PM';
+    }
+    // IF current hour is grater than 12 then minus 12 from current hour to make it in 12 Hours Format.
+    if (hour > 12) {
+      hour = hour - 12;
+    }
+ 
+    // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format. 
+    if (hour === 0) {
+      hour = 12;
+    } 
+ 
+    // Getting the current minutes from date object.
+    minutes = date.getMinutes();
+ 
+    // Checking if the minutes value is less then 10 then add 0 before minutes.
+    if (minutes < 10) {
+      minutes = '0' + minutes.toString();
+    }
+ 
+    //Getting current seconds from date object.
+    seconds = date.getSeconds();
+    // If seconds value is less than 10 then add 0 before seconds.
+    // if (seconds < 10) {
+    //   seconds = '0' + seconds.toString();
+    // }
+    // Adding all the variables in fullTime variable.
+    fullTime = hour.toString() + ':' + minutes.toString();
+    // + ':' + seconds.toString()
+    // + ' ' + TimeType.toString()
+    // Setting up fullTime variable in State.
+    if (!this.state.hasSetTime) {
+      this.setState({
+        time: fullTime
+      });
+    }
+  }
+
   renderButtonOpenDate() {
-    const { isDate, isTime } = this.state;
+    const { isDate, isTime, time, hasSetTime } = this.state;
     const dt = new Date();
-    const displayDate = `${isDate} at ${isTime}`;
     const dateNow = dateFormateName(dt);
+    const displayTime = !hasSetTime ? time : `${time.hour}:${time.minute}`;
+    const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
+    
     return (
       <TouchableOpacity
         style={{
@@ -158,7 +231,8 @@ class PreviewSearchMakanan extends React.Component {
         onPress={() => this.openDatePicker()}
       >
           <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light' }}>
-          {this.state.isDate === '' ? dateNow : displayDate}
+          {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
+          { displayDate }
           </Text>
       </TouchableOpacity>
     );
@@ -185,27 +259,52 @@ class PreviewSearchMakanan extends React.Component {
     this.props.getFoodSuggetion(this.state[type]);
   }
 
+  validationInput(params) {
+    const checking = params.split('');
+    if (checking[0] === ',' || checking[0] === '.') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   submitInputFood() {
     const { sarapan, makanSiang, makanMalam, snack } = this.state.selected;
     const { date, time } = this.state;
     // const inputDate = new Date(dateInput + ' ' + isTime + ':00');
-    const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
-    inputDate.toUTCString();
-    if (sarapan === null || makanSiang === null || makanMalam === null || snack === null) {
+    
+    if (date === null || sarapan === null || makanSiang === null || makanMalam === null || snack === null || time === '') {
       alert('Silahkan lengkapi semua inputan');
     } else {
-      const value = {
-        waktuInput: inputDate,
-        sarapan,
-        makanSiang,
-        makanMalam,
-        snack
-      };
-      this.setState({
-        isProcess: true
-      }, () => {
-        this.props.inputTrackerFood(value);
-      });
+      const checkingSarapan = this.validationInput(sarapan);
+      const checkingMakanSiang = this.validationInput(makanSiang);
+      const checkingMakanMalam = this.validationInput(makanMalam);
+      const checkingSnack = this.validationInput(snack);
+      const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
+      inputDate.toUTCString();
+
+      if (!checkingSarapan) {
+        alert('Inputan Sarapan Anda salah');
+      } else if (!checkingMakanSiang) {
+        alert('Inputan Makan Siang Anda salah');
+      } else if (!checkingMakanMalam) {
+        alert('Inputan Makan Malam Anda salah');
+      } else if (!checkingSnack) {
+        alert('Inputan Snack Anda salah');
+      } else {
+        const value = {
+          waktuInput: inputDate,
+          sarapan,
+          makanSiang,
+          makanMalam,
+          snack
+        };
+        this.setState({
+          isProcess: true
+        }, () => {
+          this.props.inputTrackerFood(value);
+        });
+      }
     }
   }
 
