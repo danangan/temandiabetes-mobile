@@ -80,7 +80,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.StepOne', () => StepOne);
 	Navigation.registerComponent('TemanDiabets.StepTwo', () => StepTwo);
 	Navigation.registerComponent('TemanDiabets.StepThree', () => StepThree);
-	Navigation.registerComponent('TemanDiabets.DnurseResult', () => DnurseResult);
+	Navigation.registerComponent('TemanDiabets.DnurseResult', () => DnurseResult, store, Provider);
 	Navigation.registerComponent('TemanDiabets.HistoryHba1c', () => HistoryHba1c, store, Provider);
 	Navigation.registerComponent('TemanDiabets.HistoryActivity', () => HistoryActivity, store, Provider);
 	Navigation.registerComponent('TemanDiabets.HistoryBloodPressure', () => HistoryBloodPressure, store, Provider);

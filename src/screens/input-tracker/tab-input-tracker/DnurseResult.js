@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Image, Text, NativeModules } from 'react-native';
 
 import color from '../../../style/color';
@@ -44,10 +45,11 @@ class DnurseResult extends React.Component {
   };
 
   onNavigation = () => {
+    this.props.updateTopTab(2);
     this.props.navigator.resetTo({
-      screen: 'TemanDiabets.TabHistory',
+      screen: 'TemanDiabets.AppContainer',
       navigatorStyle: {
-        navBarHidden: false
+        navBarHidden: true
       }
     });
   };
@@ -64,6 +66,7 @@ class DnurseResult extends React.Component {
       };
 
       await API_CALL(option);
+      this.onNavigation();
     } catch (error) {
       throw error;
     }
@@ -161,4 +164,11 @@ const styles = {
   }
 };
 
-export default DnurseResult;
+const mapDispatchToProps = dispatch => ({
+  updateTopTab: activeTab => dispatch({ type: 'UPDATE_ACTIVE_TOP_TAB', payload: activeTab })
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(DnurseResult);

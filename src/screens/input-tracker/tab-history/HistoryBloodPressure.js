@@ -11,12 +11,22 @@ const HistoryBloodPressure = ({ history }) => {
       ? '00/00'
       : history.bloodPressure;
 
-  const sistolic = parseInt(bloodPressure.split('').slice(0, 2));
-  const distolic = parseInt(bloodPressure.split('').slice(3));
+  const sistolic = parseInt(
+    bloodPressure
+      .split('')
+      .slice(0, 2)
+      .join('')
+  );
+  const distolic = parseInt(
+    bloodPressure
+      .split('')
+      .slice(3, 5)
+      .join('')
+  );
   const status =
-    (sistolic >= 0 || sistolic <= 139) && (distolic === 61 || distolic <= 89)
+    sistolic < 139 && distolic < 89
       ? 'normal'
-      : (sistolic >= 140 || sistolic <= 190) && distolic >= 90
+      : sistolic > 140 && distolic > 90
         ? 'hipertensi'
         : 'cta';
 
@@ -123,4 +133,7 @@ const mapStateToProps = state => ({
   history: state.historyEstimationReducer
 });
 
-export default connect(mapStateToProps, null)(HistoryBloodPressure);
+export default connect(
+  mapStateToProps,
+  null
+)(HistoryBloodPressure);

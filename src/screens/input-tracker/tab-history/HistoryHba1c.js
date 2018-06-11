@@ -8,11 +8,11 @@ import Style from '../../../style/defaultStyle';
 const HistoryHba1c = ({ history }) => {
   const valueHba1c = history.hba1c === null || history.hba1c === undefined ? 0 : history.hba1c;
   const statusHba1c =
-    valueHba1c >= 0 || valueHba1c <= 5.69
+    valueHba1c > 0 && valueHba1c < 5.69
       ? 'normal'
-      : valueHba1c > 5.7 || valueHba1c <= 6.4
+      : valueHba1c > 5.7 && valueHba1c < 6.39
         ? 'prediabetes'
-        : valueHba1c >= 6.41
+        : valueHba1c > 6.41
           ? 'diabetes'
           : 'cta';
 
@@ -20,7 +20,7 @@ const HistoryHba1c = ({ history }) => {
     cta: 'Masukkan data HbA1c anda',
     normal: 'Pertahankan pola makan dan lakukan aktifitas fisik secara teratur',
     prediabetes: 'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur',
-    diabetes: 'terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur'
+    diabetes: 'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur'
   };
 
   const description =
@@ -115,4 +115,7 @@ const mapStateToProps = state => ({
   history: state.historyEstimationReducer
 });
 
-export default connect(mapStateToProps, null)(HistoryHba1c);
+export default connect(
+  mapStateToProps,
+  null
+)(HistoryHba1c);
