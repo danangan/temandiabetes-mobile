@@ -5,6 +5,11 @@ import color from '../../../style/color';
 import { Button } from '../../../components';
 import Style from '../../../style/defaultStyle';
 import { API_CALL } from '../../../utils/ajaxRequestHelper';
+import gif from '../../../assets/images/dnurse-start.gif';
+import red from '../../../assets/images/red.png';
+import green from '../../../assets/images/green.png';
+import yellow from '../../../assets/images/yellow.png';
+import placeholder from '../../../assets/images/result_dnurse.png';
 
 const dNurse = NativeModules.DnurseModule;
 
@@ -21,43 +26,29 @@ class DnurseResult extends React.Component {
   }
 
   onStart = () => {
-    dNurse.openRequest('null').then(result => this.setState({ bloodSugarLevels: result }));
+    dNurse.openRequest('null').then(res => {
+      const bloodSugar = res * 18.018018;
+      const calculate = () => {
+        if (bloodSugar < 0.5) {
+          return Math.floor(bloodSugar);
+        }
+
+        if (bloodSugar > 0.51) {
+          return Math.ceil(bloodSugar);
+        }
+      };
+
+      const result = calculate();
+      this.setState({ bloodSugarLevels: result });
+    });
   };
 
   onNavigation = () => {
     this.props.navigator.resetTo({
       screen: 'TemanDiabets.TabHistory',
-      title: 'Teman Diabetes',
       navigatorStyle: {
-        topBarCollapseOnScroll: true,
-        navBarHideOnScroll: true,
-        navBarHidden: false,
-        topTabsScrollable: true
-      },
-      navigatorButtons: {
-        rightButtons: [
-          {
-            icon: require('../../../assets/icons/notification.png'),
-            id: 'notification'
-          }
-        ],
-        leftButtons: [
-          {
-            icon: require('../../../assets/icons/menu.png'),
-            id: 'sideMenu'
-          }
-        ]
-      },
-      topTabs: [
-        {
-          screenId: 'TemanDiabets.TabInputTracker',
-          title: 'MASUKAN PELACAK'
-        },
-        {
-          screenId: 'TemanDiabets.TabHistory',
-          title: 'RIWAYAT DAN ESTIMASI'
-        }
-      ]
+        navBarHidden: false
+      }
     });
   };
 
@@ -67,60 +58,49 @@ class DnurseResult extends React.Component {
         method: 'POST',
         url: 'api/blood-glucose-tracker',
         data: {
-          waktuInput: new Date(),
+          waktuInput: new Date().toUTCString(),
           gulaDarah: blood
         }
       };
 
       await API_CALL(option);
-      this.onNavigation();
     } catch (error) {
       throw error;
     }
   };
 
+  sourceImage = () => {
+    const { bloodSugarLevels } = this.state;
+
+    if (bloodSugarLevels === null) {
+      return gif;
+    } else if (bloodSugarLevels === 0 || bloodSugarLevels <= 69 || bloodSugarLevels > 200) {
+      return red;
+    } else if (bloodSugarLevels >= 70 || bloodSugarLevels <= 139) {
+      return green;
+    } else if (bloodSugarLevels >= 140 || bloodSugarLevels <= 199) {
+      return yellow;
+    }
+    return placeholder;
+  };
+
   render() {
     const { bloodSugarLevels } = this.state;
-    const bloodSugar = this.state.bloodSugarLevels * 18.018018;
-    const result = () => {
-      if (bloodSugar < 0.5) {
-        return Math.floor(bloodSugar);
-      }
-
-      if (bloodSugar > 0.51) {
-        return Math.ceil(bloodSugar);
-      }
-    };
 
     return (
       <View style={styles.containerStyle}>
         <View style={styles.contentStyle}>
-          <Image
-            source={
-              bloodSugarLevels === null
-                ? require('../../../assets/images/dnurse-start.gif')
-                : bloodSugarLevels === 0 || bloodSugarLevels <= 70 || bloodSugarLevels > 200
-                  ? require('../../../assets/images/red.png')
-                  : bloodSugarLevels > 71 || bloodSugarLevels <= 140
-                    ? require('../../../assets/images/green.png')
-                    : bloodSugarLevels >= 141 || bloodSugarLevels <= 199
-                      ? require('../../../assets/images/yellow.png')
-                      : require('../../../assets/images/result_dnurse.png')
-            }
-            style={styles.imageStyle}
-          />
+          <Image source={this.sourceImage()} style={styles.imageStyle} />
           <Text style={styles.resultStyle}>
-            {this.state.bloodSugarLevels === null ? 'start' : result()}
+            {bloodSugarLevels === null ? 'start' : bloodSugarLevels}
             {'\n'}
           </Text>
-          <Text style={styles.formatStyle}>
-            {this.state.bloodSugarLevels === null ? '' : 'mg/dL'}
-          </Text>
+          <Text style={styles.formatStyle}>{bloodSugarLevels === null ? '' : 'mg/dL'}</Text>
         </View>
         <Button
           buttonStyle={styles.buttonStyle}
           textStyle={styles.textButtonStyle}
-          onPress={() => this.onHandleClick(result())}
+          onPress={() => this.onHandleClick(this.state.bloodSugarLevels)}
         >
           GUNAKAN
         </Button>
