@@ -66,8 +66,11 @@ class InputTracker extends Component {
       snack: null,
       iniJam: '',
       iniMenit: '',
-      date: '',
-      time: '',
+      date: null,
+      time: {
+        hour: '00',
+        minute: '00'
+      },
       hasSetTime: false
     };
     this.setModalVisible = this.setModalVisible.bind(this);
@@ -75,11 +78,22 @@ class InputTracker extends Component {
     this.handleSave = this.handleSave.bind(this);
   }
 
-  async componentDidMount() {
-    const token = await AsyncStorage.getItem(authToken);
-    // console.log('TOKEN INI BRA ', token);
+  getDateDefault() {
+    const dt = new Date();
+    const defaultDate = {
+      day: dt.getDate(),
+      month: dt.getMonth(),
+      year: dt.getFullYear()
+    };
+    return defaultDate;
+  }
+
+  componentDidMount() {
+    this.setState({
+      date: this.getDateDefault()
+    });
     this.props.getFoodSuggetion();
-    this.Clock = setInterval(() => this.GetTime(), 1000);
+    this.Clock = setInterval(() => this.GetTime(), 3000);
   }
 
   componentWillMount() {
@@ -164,7 +178,7 @@ class InputTracker extends Component {
         this.setState({
           time: {
             hour,
-            minute
+            minute: menit
           },
           isTime: `${hour}:${menit}`,
           iniJam: `${hour}`,
@@ -229,8 +243,12 @@ class InputTracker extends Component {
     // + ' ' + TimeType.toString()
     // Setting up fullTime variable in State.
     if (!this.state.hasSetTime) {
+      // console.log('Hour ... ', hour.toString());
       this.setState({
-        time: fullTime
+        time: {
+          hour: hour.toString(),
+          minute: minutes.toString()
+        }
       });
     }
   }
@@ -248,11 +266,12 @@ class InputTracker extends Component {
   }
 
   validationInput(params) {
-    const checking = params.split('');
-    if (checking[0] === ',' || checking[0] === '.') {
-      return false;
-    } else {
+    // const checking = params.split('');
+    const checkDecimal = /^[0-9]+([,.][0-9]+)?$/g.test(params);
+    if (checkDecimal) {
       return true;
+    } else {
+      return false;
     }
   }
  
@@ -415,7 +434,7 @@ class InputTracker extends Component {
     const { isDate, isTime, time, hasSetTime } = this.state;
     const dt = new Date();
     const dateNow = dateFormateName(dt);
-    const displayTime = !hasSetTime ? time : `${time.hour}:${time.minute}`;
+    const displayTime = `${time.hour}:${time.minute}`;
     const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
     
     return (

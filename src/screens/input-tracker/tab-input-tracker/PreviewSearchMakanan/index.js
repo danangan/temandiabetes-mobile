@@ -81,7 +81,20 @@ class PreviewSearchMakanan extends React.Component {
   //   return nextState != this.state;
   // }
 
+  getDateDefault() {
+    const dt = new Date();
+    const defaultDate = {
+      day: dt.getDate(),
+      month: dt.getMonth() + 1,
+      year: dt.getFullYear()
+    };
+    return defaultDate;
+  }
+
   componentDidMount() {
+    this.setState({
+      date: this.getDateDefault()
+    });
     this.Clock = setInterval(() => this.GetTime(), 1000);
   }
 
@@ -276,35 +289,35 @@ class PreviewSearchMakanan extends React.Component {
     if (date === null || sarapan === null || makanSiang === null || makanMalam === null || snack === null || time === '') {
       alert('Silahkan lengkapi semua inputan');
     } else {
-      const checkingSarapan = this.validationInput(sarapan);
-      const checkingMakanSiang = this.validationInput(makanSiang);
-      const checkingMakanMalam = this.validationInput(makanMalam);
-      const checkingSnack = this.validationInput(snack);
+      // const checkingSarapan = this.validationInput(sarapan);
+      // const checkingMakanSiang = this.validationInput(makanSiang);
+      // const checkingMakanMalam = this.validationInput(makanMalam);
+      // const checkingSnack = this.validationInput(snack);
       const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
       inputDate.toUTCString();
-
-      if (!checkingSarapan) {
-        alert('Inputan Sarapan Anda salah');
-      } else if (!checkingMakanSiang) {
-        alert('Inputan Makan Siang Anda salah');
-      } else if (!checkingMakanMalam) {
-        alert('Inputan Makan Malam Anda salah');
-      } else if (!checkingSnack) {
-        alert('Inputan Snack Anda salah');
-      } else {
-        const value = {
-          waktuInput: inputDate,
-          sarapan,
-          makanSiang,
-          makanMalam,
-          snack
-        };
-        this.setState({
-          isProcess: true
-        }, () => {
-          this.props.inputTrackerFood(value);
-        });
-      }
+      const value = {
+        waktuInput: inputDate,
+        sarapan,
+        makanSiang,
+        makanMalam,
+        snack
+      };
+      this.setState({
+        isProcess: true
+      }, () => {
+        this.props.inputTrackerFood(value);
+      });
+      // if (!checkingSarapan) {
+      //   alert('Inputan Sarapan Anda salah');
+      // } else if (!checkingMakanSiang) {
+      //   alert('Inputan Makan Siang Anda salah');
+      // } else if (!checkingMakanMalam) {
+      //   alert('Inputan Makan Malam Anda salah');
+      // } else if (!checkingSnack) {
+      //   alert('Inputan Snack Anda salah');
+      // } else {
+        
+      // }
     }
   }
 
