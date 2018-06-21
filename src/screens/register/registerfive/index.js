@@ -21,7 +21,7 @@ class RegisterFive extends React.Component {
 	}
 
 	componentDidUpdate() {
-		const { status_code } = this.props.dataRegister.dataUser;
+		const { status_code, message } = this.props.dataRegister.dataUser;
 		if (status_code === 200 && this.state.shouldRedirect) {
 			this.setState({
 					shouldRedirect: false
@@ -34,13 +34,13 @@ class RegisterFive extends React.Component {
 					});
 				}
 			);
-		} else if (status_code === 500 && this.state.shouldRedirect) {
+		} else if (status_code === 500 && message === 'Email Sudah digunakan' && this.state.shouldRedirect) {
 			this.setState({
 				shouldRedirect: false
 			}, () => {
 				alert('Maaf, email Anda sudah pernah digunakan.');
 				this.props.navigator.resetTo({
-					screen: 'TemanDiabets.OnBoardingScreen',
+					screen: 'TemanDiabets.RegisterScreen',
 					navigatorStyle: {
 						navBarHidden: true
 					},

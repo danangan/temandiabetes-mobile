@@ -48,7 +48,7 @@ class RegisterScreenFourth extends React.Component {
 
 	componentDidUpdate() {
 		const self = this;
-		const { _id, status_code, tipe_user } = this.props.dataRegister.dataUser;
+		const { _id, status_code, tipe_user, message } = this.props.dataRegister.dataUser;
 		if (status_code === 200 && this.state.shouldRedirect) {
 			this.setState({
 					shouldRedirect: false,
@@ -72,13 +72,15 @@ class RegisterScreenFourth extends React.Component {
 					}
 				}
 			);
-		} else if (status_code === 500 && this.state.shouldRedirect) {
+		} else if (status_code === 500 && message === 'Email Sudah digunakan' && this.state.shouldRedirect) {
+			console.log('iNI ERROR CODE NYA BREEE status_code ', status_code);
+			console.log('iNI ERROR CODE NYA BREEE  message', message);
 			this.setState({
 				shouldRedirect: false
 			}, () => {
 				alert('Maaf, email Anda sudah pernah digunakan.');
 				this.props.navigator.resetTo({
-					screen: 'TemanDiabets.OnBoardingScreen',
+					screen: 'TemanDiabets.RegisterScreen',
 					navigatorStyle: {
 						navBarHidden: true
 					},
