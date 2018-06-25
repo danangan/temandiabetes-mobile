@@ -20,7 +20,7 @@ import image from '../../assets/images/login.png';
 import {
   loginManual,
   setupGoogleSignIn,
-  loginOauth,
+  signWithGoogle,
   onSignOut,
   resetState
 } from '../../actions/loginActions';
@@ -44,19 +44,7 @@ class Login extends Component {
 
   componentDidUpdate() {
     const self = this;
-    const { statusCode, message, isNewUser, name, email, is_active, _id } = this.props.loginReducer;
-    // if (!isNewUser && !this.state.shouldRedirect) {
-    // 	mainApp();
-    // } else if (isNewUser && !this.state.shouldRedirect) {
-    // 	this.props.navigator.push({
-    // 		screen: 'TemanDiabets.RegisterScreenFourth',
-    // 		passProps: {
-    // 			name,
-    // 			email
-    // 		}
-    // 	});
-    // }
-
+    const { statusCode, message, is_active, _id } = this.props.loginReducer;
     if (statusCode === 200 && message === 'success login' && this.state.shouldRedirect) {
       self.setState({ shouldRedirect: false }, () => {
         if (!is_active) {
@@ -121,7 +109,7 @@ class Login extends Component {
 
   onChangeTextHandlerEmail = e => this.setState({ email: e });
   onChangeTextHandlerPass = pass => this.setState({ password: pass });
-  onGoogleSignIn = () => alert('development');
+  onGoogleSignIn = () => this.props.signWithGoogle();
 
   onLogin = () => {
     const user = {
@@ -281,11 +269,14 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loginManual: user => dispatch(loginManual(user)),
-  loginOauth: () => dispatch(loginOauth()),
+  signWithGoogle: () => dispatch(signWithGoogle()),
   setupGoogleSignIn: () => dispatch(setupGoogleSignIn()),
   onSignOut: () => dispatch(onSignOut()),
   updateFCMToken: params => dispatch(updateFCMToken(params)),
   resetState: () => dispatch(resetState())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

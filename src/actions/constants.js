@@ -3,7 +3,7 @@ export const PENDING = '_PENDING';
 export const PROMISE_FULFILLED = '_FULFILLED';
 
 //LOGIN
-export const LOGIN_OAUTH = 'LOGIN_OAUTH';
+export const SIGN_WITH_GOOGLE = 'SIGN_WITH_GOOGLE';
 export const LOGIN_MANUAL = 'LOGIN_MANUAL';
 
 export const USER_LOGOUT = 'USER_LOGOUT';

@@ -10,7 +10,7 @@ console.disableYellowBox = true;
 
 registerScreens(store, Provider);
 
-export const startApp = () => {
+export const startApp = (cb = () => {}) => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: 'TemanDiabets.OnBoardingScreen',
@@ -20,9 +20,11 @@ export const startApp = () => {
     },
     animationType: 'fade'
   });
+
+  cb();
 };
 
-export const startLoginPage = () => {
+export const startLoginPage = (cb = () => {}) => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: 'TemanDiabets.LoginScreen',
@@ -32,6 +34,8 @@ export const startLoginPage = () => {
     },
     animationType: 'fade'
   });
+
+  cb();
 };
 
 export const mainApp = () => {

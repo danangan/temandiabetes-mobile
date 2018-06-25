@@ -41,12 +41,23 @@ const onLogin = (state, payload) => {
   };
 };
 
-const oAuthLogin = (state, payload) => ({
-  ...state
-  // isNewUser: userFirebase.additionalUserInfo.isNewUser,
-  // email: userFirebase.additionalUserInfo.profile.email,
-  // name: userFirebase.additionalUserInfo.profile.name,
-});
+const signWithGoogle = (state, payload) => {
+  if (payload === null) {
+    return {
+      ...state
+    };
+  }
+
+  return {
+    ...state,
+    isNewUser: payload.isNewUser,
+    email: payload.profile.email,
+    name: payload.profile.name,
+    currentUser: payload.currentUser,
+    message: 'login success',
+    statusCode: 200
+  };
+};
 
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -54,8 +65,8 @@ const loginReducer = (state = initialState, action) => {
       return { ...state, message: null, statusCode: null };
     case ActionTypes.LOGIN_MANUAL:
       return onLogin(state, action.payload);
-    case ActionTypes.LOGIN_OAUTH:
-      return oAuthLogin(state, action.payload);
+    case ActionTypes.SIGN_WITH_GOOGLE:
+      return signWithGoogle(state, action.payload);
     case ActionTypes.USER_LOGOUT:
       return {
         ...initialState,

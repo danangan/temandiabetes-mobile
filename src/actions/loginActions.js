@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Platform } from 'react-native';
 import axios from 'axios';
 import firebase from 'react-native-firebase';
 import Config from 'react-native-config';
@@ -42,10 +42,10 @@ const loginManual = ({ email, password }) => async dispatch => {
   }
 };
 
-const loginOauth = () => async dispatch => {
+const signWithGoogle = () => async dispatch => {
   function onSuccess(userFirebase) {
     dispatch({
-      type: ActionTypes.LOGIN_OAUTH,
+      type: ActionTypes.SIGN_WITH_GOOGLE,
       payload: userFirebase
     });
     return userFirebase;
@@ -59,35 +59,53 @@ const loginOauth = () => async dispatch => {
         data.idToken,
         data.accessToken
       );
-      const userFirebase = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+      const {
+        additionalUserInfo: { profile, isNewUser }
+      } = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
       const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
-      // const { data: { data: { currentUser } } } = await axios.get(API_CURRENT_USER, {
-      // 	headers: {
-      // 			Authentication: firebaseIdToken
-      // 		}
-      // 	});
+      const {
+        data: {
+          data: { currentUser }
+        }
+        // get current user
+      } = await axios.get(API_CURRENT_USER, {
+        headers: {
+          Authentication: firebaseIdToken
+        }
+      });
 
-      // 	const payloadData = {
-      // 			firebaseIdToken,
-      // 			userFirebase
-      // 			currentUser
-      // 		};
+      const payloadData = {
+        firebaseIdToken,
+        profile,
+        isNewUser,
+        currentUser
+      };
 
-      AsyncStorage.setItem(authToken, firebaseIdToken, error => onSuccess(error));
-      return onSuccess(userFirebase);
+      onSuccess(payloadData);
+
+      AsyncStorage.setItem(authToken, firebaseIdToken, error => console.log(error));
+      AsyncStorage.setItem('isNewUser', String(isNewUser), error => console.log(error));
     }
   } catch (error) {
-    console.log(error);
-    // return onSuyccess(error);
+    onSuccess(error);
   }
 };
 
 const setupGoogleSignIn = () => async () => {
   try {
     await GoogleSignin.hasPlayServices({ autoResolve: true });
+    const configPlatform = {
+      ...Platform.select({
+        ios: {
+          iosClientId: Config.IOS_GOOGLE_CLIENT_ID
+        },
+        android: {}
+      })
+    };
+
     await GoogleSignin.configure({
+      ...configPlatform,
       webClientId: Config.ANDROID_GOOGLE_CLIENT_ID,
-      iosClientId: Config.IOS_GOOGLE_CLIENT_ID,
       offlineAccess: false
     });
   } catch (err) {
@@ -104,10 +122,11 @@ const onSignOut = () => async dispatch => {
   }
 
   try {
-    // await GoogleSignin.revokeAccess();
-    // await GoogleSignin.signOut();
-    await firebase.auth().signOut();
-    await AsyncStorage.removeItem(authToken);
+    Promise.all([
+      GoogleSignin.signOut(),
+      firebase.auth().signOut(),
+      AsyncStorage.removeItem(authToken)
+    ]);
 
     return onSuccess();
   } catch (error) {
@@ -132,4 +151,4 @@ const resetState = () => async dispatch => {
   }
 };
 
-export { loginManual, loginOauth, setupGoogleSignIn, onSignOut, resetState };
+export { loginManual, signWithGoogle, setupGoogleSignIn, onSignOut, resetState };
