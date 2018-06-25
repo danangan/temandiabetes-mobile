@@ -36,6 +36,12 @@ const authReducer = (state = initialState, action) => {
         ...state,
         notificationCount: 0
       }
+    case ActionTypes.USER_LOGOUT:
+			return {
+				...state, 
+        currentUser: {},
+        notificationCount: 0
+		  };
     default:
 			return state;
 	}

@@ -90,12 +90,12 @@ class RegisterScreenFourth extends React.Component {
       message === 'Email Sudah digunakan' &&
       this.state.shouldRedirect
     ) {
+      alert('Maaf, email Anda sudah pernah digunakan.');
       this.setState(
         {
           shouldRedirect: false
         },
         () => {
-          alert('Maaf, email Anda sudah pernah digunakan.');
           this.props.navigator.resetTo({
             screen: 'TemanDiabets.RegisterScreen',
             navigatorStyle: {
@@ -270,7 +270,8 @@ class RegisterScreenFourth extends React.Component {
   }
 
   render() {
-    // console.log('PROPS 4', this.props.fcmToken);
+    console.log('PROPS 4', this.props);
+    console.log('STATE 4 ', this.state);
     const { message, status_code } = this.props.dataRegister.dataUser;
     if (this.state.shouldRedirect || this.state.shouldUserLogin) {
       return (
