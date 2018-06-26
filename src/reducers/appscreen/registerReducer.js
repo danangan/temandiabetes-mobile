@@ -56,6 +56,11 @@ const registerReducer = (state = initialState, action) => {
 			};
 		case ActionTypes.REGISTER_USER:
 			return registerFinalStep(state, action.payload);
+		case ActionTypes.USER_LOGOUT:
+			return {
+				...state, 
+				dataUser: initialState.dataUser
+		};
 		default:
 			return state;
 	}

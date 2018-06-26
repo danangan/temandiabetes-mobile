@@ -53,12 +53,12 @@ class RegisterFive extends React.Component {
       message === 'Email Sudah digunakan' &&
       this.state.shouldRedirect
     ) {
+      alert('Maaf, email Anda sudah pernah digunakan.');
       this.setState(
         {
           shouldRedirect: false
         },
         () => {
-          alert('Maaf, email Anda sudah pernah digunakan.');
           this.props.navigator.resetTo({
             screen: 'TemanDiabets.RegisterScreen',
             navigatorStyle: {
