@@ -100,7 +100,7 @@ class ModalPostComponent extends Component {
             />
           </View>
         </View>
-        
+
         <View style={styles.wrapFooter}>
           <TouchableOpacity
             style={{
@@ -168,7 +168,7 @@ const styles = {
     flexWrap: 'wrap',
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
-    color: '#b7bbd2',
+    color: '#000',
     fontSize: 14
   },
   wrapFooter: {
