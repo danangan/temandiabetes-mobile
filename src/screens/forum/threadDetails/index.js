@@ -95,7 +95,11 @@ class ThreadDetails extends React.Component {
 	}
 
 	renderButtonFollow() {
-		const { listThreads, followThread } = this.props.dataThreads;
+    const { listThreads, followThread } = this.props.dataThreads;
+    if (listThreads.threadDetails.author._id === this.props.dataAuth.currentUser._id ) {
+      return null
+    }
+    console.log(listThreads, this.props.dataAuth)
 		if (followThread.isFetch) {
 			return (
 				<TouchableOpacity
