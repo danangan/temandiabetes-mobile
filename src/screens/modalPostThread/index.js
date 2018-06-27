@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image, TouchableOpacity, Text, TextInput, Keyboard, AsyncStorage, Picker } from 'react-native';
+import { View, Image, TouchableOpacity, Text, TextInput, Keyboard, Alert, Picker } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Closed from '../../assets/icons/close.png';
 import { Avatar } from '../../components';
@@ -23,7 +23,7 @@ class ModalPostThred extends Component {
       keyboardActive: false,
       isSubmit: false,
       selectedCategory: '',
-      threadType: 'sharing',
+      threadType: '',
       categories: [],
       errors: {
         title: false,
@@ -107,7 +107,8 @@ class ModalPostThred extends Component {
 
   async onSubmitThread() {
     this.validate(() => {
-      if (this.isValid()) {
+      const { threadType, selectedCategory } = this.state;
+      if (this.isValid() && threadType !== '' && selectedCategory !== '') {
         const dataThreads = {
           category: [{
             _id: this.state.selectedCategory
@@ -128,6 +129,19 @@ class ModalPostThred extends Component {
             // })
           });
         });
+      } else {
+        // only alert if is valid
+        if (this.isValid()) {
+          if (threadType === '' && selectedCategory === '') {
+            Alert.alert('Error','Pilih prefix dan kategori thread terlebih dahulu')
+          } else {
+            if (threadType === '') {
+              Alert.alert('Error', 'Pilih prefix terlebih dahulu')
+            } else if (selectedCategory === '') {
+              Alert.alert('Error', 'Pilih kategori terlebih dahulu')
+            }
+          }
+        }
       }
     });
 	}
@@ -210,13 +224,13 @@ class ModalPostThred extends Component {
             style={{
               flex:1,
             }}
-              selectedValue={this.state.selectedCategory}
+              selectedValue={this.state.threadType}
               mode="dropdown"
               onValueChange={itemValue => {
                 this.setState({threadType: itemValue})
               }
               }>
-              <Picker.Item label="Prefix" value="sharing" />
+              <Picker.Item label="Prefix" value="" />
               <Picker.Item label="Sharing" value="sharing" />
               <Picker.Item label="Pertanyaan" value="question" />
             </Picker>
