@@ -54,6 +54,7 @@ class CommentDetails extends React.Component {
   }
 
   onSubmitComment() {
+    console.log('test')
     const { _id } = this.props.dataAuth;
     const { commentDetails } = this.props;
    if (this.state.komentar !== '') {
@@ -92,10 +93,12 @@ class CommentDetails extends React.Component {
           />
           <TextInput
             value={this.state.komentar}
+            blurOnSubmit={false}
             placeholder="Komentari"
             style={{ flex: 1, margin: 5 }}
             underlineColorAndroid={'#fff'}
             onChangeText={(komentar) => this.setState({ komentar })}
+            onSubmitEditing={() => { this.onSubmitComment() }}
           />
           <TouchableOpacity
             style={{ backgroundColor: '#252c68' }}
@@ -168,7 +171,7 @@ class CommentDetails extends React.Component {
         </CardSection>
         {
           commentDetails.replies.length ?
-          <ScrollView style={{ marginTop: -50 }}>
+          <ScrollView style={{ marginTop: -50 }} keyboardShouldPersistTaps={true}>
             <View style={styles.containerCommentChild}>
               {this.renderCommentChild()}
             </View>

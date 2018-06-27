@@ -128,7 +128,7 @@ class CommentThread extends React.Component {
 						</TouchableOpacity>
 					</View>
 					<View style={styles.commentContent}>
-						<Text style={{ fontSize: 18 }}>
+						<Text style={{ fontSize: 14, marginTop: 5 }}>
 							{text}
 						</Text>
 					</View>

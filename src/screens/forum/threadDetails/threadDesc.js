@@ -8,7 +8,7 @@ import { CardSection } from '../../../components';
 const ThreadDesc = (props) => (
   <CardSection>
     <View style={{ flex: 1, paddingHorizontal: 15, marginBottom: 10 }}>
-      <Text>
+      <Text style={{ fontSize: 15 }}>
         {props.desc}
       </Text>
     </View>
