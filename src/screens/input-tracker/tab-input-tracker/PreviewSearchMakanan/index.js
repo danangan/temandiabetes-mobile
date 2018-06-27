@@ -150,7 +150,7 @@ class PreviewSearchMakanan extends React.Component {
         minute: 0,
         is24Hour: false,
       });
-      const menit = minute === 0 ? '00' : 
+      const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
       // console.log('MENITE BRE ', minute);
       if (action !== TimePickerAndroid.dismissedAction) {
@@ -177,13 +177,13 @@ class PreviewSearchMakanan extends React.Component {
     let minutes = '';
     // let seconds = '';
     let fullTime = '';
- 
+
     // Creating Date() function object.
     date = new Date();
- 
+
     // Getting current hour from Date object.
-    hour = date.getHours(); 
- 
+    hour = date.getHours();
+
     // Checking if the Hour is less than equals to 11 then Set the Time format as AM.
     if (hour <= 11) {
       TimeType = 'AM';
@@ -195,20 +195,20 @@ class PreviewSearchMakanan extends React.Component {
     if (hour > 12) {
       hour = hour - 12;
     }
- 
-    // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format. 
+
+    // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format.
     if (hour === 0) {
       hour = 12;
-    } 
- 
+    }
+
     // Getting the current minutes from date object.
     minutes = date.getMinutes();
- 
+
     // Checking if the minutes value is less then 10 then add 0 before minutes.
     if (minutes < 10) {
       minutes = '0' + minutes.toString();
     }
- 
+
     //Getting current seconds from date object.
     seconds = date.getSeconds();
     // If seconds value is less than 10 then add 0 before seconds.
@@ -233,7 +233,7 @@ class PreviewSearchMakanan extends React.Component {
     const dateNow = dateFormateName(dt);
     const displayTime = !hasSetTime ? time : `${time.hour}:${time.minute}`;
     const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
-    
+
     return (
       <TouchableOpacity
         style={{
@@ -285,7 +285,7 @@ class PreviewSearchMakanan extends React.Component {
     const { sarapan, makanSiang, makanMalam, snack } = this.state.selected;
     const { date, time } = this.state;
     // const inputDate = new Date(dateInput + ' ' + isTime + ':00');
-    
+
     if (date === null || sarapan === null || makanSiang === null || makanMalam === null || snack === null || time === '') {
       alert('Silahkan lengkapi semua inputan');
     } else {
@@ -316,14 +316,13 @@ class PreviewSearchMakanan extends React.Component {
       // } else if (!checkingSnack) {
       //   alert('Inputan Snack Anda salah');
       // } else {
-        
+
       // }
     }
   }
 
   renderFoodSuggetion(paramsState) {
     const { suggetion } = this.props.dataInputTracker;
-    console.log('SUGGETION =', suggetion.food);
     if (suggetion.food.length === 0 && suggetion.status_code === 0) {
       return (
         <View style={styles.cardResult}>
@@ -372,7 +371,6 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   render() {
-    console.log('STATE ', this.state);
     if (this.state.isProcess) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -395,7 +393,7 @@ class PreviewSearchMakanan extends React.Component {
           title="Sarapan"
           type="sarapan"
           onFocus={() => this.setState({ typingText: 'MAKAN_SIANG' })}
-          placeholder="Nasi Uduk"
+          placeholder="Input Sarapan"
           value={
             this.state.selected.sarapan === null ?
             this.state.sarapan :
@@ -411,7 +409,7 @@ class PreviewSearchMakanan extends React.Component {
           <TextInputHoc
             type="makanSiang"
             title="Makan Siang"
-            placeholder="Soto Ayam"
+            placeholder="Input Makan Siang"
             value={
               this.state.selected.makanSiang === null ?
               this.state.makanSiang :
@@ -427,7 +425,7 @@ class PreviewSearchMakanan extends React.Component {
           <TextInputHoc
             type="makanMalam"
             title="Makan Malam"
-            placeholder="Salad"
+            placeholder="Input Makan Malam"
             value={
               this.state.selected.makanMalam === null ?
               this.state.makanMalam :
@@ -443,7 +441,7 @@ class PreviewSearchMakanan extends React.Component {
           <TextInputHoc
             type="snack"
             title="Snack"
-            placeholder="Snack"
+            placeholder="Input Snack"
             value={
               this.state.selected.snack === null ?
               this.state.snack :
