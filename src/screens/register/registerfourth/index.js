@@ -40,12 +40,11 @@ class RegisterScreenFourth extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('NEXTPROPS ', nextProps);
     if (
       nextProps.dataRegister.dataUser.status_code === 200 &&
       nextProps.loginReducer.statusCode === 200 &&
       this.state.updateFcm &&
-      nextProps.dataRegister.dataUser.email !== null
+      nextProps.dataRegister.dataUser.email !== ''
     ) {
       this.setState(
         {
@@ -58,7 +57,7 @@ class RegisterScreenFourth extends React.Component {
               messagingRegistrationToken: this.props.fcmToken
             }
           };
-          this.props.updateFCMToken(params);
+          // this.props.updateFCMToken(params);
         }
       );
     }
@@ -66,7 +65,7 @@ class RegisterScreenFourth extends React.Component {
 
   componentDidUpdate() {
     const self = this;
-    const { _id, status_code, tipe_user, message } = this.props.dataRegister.dataUser;
+    const { _id, status_code, tipe_user, message, email, password } = this.props.dataRegister.dataUser;
     if (status_code === 200 && this.state.shouldRedirect) {
       this.setState(
         {
@@ -78,8 +77,8 @@ class RegisterScreenFourth extends React.Component {
             // harus balik ke Home
             // Hit login first to get Firebase token (JWT)
             const user = {
-              email: this.props.email,
-              password: this.props.password
+              email,
+              password
             };
             this.props.loginManual(user);
           }
@@ -154,10 +153,11 @@ class RegisterScreenFourth extends React.Component {
 
   handleFinalRegister() {
     const { selected } = this.state;
+    const { nama, email, password } = this.props.dataRegister.dataUser;
     const dataUser = {
-      nama: this.props.name,
-      email: this.props.email,
-      password: this.props.password,
+      nama,
+      email,
+      password,
       tipeuser: this.state.selected
     };
     // this.props.registerAction(dataUser);
@@ -175,9 +175,6 @@ class RegisterScreenFourth extends React.Component {
           }
         } else {
           const passProps = {
-            name: this.props.name,
-            email: this.props.email,
-            password: this.props.password,
             tipeuser: this.state.selected
           };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
 	View,
 	Text,
@@ -12,6 +13,7 @@ import {
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import Style from '../../../style/defaultStyle';
+import { registerEmail } from '../../../actions/registerActions';
 
 class RegisterScreenSecond extends React.Component {
 	static navigatorStyle = {
@@ -43,8 +45,8 @@ class RegisterScreenSecond extends React.Component {
 	}
 
 	handleNavigation() {
-		const { email } = this.state;
-		if (email !== null) {
+		const { email } = this.props.registerReducer.dataUser;
+		if (email !== '') {
 			const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 			const shouldTrue = emailRegex.test(email);
 			if (!shouldTrue) {
@@ -74,6 +76,9 @@ class RegisterScreenSecond extends React.Component {
 	}
 
 	render() {
+		console.log('PROPS DI KE 2', this.props);
+		const { email } = this.props.registerReducer.dataUser;
+
 		return (
 			<View style={styles.container}>
 				<ImageBackground
@@ -107,8 +112,9 @@ class RegisterScreenSecond extends React.Component {
 						>
 							<TextInput
 								placeholder={'example@email.com'}
-								value={this.state.email}
-								onChangeText={email => this.setState({ email })}
+								value={email}
+								autoCapitalize='none'
+								onChangeText={email => this.props.registerEmail(email)}
 								underlineColorAndroid={'#fff'}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
@@ -139,4 +145,12 @@ const stylesLocal = {
 	}
 };
 
-export default RegisterScreenSecond;
+const mapStateToProps = state => ({
+	registerReducer: state.registerReducer
+});
+
+const mapDispatchToProps = dispatch => ({
+	registerEmail: (email) => dispatch(registerEmail(email))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreenSecond);

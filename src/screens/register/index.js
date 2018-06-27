@@ -12,8 +12,9 @@ import {
 
 import { Indicator } from '../../components/indicator/Indicator';
 import styles from './style';
-import { registerStepOne } from '../../actions';
+import { registerNama } from '../../actions/registerActions';
 import Style from '../../style/defaultStyle';
+
 
 class Register extends Component {
 	static navigatorStyle = {
@@ -44,8 +45,9 @@ class Register extends Component {
 	}
 
 	handleNavigation() {
+		const { nama } = this.props.registerReducer.dataUser;
 		const { name } = this.state;
-		if (name !== null) {
+		if (nama !== '') {
 			this.props.navigator.push({
 				screen: 'TemanDiabets.RegisterScreenSecond',
 				title: 'Next Step 2',
@@ -66,7 +68,8 @@ class Register extends Component {
 	}
 
 	render() {
-		// console.log('PROPS ', this.props.fcmToken);
+		console.log('PROPS ', this.props);
+		const { nama } = this.props.registerReducer.dataUser;
 		return (
 			<View style={styles.container}>
 				<ImageBackground
@@ -101,8 +104,8 @@ class Register extends Component {
 							<TextInput
 								placeholder={'Your Fullname'}
 								underlineColorAndroid={'#fff'}
-								value={this.state.name}
-								onChangeText={name => this.setState({ name })}
+								value={nama}
+								onChangeText={name => this.props.registerNama(name)}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
 							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
@@ -145,7 +148,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-	registerStepOne: name => dispatch(registerStepOne(name))
+	registerNama: name => dispatch(registerNama(name))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

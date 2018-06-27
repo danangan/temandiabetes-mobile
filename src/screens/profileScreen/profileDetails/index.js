@@ -11,12 +11,17 @@ import {
 } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
-import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
+import { 
+  getUserRecentThread, 
+  getUserRecentComment,
+  getUserRecentActivityResponse 
+} from '../../../actions/recentActivityAction';
 import { Avatar, Indicator, NavigationBar, Spinner } from '../../../components';
 import Event from './Event';
 import TabComments from './Comments';
 import TabInnerCircle from '../../tab-innerCircle';
 import TabThreadByUser from '../../tab-threadByUser';
+import TabRecentActivityResponse from '../../tab-recentActivityResponse';
 import Style from '../../../style/defaultStyle';
 import { addInnerCircle, getOneUser, getInnerCircle } from '../../../actions';
 import color from '../../../style/color';
@@ -44,7 +49,8 @@ class ProfileDetails extends React.Component {
       user: null,
       loading: false,
       source: plus,
-      status: 'TAMBAHKAN'
+      status: 'TAMBAHKAN',
+      completePercentase: ''
     };
   }
 
@@ -59,6 +65,8 @@ class ProfileDetails extends React.Component {
     this.props.getOneUser(userId);
     this.props.getUserRecentThread(userId);
     this.props.getUserRecentComment(userId);
+    this.props.getUserRecentActivityResponse(userId);
+    this.counterProfileComplete();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -101,14 +109,53 @@ class ProfileDetails extends React.Component {
     }
   }
 
+  isKeyExist(obj, key) {
+    const keys = Object.keys(obj);
+    return keys.includes(key);
+  }
+
+  counterProfileComplete() {
+    const currentUser = this.props.dataAuth;
+    let counter = 0;
+    const arrayOfProps = [
+      'nama',
+      'tgl_lahir',
+      'alamat',
+      'no_telp',
+      'jenis_kelamin',
+      'foto_profile',
+      'jenis_diabetes'
+    ];
+
+    arrayOfProps.forEach((item) => {
+      if (this.isKeyExist(currentUser, item) && currentUser[item] !== '' && currentUser[item] !== null) {
+        counter += 1;
+      }
+    });
+ 
+    const persentase = (counter / arrayOfProps.length) * 100; 
+
+    this.setState({
+      completePercentase: `${Math.round(persentase)}%`
+    });
+  }
+
   userIsLoggedIn = () => (
     <View style={styles.contentCenterStyle}>
       <View style={styles.indicatorStyle}>
-        <Indicator persentase={{ width: '75%' }} />
+        <Indicator persentase={{ width: this.state.completePercentase }} />
       </View>
       <View style={styles.indicatorDetailStyle}>
-        <Text style={styles.textStyle}>Profile Anda baru komplit 75%,</Text>
-        <Text style={[styles.textStyle, { color: '#4644f0' }]}> lengkapi sekarang!</Text>
+        <Text style={styles.textStyle}>Profile Anda baru komplit { this.state.completePercentase },</Text>
+        <Text 
+          onPress={() => {
+          this.props.navigator.push({
+            screen: 'TemanDiabets.EditProfile',
+            navigatorStyle: {
+              navBarHidden: true
+            },
+          });
+        }} style={[styles.textStyle, { color: '#4644f0' }]}> lengkapi sekarang!</Text>
       </View>
     </View>
   );
@@ -148,7 +195,6 @@ class ProfileDetails extends React.Component {
 
   renderViewProfile = () => {
     if (this.props.dataAuth._id === this.props.data.user._id) {
-      // console.log('this is current user')
       return this.userIsLoggedIn();
     }
     return this.notUserLoggedIn();
@@ -156,7 +202,7 @@ class ProfileDetails extends React.Component {
 
   renderTabContent() {
     const { listThreads } = this.props.dataThreads;
-    const { recentThreads, recentComments } = this.props.dataRecentActivity;
+    const { recentThreads, recentComments, recentResponse } = this.props.dataRecentActivity;
     if (this.state.tab === 0) {
       return <TabThreadByUser navi={this.props.navigator} listThreads={recentThreads.data} />;
     }
@@ -171,7 +217,7 @@ class ProfileDetails extends React.Component {
       return <TabComments navi={this.props.navigator} listThreads={recentComments.data} />;
     }
     if (this.state.tab === 2) {
-      return <TabThreadByUser navi={this.props.navigator} listThreads={listThreads.item.data} />;
+      return <TabRecentActivityResponse navi={this.props.navigator} listActivity={recentResponse.data} />;
     }
     if (this.state.tab === 3) {
       return <Event />;
@@ -182,13 +228,8 @@ class ProfileDetails extends React.Component {
   }
 
   renderDetailProfile = () => {
-    // const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
     const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
-    // const isCurrentUser = _id === id;
-    // const fullName = isCurrentUser || id === undefined ? nama : name;
-    // const profilePic = isCurrentUser || id === undefined ? foto_profile : profilePicture;
-    // const typeUser = isCurrentUser || id === undefined ? tipe_user : typeOfUser;
-
+    
     return (
       <View style={styles.contentTopStyle}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
@@ -209,7 +250,7 @@ class ProfileDetails extends React.Component {
       return (
         <Spinner
           containerStyle={{ backgroundColor: color.white }}
-          color="#FFDE00"
+          color="red"
           text={'Loading...'}
           size="large"
         />
@@ -218,7 +259,7 @@ class ProfileDetails extends React.Component {
 
     const spinner =
       this.state.loading === true ? (
-        <Spinner color="##FFDE00" text={'Loading...'} size="large" />
+        <Spinner color="red" text={'Loading...'} size="large" />
       ) : (
         <View />
       );
@@ -314,11 +355,14 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '80%',
+    borderWidth: 1, 
+    borderColor: 'red',
+    borderRadius: 5,
     marginVertical: 5
   },
   buttonTab: {
     flex: 0,
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
     width: '20%',
     height: '100%',
     marginHorizontal: 1,
@@ -389,6 +433,7 @@ const mapDispatchToProps = dispatch => ({
   getThreads: token => dispatch(getThreads(token)),
   getUserRecentThread: userId => dispatch(getUserRecentThread(userId)),
   getUserRecentComment: userId => dispatch(getUserRecentComment(userId)),
+  getUserRecentActivityResponse: userId => dispatch(getUserRecentActivityResponse(userId)),
   addInnerCircle: userId => dispatch(addInnerCircle(userId)),
   getOneUser: userId => dispatch(getOneUser(userId)),
   getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken))

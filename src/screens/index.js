@@ -53,8 +53,8 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.LoginScreen', () => LoginScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterScreen', () => RegisterScreen, store, Provider);
-	Navigation.registerComponent('TemanDiabets.RegisterScreenSecond', () => RegisterScreenSecond);
-	Navigation.registerComponent('TemanDiabets.RegisterScreenThird', () => RegisterScreenThird);
+	Navigation.registerComponent('TemanDiabets.RegisterScreenSecond', () => RegisterScreenSecond, store, Provider);
+	Navigation.registerComponent('TemanDiabets.RegisterScreenThird', () => RegisterScreenThird, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterScreenFourth', () => RegisterScreenFourth, store, Provider);
 	Navigation.registerComponent('TemanDiabets.RegisterFive', () => RegisterFive, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ThreadDetails', () => ThreadDetails, store, Provider);

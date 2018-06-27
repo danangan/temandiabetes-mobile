@@ -33,6 +33,15 @@ function getUserRecentComment(state, payload) {
   };
 }
 
+function getUserRecentActivityResponse(state, payload) {
+  return {
+    ...state,
+    recentResponse: {
+      ...state.recentResponse, data: payload, status_code: 201
+    }
+  };
+}
+
 const recentActivityReducer = (state = initialState, action) => {
 	switch (action.type) {
     case 'PENDING_GET_USER_RECENT_THREADS': 
@@ -54,6 +63,16 @@ const recentActivityReducer = (state = initialState, action) => {
     }
     case ActionTypes.GET_USER_RECENT_COMMENTS: 
       return getUserRecentComment(state, action.payload);
+    case 'PENDING_GET_USER_RECENT_RESPONSES': {
+      return {
+        ...state, 
+        recentResponse: {
+          ...state.recentResponse, status_code: 0, data: []
+        }
+      };
+    }
+    case ActionTypes.GET_USER_RECENT_RESPONSES:
+      return getUserRecentActivityResponse(state, action.payload);
 		default:
 			return state;
 	}

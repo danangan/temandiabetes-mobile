@@ -44,3 +44,86 @@ export const registerAction = (value) => async dispatch => {
 	}
 };
 
+export const registerNama = (nama) => async dispatch => {
+	function onSuccess(data) {
+		dispatch({
+			type: 'REGISTER_NAMA',
+			payload: data
+		});
+
+		return data;
+	}
+
+	try {
+		return onSuccess(nama);
+	} catch (error) {
+		const errMsg = {
+			err: error,
+			status_code: 500
+		};
+		onSuccess(errMsg);
+	}
+};
+
+export const registerEmail = (email) => async dispatch => {
+	function onSuccess(data) {
+		dispatch({
+			type: 'REGISTER_EMAIL',
+			payload: data
+		});
+
+		return data;
+	}
+
+	try {
+		return onSuccess(email);
+	} catch (error) {
+		const errMsg = {
+			err: error,
+			status_code: 500
+		};
+		onSuccess(errMsg);
+	}
+};
+
+export const registerPassword = (password, typePassword) => async dispatch => {
+	function onSuccess(data) {
+		dispatch({
+			type: 'REGISTER_PASSWORD',
+			payload: data
+		});
+
+		return data;
+	}
+
+	try {
+		return onSuccess({ password, typePassword });
+	} catch (error) {
+		const errMsg = {
+			err: error,
+			status_code: 500
+		};
+		onSuccess(errMsg);
+	}
+};
+
+export const registerSip = (sip) => async dispatch => {
+	function onSuccess(data) {
+		dispatch({
+			type: 'REGISTER_SIP',
+			payload: data
+		});
+
+		return data;
+	}
+
+	try {
+		onSuccess(sip);
+	} catch (error) {
+		const errMsg = {
+			err: error,
+			status_code: 500
+		};
+		onSuccess(errMsg);
+	}
+};

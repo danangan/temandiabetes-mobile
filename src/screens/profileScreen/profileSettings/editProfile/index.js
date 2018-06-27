@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {
-  Layout,
   View,
   Text,
   TextInput,
@@ -10,8 +10,8 @@ import {
   ScrollView,
   Picker,
   DatePickerAndroid,
-  DatePickerIOS,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
 import { Avatar, NavigationBar } from '../../../../components';
 import { updateProfile } from '../../../../actions/profileActions'
@@ -49,7 +49,10 @@ class EditProfile extends React.Component {
   }
 
   submitValidation(cb) {
-    if (this.state.userData.nama.trim() === '') {
+    if (this.state.userData.nama.trim() === '' && 
+        this.state.userData.tgl_lahir === '' && 
+        this.state.userData.alamat === '' &&
+        this.state.userData.no_telp === '') {
       this.setState({
         errors: {
           ...this.state.errors,
@@ -83,18 +86,18 @@ class EditProfile extends React.Component {
     const copiedData = {};
     userDataKeys.forEach((key) => {
       if (currentUser[key]) {
-        copiedData[key] = currentUser[key]
+        copiedData[key] = currentUser[key];
       }
-    })
+    });
 
     const newUserData = {
       ...this.state.userData,
       ...copiedData
-    }
+    };
 
     this.setState({
       userData: newUserData
-    })
+    });
   }
 
   componentDidMount(){
@@ -103,18 +106,30 @@ class EditProfile extends React.Component {
 
   updateProfileOnCLick = () => {
     this.submitValidation(() => {
-      if(this.isValid()) {
+      if (this.state.userData.nama.trim() !== '' && 
+        this.state.userData.tgl_lahir !== '' && 
+        this.state.userData.alamat !== '' &&
+        this.state.userData.no_telp !== '') {
         this.setState({
           isLoading: true
-        })
-
+        });
         this.props.updateProfile(this.state.userData).then(() => {
           this.setState({
             isLoading: false
-          })
-        })
+          }, () => {
+            Alert.alert(
+              'Perhatian!',
+              'Data telah berhasil disimpan.'
+            );
+          });
+        });
+      } else {
+        Alert.alert(
+          'Perhatian!',
+          'Data tidak boleh kosong.'
+        );
       }
-    })
+    });
   }
 
   setUserData(key, value) {
@@ -123,7 +138,7 @@ class EditProfile extends React.Component {
         ...this.state.userData,
         [key]: value
       }
-    })
+    });
   }
 
   async openDatePicker() {
@@ -134,7 +149,8 @@ class EditProfile extends React.Component {
         });
         if (result.action !== DatePickerAndroid.dismissedAction) {
           // Selected year, month (0-11), day
-          this.setUserData('tgl_lahir', `${result.year}-${result.month + 1}-${result.day}`)
+          // console.log('HASIL PICK DATE ', result);
+          this.setUserData('tgl_lahir', `${result.year}-${result.month + 1}-${result.day}`);
         }
       } catch ({code, message}) {
         console.warn('Cannot open date picker', message);
@@ -144,7 +160,10 @@ class EditProfile extends React.Component {
 
   render() {
     const { userData, isLoading, errors } = this.state;
-    const { currentUser } = this.props
+    const { currentUser } = this.props;
+    const lahir = moment(this.state.userData.tgl_lahir);
+    const completeTglLahir = `${lahir.year()}-${lahir.month()+1}-${lahir.date()}`;
+    
     return (
       <View
         style={styles.container}
@@ -177,7 +196,7 @@ class EditProfile extends React.Component {
                 style={[styles.pickerWrapper, { height:35, marginLeft: 5 }]}
                 onPress={() => { this.openDatePicker() }}
               >
-                <Text style={[styles.textInput, { marginTop:9 }]}>{dateFormatter(userData.tgl_lahir)}</Text>
+                <Text style={[styles.textInput, { marginTop:9 }]}>{completeTglLahir}</Text>
               </TouchableOpacity>
             </View>
             <View>

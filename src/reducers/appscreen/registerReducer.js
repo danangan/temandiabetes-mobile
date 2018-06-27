@@ -4,11 +4,13 @@ import { authToken } from '../../utils/constants';
 
 const initialState = {
 	dataUser: {
-		id: null,
-		nama: null,
-    email: null,
-    tipe_user: null,
+		id: '',
+		nama: '',
+    email: '',
+    tipe_user: '',
 		message: '',
+		password: '',
+		confirmPassword: '',
 		status_code: 0
 	}
 };
@@ -49,18 +51,51 @@ const registerFinalStep = (state, payload) => {
 
 const registerReducer = (state = initialState, action) => {
 	switch (action.type) {
-		case 'PENDING_REGISTER_USER':
-			return {
-				...state, 
-					dataUser: initialState.dataUser
-			};
 		case ActionTypes.REGISTER_USER:
 			return registerFinalStep(state, action.payload);
 		case ActionTypes.USER_LOGOUT:
 			return {
 				...state, 
 				dataUser: initialState.dataUser
-		};
+			};
+		case 'REGISTER_NAMA': 
+			return {
+				...state, 
+				dataUser: {
+					...state.dataUser, nama: action.payload
+				}
+			};
+		case 'REGISTER_EMAIL': 
+			return {
+				...state, 
+				dataUser: {
+					...state.dataUser, email: action.payload
+				}
+			};
+		case 'REGISTER_PASSWORD': {
+			if (action.payload.typePassword === 'FIRST') {
+				return {
+					...state, 
+					dataUser: {
+						...state.dataUser, password: action.payload.password
+					}
+				};
+			}	
+		}
+
+			return {
+				...state, 
+				dataUser: {
+					...state.dataUser, confirmPassword: action.payload.password
+				}
+			};
+		case 'REGISTER_SIP':
+			return {
+				...state, 
+				dataUser: {
+					...state.dataUser, sip: action.payload
+				}
+			};
 		default:
 			return state;
 	}

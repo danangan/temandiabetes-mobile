@@ -15,7 +15,7 @@ import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import { Spinner } from '../../../components/';
 import Style from '../../../style/defaultStyle';
-import { registerAction } from '../../../actions';
+import { registerAction, registerSip } from '../../../actions';
 import { API_BASE } from '../../../utils/API';
 import { startLoginPage } from '../../../../App';
 import { authToken } from '../../../utils/constants';
@@ -71,6 +71,7 @@ class RegisterFive extends React.Component {
   }
 
   async updateUser() {
+    const { sip } = this.props.dataRegister.dataUser;
     const TOKEN = await AsyncStorage.getItem(authToken);
 
     const API_CALL = axios.create({
@@ -83,7 +84,7 @@ class RegisterFive extends React.Component {
     const userData = {
       email: this.props.email,
       tipe_user: this.props.tipeuser,
-      sip: this.state.sip
+      sip: sip
     };
 
     await API_CALL.put(`api/users/${this.props._id}`, userData);
@@ -101,13 +102,14 @@ class RegisterFive extends React.Component {
   }
 
   toHome() {
-    if (this.state.sip !== '') {
+    const { nama, email, password, sip } = this.props.dataRegister.dataUser;
+    if (sip !== '') {
       const dataUser = {
-        nama: this.props.name,
-        email: this.props.email,
-        password: this.props.password,
+        nama,
+        email,
+        password,
         tipeuser: this.props.tipeuser,
-        sip: this.state.sip
+        sip
       };
       this.setState(
         {
@@ -127,7 +129,7 @@ class RegisterFive extends React.Component {
   }
 
   render() {
-    const { message, status_code } = this.props.dataRegister.dataUser;
+    const { message, status_code, sip } = this.props.dataRegister.dataUser;
     if (this.state.shouldRedirect) {
       return (
         <View style={{ flex: 1, opacity: 0.7, justifyContent: 'center', alignItems: 'center' }}>
@@ -170,8 +172,8 @@ class RegisterFive extends React.Component {
             >
               <TextInput
                 placeholder={'Surat Izin Praktek'}
-                onChangeText={sip => this.setState({ sip })}
-                value={this.state.sip}
+                onChangeText={sip => this.props.registerSip(sip)}
+                value={sip}
                 underlineColorAndroid={'#fff'}
                 style={[styles.textInputStyle, stylesLocal.inputStyle]}
               />
@@ -209,7 +211,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  registerAction: dataUser => dispatch(registerAction(dataUser))
+  registerAction: dataUser => dispatch(registerAction(dataUser)),
+  registerSip: sip => dispatch(registerSip(sip))
 });
 
 export default connect(

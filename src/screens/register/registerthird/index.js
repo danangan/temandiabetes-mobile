@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
 	View,
 	Text,
@@ -12,6 +13,7 @@ import {
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import Style from '../../../style/defaultStyle';
+import { registerPassword } from '../../../actions/registerActions';
 
 class RegisterScreenThird extends React.Component {
 	static navigatorStyle = {
@@ -43,8 +45,8 @@ class RegisterScreenThird extends React.Component {
 	}
 
 	handleNavigation() {
-		const { password, confirmPassword } = this.state;
-		if (password || confirmPassword !== null) {
+		const { password, confirmPassword } = this.props.registerReducer.dataUser;
+		if (password || confirmPassword !== '') {
 			if (password !== confirmPassword) {
 				this.setState({
 					message: 'Kata sandi Anda tidak sesuai'
@@ -66,9 +68,6 @@ class RegisterScreenThird extends React.Component {
 						screen: 'TemanDiabets.RegisterScreenFourth',
 						title: 'Next Step 4',
 						passProps: {
-							name: this.props.name,
-							email: this.props.email,
-							password: this.state.password,
 							fcmToken: this.props.fcmToken
 						}
 					});
@@ -85,6 +84,8 @@ class RegisterScreenThird extends React.Component {
 	}
 
 	render() {
+		const { password, confirmPassword } = this.props.registerReducer.dataUser;
+
 		return (
 			<View style={styles.container}>
 				<ImageBackground
@@ -120,17 +121,17 @@ class RegisterScreenThird extends React.Component {
 							<TextInput
 								placeholder={'*********'}
 								underlineColorAndroid={'#fff'}
-								value={this.state.password}
+								value={password}
 								secureTextEntry
-								onChangeText={password => this.setState({ password })}
+								onChangeText={password => this.props.registerPassword(password, 'FIRST')}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
 							<TextInput
 								placeholder={'*********'}
 								underlineColorAndroid={'#fff'}
 								secureTextEntry
-								value={this.state.confirmPassword}
-								onChangeText={confirmPassword => this.setState({ confirmPassword })}
+								value={confirmPassword}
+								onChangeText={confirmPassword => this.props.registerPassword(confirmPassword, 'SECOND')}
 								style={[styles.textInputStyle, stylesLocal.inputStyle]}
 							/>
 							<TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
@@ -160,4 +161,12 @@ const stylesLocal = {
 	}
 };
 
-export default RegisterScreenThird;
+const mapStateToProps = state => {
+	return { registerReducer: state.registerReducer };
+};
+
+const mapDispatchToProps = dispatch => ({
+	registerPassword: (password, typePassword) => dispatch(registerPassword(password, typePassword))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreenThird);
