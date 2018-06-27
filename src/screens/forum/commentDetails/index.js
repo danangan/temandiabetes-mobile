@@ -118,7 +118,6 @@ class CommentDetails extends React.Component {
   render() {
     const { isComment } = this.state;
     const { commentDetails } = this.props;
-    console.log(this.props)
     const { nama } = this.props.dataAuth;
 
     if (commentDetails === null) {
@@ -146,6 +145,7 @@ class CommentDetails extends React.Component {
             marginHorizontal: 20,
             elevation: 3,
             maxHeight: '50%',
+            paddingBottom: 20,
             borderRadius: 20
           }}
         >
@@ -160,11 +160,11 @@ class CommentDetails extends React.Component {
               <Text style={{ fontSize: 10 }}></Text>
             </View>
           </View>
-          <View style={styles.innerText}>
+          <ScrollView style={styles.innerText}>
             <Text style={{ fontSize: 22 }}>
               { commentDetails.text }
             </Text>
-          </View>
+          </ScrollView>
         </CardSection>
         {
           commentDetails.replies.length ?
@@ -228,7 +228,7 @@ const styles = {
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'center',
-    paddingTop: 15,
+    // paddingTop: 15,
 		paddingHorizontal: 15,
 		borderRadius: 20
   },
@@ -242,12 +242,13 @@ const styles = {
 		borderRadius: 20
   },
   innerText: {
-		flex: 2,
-		flexDirection: 'row',
-		alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    flexWrap: 'wrap',
-    paddingTop: 15,
+		// flex: 2,
+		// flexDirection: 'row',
+		// alignItems: 'flex-start',
+    // justifyContent: 'flex-start',
+    // flexWrap: 'wrap',
+    // marginTop: 15,
+    // minHeight: 150,
 		paddingHorizontal: 15,
 	},
   wrapperButton: {

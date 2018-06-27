@@ -15,9 +15,17 @@ const CommentChild = (props) => {
         imageSource={props.comment.user.foto_profile}
         userName={props.comment.user.nama || 'N A'}
       />
-      <Text style={{ color: '#000', fontSize: 10 }}>{props.comment.text}</Text>
+      <Text style={textStyle}>{props.comment.text}</Text>
     </View>
   );
 };
+
+const textStyle = {
+  flex: 1,
+  flexDirection: 'column',
+  paddingLeft: 10,
+  color: '#000',
+  fontSize: 10,
+}
 
 export default CommentChild;

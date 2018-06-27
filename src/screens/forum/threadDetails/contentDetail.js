@@ -5,7 +5,6 @@ import CommentThread from './commentThread';
 import ThreadDesc from './threadDesc';
 
 const ContentDetail = (props) => {
-	console.log('PROPS DETAILS 2', props);
 	const state = {
 		data: [1, 2, 3, 4, 5, 6, 7]
 	};
