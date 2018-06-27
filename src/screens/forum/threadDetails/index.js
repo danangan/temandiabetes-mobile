@@ -18,6 +18,7 @@ class ThreadDetails extends React.Component {
 
 	constructor(props) {
     super(props);
+    console.log(this.props.item)
 		this.state = {
 			idThread: this.props.item._id,
 			isProcess: true,

@@ -124,42 +124,68 @@ class App extends Component {
   }
 
 	_displayNotificationAndroid(notif) {
+    console.log(notif)
     let title = ''
     let body = 'Sentuh untuk info lebih lanjut'
-    switch (notif.type) {
+    let screen = ''
+    let id = ''
+    let passProps = {}
+    switch (notif.activityType) {
       case 'comment':
         title = `${notif.commentator} memberikan komentar di thread Anda`
+        screen = 'TemanDiabets.ThreadDetails'
+        // passProps = { item: JSON.parse(notif.thread) }
         break;
-      case 'reply':
+      case 'reply_comment':
         title = `${notif.commentator} membalas komentar di thread Anda`
+        screen = 'TemanDiabets.CommentDetails'
+        // passProps = { commentId: JSON.parse(activity.commentId) }
+        id = notif.commentatorId
         break;
       case 'followed':
-        title = `User mengikuti thread Anda`
+        title = `${JSON.parse(notif.subscriber).nama || JSON.parse(notif.subscriber).name} mengikuti thread Anda "${notif.topic}"`
+        passProps = { id: JSON.parse(notif.subscriber)._id }
+        screen = 'TemanDiabets.ProfileDetails'
         break;
       case 'drug_reminder':
         title = `Pengingat obat`
         break;
-      case 'receiver_innercircle':
-        title = `Permintaan inner circle baru`
+      case "receiver_innercircle":
+        title = `${JSON.parse(notif.sender).name} mengirimkan permintaan inner circle`
+        screen = 'TemanDiabets.InnerCircleList'
+        id = JSON.parse(notif.sender).id
         break;
       case 'sender_innercircle':
-        title = `Permintaan inner circle Anda telah diterima`
+        title = `${JSON.parse(notif.sender).name || JSON.parse(notif.sender).nama } menerima permintaan innercircle Anda`
+        screen = 'TemanDiabets.InnerCircleList'
+        id =  JSON.parse(notif.sender).id
         break;
       default:
         break;
     }
 
     if (notif.opened_from_tray) {
-      // do the redirect here
       console.log('handle redirect dari fcm di sini gan')
-
+      console.log('item notif', notif)
+      if (notif.screen && notif.screen !== '') {
+        // reset the state while
+        this.props.navigator.push({
+          screen: notif.screen,
+          passProps: notif.passProps,
+          navigatorStyle: {
+            navBarHidden: true
+          },
+        });
+      }
     } else {
       FCM.presentLocalNotification({
         title,
         body,
+        screen,
+        passProps,
         priority: 'high',
-        show_in_foreground: true,
-        local: true
+        sound: "default",
+        show_in_foreground: true
       });
 
       this.props.addNotificationCount()

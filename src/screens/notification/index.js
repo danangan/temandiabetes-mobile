@@ -114,9 +114,9 @@ class Notification extends React.Component {
     })
   }
 
-  renderItem({item}) {
+  renderItem({item, index}) {
     return (
-      <TouchableOpacity onPress={this.redirectOnPress(item)} style={{padding: 1}}>
+      <TouchableOpacity onPress={this.redirectOnPress(item, index)} style={{padding: 1}}>
         <View style={[styles.notificationWrapper, item.has_read ? {} : styles.unread]}>
           <View style={{
             flexDirection: 'row',
@@ -144,9 +144,9 @@ class Notification extends React.Component {
     )
   }
 
-  redirectOnPress({ activity, has_read, _id}) {
+  redirectOnPress({ activity, has_read, _id}, index) {
     let screen
-    let passProps
+    let passProps = {}
     switch (activity.activityType) {
       case 'comment':
         screen = 'TemanDiabets.ThreadDetails'
@@ -159,6 +159,12 @@ class Notification extends React.Component {
       case 'followed':
         screen = 'TemanDiabets.ProfileDetails'
         passProps = { id: activity.followedUser ? activity.followedUser._id : activity.user._id }
+        break;
+      case 'receiver_innercircle':
+        screen = 'TemanDiabets.InnerCircleList'
+        break;
+      case 'sender_innercircle':
+        screen = 'TemanDiabets.InnerCircleList'
         break;
       default:
         break;
@@ -177,13 +183,24 @@ class Notification extends React.Component {
         })
       }
 
-      this.props.navigator.push({
-        screen,
-        passProps,
-        navigatorStyle: {
-          navBarHidden: true
-        },
-      });
+      // set the clicked index to has_read status
+      const mutatedItem = Object.assign({}, this.state.notifications[index])
+      mutatedItem.has_read = true
+      this.setState({
+        notifications: [
+          ...this.state.notifications.slice(0, index),
+          mutatedItem,
+          ...this.state.notifications.slice(index + 1)
+        ]
+      }, () => {
+        this.props.navigator.push({
+          screen,
+          passProps,
+          navigatorStyle: {
+            navBarHidden: true
+          },
+        });
+      })
     }
   }
 
@@ -248,7 +265,7 @@ class Notification extends React.Component {
       case 'receiver_innercircle':
         return (
           <Text>
-            <Text style={styles.boldText}>{activity.innerCircle.friend.nama || 'Seseorang'}</Text>
+            <Text style={styles.boldText}>{activity.innerCircle.name || 'Seseorang'}</Text>
             <Text> mengirimkan permintaan inner circle untuk Anda.</Text>
           </Text>
         )
@@ -256,8 +273,8 @@ class Notification extends React.Component {
       case 'sender_innercircle':
         return (
           <Text>
-            <Text style={styles.boldText}>{activity.innerCircle.friend.nama || 'Seseorang'}</Text>
-            <Text> menerima permintaan inner circle Anda </Text>
+            <Text style={styles.boldText}>{activity.innerCircle.name || 'Seseorang'}</Text>
+            <Text> menerima permintaan inner circle Anda.</Text>
           </Text>
         )
         break;

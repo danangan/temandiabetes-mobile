@@ -65,7 +65,7 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabets.FeaturedDetail', () => FeatureDetail);
 	Navigation.registerComponent('TemanDiabets.ProfileScreen', () => ProfileScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ProfileDetails', () => ProfileDetails, store, Provider);
-	Navigation.registerComponent('TemanDiabets.TabInnerCircle', () => TabInnerCircle, store, Provider);
+	// Navigation.registerComponent('TemanDiabets.TabInnerCircle', () => TabInnerCircle, store, Provider);
 	Navigation.registerComponent('TemanDiabets.ProfileSettings', () => ProfileSettings, store, Provider);
 	Navigation.registerComponent('TemanDiabets.EditProfile', () => EditProfile, store, Provider);
 	Navigation.registerComponent('TemanDiabets.AboutScreen', () => AboutScreen);

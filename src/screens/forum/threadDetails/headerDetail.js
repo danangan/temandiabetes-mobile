@@ -28,7 +28,6 @@ class HeaderDetail extends React.Component {
 
 	render() {
     const { authorItem, categoryItem, date } = this.props;
-		console.log("PROPS --->", this.props);
 		return (
 			<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
 				<View style={styles.container}>
