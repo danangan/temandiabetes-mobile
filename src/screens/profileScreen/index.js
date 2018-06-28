@@ -10,6 +10,7 @@ import { Avatar, Spinner } from '../../components';
 import { authToken } from '../../utils/constants';
 import { mainApp } from '../../../App';
 import color from '../../style/color';
+import Style from '../../style/defaultStyle';
 
 class ProfileScreen extends React.Component {
   static navigatorStyle = {
@@ -117,7 +118,7 @@ class ProfileScreen extends React.Component {
           </View>
           <View style={styles.itemTopRight}>
             <View style={{ marginRight: 10 }}>
-              <Text style={styles.buttonText}>{nama || 'John Doe'}</Text>
+              <Text style={styles.textNameStyle}>{nama || 'John Doe'}</Text>
               <Text style={styles.userDesc}>
                 {tipe_user === 'diabetesi' ? diabetesi_tipe || tipe_user : tipe_user || 'Tipe User'}
               </Text>
@@ -194,13 +195,14 @@ const styles = {
     alignItems: 'flex-start'
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: Style.FONT_SIZE_TITLE,
     fontFamily: 'Montserrat-Light',
     color: '#000'
   },
   itemImage: { width: 25, height: 25 },
   userDesc: {
-    fontSize: 13,
+    fontFamily: 'Montserrat-Regular',
+    fontSize: Style.FONT_SIZE_SMALL,
     alignSelf: 'flex-end'
   },
   wrappCenter: {
@@ -213,6 +215,10 @@ const styles = {
     justifyContent: 'space-around',
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  textNameStyle: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: Style.FONT_SIZE
   }
 };
 
@@ -226,4 +232,7 @@ const mapDispatchToProps = dispatch => ({
   onSignOut: () => dispatch(onSignOut())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileScreen);
