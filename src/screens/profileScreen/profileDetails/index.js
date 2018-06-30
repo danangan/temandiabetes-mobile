@@ -14,7 +14,6 @@ import { getThreads } from '../../../actions/threadActions';
 import { 
   getUserRecentThread, 
   getUserRecentComment,
-  getUserRecentActivityResponse 
 } from '../../../actions/recentActivityAction';
 import { Avatar, Indicator, NavigationBar, Spinner } from '../../../components';
 import Event from './Event';
@@ -65,7 +64,6 @@ class ProfileDetails extends React.Component {
     this.props.getOneUser(userId);
     this.props.getUserRecentThread(userId);
     this.props.getUserRecentComment(userId);
-    this.props.getUserRecentActivityResponse(userId);
     this.counterProfileComplete();
   }
 
@@ -433,7 +431,6 @@ const mapDispatchToProps = dispatch => ({
   getThreads: token => dispatch(getThreads(token)),
   getUserRecentThread: userId => dispatch(getUserRecentThread(userId)),
   getUserRecentComment: userId => dispatch(getUserRecentComment(userId)),
-  getUserRecentActivityResponse: userId => dispatch(getUserRecentActivityResponse(userId)),
   addInnerCircle: userId => dispatch(addInnerCircle(userId)),
   getOneUser: userId => dispatch(getOneUser(userId)),
   getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken))

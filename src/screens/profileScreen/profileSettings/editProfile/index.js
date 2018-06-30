@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import moment, { now } from 'moment';
 import {
   View,
   Text,
@@ -119,7 +119,10 @@ class EditProfile extends React.Component {
           }, () => {
             Alert.alert(
               'Perhatian!',
-              'Data telah berhasil disimpan.'
+              'Data telah berhasil disimpan.',
+              [
+                { text: 'OK', onPress: () => this.props.navigator.pop() }
+              ]
             );
           });
         });
@@ -161,8 +164,8 @@ class EditProfile extends React.Component {
   render() {
     const { userData, isLoading, errors } = this.state;
     const { currentUser } = this.props;
-    const lahir = moment(this.state.userData.tgl_lahir);
-    const completeTglLahir = `${lahir.year()}-${lahir.month()+1}-${lahir.date()}`;
+    const dateOfBirth = moment(this.state.userData.tgl_lahir).format('l') === 'Invalid date' ? moment().format('l') : moment(this.state.userData.tgl_lahir).format('l')
+    // const completeTglLahir = `${lahir.year()}-${lahir.month()+1}-${lahir.date()}`;
     
     return (
       <View
@@ -196,7 +199,7 @@ class EditProfile extends React.Component {
                 style={[styles.pickerWrapper, { height:35, marginLeft: 5 }]}
                 onPress={() => { this.openDatePicker() }}
               >
-                <Text style={[styles.textInput, { marginTop:9 }]}>{completeTglLahir}</Text>
+                <Text style={[styles.textInput, { marginTop:9 }]}>{dateOfBirth}</Text>
               </TouchableOpacity>
             </View>
             <View>
