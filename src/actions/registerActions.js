@@ -33,7 +33,6 @@ export const registerAction = (value) => async dispatch => {
     };
 
 		const res = await API_CALL(option);
-		console.log('REGISTER BALIKAN ', res);
 		return onSuccess(res.data);
 	} catch (error) {
 		const errMsg = {
@@ -127,3 +126,53 @@ export const registerSip = (sip) => async dispatch => {
 		onSuccess(errMsg);
 	}
 };
+
+export const clearDataRegister = (type) => async dispatch => {
+	function onSuccess(data) {
+		dispatch({
+			type,
+			payload: true
+		});
+
+		return data;
+	}
+	onSuccess();
+};
+
+export const emailAlreadyRegistered = (emailCheck) => async dispatch => {
+	const isPending = () => {
+    dispatch({
+      type: 'PENDING_EMAIL_ALREADY_REGISTERED',
+      payload: emailCheck
+    });
+    return true;
+	};
+	
+	function onSuccess(data) {
+		dispatch({
+			type: ActionTypes.EMAIL_ALREADY_REGISTERED,
+			payload: data
+		});
+
+		return data;
+	}
+
+	isPending();
+
+	try {
+    const option = {
+      method: 'GET',
+      url: `api/users/does-email-exist/${emailCheck}`,
+    };
+
+		const res = await API_CALL(option);
+		return onSuccess(res.data);
+	} catch (error) {
+		const errMsg = {
+			err: error,
+			status_code: 500
+		};
+		onSuccess(errMsg);
+	}
+};
+

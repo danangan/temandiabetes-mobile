@@ -8,12 +8,13 @@ import {
 	Keyboard,
 	ImageBackground,
 	Image,
+	Alert
 } from 'react-native';
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import Style from '../../../style/defaultStyle';
-import { registerEmail } from '../../../actions/registerActions';
+import { registerEmail, emailAlreadyRegistered, clearDataRegister } from '../../../actions/registerActions';
 
 class RegisterScreenSecond extends React.Component {
 	static navigatorStyle = {
@@ -25,6 +26,7 @@ class RegisterScreenSecond extends React.Component {
 		this.state = {
 			email: null,
 			message: '',
+			emailChecking: false,
 			keyboardActive: false
 		};
 		this.handleNavigation = this.handleNavigation.bind(this);
@@ -39,44 +41,74 @@ class RegisterScreenSecond extends React.Component {
 		});
 	}
 
+	componentDidUpdate() {
+		const { dataUser } = this.props.registerReducer;
+		if (this.state.emailChecking && dataUser.emailValid.status_code === 201) {
+			this.setState({
+				emailChecking: false
+			}, () => {
+				if (dataUser.emailValid.message === 'INVALID') {
+					Alert.alert(
+						'Perhatian!',
+						'Email sudah pernah didaftarkan',
+						[
+							{text: 'OK', onPress: () => this.props.clearDataRegister('PENDING_EMAIL_ALREADY_REGISTERED') }
+						]
+					);
+				} else if (dataUser.emailValid.message === 'VALID') {
+					this.handleSuccessValidation();
+				}
+			});
+		}
+	}
+
 	componentWillUnmount() {
 		this.keyboardDidShowListener.remove();
 		this.keyboardDidHideListener.remove();
 	}
 
+	handleSuccessValidation() {
+		this.props.navigator.push({
+			screen: 'TemanDiabets.RegisterScreenThird',
+			title: 'Next Step 3',
+			passProps: {
+				name: this.props.name,
+				email: this.state.email,
+				fcmToken: this.props.fcmToken
+			}
+		});
+		this.setState({
+			message: ''
+		});
+	}
+
 	handleNavigation() {
 		const { email } = this.props.registerReducer.dataUser;
-		if (email !== '') {
-			const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-			const shouldTrue = emailRegex.test(email);
-			if (!shouldTrue) {
-				this.setState({
-					message: 'Email yang Anda masukkan tidak valid!',
-					keyboardActive: false
-				});
+		this.setState({
+			emailChecking: true
+		}, () => {
+			if (email !== '') {
+				const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+				const shouldTrue = emailRegex.test(email);
+				if (!shouldTrue) {
+					this.setState({
+						message: 'Email yang Anda masukkan tidak valid!',
+						keyboardActive: false,
+						emailChecking: false
+					});
+				} else {
+					this.props.emailAlreadyRegistered(email);
+				}
 			} else {
-				this.props.navigator.push({
-					screen: 'TemanDiabets.RegisterScreenThird',
-					title: 'Next Step 3',
-					passProps: {
-						name: this.props.name,
-						email: this.state.email,
-						fcmToken: this.props.fcmToken
-					}
-				});
 				this.setState({
-					message: ''
+					message: 'Masukan email Anda',
+					emailChecking: false
 				});
 			}
-		} else {
-			this.setState({
-				message: 'Masukan email Anda'
-			});
-		}
+		});
 	}
 
 	render() {
-		console.log('PROPS DI KE 2', this.props);
 		const { email } = this.props.registerReducer.dataUser;
 
 		return (
@@ -150,7 +182,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	registerEmail: (email) => dispatch(registerEmail(email))
+	registerEmail: (email) => dispatch(registerEmail(email)),
+	emailAlreadyRegistered: (email) => dispatch(emailAlreadyRegistered(email)),
+	clearDataRegister: (type) => dispatch(clearDataRegister(type))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreenSecond);

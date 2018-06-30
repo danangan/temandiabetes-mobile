@@ -11,7 +11,11 @@ const initialState = {
 		message: '',
 		password: '',
 		confirmPassword: '',
-		status_code: 0
+		status_code: 0,
+		emailValid: {
+			message: '',
+			status_code: 0
+		}
 	}
 };
 
@@ -81,21 +85,63 @@ const registerReducer = (state = initialState, action) => {
 					}
 				};
 			}	
-		}
-
 			return {
 				...state, 
 				dataUser: {
 					...state.dataUser, confirmPassword: action.payload.password
 				}
 			};
-		case 'REGISTER_SIP':
+		}
+		case 'REGISTER_SIP': {
 			return {
 				...state, 
 				dataUser: {
 					...state.dataUser, sip: action.payload
 				}
 			};
+		}
+
+		case 'PENDING_EMAIL_ALREADY_REGISTERED': {
+			return {
+				...state, 
+				dataUser: {
+					...state.dataUser, 
+					emailValid: {
+						...state.dataUser.emailValid, 
+						message: '',
+						status_code: 0
+					}
+				}
+			};
+		}
+		
+		case ActionTypes.EMAIL_ALREADY_REGISTERED: {
+			const { data } = action.payload;
+			if (data.doesEmailExist) {
+				return {
+					...state, 
+					dataUser: {
+						...state.dataUser, 
+						emailValid: {
+							...state.dataUser.emailValid, 
+							message: 'INVALID',
+							status_code: 201
+						}
+					}
+				};
+			}
+			return {
+				...state,
+				dataUser: {
+					...state.dataUser,
+					emailValid: {
+						...state.dataUser.emailValid, 
+						message: 'VALID',
+						status_code: 201
+					}
+				}
+			};
+		}
 		default:
 			return state;
 	}
