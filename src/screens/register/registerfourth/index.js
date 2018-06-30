@@ -219,19 +219,19 @@ class RegisterScreenFourth extends React.Component {
           <Image
             resizeMode={'contain'}
             style={stylesLocal.images}
-            source={require('../../../assets/images/siapakah_nama_anda.jpg')}
+            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FDiabetesi.png?alt=media&token=744e2da7-c307-49e9-83ea-165d0f07c99f' }}
           />
         ) : index === 1 ? (
           <Image
             resizeMode={'contain'}
             style={stylesLocal.images}
-            source={require('../../../assets/images/TD-Nutrisionist-FIX.jpg')}
+            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FInner%20Circle.png?alt=media&token=fd0b201a-1bf5-44fd-8bf0-8952e9ab0a74' }}
           />
         ) : index === 2 ? (
           <Image
             resizeMode={'contain'}
             style={stylesLocal.images}
-            source={require('../../../assets/images/input_sip.jpg')}
+            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FExpertise.png?alt=media&token=1f199e44-036d-4bae-87a4-632915775079' }}
           />
         ) : null}
 
@@ -267,8 +267,6 @@ class RegisterScreenFourth extends React.Component {
   }
 
   render() {
-    console.log('PROPS 4', this.props);
-    console.log('STATE 4 ', this.state);
     const { message, status_code } = this.props.dataRegister.dataUser;
     if (this.state.shouldRedirect || this.state.shouldUserLogin) {
       return (
