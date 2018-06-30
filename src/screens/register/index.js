@@ -24,7 +24,6 @@ class Register extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: null,
 			message: '',
 			keyboardActive: false
 		};
@@ -46,20 +45,21 @@ class Register extends Component {
 
 	handleNavigation() {
 		const { nama } = this.props.registerReducer.dataUser;
-		const { name } = this.state;
 		if (nama !== '') {
-			this.props.navigator.push({
-				screen: 'TemanDiabets.RegisterScreenSecond',
-				title: 'Next Step 2',
-				passProps: {
-					name: this.state.name,
-					fcmToken: this.props.fcmToken
-				}
-			});
-			this.setState({
-				message: '',
-				name: null
-			});
+			if (nama.length < 6) {
+				this.setState({
+					message: 'Minimal 6 karakter'
+				});	
+			} else {
+				this.setState({
+					message: '',
+				}, () => {
+					this.props.navigator.push({
+						screen: 'TemanDiabets.RegisterScreenSecond',
+						title: 'Next Step 2'
+					});
+				});
+			}
 		} else {
 			this.setState({
 				message: 'Masukkan nama Anda'
@@ -68,7 +68,6 @@ class Register extends Component {
 	}
 
 	render() {
-		console.log('PROPS ', this.props);
 		const { nama } = this.props.registerReducer.dataUser;
 		return (
 			<View style={styles.container}>
