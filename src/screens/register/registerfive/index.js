@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   ImageBackground,
   Image,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 
 import styles from '../style';
@@ -33,38 +34,30 @@ class RegisterFive extends React.Component {
   }
 
   componentDidUpdate() {
+    const self = this;
     const { status_code, message } = this.props.dataRegister.dataUser;
     if (status_code === 200 && this.state.shouldRedirect) {
-      this.setState(
+      self.setState(
         {
           shouldRedirect: false
         },
         () => {
-          this.props.navigator.resetTo({
-            screen: 'TemanDiabets.LoginScreen',
-            navigatorStyle: {
-              navBarHidden: true
-            }
-          });
-        }
-      );
-    } else if (
-      status_code === 500 &&
-      message === 'Email Sudah digunakan' &&
-      this.state.shouldRedirect
-    ) {
-      alert('Maaf, email Anda sudah pernah digunakan.');
-      this.setState(
-        {
-          shouldRedirect: false
-        },
-        () => {
-          this.props.navigator.resetTo({
-            screen: 'TemanDiabets.RegisterScreen',
-            navigatorStyle: {
-              navBarHidden: true
-            }
-          });
+          Alert.alert(
+            'Informasi',
+            'Data anda sedang kami validasi. Harap menghubungi customer service terkait.',
+            [
+              { text: 'OK', 
+                onPress: () => {
+                  this.props.navigator.resetTo({
+                    screen: 'TemanDiabets.LoginScreen',
+                    navigatorStyle: {
+                      navBarHidden: true
+                    }
+                  });
+                }
+              }
+            ]
+          );
         }
       );
     }
@@ -124,7 +117,7 @@ class RegisterFive extends React.Component {
         }
       );
     } else {
-      alert('Harap input nomor SIP Anda.');
+      Alert.alert('Harap input nomor SIP Anda.');
     }
   }
 
@@ -137,7 +130,7 @@ class RegisterFive extends React.Component {
         </View>
       );
     } else if (message === 'registration data incomplete' && status_code === 400) {
-      alert('Data already exist!');
+      Alert.alert('Data already exist!');
     }
     return (
       <View style={styles.container}>
