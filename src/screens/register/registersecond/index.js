@@ -15,6 +15,7 @@ import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import Style from '../../../style/defaultStyle';
 import { registerEmail, emailAlreadyRegistered, clearDataRegister } from '../../../actions/registerActions';
+import Images from '../../../assets/images';
 
 class RegisterScreenSecond extends React.Component {
 	static navigatorStyle = {
@@ -115,7 +116,7 @@ class RegisterScreenSecond extends React.Component {
 			<View style={styles.container}>
 				<ImageBackground
 					style={styles.imageBackground}
-					source={require('../../../assets/images/email.png')}
+					source={Images.backgroundEmail}
 				>
 					<TouchableOpacity
 						style={{
@@ -129,7 +130,7 @@ class RegisterScreenSecond extends React.Component {
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
-							source={require('../../../assets/icons/back_white.png')}
+							source={Images.backIcon}
 						/>
 					</TouchableOpacity>
 					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>

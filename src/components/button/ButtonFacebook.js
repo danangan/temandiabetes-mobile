@@ -5,8 +5,7 @@ import { Text, TouchableOpacity, Image, View } from 'react-native';
 import ViewPropTypes from '../../config/ViewPropTypes';
 import color from '../../style/color';
 import Style from '../../style//defaultStyle';
-
-const source = require('../../assets/icons/fb_icon.png');
+import Images from '../../assets/images';
 
 const ButtonFacebook = ({ onPress, text, containerStyle, textStyle }) => (
   <TouchableOpacity
@@ -15,7 +14,7 @@ const ButtonFacebook = ({ onPress, text, containerStyle, textStyle }) => (
     onPress={onPress}
   >
     <View style={styles.sectionStyle}>
-      <Image source={source} style={styles.ImageIconStyle} />
+      <Image source={Images.fbIcon} style={styles.ImageIconStyle} />
       <Text style={[styles.textStyle, textStyle]}>{text}</Text>
     </View>
   </TouchableOpacity>

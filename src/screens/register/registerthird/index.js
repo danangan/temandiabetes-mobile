@@ -14,6 +14,7 @@ import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import Style from '../../../style/defaultStyle';
 import { registerPassword } from '../../../actions/registerActions';
+import Images from '../../../assets/images';
 
 class RegisterScreenThird extends React.Component {
 	static navigatorStyle = {
@@ -90,7 +91,7 @@ class RegisterScreenThird extends React.Component {
 			<View style={styles.container}>
 				<ImageBackground
 					style={styles.imageBackground}
-					source={require('../../../assets/images/password.png')}
+					source={Images.backgroundPass}
 				>
 					<TouchableOpacity
 						style={{

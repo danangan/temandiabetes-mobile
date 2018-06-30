@@ -20,6 +20,7 @@ import { registerAction, registerSip } from '../../../actions';
 import { API_BASE } from '../../../utils/API';
 import { startLoginPage } from '../../../../App';
 import { authToken } from '../../../utils/constants';
+import Images from '../../../assets/images';
 
 class RegisterFive extends React.Component {
   static navigatorStyle = {
@@ -136,7 +137,7 @@ class RegisterFive extends React.Component {
       <View style={styles.container}>
         <ImageBackground
           style={styles.imageBackground}
-          source={require('../../../assets/images/sip.png')}
+          source={Images.backgroundSip}
         >
           <TouchableOpacity
             style={{
@@ -150,7 +151,7 @@ class RegisterFive extends React.Component {
             <Image
               resizeMode={'contain'}
               style={{ width: 30, height: 30, margin: 10 }}
-              source={require('../../../assets/icons/back_white.png')}
+              source={Images.backIcon}
             />
           </TouchableOpacity>
           <View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>

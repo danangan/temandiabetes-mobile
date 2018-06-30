@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import { Card, CardSection, TextField } from '../../components';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
+import Images from '../../assets/images';
 
 const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) => (
   <Card containerStyle={{ marginLeft: 35, marginRight: 35, borderWidth: 0, paddingVertical: 5, paddingHorizontal: 10, elevation: 0, borderRadius: 0, }}>
@@ -13,7 +14,7 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
         value={onValue.email}
         placeholder="masukkan username"
         onChangeText={email => onChangeTextHandlerEmail(email)}
-        rightIcon={require('../../assets/icons/username-dark.png')}
+        rightIcon={Images.userIcon}
         inputStyle={styles.inputStyle}
         underlineColorAndroid="rgba(0,0,0,0)"
       />
@@ -26,7 +27,7 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
         secureTextEntry
         placeholder="masukkan password"
         onChangeText={pass => onChangeTextHandlerPass(pass)}
-        rightIcon={require('../../assets/icons/pasword_black.png')}
+        rightIcon={Images.lockIcon}
         inputStyle={styles.inputStyle}
         underlineColorAndroid="rgba(0,0,0,0)"
       />

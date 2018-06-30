@@ -14,6 +14,7 @@ import { Indicator } from '../../components/indicator/Indicator';
 import styles from './style';
 import { registerNama } from '../../actions/registerActions';
 import Style from '../../style/defaultStyle';
+import Images from '../../assets/images';
 
 
 class Register extends Component {
@@ -73,7 +74,7 @@ class Register extends Component {
 			<View style={styles.container}>
 				<ImageBackground
 					style={styles.imageBackground}
-					source={require('../../assets/images/whats_your_name.png')}
+					source={Images.backgroundName}
 				>
 					<TouchableOpacity
 						style={{
@@ -89,7 +90,7 @@ class Register extends Component {
 						<Image
 							resizeMode={'contain'}
 							style={{ width: 30, height: 30, margin: 10 }}
-							source={require('../../assets/icons/back_white.png')}
+							source={Images.backIcon}
 						/>
 					</TouchableOpacity>
 					<View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>

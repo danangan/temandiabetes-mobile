@@ -19,6 +19,7 @@ import { buttonLabelDone, buttonLabelNext, typeOfUsers, authToken } from '../../
 import { API_BASE } from '../../../utils/API';
 import { updateFCMToken } from '../../../actions/authAction';
 import { mainApp } from '../../../../App';
+import Images from '../../../assets/images';
 
 class RegisterScreenFourth extends React.Component {
   static navigatorStyle = {
@@ -219,19 +220,19 @@ class RegisterScreenFourth extends React.Component {
           <Image
             resizeMode={'contain'}
             style={stylesLocal.images}
-            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FDiabetesi.png?alt=media&token=744e2da7-c307-49e9-83ea-165d0f07c99f' }}
+            source={{ uri: Images.diabetesiIcon }}
           />
         ) : index === 1 ? (
           <Image
             resizeMode={'contain'}
             style={stylesLocal.images}
-            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FInner%20Circle.png?alt=media&token=fd0b201a-1bf5-44fd-8bf0-8952e9ab0a74' }}
+            source={{ uri: Images.innerCircleIcon }}
           />
         ) : index === 2 ? (
           <Image
             resizeMode={'contain'}
             style={stylesLocal.images}
-            source={{ uri: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FExpertise.png?alt=media&token=1f199e44-036d-4bae-87a4-632915775079' }}
+            source={{ uri: Images.advisorIcon }}
           />
         ) : null}
 
@@ -281,7 +282,7 @@ class RegisterScreenFourth extends React.Component {
       <View style={[styles.container, { paddingBottom: 0 }]}>
         <ImageBackground
           style={styles.imageBackground}
-          source={require('../../../assets/images/who_are_you.png')}
+          source={Images.backgroundTypeUser}
         >
           <TouchableOpacity
             style={{
@@ -296,7 +297,7 @@ class RegisterScreenFourth extends React.Component {
             <Image
               resizeMode={'contain'}
               style={{ width: 30, height: 30, margin: 10 }}
-              source={require('../../../assets/icons/back_white.png')}
+              source={Images.backIcon}
             />
           </TouchableOpacity>
           <View style={styles.wrapTitle}>

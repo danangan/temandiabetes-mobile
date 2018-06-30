@@ -15,8 +15,8 @@ import Form from './Form';
 import BorderLine from './BorderLine';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
-import logo from '../../assets/icons/logo.png';
-import image from '../../assets/images/login.png';
+import Images from '../../assets/images';
+
 import {
   loginManual,
   setupGoogleSignIn,
@@ -166,10 +166,10 @@ class Login extends Component {
     );
 
     return (
-      <ImageBackground source={image} style={styles.containerStyle}>
+      <ImageBackground source={Images.backgroundLogin} style={styles.containerStyle}>
         <View style={styles.contentStyle}>
           <View style={styles.contentTopStyle}>
-            <Image source={logo} style={styles.logoStyle} />
+            <Image source={Images.logoApp} style={styles.logoStyle} />
           </View>
           <KeyboardAvoidingView behavior="padding">
             <View style={styles.contentCenterStyle}>
