@@ -25,6 +25,10 @@ import {
   resetState
 } from '../../actions/loginActions';
 
+import {
+  clearDataRegister
+} from '../../actions/registerActions';
+
 import { updateFCMToken } from '../../actions/authAction';
 
 class Login extends Component {
@@ -135,6 +139,7 @@ class Login extends Component {
   };
 
   createAccount = () => {
+    this.props.clearDataRegister('CLEAR_DATA_REGISTER');
     this.props.navigator.push({
       screen: 'TemanDiabets.RegisterScreen',
       animated: true,
@@ -273,7 +278,8 @@ const mapDispatchToProps = dispatch => ({
   setupGoogleSignIn: () => dispatch(setupGoogleSignIn()),
   onSignOut: () => dispatch(onSignOut()),
   updateFCMToken: params => dispatch(updateFCMToken(params)),
-  resetState: () => dispatch(resetState())
+  resetState: () => dispatch(resetState()),
+  clearDataRegister: (type) => dispatch(clearDataRegister(type))
 });
 
 export default connect(

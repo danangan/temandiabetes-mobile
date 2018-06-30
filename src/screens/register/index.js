@@ -82,7 +82,9 @@ class Register extends Component {
 							alignItems: 'flex-start',
 							alignSelf: 'flex-start'
 						}}
-						onPress={() => this.props.navigator.pop()}
+						onPress={() =>{ 
+							this.props.navigator.pop();
+						}}
 					>
 						<Image
 							resizeMode={'contain'}
