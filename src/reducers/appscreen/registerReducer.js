@@ -101,6 +101,22 @@ const registerReducer = (state = initialState, action) => {
 			};
 		}
 
+		case 'CLEAR_DATA_REGISTER': {
+			return {
+				...state, 
+				dataUser: {
+					...state.dataUser, 
+					id: '',
+					nama: '',
+					email: '',
+					tipe_user: '',
+					message: '',
+					password: '',
+					confirmPassword: '',
+				}
+			};
+		}
+
 		case 'PENDING_EMAIL_ALREADY_REGISTERED': {
 			return {
 				...state, 
