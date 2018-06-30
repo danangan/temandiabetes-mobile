@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { View, Text, Image } from 'react-native';
 import { Avatar } from '../avatar';
 import { CAMERA_ICON } from '../../utils/constants'
-import ImageUploader from '../imageUploader'
+import ImageUploader from '../imageUploader';
+import Style from '../../style/defaultStyle';
 
 const ProfileCard = (props) => {
   const { currentUser, updateLoadingState } = props;
@@ -26,8 +27,8 @@ const ProfileCard = (props) => {
         </ImageUploader>
       </View>
       <View style={styles.titleContainerStyle}>
-        <Text style={{ fontSize: 28, fontFamily: 'Monserrat-Regular', color: '#000' }}>{ currentUser.nama }</Text>
-        <Text style={{ fontSize: 14, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{ currentUser.tipe_user }</Text>
+        <Text style={{ fontSize: Style.FONT_SIZE, fontFamily: 'Monserrat-Regular', color: '#000' }}>{ currentUser.nama }</Text>
+        <Text style={{ fontSize: Style.FONT_SIZE_SMALLER, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{ currentUser.tipe_user }</Text>
       </View>
     </View>
   )
