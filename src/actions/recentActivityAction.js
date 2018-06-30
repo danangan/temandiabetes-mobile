@@ -114,7 +114,13 @@ export const getUserRecentActivityResponse = (userId, page, limit) => async disp
     const request = await instance.get(
       `api/users/${userId}/recent-activity/response?page=${page}&limit=${limit}&`
     );
-    onSuccess(request.data.data);
+    const payload = {
+      status_code: request.status,
+      message: request.data.message,
+      pages: page,
+      response: request.data.data,
+    };
+    onSuccess(payload);
   } catch (error) {
     onSuccess(error);
   }

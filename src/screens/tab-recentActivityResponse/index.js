@@ -1,5 +1,6 @@
 import React from 'react';
-
+import { connect } from 'react-redux';
+import axios from 'axios';
 import {
   View,
   Text,
@@ -13,11 +14,12 @@ import {
   formatTimeFromDate
 } from '../../utils/helpers';
 
+import Style from '../../style/defaultStyle';
+
 import { 
-  getUserRecentThread, 
-  getUserRecentComment,
   getUserRecentActivityResponse 
 } from '../../actions/recentActivityAction';
+
 
 class TabRecentActivityResponse extends React.Component {
   constructor(props) {
@@ -25,31 +27,48 @@ class TabRecentActivityResponse extends React.Component {
     this.state = {
       page: 1,
       refreshing: false,
-      isLoadMorePage: false
+      isLoadMorePage: false,
+      idUser: this.props.dataAuth._id
     };
+    this.renderFooter = this.renderFooter.bind(this);
+    this.onEndReached = this.onEndReached.bind(this);
   }
 
-  renderPreviewResponse(response) {
-    switch (response.activityType) {
-      case 'comment':
-        return `Anda telah memberikan komentar pada ${response.comment.text}`; 
-      case 'reply_comment':
-        return `Anda telah membalas komentar pada ${response.comment.text}`;
-      case 'follow':
-        return `Anda telah mengikuti ${response.thread.topic}`;
-      case 'unfollow':
-        return 'Anda berhenti mengikuti...';
-      case 'drug_reminder': 
-        return 'Anda telah membuat pengingat obat';
-      case 'sender_innercircle':
-        return 'Anda telah mengirimkan permintaan pertemanan ke';
-      default:
-        return '';
+  componentDidMount() {
+    this.props.getUserRecentActivityResponse(this.state.idUser, 1, 5);
+  }
+
+  onEndReached() {
+    const { idUser, page } = this.state;
+    const { recentResponse } = this.props.dataActivity; 
+    
+    if (recentResponse.status_code !== 400) {
+      this.setState({
+        isLoadMorePage: true,
+        page: this.state.page + 1
+      }, () => {
+        // const { page, pages } = this.props.dataThreads.item
+        this.props.getUserRecentActivityResponse(idUser, page, 5);
+      });
     }
   }
 
+  renderFooter() {
+    const { recentResponse } = this.props.dataActivity; 
+    const Loader = (
+      <View style={styles.loadMoreContent}>
+        <ActivityIndicator color="#EF434F" size={25} />
+      </View>
+    );
+
+    return (
+      <View style={styles.loadMoreContainer}>
+        { recentResponse.status_code !== 400 ? Loader : <View /> }
+      </View>
+    );
+  }
+
   renderItem(dataResponse) {
-    // console.log('dataResponse ', dataResponse);
     return (
       <View style={{ padding: 1 }}>
         <View style={styles.notificationWrapper}>
@@ -88,46 +107,47 @@ class TabRecentActivityResponse extends React.Component {
     );
   }
 
-  renderFooter() {
-    // const { page, pages } = this.props.dataThreads.listThreads.item;
-
-    const Loader = (
-      <View style={styles.loadMoreContent}>
-        <ActivityIndicator color="#EF434F" size={25} />
-      </View>
-    );
-
-    return (
-      <View style={styles.loadMoreContainer}>
-        { this.state.isLoadMorePage ? Loader : <View /> }
-      </View>
-    );
-  }
-
-  onEndReached() {
-    this.setState({
-      isLoadMorePage: true,
-      page: this.state.page + 1
-    }, () => {
-      // const { page, pages } = this.props.dataThreads.item
-      this.props.getThreadStatic(this.state.page);
-    });
+  renderPreviewResponse(response) {
+    switch (response.activityType) {
+      case 'comment':
+        return `Anda telah memberikan komentar pada ${response.comment.text}`; 
+      case 'reply_comment':
+        return `Anda telah membalas komentar pada ${response.comment.text}`;
+      case 'follow':
+        return `Anda telah mengikuti ${response.thread.topic}`;
+      case 'unfollow':
+        return 'Anda berhenti mengikuti...';
+      case 'drug_reminder': 
+        return 'Anda telah membuat pengingat obat';
+      case 'sender_innercircle':
+        return 'Anda telah mengirimkan permintaan pertemanan ke';
+      default:
+        return '';
+    }
   }
 
   render() {
-    const { listActivity } = this.props;
+    const { recentResponse } = this.props.dataActivity;
+    
+    if (recentResponse.status_code === 201 && recentResponse.data.length === 0) {
+      return (
+        <View style={styles.messageEmpty}>
+          <Text style={styles.textHistory}>Tidak ada riwayat aktivittas Anda</Text>
+        </View>
+      );
+    }
     
     return (
       <FlatList
         // ListEmptyComponent={this.renderEmptySection}
         // ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
-        data={listActivity}
+        data={recentResponse.data}
         renderItem={item => this.renderItem(item)}
         refreshing={this.state.refreshing}
         // onRefresh={this.handleRefresh}
         onEndReached={this.onEndReached}
-        onEndReachedThreshold={0.3}
+        onEndReachedThreshold={1}
       />
     );
   }
@@ -155,6 +175,25 @@ const styles = {
     marginVertical: 10,
     height: 25
   },
+  messageEmpty: {
+    flex: 1, 
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textHistory: { 
+    fontFamily: 'Montserrat-Regular',
+    textAlign: 'center',
+    fontSize: Style.FONT_SIZE
+  }
 };
 
-export default TabRecentActivityResponse;
+const mapStateToProps = state => ({
+  dataActivity: state.recentActivityReducer,
+  dataAuth: state.authReducer.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  getUserRecentActivityResponse: (idUser, page, limit) => dispatch(getUserRecentActivityResponse(idUser, page, limit))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TabRecentActivityResponse);

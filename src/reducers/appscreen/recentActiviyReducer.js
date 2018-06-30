@@ -11,7 +11,8 @@ const initialState = {
   },
   recentResponse: {
     status_code: 0,
-    data: []
+    data: [],
+    page: 0
   }
 };
 
@@ -37,7 +38,13 @@ function getUserRecentActivityResponse(state, payload) {
   return {
     ...state,
     recentResponse: {
-      ...state.recentResponse, data: payload, status_code: 201
+      ...state.recentResponse,
+        data: [
+          ...state.recentResponse.data,
+           ...payload.response
+        ], 
+      status_code: payload.response.length === 0 && payload.status_code === 201 ? 400 : 201,
+      page: payload.pages
     }
   };
 }
@@ -63,14 +70,14 @@ const recentActivityReducer = (state = initialState, action) => {
     }
     case ActionTypes.GET_USER_RECENT_COMMENTS: 
       return getUserRecentComment(state, action.payload);
-    case 'PENDING_GET_USER_RECENT_RESPONSES': {
-      return {
-        ...state, 
-        recentResponse: {
-          ...state.recentResponse, status_code: 0, data: []
-        }
-      };
-    }
+    // case 'PENDING_GET_USER_RECENT_RESPONSES': {
+    //   return {
+    //     ...state, 
+    //     recentResponse: {
+    //       ...state.recentResponse, status_code: 0, data: []
+    //     }
+    //   };
+    // }
     case ActionTypes.GET_USER_RECENT_RESPONSES:
       return getUserRecentActivityResponse(state, action.payload);
 		default:
