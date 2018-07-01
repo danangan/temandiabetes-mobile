@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux'
-
+import moment from 'moment';
 import { NavigationBar, Button, Spinner } from '../../components'
 import { API_CALL } from '../../utils/ajaxRequestHelper'
 import { sliceString } from '../../utils/helpers'
@@ -145,7 +145,7 @@ class Notification extends React.Component {
   }
 
   redirectOnPress({ activity, has_read, _id}, index) {
-    let screen
+    let screen = ''
     let passProps = {}
     switch (activity.activityType) {
       case 'comment':
@@ -193,13 +193,15 @@ class Notification extends React.Component {
           ...this.state.notifications.slice(index + 1)
         ]
       }, () => {
-        this.props.navigator.push({
-          screen,
-          passProps,
-          navigatorStyle: {
-            navBarHidden: true
-          },
-        });
+        if (screen !== '') {
+          this.props.navigator.push({
+            screen,
+            passProps,
+            navigatorStyle: {
+              navBarHidden: true
+            },
+          });
+        }
       })
     }
   }
@@ -256,9 +258,9 @@ class Notification extends React.Component {
         return (
           <Text>
             <Text>Jadwal Anda mengkonsumsi obat </Text>
-            <Text style={styles.boldText}>Nama Obat Goes Here</Text>
-            <Text> pada </Text>
-            <Text style={styles.boldText}>1 Mei 2018</Text>
+            <Text style={styles.boldText}>{activity.drugReminder.drugName || ''}</Text>
+            <Text> pada pukul </Text>
+            <Text style={styles.boldText}>{new moment(new Date(activity.drugReminder.datetimeConsume)).format('HH:mm')}.</Text>
           </Text>
         )
         break;
@@ -273,7 +275,7 @@ class Notification extends React.Component {
       case 'sender_innercircle':
         return (
           <Text>
-            <Text style={styles.boldText}>{activity.innerCircle.name || 'Seseorang'}</Text>
+            <Text style={styles.boldText}>{activity.user.nama || 'Seseorang'}</Text>
             <Text> menerima permintaan inner circle Anda.</Text>
           </Text>
         )

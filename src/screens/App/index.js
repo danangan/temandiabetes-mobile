@@ -6,6 +6,7 @@ import {
   Platform
 } from 'react-native'
 import { connect } from 'react-redux';
+import moment from 'moment';
 import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
 
 // ACTIONS
@@ -149,6 +150,8 @@ class App extends Component {
         break;
       case 'drug_reminder':
         title = `Pengingat obat`
+        body = `${notif.drugName} - ${new moment(new Date(notif.datetimeconsume)).format('HH:mm')}. Sentuh untuk info lebih lanjut`
+        screen = 'TemanDiabets.DrugReminder'
         break;
       case "receiver_innercircle":
         title = `${JSON.parse(notif.sender).name} mengirimkan permintaan inner circle`

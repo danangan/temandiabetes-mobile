@@ -199,13 +199,13 @@ class InputTracker extends Component {
     let minutes = '';
     // let seconds = '';
     let fullTime = '';
- 
+
     // Creating Date() function object.
     date = new Date();
- 
+
     // Getting current hour from Date object.
-    hour = date.getHours(); 
- 
+    hour = date.getHours();
+
     // Checking if the Hour is less than equals to 11 then Set the Time format as AM.
     if (hour <= 11) {
       TimeType = 'AM';
@@ -217,20 +217,20 @@ class InputTracker extends Component {
     if (hour > 12) {
       hour = hour - 12;
     }
- 
-    // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format. 
+
+    // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format.
     if (hour === 0) {
       hour = 12;
-    } 
- 
+    }
+
     // Getting the current minutes from date object.
     minutes = date.getMinutes();
- 
+
     // Checking if the minutes value is less then 10 then add 0 before minutes.
     if (minutes < 10) {
       minutes = '0' + minutes.toString();
     }
- 
+
     //Getting current seconds from date object.
     seconds = date.getSeconds();
     // If seconds value is less than 10 then add 0 before seconds.
@@ -274,7 +274,7 @@ class InputTracker extends Component {
       return false;
     }
   }
- 
+
   handleSave(casing) {
     const {
       dateInput,
@@ -295,16 +295,16 @@ class InputTracker extends Component {
       date,
       time
     } = this.state;
-    
+
     const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
     inputDate.toUTCString();
-    
+
     if (casing === 'GULA_DARAH') {
       const value = {
         waktuInput: inputDate,
         gulaDarah
       };
-      
+
       if (gulaDarah === 0 || gulaDarah === '') {
         alert('Silahkan input Gula darah Anda.');
       } else {
@@ -331,7 +331,7 @@ class InputTracker extends Component {
           distolic
         }
       };
-            
+
       if (sistolic === 0 || sistolic === '') {
         alert('Silahkan input Sistolic Anda.');
       } else if (distolic === 0 || distolic === '') {
@@ -436,7 +436,7 @@ class InputTracker extends Component {
     const dateNow = dateFormateName(dt);
     const displayTime = `${time.hour}:${time.minute}`;
     const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
-    
+
     return (
       <TouchableOpacity
         style={{
@@ -460,7 +460,7 @@ class InputTracker extends Component {
         style={{ flex: 0, alignSelf: 'flex-end', justifyContent: 'flex-end', alignItems: 'center' }}
         onPress={() => this.setModalVisible()}
       >
-        <Image 
+        <Image
           resizeModa={'contain'}
           style={{ width: 20, height: 20 }}
           source={require('../../../assets/icons/close.png')}
@@ -1009,7 +1009,6 @@ class InputTracker extends Component {
   }
 
   render() {
-    console.log('THIS STATE ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>

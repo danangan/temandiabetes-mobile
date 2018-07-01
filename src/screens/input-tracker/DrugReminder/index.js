@@ -9,7 +9,7 @@ import {
   FlatList
 } from 'react-native';
 
-import { 
+import {
   getListReminder,
   createDrugReminder,
   updateDrugReminder,
@@ -54,7 +54,7 @@ class DrugReminder extends React.Component {
       }, () => {
         if (this.state.item.length === 0) {
           this.props.getListReminder();
-        } 
+        }
       });
     } else if (nexProps.dataReminder.createReminder.status_code === 200 && this.state.isProcess) {
       this.setState({
@@ -145,7 +145,7 @@ class DrugReminder extends React.Component {
           <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
         </View>
       );
-    } 
+    }
     return (
       <ModalCreateReminder
         modalVisible={this.state.modalActive}
@@ -188,8 +188,8 @@ class DrugReminder extends React.Component {
 
   renderItem(reminder) {
     return (
-      <ReminderCard 
-        key={reminder.index} 
+      <ReminderCard
+        key={reminder.index}
         item={reminder.item}
         index={reminder.index}
         statusReminder={this.resultValue(reminder.item.is_active)}
@@ -209,7 +209,6 @@ class DrugReminder extends React.Component {
   }
 
   render() {
-    console.log(' THIS STATE ', this.state);
     const { listReminder } = this.props.dataReminder;
     return (
       <View style={styles.container}>
@@ -218,7 +217,7 @@ class DrugReminder extends React.Component {
           onPress={() => this.props.navigator.pop()} title="PENGINGAT OBAT"
         />
         <View style={styles.centerWrapper}>
-          { 
+          {
             this.state.item.length === 0 ?
             this.isLoadingData()
             :
@@ -231,7 +230,7 @@ class DrugReminder extends React.Component {
           }
         </View>
         <View style={styles.leftWrapper}>
-          <TouchableHighlight 
+          <TouchableHighlight
             onPress={this.setModalVisible}
             style={{ flex: 0.5, backgroundColor: '#ef434f', justifyContent: 'center', alignItems: 'center', elevation: 3, borderRadius: 3 }}>
             <Text style={{ color: '#fff', paddingHorizontal: 30, fontFamily: 'Montserrat-Light', fontSize: 12 }}>TAMBAH</Text>
@@ -243,19 +242,19 @@ class DrugReminder extends React.Component {
 }
 
 const styles = {
-  container: { 
-    flex: 1, 
+  container: {
+    flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 2, 
-    paddingVertical: 15 
+    paddingHorizontal: 2,
+    paddingVertical: 15
   },
-  centerWrapper: { 
-    flex: 5 
+  centerWrapper: {
+    flex: 5
   },
-  leftWrapper: { 
-    flex: 1, 
+  leftWrapper: {
+    flex: 1,
     justifyContent: 'center',
-    alignItems: 'center' 
+    alignItems: 'center'
   }
 };
 
