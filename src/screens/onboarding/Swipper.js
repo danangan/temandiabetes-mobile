@@ -17,48 +17,16 @@ export default class OnboardingScreens extends Component {
 
     this.state = {
       // button
-      index: 0,
-			total: 0,
-			width: screenWidth,
+      index: 0
     }
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.initState(newProps)
-  }
-
-	/**
-	 * Initialize the state
-	 */
-
-	initState(props) {
-    const { children } = props;
-		// Get the total number of slides passed as children
-    const total = children ? children.length || 1 : 0;
-    // Current index
-    const index = total > 1 ? Math.min(this.state.index, total - 1) : 0;
-
-		const offset = screenWidth * index;
-    const width = screenWidth * total;
-
-		const updatedState = {
-			total,
-			index,
-			width
-		};
 
 		// Component internals as a class property,
 		// and not state to avoid component re-renders when updated
-		this.internals = {
-			isScrolling: false,
-			offset
-		};
-
-		this.setState({
-      ...this.state,
-      ...updatedState
-    })
-	}
+    this.internals = {
+      offset: 0,
+      isScrolling: false,
+    }
+  }
 
 	/**
 	 * Scroll begin handler
@@ -110,10 +78,20 @@ export default class OnboardingScreens extends Component {
 		// Do nothing if offset didn't change
 		if (diff === 0) {
 			return;
-		}
+    }
 
-		// Make sure index is always an integer, brah..
-		const newIndex = index + (diff > 0 ? 1 : -1);
+    const totalPages = this.props.children.length
+
+    const totalScreenWidth = totalPages*screenWidth
+
+    let newIndex = 0
+    for (let i = 0; i < totalPages; i++) {
+      const prevScreenOffset = i*screenWidth
+      const currentScreenOffset = (i+1)*screenWidth
+      if (offset >= prevScreenOffset && offset < currentScreenOffset) {
+        newIndex = i
+      }
+    }
 
 		// Update internal offset
 		this.internals.offset = offset;
@@ -195,14 +173,14 @@ export default class OnboardingScreens extends Component {
 	 */
 
 	renderPagination = () => {
-		if (this.state.total <= 1) {
+		if (this.props.children.length <= 1) {
 			return null;
 		}
 		const ActiveDot = <View style={[styles.dot, styles.activeDot]} />,
 			Dot = <View style={styles.dot} />;
 
 		const dots = [];
-		for (let key = 0; key < this.state.total; key++) {
+		for (let key = 0; key < this.props.children.length; key++) {
 			dots.push(
 				key === this.state.index
 					? // Active dot

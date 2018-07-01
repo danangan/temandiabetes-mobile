@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 
 import Swipper from './Swipper';
 import Onboarding from './Onboarding';
 import { Spinner } from '../../components/Spinner';
-import Style from '../../style/defaultStyle';
 
 class Screen extends Component {
   constructor(props) {
