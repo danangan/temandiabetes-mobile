@@ -14,9 +14,7 @@ class ReminderCard extends React.Component {
 
   renderReminderDetail(dateTime, rules) {
     const rulesDrugs = rules === 'sesudahMakan' ? 'Sesudah Makan' : 'Sebelum Makan';
-    const now = moment(dateTime);
-    const clock = now.hours() + ':' + now.minutes();
-    return `${clock} - ${rulesDrugs}`;
+    return `${moment(dateTime).format('HH:mm')} - ${rulesDrugs}`;
   }
 
   render() {
@@ -46,7 +44,7 @@ class ReminderCard extends React.Component {
           >
             <Text style={styles.btnRight}>UBAH</Text>
           </TouchableOpacity>
-          <Switch 
+          <Switch
             style={{ borderColor: '#000', borderWidth: 1 }}
             onValueChange={() => this.props.toUpdateStatusReminder({ index, _id, is_active })}
             value={this.props.statusReminder}
@@ -58,37 +56,37 @@ class ReminderCard extends React.Component {
 }
 
 const styles = {
-  container: { 
-    flex: 1, 
-    borderBottomColor: '#ff1200', 
-    borderBottomWidth: 1, 
-    flexDirection: 'row', 
-    paddingVertical: 20, 
-    paddingHorizontal: 10 
+  container: {
+    flex: 1,
+    borderBottomColor: '#ff1200',
+    borderBottomWidth: 1,
+    flexDirection: 'row',
+    paddingVertical: 20,
+    paddingHorizontal: 10
   },
-  titleDrug: { 
-    color: '#696977', 
+  titleDrug: {
+    color: '#696977',
     fontFamily: 'Montserrat-Regular',
     fontSize: 15
   },
-  leftSide: { 
-    flex: 0.5, 
-    justifyContent: 'flex-start', 
-    alignItems: 'center', 
-    paddingVertical: 5 
+  leftSide: {
+    flex: 0.5,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingVertical: 5
   },
-  rightSide: { 
-    flex: 1, 
-    justifyContent: 'center', 
-    alignItems: 'center' 
+  rightSide: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
-  btnRight: { 
-    paddingHorizontal: 5, 
+  btnRight: {
+    paddingHorizontal: 5,
     paddingVertical: 5,
-    textAlign: 'center', 
-    color: '#fff', 
-    fontSize: 9, 
-    backgroundColor: '#ef434f' 
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 9,
+    backgroundColor: '#ef434f'
   }
 };
 
