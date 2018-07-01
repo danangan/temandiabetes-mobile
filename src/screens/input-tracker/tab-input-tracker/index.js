@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import {
   View,
   Platform,
@@ -13,9 +14,9 @@ import {
   Keyboard,
   ScrollView,
   Picker,
-  AsyncStorage,
   ActivityIndicator,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 
 import {
@@ -168,23 +169,34 @@ class InputTracker extends Component {
       const { action, hour, minute } = await TimePickerAndroid.open({
         hour: 14,
         minute: null,
-        is24Hour: false,
+        is24Hour: true,
       });
-      // console.log('INI MENIT KAN... ', minute);
+  
       const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
-      // console.log(`INI DATE NYA BRE --> ${hour}:${menit}`);
+      console.log(`INI DATE NYA BRE --> ${hour}:${minute}` + '  ' + action);
       if (action !== TimePickerAndroid.dismissedAction) {
-        this.setState({
-          time: {
-            hour,
-            minute: menit
-          },
-          isTime: `${hour}:${menit}`,
-          iniJam: `${hour}`,
-          iniMenit: `${menit}`,
-          hasSetTime: true
-        });
+       
+        const limitTime = new moment().hours(hour).minute(minute);
+       const checking = limitTime.isBefore(new moment());
+       console.log('Bisa gak ?', checking);
+        if (checking) {
+          this.setState({
+            time: {
+              hour,
+              minute: menit
+            },
+            isTime: `${hour}:${menit}`,
+            iniJam: `${hour}`,
+            iniMenit: `${menit}`,
+            hasSetTime: true
+          });
+        } else {
+          Alert.alert(
+            'Perhatian!',
+            'Tidak boleh lebih dari jam sekarang'
+          );
+        }
       }
     } catch ({ code, message }) {
       console.log('Cannot open time picker', message);
@@ -432,7 +444,7 @@ class InputTracker extends Component {
 
   renderButtonOpenDate() {
     const { isDate, isTime, time, hasSetTime } = this.state;
-    const dt = new Date();
+    const dt = isDate === '' ? new Date() : isDate;
     const dateNow = dateFormateName(dt);
     const displayTime = `${time.hour}:${time.minute}`;
     const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
