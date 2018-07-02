@@ -1,10 +1,10 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-const ButtonSave = (props) => ( 
+const ButtonSave = (props) => (
   <TouchableOpacity
     style={{
-      flex: 0.5,
+      height: 45,
       width: '50%',
       alignItems: 'center',
       backgroundColor: '#ef434e',

@@ -6,10 +6,11 @@ import {
   Text,
   TextInput,
   ScrollView,
+  Image,
   TouchableOpacity,
   ActivityIndicator,
   DatePickerAndroid,
-  TimePickerAndroid
+  TimePickerAndroid,
 } from 'react-native';
 
 import debounce from 'lodash/debounce';
@@ -21,7 +22,7 @@ import { dateFormateName } from '../../../../utils/helpers';
 const TextInputHoc = (props) => (
   <View
     style={{
-      flex: 2,
+      flex: 1,
       justifyContent: 'flex-start',
       alignItems: 'center',
       paddingHorizontal: 10,
@@ -29,7 +30,6 @@ const TextInputHoc = (props) => (
       backgroundColor: '#fff'
     }}
   >
-    {/* {this.renderButtonOpenDate()} */}
   <View style={{ flex: 1, width: '70%' }}>
       <Text style={{ color: '#b6b6b6' }}>{props.title}</Text>
       <TextInput
@@ -39,7 +39,7 @@ const TextInputHoc = (props) => (
         placeholder={props.placeholder}
         style={{
           textAlign: 'center',
-          fontSize: 19,
+          fontSize: 20,
           fontFamily: 'OpenSans-Italic',
         }}
         underlineColorAndroid="#ef434e"
@@ -238,12 +238,19 @@ class PreviewSearchMakanan extends React.Component {
       <TouchableOpacity
         style={{
           flex: 1,
+          flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
+          marginVertical: 10
         }}
         onPress={() => this.openDatePicker()}
       >
-          <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light' }}>
+          <Image
+            resizeModa={'contain'}
+            style={{ width: 20, height: 20 }}
+            source={require('../../../../assets/icons/calendar.png')}
+          />
+          <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light', paddingLeft: 15, }}>
           {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
           { displayDate }
           </Text>
@@ -380,7 +387,7 @@ class PreviewSearchMakanan extends React.Component {
     }
     return (
       <KeyboardAwareScrollView
-        style={{ flex: 1, backgroundColor: 'trasparent', paddingVertical: 15 }}
+        style={{ flex: 1, backgroundColor: '#fff', paddingVertical: 15 }}
         resetScrollToCoords={{
           x: 120,
           y: 120

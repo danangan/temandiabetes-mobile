@@ -16,7 +16,8 @@ import {
   Picker,
   ActivityIndicator,
   Image,
-  Alert
+  Alert,
+  Dimensions
 } from 'react-native';
 
 import {
@@ -171,12 +172,12 @@ class InputTracker extends Component {
         minute: null,
         is24Hour: true,
       });
-  
+
       const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
       console.log(`INI DATE NYA BRE --> ${hour}:${minute}` + '  ' + action);
       if (action !== TimePickerAndroid.dismissedAction) {
-       
+
         const limitTime = new moment().hours(hour).minute(minute);
        const checking = limitTime.isBefore(new moment());
        console.log('Bisa gak ?', checking);
@@ -266,7 +267,6 @@ class InputTracker extends Component {
   }
 
   setModalVisible(isModal) {
-    console.log('PARAMS SET MODAL ', isModal);
     const params = isModal === undefined ? '' : isModal;
     this.setState({
       modalVisible: !this.state.modalVisible,
@@ -278,7 +278,6 @@ class InputTracker extends Component {
   }
 
   validationInput(params) {
-    // const checking = params.split('');
     const checkDecimal = /^[0-9]+([,.][0-9]+)?$/g.test(params);
     if (checkDecimal) {
       return true;
@@ -450,19 +449,34 @@ class InputTracker extends Component {
     const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
 
     return (
-      <TouchableOpacity
-        style={{
-          flex: 1,
+      <View style={{
+          // flex: 1,
+          marginVertical: 10,
+          flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-        }}
-        onPress={() => this.openDatePicker()}
-      >
-          <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light' }}>
-          {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
-          { displayDate }
-          </Text>
-      </TouchableOpacity>
+          paddingHorizontal: 20
+        }}>
+        <Image
+          resizeModa={'contain'}
+          style={{ width: 20, height: 20 }}
+          source={require('../../../assets/icons/calendar.png')}
+        />
+        <TouchableOpacity
+          style={{
+            // flex: 1,
+            paddingHorizontal: 10,
+            // justifyContent: 'center',
+            // alignItems: 'flex-start',
+          }}
+          onPress={() => this.openDatePicker()}
+        >
+            <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Light' }}>
+            {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
+            { displayDate }
+            </Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 
@@ -485,29 +499,31 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 2,
-        justifyContent: 'flex-start',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 10,
         paddingVertical: 20,
         backgroundColor: '#fff'
       }}
       >
-        { this.renderButtonClose() }
-        {this.renderButtonOpenDate()}
+        { this.renderButtonOpenDate() }
        <View
        style={{
          flex: 1,
          width: '70%',
+         justifyContent: 'center',
+        //  alignItems: 'center',
         }}
        >
+          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Gula darah</Text>
           <TextInput
             value={this.state.gulaDarah}
             keyboardType={'numeric'}
             placeholder="75/80mm/hg"
             onChangeText={(gulaDarah) => this.setState({ gulaDarah })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
+            underlineColorAndroid="#EF434F"
           />
         </View>
         <ButtonSave
@@ -537,22 +553,23 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 2,
+        flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingHorizontal: 10,
-        paddingVertical: 20,
+        paddingVertical: 30,
         backgroundColor: '#fff'
       }}
       >
-        { this.renderButtonClose() }
         {this.renderButtonOpenDate()}
        <View
         style={{
           flex: 1,
           width: '70%',
+          justifyContent: 'center',
         }}
        >
+        <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Hba1c</Text>
           <TextInput
             value={this.state.hba1c}
             keyboardType={'numeric'}
@@ -574,7 +591,7 @@ class InputTracker extends Component {
             }}
             placeholder="6.0 %"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
+            underlineColorAndroid="#EF434F"
           />
         </View>
         <ButtonSave
@@ -593,9 +610,16 @@ class InputTracker extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          // alert('Modal has been closed.');
+          this.setModalVisible()
         }}
       >
+        <TouchableHighlight
+          onPress={() => {
+            this.setModalVisible()
+          }}
+          style={styles.modalOverlay}>
+          <View />
+        </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
             style={
@@ -617,13 +641,20 @@ class InputTracker extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          // alert('Modal has been closed.');
+          this.setModalVisible()
         }}
       >
+        <TouchableHighlight
+          onPress={() => {
+            this.setModalVisible()
+          }}
+          style={styles.modalOverlay}>
+          <View />
+        </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
             style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
+              [styles.modalContent,  { height: this.state.keyboardActive ? '60%' : '40%' }]}
           >
             { this.contentGulaDarah() }
           </View>
@@ -639,7 +670,7 @@ class InputTracker extends Component {
   //       transparent={true}
   //       visible={this.state.modalVisible}
   //     >
-  //       <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalWrapper}>
+  //       <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalOverlay}>
   //         <View
   //           style={
   //             [styles.modalContent, { height: '60%' }]}
@@ -664,9 +695,16 @@ class InputTracker extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          // alert('Modal has been closed.');
+          this.setModalVisible()
         }}
       >
+        <TouchableHighlight
+          onPress={() => {
+            this.setModalVisible()
+          }}
+          style={styles.modalOverlay}>
+          <View />
+        </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
             style={
@@ -683,7 +721,7 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 2,
+        flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingHorizontal: 10,
@@ -691,22 +729,22 @@ class InputTracker extends Component {
         backgroundColor: '#fff'
       }}
       >
-        { this.renderButtonClose() }
         {this.renderButtonOpenDate()}
        <View
         style={{
           flex: 1,
           width: '70%',
+          paddingTop: 10
         }}
        >
-          <Text>Sistolic</Text>
+          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Sistolic</Text>
           <TextInput
             value={this.state.sistolic}
             keyboardType={'numeric'}
             onChangeText={(sistolic) => this.setState({ sistolic })}
             placeholder="120 mm/Hg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
+            underlineColorAndroid="#EF434F"
           />
         </View>
         <View
@@ -715,14 +753,14 @@ class InputTracker extends Component {
           width: '70%',
           }}
         >
-          <Text>Diastolic</Text>
+          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Diastolic</Text>
           <TextInput
             value={this.state.distolic}
             keyboardType={'numeric'}
             placeholder="80 mm/Hg"
             onChangeText={(distolic) => this.setState({ distolic })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
+            underlineColorAndroid="#EF434F"
           />
         </View>
         <ButtonSave
@@ -741,11 +779,18 @@ class InputTracker extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          // alert('Modal has been closed.');
+          this.setModalVisible()
         }}
       >
         {/* this.setModalVisible() */}
-        <View onPress={() => null} style={styles.modalWrapper}>
+        <TouchableHighlight
+          onPress={() => {
+            this.setModalVisible()
+          }}
+          style={styles.modalOverlay}>
+          <View />
+        </TouchableHighlight>
+        <View style={styles.modalWrapper}>
           <View
             style={
               [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
@@ -761,23 +806,21 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 2,
-        justifyContent: 'flex-start',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 10,
         paddingVertical: 20,
         backgroundColor: '#fff'
       }}
       >
-        { this.renderButtonClose()}
         { this.renderButtonOpenDate() }
-
-        <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'flex-start' }}>
-          <Text style={{ fontFamily: 'Montserrat-Light', color: '#4a4a4a' }}>Jenis Aktivitas</Text>
+        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15 }}>
+          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Jenis Aktifitas</Text>
           <Picker
             mode="dialog"
             selectedValue={this.state.activitySelected}
-            style={{ padding: 0, margin: 0, height: 50, width: 200, borderBottomColor: '#ff1200', borderBottomWidth: 1 }}
+            style={{ padding: 0, margin: 0, height: 50, width: 200, alignSelf: 'flex-start' }}
             onValueChange={(itemValue) => this.setState({
               activitySelected: itemValue
             }, () => {
@@ -792,14 +835,15 @@ class InputTracker extends Component {
               <Picker.Item label="Sedang" value="sedang" />
               <Picker.Item label="Berat" value="berat" />
           </Picker>
-        </View>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          {
-            this.state.activitySelected !== '' ?
-            this.renderDescAktivity()
-            :
-            null
-          }
+          <View style={ {borderBottomColor: '#EF434F', borderBottomWidth: 1, marginBottom: 15 }}/>
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            {
+              this.state.activitySelected !== '' ?
+              this.renderDescAktivity()
+              :
+              null
+            }
+          </View>
         </View>
         <ButtonSave
           onSubmit={this.handleSave}
@@ -826,13 +870,21 @@ class InputTracker extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          // alert('Modal has been closed.');
+          this.setModalVisible()
         }}
       >
+        <TouchableHighlight
+          onPress={() => {
+            this.setModalVisible()
+          }}
+          style={styles.modalOverlay}
+        >
+          <View />
+        </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
             style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
+              [styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
           >
             { this.contentWeight() }
           </View>
@@ -845,7 +897,7 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 2,
+        flex: 1,
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingHorizontal: 10,
@@ -853,12 +905,12 @@ class InputTracker extends Component {
         backgroundColor: '#fff'
       }}
       >
-        { this.renderButtonClose() }
         {this.renderButtonOpenDate()}
        <View
         style={{
           flex: 1,
           width: '70%',
+          justifyContent: 'center'
         }}
        >
           <TextInput
@@ -886,9 +938,16 @@ class InputTracker extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          // alert('Modal has been closed.');
+          this.setModalVisible()
         }}
       >
+        <TouchableHighlight
+          onPress={() => {
+            this.setModalVisible()
+          }}
+          style={styles.modalOverlay}>
+          <View />
+        </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
             style={
@@ -948,6 +1007,7 @@ class InputTracker extends Component {
               DNURSE
               </Text>
           </TouchableOpacity>
+          <View style={{ width: 10 }}></View>
           <TouchableOpacity
             style={{
               flex: 1,
@@ -1095,10 +1155,10 @@ const styles = {
   textReset: {
     color: color.red
   },
-  modalWrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  modalOverlay: {
+    position: 'absolute',
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
     backgroundColor: '#4a4a4a',
     opacity: 0.9
   },
@@ -1109,8 +1169,12 @@ const styles = {
     backgroundColor: '#4a4a4a',
     opacity: 0.9
   },
+  modalWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   modalContent: {
-    flex: 0,
     backgroundColor: '#fff',
     opacity: 1,
     width: '70%',
