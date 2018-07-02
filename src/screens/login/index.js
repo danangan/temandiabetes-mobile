@@ -25,11 +25,7 @@ import {
   resetState
 } from '../../actions/loginActions';
 
-import {
-  clearDataRegister
-} from '../../actions/registerActions';
-
-import { updateFCMToken } from '../../actions/authAction';
+import { clearDataRegister } from '../../actions/registerActions';
 
 class Login extends Component {
   constructor(props) {
@@ -48,32 +44,15 @@ class Login extends Component {
 
   componentDidUpdate() {
     const self = this;
-    const { statusCode, message, is_active, _id } = this.props.loginReducer;
+    const { statusCode, message, is_active } = this.props.loginReducer;
+    const errorMessage = this.errorMessage(message);
+
     if (statusCode === 200 && message === 'success login' && this.state.shouldRedirect) {
       self.setState({ shouldRedirect: false }, () => {
         if (!is_active) {
-          Alert.alert(
-            'Pemberitahuan',
-            'Akun anda sedang tidak aktif',
-            [
-              {
-                text: 'OK',
-                onPress: () => {
-                  this.props.resetState();
-                  self.props.onSignOut();
-                }
-              }
-            ],
-            { cancelable: false }
-          );
+          this.props.resetState();
+          self.props.onSignOut();
         }
-        const params = {
-          idUser: _id,
-          token: {
-            messagingRegistrationToken: this.props.fcmToken
-          }
-        };
-        this.props.updateFCMToken(params);
       });
     } else if (statusCode === 500 && this.state.shouldRedirect) {
       self.setState(
@@ -82,26 +61,7 @@ class Login extends Component {
         },
         () => {
           this.props.navigator.showSnackbar({
-            text:
-              message === 'Kata sandi salah'
-                ? 'Kata sandi salah'
-                : message === 'Data pengguna tidak ditemukan'
-                  ? Alert.alert(
-                      'Pemberitahuan',
-                      'Akun anda tidak terdaftar',
-                      [
-                        {
-                          text: 'OK',
-                          onPress: () => {
-                            this.props.resetState();
-                          }
-                        }
-                      ],
-                      { cancelable: false }
-                    )
-                  : message === 'Format email salah'
-                    ? 'Format email salah'
-                    : message,
+            text: errorMessage,
             textColor: color.red,
             duration: 'long'
           });
@@ -135,6 +95,31 @@ class Login extends Component {
       this.setState({ shouldRedirect: true }, () => {
         this.props.loginManual(user);
       });
+    }
+  };
+
+  errorMessage = message => {
+    switch (message) {
+      case 'Kata sandi salah':
+        return 'Kata sandi salah';
+      case 'Data pengguna tidak ditemukan':
+        return Alert.alert(
+          'Pemberitahuan',
+          'Akun anda tidak terdaftar',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                this.props.resetState();
+              }
+            }
+          ],
+          { cancelable: false }
+        );
+      case 'Format email salah':
+        return 'Format email salah';
+      default:
+        return message;
     }
   };
 
@@ -277,9 +262,8 @@ const mapDispatchToProps = dispatch => ({
   signWithGoogle: () => dispatch(signWithGoogle()),
   setupGoogleSignIn: () => dispatch(setupGoogleSignIn()),
   onSignOut: () => dispatch(onSignOut()),
-  updateFCMToken: params => dispatch(updateFCMToken(params)),
   resetState: () => dispatch(resetState()),
-  clearDataRegister: (type) => dispatch(clearDataRegister(type))
+  clearDataRegister: type => dispatch(clearDataRegister(type))
 });
 
 export default connect(
