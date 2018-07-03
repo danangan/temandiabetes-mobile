@@ -509,18 +509,17 @@ class InputTracker extends Component {
       >
         { this.renderButtonOpenDate() }
        <View
-       style={{
-         flex: 1,
-         width: '70%',
-         justifyContent: 'center',
-        //  alignItems: 'center',
-        }}
-       >
+        style={{
+          flex: 1,
+          width: '70%',
+          justifyContent: 'center'
+          }}
+        >
           <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Gula darah</Text>
           <TextInput
             value={this.state.gulaDarah}
             keyboardType={'numeric'}
-            placeholder="75/80mm/hg"
+            placeholder="200 mg/dL"
             onChangeText={(gulaDarah) => this.setState({ gulaDarah })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
