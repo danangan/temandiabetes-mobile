@@ -33,7 +33,7 @@ class EditProfile extends React.Component {
         nama: '',
         tgl_lahir: '',
         alamat: '',
-        jenis_kelamin: 'L',
+        jenis_kelamin: '',
         diabetesi_tipe: 'Pre-diabetes',
         no_telp: '',
       },
@@ -49,8 +49,8 @@ class EditProfile extends React.Component {
   }
 
   submitValidation(cb) {
-    if (this.state.userData.nama.trim() === '' && 
-        this.state.userData.tgl_lahir === '' && 
+    if (this.state.userData.nama.trim() === '' &&
+        this.state.userData.tgl_lahir === '' &&
         this.state.userData.alamat === '' &&
         this.state.userData.no_telp === '') {
       this.setState({
@@ -106,8 +106,8 @@ class EditProfile extends React.Component {
 
   updateProfileOnCLick = () => {
     this.submitValidation(() => {
-      if (this.state.userData.nama.trim() !== '' && 
-        this.state.userData.tgl_lahir !== '' && 
+      if (this.state.userData.nama.trim() !== '' &&
+        this.state.userData.tgl_lahir !== '' &&
         this.state.userData.alamat !== '' &&
         this.state.userData.no_telp !== '') {
         this.setState({
@@ -163,10 +163,11 @@ class EditProfile extends React.Component {
 
   render() {
     const { userData, isLoading, errors } = this.state;
+    console.log(this.state);
     const { currentUser } = this.props;
-    const dateOfBirth = moment(this.state.userData.tgl_lahir).format('l') === 'Invalid date' ? moment().format('l') : moment(this.state.userData.tgl_lahir).format('l')
+    // const dateOfBirth = moment(this.state.userData.tgl_lahir).format('l') === 'Invalid date' ? moment().format('l') : moment(this.state.userData.tgl_lahir).format('l')
     // const completeTglLahir = `${lahir.year()}-${lahir.month()+1}-${lahir.date()}`;
-    
+
     return (
       <View
         style={styles.container}
@@ -199,7 +200,7 @@ class EditProfile extends React.Component {
                 style={[styles.pickerWrapper, { height:35, marginLeft: 5 }]}
                 onPress={() => { this.openDatePicker() }}
               >
-                <Text style={[styles.textInput, { marginTop:9 }]}>{dateOfBirth}</Text>
+                <Text style={[styles.textInput, { marginTop:9 }]}>{moment(userData.tgl_lahir).format('DD-MM-YYYY')}</Text>
               </TouchableOpacity>
             </View>
             <View>
@@ -219,6 +220,7 @@ class EditProfile extends React.Component {
                   selectedValue={userData.jenis_kelamin}
                   style={styles.picker}
                   onValueChange={(itemValue) => this.setUserData('jenis_kelamin', itemValue)}>
+                  <Picker.Item label="Pilih jenis kelamin" value="" />
                   <Picker.Item label="Laki-laki" value="L" />
                   <Picker.Item label="Perempuan" value="P" />
                 </Picker>
