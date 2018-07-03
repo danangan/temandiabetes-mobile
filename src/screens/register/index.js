@@ -46,9 +46,9 @@ class Register extends Component {
   handleNavigation() {
     const { nama } = this.props.registerReducer.dataUser;
     if (nama !== '') {
-      if (nama.length < 6) {
+      if (nama.length < 3) {
         this.setState({
-          message: 'Minimal 6 karakter'
+          message: 'Minimal 3 karakter'
         });
       } else {
         this.setState(

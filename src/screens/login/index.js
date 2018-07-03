@@ -60,11 +60,13 @@ class Login extends Component {
           shouldRedirect: false
         },
         () => {
-          this.props.navigator.showSnackbar({
-            text: errorMessage,
-            textColor: color.red,
-            duration: 'long'
-          });
+          if (errorMessage !== undefined) {
+            this.props.navigator.showSnackbar({
+              text: errorMessage,
+              textColor: color.red,
+              duration: 'long'
+            });
+          }
         }
       );
       this.props.resetState();
