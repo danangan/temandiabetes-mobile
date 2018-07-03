@@ -134,7 +134,7 @@ class TabFeatured extends Component {
               resizeMode={'cover'}
               style={styles.imageStyle}
               source={{
-                uri: item.image || 'https://i.imgur.com/zHd5A.jpg'
+                uri: item.image || 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FplaceholderTD-Android.png?alt=media&token=d26ffbb4-08d5-4890-b6f5-fc8922300a0e'
               }}
             />
             <View style={styles.contentStyle}>
