@@ -133,10 +133,10 @@ class ModalPostThred extends Component {
         // only alert if is valid
         if (this.isValid()) {
           if (threadType === '' && selectedCategory === '') {
-            Alert.alert('Error','Pilih prefix dan kategori thread terlebih dahulu')
+            Alert.alert('Error','Pilih tipe dan kategori thread terlebih dahulu')
           } else {
             if (threadType === '') {
-              Alert.alert('Error', 'Pilih prefix terlebih dahulu')
+              Alert.alert('Error', 'Pilih tipe terlebih dahulu')
             } else if (selectedCategory === '') {
               Alert.alert('Error', 'Pilih kategori terlebih dahulu')
             }
@@ -230,7 +230,7 @@ class ModalPostThred extends Component {
                 this.setState({threadType: itemValue})
               }
               }>
-              <Picker.Item label="Prefix" value="" />
+              <Picker.Item label="Tipe" value="" />
               <Picker.Item label="Sharing" value="sharing" />
               <Picker.Item label="Pertanyaan" value="question" />
             </Picker>
