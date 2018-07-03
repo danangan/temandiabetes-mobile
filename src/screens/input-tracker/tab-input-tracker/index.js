@@ -520,7 +520,11 @@ class InputTracker extends Component {
             value={this.state.gulaDarah}
             keyboardType={'numeric'}
             placeholder="200 mg/dL"
-            onChangeText={(gulaDarah) => this.setState({ gulaDarah })}
+            onChangeText={(newValue) => {
+              this.setState({
+                gulaDarah: newValue.replace('.', ',')
+              })
+            }}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
