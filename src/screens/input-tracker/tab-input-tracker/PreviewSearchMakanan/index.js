@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import moment from 'moment';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
   ActivityIndicator,
   DatePickerAndroid,
   TimePickerAndroid,
+  Alert
 } from 'react-native';
 
 import debounce from 'lodash/debounce';
@@ -57,7 +58,7 @@ class PreviewSearchMakanan extends React.Component {
         makanSiang: null,
         makanMalam: null,
         snack: null,
-        dateInput: ''
+        dateInput: new moment()
       },
       textOnChange: '',
       sarapan: '',
@@ -66,8 +67,8 @@ class PreviewSearchMakanan extends React.Component {
       snack: '',
       typingText: '',
       isDate: '',
-      inputDate: '',
-      isTime: '',
+      inputDate: new moment(),
+      isTime: new moment(),
       isProcess: false,
       date: null,
       time: '',
@@ -118,7 +119,7 @@ class PreviewSearchMakanan extends React.Component {
       const { action, year, month, day } = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
         // May 25 2020. Month 0 is January.
-        date: new Date(),
+        date: new Date(this.state.inputDate.format('MM/DD/YYYY')),
         maxDate: new Date()
       });
       if (action !== DatePickerAndroid.dismissedAction) {
@@ -126,6 +127,9 @@ class PreviewSearchMakanan extends React.Component {
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
           'July', 'August', 'September', 'October', 'November', 'December'
         ];
+        console.log('DAY NYAA', day);
+        const selectedDate = new moment().year(year).month(month).date(day);
+        console.log('INi datenyaa ',  selectedDate);
         this.setState({
           date: {
             day,
@@ -133,7 +137,7 @@ class PreviewSearchMakanan extends React.Component {
             year
           },
           isDate: `${day} ${monthNames[month]} ${year}`,
-          dateInput: ` ${year}-${month + 1}-${day}`
+          inputDate: selectedDate 
         }, () => {
           this.openTimePicker();
         });
@@ -159,7 +163,7 @@ class PreviewSearchMakanan extends React.Component {
             hour,
             minute: menit
           },
-          isTime: `${hour}:${menit}`,
+          isTime: new moment().hour(hour).minute(minute),
           hasSetTime: true
         });
       }
@@ -228,12 +232,9 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   renderButtonOpenDate() {
-    const { isDate, isTime, time, hasSetTime } = this.state;
-    const dt = new Date();
-    const dateNow = dateFormateName(dt);
-    const displayTime = !hasSetTime ? time : `${time.hour}:${time.minute}`;
-    const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
-
+    const { isTime, inputDate } = this.state;
+    // const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
+    const displayDate = `${inputDate.format('ddd DD/MM/YYYY')} at ${isTime.format('HH:mm')}`;
     return (
       <TouchableOpacity
         style={{
@@ -290,18 +291,27 @@ class PreviewSearchMakanan extends React.Component {
 
   submitInputFood() {
     const { sarapan, makanSiang, makanMalam, snack } = this.state.selected;
-    const { date, time } = this.state;
+    const { date, time, inputDate } = this.state;
+    
     // const inputDate = new Date(dateInput + ' ' + isTime + ':00');
-
-    if (date === null || sarapan === null || makanSiang === null || makanMalam === null || snack === null || time === '') {
-      alert('Silahkan lengkapi semua inputan');
+    // else if (date === null || sarapan === null || makanSiang === null || makanMalam === null || snack === null || time === '') {
+    //   Alert.alert(
+    //     'Perhatian!',
+    //     'Silahkan lengkapi semua inputan'
+    //   );
+    // } 
+    if (this.state.sarapan !== '' || this.state.makanSiang !== '' || this.state.makanMalam !== '' || this.state.snack !== '') {
+      Alert.alert(
+        'Perhatian!',
+        'Makanan yang diisi tidak ada didalam daftar'
+      );
     } else {
       // const checkingSarapan = this.validationInput(sarapan);
       // const checkingMakanSiang = this.validationInput(makanSiang);
       // const checkingMakanMalam = this.validationInput(makanMalam);
       // const checkingSnack = this.validationInput(snack);
-      const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
-      inputDate.toUTCString();
+      // const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
+      // inputDate.toUTCString();
       const value = {
         waktuInput: inputDate,
         sarapan,
@@ -378,6 +388,7 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   render() {
+    console.log('THIS STATE ', this.state);
     if (this.state.isProcess) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
