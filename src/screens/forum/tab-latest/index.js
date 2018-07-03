@@ -74,12 +74,11 @@ class TabLatest extends Component {
     this.setState({
       isLoadMorePage: true
     }, () => {
-      const { page, pages } = this.props.dataThreads.item
-
+      const { page, pages } = this.props.dataThreads.item;
       if (page < pages) {
         this.props.getLatestThreads(page + 1);
       }
-    })
+    });
   }
 
   renderFooter() {
@@ -93,7 +92,7 @@ class TabLatest extends Component {
 
     return (
       <View style={styles.loadMoreContainer}>
-       {this.state.isLoadMorePage && page < pages ?  Loader : <View/>}
+       {this.state.isLoadMorePage && page < pages ? Loader : <View />}
       </View>
     )
   }
@@ -188,35 +187,35 @@ class TabLatest extends Component {
 				refreshing: true
 			},
 			() => {
-        this.props.getLatestThreads(1, true)
-				this.setState({ refreshing: false });
+        this.props.getLatestThreads(1, true);
 			}
 		);
+    this.setState({ refreshing: false });
 	};
 
 	render() {
-    const { initialLoading, item } = this.props.dataThreads
+    const { initialLoading } = this.props.dataThreads;
 		const spinner = this.state.isLoading ? (
 			<Spinner color="#EF434E" text="Menyimpan..." size="large" />
 		) : (
 			<View />
-		);
+    );
+
 		return (
       <View style={styles.containerStyle}>
-      {
-        !initialLoading &&
-        <FlatList
-          ListEmptyComponent={this.renderEmptySection}
-					ListHeaderComponent={this.renderHeader}
-					ListFooterComponent={this.renderFooter}
-					data={this.props.dataThreads.item.data}
-					renderItem={item => this.renderItem(item)}
-					refreshing={this.state.refreshing}
-          onRefresh={this.handleRefresh}
-          onEndReached={this.onEndReached}
-          onEndReachedThreshold={0.3}
-				/>
-      }
+        {!initialLoading && (
+          <FlatList
+            ListEmptyComponent={this.renderEmptySection}
+            ListHeaderComponent={this.renderHeader}
+            ListFooterComponent={this.renderFooter}
+            data={this.props.dataThreads.item.data}
+            renderItem={item => this.renderItem(item)}
+            refreshing={this.state.refreshing}
+            onRefresh={this.handleRefresh}
+            onEndReached={this.onEndReached}
+            onEndReachedThreshold={0.3}
+          />
+        )}
       {
         initialLoading &&
         <View style={styles.initialLoading}>
