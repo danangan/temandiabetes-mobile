@@ -159,7 +159,7 @@ class ModalCreateReminder extends React.Component {
 
       if (action !== DatePickerAndroid.dismissedAction) {
         console.log(year, month, day)
-        const selectedDate = new moment().year(year).month(month).day(day-1);
+        const selectedDate = new moment().year(year).month(month).date(day);
         console.log('selected date', selectedDate)
         // Selected year, month (0-11), day
         this.setState({
