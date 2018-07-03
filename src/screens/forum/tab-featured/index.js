@@ -134,7 +134,7 @@ class TabFeatured extends Component {
               resizeMode={'cover'}
               style={styles.imageStyle}
               source={{
-                uri: 'https://i.imgur.com/zHd5A.jpg'
+                uri: item.image || 'https://i.imgur.com/zHd5A.jpg'
               }}
             />
             <View style={styles.contentStyle}>
