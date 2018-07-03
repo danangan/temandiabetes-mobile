@@ -1,37 +1,22 @@
 package com.temandiabets;
 
 import android.net.Uri;
-import android.widget.LinearLayout;
-import android.graphics.Color;
-import android.widget.TextView;
-import android.view.Gravity;
-import android.util.TypedValue;
-
-import android.os.Bundle;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-
 import android.content.Intent;
 
+//crashlytics
+import com.crashlytics.android.Crashlytics;
+// facebook sdk
+import android.os.Bundle;
+import io.fabric.sdk.android.Fabric;
+// slashscreen
+import android.view.View;
 import com.reactnativenavigation.controllers.SplashActivity;
 
+
 public class MainActivity extends SplashActivity {
-
     @Override
-    public LinearLayout createSplashLayout() {
-        LinearLayout view = new LinearLayout(this);
-        TextView textView = new TextView(this);
-
-        view.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        view.setGravity(Gravity.CENTER);
-
-        textView.setTextColor(Color.parseColor("#EF434F"));
-        textView.setText("Temandiabetes");
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 40);
-
-        view.addView(textView);
-        return view;
+    public View createSplashLayout() {
+        return new View(this);   // <====== TO AVOID WHITE BACKGROUND
     }
 
     @Override
