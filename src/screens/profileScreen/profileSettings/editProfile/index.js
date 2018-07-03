@@ -13,11 +13,10 @@ import {
   Platform,
   Alert
 } from 'react-native';
-import { Avatar, NavigationBar } from '../../../../components';
-import { updateProfile } from '../../../../actions/profileActions'
+import { NavigationBar } from '../../../../components';
+import { updateProfile } from '../../../../actions/profileActions';
 import ProfileCard from '../../../../components/card/profile';
 import { Spinner } from '../../../../components';
-import { dateFormatter } from '../../../../utils/helpers';
 
 class EditProfile extends React.Component {
   static navigatorStyle = {
@@ -35,7 +34,7 @@ class EditProfile extends React.Component {
         alamat: '',
         jenis_kelamin: '',
         diabetesi_tipe: 'Pre-diabetes',
-        no_telp: '',
+        no_telp: ''
       },
       errors: {
         nama: {
@@ -49,34 +48,42 @@ class EditProfile extends React.Component {
   }
 
   submitValidation(cb) {
-    if (this.state.userData.nama.trim() === '' &&
-        this.state.userData.tgl_lahir === '' &&
-        this.state.userData.alamat === '' &&
-        this.state.userData.no_telp === '') {
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          nama: {
-            ...this.state.errors.nama,
-            isError: true
+    if (
+      this.state.userData.nama.trim() === '' &&
+      this.state.userData.tgl_lahir === '' &&
+      this.state.userData.alamat === '' &&
+      this.state.userData.no_telp === ''
+    ) {
+      this.setState(
+        {
+          errors: {
+            ...this.state.errors,
+            nama: {
+              ...this.state.errors.nama,
+              isError: true
+            }
           }
-        }
-      }, cb)
+        },
+        cb
+      );
     } else {
-      this.setState({
-        errors: {
-          ...this.state.errors,
-          nama: {
-            ...this.state.errors.nama,
-            isError: false
+      this.setState(
+        {
+          errors: {
+            ...this.state.errors,
+            nama: {
+              ...this.state.errors.nama,
+              isError: false
+            }
           }
-        }
-      }, cb)
+        },
+        cb
+      );
     }
   }
 
   isValid() {
-    return !this.state.errors.nama.isError
+    return !this.state.errors.nama.isError;
   }
 
   copyUserData(obj) {
@@ -84,7 +91,7 @@ class EditProfile extends React.Component {
     const userDataKeys = Object.keys(this.state.userData);
 
     const copiedData = {};
-    userDataKeys.forEach((key) => {
+    userDataKeys.forEach(key => {
       if (currentUser[key]) {
         copiedData[key] = currentUser[key];
       }
@@ -100,44 +107,42 @@ class EditProfile extends React.Component {
     });
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.copyUserData(this.props.currentUser);
   }
 
   updateProfileOnCLick = () => {
     this.submitValidation(() => {
-      if (this.state.userData.nama.trim() !== '' &&
+      if (
+        this.state.userData.nama.trim() !== '' &&
         this.state.userData.tgl_lahir !== '' &&
         this.state.userData.alamat !== '' &&
-        this.state.userData.no_telp !== '') {
+        this.state.userData.no_telp !== ''
+      ) {
         this.setState({
           isLoading: true
         });
         this.props.updateProfile(this.state.userData).then(() => {
-          this.setState({
-            isLoading: false
-          }, () => {
-            Alert.alert(
-              'Perhatian!',
-              'Data telah berhasil disimpan.',
-              [
+          this.setState(
+            {
+              isLoading: false
+            },
+            () => {
+              Alert.alert('Perhatian!', 'Data telah berhasil disimpan.', [
                 { text: 'OK', onPress: () => this.props.navigator.pop() }
-              ]
-            );
-          });
+              ]);
+            }
+          );
         });
       } else {
-        Alert.alert(
-          'Perhatian!',
-          'Data tidak boleh kosong.'
-        );
+        Alert.alert('Perhatian!', 'Data tidak boleh kosong.');
       }
     });
-  }
+  };
 
   setUserData(key, value) {
     this.setState({
-      userData : {
+      userData: {
         ...this.state.userData,
         [key]: value
       }
@@ -155,7 +160,7 @@ class EditProfile extends React.Component {
           // console.log('HASIL PICK DATE ', result);
           this.setUserData('tgl_lahir', `${result.year}-${result.month + 1}-${result.day}`);
         }
-      } catch ({code, message}) {
+      } catch ({ code, message }) {
         console.warn('Cannot open date picker', message);
       }
     }
@@ -163,21 +168,21 @@ class EditProfile extends React.Component {
 
   render() {
     const { userData, isLoading, errors } = this.state;
-    console.log(this.state);
     const { currentUser } = this.props;
-    // const dateOfBirth = moment(this.state.userData.tgl_lahir).format('l') === 'Invalid date' ? moment().format('l') : moment(this.state.userData.tgl_lahir).format('l')
-    // const completeTglLahir = `${lahir.year()}-${lahir.month()+1}-${lahir.date()}`;
+    const dateOfBirth =
+      moment(this.state.userData.tgl_lahir).format('DD-MM-YYYY') === 'Invalid date'
+        ? moment().format('DD-MM-YYYY')
+        : moment(this.state.userData.tgl_lahir).format('DD-MM-YYYY');
 
     return (
-      <View
-        style={styles.container}
-      >
-        {
-          isLoading &&
-			    <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />
-        }
+      <View style={styles.container}>
+        {isLoading && <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />}
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
-        <ProfileCard updateLoadingState={(isLoading, cb) => {this.setState({isLoading}, cb)}} />
+        <ProfileCard
+          updateLoadingState={(isLoading, cb) => {
+            this.setState({ isLoading }, cb);
+          }}
+        />
         <View style={{ flex: 3, marginTop: 10, paddingLeft: 20, paddingRight: 20 }}>
           <ScrollView>
             <View>
@@ -186,21 +191,20 @@ class EditProfile extends React.Component {
                 value={userData.nama}
                 style={styles.textInput}
                 placeholderTextColor="#4a4a4a"
-                onChangeText={(text) => this.setUserData('nama', text)}
+                onChangeText={text => this.setUserData('nama', text)}
                 underlineColorAndroid="#ef434e"
               />
-              {
-                errors.nama.isError &&
-                <Text style={styles.errorText}>{errors.nama.label}</Text>
-              }
+              {errors.nama.isError && <Text style={styles.errorText}>{errors.nama.label}</Text>}
             </View>
             <View>
               <Text style={styles.titleTextInput}>Tanggal Lahir</Text>
               <TouchableOpacity
-                style={[styles.pickerWrapper, { height:35, marginLeft: 5 }]}
-                onPress={() => { this.openDatePicker() }}
+                style={[styles.pickerWrapper, { height: 35, marginLeft: 5 }]}
+                onPress={() => {
+                  this.openDatePicker();
+                }}
               >
-                <Text style={[styles.textInput, { marginTop:9 }]}>{moment(userData.tgl_lahir).format('DD-MM-YYYY')}</Text>
+                <Text style={[styles.textInput, { marginTop: 9 }]}>{dateOfBirth}</Text>
               </TouchableOpacity>
             </View>
             <View>
@@ -209,7 +213,7 @@ class EditProfile extends React.Component {
                 value={userData.alamat}
                 style={styles.textInput}
                 placeholderTextColor="#4a4a4a"
-                onChangeText={(text) => this.setUserData('alamat', text)}
+                onChangeText={text => this.setUserData('alamat', text)}
                 underlineColorAndroid="#ef434e"
               />
             </View>
@@ -219,15 +223,15 @@ class EditProfile extends React.Component {
                 <Picker
                   selectedValue={userData.jenis_kelamin}
                   style={styles.picker}
-                  onValueChange={(itemValue) => this.setUserData('jenis_kelamin', itemValue)}>
+                  onValueChange={itemValue => this.setUserData('jenis_kelamin', itemValue)}
+                >
                   <Picker.Item label="Pilih jenis kelamin" value="" />
                   <Picker.Item label="Laki-laki" value="L" />
                   <Picker.Item label="Perempuan" value="P" />
                 </Picker>
               </View>
             </View>
-            {
-              currentUser.tipe_user === 'diabetesi' &&
+            {currentUser.tipe_user === 'diabetesi' && (
               <View>
                 <Text style={styles.titleTextInput}>Jenis Diabetes</Text>
                 <View style={styles.pickerWrapper}>
@@ -235,7 +239,8 @@ class EditProfile extends React.Component {
                     pickerStyle={{ fontSize: 25 }}
                     selectedValue={userData.diabetesi_tipe}
                     style={styles.picker}
-                    onValueChange={(itemValue) => this.setUserData('diabetesi_tipe', itemValue)}>
+                    onValueChange={itemValue => this.setUserData('diabetesi_tipe', itemValue)}
+                  >
                     <Picker.Item label="Pre-diabetes" value="Pre-diabetes" />
                     <Picker.Item label="Diabetes type1" value="Diabetes type1" />
                     <Picker.Item label="Diabetes type2" value="Diabetes type2" />
@@ -243,7 +248,7 @@ class EditProfile extends React.Component {
                   </Picker>
                 </View>
               </View>
-            }
+            )}
             <View>
               <Text style={styles.titleTextInput}>No Hp</Text>
               <TextInput
@@ -251,7 +256,7 @@ class EditProfile extends React.Component {
                 style={styles.textInput}
                 keyboardType="numeric"
                 placeholderTextColor="#4a4a4a"
-                onChangeText={(text) => this.setUserData('no_telp', text)}
+                onChangeText={text => this.setUserData('no_telp', text)}
                 underlineColorAndroid="#ef434e"
               />
             </View>
@@ -259,10 +264,21 @@ class EditProfile extends React.Component {
         </View>
         <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
           <TouchableOpacity
-            onPress={ () => { this.updateProfileOnCLick() } }
-            style={{ justifyContent: 'center', alignItems: 'center', width: 104, height: 34, backgroundColor: '#ef434e', borderRadius: 3 }}
+            onPress={() => {
+              this.updateProfileOnCLick();
+            }}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 104,
+              height: 34,
+              backgroundColor: '#ef434e',
+              borderRadius: 3
+            }}
           >
-            <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>SIMPAN</Text>
+            <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
+              SIMPAN
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -284,7 +300,7 @@ const styles = StyleSheet.create({
     color: '#878787'
   },
   picker: {
-    color: '#4a4a4a',
+    color: '#4a4a4a'
   },
   pickerWrapper: {
     borderBottomColor: '#ef434e',
@@ -296,22 +312,25 @@ const styles = StyleSheet.create({
   textInput: {
     height: 45,
     color: '#4a4a4a',
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'OpenSans-Regular'
   },
   errorText: {
     color: 'red',
     fontSize: 12,
     marginBottom: 10,
-    marginHorizontal: 5,
+    marginHorizontal: 5
   }
 });
 
 const mapDispatchToProps = dispatch => ({
-	updateProfile: userData => dispatch(updateProfile(userData))
+  updateProfile: userData => dispatch(updateProfile(userData))
 });
 
 const mapStateToProps = state => ({
-	currentUser: state.authReducer.currentUser
+  currentUser: state.authReducer.currentUser
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditProfile);
