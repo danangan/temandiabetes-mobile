@@ -133,7 +133,7 @@ class ThreadDetails extends React.Component {
 							textAlign: 'center'
 						}}
 					>
-						Unsubscribe
+						Berhenti ikuti
 					</Text>
 				</TouchableOpacity>
 			);

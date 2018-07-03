@@ -173,7 +173,6 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   GetTime() {
-    console.log('Jalan get time ');
     // Creating variables to hold time.
     let date = '';
     let TimeType = '';
