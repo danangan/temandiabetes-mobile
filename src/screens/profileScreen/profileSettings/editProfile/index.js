@@ -13,10 +13,11 @@ import {
   Platform,
   Alert
 } from 'react-native';
-import { NavigationBar } from '../../../../components';
+import { Avatar, NavigationBar } from '../../../../components';
 import { updateProfile } from '../../../../actions/profileActions';
 import ProfileCard from '../../../../components/card/profile';
 import { Spinner } from '../../../../components';
+import { dateFormatter } from '../../../../utils/helpers';
 
 class EditProfile extends React.Component {
   static navigatorStyle = {
@@ -153,7 +154,8 @@ class EditProfile extends React.Component {
     if (Platform.OS === 'android') {
       try {
         const result = await DatePickerAndroid.open({
-          date: new Date(this.state.userData.tgl_lahir)
+          date: new Date(this.state.userData.tgl_lahir),
+          mode: 'spinner'
         });
         if (result.action !== DatePickerAndroid.dismissedAction) {
           // Selected year, month (0-11), day
@@ -166,13 +168,25 @@ class EditProfile extends React.Component {
     }
   }
 
+  handleDisplayDate = () => {
+    const { userData } = this.state;
+    const { currentUser } = this.props;
+
+    if (currentUser.tgl_lahir === undefined || userData.tgl_lahir === '') {
+      return moment().format('YYYY-MM-DD');
+    }
+
+    if (userData.tgl_lahir !== '') {
+      return moment(userData.tgl_lahir).format('YYYY-MM-DD');
+    }
+
+    return moment(currentUser.tgl_lahir).format('YYYY-MM-DD');
+  };
+
   render() {
     const { userData, isLoading, errors } = this.state;
     const { currentUser } = this.props;
-    const dateOfBirth =
-      moment(this.state.userData.tgl_lahir).format('DD-MM-YYYY') === 'Invalid date'
-        ? moment().format('DD-MM-YYYY')
-        : moment(this.state.userData.tgl_lahir).format('DD-MM-YYYY');
+    const dateOfBirth = this.handleDisplayDate();
 
     return (
       <View style={styles.container}>
