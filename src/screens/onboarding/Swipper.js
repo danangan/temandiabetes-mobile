@@ -226,7 +226,7 @@ export default class OnboardingScreens extends Component {
 							passProps: {
 								fcmToken: this.props.fcmToken
 							}
-						}), 100)
+						}), 500, { leading: true, trailing: false })
 					}
 				/>
 				<Button
@@ -242,7 +242,7 @@ export default class OnboardingScreens extends Component {
 							passProps: {
 								fcmToken: this.props.fcmToken
 							}
-						}), 100)
+						}), 500, { leading: true, trailing: false })
 					}
 				/>
 			</View>
