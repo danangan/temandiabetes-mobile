@@ -310,134 +310,165 @@ class InputTracker extends Component {
     const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
     inputDate.toUTCString();
 
+    let value
+    switch (casing) {
+      // INPUT GULA DARAH
+      case 'GULA_DARAH':
+        value = {
+          waktuInput: inputDate,
+          gulaDarah
+        };
+
+        if (gulaDarah === 0 || gulaDarah === '') {
+          alert('Silahkan input Gula darah Anda.');
+        } else {
+          const checking = this.validationInput(gulaDarah);
+          if (!checking) {
+            alert('Data yang Anda input salah.');
+          } else {
+            this.setState({
+              isManually: false,
+              modalVisible: true,
+              isModal: 'IS_LOADING',
+            }, () => {
+              setTimeout(() => {
+                this.props.inputTrackerBloodGlucose(value);
+              }, 1500);
+            });
+          }
+        }
+        break;
+
+      // INPUT TEKANAN DARAH
+      case 'TEKANAN_DARAH':
+        value = {
+          waktuInput: inputDate,
+          tekananDarah: {
+            sistolic,
+            distolic
+          }
+        };
+
+        if (sistolic === 0 || sistolic === '') {
+          alert('Silahkan input Sistolic Anda.');
+        } else if (distolic === 0 || distolic === '') {
+          alert('Silahkan input Diastolic Anda yo.');
+        } else if (distolic > sistolic) {
+          alert('Nilai sistolic harus lebih besar daripada diastolic')
+        } else {
+          const checkingSistolic = this.validationInput(sistolic);
+          const checkingDistolic = this.validationInput(distolic);
+          if (!checkingSistolic || !checkingDistolic) {
+            alert('Data yang Anda input salah.');
+          } else {
+            this.setState({
+              modalVisible: true,
+              isModal: 'IS_LOADING',
+            }, () => {
+              setTimeout(() => {
+                this.props.inputTrackerBloodPressure(value);
+              }, 1500);
+            });
+          }
+        }
+        break;
+
+      // INPUT HBA1C
+      case 'HBA1C':
+        if (hba1c === 0 || hba1c === '') {
+          alert('Silahkan input HBA1C Anda.');
+        } else {
+          const checkinghba1c = this.validationInput(hba1c);
+          if (!checkinghba1c) {
+            alert('Data yang Anda input salah.');
+          } else {
+            this.setModalVisible('IS_LOADING');
+            this.setState({
+              modalVisible: true,
+              isModal: 'IS_LOADING',
+            }, () => {
+              if (hba1c.indexOf(',') !== -1) {
+                const manipulateDot = hba1c.replace(',', '.');
+                const value = {
+                  waktuInput: inputDate,
+                  hba1c: manipulateDot
+                };
+                setTimeout(() => {
+                  this.props.inputTrackerHba1c(value);
+                }, 1500);
+              } else {
+                const value = {
+                  waktuInput: inputDate,
+                  hba1c
+                };
+                setTimeout(() => {
+                  this.props.inputTrackerHba1c(value);
+                }, 1500);
+              }
+            });
+          }
+        }
+        break;
+      // INPUT ACTIVITY
+      case 'ACTIVITY':
+        value = {
+          waktuInput: inputDate,
+          jenisAktifitas: 'kurang',
+          kategori: activitySelected,
+          deskripsi: descActivity
+        };
+        if (activitySelected === '') {
+          alert('Silahkan pilih jenis aktivitas Anda');
+        } else {
+          this.setState({
+            modalVisible: true,
+            isModal: 'IS_LOADING',
+          }, () => {
+            setTimeout(() => {
+              this.props.inputTrackerActivity(value);
+            }, 1500);
+          });
+        }
+        break;
+
+      // INPUT WEIGHT
+      case 'WEIGHT':
+        value = {
+          waktuInput: inputDate,
+          beratBadan
+        };
+        if (beratBadan === 0 || beratBadan === '') {
+          alert('Silahkan input berat badan Anda.');
+        } else {
+          const checkingWeight = this.validationInput(beratBadan);
+          if (!checkingWeight) {
+            alert('Data yang Anda input salah.');
+          } else {
+            this.setState({
+              modalVisible: true,
+              isModal: 'IS_LOADING',
+            }, () => {
+              setTimeout(() => {
+                this.props.inputTrackerWeight(value);
+              }, 1500);
+            });
+          }
+        }
+        break;
+      default:
+        break;
+    }
+
     if (casing === 'GULA_DARAH') {
-      const value = {
-        waktuInput: inputDate,
-        gulaDarah
-      };
 
-      if (gulaDarah === 0 || gulaDarah === '') {
-        alert('Silahkan input Gula darah Anda.');
-      } else {
-        const checking = this.validationInput(gulaDarah);
-        if (!checking) {
-          alert('Data yang Anda input salah.');
-        } else {
-          this.setState({
-            isManually: false,
-            modalVisible: true,
-            isModal: 'IS_LOADING',
-          }, () => {
-            setTimeout(() => {
-              this.props.inputTrackerBloodGlucose(value);
-            }, 1500);
-          });
-        }
-      }
     } else if (casing === 'TEKANAN_DARAH') {
-      const value = {
-        waktuInput: inputDate,
-        tekananDarah: {
-          sistolic,
-          distolic
-        }
-      };
 
-      if (sistolic === 0 || sistolic === '') {
-        alert('Silahkan input Sistolic Anda.');
-      } else if (distolic === 0 || distolic === '') {
-        alert('Silahkan input Diastolic Anda.');
-      } else {
-        const checkingSistolic = this.validationInput(sistolic);
-        const checkingDistolic = this.validationInput(distolic);
-        if (!checkingSistolic || !checkingDistolic) {
-          alert('Data yang Anda input salah.');
-        } else {
-          this.setState({
-            modalVisible: true,
-            isModal: 'IS_LOADING',
-          }, () => {
-            setTimeout(() => {
-              this.props.inputTrackerBloodPressure(value);
-            }, 1500);
-          });
-        }
-      }
     } else if (casing === 'HBA1C') {
-      if (hba1c === 0 || hba1c === '') {
-        alert('Silahkan input HBA1C Anda.');
-      } else {
-        const checkinghba1c = this.validationInput(hba1c);
-        if (!checkinghba1c) {
-          alert('Data yang Anda input salah.');
-        } else {
-          this.setModalVisible('IS_LOADING');
-          this.setState({
-            modalVisible: true,
-            isModal: 'IS_LOADING',
-          }, () => {
-            if (hba1c.indexOf(',') !== -1) {
-              const manipulateDot = hba1c.replace(',', '.');
-              const value = {
-                waktuInput: inputDate,
-                hba1c: manipulateDot
-              };
-              setTimeout(() => {
-                this.props.inputTrackerHba1c(value);
-              }, 1500);
-            } else {
-              const value = {
-                waktuInput: inputDate,
-                hba1c
-              };
-              setTimeout(() => {
-                this.props.inputTrackerHba1c(value);
-              }, 1500);
-            }
-          });
-        }
-      }
+
     } else if (casing === 'ACTIVITY') {
-      const value = {
-        waktuInput: inputDate,
-        jenisAktifitas: 'kurang',
-        kategori: activitySelected,
-        deskripsi: descActivity
-      };
-      if (activitySelected === '') {
-        alert('Silahkan pilih jenis aktivitas Anda');
-      } else {
-        this.setState({
-          modalVisible: true,
-          isModal: 'IS_LOADING',
-        }, () => {
-          setTimeout(() => {
-            this.props.inputTrackerActivity(value);
-          }, 1500);
-        });
-      }
+
     } else if (casing === 'WEIGHT') {
-      const value = {
-        waktuInput: inputDate,
-        beratBadan
-      };
-      if (beratBadan === 0 || beratBadan === '') {
-        alert('Silahkan input berat badan Anda.');
-      } else {
-        const checkingWeight = this.validationInput(beratBadan);
-        if (!checkingWeight) {
-          alert('Data yang Anda input salah.');
-        } else {
-          this.setState({
-            modalVisible: true,
-            isModal: 'IS_LOADING',
-          }, () => {
-            setTimeout(() => {
-              this.props.inputTrackerWeight(value);
-            }, 1500);
-          });
-        }
-      }
+
     }
   }
 
