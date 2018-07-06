@@ -92,7 +92,9 @@ class InnerCircle extends React.Component {
         <View style={styles.contentStyle}>
           {this.state.results.length === 0 ? (
             this.props.data.status === null ? (
-              <View />
+              <View>
+                <Text>Pencarian tidak ditemukan</Text>
+              </View>
             ) : (
               this.renderData()
             )

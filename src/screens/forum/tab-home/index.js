@@ -265,7 +265,7 @@ class TabHome extends Component {
             refreshing={this.state.refreshing}
             onRefresh={this.handleRefresh}
             onEndReached={this.onEndReached}
-            onEndReachedThreshold={0.3}
+            onEndReachedThreshold={0.1}
           />
         )}
         {

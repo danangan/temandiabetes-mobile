@@ -7,6 +7,8 @@ import {
   Image
 } from 'react-native'
 
+import { debounce } from 'lodash';
+
 import defaultStyle from '../../../../style/defaultStyle'
 
 import Menu from '../../../../assets/icons/menu.png'
@@ -33,6 +35,7 @@ export default class Navigator extends Component {
   }
 
   onPressNofiticationIcon() {
+
     this.props.onResetNotificationCount()
     this.openScreen('TemanDiabets.Notification')
   }
@@ -41,14 +44,14 @@ export default class Navigator extends Component {
     const { notificationCount } = this.props
     return (
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => {this.openScreen('TemanDiabets.ProfileScreen')}}>
+        <TouchableOpacity onPress={debounce(() => {this.openScreen('TemanDiabets.ProfileScreen')}, 500, { leading: true, trailing: false })}>
           <Image
             style={styles.iconStyle}
             source={Menu}
           />
         </TouchableOpacity>
         <Text style={styles.navbarText}>Teman Diabetes</Text>
-        <TouchableOpacity onPress={this.onPressNofiticationIcon}>
+        <TouchableOpacity onPress={debounce(this.onPressNofiticationIcon, 500, { leading: true, trailing: false })}>
           <View style={styles.notificationContainer}>
             {
               notificationCount > 0 &&
