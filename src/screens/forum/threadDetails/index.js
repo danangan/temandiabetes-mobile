@@ -100,7 +100,6 @@ class ThreadDetails extends React.Component {
     if (listThreads.threadDetails.author._id === this.props.dataAuth.currentUser._id ) {
       return null
     }
-    console.log(listThreads, this.props.dataAuth)
 		if (followThread.isFetch) {
 			return (
 				<TouchableOpacity
@@ -160,7 +159,8 @@ class ThreadDetails extends React.Component {
 	render() {
     const { _id } = this.props.item;
     const { listThreads } = this.props.dataThreads;
-		const { threadDetails } = listThreads;
+    const { threadDetails } = listThreads;
+    console.log('thread detail', threadDetails)
 		if (this.state.isProcess) {
 			return (
 				<Spinner
@@ -193,7 +193,8 @@ class ThreadDetails extends React.Component {
 					<HeaderDetail
 						categoryItem={threadDetails.category}
           	date={threadDetails.createdAt}
-          	authorItem={threadDetails.author}
+            authorItem={threadDetails.author}
+            threadType={threadDetails.threadType}
 					/>
 				}
 					<ScrollView>

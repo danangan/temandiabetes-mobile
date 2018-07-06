@@ -10,12 +10,14 @@ class HeaderDetail extends React.Component {
 		this.state = {};
 	}
 
-  renderCategory(categoryItem) {
+  renderCategory(item = '') {
     let category = ''
-    if (categoryItem) {
-      if (categoryItem.length > 0) {
-        category = categoryItem[0] !== null ? categoryItem[0].category : category
+    if (Array.isArray(item)) {
+      if (item.length > 0) {
+        category = item[0] !== null ? item[0].category : category
       }
+    } else {
+      category = item
     }
     if (category !== '') {
       return (
@@ -27,7 +29,7 @@ class HeaderDetail extends React.Component {
   }
 
 	render() {
-    const { authorItem, categoryItem, date } = this.props;
+    const { authorItem, categoryItem, date, threadType } = this.props;
 		return (
 			<CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
 				<View style={styles.container}>
@@ -40,6 +42,7 @@ class HeaderDetail extends React.Component {
 						<Text style={{ fontSize: 12 }}>{authorItem.nama === null ? 'Loading' : authorItem.nama}</Text>
 						<Text style={{ fontSize: 10 }}>Posted on {formatDateTime(date)}</Text>
           </View>
+          {this.renderCategory(threadType)}
           {this.renderCategory(categoryItem)}
 				</View>
 			</CardSection>
