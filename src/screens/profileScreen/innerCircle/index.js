@@ -8,6 +8,7 @@ import Style from '../../../style/defaultStyle';
 import SearchBar from './innerCircleList/Search';
 import { getUsers } from '../../../actions';
 import { Spinner } from '../../../components';
+import Images from '../../../assets/images';
 
 class InnerCircle extends React.Component {
   static navigatorStyle = {
@@ -18,7 +19,8 @@ class InnerCircle extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      results: []
+      results: [],
+      notFound: false
     };
   }
 
@@ -26,8 +28,14 @@ class InnerCircle extends React.Component {
     this.props.getUsers();
   }
 
-  handleResults = results => this.setState({ results });
-  hideSearchBar = () => this.searchBar.hide();
+  handleResults = results => {
+    this.setState({ results });
+    if (results.length) {
+      this.setState({ notFound: true });
+    }
+  };
+
+  hideSearchBar = () => this.setState({ notFound: false }, () => this.searchBar.hide());
 
   pushNavigation = item => {
     this.props.navigator.push({
@@ -52,7 +60,7 @@ class InnerCircle extends React.Component {
           resizeMode={'contain'}
           style={styles.iconStyle}
           tintColor={color.red}
-          source={require('../../../assets/icons/back.png')}
+          source={Images.backIcon}
         />
       </TouchableOpacity>
       <Text style={styles.navBarTitleStyle}>ADD INNER CIRCLE</Text>
@@ -61,7 +69,7 @@ class InnerCircle extends React.Component {
           resizeMode={'contain'}
           style={styles.iconStyle}
           tintColor={color.red}
-          source={require('../../../assets/icons/search.png')}
+          source={Images.searchIcon}
         />
       </TouchableOpacity>
       <SearchBar
@@ -91,9 +99,9 @@ class InnerCircle extends React.Component {
       <ScrollView>
         <View style={styles.contentStyle}>
           {this.state.results.length === 0 ? (
-            this.props.data.status === null ? (
-              <View>
-                <Text>Pencarian tidak ditemukan</Text>
+            this.state.notFound ? (
+              <View style={styles.placeholderContainerStyle}>
+                <Text style={styles.placeholderStyle}>Pencarian tidak ditemukan</Text>
               </View>
             ) : (
               this.renderData()
@@ -156,6 +164,17 @@ const styles = {
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     width: 50
+  },
+  placeholderContainerStyle: {
+    marginTop: Style.CARD_WIDTH / 2,
+    alignSelf: 'center',
+    alignItems: 'center'
+  },
+  placeholderStyle: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: Style.FONT_SIZE,
+    justifyContent: 'center',
+    textAlign: 'center'
   }
 };
 

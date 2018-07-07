@@ -23,10 +23,8 @@ import { addInnerCircle, getOneUser, getInnerCircle } from '../../../actions';
 import color from '../../../style/color';
 
 //ICON
-import plus from '../../../assets/icons/plus.png';
-import hourglass from '../../../assets/icons/hourglass.png';
-import check from '../../../assets/icons/check.png';
 import { authToken } from '../../../utils/constants';
+import Images from '../../../assets/images';
 
 const listTabs = ['THREAD', 'ANSWER', 'RESPONSE', 'EVENT'];
 
@@ -44,7 +42,7 @@ class ProfileDetails extends React.Component {
       isProcess: true,
       user: null,
       loading: false,
-      source: plus,
+      source: Images.plusIcon,
       status: 'TAMBAHKAN',
       completePercentase: ''
     };
@@ -80,7 +78,7 @@ class ProfileDetails extends React.Component {
 
     if ((status === 201 && loading) || (status === 400 && loading)) {
       self.setState(
-        { loading: false, source: hourglass, status: 'TERTUNDA', disabled: true },
+        { loading: false, source: Images.hourglassIcon, status: 'TERTUNDA', disabled: true },
         () => {
           Alert.alert(
             'Information',
@@ -166,19 +164,51 @@ class ProfileDetails extends React.Component {
     </View>
   );
 
-  notUserLoggedIn = () => {
-    const { source, status, disabled } = this.state;
+  checkIcon = () => {
+    const { source } = this.state;
     const { innerCircleStatus } = this.props.data.user;
-    const icon =
-      innerCircleStatus === 'open' ? source : innerCircleStatus === 'requested' ? hourglass : check;
-    const buttonTitle =
-      innerCircleStatus === 'requested'
-        ? 'TERTUNDA'
-        : innerCircleStatus === 'accepted'
-          ? 'INNER CIRCLE'
-          : status;
-    const buttonDisabled =
-      innerCircleStatus === 'requested' || innerCircleStatus === 'accepted' ? !disabled : disabled;
+    switch (innerCircleStatus) {
+      case 'open':
+        return source;
+      case undefined:
+        return source;
+      case 'requested':
+        return Images.hourglassIcon;
+      default:
+        return Images.checklistIcon;
+    }
+  };
+
+  checkButtonTitle = () => {
+    const { status } = this.state;
+    const { innerCircleStatus } = this.props.data.user;
+    switch (innerCircleStatus) {
+      case 'requested':
+        return 'TERTUNDA';
+      case 'accepted':
+        return 'INNER CIRCLE';
+      default:
+        return status;
+    }
+  };
+
+  checkButtonDisabled = () => {
+    const { disabled } = this.state;
+    const { innerCircleStatus } = this.props.data.user;
+    switch (innerCircleStatus) {
+      case 'requested':
+        return !disabled;
+      case 'accepted':
+        return !disabled;
+      default:
+        return disabled;
+    }
+  };
+
+  notUserLoggedIn = () => {
+    const icon = this.checkIcon();
+    const buttonTitle = this.checkButtonTitle();
+    const buttonDisabled = this.checkButtonDisabled();
 
     return (
       <TouchableOpacity
@@ -193,7 +223,7 @@ class ProfileDetails extends React.Component {
           );
         }}
       >
-        <Image source={icon} style={styles.imageButtonStyle} tintColor={color.white} />
+        <Image source={icon} style={styles.imageButtonStyle} />
         <Text style={styles.buttonTextStyle}>{buttonTitle}</Text>
       </TouchableOpacity>
     );
