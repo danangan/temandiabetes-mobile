@@ -76,7 +76,7 @@ class CommentDetails extends React.Component {
   }
 
   renderCommentChild() {
-    const { nama } = this.props.dataAuth;
+    const { nama, foto_profile } = this.props.dataAuth;
     const { commentDetails } = this.props;
     return (
       <View style={{ flex: 1, width: '100%' }}>
@@ -89,7 +89,7 @@ class CommentDetails extends React.Component {
           <Avatar
             avatarSize="ExtraSmall"
             userName={nama}
-            // imageSource={isComment.user.foto_profile}
+            imageSource={foto_profile}
           />
           <TextInput
             value={this.state.komentar}
@@ -121,14 +121,14 @@ class CommentDetails extends React.Component {
   render() {
     const { isComment } = this.state;
     const { commentDetails } = this.props;
-    const { nama } = this.props.dataAuth;
+    const { nama, foto_profile } = this.props.dataAuth;
 
     if (commentDetails === null) {
       return (
         <View style={styles.container}>
           <Spinner
             containerStyle={{ backgroundColor: '#f2f4fd' }}
-            color="#FFDE00"
+            color="#EF434F"
             size="large"
           />
         </View>
@@ -182,7 +182,7 @@ class CommentDetails extends React.Component {
               <Avatar
                 avatarSize="ExtraSmall"
                 userName={nama}
-                // imageSource={isComment.user.foto_profile}
+                imageSource={foto_profile}
               />
               <TextInput
                 value={this.state.komentar}

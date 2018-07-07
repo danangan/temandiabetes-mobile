@@ -279,7 +279,7 @@ class RegisterScreenFourth extends React.Component {
     if (this.state.shouldRedirect || this.state.shouldUserLogin) {
       return (
         <View style={{ flex: 1, opacity: 0.7, justifyContent: 'center', alignItems: 'center' }}>
-          <Spinner color="#FFDE00" text="Loading..." size="large" />
+          <Spinner color="#EF434F" text="Loading..." size="large" />
         </View>
       );
     } else if (message === 'registration data incomplete' && status_code === 400) {

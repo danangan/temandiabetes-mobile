@@ -147,7 +147,7 @@ class Login extends Component {
 
   render() {
     const spinner = this.state.shouldRedirect ? (
-      <Spinner color="#FFDE00" text="Logging In..." size="large" />
+      <Spinner color="#EF434F" text="Logging In..." size="large" />
     ) : (
       <View />
     );

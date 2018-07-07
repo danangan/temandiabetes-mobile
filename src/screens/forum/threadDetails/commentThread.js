@@ -1,4 +1,5 @@
 import React from 'react';
+import { debounce } from 'lodash';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
@@ -38,12 +39,14 @@ class CommentThread extends React.Component {
 
   renderInitialReply() {
     const { replies } = this.props.contentComment;
-    const { nama, _id } = this.props.dataAuth;
+    const { nama, foto_profile } = this.props.dataAuth;
     const initialUser = {
-      user: nama,
+      user: {
+        nama,
+        foto_profile
+      },
       text: 'Komentari'
     };
-    // console.log('INITIAL USER ', initialUser);
     if (replies.length) {
       return (
         <View style={{ justifyContent: 'flex-start', alignItems: 'center', width: '100%' }}>
@@ -57,7 +60,7 @@ class CommentThread extends React.Component {
               textAlign: 'left',
               fontSize: 11
             }}
-            onPress={() => this.props.navigator(this.props.idComment)}
+            onPress={debounce(() => this.props.navigator(this.props.idComment), 500, { leading: true, trailing: false })}
           >
             View {replies.length} reply.
           </Text>
@@ -99,7 +102,7 @@ class CommentThread extends React.Component {
               <Text style={{ fontSize: 10 }}>Posted on {formatDateTime(updatedAt)}</Text>
             </View>
             <TouchableOpacity
-              onPress={() =>
+              onPress={ debounce(() => {
                 Navigation.showModal({
                   screen: 'TemanDiabetes.ModalReplyComment',
                   title: 'Modal',
@@ -112,7 +115,7 @@ class CommentThread extends React.Component {
                   },
                   animationType: 'slide-up'
                 })
-              }
+              }, 500, { leading: true, trailing: false })}
               style={{ backgroundColor: '#252c68' }}
             >
               <Text

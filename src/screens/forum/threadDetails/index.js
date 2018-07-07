@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
@@ -80,7 +81,6 @@ class ThreadDetails extends React.Component {
   }
 
   toCommentDetails(idComment) {
-    // this.props.getCommentDetails(idComment);
     this.props.navigator.push({
       screen: 'TemanDiabetes.CommentDetails',
       navigatorStyle: {
@@ -196,21 +196,22 @@ class ThreadDetails extends React.Component {
     const { threadDetails } = listThreads;
     if (this.state.isProcess) {
       return (
-        <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#FFDE00" size="large" />
+        <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="large" />
       );
     } else if (threadDetails === null) {
       return (
-        <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#FFDE00" size="large" />
+        <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="large" />
       );
     }
     return (
       <View style={{ flex: 2, backgroundColor: color.solitude }}>
         {listThreads.threadDetails === null ? (
           <View>
-            <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#FFDE00" size="small" />
+            <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="small" />
           </View>
         ) : (
           <HeaderDetail
+            threadType={threadDetails.threadType}
             categoryItem={threadDetails.category}
             date={threadDetails.createdAt}
             authorItem={threadDetails.author}
@@ -246,24 +247,17 @@ class ThreadDetails extends React.Component {
             >
               {listThreads.threadDetails !== null ? this.renderButtonFollow() : null}
               <TouchableOpacity
-                onPress={() =>
-                  this.setState(
-                    {
-                      isProcess: true
+                onPress={debounce(() =>{
+                  this.props.navigator.push({
+                    screen: 'TemanDiabetes.ModalPostComment',
+                    navigatorStyle: {
+                      navBarHidden: true
                     },
-                    () => {
-                      this.props.navigator.push({
-                        screen: 'TemanDiabetes.ModalPostComment',
-                        navigatorStyle: {
-                          navBarHidden: true
-                        },
-                        passProps: {
-                          idThread: _id
-                        }
-                      });
+                    passProps: {
+                      idThread: _id
                     }
-                  )
-                }
+                  });
+                }, 500, { leading: true, trailing: false })}
                 style={{
                   justifyContent: 'center',
                   backgroundColor: '#252c68',

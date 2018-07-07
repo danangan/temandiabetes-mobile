@@ -52,7 +52,7 @@ class InviteFriends extends React.Component {
       'Apakah anda ingin membagikannya melalui media sosial atau menyalin kode nya ?',
       [
         { text: 'Cancel', onPress: () => null, style: 'cancel' },
-        { text: 'Media Sosial', onPress: () => this.shareApp() },
+        { text: 'Share', onPress: () => this.shareApp() },
         { text: 'Salin Kode', onPress: () => this.writeToClipboard() }
       ],
       { cancelable: false }
