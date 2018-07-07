@@ -7,24 +7,24 @@ import { onBoarding, updateDeepLink } from '../../actions';
 import landingPageURL from '../../config/landingPageURL';
 
 class OnBoardingScreen extends Component {
-	constructor(props) {
-		super(props)
-	}
+  constructor(props) {
+    super(props);
+  }
 
-	componentDidMount() {
-		StatusBar.setHidden(true);
+  componentDidMount() {
+    StatusBar.setHidden(true);
     this.props.onBoarding();
 
     // handling deeplink here
     // save to store to handle later in main app
-    let url = Linking.getInitialURL().then(url => {
+    const url = Linking.getInitialURL().then(url => {
       // check if it is a reset password
       // if not save it to redux store
       if (url.includes('reset-password')) {
         let pathname = url.replace(`${landingPageURL}/`, '');
-        pathname = pathname.split('/')
+        pathname = pathname.split('/');
         this.props.navigator.push({
-          screen: 'TemanDiabets.ForgotPasswordInputNewPassword',
+          screen: 'TemanDiabetes.ForgotPasswordInputNewPassword',
           navigatorStyle: {
             navBarHidden: true
           },
@@ -35,19 +35,22 @@ class OnBoardingScreen extends Component {
           }
         });
       } else {
-        this.props.updateDeepLink(url)
+        this.props.updateDeepLink(url);
       }
     });
-	}
+  }
 
-	render() {
-		return <Screen navigation={this.props.navigator}/>;
-	}
+  render() {
+    return <Screen navigation={this.props.navigator} />;
+  }
 }
 
 const mapDispatchToProps = dispatch => ({
-	onBoarding: () => dispatch(onBoarding()),
-	updateDeepLink: (deepLink) => dispatch(updateDeepLink(deepLink)),
+  onBoarding: () => dispatch(onBoarding()),
+  updateDeepLink: deepLink => dispatch(updateDeepLink(deepLink))
 });
 
-export default connect(null, mapDispatchToProps)(OnBoardingScreen);
+export default connect(
+  null,
+  mapDispatchToProps
+)(OnBoardingScreen);

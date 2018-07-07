@@ -11,42 +11,36 @@ class ProfileSettings extends React.Component {
   };
 
   onPushScreen(screen) {
-		this.props.navigator.push(
-			{
-        screen,
-        navigatorStyle: {
-          tabBarHidden: true
-        }
-			}
-		);
-	}
+    this.props.navigator.push({
+      screen,
+      navigatorStyle: {
+        tabBarHidden: true
+      }
+    });
+  }
 
   render() {
     return (
       <View style={styles.container}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="SETTING" />
-        <View
-          style={{ flex: 2 }}
-        >
-          <TouchableOpacity
-            style={styles.buttonWrapper}
-          >
+        <View style={{ flex: 2 }}>
+          <TouchableOpacity style={styles.buttonWrapper}>
             <Text style={{ color: '#ccc', fontSize: 12 }}>AKUN</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.buttonWrapper}
-            onPress={() => this.onPushScreen('TemanDiabets.EditProfile')}
+            onPress={() => this.onPushScreen('TemanDiabetes.EditProfile')}
           >
             <Text style={styles.buttonText}>SUNTING PROFILE</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.onPushScreen('TemanDiabets.InnerCircleList')}
+            onPress={() => this.onPushScreen('TemanDiabetes.InnerCircleList')}
             style={styles.buttonWrapper}
           >
             <Text style={styles.buttonText}>INNER CIRCLE LIST</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => this.onPushScreen('TemanDiabets.ThreadTopic')}
+            onPress={() => this.onPushScreen('TemanDiabetes.ThreadTopic')}
             style={styles.buttonWrapper}
           >
             <Text style={styles.buttonText}>PILIHAN TOPIK FORUM</Text>
@@ -71,12 +65,12 @@ const styles = {
     alignItems: 'flex-start',
     borderBottomColor: '#303c45',
     borderBottomWidth: 0.5,
-    marginHorizontal: 20,
+    marginHorizontal: 20
   },
   buttonText: {
     color: '#303c45',
-    fontSize: 12,
+    fontSize: 12
   }
-}
+};
 
 export default ProfileSettings;

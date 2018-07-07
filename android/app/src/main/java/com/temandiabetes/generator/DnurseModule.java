@@ -1,4 +1,4 @@
-package com.temandiabets.generator;
+package com.temandiabetes.generator;
 
 import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.BaseActivityEventListener;

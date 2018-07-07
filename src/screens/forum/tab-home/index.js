@@ -49,7 +49,7 @@ class TabHome extends Component {
     }
   }
 
-  componentWillReceiveProps({ dataThreads: {saveBookmark}}) {
+  componentWillReceiveProps({ dataThreads: { saveBookmark } }) {
     if (
       (saveBookmark.status_code === 201 || saveBookmark.status_code === 200) &&
       this.state.isProses
@@ -108,12 +108,14 @@ class TabHome extends Component {
     // ModalPostThread
     return (
       <TouchableOpacity
-        onPress={() => this.props.navigator.push({
-          screen: 'TemanDiabets.ModalPostThread',
-          navigatorStyle: {
-            tabBarHidden: true
-          }
-        })}
+        onPress={() =>
+          this.props.navigator.push({
+            screen: 'TemanDiabetes.ModalPostThread',
+            navigatorStyle: {
+              tabBarHidden: true
+            }
+          })
+        }
         style={styles.wrapPostThread}
       >
         <Text
@@ -133,7 +135,7 @@ class TabHome extends Component {
         <SearchButton
           onPress={() => {
             this.props.navigator.push({
-              screen: 'TemanDiabets.ModalSearch',
+              screen: 'TemanDiabetes.ModalSearch',
               navigatorStyle: {
                 tabBarHidden: true
               },
@@ -192,7 +194,7 @@ class TabHome extends Component {
 
   toThreadDetails(threads) {
     this.props.navigator.push({
-      screen: 'TemanDiabets.ThreadDetails',
+      screen: 'TemanDiabetes.ThreadDetails',
       navigatorStyle: {
         navBarHidden: true
       },
@@ -202,15 +204,17 @@ class TabHome extends Component {
 
   renderEmptySection() {
     return (
-      <Text style={{
-        textAlign: 'center',
-        marginTop: 30,
-        marginBottom: 10,
-        color: '#afafaf'
-      }}>
+      <Text
+        style={{
+          textAlign: 'center',
+          marginTop: 30,
+          marginBottom: 10,
+          color: '#afafaf'
+        }}
+      >
         Beranda Anda Kosong
       </Text>
-    )
+    );
   }
 
   renderItem(threads) {
@@ -268,12 +272,11 @@ class TabHome extends Component {
             onEndReachedThreshold={0.1}
           />
         )}
-        {
-          listThreads.initialLoading &&
+        {listThreads.initialLoading && (
           <View style={styles.initialLoading}>
             <ActivityIndicator color="rgb(239, 67, 79)" size="large" />
           </View>
-        }
+        )}
         {spinner}
       </View>
     );
@@ -336,4 +339,7 @@ const mapDispatchToProps = dispatch => ({
   makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(TabHome);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TabHome);

@@ -72,7 +72,7 @@ class TabHistoryEstimation extends Component {
             style={styles.buttonStyle}
             onPress={() => {
               this.props.navigator.push({
-                screen: 'TemanDiabets.DrugReminder',
+                screen: 'TemanDiabetes.DrugReminder',
                 navigatorStyle: {
                   navBarHidden: true
                 }
@@ -171,4 +171,7 @@ const mapDispatchToProps = dispatch => ({
   getHistoryBloodSugarLevels: () => dispatch(getHistoryBloodSugarLevels())
 });
 
-export default connect(null, mapDispatchToProps)(TabHistoryEstimation);
+export default connect(
+  null,
+  mapDispatchToProps
+)(TabHistoryEstimation);

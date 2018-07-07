@@ -47,10 +47,11 @@ class RegisterFive extends React.Component {
             'Informasi',
             'Data anda sedang kami validasi. Harap menghubungi customer service terkait.',
             [
-              { text: 'OK', 
+              {
+                text: 'OK',
                 onPress: () => {
                   this.props.navigator.resetTo({
-                    screen: 'TemanDiabets.LoginScreen',
+                    screen: 'TemanDiabetes.LoginScreen',
                     navigatorStyle: {
                       navBarHidden: true
                     }
@@ -78,7 +79,7 @@ class RegisterFive extends React.Component {
     const userData = {
       email: this.props.email,
       tipe_user: this.props.tipeuser,
-      sip: sip
+      sip
     };
 
     await API_CALL.put(`api/users/${this.props._id}`, userData);
@@ -135,10 +136,7 @@ class RegisterFive extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.imageBackground}
-          source={Images.backgroundSip}
-        >
+        <ImageBackground style={styles.imageBackground} source={Images.backgroundSip}>
           <TouchableOpacity
             style={{
               flex: 1,

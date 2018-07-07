@@ -128,7 +128,7 @@ class Login extends Component {
   createAccount = () => {
     this.props.clearDataRegister('CLEAR_DATA_REGISTER');
     this.props.navigator.push({
-      screen: 'TemanDiabets.RegisterScreen',
+      screen: 'TemanDiabetes.RegisterScreen',
       animated: true,
       animationType: 'fade'
     });
@@ -136,7 +136,7 @@ class Login extends Component {
 
   forgotPassword = () => {
     this.props.navigator.push({
-      screen: 'TemanDiabets.ForgotPasswordInputEmail',
+      screen: 'TemanDiabetes.ForgotPasswordInputEmail',
       animated: true,
       animationType: 'fade',
       navigatorStyle: {

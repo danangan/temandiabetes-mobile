@@ -31,7 +31,7 @@ class InnerCircle extends React.Component {
 
   pushNavigation = item => {
     this.props.navigator.push({
-      screen: 'TemanDiabets.ProfileDetails',
+      screen: 'TemanDiabetes.ProfileDetails',
       passProps: {
         id: item._id,
         name: item.nama,
@@ -167,4 +167,7 @@ const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(getUsers())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(InnerCircle);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InnerCircle);

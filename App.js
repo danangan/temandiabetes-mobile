@@ -13,7 +13,7 @@ registerScreens(store, Provider);
 export const startApp = (cb = () => {}) => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: 'TemanDiabets.OnBoardingScreen',
+      screen: 'TemanDiabetes.OnBoardingScreen',
       navigatorStyle: {
         navBarHidden: true
       }
@@ -27,7 +27,7 @@ export const startApp = (cb = () => {}) => {
 export const startLoginPage = (cb = () => {}) => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: 'TemanDiabets.LoginScreen',
+      screen: 'TemanDiabetes.LoginScreen',
       navigatorStyle: {
         navBarHidden: true
       }
@@ -41,7 +41,7 @@ export const startLoginPage = (cb = () => {}) => {
 export const mainApp = () => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: 'TemanDiabets.AppContainer',
+      screen: 'TemanDiabetes.AppContainer',
       navigatorStyle: {
         navBarHidden: true
       }
@@ -53,7 +53,7 @@ export const mainApp = () => {
 export const mainLoader = () => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: 'TemanDiabets.AppLoader',
+      screen: 'TemanDiabetes.AppLoader',
       navigatorStyle: {
         navBarHidden: true
       }

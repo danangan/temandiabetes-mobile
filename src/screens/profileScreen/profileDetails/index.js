@@ -11,10 +11,7 @@ import {
 } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
-import { 
-  getUserRecentThread, 
-  getUserRecentComment,
-} from '../../../actions/recentActivityAction';
+import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
 import { Avatar, Indicator, NavigationBar, Spinner } from '../../../components';
 import Event from './Event';
 import TabComments from './Comments';
@@ -54,11 +51,11 @@ class ProfileDetails extends React.Component {
   }
 
   componentDidMount() {
-    let userId
+    let userId;
     if (this.props.id) {
-      userId = this.props.id
+      userId = this.props.id;
     } else {
-      userId = this.props.dataAuth._id
+      userId = this.props.dataAuth._id;
     }
 
     this.props.getOneUser(userId);
@@ -125,13 +122,17 @@ class ProfileDetails extends React.Component {
       'jenis_diabetes'
     ];
 
-    arrayOfProps.forEach((item) => {
-      if (this.isKeyExist(currentUser, item) && currentUser[item] !== '' && currentUser[item] !== null) {
+    arrayOfProps.forEach(item => {
+      if (
+        this.isKeyExist(currentUser, item) &&
+        currentUser[item] !== '' &&
+        currentUser[item] !== null
+      ) {
         counter += 1;
       }
     });
- 
-    const persentase = (counter / arrayOfProps.length) * 100; 
+
+    const persentase = (counter / arrayOfProps.length) * 100;
 
     this.setState({
       completePercentase: `${Math.round(persentase)}%`
@@ -144,16 +145,23 @@ class ProfileDetails extends React.Component {
         <Indicator persentase={{ width: this.state.completePercentase }} />
       </View>
       <View style={styles.indicatorDetailStyle}>
-        <Text style={styles.textStyle}>Profile Anda baru komplit { this.state.completePercentase },</Text>
-        <Text 
+        <Text style={styles.textStyle}>
+          Profile Anda baru komplit {this.state.completePercentase},
+        </Text>
+        <Text
           onPress={() => {
-          this.props.navigator.push({
-            screen: 'TemanDiabets.EditProfile',
-            navigatorStyle: {
-              navBarHidden: true
-            },
-          });
-        }} style={[styles.textStyle, { color: '#4644f0' }]}> lengkapi sekarang!</Text>
+            this.props.navigator.push({
+              screen: 'TemanDiabetes.EditProfile',
+              navigatorStyle: {
+                navBarHidden: true
+              }
+            });
+          }}
+          style={[styles.textStyle, { color: '#4644f0' }]}
+        >
+          {' '}
+          lengkapi sekarang!
+        </Text>
       </View>
     </View>
   );
@@ -215,7 +223,9 @@ class ProfileDetails extends React.Component {
       return <TabComments navi={this.props.navigator} listThreads={recentComments.data} />;
     }
     if (this.state.tab === 2) {
-      return <TabRecentActivityResponse navi={this.props.navigator} listActivity={recentResponse.data} />;
+      return (
+        <TabRecentActivityResponse navi={this.props.navigator} listActivity={recentResponse.data} />
+      );
     }
     if (this.state.tab === 3) {
       return <Event />;
@@ -227,7 +237,7 @@ class ProfileDetails extends React.Component {
 
   renderDetailProfile = () => {
     const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
-    
+
     return (
       <View style={styles.contentTopStyle}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
@@ -353,7 +363,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '80%',
-    borderWidth: 1, 
+    borderWidth: 1,
     borderColor: 'red',
     borderRadius: 5,
     marginVertical: 5
@@ -436,4 +446,7 @@ const mapDispatchToProps = dispatch => ({
   getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileDetails);

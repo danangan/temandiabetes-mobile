@@ -1031,7 +1031,7 @@ class InputTracker extends Component {
               this.setState({ isManually: false }, () => {
                 this.setModalVisible();
                 this.props.navigator.push({
-                  screen: 'TemanDiabets.StepOne',
+                  screen: 'TemanDiabetes.StepOne',
                   navigatorStyle: { tabBarHidden: true, navBarHidden: true }
                 });
               });
@@ -1104,7 +1104,7 @@ class InputTracker extends Component {
 
   toNavigate() {
     this.props.navigator.push({
-      screen: 'TemanDiabets.PreviewSearchMakanan',
+      screen: 'TemanDiabetes.PreviewSearchMakanan',
       navigatorStyle: {
         navBarHidden: true
       },

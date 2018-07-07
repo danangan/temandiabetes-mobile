@@ -36,7 +36,7 @@ const TabFamily = ({ innerCircle = [], deleted, onChangeIsProcess, navigator }) 
 
   const pushNavigation = item => {
     navigator.push({
-      screen: 'TemanDiabets.ProfileDetails',
+      screen: 'TemanDiabetes.ProfileDetails',
       passProps: {
         id: item.friend._id
       },
@@ -150,4 +150,7 @@ const mapDispatchToProps = dispatch => ({
   deleted: (userId, innerCircleId) => dispatch(deleteInnerCircle(userId, innerCircleId))
 });
 
-export default connect(null, mapDispatchToProps)(TabFamily);
+export default connect(
+  null,
+  mapDispatchToProps
+)(TabFamily);

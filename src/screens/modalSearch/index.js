@@ -1,9 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, AsyncStorage, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  AsyncStorage,
+  ActivityIndicator,
+  TouchableOpacity,
+  Alert
+} from 'react-native';
 import Share from 'react-native-share';
 
-import { searchThread, saveUserSearch, makeBookmarkSearhedThread } from '../../actions/threadActions';
+import {
+  searchThread,
+  saveUserSearch,
+  makeBookmarkSearhedThread
+} from '../../actions/threadActions';
 import { TextField, Spinner } from '../../components';
 import CardResult from './CardResult';
 import searchIcon from '../../assets/icons/close.png';
@@ -15,7 +27,7 @@ import color from '../../style/color';
 
 class ModalSearch extends React.Component {
   static navigatorStyle = {
-		navBarHidden: true
+    navBarHidden: true
   };
 
   constructor(props) {
@@ -27,8 +39,8 @@ class ModalSearch extends React.Component {
       recentSearch: []
     };
 
-    this.onShareThread = this.onShareThread.bind(this)
-    this.onBookmark = this.onBookmark.bind(this)
+    this.onShareThread = this.onShareThread.bind(this);
+    this.onBookmark = this.onBookmark.bind(this);
     this.changesKeyword = this.changesKeyword.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
     this.toSaveUserSearch = this.toSaveUserSearch.bind(this);
@@ -36,13 +48,15 @@ class ModalSearch extends React.Component {
   }
 
   onShareThread(thread) {
-    let options = {
+    const options = {
       title: thread.topic,
       message: thread.topic,
       url: `${landingPageURL}/thread/${thread._id}`,
-      subject: "Article from Teman Diabetes" //  for email
+      subject: 'Article from Teman Diabetes' //  for email
     };
-    Share.open(options).catch((err) => { err && console.log(err); })
+    Share.open(options).catch(err => {
+      err && console.log(err);
+    });
   }
 
   componentDidUpdate() {
@@ -77,14 +91,17 @@ class ModalSearch extends React.Component {
     this.getSearchRecent();
   }
 
-  onPressHistory = async (keyword) => {
+  onPressHistory = async keyword => {
     const token = await AsyncStorage.getItem(authToken);
-    this.setState({
-      searchKeyword: keyword
-    }, () => {
-      this.props.searchThread(keyword, token);
-    });
-  }
+    this.setState(
+      {
+        searchKeyword: keyword
+      },
+      () => {
+        this.props.searchThread(keyword, token);
+      }
+    );
+  };
 
   getSearchRecent = async () => {
     const keyword = await AsyncStorage.getItem(keywordRecent);
@@ -94,13 +111,13 @@ class ModalSearch extends React.Component {
         recentSearch: toArray
       });
     }
-  }
+  };
 
-  changesKeyword = async (searchKeyword) => {
+  changesKeyword = async searchKeyword => {
     this.setState({ searchKeyword }, () => {
       this.props.searchThread(searchKeyword, this.props.threadType);
     });
-  }
+  };
 
   toSaveUserSearch() {
     this.props.saveUserSearch(this.state.searchKeyword);
@@ -129,9 +146,9 @@ class ModalSearch extends React.Component {
 
   toThreadDetails(threads) {
     this.props.navigator.push({
-      screen: 'TemanDiabets.ThreadDetails',
+      screen: 'TemanDiabetes.ThreadDetails',
       navigatorStyle: {
-        navBarHidden: true,
+        navBarHidden: true
       },
       passProps: threads
     });
@@ -144,12 +161,11 @@ class ModalSearch extends React.Component {
         <View style={{ flex: 2, paddingHorizontal: 10, marginVertical: 10, paddingBottom: 20 }}>
           <Text style={styles.titleElement}>Pencarian Terakhir</Text>
           <View style={{ paddingVertical: 10, marginVertical: 0 }}>
-            {
-              this.state.recentSearch.length === 0 ? <Text></Text> :
+            {this.state.recentSearch.length === 0 ? (
+              <Text />
+            ) : (
               this.state.recentSearch.map((recent, index) => (
-                <TouchableOpacity
-                  onPress={() => this.onPressHistory(recent)}
-                >
+                <TouchableOpacity onPress={() => this.onPressHistory(recent)}>
                   <Text
                     key={index}
                     style={[styles.currentSearch, index === 1 ? { paddingVertical: 5 } : '']}
@@ -158,7 +174,7 @@ class ModalSearch extends React.Component {
                   </Text>
                 </TouchableOpacity>
               ))
-            }
+            )}
             {/* <Text style={[styles.currentSearch, ]}>Gula</Text>
             <Text style={styles.currentSearch}>DNurse</Text> */}
           </View>
@@ -169,23 +185,21 @@ class ModalSearch extends React.Component {
       if (searchResult.status_code === 200) {
         return (
           <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-            <Text style={{ textAlign: 'center', fontFamily: 'Montserrat-Light', fontSize: 14 }}>Opppss.. Pencarian Anda tidak ditemukan.</Text>
-          </View>
-        );
-      } else {
-        return (
-          <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+            <Text style={{ textAlign: 'center', fontFamily: 'Montserrat-Light', fontSize: 14 }}>
+              Opppss.. Pencarian Anda tidak ditemukan.
+            </Text>
           </View>
         );
       }
+      return (
+        <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+        </View>
+      );
     }
     return (
       <View style={{ paddingBottom: 80 }}>
-        <FlatList
-          data={searchResult.data}
-          renderItem={item => this.toRenderItem(item)}
-        />
+        <FlatList data={searchResult.data} renderItem={item => this.toRenderItem(item)} />
       </View>
     );
   }
@@ -193,12 +207,8 @@ class ModalSearch extends React.Component {
   render() {
     const { isLoading } = this.state;
     return (
-      <View
-        style={styles.container}
-      >
-        {
-          isLoading && <Spinner color="#EF434F" size="large"/>
-        }
+      <View style={styles.container}>
+        {isLoading && <Spinner color="#EF434F" size="large" />}
         <View
           style={{
             backgroundColor: '#fff',
@@ -207,7 +217,7 @@ class ModalSearch extends React.Component {
             alignItems: 'flex-start',
             paddingVertical: 10,
             paddingHorizontal: 15,
-            elevation: 8,
+            elevation: 8
           }}
         >
           <TextField
@@ -233,12 +243,15 @@ class ModalSearch extends React.Component {
               height: 20,
               width: 25
             }}
-            inputStyle={{ fontFamily: 'OpenSans-Regular', color: '#b6b6b6', fontSize: 14, backgroundColor: '#fff' }}
+            inputStyle={{
+              fontFamily: 'OpenSans-Regular',
+              color: '#b6b6b6',
+              fontSize: 14,
+              backgroundColor: '#fff'
+            }}
           />
         </View>
-        {
-          this.renderSearch()
-        }
+        {this.renderSearch()}
       </View>
     );
   }
@@ -249,7 +262,7 @@ const styles = {
     flex: 1,
     backgroundColor: '#fff',
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    alignItems: 'flex-start'
   },
   titleElement: {
     color: '#ccc',
@@ -264,13 +277,16 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-	dataThreads: state.threadsReducer,
+  dataThreads: state.threadsReducer
 });
 
 const mapDispatchToProps = dispatch => ({
   makeBookmarkSearhedThread: (thread, index) => dispatch(makeBookmarkSearhedThread(thread, index)),
   searchThread: (keyword, threadType) => dispatch(searchThread(keyword, threadType)),
-  saveUserSearch: (keyword) => dispatch(saveUserSearch(keyword)),
+  saveUserSearch: keyword => dispatch(saveUserSearch(keyword))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalSearch);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ModalSearch);
