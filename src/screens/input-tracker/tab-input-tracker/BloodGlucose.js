@@ -7,17 +7,12 @@ import styles from './Styles';
 class bloodGlucose extends React.Component {
   render() {
     return (
-      <TouchableOpacity
-        onPress={() => this.props.onModalInput('BLOOD_GLUCOSE')}
-      >
+      <TouchableOpacity onPress={() => this.props.onModalInput('BLOOD_GLUCOSE')}>
         <CardSection>
-          <Image
-            source={require('../../../assets/icons/dnurse.png')}
-            style={styles.iconStyle}
-          />
+          <Image source={require('../../../assets/icons/dnurse.png')} style={styles.iconStyle} />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>gula darah</Text>
-            <Text style={styles.valueStyle}>masukkan gula darah anda</Text>
+            <Text style={styles.titleStyle}>Gula darah</Text>
+            <Text style={styles.valueStyle}>Masukkan gula darah Anda</Text>
           </View>
         </CardSection>
       </TouchableOpacity>

@@ -157,7 +157,7 @@ class InputTracker extends Component {
             year
           },
           isDate: `${day} ${monthNames[month]} ${year}`,
-          inputDate: selectedDate 
+          inputDate: selectedDate
         }, () => {
           this.openTimePicker();
         });
@@ -177,7 +177,6 @@ class InputTracker extends Component {
 
       const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
-      console.log(`INI DATE NYA BRE --> ${hour}:${minute}` + '  ' + action);
       if (action !== TimePickerAndroid.dismissedAction) {
         const limitTime = new moment().hours(hour).minute(minute);
         const checking = limitTime.isBefore(new moment());

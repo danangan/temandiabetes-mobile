@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment, { now } from 'moment';
+import moment from 'moment';
 import {
   View,
   Text,
@@ -13,11 +13,9 @@ import {
   Platform,
   Alert
 } from 'react-native';
-import { Avatar, NavigationBar } from '../../../../components';
+import { NavigationBar, Spinner, SnackBar } from '../../../../components';
 import { updateProfile } from '../../../../actions/profileActions';
 import ProfileCard from '../../../../components/card/profile';
-import { Spinner } from '../../../../components';
-import { dateFormatter } from '../../../../utils/helpers';
 
 class EditProfile extends React.Component {
   static navigatorStyle = {
@@ -44,7 +42,9 @@ class EditProfile extends React.Component {
         }
       },
       submitted: false,
-      isLoading: false
+      isLoading: false,
+      showSnackBar: false,
+      message: ''
     };
   }
 
@@ -129,9 +129,7 @@ class EditProfile extends React.Component {
               isLoading: false
             },
             () => {
-              Alert.alert('Perhatian!', 'Data telah berhasil disimpan.', [
-                { text: 'OK', onPress: () => this.props.navigator.pop() }
-              ]);
+              this.showSnackBar();
             }
           );
         });
@@ -181,6 +179,20 @@ class EditProfile extends React.Component {
     }
 
     return moment(currentUser.tgl_lahir).format('YYYY-MM-DD');
+  };
+
+  showSnackBar = () => {
+    this.setState({ showSnackBar: true, message: 'Data telah berhasil diubah.' }, () =>
+      this.hideSnackBar()
+    );
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false }, () =>
+        this.props.navigator.pop({ animated: true, animationType: 'fade' })
+      );
+    }, 2000);
   };
 
   render() {
@@ -295,6 +307,11 @@ class EditProfile extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
+        <SnackBar
+          visible={this.state.showSnackBar}
+          textMessage={this.state.message}
+          position="top"
+        />
       </View>
     );
   }

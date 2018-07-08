@@ -96,7 +96,7 @@ class Register extends Component {
             />
           </TouchableOpacity>
           <View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
-            <Text style={styles.titles}>Siapakan nama Anda?</Text>
+            <Text style={styles.titles}>Siapakah nama Anda?</Text>
           </View>
           <View style={styles.wrapForm}>
             <View

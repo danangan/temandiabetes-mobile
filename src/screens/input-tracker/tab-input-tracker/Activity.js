@@ -14,8 +14,8 @@ class activity extends React.Component {
         <CardSection>
           <Image source={require('../../../assets/icons/activity.png')} style={styles.iconStyle} />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>aktifitas</Text>
-            <Text style={styles.valueStyle}>aktifitas yang anda lakukan</Text>
+            <Text style={styles.titleStyle}>Aktifitas</Text>
+            <Text style={styles.valueStyle}>Aktifitas yang Anda lakukan</Text>
           </View>
         </CardSection>
       </TouchableOpacity>

@@ -46,7 +46,7 @@ const HistoryBloodPressure = ({ history }) => {
 
   return (
     <View style={styles.containerStyle}>
-      <Text style={styles.titleStyle}>tekanan darah</Text>
+      <Text style={styles.titleStyle}>Tekanan darah</Text>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.bloodPressureContainerStyle}>
           <View style={{ flexDirection: 'row' }}>

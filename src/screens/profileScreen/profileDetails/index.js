@@ -26,7 +26,7 @@ import color from '../../../style/color';
 import { authToken } from '../../../utils/constants';
 import Images from '../../../assets/images';
 
-const listTabs = ['THREAD', 'ANSWER', 'RESPONSE', 'EVENT'];
+const listTabs = ['THREAD', 'ANSWER', 'ACTIVITY LOG', 'EVENT'];
 
 class ProfileDetails extends React.Component {
   static navigatorStyle = {
@@ -323,7 +323,8 @@ class ProfileDetails extends React.Component {
                   style={[
                     styles.buttonTabText,
                     {
-                      fontSize: this.state.tab === index ? 14 : 12
+                      fontSize:
+                        this.state.tab === index ? Style.FONT_SIZE_SMALL : Style.FONT_SIZE_SMALLER
                     }
                   ]}
                 >
@@ -400,18 +401,17 @@ const styles = {
   },
   buttonTab: {
     flex: 0,
-    // flexWrap: 'wrap',
-    width: '20%',
+    width: Style.DEVICE_WIDTH / 4,
     height: '100%',
     marginHorizontal: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
   buttonTabText: {
-    fontSize: 12,
+    fontSize: Style.FONT_SIZE_SMALLER,
     color: '#ef434e',
     textAlign: 'center',
-    fontFamily: 'Montserrat-Medium'
+    fontFamily: 'Montserrat-Regular'
   },
   indicatorDetailStyle: {
     flex: 1,

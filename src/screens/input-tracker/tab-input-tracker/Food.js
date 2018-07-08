@@ -7,18 +7,15 @@ import styles from './Styles';
 class Food extends React.Component {
   render() {
     return (
-      <TouchableOpacity
-        style={styles.buttonMenuStyle}
-        onPress={() => this.props.toNavigate()}
-      >
+      <TouchableOpacity style={styles.buttonMenuStyle} onPress={() => this.props.toNavigate()}>
         <CardSection>
           <Image
             source={require('../../../assets/icons/food.png')}
             style={[styles.iconStyle, { width: 50 }]}
           />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>makanan</Text>
-            <Text style={styles.valueStyle}>masukan makanan anda</Text>
+            <Text style={styles.titleStyle}>Makanan</Text>
+            <Text style={styles.valueStyle}>Masukan makanan Anda</Text>
           </View>
         </CardSection>
       </TouchableOpacity>

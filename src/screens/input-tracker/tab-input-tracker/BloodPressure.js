@@ -17,13 +17,13 @@ class bloodPressure extends React.Component {
             style={styles.iconStyle}
           />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>tekanan darah</Text>
-            <Text style={styles.valueStyle}>masukkan tekanan darah anda</Text>
+            <Text style={styles.titleStyle}>Tekanan darah</Text>
+            <Text style={styles.valueStyle}>Masukkan tekanan darah Anda</Text>
           </View>
         </CardSection>
       </TouchableOpacity>
     );
-  } 
+  }
 }
 
 export default bloodPressure;

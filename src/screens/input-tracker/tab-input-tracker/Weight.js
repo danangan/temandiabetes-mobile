@@ -12,18 +12,15 @@ class weight extends React.Component {
         onPress={() => this.props.onModalInput('INPUT_WEIGHT')}
       >
         <CardSection>
-          <Image
-            source={require('../../../assets/icons/weight.png')}
-            style={styles.iconStyle}
-          />
+          <Image source={require('../../../assets/icons/weight.png')} style={styles.iconStyle} />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>berat badan</Text>
-            <Text style={styles.valueStyle}>masukkan berat anda</Text>
+            <Text style={styles.titleStyle}>Berat badan</Text>
+            <Text style={styles.valueStyle}>Masukkan berat Anda</Text>
           </View>
         </CardSection>
       </TouchableOpacity>
     );
-  } 
+  }
 }
 
 export default weight;

@@ -1,16 +1,8 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Image,
-  Text,
-  ImageBackground,
-  KeyboardAvoidingView,
-  Keyboard,
-  Alert
-} from 'react-native';
+import { View, Image, Text, ImageBackground, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { connect } from 'react-redux';
 
-import { ButtonFacebook, ButtonGoogle, Button, Spinner } from '../../components/';
+import { ButtonFacebook, ButtonGoogle, Button, Spinner, SnackBar } from '../../components/';
 import Form from './Form';
 import BorderLine from './BorderLine';
 import Style from '../../style/defaultStyle';
@@ -34,7 +26,9 @@ class Login extends Component {
       email: null,
       password: null,
       shouldRedirect: false,
-      message: null
+      message: null,
+      showSnackBar: false,
+      errorMessage: ''
     };
   }
 
@@ -61,11 +55,7 @@ class Login extends Component {
         },
         () => {
           if (errorMessage !== undefined) {
-            this.props.navigator.showSnackbar({
-              text: errorMessage,
-              textColor: color.red,
-              duration: 'long'
-            });
+            this.showSnackBar(message);
           }
         }
       );
@@ -86,13 +76,12 @@ class Login extends Component {
     Keyboard.dismiss();
 
     if (!this.state.email || !this.state.password) {
-      this.setState({ shouldRedirect: false, message: 'data tidak lengkap' }, () => {
-        this.props.navigator.showSnackbar({
-          text: this.state.message,
-          textColor: color.red,
-          duration: 'long'
-        });
-      });
+      this.setState(
+        { shouldRedirect: false, message: 'Username dan Password tidak boleh kosong.' },
+        () => {
+          this.showSnackBar(this.state.message);
+        }
+      );
     } else {
       this.setState({ shouldRedirect: true }, () => {
         this.props.loginManual(user);
@@ -103,23 +92,11 @@ class Login extends Component {
   errorMessage = message => {
     switch (message) {
       case 'Kata sandi salah':
-        return 'Kata sandi salah';
+        return this.showSnackBar(message);
       case 'Data pengguna tidak ditemukan':
-        return Alert.alert(
-          'Pemberitahuan',
-          'Akun anda tidak terdaftar',
-          [
-            {
-              text: 'OK',
-              onPress: () => {
-                this.props.resetState();
-              }
-            }
-          ],
-          { cancelable: false }
-        );
+        return this.showSnackBar(message);
       case 'Format email salah':
-        return 'Format email salah';
+        return this.showSnackBar(message);
       default:
         return message;
     }
@@ -143,6 +120,16 @@ class Login extends Component {
         navBarHidden: true
       }
     });
+  };
+
+  showSnackBar = message => {
+    this.setState({ showSnackBar: true, errorMessage: message }, () => this.hideSnackBar());
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false });
+    }, 2000);
   };
 
   render() {
@@ -192,6 +179,11 @@ class Login extends Component {
           </View>
         </View>
         {spinner}
+        <SnackBar
+          visible={this.state.showSnackBar}
+          textMessage={this.state.errorMessage}
+          position="top"
+        />
       </ImageBackground>
     );
   }
@@ -225,7 +217,6 @@ const styles = {
     fontSize: 16,
     color: color.gray,
     fontStyle: 'italic',
-    // fontWeight: 'bold',
     alignSelf: 'center',
     marginTop: 8
   },
@@ -242,9 +233,6 @@ const styles = {
     marginLeft: 35,
     marginRight: 35,
     borderRadius: 0
-  },
-  textStyle: {
-    // fontSize: 16
   },
   buttonSocialStyle: {
     margin: 10

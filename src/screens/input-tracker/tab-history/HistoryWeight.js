@@ -16,7 +16,7 @@ const HistoryWeight = ({ history }) => {
 
   return (
     <View style={styles.containerStyle}>
-      <Text style={styles.titleStyle}>berat badan</Text>
+      <Text style={styles.titleStyle}>Berat badan</Text>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.weightContainerStyle}>
           <View style={{ flexDirection: 'row' }}>
@@ -104,4 +104,7 @@ const mapStateToProps = state => ({
   history: state.historyEstimationReducer
 });
 
-export default connect(mapStateToProps, null)(HistoryWeight);
+export default connect(
+  mapStateToProps,
+  null
+)(HistoryWeight);

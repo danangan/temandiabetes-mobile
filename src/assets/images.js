@@ -15,6 +15,10 @@ const Images = {
   plusIcon: require('./icons/plus.png'),
   checklistIcon: require('./icons/check.png'),
   searchIcon: require('./icons/search.png'),
+  cutleryYellowIcon: require('./icons/cutlery-yellow.png'),
+  cutleryBlueIcon: require('./icons/cutlery-blue.png'),
+  cutleryRedIcon: require('./icons/cutlery-red.png'),
+  cutleryPurpleIcon: require('./icons/cutlery-purple.png'),
   diabetesiIcon:
     'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FDiabetesi.png?alt=media&token=744e2da7-c307-49e9-83ea-165d0f07c99f',
   innerCircleIcon:

@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
-import { View, ScrollView, Text } from 'react-native'
-import { connect } from 'react-redux'
-import { NavigationBar, Button, Spinner } from '../../../components'
-import Style from '../../../style/defaultStyle'
-import { API_CALL } from '../../../utils/ajaxRequestHelper'
-import TopicItem from './components/topicItem'
+import React, { Component } from 'react';
+import { View, ScrollView, Text } from 'react-native';
+import { connect } from 'react-redux';
+import { NavigationBar, Button, Spinner, SnackBar } from '../../../components';
+import { API_CALL } from '../../../utils/ajaxRequestHelper';
+import TopicItem from './components/topicItem';
 
 class ThreadTopic extends Component {
   static navigatorStyle = {
@@ -13,9 +12,11 @@ class ThreadTopic extends Component {
   };
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       isLoading: false,
+      message: '',
+      showSnackBar: false,
       // checkbox categories used to render the checkbox  and save the
       // checked status of the list
       categories: [],
@@ -25,33 +26,39 @@ class ThreadTopic extends Component {
         pages: 0,
         total: 0
       }
-    }
+    };
 
-    this.onCheckHandler = this.onCheckHandler.bind(this)
-    this.saveSelectedCategory = this.saveSelectedCategory.bind(this)
+    this.onCheckHandler = this.onCheckHandler.bind(this);
+    this.saveSelectedCategory = this.saveSelectedCategory.bind(this);
   }
 
   async fetchTopics() {
     this.setState({
       isLoading: true
-    })
+    });
 
     const option = {
       method: 'get',
-      url: '/api/categories?limit=100',
+      url: '/api/categories?limit=100'
     };
 
     try {
-      const { data: { data : { categories: { docs, ...pagination }}} } = await API_CALL(option);
+      const {
+        data: {
+          data: {
+            categories: { docs, ...pagination }
+          }
+        }
+      } = await API_CALL(option);
 
       this.setState({
         categories: this.mapCategories(docs),
         isLoading: false,
         isError: false,
         pagination
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -60,37 +67,37 @@ class ThreadTopic extends Component {
       label: item.category,
       _id: item._id,
       isChecked: this.props.userCurrentCategories.includes(item._id)
-    }))
+    }));
   }
 
   onCheckHandler(index) {
     const mutate = this.state.categories;
-    mutate[index].isChecked = !mutate[index].isChecked
+    mutate[index].isChecked = !mutate[index].isChecked;
     this.setState({
       categories: mutate
-    })
+    });
   }
 
   componentDidMount() {
-    this.fetchTopics()
+    this.fetchTopics();
   }
 
   async saveSelectedCategory(cb) {
     this.setState({
       isLoading: true
-    })
+    });
 
-    let threadCategoryPreferences = []
+    const threadCategoryPreferences = [];
     this.state.categories.forEach(item => {
-      if(item.isChecked) {
-        threadCategoryPreferences.push(item._id)
+      if (item.isChecked) {
+        threadCategoryPreferences.push(item._id);
       }
-    })
+    });
 
     if (threadCategoryPreferences.length > 0 && this.state.categories.length > 0) {
       this.setState({
         isError: false
-      })
+      });
 
       const option = {
         method: 'put',
@@ -101,68 +108,83 @@ class ThreadTopic extends Component {
       };
 
       try {
-        const { data: { data: {user} }} = await API_CALL(option);
+        const {
+          data: {
+            data: { user }
+          }
+        } = await API_CALL(option);
         this.props.dispatch({
           type: 'GET_CURRENT_USER',
           payload: user
-        })
-
+        });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     } else {
       this.setState({
         isError: true
-      })
+      });
     }
 
+    this.setState(
+      {
+        isLoading: false
+      },
+      () => this.showSnackBar()
+    );
 
-    this.setState({
-      isLoading: false
-    })
-
-    if (cb) cb()
+    if (cb) cb();
   }
 
+  showSnackBar = () => {
+    this.setState({ showSnackBar: true, message: 'Topik forum berhasil diubah' }, () =>
+      this.hideSnackBar()
+    );
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false }, () =>
+        this.props.navigator.pop({ animated: true, animationType: 'fade' })
+      );
+    }, 2000);
+  };
+
   render() {
-    let { header, onSubmitButton } = this.props
+    let { header, onSubmitButton } = this.props;
     header = header || (
       <NavigationBar onPress={() => this.props.navigator.pop()} title="PILIH TOPIK FORUM" />
-    )
+    );
     return (
       <View style={styles.container}>
-        {
-          this.state.isLoading &&
-          <Spinner color="#EF434F" text="" size="large" />
-        }
-        { header }
+        {this.state.isLoading && <Spinner color="#EF434F" text="" size="large" />}
+        {header}
         <ScrollView>
           <View style={styles.checkboxContainer}>
-            {
-              this.state.categories.map( (item, index) => (
-                <TopicItem
-                  key={index}
-                  data={item}
-                  index={index}
-                  onChange={this.onCheckHandler}/>
-              ))
-            }
+            {this.state.categories.map((item, index) => (
+              <TopicItem key={index} data={item} index={index} onChange={this.onCheckHandler} />
+            ))}
           </View>
         </ScrollView>
-        {
-          this.state.isError &&
+        {this.state.isError && (
           <Text style={styles.errorText}>Minimal pilihan topik thread adalah 1</Text>
-        }
+        )}
         <Button
           textStyle={styles.buttonText}
           buttonStyle={styles.button}
-          onPress={() => {this.saveSelectedCategory(onSubmitButton)}}>
-          <Text>
-            SIMPAN
-          </Text>
+          onPress={() => {
+            this.saveSelectedCategory(onSubmitButton);
+          }}
+        >
+          <Text>SIMPAN</Text>
         </Button>
+        <SnackBar
+          visible={this.state.showSnackBar}
+          textMessage={this.state.message}
+          position="top"
+        />
       </View>
-    )
+    );
   }
 }
 
@@ -175,7 +197,7 @@ const styles = {
   },
   checkboxContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: 30
   },
   errorText: {
     color: 'red',
@@ -190,11 +212,11 @@ const styles = {
   buttonText: {
     fontSize: 13
   }
-}
+};
 
 const mapStateToProps = state => ({
-	currentUserId: state.authReducer.currentUser._id,
-	userCurrentCategories: state.authReducer.currentUser.threadCategoryPreferences,
+  currentUserId: state.authReducer.currentUser._id,
+  userCurrentCategories: state.authReducer.currentUser.threadCategoryPreferences
 });
 
-export default connect(mapStateToProps)(ThreadTopic)
+export default connect(mapStateToProps)(ThreadTopic);

@@ -26,7 +26,7 @@ const HistoryActivity = ({ history }) => {
 
   return (
     <View style={styles.containerStyle}>
-      <Text style={styles.titleStyle}>aktifitas</Text>
+      <Text style={styles.titleStyle}>Aktifitas</Text>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.activityContainerStyle}>
           <Image
@@ -110,4 +110,7 @@ const mapStateToProps = state => ({
   history: state.historyEstimationReducer
 });
 
-export default connect(mapStateToProps, null)(HistoryActivity);
+export default connect(
+  mapStateToProps,
+  null
+)(HistoryActivity);

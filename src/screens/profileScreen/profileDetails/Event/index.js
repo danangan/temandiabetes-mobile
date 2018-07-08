@@ -25,7 +25,7 @@ class Event extends React.Component {
                 source={require('../../../../assets/icons/event_active.png')}
                 style={styles.iconStyle}
               />
-              <Text style={styles.subTitleStyle}>Video</Text>
+              <Text style={styles.subTitleStyle}>Event</Text>
             </View>
             <Text style={styles.titleStyle}>Coming Soon</Text>
             <Text style={styles.descStyle}>
@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   iconStyle: {
-    width: 70,
-    height: 70,
+    width: 50,
+    height: 55,
     alignSelf: 'center'
   },
   titleStyle: {
