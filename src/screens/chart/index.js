@@ -7,20 +7,24 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
-  RefreshControl
+  RefreshControl,
 } from 'react-native';
-import { Card, Spinner } from '../../components';
+import { Card, Spinner, TextField } from '../../components';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import { getProductFromGOA, auditTrailPrePurchase } from '../../actions';
+import searchIcon from '../../assets/icons/close.png';
+import searchIcon2 from '../../assets/icons/search.png';
 
 class Chart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       url: null,
-      refreshing: false
+      refreshing: false,
+      searchKeyword: ''
     };
+    this.changesKeyword = this.changesKeyword.bind(this);
   }
 
   componentDidMount() {
@@ -88,6 +92,12 @@ class Chart extends Component {
     });
   };
 
+  changesKeyword = async (searchKeyword) => {
+    this.setState({ searchKeyword }, () => {
+      // this.props.searchThread(searchKeyword, this.props.threadType);
+    });
+  }
+
   render() {
     const { products } = this.props.data;
     if (products === undefined) {
@@ -109,6 +119,33 @@ class Chart extends Component {
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
           }
         >
+          <View style={styles.wrapTextSearch}>
+            <TextField
+              value={this.state.searchKeyword}
+              onChangeText={this.changesKeyword}
+              autoFocus
+              tintColor={color.red}
+              iconLefteStyle={{ width: 30, height: 30, resizeModa: 'contain' }}
+              leftIcon={searchIcon2}
+              rightIcon={searchIcon}
+              // onPressRight={() => this.props.navigator.pop()}
+              placeholder={'Cari obat'}
+              underlineColorAndroid={'#fff'}
+              sectionStyle={{
+                marginTop: 10,
+                backgroundColor: '#fff',
+                borderWidth: 1,
+                borderColor: '#fff',
+                borderRadius: 5,
+                margin: 0
+              }}
+              iconLeftStyle={{
+                height: 20,
+                width: 25
+              }}
+              inputStyle={{ fontFamily: 'OpenSans-Regular', color: '#b6b6b6', fontSize: 14, backgroundColor: '#fff' }}
+            />
+          </View>
           <View style={styles.contentStyle}>
             {products.map((item, index) => (
               <Card containerStyle={styles.cardStyle} key={index}>
@@ -144,6 +181,15 @@ const styles = {
   containerStyle: {
     flex: 1,
     backgroundColor: color.solitude
+  },
+  wrapTextSearch: {
+    flex: 1, 
+    backgroundColor: '#fff', 
+    justifyContent: 'center',
+    borderRadius: 10,
+    padding: 5,
+    marginVertical: 5,
+    marginHorizontal: 10
   },
   contentStyle: {
     flex: 1,
