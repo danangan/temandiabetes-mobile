@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
-import { Avatar } from '../../../components';
+import { Avatar, TextWithClickableURL } from '../../../components';
 import { formatDateTime } from '../../../utils/helpers';
 import CommentChild from './commentChild';
 
@@ -131,7 +131,9 @@ class CommentThread extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.commentContent}>
-            <Text style={{ fontSize: 14, marginTop: 5 }}>{text}</Text>
+            <Text style={{ fontSize: 14, marginTop: 5 }}>
+              <TextWithClickableURL inputText={text}/>
+            </Text>
           </View>
         </View>
         <View style={styles.containerCommentChild}>

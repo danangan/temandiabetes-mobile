@@ -24,7 +24,6 @@ class ThreadDetails extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(this.props.item);
     this.state = {
       idThread: this.props.item._id,
       isProcess: true,
@@ -191,7 +190,6 @@ class ThreadDetails extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     const { _id } = this.props.item;
     const { listThreads } = this.props.dataThreads;
     const { threadDetails } = listThreads;

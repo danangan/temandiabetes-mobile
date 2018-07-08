@@ -12,3 +12,4 @@ export * from './indicator/Indicator';
 export * from './NavigationBar';
 export * from './SearchButton';
 export * from './Toast';
+export * from './TextWithClickableURL';

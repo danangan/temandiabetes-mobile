@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { CardSection } from '../../../../components';
+import { CardSection, TextWithClickableURL } from '../../../../components';
 import { sliceString } from '../../../../utils/helpers';
 
 const ContentThread = props => {
@@ -15,7 +15,9 @@ const ContentThread = props => {
 			</CardSection>
 			<CardSection>
 				<View style={styles.wrapper}>
-					<Text style={{ marginBottom: 10 }}>{sliceString(description || '', 250)}</Text>
+          <Text style={{ marginBottom: 10 }}>
+            <TextWithClickableURL inputText={sliceString(description || '', 250)}/>
+          </Text>
 				</View>
 			</CardSection>
 		</View>

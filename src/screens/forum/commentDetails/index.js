@@ -8,7 +8,7 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native';
-import { NavigationBar, CardSection, Avatar, Spinner } from '../../../components';
+import { NavigationBar, CardSection, Avatar, Spinner, TextWithClickableURL } from '../../../components';
 import CommentChild from '../threadDetails/commentChild';
 import {
   commentToReply,
@@ -164,7 +164,7 @@ class CommentDetails extends React.Component {
           </View>
           <ScrollView style={styles.innerText}>
             <Text style={{ fontSize: 22 }}>
-              { commentDetails.text }
+              <TextWithClickableURL inputText={ commentDetails.text }/>
             </Text>
           </ScrollView>
         </CardSection>

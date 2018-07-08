@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Avatar } from '../../../components';
+import { Avatar, TextWithClickableURL } from '../../../components';
 
 const state = {
   data: [1, 2, 3]
@@ -15,7 +15,9 @@ const CommentChild = (props) => {
         imageSource={props.comment.user.foto_profile}
         userName={props.comment.user.nama || 'N A'}
       />
-      <Text style={textStyle}>{props.comment.text}</Text>
+      <Text style={textStyle}>
+        <TextWithClickableURL inputText={props.comment.text}/>
+      </Text>
     </View>
   );
 };

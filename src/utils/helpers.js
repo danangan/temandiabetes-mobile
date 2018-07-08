@@ -1,5 +1,3 @@
-import { min } from "moment";
-
 export const randomizer = () => Math.floor((1 + Math.random()) * 0x100000000000).toString(16);
 
 export const getInitialName = (name, defaultVal = 'NA') => {
