@@ -128,7 +128,7 @@ class Login extends Component {
   createAccount = () => {
     this.props.clearDataRegister('CLEAR_DATA_REGISTER');
     this.props.navigator.push({
-      screen: 'TemanDiabets.RegisterScreen',
+      screen: 'TemanDiabetes.RegisterScreen',
       animated: true,
       animationType: 'fade'
     });
@@ -136,7 +136,7 @@ class Login extends Component {
 
   forgotPassword = () => {
     this.props.navigator.push({
-      screen: 'TemanDiabets.ForgotPasswordInputEmail',
+      screen: 'TemanDiabetes.ForgotPasswordInputEmail',
       animated: true,
       animationType: 'fade',
       navigatorStyle: {
@@ -147,7 +147,7 @@ class Login extends Component {
 
   render() {
     const spinner = this.state.shouldRedirect ? (
-      <Spinner color="#FFDE00" text="Logging In..." size="large" />
+      <Spinner color="#EF434F" text="Logging In..." size="large" />
     ) : (
       <View />
     );

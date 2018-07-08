@@ -48,7 +48,7 @@ class FeaturedDetail extends Component {
       return (
         <Spinner
         containerStyle={{ backgroundColor: '#f2f4fd' }}
-        color="#FFDE00"
+        color="#EF434F"
         size="large"
       />
       )

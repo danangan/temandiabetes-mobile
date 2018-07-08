@@ -72,7 +72,6 @@ class InputEmail extends Component {
       this.setState({
         showForm: false
       })
-      console.log(res)
     } catch (error) {
       this.setState({
         isError: true,

@@ -47,7 +47,7 @@ class DnurseResult extends React.Component {
   onNavigation = () => {
     this.props.updateTopTab(2);
     this.props.navigator.resetTo({
-      screen: 'TemanDiabets.AppContainer',
+      screen: 'TemanDiabetes.AppContainer',
       navigatorStyle: {
         navBarHidden: true
       }

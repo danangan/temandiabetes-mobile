@@ -101,10 +101,10 @@ class App extends Component {
       let screen
       switch (pathname[0]) {
         case 'thread':
-          screen = 'TemanDiabets.ThreadDetails';
+          screen = 'TemanDiabetes.ThreadDetails';
           break;
         case 'thread-static':
-          screen = 'TemanDiabets.FeaturedDetail';
+          screen = 'TemanDiabetes.FeaturedDetail';
           break;
         default:
           break;
@@ -125,7 +125,6 @@ class App extends Component {
   }
 
 	_displayNotificationAndroid(notif) {
-    console.log(notif)
     let title = ''
     let body = 'Sentuh untuk info lebih lanjut'
     let screen = ''
@@ -134,33 +133,33 @@ class App extends Component {
     switch (notif.activityType) {
       case 'comment':
         title = `${notif.commentator} memberikan komentar di thread Anda`
-        screen = 'TemanDiabets.ThreadDetails'
+        screen = 'TemanDiabetes.ThreadDetails'
         // passProps = { item: JSON.parse(notif.thread) }
         break;
       case 'reply_comment':
         title = `${notif.commentator} membalas komentar di thread Anda`
-        screen = 'TemanDiabets.CommentDetails'
+        screen = 'TemanDiabetes.CommentDetails'
         // passProps = { commentId: JSON.parse(activity.commentId) }
         id = notif.commentatorId
         break;
       case 'followed':
         title = `${JSON.parse(notif.subscriber).nama || JSON.parse(notif.subscriber).name} mengikuti thread Anda "${notif.topic}"`
         passProps = { id: JSON.parse(notif.subscriber)._id }
-        screen = 'TemanDiabets.ProfileDetails'
+        screen = 'TemanDiabetes.ProfileDetails'
         break;
       case 'drug_reminder':
         title = `Pengingat obat`
         body = `${notif.drugName} - ${new moment(new Date(notif.datetimeconsume)).format('HH:mm')}. Sentuh untuk info lebih lanjut`
-        screen = 'TemanDiabets.DrugReminder'
+        screen = 'TemanDiabetes.DrugReminder'
         break;
       case "receiver_innercircle":
         title = `${JSON.parse(notif.sender).name} mengirimkan permintaan inner circle`
-        screen = 'TemanDiabets.InnerCircleList'
+        screen = 'TemanDiabetes.InnerCircleList'
         id = JSON.parse(notif.sender).id
         break;
       case 'sender_innercircle':
         title = `${JSON.parse(notif.sender).name || JSON.parse(notif.sender).nama } menerima permintaan innercircle Anda`
-        screen = 'TemanDiabets.InnerCircleList'
+        screen = 'TemanDiabetes.InnerCircleList'
         id =  JSON.parse(notif.sender).id
         break;
       default:
@@ -168,8 +167,6 @@ class App extends Component {
     }
 
     if (notif.opened_from_tray) {
-      console.log('handle redirect dari fcm di sini gan')
-      console.log('item notif', notif)
       if (notif.screen && notif.screen !== '') {
         // reset the state while
         this.props.navigator.push({

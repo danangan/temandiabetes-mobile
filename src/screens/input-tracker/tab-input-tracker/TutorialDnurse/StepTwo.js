@@ -5,7 +5,7 @@ import color from '../../../../style/color';
 import { Button } from '../../../../components';
 import Style from '../../../../style/defaultStyle';
 
-const StepTwo = (props) => (
+const StepTwo = props => (
   <View style={styles.containerStyle}>
     <View style={styles.contentStyle}>
       <Image
@@ -24,7 +24,7 @@ const StepTwo = (props) => (
       textStyle={styles.textButtonStyle}
       onPress={() =>
         props.navigator.push({
-          screen: 'TemanDiabets.StepThree',
+          screen: 'TemanDiabetes.StepThree',
           navigatorStyle: { tabBarHidden: true, navBarHidden: true }
         })
       }
@@ -46,7 +46,7 @@ const styles = {
   },
   imageStyle: {
     width: Style.DEVICE_WIDTH,
-    height: Style.DEVICE_WIDTH,
+    height: Style.DEVICE_WIDTH
   },
   titleStyle: {
     fontFamily: 'Montserrat-Regular',

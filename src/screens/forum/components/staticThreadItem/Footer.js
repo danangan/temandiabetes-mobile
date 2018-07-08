@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
-import Style from '../../../style/defaultStyle';
-import { Avatar } from '../../../components';
-import BookMark from '../../../assets/icons/bookmark.png';
-import BookMarked from '../../../assets/icons/bookmark_dark.png';
-import Share from '../../../assets/icons/share.png';
+import Style from '../../../../style/defaultStyle';
+import { Avatar } from '../../../../components';
+import BookMark from '../../../../assets/icons/bookmark.png';
+import BookMarked from '../../../../assets/icons/bookmark_dark.png';
+import Share from '../../../../assets/icons/share.png';
 
 const defaultAuthor = {
   nama: '',

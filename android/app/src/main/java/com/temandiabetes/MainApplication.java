@@ -1,4 +1,4 @@
-package com.temandiabets;
+package com.temandiabetes.android;
 
 import com.imagepicker.ImagePickerPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
@@ -10,7 +10,7 @@ import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import cl.json.RNSharePackage;
-import com.temandiabets.generator.*;
+import com.temandiabetes.generator.*;
 
 import java.util.Arrays;
 import java.util.List;

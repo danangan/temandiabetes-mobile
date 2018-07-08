@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { CardSection } from '../../../components';
-import { sliceString } from '../../../utils/helpers';
-
-let more = false
+import React from 'react';
+import { View, Text } from 'react-native';
+import { CardSection } from '../../../../components';
+import { sliceString } from '../../../../utils/helpers';
 
 const ContentThread = props => {
   const { description, topic } = props.property;
@@ -12,12 +10,12 @@ const ContentThread = props => {
 		<View style={styles.container}>
 			<CardSection>
 				<View style={styles.wrapper}>
-					<Text style={styles.title}>{sliceString(topic, 35)}</Text>
+					<Text style={styles.title}>{sliceString(topic || '', 35)}</Text>
 				</View>
 			</CardSection>
 			<CardSection>
 				<View style={styles.wrapper}>
-					<Text style={{ marginBottom: 10 }}>{sliceString(description, 250)}</Text>
+					<Text style={{ marginBottom: 10 }}>{sliceString(description || '', 250)}</Text>
 				</View>
 			</CardSection>
 		</View>

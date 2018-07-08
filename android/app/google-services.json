@@ -8,20 +8,12 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:879115918599:android:e278ef8e0cccccf2",
+        "mobilesdk_app_id": "1:879115918599:android:29dfe4ef3b1c9465",
         "android_client_info": {
-          "package_name": "com.temandiabets"
+          "package_name": "com.temandiabetes.android"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "879115918599-0f4n9dag87r43jkki6d27pua4h7acajp.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.temandiabets",
-            "certificate_hash": "0c5969d92be2c90779f8dfc6d6c2bda5fa8c51d1"
-          }
-        },
         {
           "client_id": "879115918599-nucqun2ipaibofhht410rr0hke95go1o.apps.googleusercontent.com",
           "client_type": 3
@@ -37,20 +29,8 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "879115918599-nucqun2ipaibofhht410rr0hke95go1o.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "879115918599-bhhfn5oq2d29hvb8de4j0475giaok10n.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.temandiabets"
-              }
-            }
-          ]
+          "status": 1,
+          "other_platform_oauth_client": []
         },
         "ads_service": {
           "status": 2

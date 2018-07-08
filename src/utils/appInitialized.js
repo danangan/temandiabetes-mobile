@@ -68,7 +68,7 @@ const appInitialized = () => {
                         // redirect to fourth page
                         Navigation.startSingleScreenApp({
                           screen: {
-                            screen: 'TemanDiabets.RegisterScreenFourth',
+                            screen: 'TemanDiabetes.RegisterScreenFourth',
                             navigatorStyle: {
                               navBarHidden: true
                             }

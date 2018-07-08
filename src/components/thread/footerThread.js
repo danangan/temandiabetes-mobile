@@ -10,16 +10,21 @@ import BookMarked from '../../assets/icons/bookmark_dark.png';
 import Share from '../../assets/icons/share.png';
 import Comment from '../../assets/icons/comment.png';
 
-const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem, threadIndex, saveBookmark, leftAction, shareThread }) => {
-  threadItem = threadItem || {}
-  const isBookmarked = threadItem.hasOwnProperty('isBookmarked') ? threadItem.isBookmarked : false
+const FooterThread = ({
+  containerStyle,
+  numOfComments,
+  threadItem,
+  threadIndex,
+  saveBookmark,
+  leftAction,
+  shareThread
+}) => {
+  threadItem = threadItem || {};
+  const isBookmarked = threadItem.hasOwnProperty('isBookmarked') ? threadItem.isBookmarked : false;
   return (
     <CardSection>
       <View style={[styles.containerStyle, containerStyle]}>
-        <TouchableOpacity
-          onPress={() => leftAction()}
-          style={styles.itemContainer}
-        >
+        <TouchableOpacity onPress={() => leftAction()} style={styles.itemContainer}>
           <Image source={Comment} style={{ width: 20, height: 20 }} />
           <Text style={styles.titleItem}>{numOfComments} Balasan</Text>
         </TouchableOpacity>
@@ -30,42 +35,34 @@ const FooterThread = ({ containerStyle, numOfComments, isOpen, threadItem, threa
           <Image source={isBookmarked ? BookMarked : BookMark} style={{ width: 20, height: 20 }} />
           <Text style={styles.titleItem}>Tandai</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.itemContainer}
-          onPress={() => shareThread(threadItem)}>
+        <TouchableOpacity style={styles.itemContainer} onPress={() => shareThread(threadItem)}>
           <Image source={Share} style={{ width: 20, height: 20 }} />
           <Text style={styles.titleItem}>Bagikan</Text>
         </TouchableOpacity>
       </View>
     </CardSection>
   );
-}
-
-// <TouchableOpacity style={styles.itemContainer}
-// onPress={() => isOpen('TemanDiabets.ModalReport', threadItem)}>
-// <Image source={Report} style={{ width: 20, height: 20 }} />
-// <Text style={styles.titleItem}>Laporkan</Text>
-// </TouchableOpacity>
+};
 
 FooterThread.propTypes = {
-	containerStyle: ViewPropTypes.style,
-	numOfComments: PropTypes.number,
-	isOpen: PropTypes.func
+  containerStyle: ViewPropTypes.style,
+  numOfComments: PropTypes.number,
 };
 
 const styles = {
-	containerStyle: {
-		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-	},
-	itemContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		alignItems: 'center'
-	},
-	titleItem: { fontSize: 12, fontFamily: 'Montserrat-Light' }
+  containerStyle: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  itemContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  titleItem: { fontSize: 12, fontFamily: 'Montserrat-Light' }
 };
 
 export { FooterThread };

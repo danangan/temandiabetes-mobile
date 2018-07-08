@@ -26,13 +26,15 @@ const UsersList = ({ item, navigation }) => (
           ]}
         />
         <View style={styles.nameContainerStyle}>
-          <Text style={styles.nameStyle}>{item.nama}</Text>
-          <Text style={styles.relationStyle}>{item.tipe_user}</Text>
+          <Text style={styles.nameStyle}>
+            {item.nama
+              .split(' ')
+              .slice(0, 2)
+              .join(' ')}
+          </Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.rightContentStyle} onPress={() => navigation(item)}>
-        <Text style={styles.textButtonStyle}>+</Text>
-      </TouchableOpacity>
+      <Text style={styles.relationStyle}>{item.tipe_user}</Text>
     </TouchableOpacity>
   </View>
 );
@@ -56,17 +58,6 @@ const styles = {
   leftContentStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between'
-  },
-  rightContentStyle: {
-    width: 50,
-    height: 53
-  },
-  textButtonStyle: {
-    fontFamily: 'Montserrat-Thin',
-    textAlign: 'center',
-    justifyContent: 'center',
-    color: color.red,
-    fontSize: Style.FONT_SIZE_TITLE * 2
   },
   nameContainerStyle: {
     marginLeft: 10,

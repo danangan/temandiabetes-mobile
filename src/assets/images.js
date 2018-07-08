@@ -11,9 +11,16 @@ const Images = {
   backgroundPass: require('./images/password.png'),
   backgroundTypeUser: require('./images/email.png'),
   backgroundSip: require('./images/sip.png'),
-  diabetesiIcon: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FDiabetesi.png?alt=media&token=744e2da7-c307-49e9-83ea-165d0f07c99f',
-  innerCircleIcon: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FInner%20Circle.png?alt=media&token=fd0b201a-1bf5-44fd-8bf0-8952e9ab0a74',
-  advisorIcon: 'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FExpertise.png?alt=media&token=1f199e44-036d-4bae-87a4-632915775079' 
+  hourglassIcon: require('./icons/hourglass.png'),
+  plusIcon: require('./icons/plus.png'),
+  checklistIcon: require('./icons/check.png'),
+  searchIcon: require('./icons/search.png'),
+  diabetesiIcon:
+    'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FDiabetesi.png?alt=media&token=744e2da7-c307-49e9-83ea-165d0f07c99f',
+  innerCircleIcon:
+    'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FInner%20Circle.png?alt=media&token=fd0b201a-1bf5-44fd-8bf0-8952e9ab0a74',
+  advisorIcon:
+    'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FExpertise.png?alt=media&token=1f199e44-036d-4bae-87a4-632915775079'
 };
 
 export default Images;

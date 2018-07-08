@@ -123,7 +123,7 @@ class InnerCircleList extends Component {
           </TouchableOpacity>
           <Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
           <TouchableOpacity
-            onPress={() => this.onPushScreen('TemanDiabets.InnerCircle')}
+            onPress={() => this.onPushScreen('TemanDiabetes.InnerCircle')}
             style={styles.rightButtonStyle}
           >
             <Image
@@ -239,4 +239,7 @@ const mapDispatchToProps = dispatch => ({
   getInnerCircle: (userID, idToken) => dispatch(getInnerCircle(userID, idToken))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(InnerCircleList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InnerCircleList);

@@ -70,7 +70,7 @@ const TabRequest = ({ innerCircle, accept, reject, onChangeIsProcess, navigator 
 
   const pushNavigation = item => {
     navigator.push({
-      screen: 'TemanDiabets.ProfileDetails',
+      screen: 'TemanDiabetes.ProfileDetails',
       passProps: {
         id: item.friend._id
       },
@@ -190,4 +190,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(declineRequestToInnerCircle(friendId, innerCircleId))
 });
 
-export default connect(null, mapDispatchToProps)(TabRequest);
+export default connect(
+  null,
+  mapDispatchToProps
+)(TabRequest);

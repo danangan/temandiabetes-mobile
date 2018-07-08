@@ -66,7 +66,14 @@ class RegisterScreenFourth extends React.Component {
 
   componentDidUpdate() {
     const self = this;
-    const { _id, status_code, tipe_user, message, email, password } = this.props.dataRegister.dataUser;
+    const {
+      _id,
+      status_code,
+      tipe_user,
+      message,
+      email,
+      password
+    } = this.props.dataRegister.dataUser;
     if (status_code === 200 && this.state.shouldRedirect) {
       this.setState(
         {
@@ -185,7 +192,7 @@ class RegisterScreenFourth extends React.Component {
           }
 
           this.props.navigator.push({
-            screen: 'TemanDiabets.RegisterFive',
+            screen: 'TemanDiabetes.RegisterFive',
             navigatorStyle: {
               navBarHidden: true
             },
@@ -272,7 +279,7 @@ class RegisterScreenFourth extends React.Component {
     if (this.state.shouldRedirect || this.state.shouldUserLogin) {
       return (
         <View style={{ flex: 1, opacity: 0.7, justifyContent: 'center', alignItems: 'center' }}>
-          <Spinner color="#FFDE00" text="Loading..." size="large" />
+          <Spinner color="#EF434F" text="Loading..." size="large" />
         </View>
       );
     } else if (message === 'registration data incomplete' && status_code === 400) {
@@ -280,10 +287,7 @@ class RegisterScreenFourth extends React.Component {
     }
     return (
       <View style={[styles.container, { paddingBottom: 0 }]}>
-        <ImageBackground
-          style={styles.imageBackground}
-          source={Images.backgroundTypeUser}
-        >
+        <ImageBackground style={styles.imageBackground} source={Images.backgroundTypeUser}>
           <TouchableOpacity
             style={{
               flex: 0,

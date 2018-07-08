@@ -1,4 +1,4 @@
-package com.temandiabets.generator;
+package com.temandiabetes.generator;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;

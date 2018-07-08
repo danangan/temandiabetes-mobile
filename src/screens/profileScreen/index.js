@@ -34,7 +34,7 @@ class ProfileScreen extends React.Component {
       setTimeout(() => {
         self.setState({ isLoading: false }, () => {
           this.props.navigator.resetTo({
-            screen: 'TemanDiabets.OnBoardingScreen',
+            screen: 'TemanDiabetes.OnBoardingScreen',
             animated: true,
             animationType: 'fade',
             navigatorStyle: {
@@ -56,7 +56,7 @@ class ProfileScreen extends React.Component {
   onSignOut = () =>
     this.setState({ isLoading: true }, () => {
       this.props.navigator.resetTo({
-        screen: 'TemanDiabets.LoginScreen',
+        screen: 'TemanDiabetes.LoginScreen',
         navigatorStyle: {
           tabBarHidden: true,
           navBarHidden: true
@@ -127,25 +127,25 @@ class ProfileScreen extends React.Component {
           </View>
         </View>
         <View style={styles.wrappCenter}>
-          <TouchableOpacity onPress={() => this.onHome('TemanDiabets.TabInputTracker')}>
+          <TouchableOpacity onPress={() => this.onHome('TemanDiabetes.TabInputTracker')}>
             <Text style={styles.buttonText}>HOME</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.ProfileDetails')}>
+          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabetes.ProfileDetails')}>
             <Text style={styles.buttonText}>PROFIL</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.AboutScreen')}>
+          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabetes.AboutScreen')}>
             <Text style={styles.buttonText}>TENTANG</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.FaqScreen')}>
+          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabetes.FaqScreen')}>
             <Text style={styles.buttonText}>FAQ</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.Notification')}>
+          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabetes.Notification')}>
             <Text style={styles.buttonText}>NOTIFIKASI</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
               this.props.navigator.push({
-                screen: 'TemanDiabets.InviteFriends',
+                screen: 'TemanDiabetes.InviteFriends',
                 navigatorStyle: {
                   navBarHidden: true
                 }
@@ -156,7 +156,7 @@ class ProfileScreen extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.wrappFooter}>
-          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabets.ProfileSettings')}>
+          <TouchableOpacity onPress={() => this.onPushScreen('TemanDiabetes.ProfileSettings')}>
             <Image source={require('../../assets/icons/setting.png')} style={styles.itemImage} />
           </TouchableOpacity>
           <TouchableOpacity onPress={this.onSignOut}>

@@ -24,7 +24,7 @@ const StepOne = props => (
       textStyle={styles.textButtonStyle}
       onPress={() =>
         props.navigator.push({
-          screen: 'TemanDiabets.StepTwo',
+          screen: 'TemanDiabetes.StepTwo',
           navigatorStyle: { tabBarHidden: true, navBarHidden: true }
         })
       }
@@ -46,7 +46,7 @@ const styles = {
   },
   imageStyle: {
     width: Style.DEVICE_WIDTH,
-    height: Style.DEVICE_WIDTH,
+    height: Style.DEVICE_WIDTH
   },
   titleStyle: {
     fontFamily: 'Montserrat-Regular',

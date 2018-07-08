@@ -106,11 +106,11 @@ android {
     buildToolsVersion '26.0.2'
 
     defaultConfig {
-        applicationId "com.temandiabets"
+        applicationId "com.temandiabetes.android"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName "0.1.47"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -156,6 +156,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fcm')
+    compile project(':react-native-config')
     implementation(project(':react-native-image-picker'))
     implementation(project(':react-native-share')) // Add dependencies
 

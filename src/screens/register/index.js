@@ -57,7 +57,7 @@ class Register extends Component {
           },
           () => {
             this.props.navigator.push({
-              screen: 'TemanDiabets.RegisterScreenSecond',
+              screen: 'TemanDiabetes.RegisterScreenSecond',
               title: 'Next Step 2'
             });
           }

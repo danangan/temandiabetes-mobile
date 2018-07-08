@@ -62,7 +62,7 @@ class Chart extends Component {
 
   ShowModal = item => {
     this.props.navigator.showModal({
-      screen: 'TemanDiabets.ProductDetail',
+      screen: 'TemanDiabetes.ProductDetail',
       navigatorStyle: {
         navBarHidden: true
       },
@@ -76,7 +76,7 @@ class Chart extends Component {
   showLightBox = item => {
     this.setState({ url: item.product_dl }, () => {
       this.props.navigator.showLightBox({
-        screen: 'TemanDiabets.LightBox',
+        screen: 'TemanDiabetes.LightBox',
         passProps: {
           title: item.product_name,
           content: 'Apakah Anda yakin akan membeli item ini?',
@@ -267,4 +267,7 @@ const mapDispatchToProps = dispatch => ({
   prePurchase: (productSku, productName) => dispatch(auditTrailPrePurchase(productSku, productName))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chart);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Chart);

@@ -1,4 +1,4 @@
-package com.temandiabets;
+package com.temandiabetes.android;
 
 import android.net.Uri;
 import android.content.Intent;

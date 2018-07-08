@@ -49,7 +49,7 @@ class InputTracker extends Component {
       isModal: '',
       isProcessing: false,
       isDate: '',
-      isTime: '',
+      isTime: new moment(),
       isGulaDarah: '',
       keyboardActive: false,
       activitySelected: '',
@@ -57,6 +57,7 @@ class InputTracker extends Component {
       gulaDarah: 0,
       tekananDarah: 0,
       hba1c: 0,
+      inputDate: new moment(),
       beratBadan: 0,
       distolic: 0,
       sistolic: 0,
@@ -139,23 +140,24 @@ class InputTracker extends Component {
       const { action, year, month, day } = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
         // May 25 2020. Month 0 is January.
-        date: new Date(),
+        date: new Date(this.state.inputDate.format('MM/DD/YYYY')),
         maxDate: new Date()
       });
-      console.log('INI MONTH ', month);
       if (action !== DatePickerAndroid.dismissedAction) {
+        // Selected year, month (0-11), day
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
           'July', 'August', 'September', 'October', 'November', 'December'
         ];
+        const selectedDate = new moment().year(year).month(month).date(day);
+        console.log('INi datenyaa ',  selectedDate);
         this.setState({
-          // using key date
           date: {
             day,
             month,
             year
           },
           isDate: `${day} ${monthNames[month]} ${year}`,
-          dateInput: ` ${year}-${month + 1}-${day}`
+          inputDate: selectedDate 
         }, () => {
           this.openTimePicker();
         });
@@ -177,17 +179,15 @@ class InputTracker extends Component {
                     minute.toString().length === 1 ? `0${minute}` : '00';
       console.log(`INI DATE NYA BRE --> ${hour}:${minute}` + '  ' + action);
       if (action !== TimePickerAndroid.dismissedAction) {
-
         const limitTime = new moment().hours(hour).minute(minute);
-       const checking = limitTime.isBefore(new moment());
-       console.log('Bisa gak ?', checking);
+        const checking = limitTime.isBefore(new moment());
         if (checking) {
           this.setState({
             time: {
               hour,
               minute: menit
             },
-            isTime: `${hour}:${menit}`,
+            isTime: new moment().hour(hour).minute(minute),
             iniJam: `${hour}`,
             iniMenit: `${menit}`,
             hasSetTime: true
@@ -304,11 +304,12 @@ class InputTracker extends Component {
       iniJam,
       iniMenit,
       date,
-      time
+      time,
+      inputDate
     } = this.state;
 
-    const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
-    inputDate.toUTCString();
+    // const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
+    // inputDate.toUTCString();
 
     let value
     switch (casing) {
@@ -472,12 +473,40 @@ class InputTracker extends Component {
     }
   }
 
+  // renderButtonOpenDate() {
+  //   const { isTime, inputDate } = this.state;
+  //   // const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
+  //   const displayDate = `${inputDate.format('ddd DD/MM/YYYY')} at ${isTime.format('HH:mm')}`;
+  //   return (
+  //     <TouchableOpacity
+  //       style={{
+  //         flex: 1,
+  //         flexDirection: 'row',
+  //         justifyContent: 'center',
+  //         alignItems: 'center',
+  //         marginVertical: 10
+  //       }}
+  //       onPress={() => this.openDatePicker()}
+  //     >
+  //         <Image
+  //           resizeModa={'contain'}
+  //           style={{ width: 20, height: 20 }}
+  //           source={require('../../../../assets/icons/calendar.png')}
+  //         />
+  //         <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light', paddingLeft: 15, }}>
+  //         {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
+  //         { displayDate }
+  //         </Text>
+  //     </TouchableOpacity>
+  //   );
+  // }
+
   renderButtonOpenDate() {
-    const { isDate, isTime, time, hasSetTime } = this.state;
-    const dt = isDate === '' ? new Date() : isDate;
-    const dateNow = dateFormateName(dt);
-    const displayTime = `${time.hour}:${time.minute}`;
-    const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
+    const { isDate, isTime, time, hasSetTime, inputDate } = this.state;
+    // const dt = isDate === '' ? new Date() : isDate;
+    // const dateNow = dateFormateName(dt);
+    // const displayTime = `${time.hour}:${time.minute}`;
+    const displayDate = `${inputDate.format('ddd DD/MM/YYYY')} at ${isTime.format('HH:mm')}`;
 
     return (
       <View style={{
@@ -1031,7 +1060,7 @@ class InputTracker extends Component {
               this.setState({ isManually: false }, () => {
                 this.setModalVisible();
                 this.props.navigator.push({
-                  screen: 'TemanDiabets.StepOne',
+                  screen: 'TemanDiabetes.StepOne',
                   navigatorStyle: { tabBarHidden: true, navBarHidden: true }
                 });
               });
@@ -1104,7 +1133,7 @@ class InputTracker extends Component {
 
   toNavigate() {
     this.props.navigator.push({
-      screen: 'TemanDiabets.PreviewSearchMakanan',
+      screen: 'TemanDiabetes.PreviewSearchMakanan',
       navigatorStyle: {
         navBarHidden: true
       },
@@ -1115,6 +1144,7 @@ class InputTracker extends Component {
   }
 
   render() {
+    console.log('STATE ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>

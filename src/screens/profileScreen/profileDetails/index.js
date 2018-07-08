@@ -11,10 +11,7 @@ import {
 } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
-import { 
-  getUserRecentThread, 
-  getUserRecentComment,
-} from '../../../actions/recentActivityAction';
+import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
 import { Avatar, Indicator, NavigationBar, Spinner } from '../../../components';
 import Event from './Event';
 import TabComments from './Comments';
@@ -26,10 +23,8 @@ import { addInnerCircle, getOneUser, getInnerCircle } from '../../../actions';
 import color from '../../../style/color';
 
 //ICON
-import plus from '../../../assets/icons/plus.png';
-import hourglass from '../../../assets/icons/hourglass.png';
-import check from '../../../assets/icons/check.png';
 import { authToken } from '../../../utils/constants';
+import Images from '../../../assets/images';
 
 const listTabs = ['THREAD', 'ANSWER', 'RESPONSE', 'EVENT'];
 
@@ -47,18 +42,18 @@ class ProfileDetails extends React.Component {
       isProcess: true,
       user: null,
       loading: false,
-      source: plus,
+      source: Images.plusIcon,
       status: 'TAMBAHKAN',
       completePercentase: ''
     };
   }
 
   componentDidMount() {
-    let userId
+    let userId;
     if (this.props.id) {
-      userId = this.props.id
+      userId = this.props.id;
     } else {
-      userId = this.props.dataAuth._id
+      userId = this.props.dataAuth._id;
     }
 
     this.props.getOneUser(userId);
@@ -83,7 +78,7 @@ class ProfileDetails extends React.Component {
 
     if ((status === 201 && loading) || (status === 400 && loading)) {
       self.setState(
-        { loading: false, source: hourglass, status: 'TERTUNDA', disabled: true },
+        { loading: false, source: Images.hourglassIcon, status: 'TERTUNDA', disabled: true },
         () => {
           Alert.alert(
             'Information',
@@ -125,13 +120,17 @@ class ProfileDetails extends React.Component {
       'jenis_diabetes'
     ];
 
-    arrayOfProps.forEach((item) => {
-      if (this.isKeyExist(currentUser, item) && currentUser[item] !== '' && currentUser[item] !== null) {
+    arrayOfProps.forEach(item => {
+      if (
+        this.isKeyExist(currentUser, item) &&
+        currentUser[item] !== '' &&
+        currentUser[item] !== null
+      ) {
         counter += 1;
       }
     });
- 
-    const persentase = (counter / arrayOfProps.length) * 100; 
+
+    const persentase = (counter / arrayOfProps.length) * 100;
 
     this.setState({
       completePercentase: `${Math.round(persentase)}%`
@@ -144,33 +143,72 @@ class ProfileDetails extends React.Component {
         <Indicator persentase={{ width: this.state.completePercentase }} />
       </View>
       <View style={styles.indicatorDetailStyle}>
-        <Text style={styles.textStyle}>Profile Anda baru komplit { this.state.completePercentase },</Text>
-        <Text 
+        <Text style={styles.textStyle}>
+          Profile Anda baru komplit {this.state.completePercentase},
+        </Text>
+        <Text
           onPress={() => {
-          this.props.navigator.push({
-            screen: 'TemanDiabets.EditProfile',
-            navigatorStyle: {
-              navBarHidden: true
-            },
-          });
-        }} style={[styles.textStyle, { color: '#4644f0' }]}> lengkapi sekarang!</Text>
+            this.props.navigator.push({
+              screen: 'TemanDiabetes.EditProfile',
+              navigatorStyle: {
+                navBarHidden: true
+              }
+            });
+          }}
+          style={[styles.textStyle, { color: '#4644f0' }]}
+        >
+          {' '}
+          lengkapi sekarang!
+        </Text>
       </View>
     </View>
   );
 
-  notUserLoggedIn = () => {
-    const { source, status, disabled } = this.state;
+  checkIcon = () => {
+    const { source } = this.state;
     const { innerCircleStatus } = this.props.data.user;
-    const icon =
-      innerCircleStatus === 'open' ? source : innerCircleStatus === 'requested' ? hourglass : check;
-    const buttonTitle =
-      innerCircleStatus === 'requested'
-        ? 'TERTUNDA'
-        : innerCircleStatus === 'accepted'
-          ? 'INNER CIRCLE'
-          : status;
-    const buttonDisabled =
-      innerCircleStatus === 'requested' || innerCircleStatus === 'accepted' ? !disabled : disabled;
+    switch (innerCircleStatus) {
+      case 'open':
+        return source;
+      case undefined:
+        return source;
+      case 'requested':
+        return Images.hourglassIcon;
+      default:
+        return Images.checklistIcon;
+    }
+  };
+
+  checkButtonTitle = () => {
+    const { status } = this.state;
+    const { innerCircleStatus } = this.props.data.user;
+    switch (innerCircleStatus) {
+      case 'requested':
+        return 'TERTUNDA';
+      case 'accepted':
+        return 'INNER CIRCLE';
+      default:
+        return status;
+    }
+  };
+
+  checkButtonDisabled = () => {
+    const { disabled } = this.state;
+    const { innerCircleStatus } = this.props.data.user;
+    switch (innerCircleStatus) {
+      case 'requested':
+        return !disabled;
+      case 'accepted':
+        return !disabled;
+      default:
+        return disabled;
+    }
+  };
+
+  notUserLoggedIn = () => {
+    const icon = this.checkIcon();
+    const buttonTitle = this.checkButtonTitle();
+    const buttonDisabled = this.checkButtonDisabled();
 
     return (
       <TouchableOpacity
@@ -185,7 +223,7 @@ class ProfileDetails extends React.Component {
           );
         }}
       >
-        <Image source={icon} style={styles.imageButtonStyle} tintColor={color.white} />
+        <Image source={icon} style={styles.imageButtonStyle} />
         <Text style={styles.buttonTextStyle}>{buttonTitle}</Text>
       </TouchableOpacity>
     );
@@ -215,7 +253,9 @@ class ProfileDetails extends React.Component {
       return <TabComments navi={this.props.navigator} listThreads={recentComments.data} />;
     }
     if (this.state.tab === 2) {
-      return <TabRecentActivityResponse navi={this.props.navigator} listActivity={recentResponse.data} />;
+      return (
+        <TabRecentActivityResponse navi={this.props.navigator} listActivity={recentResponse.data} />
+      );
     }
     if (this.state.tab === 3) {
       return <Event />;
@@ -227,7 +267,7 @@ class ProfileDetails extends React.Component {
 
   renderDetailProfile = () => {
     const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
-    
+
     return (
       <View style={styles.contentTopStyle}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
@@ -353,7 +393,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     width: '80%',
-    borderWidth: 1, 
+    borderWidth: 1,
     borderColor: 'red',
     borderRadius: 5,
     marginVertical: 5
@@ -436,4 +476,7 @@ const mapDispatchToProps = dispatch => ({
   getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileDetails);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileDetails);
