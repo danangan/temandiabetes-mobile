@@ -54,7 +54,7 @@ class RegisterScreenThird extends React.Component {
 				});
 			} else if (password === confirmPassword) {
 				// detect length string 
-				const passwordLength = password.length < 5;
+				const passwordLength = password.length < 6;
 				// detect 1 Uppercase
 				const isOneUpperCase = /[A-Z]/.test(password);
 				// detect 1 number

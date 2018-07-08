@@ -55,6 +55,16 @@ const registerFinalStep = (state, payload) => {
 
 const registerReducer = (state = initialState, action) => {
 	switch (action.type) {
+		case 'PENDING_REGISTER_USER': {
+			return {
+				...state, 
+					dataUser: {
+						...state.dataUser, 
+							status_code: 0,
+							message: ''
+					}
+			};
+		}
 		case ActionTypes.REGISTER_USER:
 			return registerFinalStep(state, action.payload);
 		case ActionTypes.USER_LOGOUT:

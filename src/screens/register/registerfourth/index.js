@@ -90,18 +90,18 @@ class RegisterScreenFourth extends React.Component {
       message === 'Email Sudah digunakan' &&
       this.state.shouldRedirect
     ) {
-      alert('Maaf, email Anda sudah pernah digunakan.');
+      alert('Maaf, internal server sedang bermasalah');
       this.setState(
         {
           shouldRedirect: false
         },
         () => {
-          this.props.navigator.resetTo({
-            screen: 'TemanDiabets.RegisterScreen',
-            navigatorStyle: {
-              navBarHidden: true
-            }
-          });
+          // this.props.navigator.resetTo({
+          //   screen: 'TemanDiabets.RegisterScreen',
+          //   navigatorStyle: {
+          //     navBarHidden: true
+          //   }
+          // });
         }
       );
     } else if (
