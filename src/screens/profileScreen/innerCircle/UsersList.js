@@ -26,7 +26,12 @@ const UsersList = ({ item, navigation }) => (
           ]}
         />
         <View style={styles.nameContainerStyle}>
-          <Text style={styles.nameStyle}>{item.nama}</Text>
+          <Text style={styles.nameStyle}>
+            {item.nama
+              .split(' ')
+              .slice(0, 2)
+              .join(' ')}
+          </Text>
         </View>
       </View>
       <Text style={styles.relationStyle}>{item.tipe_user}</Text>
