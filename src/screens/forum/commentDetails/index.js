@@ -54,7 +54,6 @@ class CommentDetails extends React.Component {
   }
 
   onSubmitComment() {
-    console.log('test')
     const { _id } = this.props.dataAuth;
     const { commentDetails } = this.props;
    if (this.state.komentar !== '') {

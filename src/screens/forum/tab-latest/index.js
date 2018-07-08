@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 
 import Share from 'react-native-share';
-import { Card, FooterThread, HeaderThread, Spinner, SearchButton } from '../../../components';
+import ThreadItem from '../components/threadItem';
+import { Spinner, SearchButton } from '../../../components';
 import { getLatestThreads, makeBookmarkLatestThreads } from '../../../actions/threadActions';
-import ContentThread from './contentThread';
 import landingPageURL from '../../../config/landingPageURL';
 import color from '../../../style/color';
 
@@ -127,27 +127,14 @@ class TabLatest extends Component {
   }
 
   renderItem(threads) {
-    const { author, comments } = threads.item;
     return (
-      <Card containerStyle={styles.cardStyle}>
-        <TouchableOpacity key={threads.index} onPress={() => this.toThreadDetails(threads)}>
-          <HeaderThread
-            source={author.foto_profile}
-            name={author.nama}
-            category={author.tipe_user.toUpperCase()}
-          />
-          <ContentThread property={threads.item} />
-        </TouchableOpacity>
-        <FooterThread
-          leftAction={() => this.toThreadDetails(threads)}
-          numOfComments={comments.length === 0 ? '' : comments.length}
-          isOpen={this.togleModal}
-          saveBookmark={this.onPostBookmark}
-          threadItem={threads.item}
-          threadIndex={threads.index}
-          shareThread={this.onShareThread}
-        />
-      </Card>
+      <ThreadItem
+        threads={threads}
+        toThreadDetails={this.toThreadDetails}
+        togleModal={this.togleModal}
+        onPostBookmark={this.onPostBookmark}
+        onShareThread={this.onShareThread}
+      />
     );
   }
 
@@ -238,21 +225,6 @@ const styles = {
     flex: 1,
     backgroundColor: color.solitude,
     paddingHorizontal: 5
-  },
-  cardStyle: {
-    ...Platform.select({
-      android: { elevation: 4 },
-      ios: {
-        shadowColor: 'rgba(0,0,0, .2)',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2.5
-      }
-    }),
-    borderRadius: 5,
-    marginBottom: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 20
   },
   loadMoreContainer: {
     justifyContent: 'center'

@@ -2,27 +2,19 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  Image,
   FlatList,
-  TouchableOpacity,
-  AsyncStorage,
   ActivityIndicator,
   Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
 
-import { Card, CardSection, SearchButton, Spinner } from '../../../components';
-import Style from '../../../style/defaultStyle';
-import Footer from './Footer';
+import { SearchButton, Spinner } from '../../../components';
+import StaticThreadItem from '../components/staticThreadItem';
 import color from '../../../style/color';
 
 import { getThreadStatic, makeBookmarkFeaturedThreads } from '../../../actions/threadActions';
-import { authToken } from '../../../utils/constants';
-import { sliceString } from '../../../utils/helpers';
 import landingPageURL from '../../../config/landingPageURL';
-
-import Blood from '../../../assets/icons/explorer_icon.png';
 
 class TabFeatured extends Component {
   static navigatorStyle = {
@@ -38,6 +30,7 @@ class TabFeatured extends Component {
       isLoading: false
     };
 
+    this.toStaticThreadDetail = this.toStaticThreadDetail.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.renderEmptySection = this.renderEmptySection.bind(this);
@@ -79,7 +72,7 @@ class TabFeatured extends Component {
     );
   };
 
-  onPressDetail = item => {
+  toStaticThreadDetail = item => {
     this.props.navigator.push({
       screen: 'TemanDiabetes.FeaturedDetail',
       navigatorStyle: {
@@ -131,33 +124,13 @@ class TabFeatured extends Component {
   }
 
   renderItem = threads => {
-    const { item, index } = threads;
     return (
-      <TouchableOpacity key={index} onPress={() => this.onPressDetail(item)}>
-        <Card containerStyle={styles.cardStyle}>
-          <CardSection>
-            <Image
-              resizeMode={'cover'}
-              style={styles.imageStyle}
-              source={{
-                uri:
-                  item.image ||
-                  'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FplaceholderTD-Android.png?alt=media&token=d26ffbb4-08d5-4890-b6f5-fc8922300a0e'
-              }}
-            />
-            <View style={styles.contentStyle}>
-              <Text style={styles.titleStyle}>{sliceString(item.topic, 25)}</Text>
-              <Footer
-                threadItem={item}
-                threadIndex={index}
-                saveBookmark={this.onPostBookmark}
-                author={item.author}
-                shareThread={this.onShareThread}
-              />
-            </View>
-          </CardSection>
-        </Card>
-      </TouchableOpacity>
+      <StaticThreadItem
+        threads={threads}
+        toStaticThreadDetail={this.toStaticThreadDetail}
+        onPostBookmark={this.onPostBookmark}
+        onShareThread={this.onShareThread}
+      />
     );
   };
 
@@ -251,30 +224,6 @@ const styles = {
     flex: 1,
     backgroundColor: color.solitude,
     paddingHorizontal: 5
-  },
-  contentStyle: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  cardStyle: {
-    borderRadius: 5,
-    marginBottom: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 20
-  },
-  titleStyle: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE,
-    fontStyle: 'normal',
-    justifyContent: 'center',
-    textAlign: 'justify',
-    paddingLeft: 10,
-    width: Style.DEVICE_WIDTH / 1.5
-  },
-  imageStyle: {
-    height: 105,
-    width: 100
   },
   loadMoreContainer: {
     justifyContent: 'center'

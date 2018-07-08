@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 import {
   View,
   Text,
@@ -16,8 +17,11 @@ import {
   saveUserSearch,
   makeBookmarkSearhedThread
 } from '../../actions/threadActions';
+
+import ThreadItem from '../forum/components/threadItem';
+import StaticThreadItem from '../forum/components/staticThreadItem';
+
 import { TextField, Spinner } from '../../components';
-import CardResult from './CardResult';
 import searchIcon from '../../assets/icons/close.png';
 import searchIcon2 from '../../assets/icons/search.png';
 
@@ -43,7 +47,7 @@ class ModalSearch extends React.Component {
     this.onBookmark = this.onBookmark.bind(this);
     this.changesKeyword = this.changesKeyword.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
-    this.toSaveUserSearch = this.toSaveUserSearch.bind(this);
+    this.toStaticThreadDetail = this.toStaticThreadDetail.bind(this);
     this.onPressHistory = this.onPressHistory.bind(this);
   }
 
@@ -113,7 +117,7 @@ class ModalSearch extends React.Component {
     }
   };
 
-  changesKeyword = async searchKeyword => {
+  changesKeyword = searchKeyword => {
     this.setState({ searchKeyword }, () => {
       this.props.searchThread(searchKeyword, this.props.threadType);
     });
@@ -124,16 +128,23 @@ class ModalSearch extends React.Component {
   }
 
   toRenderItem(threads) {
-    return (
-      <CardResult
-        // key={index}
+    if (threads.item.threadType === 'static') {
+      return <StaticThreadItem
         threads={threads}
-        share={this.onShareThread}
-        bookmark={this.onBookmark}
-        onNavigate={this.toThreadDetails}
-        toSaveUserSearch={this.toSaveUserSearch}
+        toStaticThreadDetail={this.toStaticThreadDetail}
+        onPostBookmark={this.onBookmark}
+        onShareThread={this.onShareThread}
       />
-    );
+    } else {
+      return (
+        <ThreadItem
+          threads={threads}
+          toThreadDetails={this.toThreadDetails}
+          onPostBookmark={this.onBookmark}
+          onShareThread={this.onShareThread}
+        />
+      );
+    }
   }
 
   handleExtraData() {
@@ -145,6 +156,7 @@ class ModalSearch extends React.Component {
   }
 
   toThreadDetails(threads) {
+    this.props.saveUserSearch(this.state.searchKeyword)
     this.props.navigator.push({
       screen: 'TemanDiabetes.ThreadDetails',
       navigatorStyle: {
@@ -153,6 +165,19 @@ class ModalSearch extends React.Component {
       passProps: threads
     });
   }
+
+  toStaticThreadDetail = item => {
+    this.props.saveUserSearch(this.state.searchKeyword)
+    this.props.navigator.push({
+      screen: 'TemanDiabetes.FeaturedDetail',
+      navigatorStyle: {
+        navBarHidden: true
+      },
+      passProps: {
+        item
+      }
+    });
+  };
 
   renderSearch() {
     const { searchResult } = this.props.dataThreads;
@@ -198,8 +223,10 @@ class ModalSearch extends React.Component {
       );
     }
     return (
-      <View style={{ paddingBottom: 80 }}>
-        <FlatList data={searchResult.data} renderItem={item => this.toRenderItem(item)} />
+      <View style={{ padding: 15, flex: 1, width: '100%' }}>
+        <FlatList
+          data={searchResult.data}
+          renderItem={item => this.toRenderItem(item)} />
       </View>
     );
   }

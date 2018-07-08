@@ -322,7 +322,6 @@ const updateBookmarkThreadsByThreadId = (state, { threadId }) => {
       threadIndex = idx
     }
   }
-  console.log(threadIndex, found)
 
   if (found) {
     const mutatedThread = state.listThreads.item.data[threadIndex]
@@ -419,7 +418,6 @@ const getThreadsDetails = (state, payload) => {
 	// 	...payload.thread,
 	// 	isSubscriber: payload.isSubscriber
 	// };
-	// console.log('INI THREDE ', thread);
 	return {
 		...state,
 		listThreads: {

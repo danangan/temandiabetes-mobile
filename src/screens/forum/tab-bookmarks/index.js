@@ -12,11 +12,13 @@ import {
 } from 'react-native';
 import Share from 'react-native-share';
 
-import { Card, FooterThread, HeaderThread, SearchButton, Spinner } from '../../../components';
+
+import ThreadItem from '../components/threadItem';
+import StaticThreadItem from '../components/staticThreadItem';
+
+import { SearchButton, Spinner } from '../../../components';
 import { getBookmarkedThreads, deleteBookmarkedThread } from '../../../actions/threadActions';
-import { result } from '../../../utils/helpers';
 import landingPageURL from '../../../config/landingPageURL';
-import ContentThread from './contentThread';
 import color from '../../../style/color';
 
 class TabBookmark extends Component {
@@ -33,7 +35,7 @@ class TabBookmark extends Component {
       isLoadMorePage: false
     };
 
-    this.togleModal = this.togleModal.bind(this);
+    this.toStaticThreadDetail = this.toStaticThreadDetail.bind(this);
     this.deleteBookmarkedThread = this.deleteBookmarkedThread.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
@@ -76,20 +78,6 @@ class TabBookmark extends Component {
     );
   };
 
-  togleModal(params, threadItem) {
-    Navigation.showModal({
-      screen: params,
-      title: 'Modal',
-      navigatorButtons: {
-        leftButtons: [{}]
-      },
-      passProps: {
-        idThread: threadItem === undefined ? null : threadItem._id
-      },
-      animationType: 'none'
-    });
-  }
-
   toThreadDetails(threads) {
     this.props.navigator.push({
       screen: 'TemanDiabetes.ThreadDetails',
@@ -97,7 +85,7 @@ class TabBookmark extends Component {
         navBarHidden: true
       },
       passProps: {
-        item: threads
+        item: threads.item
       }
     });
   }
@@ -128,34 +116,36 @@ class TabBookmark extends Component {
     });
   }
 
+  toStaticThreadDetail = item => {
+    this.props.navigator.push({
+      screen: 'TemanDiabetes.FeaturedDetail',
+      navigatorStyle: {
+        navBarHidden: true
+      },
+      passProps: {
+        item
+      }
+    });
+  };
+
   renderItem(threads) {
-    const author = result(threads.item, 'author');
-    const comments = result(threads.item, 'comments', []);
-    let foto_profile = '';
-    let nama = '';
-    let tipe_user = '';
-    if (author !== null && typeof author === 'object') {
-      foto_profile = author.foto_profile;
-      nama = author.nama;
-      tipe_user = author.tipe_user;
+    if (threads.item.threadType === 'static') {
+      return <StaticThreadItem
+        threads={threads}
+        toStaticThreadDetail={this.toStaticThreadDetail}
+        onPostBookmark={this.deleteBookmarkedThread}
+        onShareThread={this.onShareThread}
+      />
+    } else {
+      return (
+        <ThreadItem
+          threads={threads}
+          toThreadDetails={this.toThreadDetails}
+          onPostBookmark={this.deleteBookmarkedThread}
+          onShareThread={this.onShareThread}
+        />
+      );
     }
-    return (
-      <TouchableOpacity key={threads.index} onPress={() => this.toThreadDetails(threads.item)}>
-        <Card containerStyle={styles.cardStyle}>
-          <HeaderThread source={foto_profile} name={nama} category={tipe_user.toUpperCase()} />
-          <ContentThread property={threads.item} />
-          <FooterThread
-            leftAction={() => this.toThreadDetails(threads.item)}
-            numOfComments={comments.length === 0 ? '' : comments.length}
-            isOpen={this.togleModal}
-            saveBookmark={this.deleteBookmarkedThread}
-            threadItem={threads.item}
-            threadIndex={threads.index}
-            shareThread={this.onShareThread}
-          />
-        </Card>
-      </TouchableOpacity>
-    );
   }
 
   renderHeader() {

@@ -12,7 +12,7 @@ import ThreadDetails from '../screens/forum/threadDetails';
 import ModalSearch from '../screens/modalSearch';
 import ModalPostThread from '../screens/modalPostThread';
 import ModalPostComment from '../screens/modalPostComment';
-import FeatureDetail from '../screens/forum/tab-featured/FeaturedDetail';
+import FeatureDetail from '../screens/forum/staticThreadDetail';
 import ModalReport from '../screens/modalReport';
 import ProfileScreen from '../screens/profileScreen';
 import ProfileDetails from '../screens/profileScreen/profileDetails';
@@ -65,7 +65,6 @@ export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabetes.FeaturedDetail', () => FeatureDetail);
 	Navigation.registerComponent('TemanDiabetes.ProfileScreen', () => ProfileScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.ProfileDetails', () => ProfileDetails, store, Provider);
-	// Navigation.registerComponent('TemanDiabetes.TabInnerCircle', () => TabInnerCircle, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.ProfileSettings', () => ProfileSettings, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.EditProfile', () => EditProfile, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.AboutScreen', () => AboutScreen);

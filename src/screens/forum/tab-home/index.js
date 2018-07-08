@@ -6,22 +6,16 @@ import {
   TouchableOpacity,
   FlatList,
   Text,
-  Image,
-  AsyncStorage,
   Alert,
-  Modal,
   ActivityIndicator
 } from 'react-native';
 import Share from 'react-native-share';
 
-import { Navigation } from 'react-native-navigation';
-
-import { Card, FooterThread, HeaderThread, Spinner, SearchButton } from '../../../components';
+import { Spinner, SearchButton } from '../../../components';
 import { getThreads, makeBookmark } from '../../../actions/threadActions';
 
-import ContentThread from './contentThread';
+import ThreadItem from '../components/threadItem';
 import color from '../../../style/color';
-import { authToken } from '../../../utils/constants';
 import landingPageURL from '../../../config/landingPageURL';
 
 class TabHome extends Component {
@@ -36,7 +30,6 @@ class TabHome extends Component {
     this.renderHeader = this.renderHeader.bind(this);
     this.renderFooter = this.renderFooter.bind(this);
     this.renderEmptySection = this.renderEmptySection.bind(this);
-    this.togleModal = this.togleModal.bind(this);
     this.onPostBookmark = this.onPostBookmark.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
     this.toThreadDetails = this.toThreadDetails.bind(this);
@@ -75,20 +68,6 @@ class TabHome extends Component {
       }
     );
   };
-
-  togleModal(params, threadItem) {
-    Navigation.showModal({
-      screen: params,
-      title: 'Modal',
-      navigatorButtons: {
-        leftButtons: [{}]
-      },
-      passProps: {
-        idThread: threadItem === undefined ? null : threadItem._id
-      },
-      animationType: 'none'
-    });
-  }
 
   handleRefresh = () => {
     this.setState(
@@ -218,34 +197,13 @@ class TabHome extends Component {
   }
 
   renderItem(threads) {
-    let { author, comments } = threads.item;
-    if (!author) {
-      author = {
-        nama: '',
-        foto_profile: '',
-        tipe_user: ''
-      };
-    }
     return (
-      <Card containerStyle={styles.cardStyle}>
-        <TouchableOpacity key={threads.index} onPress={() => this.toThreadDetails(threads)}>
-          <HeaderThread
-            source={author.foto_profile}
-            name={author.nama}
-            category={author.tipe_user.toUpperCase()}
-          />
-          <ContentThread property={threads.item} />
-        </TouchableOpacity>
-        <FooterThread
-          leftAction={() => this.toThreadDetails(threads)}
-          numOfComments={comments.length === 0 ? '' : comments.length}
-          isOpen={this.togleModal}
-          saveBookmark={this.onPostBookmark}
-          threadItem={threads.item}
-          threadIndex={threads.index}
-          shareThread={this.onShareThread}
-        />
-      </Card>
+      <ThreadItem
+        threads={threads}
+        toThreadDetails={this.toThreadDetails}
+        onPostBookmark={this.onPostBookmark}
+        onShareThread={this.onShareThread}
+      />
     );
   }
 
@@ -288,21 +246,6 @@ const styles = {
     flex: 1,
     backgroundColor: color.solitude,
     paddingHorizontal: 5
-  },
-  cardStyle: {
-    ...Platform.select({
-      android: { elevation: 4 },
-      ios: {
-        shadowColor: 'rgba(0,0,0, .2)',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2.5
-      }
-    }),
-    borderRadius: 5,
-    marginBottom: 12,
-    paddingVertical: 10,
-    paddingHorizontal: 20
   },
   wrapPostThread: {
     justifyContent: 'center',

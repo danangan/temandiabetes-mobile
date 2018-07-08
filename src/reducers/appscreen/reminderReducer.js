@@ -26,10 +26,10 @@ function getListReminder(state, payload) {
   const { data, page } = payload;
   const message = data.length ? 'Success' : 'EmptyList';
   return {
-    ...state, 
-      listReminder: { 
-        ...state.listReminder, 
-        data, 
+    ...state,
+      listReminder: {
+        ...state.listReminder,
+        data,
         page,
         message,
         isLoading: false
@@ -39,9 +39,9 @@ function getListReminder(state, payload) {
 
 const reminderReducer = (state = initialState, action) => {
 	switch (action.type) {
-    case 'PENDING_GET_LIST_REMINDER': 
+    case 'PENDING_GET_LIST_REMINDER':
       return {
-        ...state, 
+        ...state,
           listReminder: {
             data: [],
             page: 1,
@@ -51,15 +51,15 @@ const reminderReducer = (state = initialState, action) => {
       };
 		case ActionTypes.GET_LIST_REMINDER:
       return getListReminder(state, action.payload);
-    case 'PENDING_CREATE_DRUG_REMINDER': 
+    case 'PENDING_CREATE_DRUG_REMINDER':
       return {
         ...state, createReminder: initialState.createReminder
       };
     case ActionTypes.CREATE_DRUG_REMINDER:
       return {
-        ...state, 
+        ...state,
           createReminder: {
-            ...state.createReminder, 
+            ...state.createReminder,
               message: action.payload.message,
               status_code: 200
           }
@@ -72,15 +72,14 @@ const reminderReducer = (state = initialState, action) => {
     case ActionTypes.GET_DETAILS_REMINDER:
       const { data } = action.payload;
       return {
-        ...state, 
+        ...state,
         detailsReminder: {
           ...state.detailsReminder, data, status_code: 200
         }
       };
     case 'PENDING_UPDATE_DRUG_REMINDER': {
-      console.log('INDEX UDAH ADA ', action.payload.index);
       return {
-        ...state, 
+        ...state,
         updateReminder: {
           message: '',
           status_code: 0,
@@ -88,14 +87,14 @@ const reminderReducer = (state = initialState, action) => {
         }
       };
     }
-    case ActionTypes.UPDATE_DRUG_REMINDER: 
+    case ActionTypes.UPDATE_DRUG_REMINDER:
       return {
-        ...state, 
+        ...state,
         updateReminder: {
-          ...state.updateReminder, 
-            status_code: 200, 
+          ...state.updateReminder,
+            status_code: 200,
             message: 'Success',
-            index: action.payload.index 
+            index: action.payload.index
         }
       };
 		default:

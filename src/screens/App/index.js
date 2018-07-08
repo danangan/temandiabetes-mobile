@@ -125,7 +125,6 @@ class App extends Component {
   }
 
 	_displayNotificationAndroid(notif) {
-    console.log(notif)
     let title = ''
     let body = 'Sentuh untuk info lebih lanjut'
     let screen = ''
@@ -168,8 +167,6 @@ class App extends Component {
     }
 
     if (notif.opened_from_tray) {
-      console.log('handle redirect dari fcm di sini gan')
-      console.log('item notif', notif)
       if (notif.screen && notif.screen !== '') {
         // reset the state while
         this.props.navigator.push({

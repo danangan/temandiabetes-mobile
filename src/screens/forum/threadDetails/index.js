@@ -191,6 +191,7 @@ class ThreadDetails extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const { _id } = this.props.item;
     const { listThreads } = this.props.dataThreads;
     const { threadDetails } = listThreads;

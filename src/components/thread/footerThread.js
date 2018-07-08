@@ -13,7 +13,6 @@ import Comment from '../../assets/icons/comment.png';
 const FooterThread = ({
   containerStyle,
   numOfComments,
-  isOpen,
   threadItem,
   threadIndex,
   saveBookmark,
@@ -48,7 +47,6 @@ const FooterThread = ({
 FooterThread.propTypes = {
   containerStyle: ViewPropTypes.style,
   numOfComments: PropTypes.number,
-  isOpen: PropTypes.func
 };
 
 const styles = {
