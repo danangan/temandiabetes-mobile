@@ -98,19 +98,9 @@ class RegisterScreenFourth extends React.Component {
       this.state.shouldRedirect
     ) {
       alert('Maaf, internal server sedang bermasalah');
-      this.setState(
-        {
-          shouldRedirect: false
-        },
-        () => {
-          // this.props.navigator.resetTo({
-          //   screen: 'TemanDiabets.RegisterScreen',
-          //   navigatorStyle: {
-          //     navBarHidden: true
-          //   }
-          // });
-        }
-      );
+      this.setState({
+        shouldRedirect: false
+      });
     } else if (
       this.props.loginReducer.statusCode === 200 &&
       this.props.loginReducer.message === 'success login' &&

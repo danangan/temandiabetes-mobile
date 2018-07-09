@@ -45,44 +45,44 @@ class RegisterScreenThird extends React.Component {
     this.keyboardDidHideListener.remove();
   }
 
-	handleNavigation() {
-		const { password, confirmPassword } = this.props.registerReducer.dataUser;
-		if (password || confirmPassword !== '') {
-			if (password !== confirmPassword) {
-				this.setState({
-					message: 'Kata sandi Anda tidak sesuai'
-				});
-			} else if (password === confirmPassword) {
-				// detect length string 
-				const passwordLength = password.length < 6;
-				// detect 1 Uppercase
-				const isOneUpperCase = /[A-Z]/.test(password);
-				// detect 1 number
-				const oneNumber = /\d+/.test(password);
-				
-				if (passwordLength || !isOneUpperCase || !oneNumber) {
-					this.setState({
-						message: 'Password minimal 5 karakter, 1 huruf kapital, dan 1 angka'
-					});
-				} else {
-					this.props.navigator.push({
-						screen: 'TemanDiabets.RegisterScreenFourth',
-						title: 'Next Step 4',
-						passProps: {
-							fcmToken: this.props.fcmToken
-						}
-					});
-					this.setState({
-						message: ''
-					});
-				}
-			}
-		} else {
-			this.setState({
-				message: 'Silahkan lengkapi semua isian'
-			});
-		}
-	}
+  handleNavigation() {
+    const { password, confirmPassword } = this.props.registerReducer.dataUser;
+    if (password || confirmPassword !== '') {
+      if (password !== confirmPassword) {
+        this.setState({
+          message: 'Kata sandi Anda tidak sesuai'
+        });
+      } else if (password === confirmPassword) {
+        // detect length string
+        const passwordLength = password.length < 6;
+        // detect 1 Uppercase
+        const isOneUpperCase = /[A-Z]/.test(password);
+        // detect 1 number
+        const oneNumber = /\d+/.test(password);
+
+        if (passwordLength || !isOneUpperCase || !oneNumber) {
+          this.setState({
+            message: 'Password minimal 5 karakter, 1 huruf kapital, dan 1 angka'
+          });
+        } else {
+          this.props.navigator.push({
+            screen: 'TemanDiabetes.RegisterScreenFourth',
+            title: 'Next Step 4',
+            passProps: {
+              fcmToken: this.props.fcmToken
+            }
+          });
+          this.setState({
+            message: ''
+          });
+        }
+      }
+    } else {
+      this.setState({
+        message: 'Silahkan lengkapi semua isian'
+      });
+    }
+  }
 
   render() {
     const { password, confirmPassword } = this.props.registerReducer.dataUser;
