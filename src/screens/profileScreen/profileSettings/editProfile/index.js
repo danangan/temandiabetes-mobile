@@ -156,6 +156,7 @@ class EditProfile extends React.Component {
           mode: 'spinner'
         });
         if (result.action !== DatePickerAndroid.dismissedAction) {
+          alert(`${result.year}-${result.month + 1}-${result.day}`)
           // Selected year, month (0-11), day
           // console.log('HASIL PICK DATE ', result);
           this.setUserData('tgl_lahir', `${result.year}-${result.month + 1}-${result.day}`);

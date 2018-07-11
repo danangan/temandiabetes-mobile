@@ -47,7 +47,7 @@ export const getThreadStatic = (page = 1, refresh = false) => async dispatch => 
   try {
     const option = {
       method: 'get',
-      url: `api/threads?threadType=static&page=${page}`
+      url: `api/threads?is_active=true&threadType=static&page=${page}`
     };
 
     const res = await API_CALL(option);
@@ -76,7 +76,7 @@ export const getThreads = (page = 1, refresh = false) => async dispatch => {
   try {
     const option = {
       method: 'get',
-      url: `api/threads?sort[comments]=desc&threadType=question&threadType=sharing&page=${page}`
+      url: `api/threads?is_active=true&sort[comments]=desc&threadType=question&threadType=sharing&page=${page}`
     };
 
     const res = await API_CALL(option);
@@ -105,7 +105,7 @@ export const getLatestThreads = (page = 1, refresh = false) => async dispatch =>
   try {
     const option = {
       method: 'get',
-      url: `api/threads?threadType=question&threadType=sharing&page=${page}`
+      url: `api/threads?is_active=true&threadType=question&threadType=sharing&page=${page}`
     };
 
     const res = await API_CALL(option);
