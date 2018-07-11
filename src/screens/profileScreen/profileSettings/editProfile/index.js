@@ -158,8 +158,9 @@ class EditProfile extends React.Component {
         if (result.action !== DatePickerAndroid.dismissedAction) {
           alert(`${result.year}-${result.month + 1}-${result.day}`)
           // Selected year, month (0-11), day
-          // console.log('HASIL PICK DATE ', result);
-          this.setUserData('tgl_lahir', `${result.year}-${result.month + 1}-${result.day}`);
+          this.setState({
+            'tgl_lahir': `${result.year}-${result.month + 1}-${result.day}`
+          })
         }
       } catch ({ code, message }) {
         console.warn('Cannot open date picker', message);
