@@ -118,6 +118,7 @@ class EditProfile extends React.Component {
         this.state.userData.nama.trim() !== '' &&
         this.state.userData.tgl_lahir !== '' &&
         this.state.userData.alamat !== '' &&
+        this.state.userData.jenis_kelamin !== '' &&
         this.state.userData.no_telp !== ''
       ) {
         this.setState({
@@ -165,21 +166,6 @@ class EditProfile extends React.Component {
       }
     }
   }
-
-  handleDisplayDate = () => {
-    const { userData } = this.state;
-    const { currentUser } = this.props;
-
-    if (currentUser.tgl_lahir === undefined || userData.tgl_lahir === '') {
-      return moment().format('YYYY-MM-DD');
-    }
-
-    if (userData.tgl_lahir !== '') {
-      return moment(userData.tgl_lahir).format('YYYY-MM-DD');
-    }
-
-    return moment(currentUser.tgl_lahir).format('YYYY-MM-DD');
-  };
 
   showSnackBar = () => {
     this.setState({ showSnackBar: true, message: 'Data telah berhasil diubah.' }, () =>
