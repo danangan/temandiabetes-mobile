@@ -42,9 +42,9 @@ class TabLatest extends Component {
   }
 
   componentDidMount() {
-    if (this.props.dataThreads.initialLoading) {
-      this.props.getLatestThreads();
-    }
+    // if (this.props.dataThreads.initialLoading) {
+    this.props.getLatestThreads();
+    // }
   }
 
   componentWillReceiveProps({ saveBookmark }) {

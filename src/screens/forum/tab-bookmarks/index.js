@@ -46,9 +46,9 @@ class TabBookmark extends Component {
   }
 
   componentDidMount() {
-    if (this.props.dataThreads.initialLoading) {
-      this.props.getBookmarkedThreads();
-    }
+    // if (this.props.dataThreads.initialLoading) {
+    this.props.getBookmarkedThreads();
+    // }
   }
 
   componentWillReceiveProps({ saveBookmark }) {

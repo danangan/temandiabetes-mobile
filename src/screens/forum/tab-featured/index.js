@@ -40,9 +40,9 @@ class TabFeatured extends Component {
   }
 
   componentDidMount() {
-    if (this.props.dataThreads.initialLoading) {
-      this.props.getThreadStatic();
-    }
+    // if (this.props.dataThreads.initialLoading) {
+    this.props.getThreadStatic();
+    // }
   }
 
   componentWillReceiveProps({ saveBookmark }) {

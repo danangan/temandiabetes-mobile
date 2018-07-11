@@ -37,9 +37,9 @@ class TabHome extends Component {
   }
 
   componentDidMount() {
-    if (this.props.dataThreads.listThreads.initialLoading) {
-      this.props.getThreads();
-    }
+    // if (this.props.dataThreads.listThreads.initialLoading) {
+    this.props.getThreads();
+    // }
   }
 
   componentWillReceiveProps({ dataThreads: { saveBookmark } }) {
