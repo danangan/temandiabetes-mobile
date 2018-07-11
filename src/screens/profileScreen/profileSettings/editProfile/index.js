@@ -156,11 +156,9 @@ class EditProfile extends React.Component {
           mode: 'spinner'
         });
         if (result.action !== DatePickerAndroid.dismissedAction) {
-          alert(`${result.year}-${result.month + 1}-${result.day}`)
+          const { year, month, day } = result;
           // Selected year, month (0-11), day
-          this.setState({
-            'tgl_lahir': `${result.year}-${result.month + 1}-${result.day}`
-          })
+          this.setUserData('tgl_lahir', moment().set('year', year).set('month', month).set('date', day));
         }
       } catch ({ code, message }) {
         console.warn('Cannot open date picker', message);
@@ -200,8 +198,7 @@ class EditProfile extends React.Component {
   render() {
     const { userData, isLoading, errors } = this.state;
     const { currentUser } = this.props;
-    const dateOfBirth = this.handleDisplayDate();
-
+    // const dateOfBirth = this.handleDisplayDate();
     return (
       <View style={styles.container}>
         {isLoading && <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />}
@@ -232,7 +229,9 @@ class EditProfile extends React.Component {
                   this.openDatePicker();
                 }}
               >
-                <Text style={[styles.textInput, { marginTop: 9 }]}>{dateOfBirth}</Text>
+                <Text style={[styles.textInput, { marginTop: 9 }]}>{
+                  userData.tgl_lahir && userData.tgl_lahir !== '' ? moment(userData.tgl_lahir).format('YYYY-MM-DD') : ''
+                }</Text>
               </TouchableOpacity>
             </View>
             <View>
