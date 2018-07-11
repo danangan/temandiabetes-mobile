@@ -1,3 +1,3 @@
-const url = 'https://temandiabetes.com';
+const landingPageUrl = 'https://development-dot-temandiabetes.appspot.com/landing-page';
 
-export default url;
+export default landingPageUrl;

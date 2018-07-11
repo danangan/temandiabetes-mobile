@@ -63,8 +63,7 @@ class ModalSearch extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    const { saveBookmark } = this.props.dataThreads;
+  componentWillReceiveProps({ dataThreads: { saveBookmark } }) {
     if (
       (saveBookmark.status_code === 201 || saveBookmark.status_code === 200) &&
       this.state.isLoading
