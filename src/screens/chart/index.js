@@ -7,7 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
-  RefreshControl,
+  RefreshControl
 } from 'react-native';
 import { Card, Spinner, TextField } from '../../components';
 import Style from '../../style/defaultStyle';
@@ -92,11 +92,11 @@ class Chart extends Component {
     });
   };
 
-  changesKeyword = async (searchKeyword) => {
+  changesKeyword = async searchKeyword => {
     this.setState({ searchKeyword }, () => {
       // this.props.searchThread(searchKeyword, this.props.threadType);
     });
-  }
+  };
 
   render() {
     const { products } = this.props.data;
@@ -119,7 +119,7 @@ class Chart extends Component {
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
           }
         >
-          <View style={styles.wrapTextSearch}>
+          {/* <View style={styles.wrapTextSearch}>
             <TextField
               value={this.state.searchKeyword}
               onChangeText={this.changesKeyword}
@@ -145,7 +145,7 @@ class Chart extends Component {
               }}
               inputStyle={{ fontFamily: 'OpenSans-Regular', color: '#b6b6b6', fontSize: 14, backgroundColor: '#fff' }}
             />
-          </View>
+          </View> */}
           <View style={styles.contentStyle}>
             {products.map((item, index) => (
               <Card containerStyle={styles.cardStyle} key={index}>
@@ -183,8 +183,8 @@ const styles = {
     backgroundColor: color.solitude
   },
   wrapTextSearch: {
-    flex: 1, 
-    backgroundColor: '#fff', 
+    flex: 1,
+    backgroundColor: '#fff',
     justifyContent: 'center',
     borderRadius: 10,
     padding: 5,

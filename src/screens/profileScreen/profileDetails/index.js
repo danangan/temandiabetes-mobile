@@ -6,20 +6,25 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
-  Alert,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
 import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
-import { Avatar, Indicator, NavigationBar, Spinner } from '../../../components';
+import { Avatar, Indicator, NavigationBar, Spinner, SnackBar } from '../../../components';
 import Event from './Event';
 import TabComments from './Comments';
 import TabInnerCircle from '../../tab-innerCircle';
 import TabThreadByUser from '../../tab-threadByUser';
 import TabRecentActivityResponse from '../../tab-recentActivityResponse';
 import Style from '../../../style/defaultStyle';
-import { addInnerCircle, getOneUser, getInnerCircle } from '../../../actions';
+import {
+  addInnerCircle,
+  getOneUser,
+  getInnerCircle,
+  acceptRequestToInnerCircle
+} from '../../../actions';
 import color from '../../../style/color';
 
 //ICON
@@ -40,11 +45,15 @@ class ProfileDetails extends React.Component {
       tab: 0,
       disabled: false,
       isProcess: true,
-      user: null,
+      innerCircleStatus: null,
       loading: false,
       source: Images.plusIcon,
       status: 'TAMBAHKAN',
-      completePercentase: ''
+      completePercentase: '',
+      showSnackBar: false,
+      messages: '',
+      innerCircleId: '',
+      friendId: ''
     };
   }
 
@@ -56,17 +65,32 @@ class ProfileDetails extends React.Component {
       userId = this.props.dataAuth._id;
     }
 
-    this.props.getOneUser(userId);
-    this.props.getUserRecentThread(userId);
-    this.props.getUserRecentComment(userId);
-    this.counterProfileComplete();
+    this.props.dataAuth.innerCircles.forEach(item => {
+      if (item.friend === userId) {
+        this.setState({
+          innerCircleId: item._id,
+          friendId: item.friend
+        });
+      }
+    });
+
+    Promise.all([
+      this.props.getOneUser(userId),
+      this.props.getUserRecentThread(userId),
+      this.props.getUserRecentComment(userId),
+      this.counterProfileComplete()
+    ]);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data.user !== null && this.state.isProcess && this.state.user === null) {
+    if (
+      nextProps.data.user !== null &&
+      this.state.isProcess &&
+      this.state.innerCircleStatus === null
+    ) {
       this.setState({
-        isProcess: false
-        // user: nextProps.data.user
+        isProcess: false,
+        innerCircleStatus: nextProps.data.user.innerCircleStatus
       });
     }
   }
@@ -74,33 +98,38 @@ class ProfileDetails extends React.Component {
   componentDidUpdate() {
     const self = this;
     const { status, message } = this.props.dataInnerCircle;
+    const { _id } = this.props.dataAuth;
     const { loading } = this.state;
+    const { user } = this.props.data;
 
-    if ((status === 201 && loading) || (status === 400 && loading)) {
+    if (status === 201 && loading) {
       self.setState(
         { loading: false, source: Images.hourglassIcon, status: 'TERTUNDA', disabled: true },
         () => {
-          Alert.alert(
-            'Information',
-            `${message}`,
-            [
-              { text: 'Cancel', onPress: () => null, style: 'cancel' },
-              {
-                text: 'OK',
-                onPress: () => {
-                  const { _id } = this.props.dataAuth;
-                  AsyncStorage.getItem(authToken).then(idToken => {
-                    this.props.getInnerCircle(_id, idToken);
-                  });
-                }
-              }
-            ],
-            { cancelable: false }
-          );
+          AsyncStorage.getItem(authToken).then(idToken => {
+            this.props.getInnerCircle(_id, idToken);
+            this.showSnackBar(message);
+          });
         }
       );
     }
+
+    if (status === 400 && loading) {
+      self.setState({ loading: false }, () => {
+        this.showSnackBar(message);
+      });
+    }
   }
+
+  showSnackBar = message => {
+    this.setState({ showSnackBar: true, messages: message }, () => this.hideSnackBar());
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false });
+    }, 2000);
+  };
 
   isKeyExist(obj, key) {
     const keys = Object.keys(obj);
@@ -165,8 +194,7 @@ class ProfileDetails extends React.Component {
   );
 
   checkIcon = () => {
-    const { source } = this.state;
-    const { innerCircleStatus } = this.props.data.user;
+    const { source, innerCircleStatus } = this.state;
     switch (innerCircleStatus) {
       case 'open':
         return source;
@@ -174,27 +202,31 @@ class ProfileDetails extends React.Component {
         return source;
       case 'requested':
         return Images.hourglassIcon;
-      default:
+      case 'accepted':
         return Images.checklistIcon;
+      case 'pending':
+        return '';
+      default:
+        return source;
     }
   };
 
   checkButtonTitle = () => {
-    const { status } = this.state;
-    const { innerCircleStatus } = this.props.data.user;
+    const { status, innerCircleStatus } = this.state;
     switch (innerCircleStatus) {
       case 'requested':
         return 'TERTUNDA';
       case 'accepted':
         return 'INNER CIRCLE';
+      case 'pending':
+        return 'TERIMA PERMINTAAN';
       default:
         return status;
     }
   };
 
   checkButtonDisabled = () => {
-    const { disabled } = this.state;
-    const { innerCircleStatus } = this.props.data.user;
+    const { disabled, innerCircleStatus } = this.state;
     switch (innerCircleStatus) {
       case 'requested':
         return !disabled;
@@ -202,6 +234,35 @@ class ProfileDetails extends React.Component {
         return !disabled;
       default:
         return disabled;
+    }
+  };
+
+  handleButtonPress = () => {
+    const { innerCircleStatus, friendId, innerCircleId } = this.state;
+
+    switch (innerCircleStatus) {
+      case 'pending':
+        return Alert.alert(
+          'Terima Permintaan',
+          'Apakah anda ingin menerima permintaan sebagai inner circle ?',
+          [
+            { text: 'Cancel', onPress: () => null, style: 'cancel' },
+            {
+              text: 'OK',
+              onPress: () => {
+                this.props.accept(friendId, innerCircleId);
+                this.props.navigator.pop();
+              }
+            }
+          ],
+          { cancelable: false }
+        );
+      case 'open':
+        return this.props.addInnerCircle(this.props.id);
+      case undefined:
+        return this.props.addInnerCircle(this.props.id);
+      default:
+        break;
     }
   };
 
@@ -219,11 +280,18 @@ class ProfileDetails extends React.Component {
             {
               loading: true
             },
-            () => this.props.addInnerCircle(this.props.id)
+            () => this.handleButtonPress()
           );
         }}
       >
-        <Image source={icon} style={styles.imageButtonStyle} />
+        <Image
+          source={icon}
+          style={
+            this.checkButtonTitle() === 'TERTUNDA'
+              ? styles.imageButtonStyle
+              : styles.imageButtonStyleII
+          }
+        />
         <Text style={styles.buttonTextStyle}>{buttonTitle}</Text>
       </TouchableOpacity>
     );
@@ -285,14 +353,7 @@ class ProfileDetails extends React.Component {
   render() {
     const { recentThreads } = this.props.dataRecentActivity;
     if (this.state.isProcess) {
-      return (
-        <Spinner
-          containerStyle={{ backgroundColor: color.white }}
-          color="red"
-          text={'Loading...'}
-          size="large"
-        />
-      );
+      return <Spinner color="red" text={'Loading...'} size="large" />;
     }
 
     const spinner =
@@ -350,6 +411,11 @@ class ProfileDetails extends React.Component {
             this.renderTabContent()
           )}
         </View>
+        <SnackBar
+          visible={this.state.showSnackBar}
+          textMessage={this.state.messages}
+          position="top"
+        />
       </View>
     );
   }
@@ -453,6 +519,12 @@ const styles = {
   },
   imageButtonStyle: {
     marginLeft: -10,
+    marginTop: Style.UNIT / 2,
+    width: Style.UNIT,
+    height: Style.UNIT * 1.6
+  },
+  imageButtonStyleII: {
+    marginLeft: -10,
     marginTop: 5,
     width: 30,
     height: 30
@@ -473,7 +545,8 @@ const mapDispatchToProps = dispatch => ({
   getUserRecentComment: userId => dispatch(getUserRecentComment(userId)),
   addInnerCircle: userId => dispatch(addInnerCircle(userId)),
   getOneUser: userId => dispatch(getOneUser(userId)),
-  getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken))
+  getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken)),
+  accept: (friendId, innerCircleId) => dispatch(acceptRequestToInnerCircle(friendId, innerCircleId))
 });
 
 export default connect(
