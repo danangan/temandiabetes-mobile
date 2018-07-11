@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { 
-  View, 
-  Image, 
-  Alert, 
-  TouchableOpacity, 
-  Text, 
-  TextInput, 
-  Keyboard, 
+import {
+  Alert,
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  Keyboard,
   ScrollView,
-  AsyncStorage 
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { debounce } from 'lodash';
 import Closed from '../../assets/icons/close.png';
 import { Avatar } from '../../components';
-import { authToken } from '../../utils/constants';
 
 import { userReport } from '../../actions/threadActions';
 
@@ -42,9 +41,9 @@ class ModalReport extends Component {
 			this.setState({ keyboardActive: false });
 		});
   }
-  
-  componentDidUpdate() {
-    const { reportThread } = this.props.dataThreads;
+
+  componentWillReceiveProps({ dataThreads }) {
+    const { reportThread } = dataThreads;
     if (reportThread.status_code === 201 && this.state.isSubmit) {
       Alert.alert(
         'Laporan Anda berhasil terkirim!',
@@ -68,22 +67,21 @@ class ModalReport extends Component {
 		this.keyboardDidHideListener.remove();
   }
 
-  onSubmitThread() {
-    this.getToken();
-  }
-
-  getToken = async () => {
-    const token = await AsyncStorage.getItem(authToken);
-    const dataThread = {
-      id: this.props.idThread,
-      reason: this.state.reason,
-      description: this.state.description
-    };
-    this.setState({
-      isSubmit: true
-    }, () => {
-      this.props.userReport(dataThread, token);
-    });
+  async onSubmitThread() {
+    if (this.state.reason !== '' && this.state.description !== '') {
+      const dataThread = {
+        id: this.props.idThread,
+        reason: this.state.reason,
+        description: this.state.description
+      };
+      this.setState({
+        isSubmit: true
+      }, () => {
+        this.props.userReport(dataThread);
+      });
+    } else {
+      Alert.alert('Error', 'Lengkapi data terlebih dahulu')
+    }
 	}
 
   render() {
@@ -165,7 +163,7 @@ class ModalReport extends Component {
                 paddingHorizontal: 15,
                 paddingVertical: 5,
               }}
-              onPress={this.state.isSubmit ? null : this.onSubmitThread}
+              onPress={debounce(this.onSubmitThread, 300)}
             >
               <Text style={{ fontFamily: 'Montserrat-Medium', fontSize: 13, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>
                 { this.state.isSubmit ? 'Loading' : 'Laporkan' }
