@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 import { View, Image, TouchableOpacity, Text, TextInput, Keyboard } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
@@ -73,7 +74,6 @@ class ModalReplyComment extends Component {
   }
 
   render() {
-    console.log('PROPS comment -- ', this.props);
     return (
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
@@ -114,7 +114,7 @@ class ModalReplyComment extends Component {
               paddingVertical: 5,
               height: 33
             }}
-            onPress={this.state.isSubmit ? null : this.onSubmitComment}
+            onPress={debounce(this.onSubmitComment, 200)}
           >
             <Text style={{ fontSize: 14, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>
               { this.state.isSubmit ? 'Loading' : 'Kirim' }
