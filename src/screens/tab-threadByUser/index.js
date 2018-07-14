@@ -4,6 +4,7 @@
 */
 import React from 'react';
 import { connect } from 'react-redux';
+import { result } from 'lodash';
 import { View, Text, Platform, FlatList, AsyncStorage, TouchableOpacity } from 'react-native';
 
 import { getThreads } from '../../actions/threadActions';
@@ -47,9 +48,10 @@ class TabThreadByUser extends React.Component {
   }
 
   render() {
+    const data = result(this.props.listThreads, 'thread.docs', []);
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff', marginBottom: 10, paddingBottom: 10 }}>
-        <FlatList data={this.props.listThreads} renderItem={item => this.renderItem(item)} />
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <FlatList data={data} renderItem={item => this.renderItem(item)} />
       </View>
     );
   }
@@ -68,7 +70,9 @@ const styles = {
         shadowOpacity: 0.1,
         shadowRadius: 2.5
       }
-    })
+    }),
+    marginBottom: 15,
+    marginTop: 5
   },
   wrapButonSearch: {
     flex: 2,
