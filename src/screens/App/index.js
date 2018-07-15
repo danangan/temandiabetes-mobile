@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import {
   View,
-  Text,
   StyleSheet,
-  Platform
+  Platform,
+  Linking
 } from 'react-native'
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -52,14 +52,17 @@ import ShopTab from '../chart'
 // EMERGENCY
 import EmergencyTab from '../emergency'
 
+import landingPageURL from '../../config/landingPageURL';
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       token: ''
     }
-    this.onResetNotificationCount = this.onResetNotificationCount.bind(this)
-		this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
+    this.onResetNotificationCount = this.onResetNotificationCount.bind(this);
+    this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
+    this.redirectByUrl = this.redirectByUrl.bind(this);
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -104,32 +107,41 @@ class App extends Component {
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
-      let pathname = deepLink.currentDeepLink.replace(`${landingPageURL}/`, '');
-      pathname = pathname.split('/')
-      let screen
-      switch (pathname[0]) {
-        case 'thread':
-          screen = 'TemanDiabetes.ThreadDetails';
-          break;
-        case 'thread-static':
-          screen = 'TemanDiabetes.FeaturedDetail';
-          break;
-        default:
-          break;
-      }
-
-      this.props.navigator.push({
-        screen,
-        navigatorStyle: {
-          navBarHidden: true
-        },
-        passProps: {
-          item: {
-            _id: pathname[1],
-          }
-        }
-      });
+      this.redirectByUrl({
+        url: deepLink.currentDeepLink
+      })
     }
+
+    // add event listener for direct incoming deeplink
+    Linking.addEventListener('url', this.redirectByUrl);
+  }
+
+  redirectByUrl({ url }) {
+    let pathname = url.replace(`${landingPageURL}/`, '');
+    pathname = pathname.split('/')
+    let screen
+    switch (pathname[0]) {
+      case 'thread':
+        screen = 'TemanDiabetes.ThreadDetails';
+        break;
+      case 'thread-static':
+        screen = 'TemanDiabetes.FeaturedDetail';
+        break;
+      default:
+        break;
+    }
+
+    this.props.navigator.push({
+      screen,
+      navigatorStyle: {
+        navBarHidden: true
+      },
+      passProps: {
+        item: {
+          _id: pathname[1],
+        }
+      }
+    });
   }
 
 	_displayNotificationAndroid(notif) {

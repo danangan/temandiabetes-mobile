@@ -48,7 +48,7 @@ import InviteFriend from '../screens/profileScreen/inviteFriends';
 import AppLoader from '../screens/AppLoader';
 
 export function registerScreens(store, Provider) {
-	Navigation.registerComponent('TemanDiabetes.AppLoader', () => AppLoader);
+	Navigation.registerComponent('TemanDiabetes.AppLoader', () => AppLoader, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.AppContainer', () => AppContainer, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.LoginScreen', () => LoginScreen, store, Provider);
