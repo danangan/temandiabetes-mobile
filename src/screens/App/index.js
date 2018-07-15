@@ -142,13 +142,12 @@ class App extends Component {
       case 'comment':
         title = `${notif.commentator} memberikan komentar di thread Anda`
         screen = 'TemanDiabetes.ThreadDetails'
-        // passProps = { item: JSON.parse(notif.thread) }
+        passProps = { item: { _id: notif.threadId } }
         break;
       case 'reply_comment':
         title = `${notif.commentator} membalas komentar di thread Anda`
         screen = 'TemanDiabetes.CommentDetails'
-        // passProps = { commentId: JSON.parse(activity.commentId) }
-        id = notif.commentatorId
+        passProps = { commentId: notif.commentId }
         break;
       case 'followed':
         title = `${JSON.parse(notif.subscriber).nama || JSON.parse(notif.subscriber).name} mengikuti thread Anda "${notif.topic}"`
