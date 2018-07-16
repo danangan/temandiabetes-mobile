@@ -128,8 +128,8 @@ class TabRecentActivityResponse extends React.Component {
 
   render() {
     const { recentResponse } = this.props.dataActivity;
-    
-    if (recentResponse.status_code === 201 && recentResponse.data.length === 0) {
+    // recentResponse.status_code === 201 && 
+    if (recentResponse.data.length === 0) {
       return (
         <View style={styles.messageEmpty}>
           <Text style={styles.textHistory}>Tidak ada riwayat aktivittas Anda</Text>

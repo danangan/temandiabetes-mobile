@@ -38,6 +38,7 @@ class InnerCircle extends React.Component {
   hideSearchBar = () => this.setState({ notFound: false }, () => this.searchBar.hide());
 
   pushNavigation = item => {
+    console.log('INI KAH ID USER ', item) ;
     this.props.navigator.push({
       screen: 'TemanDiabetes.ProfileDetails',
       passProps: {

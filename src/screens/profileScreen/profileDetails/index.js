@@ -58,13 +58,16 @@ class ProfileDetails extends React.Component {
   }
 
   componentDidMount() {
+    console.log('THIS PROPS DI PROFILE DETAILS ', this.props);
     let userId;
     if (this.props.id) {
+      console.log('MASUK SINI 1', this.props.id)
       userId = this.props.id;
     } else {
+      console.log('MASUK SINI 2', this.props.id)
       userId = this.props.dataAuth._id;
     }
-
+    console.log('USERR ID ', userId);
     this.props.dataAuth.innerCircles.forEach(item => {
       if (item.friend === userId) {
         this.setState({
@@ -308,7 +311,13 @@ class ProfileDetails extends React.Component {
     const { listThreads } = this.props.dataThreads;
     const { recentThreads, recentComments, recentResponse } = this.props.dataRecentActivity;
     if (this.state.tab === 0) {
-      return <TabThreadByUser navi={this.props.navigator} listThreads={recentThreads.data} />;
+      return (
+        <TabThreadByUser 
+          navi={this.props.navigator} 
+          user={this.props.data.user} 
+          listThreads={recentThreads.data} 
+        />
+      );
     }
     if (this.state.tab === 1) {
       if (recentComments.data.length === 0 && recentComments.status_code === 0) {
@@ -318,7 +327,13 @@ class ProfileDetails extends React.Component {
           </View>
         );
       }
-      return <TabComments navi={this.props.navigator} listThreads={recentComments.data} />;
+      return (
+        <TabComments 
+          navi={this.props.navigator} 
+          user={this.props.data.user} 
+          listThreads={recentComments.data} 
+        />
+      );
     }
     if (this.state.tab === 2) {
       return (

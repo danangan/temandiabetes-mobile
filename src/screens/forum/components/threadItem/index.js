@@ -13,11 +13,11 @@ import {
   HeaderThread }
 from '../../../../components';
 
-import ContentThread from './contentThread'
+import ContentThread from './contentThread';
 
 export default threadItem = ({ threads, toThreadDetails, onPostBookmark, onShareThread }) => {
   let { author, comments } = threads.item;
-  if (!author) {
+  if (!author || author['tipe_user'] === undefined) {
     author = {
       nama: '',
       foto_profile: '',

@@ -6,50 +6,72 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, Platform, FlatList, AsyncStorage, TouchableOpacity } from 'react-native';
 
-import { getThreads } from '../../actions/threadActions';
-import { Card, FooterThread, HeaderThread, Spinner } from '../../components';
+import { getThreads, makeBookmark } from '../../actions/threadActions';
+
+import ThreadItem from '../forum/components/threadItem';
 import ContentThread from '../../components/thread/contentThread';
+import Style from '../../style/defaultStyle';
 
 class TabThreadByUser extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isProses: false,
+    };
+    this.toThreadDetails = this.toThreadDetails.bind(this);
+    this.onPostBookmark = this.onPostBookmark.bind(this);
   }
+  
+  toThreadDetails(threads) {
+    this.props.navi.push({
+      screen: 'TemanDiabetes.ThreadDetails',
+      navigatorStyle: {
+        navBarHidden: true
+      },
+      passProps: threads
+    });
+  }
+
+  onPostBookmark = async (thread, threadIndex) => {
+    this.setState(
+      {
+        isProses: true
+      },
+      () => {
+        this.props.makeBookmark(thread, threadIndex);
+      }
+    );
+  };
 
   renderItem(threads) {
     const { threadType } = threads.item;
     const { nama, foto_profile } = this.props.dataAuth;
+    console.log('threadType ', threads.item);
+
     return (
-      <TouchableOpacity
-        key={threads.index}
-        onPress={() =>
-          this.props.navi.push({
-            screen: 'TemanDiabetes.ThreadDetails',
-            navigatorStyle: {
-              navBarHidden: true
-            },
-            passProps: threads
-          })
-        }
-      >
-        <Card containerStyle={styles.cardStyle}>
-          <HeaderThread source={foto_profile} name={nama} category={threadType} />
-          <ContentThread title={threads.item.topic} content={threads.item.description} />
-          <FooterThread
-            numOfComments={17}
-            isOpen={this.togleModal}
-            saveBookmark={this.onPostBookmark}
-            threadItem={threads.item}
-          />
-        </Card>
-      </TouchableOpacity>
+      <View>
+        <Text>Daniel</Text>
+      </View>
     );
   }
 
+
   render() {
+    console.log('THIS PROPS THREAD BY USER ', this.props);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', marginBottom: 10, paddingBottom: 10 }}>
-        <FlatList data={this.props.listThreads} renderItem={item => this.renderItem(item)} />
+        {
+          this.props.listThreads.length === 0 ?
+          <View style={styles.messageEmpty}>
+            <Text style={styles.textHistory}>Tidak ada riwayat threads Anda</Text>
+          </View>
+          :
+          <FlatList 
+            keyExtractor={this.props.listThreads._id} 
+            data={this.props.listThreads} 
+            renderItem={item => this.renderItem(item)} 
+          />
+        }
       </View>
     );
   }
@@ -96,6 +118,16 @@ const styles = {
     height: 70,
     marginVertical: 10,
     paddingHorizontal: 10
+  },
+  messageEmpty: {
+    flex: 1, 
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  textHistory: { 
+    fontFamily: 'Montserrat-Regular',
+    textAlign: 'center',
+    fontSize: Style.FONT_SIZE
   }
 };
 
@@ -106,8 +138,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getThreads: token => dispatch(getThreads(token))
-  // makeBookmark: (idThread, token) => dispatch(makeBookmark(idThread, token))
+  getThreads: token => dispatch(getThreads(token)),
+  makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });
 
 export default connect(
