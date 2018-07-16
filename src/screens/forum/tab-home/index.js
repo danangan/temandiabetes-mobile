@@ -214,7 +214,7 @@ class TabHome extends Component {
     );
 
     return (
-      <View style={styles.containerStyle}>
+      <View style={styles.containerStyle} removeClippedSubviews={true}>
         {!listThreads.initialLoading && (
           <FlatList
             ListEmptyComponent={this.renderEmptySection}
@@ -243,7 +243,8 @@ const styles = {
   containerStyle: {
     flex: 1,
     backgroundColor: color.solitude,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    overflow: 'hidden'
   },
   wrapPostThread: {
     justifyContent: 'center',

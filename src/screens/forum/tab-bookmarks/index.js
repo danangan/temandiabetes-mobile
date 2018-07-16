@@ -284,7 +284,7 @@ class TabBookmark extends Component {
         </View>
       );
     return (
-      <View style={styles.containerStyle}>
+      <View style={styles.containerStyle} removeClippedSubviews={true}>
         {!initialLoading && content}
         {initialLoading && (
           <View style={styles.initialLoading}>
@@ -301,7 +301,8 @@ const styles = {
   containerStyle: {
     backgroundColor: color.solitude,
     paddingHorizontal: 5,
-    flex: 1
+    flex: 1,
+    overflow: 'hidden'
   },
   cardStyle: {
     ...Platform.select({
