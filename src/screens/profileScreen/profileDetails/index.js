@@ -61,13 +61,13 @@ class ProfileDetails extends React.Component {
     console.log('THIS PROPS DI PROFILE DETAILS ', this.props);
     let userId;
     if (this.props.id) {
-      console.log('MASUK SINI 1', this.props.id)
+      // console.log('MASUK SINI 1', this.props.id)
       userId = this.props.id;
     } else {
-      console.log('MASUK SINI 2', this.props.id)
+      // console.log('MASUK SINI 2', this.props.id)
       userId = this.props.dataAuth._id;
     }
-    console.log('USERR ID ', userId);
+    // console.log('USERR ID ', userId);
     this.props.dataAuth.innerCircles.forEach(item => {
       if (item.friend === userId) {
         this.setState({
@@ -310,6 +310,7 @@ class ProfileDetails extends React.Component {
   renderTabContent() {
     const { listThreads } = this.props.dataThreads;
     const { recentThreads, recentComments, recentResponse } = this.props.dataRecentActivity;
+    console.log('recentComments.data.thread._id ', recentComments);
     if (this.state.tab === 0) {
       return (
         <TabThreadByUser 

@@ -24,33 +24,48 @@ class TabComments extends React.Component {
     this.state = {
 
     };
-    this.toThreadDetails = this.toThreadDetails.bind(this);
+    // this.toThreadDetails = this.toThreadDetails.bind(this);
   }
 
-  toThreadDetails({idComment}) {
-    // console.log('idComment ', idComment);
-    // this.props.navi.push({
-    //   screen: 'TemanDiabetes.CommentDetails',
-    //   navigatorStyle: {
-    //     navBarHidden: true
-    //   },
-    //   passProps: {
-    //     // idThread: this.state.idThread,
-    //     commentId: idComment
-    //   }
-    // });
-    return null;
-  }
+  // toThreadDetails({ idComment, thread }) {
+  //   // console.log('thread._id ', thread);
+  //   this.props.navi.push({
+  //     screen: 'TemanDiabetes.CommentDetails',
+  //     navigatorStyle: {
+  //       navBarHidden: true
+  //     },
+  //     passProps: {
+  //       // idThread: thread._id,
+  //       commentId: idComment
+  //     }
+  //   });
+  // }
 
   renderItem(comments) {
     const { nama, foto_profile } = this.props.dataAuth;
     const itemComments = {
-      item: comments.item.thread
+      item: {
+        _id: comments.item._id,
+        topic: comments.item.text
+      }
     };
+    const idThread = comments.item.thread._id;
+    const idComment = comments.item._id;
     return (
       <ThreadItem  
         threads={itemComments}
-        toThreadDetails={this.toThreadDetails}
+        toThreadDetails={() => {
+          this.props.navi.push({
+            screen: 'TemanDiabetes.CommentDetails',
+            navigatorStyle: {
+              navBarHidden: true
+            },
+            passProps: {
+              idThread,
+              commentId: idComment
+            }
+          });
+        }}
       />
     );
   }

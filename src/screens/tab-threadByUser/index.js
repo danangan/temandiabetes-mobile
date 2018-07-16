@@ -23,6 +23,7 @@ class TabThreadByUser extends React.Component {
   }
   
   onPostBookmark = async (thread, threadIndex) => {
+    console.log('thread thread ', thread);
     this.setState(
       {
         isProses: true
@@ -43,7 +44,7 @@ class TabThreadByUser extends React.Component {
     });
   }
 
-  renderItem(threads) {
+  renderItem(threads, index) {
     const { threadType } = threads.item;
     const { nama, foto_profile } = this.props.dataAuth;
     console.log('threadType ', threads.item);
@@ -52,7 +53,7 @@ class TabThreadByUser extends React.Component {
       <ThreadItem
         threads={threads}
         toThreadDetails={this.toThreadDetails}
-        // onPostBookmark={this.onPostBookmark}
+        onPostBookmark={this.onPostBookmark}
         // onShareThread={this.onShareThread}
       />
     );
@@ -63,7 +64,11 @@ class TabThreadByUser extends React.Component {
     const data = result(this.props.listThreads, 'thread.docs', []);
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
-        <FlatList data={data} renderItem={item => this.renderItem(item)} />
+        <FlatList 
+          keyExtractor={item => item._id} 
+          data={data} 
+          renderItem={(item, index) => this.renderItem(item, index)} 
+        />
       </View>
     );
   }
