@@ -6,6 +6,7 @@ import { Navigation } from 'react-native-navigation';
 import { Avatar, TextWithClickableURL } from '../../../components';
 import { formatDateTime } from '../../../utils/helpers';
 import CommentChild from './commentChild';
+import Style from '../../../style/defaultStyle';
 
 class CommentThread extends React.Component {
   constructor(props) {
@@ -60,7 +61,10 @@ class CommentThread extends React.Component {
               textAlign: 'left',
               fontSize: 11
             }}
-            onPress={debounce(() => this.props.navigator(this.props.idComment), 500, { leading: true, trailing: false })}
+            onPress={debounce(() => this.props.navigator(this.props.idComment), 500, {
+              leading: true,
+              trailing: false
+            })}
           >
             View {replies.length} reply.
           </Text>
@@ -102,28 +106,33 @@ class CommentThread extends React.Component {
               <Text style={{ fontSize: 10 }}>Posted on {formatDateTime(updatedAt)}</Text>
             </View>
             <TouchableOpacity
-              onPress={ debounce(() => {
-                Navigation.showModal({
-                  screen: 'TemanDiabetes.ModalReplyComment',
-                  title: 'Modal',
-                  passProps: {
-                    idComment: _id,
-                    idThread: this.props.idThread
-                  },
-                  navigatorButtons: {
-                    leftButtons: [{}]
-                  },
-                  animationType: 'slide-up'
-                })
-              }, 500, { leading: true, trailing: false })}
+              onPress={debounce(
+                () => {
+                  Navigation.showModal({
+                    screen: 'TemanDiabetes.ModalReplyComment',
+                    title: 'Modal',
+                    passProps: {
+                      idComment: _id,
+                      idThread: this.props.idThread
+                    },
+                    navigatorButtons: {
+                      leftButtons: [{}]
+                    },
+                    animationType: 'slide-up'
+                  });
+                },
+                500,
+                { leading: true, trailing: false }
+              )}
               style={{ backgroundColor: '#252c68' }}
             >
               <Text
                 style={{
-                  fontSize: 12,
+                  fontSize: Style.FONT_SIZE_SMALLER,
                   paddingHorizontal: 20,
                   paddingVertical: 3,
-                  color: '#8084a7'
+                  color: '#FFFFFF',
+                  textAlign: 'center'
                 }}
               >
                 Balas
@@ -132,7 +141,7 @@ class CommentThread extends React.Component {
           </View>
           <View style={styles.commentContent}>
             <Text style={{ fontSize: 14, marginTop: 5 }}>
-              <TextWithClickableURL inputText={text}/>
+              <TextWithClickableURL inputText={text} />
             </Text>
           </View>
         </View>

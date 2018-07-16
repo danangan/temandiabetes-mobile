@@ -40,9 +40,7 @@ class TabFeatured extends Component {
   }
 
   componentDidMount() {
-    // if (this.props.dataThreads.initialLoading) {
-    this.props.getThreadStatic();
-    // }
+    this.props.getThreadStatic(1, true);
   }
 
   componentWillReceiveProps({ saveBookmark }) {
@@ -194,7 +192,7 @@ class TabFeatured extends Component {
       <View />
     );
     return (
-      <View style={styles.containerStyle}>
+      <View style={styles.containerStyle} removeClippedSubviews={true}>
         {!initialLoading && (
           <FlatList
             ListEmptyComponent={this.renderEmptySection}
@@ -223,7 +221,8 @@ const styles = {
   containerStyle: {
     flex: 1,
     backgroundColor: color.solitude,
-    paddingHorizontal: 5
+    paddingHorizontal: 5,
+    overflow: 'hidden'
   },
   loadMoreContainer: {
     justifyContent: 'center'

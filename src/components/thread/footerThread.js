@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { debounce } from 'lodash';
 
 import { CardSection } from '../card/CardSection';
 import ViewPropTypes from '../../config/ViewPropTypes';
@@ -29,7 +30,7 @@ const FooterThread = ({
           <Text style={styles.titleItem}>{numOfComments} Balasan</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => saveBookmark(threadItem, threadIndex)}
+          onPress={debounce(() => saveBookmark(threadItem, threadIndex), 300, { leading: true, trailing: false })}
           style={styles.itemContainer}
         >
           <Image source={isBookmarked ? BookMarked : BookMark} style={{ width: 20, height: 20 }} />

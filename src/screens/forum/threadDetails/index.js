@@ -16,6 +16,7 @@ import Closed from '../../../assets/icons/close_white.png';
 import { ContentDetail } from './contentDetail';
 import HeaderDetail from './headerDetail';
 import color from '../../../style/color';
+import Style from '../../../style/defaultStyle';
 
 class ThreadDetails extends React.Component {
   static navigatorStyle = {
@@ -98,9 +99,7 @@ class ThreadDetails extends React.Component {
       navigatorStyle: {
         navBarHidden: true
       },
-      passProps: {
-        // commentItem: this.props.contentComment
-      }
+      passProps: {}
     });
   }
 
@@ -123,16 +122,6 @@ class ThreadDetails extends React.Component {
           }}
         >
           <ActivityIndicator size="small" color="#8084a7" />
-          {/* <Text
-						style={{
-							fontSize: 12,
-							paddingHorizontal: 20,
-							paddingVertical: 3,
-							color: '#8084a7'
-						}}
-					>
-							Loading...
-					</Text> */}
         </TouchableOpacity>
       );
     } else if (listThreads.threadDetails.isSubscriber) {
@@ -148,17 +137,7 @@ class ThreadDetails extends React.Component {
             marginRight: 10
           }}
         >
-          <Text
-            style={{
-              fontSize: 12,
-              paddingHorizontal: 20,
-              paddingVertical: 3,
-              color: '#8084a7',
-              textAlign: 'center'
-            }}
-          >
-            Berhenti ikuti
-          </Text>
+          <Text style={styles.buttonText}>Berhenti ikuti</Text>
         </TouchableOpacity>
       );
     }
@@ -174,17 +153,7 @@ class ThreadDetails extends React.Component {
           marginRight: 10
         }}
       >
-        <Text
-          style={{
-            fontSize: 12,
-            paddingHorizontal: 20,
-            paddingVertical: 3,
-            color: '#8084a7',
-            textAlign: 'center'
-          }}
-        >
-          Ikuti
-        </Text>
+        <Text style={styles.buttonText}>Ikuti</Text>
       </TouchableOpacity>
     );
   }
@@ -246,17 +215,21 @@ class ThreadDetails extends React.Component {
             >
               {listThreads.threadDetails !== null ? this.renderButtonFollow() : null}
               <TouchableOpacity
-                onPress={debounce(() =>{
-                  this.props.navigator.push({
-                    screen: 'TemanDiabetes.ModalPostComment',
-                    navigatorStyle: {
-                      navBarHidden: true
-                    },
-                    passProps: {
-                      idThread: _id
-                    }
-                  });
-                }, 500, { leading: true, trailing: false })}
+                onPress={debounce(
+                  () => {
+                    this.props.navigator.push({
+                      screen: 'TemanDiabetes.ModalPostComment',
+                      navigatorStyle: {
+                        navBarHidden: true
+                      },
+                      passProps: {
+                        idThread: _id
+                      }
+                    });
+                  },
+                  500,
+                  { leading: true, trailing: false }
+                )}
                 style={{
                   justifyContent: 'center',
                   backgroundColor: '#252c68',
@@ -266,17 +239,7 @@ class ThreadDetails extends React.Component {
                   marginRight: 10
                 }}
               >
-                <Text
-                  style={{
-                    fontSize: 12,
-                    paddingHorizontal: 20,
-                    paddingVertical: 3,
-                    color: '#8084a7',
-                    textAlign: 'center'
-                  }}
-                >
-                  Balas
-                </Text>
+                <Text style={styles.buttonText}>Balas</Text>
               </TouchableOpacity>
               {this.props.dataAuth.currentUser._id !== threadDetails.author._id &&
               threadDetails !== null ? (
@@ -302,17 +265,7 @@ class ThreadDetails extends React.Component {
                     minHeight: 25
                   }}
                 >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      paddingHorizontal: 20,
-                      paddingVertical: 3,
-                      color: '#8084a7',
-                      textAlign: 'center'
-                    }}
-                  >
-                    Laporkan
-                  </Text>
+                  <Text style={styles.buttonText}>Lapor</Text>
                 </TouchableOpacity>
               ) : null}
             </View>
@@ -348,8 +301,11 @@ const styles = {
     padding: 10
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 30
+    fontSize: Style.FONT_SIZE_SMALL,
+    paddingHorizontal: 20,
+    paddingVertical: 3,
+    color: '#FFFFFF',
+    textAlign: 'center'
   }
 };
 
