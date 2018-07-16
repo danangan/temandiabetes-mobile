@@ -43,12 +43,10 @@ class TabComments extends React.Component {
   }
 
   renderItem(comments) {
-    console.log('ID COMMENT', comments);
     const { nama, foto_profile } = this.props.dataAuth;
     const itemComments = {
       item: comments.item.thread
     };
-    console.log('--->', itemComments);
     return (
       <ThreadItem  
         threads={itemComments}
