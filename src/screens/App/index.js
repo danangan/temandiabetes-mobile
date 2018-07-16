@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import {
   View,
-  Text,
   StyleSheet,
-  Platform
+  Platform,
+  Linking
 } from 'react-native'
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -52,14 +52,17 @@ import ShopTab from '../chart'
 // EMERGENCY
 import EmergencyTab from '../emergency'
 
+import landingPageURL from '../../config/landingPageURL';
+
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       token: ''
     }
-    this.onResetNotificationCount = this.onResetNotificationCount.bind(this)
-		this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
+    this.onResetNotificationCount = this.onResetNotificationCount.bind(this);
+    this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
+    this.redirectByUrl = this.redirectByUrl.bind(this);
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -86,7 +89,15 @@ class App extends Component {
       let result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
         if (Platform.OS === 'android') {
-          this._displayNotificationAndroid(notif);
+          // checking if the receiver is the correct person
+          if (notif.receiver) {
+            const receiver = JSON.parse(notif.receiver)
+            if (receiver.id === this.props.currentUser._id) {
+              this._displayNotificationAndroid(notif);
+            }
+          } else {
+            this._displayNotificationAndroid(notif);
+          }
         }
       });
     } catch (e) {
@@ -96,32 +107,41 @@ class App extends Component {
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
-      let pathname = deepLink.currentDeepLink.replace(`${landingPageURL}/`, '');
-      pathname = pathname.split('/')
-      let screen
-      switch (pathname[0]) {
-        case 'thread':
-          screen = 'TemanDiabetes.ThreadDetails';
-          break;
-        case 'thread-static':
-          screen = 'TemanDiabetes.FeaturedDetail';
-          break;
-        default:
-          break;
-      }
-
-      this.props.navigator.push({
-        screen,
-        navigatorStyle: {
-          navBarHidden: true
-        },
-        passProps: {
-          item: {
-            _id: pathname[1],
-          }
-        }
-      });
+      this.redirectByUrl({
+        url: deepLink.currentDeepLink
+      })
     }
+
+    // add event listener for direct incoming deeplink
+    Linking.addEventListener('url', this.redirectByUrl);
+  }
+
+  redirectByUrl({ url }) {
+    let pathname = url.replace(`${landingPageURL}/`, '');
+    pathname = pathname.split('/')
+    let screen
+    switch (pathname[0]) {
+      case 'thread':
+        screen = 'TemanDiabetes.ThreadDetails';
+        break;
+      case 'thread-static':
+        screen = 'TemanDiabetes.FeaturedDetail';
+        break;
+      default:
+        break;
+    }
+
+    this.props.navigator.push({
+      screen,
+      navigatorStyle: {
+        navBarHidden: true
+      },
+      passProps: {
+        item: {
+          _id: pathname[1],
+        }
+      }
+    });
   }
 
 	_displayNotificationAndroid(notif) {
@@ -134,13 +154,12 @@ class App extends Component {
       case 'comment':
         title = `${notif.commentator} memberikan komentar di thread Anda`
         screen = 'TemanDiabetes.ThreadDetails'
-        // passProps = { item: JSON.parse(notif.thread) }
+        passProps = { item: { _id: notif.threadId } }
         break;
       case 'reply_comment':
         title = `${notif.commentator} membalas komentar di thread Anda`
         screen = 'TemanDiabetes.CommentDetails'
-        // passProps = { commentId: JSON.parse(activity.commentId) }
-        id = notif.commentatorId
+        passProps = { commentId: notif.commentId }
         break;
       case 'followed':
         title = `${JSON.parse(notif.subscriber).nama || JSON.parse(notif.subscriber).name} mengikuti thread Anda "${notif.topic}"`

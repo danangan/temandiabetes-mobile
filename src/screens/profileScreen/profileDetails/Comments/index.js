@@ -4,48 +4,56 @@
 */
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Platform, FlatList, TouchableOpacity, Text } from 'react-native';
+import { 
+  View, 
+  Platform, 
+  FlatList, 
+  TouchableOpacity, 
+  Text 
+} from 'react-native';
 
 import { getThreads } from '../../../../actions/threadActions';
 import { Card, FooterThread, HeaderThread } from '../../../../components';
 import ContentThread from '../../../../components/thread/contentThread';
 import Style from '../../../../style/defaultStyle';
+import ThreadItem from '../../../forum/components/threadItem';
 
 class TabComments extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+
+    };
+    this.toThreadDetails = this.toThreadDetails.bind(this);
   }
 
-  toCommentDetails(idComment) {
-    this.props.navigator.push({
-      screen: 'TemanDiabetes.CommentDetails',
-      navigatorStyle: {
-        navBarHidden: true
-      },
-      passProps: {
-        idThread: this.state.idThread,
-        commentId: idComment
-      }
-    });
+  toThreadDetails({idComment}) {
+    // console.log('idComment ', idComment);
+    // this.props.navi.push({
+    //   screen: 'TemanDiabetes.CommentDetails',
+    //   navigatorStyle: {
+    //     navBarHidden: true
+    //   },
+    //   passProps: {
+    //     // idThread: this.state.idThread,
+    //     commentId: idComment
+    //   }
+    // });
+    return null;
   }
 
-  renderItem(threads) {
-    console.log('ID COMMENT', threads);
+  renderItem(comments) {
+    console.log('ID COMMENT', comments);
     const { nama, foto_profile } = this.props.dataAuth;
+    const itemComments = {
+      item: comments.item.thread
+    };
+    console.log('--->', itemComments);
     return (
-      <TouchableOpacity key={threads.index} onPress={() => this.toCommentDetails()}>
-        <Card containerStyle={styles.cardStyle}>
-          <HeaderThread source={foto_profile} name={this.props.user.nama} category={'Answer'} />
-          <ContentThread title={threads.item.text} />
-          <FooterThread
-            numOfComments={17}
-            isOpen={this.togleModal}
-            saveBookmark={this.onPostBookmark}
-            threadItem={threads.item}
-          />
-        </Card>
-      </TouchableOpacity>
+      <ThreadItem  
+        threads={itemComments}
+        toThreadDetails={this.toThreadDetails}
+      />
     );
   }
 

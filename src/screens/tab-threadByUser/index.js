@@ -4,12 +4,12 @@
 */
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Platform, FlatList, AsyncStorage, TouchableOpacity } from 'react-native';
+import { result } from 'lodash';
+import { View, Platform, FlatList } from 'react-native';
 
 import { getThreads, makeBookmark } from '../../actions/threadActions';
 
 import ThreadItem from '../forum/components/threadItem';
-import ContentThread from '../../components/thread/contentThread';
 import Style from '../../style/defaultStyle';
 
 class TabThreadByUser extends React.Component {
@@ -22,16 +22,6 @@ class TabThreadByUser extends React.Component {
     this.onPostBookmark = this.onPostBookmark.bind(this);
   }
   
-  toThreadDetails(threads) {
-    this.props.navi.push({
-      screen: 'TemanDiabetes.ThreadDetails',
-      navigatorStyle: {
-        navBarHidden: true
-      },
-      passProps: threads
-    });
-  }
-
   onPostBookmark = async (thread, threadIndex) => {
     this.setState(
       {
@@ -42,6 +32,16 @@ class TabThreadByUser extends React.Component {
       }
     );
   };
+  
+  toThreadDetails(threads) {
+    this.props.navi.push({
+      screen: 'TemanDiabetes.ThreadDetails',
+      navigatorStyle: {
+        navBarHidden: true
+      },
+      passProps: threads
+    });
+  }
 
   renderItem(threads) {
     const { threadType } = threads.item;
@@ -49,29 +49,21 @@ class TabThreadByUser extends React.Component {
     console.log('threadType ', threads.item);
 
     return (
-      <View>
-        <Text>Daniel</Text>
-      </View>
+      <ThreadItem
+        threads={threads}
+        toThreadDetails={this.toThreadDetails}
+        // onPostBookmark={this.onPostBookmark}
+        // onShareThread={this.onShareThread}
+      />
     );
   }
 
 
   render() {
-    console.log('THIS PROPS THREAD BY USER ', this.props);
+    const data = result(this.props.listThreads, 'thread.docs', []);
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff', marginBottom: 10, paddingBottom: 10 }}>
-        {
-          this.props.listThreads.length === 0 ?
-          <View style={styles.messageEmpty}>
-            <Text style={styles.textHistory}>Tidak ada riwayat threads Anda</Text>
-          </View>
-          :
-          <FlatList 
-            keyExtractor={this.props.listThreads._id} 
-            data={this.props.listThreads} 
-            renderItem={item => this.renderItem(item)} 
-          />
-        }
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+        <FlatList data={data} renderItem={item => this.renderItem(item)} />
       </View>
     );
   }
@@ -90,7 +82,9 @@ const styles = {
         shadowOpacity: 0.1,
         shadowRadius: 2.5
       }
-    })
+    }),
+    marginBottom: 15,
+    marginTop: 5
   },
   wrapButonSearch: {
     flex: 2,
