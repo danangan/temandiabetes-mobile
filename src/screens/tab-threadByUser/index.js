@@ -6,9 +6,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { result } from 'lodash';
 import { View, Platform, FlatList } from 'react-native';
+import Share from 'react-native-share';
 
+import landingPageURL from '../../config/landingPageURL';
 import { getThreads, makeBookmark } from '../../actions/threadActions';
-
 import ThreadItem from '../forum/components/threadItem';
 import Style from '../../style/defaultStyle';
 
@@ -20,6 +21,20 @@ class TabThreadByUser extends React.Component {
     };
     this.toThreadDetails = this.toThreadDetails.bind(this);
     this.onPostBookmark = this.onPostBookmark.bind(this);
+    this.onShareThread = this.onShareThread.bind(this);
+  }
+
+  onShareThread(thread) {
+    // console.log('onShareThread', thread);
+    const options = {
+      title: thread.topic,
+      message: thread.topic,
+      url: `${landingPageURL}/thread/${thread._id}`,
+      subject: 'Article from Teman Diabetes' //  for email
+    };
+    Share.open(options).catch(err => {
+      err && console.log(err);
+    });
   }
   
   onPostBookmark = async (thread, threadIndex) => {
@@ -54,7 +69,7 @@ class TabThreadByUser extends React.Component {
         threads={threads}
         toThreadDetails={this.toThreadDetails}
         onPostBookmark={this.onPostBookmark}
-        // onShareThread={this.onShareThread}
+        onShareThread={this.onShareThread}
       />
     );
   }

@@ -8,13 +8,13 @@ import {
   View, 
   Platform, 
   FlatList, 
-  TouchableOpacity, 
   Text 
 } from 'react-native';
+import Share from 'react-native-share';
 
-import { getThreads } from '../../../../actions/threadActions';
-import { Card, FooterThread, HeaderThread } from '../../../../components';
-import ContentThread from '../../../../components/thread/contentThread';
+
+import landingPageURL from '../../../../config/landingPageURL';
+import { getThreads, makeBookmark } from '../../../../actions/threadActions';
 import Style from '../../../../style/defaultStyle';
 import ThreadItem from '../../../forum/components/threadItem';
 
@@ -24,22 +24,33 @@ class TabComments extends React.Component {
     this.state = {
 
     };
-    // this.toThreadDetails = this.toThreadDetails.bind(this);
+    this.onShareThread = this.onShareThread.bind(this);
+    this.onPostBookmark = this.onPostBookmark.bind(this);
   }
 
-  // toThreadDetails({ idComment, thread }) {
-  //   // console.log('thread._id ', thread);
-  //   this.props.navi.push({
-  //     screen: 'TemanDiabetes.CommentDetails',
-  //     navigatorStyle: {
-  //       navBarHidden: true
-  //     },
-  //     passProps: {
-  //       // idThread: thread._id,
-  //       commentId: idComment
-  //     }
-  //   });
-  // }
+  onShareThread(thread) {
+    const options = {
+      title: thread.topic,
+      message: thread.topic,
+      url: `${landingPageURL}/thread/${thread._id}`,
+      subject: 'Article from Teman Diabetes' //  for email
+    };
+    Share.open(options).catch(err => {
+      err && console.log(err);
+    });
+  }
+
+  onPostBookmark = async (thread, threadIndex) => {
+    console.log('thread thread ', thread);
+    this.setState(
+      {
+        isProses: true
+      },
+      () => {
+        this.props.makeBookmark(thread, threadIndex);
+      }
+    );
+  };
 
   renderItem(comments) {
     const { nama, foto_profile } = this.props.dataAuth;
@@ -66,13 +77,15 @@ class TabComments extends React.Component {
             }
           });
         }}
+        onPostBookmark={this.onPostBookmark}
+        onShareThread={this.onShareThread}
       />
     );
   }
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff' }}>
+      <View style={styles.containerStyle}>
         {
           this.props.listThreads.length === 0 ? 
           <View style={styles.messageEmpty}>
@@ -88,7 +101,8 @@ class TabComments extends React.Component {
 
 const styles = {
   containerStyle: {
-    backgroundColor: '#ccc'
+    flex: 1, 
+    backgroundColor: '#fff'
   },
   cardStyle: {
     ...Platform.select({
@@ -147,8 +161,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getThreads: token => dispatch(getThreads(token))
-  // makeBookmark: (idThread, token) => dispatch(makeBookmark(idThread, token))
+  getThreads: token => dispatch(getThreads(token)),
+  makeBookmark: (thread, threadIndex) => dispatch(makeBookmark(thread, threadIndex))
 });
 
 export default connect(
