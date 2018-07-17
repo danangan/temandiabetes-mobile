@@ -41,7 +41,7 @@ class Login extends Component {
 
     // analyze the deeplink
     const { deepLink } = this.props;
-    if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
+    if (deepLink.currentDeepLink && deepLink.currentDeepLink !== '' && !deepLink.expired) {
       if (deepLink.currentDeepLink.includes('reset-password')) {
         this.redirectByUrl({url: deepLink.currentDeepLink})
       }

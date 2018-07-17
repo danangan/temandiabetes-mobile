@@ -18,7 +18,9 @@ class OnBoardingScreen extends Component {
     // handling deeplink here
     // save to store to handle later in main app
     const url = Linking.getInitialURL().then(url => {
-      this.props.updateDeepLink(url);
+      if (url) {
+        this.props.updateDeepLink(url);
+      }
     });
   }
 
