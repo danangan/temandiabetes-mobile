@@ -15,25 +15,7 @@ class AppLoader extends Component {
     // handling deeplink here
     // save to store to handle later in main app
     Linking.getInitialURL().then(url => {
-      // check if it is a reset password
-      // if not save it to redux store
-      if (url.includes('reset-password')) {
-        let pathname = url.replace(`${landingPageURL}/`, '');
-        pathname = pathname.split('/');
-        this.props.navigator.push({
-          screen: 'TemanDiabetes.ForgotPasswordInputNewPassword',
-          navigatorStyle: {
-            navBarHidden: true
-          },
-          animated: true,
-          animationType: 'fade',
-          passProps: {
-            token: pathname[1]
-          }
-        });
-      } else {
-        this.props.updateDeepLink(url);
-      }
+      this.props.updateDeepLink(url);
     });
   }
 

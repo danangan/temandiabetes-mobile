@@ -140,7 +140,7 @@ class InputEmail extends Component {
                 <TextField
                   secureTextEntry
                   value={password}
-                  placeholder="masukkan password Anda"
+                  placeholder="Password baru Anda"
                   onChangeText={password => this.setState({password})}
                   inputStyle={styles.inputStyle}
                   underlineColorAndroid="rgba(0,0,0,0)"
@@ -153,7 +153,7 @@ class InputEmail extends Component {
                 <TextField
                   secureTextEntry
                   value={confirmPassword}
-                  placeholder="konfirmasi password Anda"
+                  placeholder="Konfirmasi password Anda"
                   onChangeText={confirmPassword => this.setState({confirmPassword})}
                   inputStyle={styles.inputStyle}
                   underlineColorAndroid="rgba(0,0,0,0)"

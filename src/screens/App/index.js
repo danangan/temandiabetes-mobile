@@ -119,7 +119,7 @@ class App extends Component {
   redirectByUrl({ url }) {
     let pathname = url.replace(`${landingPageURL}/`, '');
     pathname = pathname.split('/')
-    let screen
+    let screen = null
     switch (pathname[0]) {
       case 'thread':
         screen = 'TemanDiabetes.ThreadDetails';
@@ -131,17 +131,19 @@ class App extends Component {
         break;
     }
 
-    this.props.navigator.push({
-      screen,
-      navigatorStyle: {
-        navBarHidden: true
-      },
-      passProps: {
-        item: {
-          _id: pathname[1],
+    if (screen) {
+      this.props.navigator.push({
+        screen,
+        navigatorStyle: {
+          navBarHidden: true
+        },
+        passProps: {
+          item: {
+            _id: pathname[1],
+          }
         }
-      }
-    });
+      });
+    }
   }
 
 	_displayNotificationAndroid(notif) {

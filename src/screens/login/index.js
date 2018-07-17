@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Image, Text, ImageBackground, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { View, Image, Text, ImageBackground, KeyboardAvoidingView, Keyboard, Linking } from 'react-native';
 import { connect } from 'react-redux';
 
 import { ButtonFacebook, ButtonGoogle, Button, Spinner, SnackBar } from '../../components/';
@@ -30,10 +30,39 @@ class Login extends Component {
       showSnackBar: false,
       errorMessage: ''
     };
+
+    this.redirectByUrl = this.redirectByUrl.bind(this);
   }
 
   componentDidMount() {
     this.props.setupGoogleSignIn();
+
+    Linking.addEventListener('url', this.redirectByUrl);
+
+    // analyze the deeplink
+    const { deepLink } = this.props;
+    if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
+      if (deepLink.currentDeepLink.includes('reset-password')) {
+        this.redirectByUrl({url: deepLink.currentDeepLink})
+      }
+    }
+  }
+
+  redirectByUrl({ url }) {
+    if (url.includes('reset-password')) {
+      let pathname = url.split('/reset-password/')
+      this.props.navigator.push({
+        screen: 'TemanDiabetes.ForgotPasswordInputNewPassword',
+        navigatorStyle: {
+          navBarHidden: true
+        },
+        animated: true,
+        animationType: 'fade',
+        passProps: {
+          token: pathname[1]
+        }
+      });
+    }
   }
 
   componentDidUpdate() {
@@ -244,6 +273,7 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
+  deepLink: state.appReducer.deepLink,
   loginReducer: state.loginReducer
 });
 
