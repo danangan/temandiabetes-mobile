@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { result } from 'lodash';
 import { View, Text, StyleSheet, Platform } from 'react-native';
 import moment from 'moment';
 
@@ -21,6 +22,7 @@ const LineVertical = () => (
 );
 
 const HistoryFoods = ({ history }) => {
+  console.log(history)
   const mealTime =
     history.foods === undefined || history.foods === null
       ? {
@@ -43,27 +45,27 @@ const HistoryFoods = ({ history }) => {
           <MealTime foodStyle={styles.foodsStyle} />
           <LineVertical />
           <View style={styles.foodListStyle}>
-            <Text style={styles.foodsStyle}>{mealTime.sarapan.title}</Text>
-            <Text style={styles.foodsStyle}>{mealTime.makanSiang.title}</Text>
-            <Text style={styles.foodsStyle}>{mealTime.makanMalam.title}</Text>
-            <Text style={styles.foodsStyle}>{mealTime.snack.title}</Text>
+            <Text style={styles.foodsStyle}>{result(mealTime.sarapan, 'title', '-')}</Text>
+            <Text style={styles.foodsStyle}>{result(mealTime.makanSiang, 'title', '-')}</Text>
+            <Text style={styles.foodsStyle}>{result(mealTime.makanMalam, 'title', '-')}</Text>
+            <Text style={styles.foodsStyle}>{result(mealTime.snack, 'title', '-')}</Text>
           </View>
           <LineVertical />
           <View style={styles.calorieStyle}>
             <View style={styles.calorieListStyle}>
-              <Text style={[styles.foodsStyle]}>{mealTime.sarapan.calories}</Text>
+              <Text style={[styles.foodsStyle]}>{result(mealTime.sarapan, 'calories', 0)}</Text>
               <Text style={styles.foodsStyle}> Kkl</Text>
             </View>
             <View style={styles.calorieListStyle}>
-              <Text style={styles.foodsStyle}>{mealTime.makanSiang.calories}</Text>
+              <Text style={styles.foodsStyle}>{result(mealTime.makanSiang, 'calories', 0)}</Text>
               <Text style={styles.foodsStyle}> Kkl</Text>
             </View>
             <View style={styles.calorieListStyle}>
-              <Text style={styles.foodsStyle}>{mealTime.makanMalam.calories}</Text>
+              <Text style={styles.foodsStyle}>{result(mealTime.makanMalam, 'calories', 0)}</Text>
               <Text style={styles.foodsStyle}> Kkl</Text>
             </View>
             <View style={styles.calorieListStyle}>
-              <Text style={styles.foodsStyle}>{mealTime.snack.calories}</Text>
+              <Text style={styles.foodsStyle}>{result(mealTime.snack, 'calories', 0)}</Text>
               <Text style={styles.foodsStyle}> Kkl</Text>
             </View>
           </View>
