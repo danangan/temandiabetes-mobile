@@ -352,7 +352,7 @@ class InputTracker extends Component {
         if (sistolic === 0 || sistolic === '') {
           alert('Silahkan input Sistolic Anda.');
         } else if (distolic === 0 || distolic === '') {
-          alert('Silahkan input Diastolic Anda yo.');
+          alert('Silahkan input Diastolic Anda.');
         } else if (distolic > sistolic) {
           alert('Nilai sistolic harus lebih besar daripada diastolic')
         } else {

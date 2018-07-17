@@ -79,6 +79,38 @@ class HistoryBloodSugarLevels extends React.Component {
     });
   };
 
+  dotColor(gulaDarah) {
+    switch (true) {
+      case gulaDarah >= 200:
+        return '#FACBCA';
+      case gulaDarah >= 140 && gulaDarah < 200:
+        return '#FFEFBE';
+      case gulaDarah >= 70 && gulaDarah < 140:
+        return '#B2DFDB';
+      case gulaDarah < 70:
+        return '#FFACAA';
+      default:
+        break;
+    }
+  }
+
+  dotTop(gulaDarah) {
+    switch (true) {
+      case gulaDarah >= 400:
+        return 31 - (38 * (gulaDarah - 400)) / 200;
+      case gulaDarah >= 200 && gulaDarah < 400:
+        return 69 - (38 * (gulaDarah - 200)) / 200;
+      case gulaDarah >= 140 && gulaDarah < 200:
+        return 107 - (38 * (gulaDarah - 140)) / 60;
+      case gulaDarah >= 70 && gulaDarah < 140:
+        return 145 - (38 * (gulaDarah - 70)) / 70;
+      case gulaDarah < 70:
+        return 183 - (38 * gulaDarah) / 70;
+      default:
+        break;
+    }
+  }
+
   render() {
     const data = this.props.history.bloodSugar;
     const ranges = [600, 400, 200, 140, 70, 0];
@@ -112,50 +144,8 @@ class HistoryBloodSugarLevels extends React.Component {
                     <LineVertical />
                     <Dots
                       dotsStyle={{
-                        backgroundColor: '#FACBCA',
-                        top: item.gulaDarah === 400 || item.gulaDarah <= 600 ? 12 : 12,
-                        display: item.gulaDarah === 200 || item.gulaDarah <= 400 ? 'none' : 'flex'
-                      }}
-                      onPress={() => this.showToolTip(item)}
-                    />
-                    <Dots
-                      dotsStyle={{
-                        backgroundColor: '#FACBCA',
-                        top: item.gulaDarah === 200 || item.gulaDarah <= 400 ? 50 : 50,
-                        display:
-                          item.gulaDarah === 140 || item.gulaDarah <= 200 || item.gulaDarah >= 400
-                            ? 'none'
-                            : 'flex'
-                      }}
-                      onPress={() => this.showToolTip(item)}
-                    />
-                    <Dots
-                      dotsStyle={{
-                        backgroundColor: '#FFEFBE',
-                        top: item.gulaDarah === 140 || item.gulaDarah <= 200 ? 88 : 88,
-                        display:
-                          item.gulaDarah === 70 || item.gulaDarah <= 140 || item.gulaDarah >= 200
-                            ? 'none'
-                            : 'flex'
-                      }}
-                      onPress={() => this.showToolTip(item)}
-                    />
-                    <Dots
-                      dotsStyle={{
-                        backgroundColor: '#B2DFDB',
-                        top: item.gulaDarah === 70 || item.gulaDarah <= 140 ? 125 : 125,
-                        display:
-                          item.gulaDarah === 0 || item.gulaDarah <= 70 || item.gulaDarah >= 140
-                            ? 'none'
-                            : 'flex'
-                      }}
-                      onPress={() => this.showToolTip(item)}
-                    />
-                    <Dots
-                      dotsStyle={{
-                        backgroundColor: '#FFACAA',
-                        top: item.gulaDarah >= 0 || item.gulaDarah <= 70 ? 163 : 163,
-                        display: item.gulaDarah > 70 ? 'none' : 'flex'
+                        backgroundColor: this.dotColor(item.gulaDarah),
+                        top: this.dotTop(item.gulaDarah)
                       }}
                       onPress={() => this.showToolTip(item)}
                     />
@@ -275,4 +265,7 @@ const mapStateToProps = state => ({
   history: state.historyEstimationReducer
 });
 
-export default connect(mapStateToProps, null)(HistoryBloodSugarLevels);
+export default connect(
+  mapStateToProps,
+  null
+)(HistoryBloodSugarLevels);
