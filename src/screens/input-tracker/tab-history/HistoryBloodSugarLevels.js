@@ -1,20 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Platform, ScrollView, TouchableOpacity } from 'react-native';
+import { result } from 'lodash';
+import {
+  View,
+  Text,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback
+} from 'react-native';
 
 import DotsInfo from './DotsInfo';
 import Style from '../../../style/defaultStyle';
-import { Card } from '../../../components';
 import color from '../../../style/color';
 
-const LineHorizontal = ({ item }) => (
+const ranges = [600, 400, 200, 140, 70, 0];
+const graphContainerPadding = 10;
+const graphContainerHeight = Style.DEVICE_HEIGHT / 2.5;
+const graphHeight = graphContainerHeight - 4 * graphContainerPadding - ranges.length * 2;
+const yItemHeight = graphHeight / (ranges.length - 1);
+
+const LineHorizontal = props => (
   <View
     style={{
-      flex: 1,
+      width: '100%',
       borderBottomColor: color.solitude,
       borderBottomWidth: 1,
-      marginLeft: item === 0 ? 20 : item === 70 ? 13 : 5,
-      marginBottom: Style.PADDING - 14.5
+      top: 9 + (props.lineNumber - 1) * yItemHeight,
+      position: 'absolute'
     }}
   />
 );
@@ -22,18 +35,70 @@ const LineHorizontal = ({ item }) => (
 const LineVertical = () => (
   <View
     style={{
+      flex: 1,
       flexDirection: 'column',
       justifyContent: 'space-around',
-      height: Style.CARD_HEIGHT - 35,
       borderLeftColor: color.solitude,
-      borderLeftWidth: 1
+      borderLeftWidth: 1,
+      marginTop: 10,
+      marginBottom: 5
     }}
   />
 );
 
-const Dots = ({ dotsStyle, onPress }) => (
-  <Text style={[styles.dotsStyle, dotsStyle]} onPress={onPress} />
-);
+class Dots extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showToolTip: false
+    };
+  }
+
+  render() {
+    const { dotsStyle, item } = this.props;
+    const { showToolTip } = this.state;
+    return (
+      <View style={[styles.dotContainer, { top: dotsStyle.top }]}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            if (this.state.showToolTip) {
+              this.setState({ showToolTip: !this.state.showToolTip });
+            }
+          }}
+        >
+          <View
+            style={[
+              styles.toolTipContainerStyle,
+              {
+                opacity: showToolTip ? 1 : 0
+              },
+              result(item, 'gulaDarah', 0) >= 400
+                ? {
+                    top: 20
+                  }
+                : {}
+            ]}
+          >
+            <Text style={styles.textToolTipStyle}>{result(item, 'waktuInput', '00:00')}</Text>
+            <Text style={[styles.textToolTipStyle, { color: color.red }]}>
+              {result(item, 'gulaDarah', 0)}mg/dL
+            </Text>
+            <Text style={styles.textToolTipStyle}>{result(item, 'level')}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableOpacity
+          onPress={() => {
+            this.setState({ showToolTip: !this.state.showToolTip });
+          }}
+        >
+          <View style={styles.dotsWrapper}>
+            <Text style={[styles.dotsStyle, { backgroundColor: dotsStyle.backgroundColor }]} />
+          </View>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+}
 
 class HistoryBloodSugarLevels extends React.Component {
   constructor(props) {
@@ -45,39 +110,6 @@ class HistoryBloodSugarLevels extends React.Component {
       data: null
     };
   }
-
-  toolTip() {
-    const { data } = this.state;
-    if (this.state.isActive) {
-      return (
-        <View
-          style={[
-            styles.toolTipContainerStyle,
-            {
-              top: this.state.x,
-              left: this.state.y
-            }
-          ]}
-        >
-          <Text style={styles.textToolTipStyle}>{data === null ? '00:00' : data.waktuInput}</Text>
-          <Text style={[styles.textToolTipStyle, { color: color.red }]}>
-            {data === null ? 0 : data.gulaDarah}mg/dL
-          </Text>
-          <Text style={styles.textToolTipStyle}>{data === null ? '-' : data.level}</Text>
-        </View>
-      );
-    }
-    return null;
-  }
-
-  showToolTip = item => {
-    this.setState({
-      isActive: true,
-      x: -Style.CARD_WIDTH / 14,
-      y: Style.CARD_WIDTH / 6,
-      data: item
-    });
-  };
 
   dotColor(gulaDarah) {
     switch (true) {
@@ -97,15 +129,15 @@ class HistoryBloodSugarLevels extends React.Component {
   dotTop(gulaDarah) {
     switch (true) {
       case gulaDarah >= 400:
-        return 31 - (38 * (gulaDarah - 400)) / 200;
+        return yItemHeight - (yItemHeight * (gulaDarah - 400)) / 200;
       case gulaDarah >= 200 && gulaDarah < 400:
-        return 69 - (38 * (gulaDarah - 200)) / 200;
+        return yItemHeight * 2 - (yItemHeight * (gulaDarah - 200)) / 200;
       case gulaDarah >= 140 && gulaDarah < 200:
-        return 107 - (38 * (gulaDarah - 140)) / 60;
+        return yItemHeight * 3 - (yItemHeight * (gulaDarah - 140)) / 60;
       case gulaDarah >= 70 && gulaDarah < 140:
-        return 145 - (38 * (gulaDarah - 70)) / 70;
+        return yItemHeight * 4 - (yItemHeight * (gulaDarah - 70)) / 70;
       case gulaDarah < 70:
-        return 183 - (38 * gulaDarah) / 70;
+        return yItemHeight * 5 - (yItemHeight * gulaDarah) / 70;
       default:
         break;
     }
@@ -113,49 +145,51 @@ class HistoryBloodSugarLevels extends React.Component {
 
   render() {
     const data = this.props.history.bloodSugar;
-    const ranges = [600, 400, 200, 140, 70, 0];
     const bloodSugar = data === undefined ? [] : data;
 
     return (
-      <View style={styles.containerStyle}>
+      // Graph Container
+      <View>
         <Text style={styles.titleStyle}>Kadar Gula Darah</Text>
-        <TouchableOpacity activeOpacity={1} onPress={() => this.setState({ isActive: false })}>
-          <Card containerStyle={styles.cardStyle}>
-            <View style={styles.corYContainerStyle}>
-              {ranges.map((item, index) => (
-                <View key={index} style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                  <Text style={styles.textCorYStyle}>{item}</Text>
-                  <LineHorizontal item={item} />
+        <View style={styles.graphContainer}>
+          {/* y Axis */}
+          <View style={styles.yAxisContainer}>
+            {/* y Axis Item*/}
+            {ranges.map((item, index) => (
+              <View style={styles.yAxisItem} key={index}>
+                <Text style={styles.yAxisItemText}>{item}</Text>
+              </View>
+            ))}
+          </View>
+          {/* x Axis */}
+          <View style={styles.xAxisContainer}>
+            <ScrollView horizontal>
+              {[1, 2, 3, 4, 5, 6].map(item => <LineHorizontal lineNumber={item} />)}
+              {/* x axis dots item */}
+              {bloodSugar.map((item, index) => (
+                <View
+                  key={index}
+                  style={{
+                    flexDirection: 'column',
+                    justifyContent: 'space-around',
+                    marginLeft: index === 0 ? 45 : 15
+                  }}
+                >
+                  <LineVertical />
+                  <Dots
+                    dotsStyle={{
+                      backgroundColor: this.dotColor(item.gulaDarah),
+                      top: this.dotTop(item.gulaDarah)
+                    }}
+                    item={item}
+                  />
+                  <Text style={styles.textCorXStyle}>{item.date}</Text>
                 </View>
               ))}
-            </View>
-            <View style={styles.corXContainerStyle}>
-              {this.toolTip()}
-              <ScrollView horizontal>
-                {bloodSugar.map((item, index) => (
-                  <View
-                    key={index}
-                    style={{
-                      flexDirection: 'column',
-                      justifyContent: 'space-around',
-                      marginLeft: 15
-                    }}
-                  >
-                    <LineVertical />
-                    <Dots
-                      dotsStyle={{
-                        backgroundColor: this.dotColor(item.gulaDarah),
-                        top: this.dotTop(item.gulaDarah)
-                      }}
-                      onPress={() => this.showToolTip(item)}
-                    />
-                    <Text style={styles.textCorXStyle}>{item.date}</Text>
-                  </View>
-                ))}
-              </ScrollView>
-            </View>
-          </Card>
-        </TouchableOpacity>
+            </ScrollView>
+          </View>
+        </View>
+        {/* dots info */}
         <View style={styles.infoDotsContainerStyle}>
           <DotsInfo />
         </View>
@@ -165,9 +199,35 @@ class HistoryBloodSugarLevels extends React.Component {
 }
 
 const styles = {
-  containerStyle: {
+  graphContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: color.white,
+    padding: graphContainerPadding,
+    height: graphContainerHeight,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+    ...Platform.select({
+      ios: {
+        shadowColor: 'rgba(0,0,0, .2)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2
+      },
+      android: {
+        elevation: 0.05
+      }
+    })
+  },
+  yAxisContainer: {
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-between',
+    paddingBottom: graphContainerPadding * 2
+  },
+  xAxisContainer: {
+    marginHorizontal: 10
   },
   infoDotsContainerStyle: {
     flexDirection: 'row',
@@ -181,46 +241,11 @@ const styles = {
     marginBottom: 5.94,
     color: '#252C68'
   },
-  cardStyle: {
-    paddingLeft: 9.37,
-    paddingRight: 9,
-    paddingBottom: 20.37,
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    marginLeft: 0,
-    marginRight: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'rgba(0,0,0, .2)',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2
-      },
-      android: {
-        elevation: 0.05
-      }
-    })
-  },
-  corYContainerStyle: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'space-between'
-  },
-  textCorYStyle: {
+  yAxisItemText: {
     fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER,
     color: '#556299',
-    marginTop: Style.PADDING
-  },
-  corXContainerStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    position: 'absolute',
-    marginLeft: 73,
-    marginTop: 32
+    textAlign: 'right'
   },
   textCorXStyle: {
     fontFamily: 'Montserrat-Regular',
@@ -230,18 +255,29 @@ const styles = {
     marginRight: Style.PADDING,
     right: Style.PADDING - 4
   },
-  dotsStyle: {
+  dotContainer: {
     position: 'absolute',
-    left: -7,
+    height: 100,
+    width: 50,
+    left: -25
+  },
+  dotsWrapper: {
+    width: 30,
+    height: 30,
+    left: 12,
+    bottom: 10
+  },
+  dotsStyle: {
+    left: 6,
     height: 15,
     width: 15,
+    bottom: -10,
     borderRadius: 7.5
   },
   toolTipContainerStyle: {
-    flex: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 100,
+    width: 80,
     position: 'absolute',
     height: 50,
     backgroundColor: color.white,
@@ -252,7 +288,9 @@ const styles = {
     borderBottomLeftRadius: 5,
     borderBottomRightRadius: 5,
     borderTopLeftRadius: 5,
-    borderTopRightRadius: 5
+    borderTopRightRadius: 5,
+    bottom: 105,
+    left: -15
   },
   textToolTipStyle: {
     fontFamily: 'Montserrat-Regular',

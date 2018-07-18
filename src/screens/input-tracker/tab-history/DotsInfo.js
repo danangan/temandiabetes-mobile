@@ -22,7 +22,7 @@ const DotsInfo = () => (
       {/* 140 - 199 prediabetes */}
       <View style={styles.dotsContentStyle}>
         <View style={[styles.dotsStyle, { backgroundColor: '#FFEFBE' }]} />
-        <Text style={styles.textStyle}>{' '}140 - 199 pre-diabetes</Text>
+        <Text style={styles.textStyle}> 140 - 199 pre-diabetes</Text>
       </View>
 
       {/* >= 200 diabetes */}
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   dotsContentStyle: {
+    marginBottom: 5,
     flexDirection: 'row',
     justifyContent: 'space-between'
   }
