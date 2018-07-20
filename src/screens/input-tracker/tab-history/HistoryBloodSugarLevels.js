@@ -114,13 +114,13 @@ class HistoryBloodSugarLevels extends React.Component {
   dotColor(gulaDarah) {
     switch (true) {
       case gulaDarah >= 200:
-        return '#FACBCA';
+        return '#FFACAA';
       case gulaDarah >= 140 && gulaDarah < 200:
         return '#FFEFBE';
       case gulaDarah >= 70 && gulaDarah < 140:
         return '#B2DFDB';
       case gulaDarah < 70:
-        return '#FFACAA';
+        return '#FACBCA';
       default:
         break;
     }
