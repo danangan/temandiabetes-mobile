@@ -57,7 +57,8 @@ class TabComments extends React.Component {
     const itemComments = {
       item: {
         _id: comments.item._id,
-        topic: comments.item.text
+        topic: comments.item.text,
+        author: comments.item.user
       }
     };
     const idThread = comments.item.thread._id;
