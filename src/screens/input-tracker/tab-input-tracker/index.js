@@ -170,17 +170,20 @@ class InputTracker extends Component {
   async openTimePicker() {
     try {
       const { action, hour, minute } = await TimePickerAndroid.open({
-        hour: 14,
-        minute: null,
+        hour: this.state.isTime.hour(),
+        minute: this.state.isTime.minute(),
         is24Hour: true,
       });
 
       const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
       if (action !== TimePickerAndroid.dismissedAction) {
-        const limitTime = new moment().hours(hour).minute(minute);
-        const checking = limitTime.isBefore(new moment());
-        if (checking) {
+        const { inputDate } = this.state;
+        // const limitTime = new moment().hours(hour).minute(minute);
+        // const checking = limitTime.isBefore(new moment());
+        const dateNow = moment();
+        const isBeforeNow = inputDate.diff(dateNow, 'days');
+        if (isBeforeNow < 0) {
           this.setState({
             time: {
               hour,
@@ -508,7 +511,8 @@ class InputTracker extends Component {
     const displayDate = `${inputDate.format('ddd DD/MM/YYYY')} at ${isTime.format('HH:mm')}`;
 
     return (
-      <View style={{
+      <View 
+        style={{
           // flex: 1,
           marginVertical: 10,
           flexDirection: 'row',
