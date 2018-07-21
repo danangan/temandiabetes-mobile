@@ -287,7 +287,6 @@ class InputTracker extends Component {
 
   handleSave(casing) {
     const {
-      dateInput,
       gulaDarah,
       distolic,
       sistolic,
@@ -295,15 +294,6 @@ class InputTracker extends Component {
       activitySelected,
       descActivity,
       beratBadan,
-      sarapan,
-      makanSiang,
-      makanMalam,
-      snack,
-      isTime,
-      iniJam,
-      iniMenit,
-      date,
-      time,
       inputDate
     } = this.state;
 
@@ -349,11 +339,11 @@ class InputTracker extends Component {
           }
         };
 
-        if (sistolic === 0 || sistolic === '') {
+        if (Number(sistolic) === 0 || sistolic === '') {
           alert('Silahkan input Sistolic Anda.');
-        } else if (distolic === 0 || distolic === '') {
+        } else if (Number(distolic) === 0 || distolic === '') {
           alert('Silahkan input Diastolic Anda.');
-        } else if (distolic > sistolic) {
+        } else if (Number(distolic) > Number(sistolic)) {
           alert('Nilai sistolic harus lebih besar daripada diastolic')
         } else {
           const checkingSistolic = this.validationInput(sistolic);
@@ -1143,7 +1133,6 @@ class InputTracker extends Component {
   }
 
   render() {
-    console.log('STATE ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
