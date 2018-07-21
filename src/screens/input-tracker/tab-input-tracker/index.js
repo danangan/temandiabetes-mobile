@@ -170,17 +170,20 @@ class InputTracker extends Component {
   async openTimePicker() {
     try {
       const { action, hour, minute } = await TimePickerAndroid.open({
-        hour: 14,
-        minute: null,
+        hour: this.state.isTime.hour(),
+        minute: this.state.isTime.minute(),
         is24Hour: true,
       });
 
       const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
       if (action !== TimePickerAndroid.dismissedAction) {
-        const limitTime = new moment().hours(hour).minute(minute);
-        const checking = limitTime.isBefore(new moment());
-        if (checking) {
+        const { inputDate } = this.state;
+        // const limitTime = new moment().hours(hour).minute(minute);
+        // const checking = limitTime.isBefore(new moment());
+        const dateNow = moment();
+        const isBeforeNow = inputDate.diff(dateNow, 'days');
+        if (isBeforeNow < 0) {
           this.setState({
             time: {
               hour,
@@ -287,7 +290,6 @@ class InputTracker extends Component {
 
   handleSave(casing) {
     const {
-      dateInput,
       gulaDarah,
       distolic,
       sistolic,
@@ -295,15 +297,6 @@ class InputTracker extends Component {
       activitySelected,
       descActivity,
       beratBadan,
-      sarapan,
-      makanSiang,
-      makanMalam,
-      snack,
-      isTime,
-      iniJam,
-      iniMenit,
-      date,
-      time,
       inputDate
     } = this.state;
 
@@ -349,11 +342,11 @@ class InputTracker extends Component {
           }
         };
 
-        if (sistolic === 0 || sistolic === '') {
+        if (Number(sistolic) === 0 || sistolic === '') {
           alert('Silahkan input Sistolic Anda.');
-        } else if (distolic === 0 || distolic === '') {
+        } else if (Number(distolic) === 0 || distolic === '') {
           alert('Silahkan input Diastolic Anda.');
-        } else if (distolic > sistolic) {
+        } else if (Number(distolic) > Number(sistolic)) {
           alert('Nilai sistolic harus lebih besar daripada diastolic')
         } else {
           const checkingSistolic = this.validationInput(sistolic);
@@ -508,7 +501,8 @@ class InputTracker extends Component {
     const displayDate = `${inputDate.format('ddd DD/MM/YYYY')} at ${isTime.format('HH:mm')}`;
 
     return (
-      <View style={{
+      <View 
+        style={{
           // flex: 1,
           marginVertical: 10,
           flexDirection: 'row',
@@ -1143,7 +1137,6 @@ class InputTracker extends Component {
   }
 
   render() {
-    console.log('STATE ', this.state);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>

@@ -7,7 +7,8 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux';
 import moment from 'moment';
-import FCM, { NotificationActionType, FCMEvent } from 'react-native-fcm';
+import { result } from 'lodash';
+import FCM, { FCMEvent } from 'react-native-fcm';
 
 // ACTIONS
 import { updateNotificationCount, resetNotificationCount, getCurrentUser, updateFCMToken, addNotificationCount } from '../../actions';
@@ -95,6 +96,10 @@ class App extends Component {
             if (receiver.id === this.props.currentUser._id) {
               this._displayNotificationAndroid(notif);
             }
+          } else if (notif.targetUser) {
+            if (notif.targetUser === this.props.currentUser._id) {
+              this._displayNotificationAndroid(notif);
+            }
           } else {
             this._displayNotificationAndroid(notif);
           }
@@ -154,7 +159,11 @@ class App extends Component {
     let passProps = {}
     switch (notif.activityType) {
       case 'comment':
-        title = `${notif.commentator} memberikan komentar di thread Anda`
+        if (notif.authorId === this.props.currentUser._id) {
+          title = `${notif.commentator} memberikan komentar di thread Anda ${notif.topic}`
+        } else {
+          title = `${notif.commentator} memberikan komentar di thread yang Anda ikuti ${notif.topic}`
+        }
         screen = 'TemanDiabetes.ThreadDetails'
         passProps = { item: { _id: notif.threadId } }
         break;
@@ -170,7 +179,7 @@ class App extends Component {
         break;
       case 'drug_reminder':
         title = `Pengingat obat`
-        body = `${notif.drugName} - ${new moment(new Date(notif.datetimeconsume)).format('HH:mm')}. Sentuh untuk info lebih lanjut`
+        body = `${notif.drugName} - ${new moment(new Date(notif.datetimeConsume)).format('HH:mm')}. Sentuh untuk info lebih lanjut`
         screen = 'TemanDiabetes.DrugReminder'
         break;
       case "receiver_innercircle":
@@ -186,6 +195,8 @@ class App extends Component {
       default:
         break;
     }
+
+    console.log('Title', title)
 
     if (notif.opened_from_tray) {
       if (notif.screen && notif.screen !== '') {

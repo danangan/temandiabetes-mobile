@@ -150,22 +150,35 @@ class PreviewSearchMakanan extends React.Component {
   async openTimePicker() {
     try {
       const { action, hour, minute } = await TimePickerAndroid.open({
-        hour: 14,
-        minute: 0,
-        is24Hour: false,
+        hour: this.state.isTime.hour(),
+        minute: this.state.isTime.minute(),
+        is24Hour: true,
       });
       const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
-      // console.log('MENITE BRE ', minute);
       if (action !== TimePickerAndroid.dismissedAction) {
-        this.setState({
-          time: {
-            hour,
-            minute: menit
-          },
-          isTime: new moment().hour(hour).minute(minute),
-          hasSetTime: true
-        });
+        const { inputDate } = this.state;
+        // const limitTime = new moment().hours(hour).minute(minute);
+        // const checking = limitTime.isBefore(new moment());
+        const dateNow = moment();
+        const isBeforeNow = inputDate.diff(dateNow, 'days');
+        if (isBeforeNow < 0) {
+          this.setState({
+            time: {
+              hour,
+              minute: menit
+            },
+            isTime: new moment().hour(hour).minute(minute),
+            iniJam: `${hour}`,
+            iniMenit: `${menit}`,
+            hasSetTime: true
+          });
+        } else {
+          Alert.alert(
+            'Perhatian!',
+            'Tidak boleh lebih dari jam sekarang'
+          );
+        }
       }
     } catch ({ code, message }) {
       console.warn('Cannot open time picker', message);
@@ -387,7 +400,6 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   render() {
-    console.log('THIS STATE ', this.state);
     if (this.state.isProcess) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
