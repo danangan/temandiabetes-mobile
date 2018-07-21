@@ -24,7 +24,8 @@ import {
   FOLLOW_THREADS,
   UNFOLLOW_THREADS,
   GET_COMMENT_DETAILS,
-  RESET_SAVE_BOOKMARK
+  RESET_SAVE_BOOKMARK,
+  GET_COMMENT_LIST
 } from './constants';
 
 // import * as ActionTypes from './constants';
@@ -653,3 +654,26 @@ export const getCommentDetails = idComment => async dispatch => {
     onSuccess(error);
   }
 };
+
+export const getCommentList = ({ url }) => async dispatch => {
+  function onSuccess(data) {
+    dispatch({
+      type: GET_COMMENT_LIST,
+      payload: data
+    });
+
+    return data;
+  }
+
+  try {
+    const option = {  
+      method: 'GET',
+      url
+    };
+
+    const request = await API_CALL(option);
+    return onSuccess(request);
+  } catch (error) {
+    onSuccess(error);
+  }
+}

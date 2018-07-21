@@ -7,7 +7,8 @@ import {
   getThreadDetails,
   toFollowThread,
   toUnFollowThread,
-  getCommentDetails
+  getCommentDetails,
+  getCommentList
 } from '../../../actions/threadActions';
 
 import { CardSection, Spinner } from '../../../components';
@@ -28,16 +29,21 @@ class ThreadDetails extends React.Component {
     this.state = {
       idThread: this.props.item._id,
       isProcess: true,
-      isLoadingSubscribe: false
+      isLoadingSubscribe: false,
+      commentsList: [],
+      pageComment: 1,
+      isLoadMore: true
     };
     this.requestFollowThread = this.requestFollowThread.bind(this);
     this.requestUnfollowThread = this.requestUnfollowThread.bind(this);
     this.toCommentDetails = this.toCommentDetails.bind(this);
+    this.nextPageCommentList = this.nextPageCommentList.bind(this);
   }
 
   componentDidMount() {
     this.props.getThreadDetails(this.state.idThread);
-  }
+    this.toGetCommentList();
+  } 
 
   shouldComponentUpdate() {
     return true;
@@ -56,6 +62,23 @@ class ThreadDetails extends React.Component {
         });
       }, 1000);
     }
+  }
+
+  async toGetCommentList() {
+    const { idThread, pageComment } = this.state;
+    const requestList = await this.props.getCommentList({ url: `api/threads/${idThread}/comment/list?limit=10&page=${pageComment}` });
+    const { comments } = requestList.data.data;
+    if (comments.length) {
+      const lasteComment = [...this.state.commentsList, ...comments];
+      this.setState({ commentsList: lasteComment });
+    } else {
+      this.setState({ isLoadMore: false });
+    }
+  }
+
+  async nextPageCommentList() {
+    await this.setState({ pageComment: this.state.pageComment + 1 });
+    this.toGetCommentList();
   }
 
   requestUnfollowThread() {
@@ -159,6 +182,7 @@ class ThreadDetails extends React.Component {
   }
 
   render() {
+    console.log('THIS STATE ', this.state);
     const { _id } = this.props.item;
     const { listThreads } = this.props.dataThreads;
     const { threadDetails } = listThreads;
@@ -274,6 +298,9 @@ class ThreadDetails extends React.Component {
             threadItem={this.props.item}
             threadDetails={listThreads.threadDetails}
             navigator={this.toCommentDetails}
+            commentList={this.state.commentsList}
+            nextPageCommentList={this.nextPageCommentList}
+            isLoadMore={this.state.isLoadMore}
           />
         </ScrollView>
         <TouchableOpacity
@@ -306,7 +333,7 @@ const styles = {
     paddingVertical: 3,
     color: '#FFFFFF',
     textAlign: 'center'
-  }
+  }, 
 };
 
 const mapStateToProps = state => ({
@@ -318,7 +345,8 @@ const mapDispatchToProps = dispatch => ({
   getThreadDetails: idThread => dispatch(getThreadDetails(idThread)),
   toFollowThread: idThread => dispatch(toFollowThread(idThread)),
   toUnFollowThread: idThread => dispatch(toUnFollowThread(idThread)),
-  getCommentDetails: idComment => dispatch(getCommentDetails(idComment))
+  getCommentDetails: idComment => dispatch(getCommentDetails(idComment)),
+  getCommentList: url => dispatch(getCommentList(url))
 });
 
 export default connect(
