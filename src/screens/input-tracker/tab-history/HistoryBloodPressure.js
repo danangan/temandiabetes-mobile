@@ -10,26 +10,15 @@ const HistoryBloodPressure = ({ history }) => {
     history.bloodPressure === null || history.bloodPressure === 'undefined/undefined'
       ? '00/00'
       : history.bloodPressure;
-
-  const sistolic = parseInt(
-    bloodPressure
-      .split('')
-      .slice(0, 2)
-      .join('')
-  );
-  const distolic = parseInt(
-    bloodPressure
-      .split('')
-      .slice(3, 5)
-      .join('')
-  );
+  const itemBlood = bloodPressure.split('/');
+  const sistolic = parseInt(itemBlood[0]);
+  const distolic = parseInt(itemBlood[1]);
   const status =
-    sistolic < 139 && distolic < 89
+    sistolic <= 139 && distolic <= 89
       ? 'normal'
-      : sistolic > 140 && distolic > 90
+      : sistolic >= 140 && distolic >= 90
         ? 'hipertensi'
         : 'cta';
-
   const wording = {
     cta: 'Masukkan data tekanan darah anda',
     normal: 'Pertahankan gaya hidup sehat dan lakukan aktifitas fisik secara teratur',
