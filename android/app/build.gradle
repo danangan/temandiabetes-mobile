@@ -156,8 +156,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-fcm')
-    compile project(':react-native-config')
     implementation(project(':react-native-image-picker'))
     implementation(project(':react-native-share')) // Add dependencies
 
