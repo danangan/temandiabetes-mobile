@@ -152,6 +152,7 @@ class App extends Component {
   }
 
 	_displayNotificationAndroid(notif) {
+    console.log('NOTIF', notif);
     let title = ''
     let body = 'Sentuh untuk info lebih lanjut'
     let screen = ''
