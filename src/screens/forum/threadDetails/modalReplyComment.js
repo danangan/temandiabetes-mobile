@@ -56,7 +56,7 @@ class ModalReplyComment extends Component {
     const { currentUser } = this.props.dataAuth;
 
     if (this.state.komentar === '') {
-      alert('Silahkan input komentar Anda.');
+      alert('Silahkan input komentar Anda');
     } else {
       this.setState({
         isSubmit: true

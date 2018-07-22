@@ -110,7 +110,10 @@ class ModalPostComponent extends Component {
               paddingVertical: 5,
               height: 33
             }}
-            onPress={debounce(this.onSubmitComment, 200)}
+            onPress={
+              this.state.isSubmit ? null :
+              debounce(this.onSubmitComment, 200)
+            }
           >
             <Text style={{ fontSize: 14, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>
               { this.state.isSubmit ? 'Loading' : 'Kirim' }

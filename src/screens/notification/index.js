@@ -3,6 +3,7 @@ import { Platform, View, Text, ActivityIndicator, FlatList, TouchableOpacity } f
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { NavigationBar, Button, Spinner } from '../../components';
+import { result } from 'lodash';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import { sliceString } from '../../utils/helpers';
 import { dateFormateName, formatTimeFromDate, capitalize } from '../../utils/helpers';
@@ -74,46 +75,43 @@ class Notification extends React.Component {
     }
   }
 
-  fetchNotifications({ refresh = false } = {}) {
+  async fetchNotifications({ refresh = false } = {}) {
     const { page, limit } = this.state.pagination;
     const option = {
       method: 'get',
       url: `/api/notification/${this.props.currentUserId}/list?page=${page}&limit=${limit}`
     };
 
-    this.setState(
-      {
-        isLoading: true
-      },
-      async () => {
-        try {
-          const res = await API_CALL(option);
-          const {
-            data: {
-              data: {
-                notifications: { docs, ...pagination }
-              }
-            }
-          } = await API_CALL(option);
-
-          const data = refresh ? [] : this.state.notifications;
-
-          this.setState({
-            notifications: [...data, ...docs],
-            pagination
-          });
-        } catch (error) {
-          console.log(error);
+    try {
+      const res = await API_CALL(option);
+      const {
+        data: {
+          data: {
+            notifications: { docs, ...pagination }
+          }
         }
+      } = await API_CALL(option);
 
-        this.setState({
-          isLoading: false
-        });
-      }
-    );
+      const data = refresh ? [] : this.state.notifications;
+
+      this.setState({
+        notifications: [...data, ...docs],
+        pagination
+      });
+    } catch (error) {
+      console.log(error);
+    }
+
+    this.setState({
+      isLoading: false
+    });
   }
 
   renderItem({ item, index }) {
+    // prevent rendering own activity
+    if (result(item, 'activity.user._id') === this.props.currentUserId) {
+      return null
+    }
     return (
       <TouchableOpacity onPress={this.redirectOnPress(item, index)} style={{ padding: 1 }}>
         <View style={[styles.notificationWrapper, item.has_read ? {} : styles.unread]}>
@@ -157,18 +155,19 @@ class Notification extends React.Component {
     switch (activity.activityType) {
       case 'comment':
         screen = 'TemanDiabetes.ThreadDetails';
-        passProps = { item: activity.comment.thread };
+        passProps = { item: result(activity, 'comment.thread') };
         break;
       case 'reply_comment':
         screen = 'TemanDiabetes.CommentDetails';
-        passProps = { commentId: activity.comment._id };
+        passProps = { commentId: result(activity, 'comment._id') };
         break;
       case 'followed':
-        screen = 'TemanDiabetes.ProfileDetails';
-        passProps = { id: activity.followedUser ? activity.followedUser._id : activity.user._id };
+        screen = 'TemanDiabetes.ThreadDetails';
+        passProps = { item: { _id: result(activity, 'thread._id') } };
         break;
       case 'receiver_innercircle':
         screen = 'TemanDiabetes.InnerCircleList';
+        passProps = { tab: 1 };
         break;
       case 'sender_innercircle':
         screen = 'TemanDiabetes.InnerCircleList';
@@ -226,8 +225,13 @@ class Notification extends React.Component {
             </Text>
             <Text> memberikan komentar </Text>
             <Text style={styles.boldText}>"{sliceString(activity.comment.text, 30)}"</Text>
-            <Text> di thread Anda </Text>
-            <Text style={styles.boldText}>{sliceString(activity.comment.thread.topic, 50)}</Text>
+            {
+              result(activity.comment, 'thread.author._id') === this.props.currentUserId ?
+              <Text> di thread Anda </Text>
+              :
+              <Text> di thread yang Anda ikuti </Text>
+            }
+            <Text style={styles.boldText}>"{sliceString(activity.comment.thread.topic, 50)}".</Text>
           </Text>
         );
       case 'reply_comment':
@@ -238,8 +242,13 @@ class Notification extends React.Component {
             </Text>
             <Text> membalas komentar </Text>
             <Text style={styles.boldText}>"{sliceString(activity.comment.text, 30)}"</Text>
-            <Text> di thread Anda </Text>
-            <Text style={styles.boldText}>{sliceString(activity.comment.thread.topic, 50)}</Text>
+            {
+              result(activity.comment, 'thread.author._id') === this.props.currentUserId ?
+              <Text> di thread Anda </Text>
+              :
+              <Text> di thread yang Anda ikuti </Text>
+            }
+            <Text style={styles.boldText}>"{sliceString(activity.comment.thread.topic, 50)}".</Text>
           </Text>
         );
         break;
@@ -250,7 +259,7 @@ class Notification extends React.Component {
               {activity.followedUser ? activity.followedUser.nama : 'Seseorang'}
             </Text>
             <Text> mengikuti thread Anda </Text>
-            <Text style={styles.boldText}>{sliceString(activity.thread.topic, 50)}</Text>
+            <Text style={styles.boldText}>"{sliceString(activity.thread.topic, 50)}".</Text>
           </Text>
         );
         break;
@@ -320,7 +329,11 @@ class Notification extends React.Component {
   onRefresh() {
     this.setState(
       {
-        isLoading: true
+        isLoading: true,
+        pagination: {
+          ...this.state.pagination,
+          page: 1
+        }
       },
       () => {
         this.fetchNotifications({ refresh: true });

@@ -11,7 +11,11 @@ import {
 } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
-import { getUserRecentThread, getUserRecentComment } from '../../../actions/recentActivityAction';
+import { 
+  getUserRecentThread, 
+  getUserRecentComment, 
+  getUserRecentActivityResponse 
+} from '../../../actions/recentActivityAction';
 import { Avatar, Indicator, NavigationBar, Spinner, SnackBar } from '../../../components';
 import Event from './Event';
 import TabComments from './Comments';
@@ -23,7 +27,7 @@ import {
   addInnerCircle,
   getOneUser,
   getInnerCircle,
-  acceptRequestToInnerCircle
+  acceptRequestToInnerCircle,
 } from '../../../actions';
 import color from '../../../style/color';
 
@@ -53,11 +57,12 @@ class ProfileDetails extends React.Component {
       showSnackBar: false,
       messages: '',
       innerCircleId: '',
-      friendId: ''
+      friendId: '',
+      userId: 0
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     let userId;
     if (this.props.id) {
       userId = this.props.id;
@@ -72,11 +77,12 @@ class ProfileDetails extends React.Component {
         });
       }
     });
-
+    await this.setState({ userId });
     Promise.all([
       this.props.getOneUser(userId),
       this.props.getUserRecentThread(userId),
       this.props.getUserRecentComment(userId),
+      // this.props.getUserRecentActivityResponse(userId, 1, 5),
       this.counterProfileComplete()
     ]);
   }
@@ -334,7 +340,11 @@ class ProfileDetails extends React.Component {
     }
     if (this.state.tab === 2) {
       return (
-        <TabRecentActivityResponse navi={this.props.navigator} listActivity={recentResponse.data} />
+        <TabRecentActivityResponse 
+          navi={this.props.navigator} 
+          listActivity={recentResponse.data} 
+          userId={this.state.userId}
+        />
       );
     }
     if (this.state.tab === 3) {
@@ -558,7 +568,8 @@ const mapDispatchToProps = dispatch => ({
   addInnerCircle: userId => dispatch(addInnerCircle(userId)),
   getOneUser: userId => dispatch(getOneUser(userId)),
   getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken)),
-  accept: (friendId, innerCircleId) => dispatch(acceptRequestToInnerCircle(friendId, innerCircleId))
+  accept: (friendId, innerCircleId) => dispatch(acceptRequestToInnerCircle(friendId, innerCircleId)),
+  getUserRecentActivityResponse: (idUser, page, limit) => dispatch(getUserRecentActivityResponse(idUser, page, limit))
 });
 
 export default connect(

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+
 import {
   View,
   Text,
@@ -16,10 +16,7 @@ import {
 
 import Style from '../../style/defaultStyle';
 
-import { 
-  getUserRecentActivityResponse 
-} from '../../actions/recentActivityAction';
-
+import { getUserRecentActivityResponse } from '../../actions/recentActivityAction';
 
 class TabRecentActivityResponse extends React.Component {
   constructor(props) {
@@ -28,18 +25,18 @@ class TabRecentActivityResponse extends React.Component {
       page: 1,
       refreshing: false,
       isLoadMorePage: false,
-      idUser: this.props.dataAuth._id
     };
     this.renderFooter = this.renderFooter.bind(this);
     this.onEndReached = this.onEndReached.bind(this);
   }
 
   componentDidMount() {
-    this.props.getUserRecentActivityResponse(this.state.idUser, 1, 5);
+    this.toGetRecenteResponse();
   }
 
   onEndReached() {
     const { idUser, page } = this.state;
+    const { userId } = this.props;
     const { recentResponse } = this.props.dataActivity; 
     
     if (recentResponse.status_code !== 400) {
@@ -48,9 +45,15 @@ class TabRecentActivityResponse extends React.Component {
         page: this.state.page + 1
       }, () => {
         // const { page, pages } = this.props.dataThreads.item
-        this.props.getUserRecentActivityResponse(idUser, page, 5);
+        this.props.getUserRecentActivityResponse(userId, page, 5);
       });
     }
+  }
+
+  toGetRecenteResponse() {
+    const { userId } = this.props;
+    const { page } = this.state;
+    this.props.getUserRecentActivityResponse(userId, page, 5);
   }
 
   renderFooter() {
@@ -126,6 +129,20 @@ class TabRecentActivityResponse extends React.Component {
     }
   }
 
+  handleRefresh = () => {
+    this.setState(
+      {
+        refreshing: true
+      },
+      () => {
+        this.toGetRecenteResponse();
+      }
+    );
+    this.setState({
+      refreshing: false
+    });
+  };
+
   render() {
     const { recentResponse } = this.props.dataActivity;
     // recentResponse.status_code === 201 && 
@@ -145,7 +162,7 @@ class TabRecentActivityResponse extends React.Component {
         data={recentResponse.data}
         renderItem={item => this.renderItem(item)}
         refreshing={this.state.refreshing}
-        // onRefresh={this.handleRefresh}
+        onRefresh={this.handleRefresh}
         onEndReached={this.onEndReached}
         onEndReachedThreshold={1}
       />

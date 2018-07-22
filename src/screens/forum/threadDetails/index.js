@@ -41,7 +41,7 @@ class ThreadDetails extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getThreadDetails(this.state.idThread);
+    this.fetchThreadDetails();
     this.toGetCommentList();
   } 
 
@@ -61,6 +61,16 @@ class ThreadDetails extends React.Component {
           isLoadingSubscribe: false
         });
       }, 1000);
+    }
+  }
+
+  async fetchThreadDetails() {
+    const requestThread = await this.props.getThreadDetails(this.state.idThread);
+    const { comments } = requestThread.thread;
+    if (comments.length < 10) {
+      await this.setState({ isLoadMore: false });
+    } else {
+      await this.setState({ isLoadMore: true });
     }
   }
 
@@ -182,7 +192,6 @@ class ThreadDetails extends React.Component {
   }
 
   render() {
-    console.log('THIS STATE ', this.state);
     const { _id } = this.props.item;
     const { listThreads } = this.props.dataThreads;
     const { threadDetails } = listThreads;

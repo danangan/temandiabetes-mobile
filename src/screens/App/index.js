@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { result } from 'lodash';
+import { debounce } from 'lodash';
 import FCM, { FCMEvent } from 'react-native-fcm';
 
 // ACTIONS
@@ -152,7 +152,8 @@ class App extends Component {
   }
 
 	_displayNotificationAndroid(notif) {
-    console.log('NOTIF', notif);
+    console.log(notif)
+    let displayNotif = true
     let title = ''
     let body = 'Sentuh untuk info lebih lanjut'
     let screen = ''
@@ -160,23 +161,36 @@ class App extends Component {
     let passProps = {}
     switch (notif.activityType) {
       case 'comment':
-        if (notif.authorId === this.props.currentUser._id) {
-          title = `${notif.commentator} memberikan komentar di thread Anda ${notif.topic}`
+        // if the thread commentator is the same as the current user then do not display the notification
+        if (notif.commentatorId === this.props.currentUser._id) {
+          displayNotif = false
         } else {
-          title = `${notif.commentator} memberikan komentar di thread yang Anda ikuti ${notif.topic}`
+          if (notif.authorId === this.props.currentUser._id) {
+            title = `${notif.commentator} memberikan komentar di thread Anda "${notif.topic}"`
+          } else {
+            title = `${notif.commentator} memberikan komentar di thread yang Anda ikuti "${notif.topic}"`
+          }
+          screen = 'TemanDiabetes.ThreadDetails'
+          passProps = { item: { _id: notif.threadId } }
         }
-        screen = 'TemanDiabetes.ThreadDetails'
-        passProps = { item: { _id: notif.threadId } }
         break;
       case 'reply_comment':
-        title = `${notif.commentator} membalas komentar di thread Anda`
-        screen = 'TemanDiabetes.CommentDetails'
-        passProps = { commentId: notif.commentId }
+        if (notif.commentatorId === this.props.currentUser._id) {
+          displayNotif = false
+        } else {
+          if (notif.authorId === this.props.currentUser._id) {
+            title = `${notif.commentator} membalas komentar di thread Anda "${notif.topic}"`
+          } else {
+            title = `${notif.commentator} membalas komentar di thread yang Anda ikuti "${notif.topic}"`
+          }
+          screen = 'TemanDiabetes.CommentDetails'
+          passProps = { commentId: notif.commentId }
+        }
         break;
       case 'followed':
         title = `${JSON.parse(notif.subscriber).nama || JSON.parse(notif.subscriber).name} mengikuti thread Anda "${notif.topic}"`
-        passProps = { id: JSON.parse(notif.subscriber)._id }
-        screen = 'TemanDiabetes.ProfileDetails'
+        passProps = { item: { _id: notif.threadId } }
+        screen = 'TemanDiabetes.ThreadDetails'
         break;
       case 'drug_reminder':
         title = `Pengingat obat`
@@ -186,6 +200,7 @@ class App extends Component {
       case "receiver_innercircle":
         title = `${JSON.parse(notif.sender).name} mengirimkan permintaan inner circle`
         screen = 'TemanDiabetes.InnerCircleList'
+        passProps = { tab: 1 }
         id = JSON.parse(notif.sender).id
         break;
       case 'sender_innercircle':
@@ -202,15 +217,17 @@ class App extends Component {
     if (notif.opened_from_tray) {
       if (notif.screen && notif.screen !== '') {
         // reset the state while
-        this.props.navigator.push({
-          screen: notif.screen,
-          passProps: notif.passProps,
-          navigatorStyle: {
-            navBarHidden: true
-          },
-        });
+        debounce(() => {
+          this.props.navigator.push({
+            screen: notif.screen,
+            passProps: notif.passProps,
+            navigatorStyle: {
+              navBarHidden: true
+            },
+          });
+        }, 300, { leading: true, trailing: false })()
       }
-    } else {
+    } else if (displayNotif) {
       FCM.presentLocalNotification({
         title,
         body,
