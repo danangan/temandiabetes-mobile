@@ -15,7 +15,7 @@ class Food extends React.Component {
           />
           <View style={styles.containerTextStyle}>
             <Text style={styles.titleStyle}>Makanan</Text>
-            <Text style={styles.valueStyle}>Masukan makanan Anda</Text>
+            <Text style={styles.valueStyle}>Masukkan makanan Anda</Text>
           </View>
         </CardSection>
       </TouchableOpacity>

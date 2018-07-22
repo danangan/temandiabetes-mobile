@@ -37,27 +37,28 @@ class TabRecentActivityResponse extends React.Component {
   onEndReached() {
     const { idUser, page } = this.state;
     const { userId } = this.props;
-    const { recentResponse } = this.props.dataActivity; 
-    
+    const { recentResponse } = this.props.dataActivity;
+
     if (recentResponse.status_code !== 400) {
       this.setState({
         isLoadMorePage: true,
         page: this.state.page + 1
       }, () => {
         // const { page, pages } = this.props.dataThreads.item
-        this.props.getUserRecentActivityResponse(userId, page, 5);
+        this.props.getUserRecentActivityResponse(userId, page, 10);
       });
     }
   }
 
-  toGetRecenteResponse() {
+  async toGetRecenteResponse(cb = () => {}) {
     const { userId } = this.props;
     const { page } = this.state;
-    this.props.getUserRecentActivityResponse(userId, page, 5);
+    await this.props.getUserRecentActivityResponse(userId, page, 10);
+    cb()
   }
 
   renderFooter() {
-    const { recentResponse } = this.props.dataActivity; 
+    const { recentResponse } = this.props.dataActivity;
     const Loader = (
       <View style={styles.loadMoreContent}>
         <ActivityIndicator color="#EF434F" size={25} />
@@ -75,13 +76,13 @@ class TabRecentActivityResponse extends React.Component {
     return (
       <View style={{ padding: 1 }}>
         <View style={styles.notificationWrapper}>
-          <View 
+          <View
               style={{
               flexDirection: 'row',
               justifyContent: 'space-between'
             }}
           >
-            <Text 
+            <Text
               style={{
                 color: '#354052',
                 fontWeight: 'bold'
@@ -89,16 +90,16 @@ class TabRecentActivityResponse extends React.Component {
             >
               { dateFormateName(dataResponse.item.createdAt) }
             </Text>
-            <Text 
+            <Text
               style={{
                 color: '#AFAFAF'
               }}
             >
-              
+
               { formatTimeFromDate(dataResponse.item.createdAt, '.') }
             </Text>
           </View>
-          <Text 
+          <Text
             style={{
               marginTop: 5
             }}
@@ -113,14 +114,14 @@ class TabRecentActivityResponse extends React.Component {
   renderPreviewResponse(response) {
     switch (response.activityType) {
       case 'comment':
-        return `Anda telah memberikan komentar pada ${response.comment.text}`; 
+        return `Anda telah memberikan komentar pada ${response.comment.text}`;
       case 'reply_comment':
         return `Anda telah membalas komentar pada ${response.comment.text}`;
       case 'follow':
         return `Anda telah mengikuti ${response.thread.topic}`;
       case 'unfollow':
         return 'Anda berhenti mengikuti...';
-      case 'drug_reminder': 
+      case 'drug_reminder':
         return 'Anda telah membuat pengingat obat';
       case 'sender_innercircle':
         return 'Anda telah mengirimkan permintaan pertemanan ke';
@@ -132,20 +133,23 @@ class TabRecentActivityResponse extends React.Component {
   handleRefresh = () => {
     this.setState(
       {
-        refreshing: true
+        refreshing: true,
+        page: 1
       },
       () => {
-        this.toGetRecenteResponse();
+        this.toGetRecenteResponse(() => {
+          this.setState({
+            refreshing: false
+          });
+        });
       }
     );
-    this.setState({
-      refreshing: false
-    });
+
   };
 
   render() {
     const { recentResponse } = this.props.dataActivity;
-    // recentResponse.status_code === 201 && 
+    // recentResponse.status_code === 201 &&
     if (recentResponse.data.length === 0) {
       return (
         <View style={styles.messageEmpty}>
@@ -153,11 +157,11 @@ class TabRecentActivityResponse extends React.Component {
         </View>
       );
     }
-    
+
+    console.log(recentResponse.data)
+
     return (
       <FlatList
-        // ListEmptyComponent={this.renderEmptySection}
-        // ListHeaderComponent={this.renderHeader}
         ListFooterComponent={this.renderFooter}
         data={recentResponse.data}
         renderItem={item => this.renderItem(item)}
@@ -193,11 +197,11 @@ const styles = {
     height: 25
   },
   messageEmpty: {
-    flex: 1, 
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
-  textHistory: { 
+  textHistory: {
     fontFamily: 'Montserrat-Regular',
     textAlign: 'center',
     fontSize: Style.FONT_SIZE

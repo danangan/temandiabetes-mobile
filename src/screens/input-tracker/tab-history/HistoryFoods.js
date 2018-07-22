@@ -22,7 +22,6 @@ const LineVertical = () => (
 );
 
 const HistoryFoods = ({ history }) => {
-  console.log(history)
   const mealTime =
     history.foods === undefined || history.foods === null
       ? {
@@ -149,4 +148,7 @@ const mapStateToProps = state => ({
   history: state.historyEstimationReducer
 });
 
-export default connect(mapStateToProps, null)(HistoryFoods);
+export default connect(
+  mapStateToProps,
+  null
+)(HistoryFoods);

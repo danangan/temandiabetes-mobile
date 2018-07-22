@@ -72,7 +72,7 @@ class Dots extends React.Component {
               {
                 opacity: showToolTip ? 1 : 0
               },
-              result(item, 'gulaDarah', 0) >= 400
+              result(item, 'nilai', 0) >= 400
                 ? {
                     top: 20
                   }
@@ -81,7 +81,7 @@ class Dots extends React.Component {
           >
             <Text style={styles.textToolTipStyle}>{result(item, 'waktuInput', '00:00')}</Text>
             <Text style={[styles.textToolTipStyle, { color: color.red }]}>
-              {result(item, 'gulaDarah', 0)}mg/dL
+              {result(item, 'nilai', 0)}mg/dL
             </Text>
             <Text style={styles.textToolTipStyle}>{result(item, 'level')}</Text>
           </View>
@@ -164,7 +164,9 @@ class HistoryBloodSugarLevels extends React.Component {
           {/* x Axis */}
           <View style={styles.xAxisContainer}>
             <ScrollView horizontal>
-              {[1, 2, 3, 4, 5, 6].map(item => <LineHorizontal lineNumber={item} />)}
+              {[1, 2, 3, 4, 5, 6].map((item, index) => (
+                <LineHorizontal lineNumber={item} key={index} />
+              ))}
               {/* x axis dots item */}
               {bloodSugar.map((item, index) => (
                 <View
@@ -176,13 +178,16 @@ class HistoryBloodSugarLevels extends React.Component {
                   }}
                 >
                   <LineVertical />
-                  <Dots
-                    dotsStyle={{
-                      backgroundColor: this.dotColor(item.gulaDarah),
-                      top: this.dotTop(item.gulaDarah)
-                    }}
-                    item={item}
-                  />
+                  {item.gulaDarah.map((gulaDarahItem, idx) => (
+                    <Dots
+                      dotsStyle={{
+                        backgroundColor: this.dotColor(gulaDarahItem.nilai),
+                        top: this.dotTop(gulaDarahItem.nilai)
+                      }}
+                      item={gulaDarahItem}
+                      key={idx}
+                    />
+                  ))}
                   <Text style={styles.textCorXStyle}>{item.date}</Text>
                 </View>
               ))}

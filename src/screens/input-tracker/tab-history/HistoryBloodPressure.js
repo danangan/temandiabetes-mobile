@@ -11,27 +11,29 @@ const HistoryBloodPressure = ({ history }) => {
       ? '00/00'
       : history.bloodPressure;
   const itemBlood = bloodPressure.split('/');
-  const sistolic = parseInt(itemBlood[0]);
-  const distolic = parseInt(itemBlood[1]);
-  const status =
-    sistolic <= 139 && distolic <= 89
-      ? 'normal'
-      : sistolic >= 140 && distolic >= 90
-        ? 'hipertensi'
-        : 'cta';
-  const wording = {
-    cta: 'Masukkan data tekanan darah anda',
-    normal: 'Pertahankan gaya hidup sehat dan lakukan aktifitas fisik secara teratur',
-    hipertensi:
-      'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur serta konsumsi obat secara teratur'
-  };
+  const systolic = parseInt(itemBlood[0]);
+  const diastolic = parseInt(itemBlood[1]);
 
-  const description =
-    status === 'normal'
-      ? wording.normal
-      : status === 'hipertensi'
-        ? wording.hipertensi
-        : wording.cta;
+  let wording = 'Masukkan data tekanan darah Anda';
+  switch (true) {
+    case systolic <= 139 && diastolic >= 61 && diastolic <= 89:
+      wording = 'Pertahankan gaya hidup sehat dan lakukan aktifitas fisik secara teratur';
+      break;
+    case systolic >= 140 && systolic <= 190 && diastolic >= 90:
+      wording =
+        'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur serta konsumsi obat secara teratur';
+      break;
+    case systolic <= 139 && diastolic >= 61 && diastolic >= 90:
+      wording =
+        'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur serta konsumsi obat secara teratur';
+      break;
+    case systolic >= 140 && systolic <= 190 && diastolic >= 61 && diastolic <= 89:
+      wording =
+        'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur serta konsumsi obat secara teratur';
+      break;
+    default:
+      break;
+  }
 
   return (
     <View style={styles.containerStyle}>
@@ -42,7 +44,7 @@ const HistoryBloodPressure = ({ history }) => {
             <Text style={styles.bloodPressureStyle}>{bloodPressure}</Text>
             <Text style={styles.unitBloodPressureStyle}>mm/Hg</Text>
           </View>
-          <Text style={styles.textStyle}>{description}</Text>
+          <Text style={styles.textStyle}>{wording}</Text>
         </View>
       </Card>
     </View>

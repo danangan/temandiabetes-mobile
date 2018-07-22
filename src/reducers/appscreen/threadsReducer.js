@@ -112,7 +112,8 @@ const getThreads = (state, payload) => {
 
 const getThreadStatic = (state, payload) => {
   const { threadStatic, message, status_code, refresh } = payload;
-  const data = refresh ? [] : state.listThreadStatic.item.data
+  const data = refresh ? [] : state.listThreadStatic.item.data;
+  console.log('STATIC: ', payload);
 	return {
 		...state,
 		listThreadStatic: {

@@ -37,13 +37,14 @@ class ThreadDetails extends React.Component {
     this.requestFollowThread = this.requestFollowThread.bind(this);
     this.requestUnfollowThread = this.requestUnfollowThread.bind(this);
     this.toCommentDetails = this.toCommentDetails.bind(this);
+    this.refreshPage = this.refreshPage.bind(this);
     this.nextPageCommentList = this.nextPageCommentList.bind(this);
   }
 
   componentDidMount() {
     this.fetchThreadDetails();
     this.toGetCommentList();
-  } 
+  }
 
   shouldComponentUpdate() {
     return true;
@@ -65,30 +66,32 @@ class ThreadDetails extends React.Component {
   }
 
   async fetchThreadDetails() {
-    const requestThread = await this.props.getThreadDetails(this.state.idThread);
-    const { comments } = requestThread.thread;
-    if (comments.length < 10) {
-      await this.setState({ isLoadMore: false });
-    } else {
-      await this.setState({ isLoadMore: true });
-    }
+    this.props.getThreadDetails(this.state.idThread);
   }
 
-  async toGetCommentList() {
+  async toGetCommentList({ isRefresh = false } = {}, cb = () => {}) {
     const { idThread, pageComment } = this.state;
     const requestList = await this.props.getCommentList({ url: `api/threads/${idThread}/comment/list?limit=10&page=${pageComment}` });
     const { comments } = requestList.data.data;
     if (comments.length) {
-      const lasteComment = [...this.state.commentsList, ...comments];
-      this.setState({ commentsList: lasteComment });
-    } else {
-      this.setState({ isLoadMore: false });
+      this.setState({ commentsList: isRefresh ? comments : [...this.state.commentsList, ...comments] }, () => {
+        cb()
+      });
     }
   }
 
-  async nextPageCommentList() {
-    await this.setState({ pageComment: this.state.pageComment + 1 });
-    this.toGetCommentList();
+  refreshPage(cb) {
+    this.setState({
+      pageComment: 1
+    }, () => {
+      this.toGetCommentList({ isRefresh: true}, cb)
+    })
+  }
+
+  nextPageCommentList() {
+    this.setState({ pageComment: this.state.pageComment + 1 }, () => {
+      this.toGetCommentList();
+    });
   }
 
   requestUnfollowThread() {
@@ -218,111 +221,113 @@ class ThreadDetails extends React.Component {
             authorItem={threadDetails.author}
           />
         )}
-        <ScrollView>
-          {/* <ContentDetail /> */}
-          <CardSection containerStyle={{ backgroundColor: color.solitude, margin: 0 }}>
-            <View
+        {/* <ContentDetail /> */}
+        <CardSection containerStyle={{ backgroundColor: color.solitude, margin: 0 }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              paddingHorizontal: 15,
+              borderRadius: 15
+            }}
+          >
+            <Text style={{ fontSize: 22 }}>
+              {listThreads.threadDetails === null ? 'Loading' : threadDetails.topic}
+            </Text>
+          </View>
+        </CardSection>
+        <CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'flex-start',
+              paddingVertical: 5,
+              paddingHorizontal: 15,
+              borderRadius: 15
+            }}
+          >
+            {listThreads.threadDetails !== null ? this.renderButtonFollow() : null}
+            <TouchableOpacity
+              onPress={debounce(
+                () => {
+                  this.props.navigator.push({
+                    screen: 'TemanDiabetes.ModalPostComment',
+                    navigatorStyle: {
+                      navBarHidden: true
+                    },
+                    passProps: {
+                      idThread: _id
+                    }
+                  });
+                },
+                500,
+                { leading: true, trailing: false }
+              )}
               style={{
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'flex-start',
-                paddingHorizontal: 15,
-                borderRadius: 15
+                justifyContent: 'center',
+                backgroundColor: '#252c68',
+                minWidth: 100,
+                height: 25,
+                minHeight: 25,
+                marginRight: 10
               }}
             >
-              <Text style={{ fontSize: 22 }}>
-                {listThreads.threadDetails === null ? 'Loading' : threadDetails.topic}
-              </Text>
-            </View>
-          </CardSection>
-          <CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                alignItems: 'flex-start',
-                paddingVertical: 5,
-                paddingHorizontal: 15,
-                borderRadius: 15
-              }}
-            >
-              {listThreads.threadDetails !== null ? this.renderButtonFollow() : null}
+              <Text style={styles.buttonText}>Balas</Text>
+            </TouchableOpacity>
+            {this.props.dataAuth.currentUser._id !== threadDetails.author._id &&
+            threadDetails !== null ? (
               <TouchableOpacity
-                onPress={debounce(
-                  () => {
-                    this.props.navigator.push({
-                      screen: 'TemanDiabetes.ModalPostComment',
-                      navigatorStyle: {
-                        navBarHidden: true
-                      },
-                      passProps: {
-                        idThread: _id
-                      }
-                    });
-                  },
-                  500,
-                  { leading: true, trailing: false }
-                )}
+                onPress={() => {
+                  Navigation.showModal({
+                    screen: 'TemanDiabetes.ModalReport',
+                    title: 'Modal',
+                    navigatorButtons: {
+                      leftButtons: [{}]
+                    },
+                    passProps: {
+                      idThread: _id
+                    },
+                    animationType: 'none'
+                  });
+                }}
                 style={{
                   justifyContent: 'center',
                   backgroundColor: '#252c68',
                   minWidth: 100,
                   height: 25,
-                  minHeight: 25,
-                  marginRight: 10
+                  minHeight: 25
                 }}
               >
-                <Text style={styles.buttonText}>Balas</Text>
+                <Text style={styles.buttonText}>Lapor</Text>
               </TouchableOpacity>
-              {this.props.dataAuth.currentUser._id !== threadDetails.author._id &&
-              threadDetails !== null ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    Navigation.showModal({
-                      screen: 'TemanDiabetes.ModalReport',
-                      title: 'Modal',
-                      navigatorButtons: {
-                        leftButtons: [{}]
-                      },
-                      passProps: {
-                        idThread: _id
-                      },
-                      animationType: 'none'
-                    });
-                  }}
-                  style={{
-                    justifyContent: 'center',
-                    backgroundColor: '#252c68',
-                    minWidth: 100,
-                    height: 25,
-                    minHeight: 25
-                  }}
-                >
-                  <Text style={styles.buttonText}>Lapor</Text>
-                </TouchableOpacity>
-              ) : null}
-            </View>
-          </CardSection>
+            ) : null}
+          </View>
+        </CardSection>
+        <View style={{ flex: 1, paddingBottom: 25 }}>
           <ContentDetail
             threadItem={this.props.item}
-            threadDetails={listThreads.threadDetails}
             navigator={this.toCommentDetails}
             commentList={this.state.commentsList}
             nextPageCommentList={this.nextPageCommentList}
+            refreshPage={this.refreshPage}
             isLoadMore={this.state.isLoadMore}
           />
-        </ScrollView>
-        <TouchableOpacity
-          onPress={() => {
-            this.setState({
-              isProcess: true
-            });
-            this.props.navigator.pop();
-          }}
-          style={styles.buttonBack}
-        >
-          <Image source={Closed} style={{ width: 20, height: 20 }} />
-        </TouchableOpacity>
+        </View>
+        <View style={{ height: 40 }}>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({
+                isProcess: true
+              });
+              this.props.navigator.pop();
+            }}
+            style={styles.buttonBack}
+          >
+            <Image source={Closed} style={{ width: 20, height: 20 }} />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -334,7 +339,8 @@ const styles = {
     backgroundColor: '#EF434F',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10
+    padding: 10,
+    marginBottom: 0
   },
   buttonText: {
     fontSize: Style.FONT_SIZE_SMALL,
@@ -342,7 +348,7 @@ const styles = {
     paddingVertical: 3,
     color: '#FFFFFF',
     textAlign: 'center'
-  }, 
+  },
 };
 
 const mapStateToProps = state => ({
