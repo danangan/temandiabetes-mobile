@@ -275,18 +275,31 @@ export const saveUserSearch = keyword => async dispatch => {
     } else {
       const data = value;
       const toSetValue = data.split(',');
-      if (toSetValue.length === 3) {
-        // kalau keyword sudah 3
-        toSetValue.pop();
-        toSetValue.unshift(keyword);
-        const done = toSetValue.join(',');
-        await AsyncStorage.setItem(keywordRecent, done);
+      // maksimal keywordnya di simpan 3 keyword string
+      let count = 0;
+      for (let i = 0; i < toSetValue.length; i++) {
+        if (toSetValue[i].toString() === keyword.toString()) {
+          count += 1;
+        }
+      }
+      if (count === 0) {
+        if (toSetValue.length === 3) {
+          // kalau keyword sudah 3
+          toSetValue.pop();
+          toSetValue.unshift(keyword);
+          const done = toSetValue.join(',');
+          await AsyncStorage.setItem(keywordRecent, done);
+          count += 0;
+        } else {
+          // kalau keyword < 3
+          // tambah keyword ke index paling awal
+          toSetValue.unshift(keyword);
+          const done = toSetValue.join(',');
+          await AsyncStorage.setItem(keywordRecent, done);
+          count += 0;
+        }
       } else {
-        // kalau keyword < 3
-        // tambah keyword ke index paling awal
-        toSetValue.unshift(keyword);
-        const done = toSetValue.join(',');
-        await AsyncStorage.setItem(keywordRecent, done);
+        count += 0;
       }
     }
   } catch (error) {
