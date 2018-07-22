@@ -1,34 +1,6 @@
 import { AsyncStorage } from 'react-native';
+import * as ActionTypes from './constants';
 import { API_CALL } from '../utils/ajaxRequestHelper';
-
-import {
-  GET_THREADS,
-  POST_THREDS,
-  SEARCH_THREADS,
-  GET_THREADS_STATIC,
-  GET_LATEST_THREADS,
-  GET_BOOKMARKED_THREADS,
-  REPORT_THREAD,
-  BOOKMARK_THREAD,
-  BOOKMARK_LATEST_THREAD,
-  BOOKMARK_SEARCH_THREAD,
-  BOOKMARK_FEATURED_THREAD,
-  DELETE_BOOKMARKED_THREAD,
-  UPDATE_BOOKMARK_THREADS_BY_ID,
-  UPDATE_BOOKMARK_LATEST_THREADS_BY_ID,
-  UPDATE_BOOKMARK_FEATURED_THREADS_BY_ID,
-  CREATE_COMMENT,
-  GET_THREAD_DETAILS,
-  COMMENT_TO_REPLY,
-  // SAVE_USERS_SEARCH,
-  FOLLOW_THREADS,
-  UNFOLLOW_THREADS,
-  GET_COMMENT_DETAILS,
-  RESET_SAVE_BOOKMARK,
-  GET_COMMENT_LIST
-} from './constants';
-
-// import * as ActionTypes from './constants';
 import { keywordRecent } from '../utils/constants';
 
 /**
@@ -38,7 +10,7 @@ import { keywordRecent } from '../utils/constants';
 export const getThreadStatic = (page = 1, refresh = false) => async dispatch => {
   function onSuccess(data) {
     dispatch({
-      type: GET_THREADS_STATIC,
+      type: ActionTypes.GET_THREADS_STATIC,
       payload: data
     });
 
@@ -58,9 +30,9 @@ export const getThreadStatic = (page = 1, refresh = false) => async dispatch => 
       refresh
     };
 
-    dispatch(onSuccess(threadsPayload));
+    onSuccess(threadsPayload);
   } catch (error) {
-    dispatch(onSuccess(error));
+    onSuccess(error);
   }
 };
 
@@ -70,7 +42,7 @@ export const getThreadStatic = (page = 1, refresh = false) => async dispatch => 
  */
 export const getThreads = (page = 1, refresh = false) => async dispatch => {
   const getThreadsSuccess = data => ({
-    type: GET_THREADS,
+    type: ActionTypes.GET_THREADS,
     payload: data
   });
 
@@ -99,7 +71,7 @@ export const getThreads = (page = 1, refresh = false) => async dispatch => {
  */
 export const getLatestThreads = (page = 1, refresh = false) => async dispatch => {
   const getLatestThreadsSuccess = data => ({
-    type: GET_LATEST_THREADS,
+    type: ActionTypes.GET_LATEST_THREADS,
     payload: data
   });
 
@@ -128,7 +100,7 @@ export const getLatestThreads = (page = 1, refresh = false) => async dispatch =>
  */
 export const getBookmarkedThreads = (page = 1, refresh = false) => async dispatch => {
   const getBookmarkedThreadsSuccess = data => ({
-    type: GET_BOOKMARKED_THREADS,
+    type: ActionTypes.GET_BOOKMARKED_THREADS,
     payload: data
   });
 
@@ -147,7 +119,7 @@ export const getBookmarkedThreads = (page = 1, refresh = false) => async dispatc
     };
     dispatch(getBookmarkedThreadsSuccess(threadsPayload));
   } catch (err) {
-    // dispatch(getBookmarkedThreadsSuccess(err));
+    dispatch(getBookmarkedThreadsSuccess(err));
   }
 };
 
@@ -166,7 +138,7 @@ export const getThreadDetails = threadId => async dispatch => {
 
   const onSuccess = data => {
     dispatch({
-      type: GET_THREAD_DETAILS,
+      type: ActionTypes.GET_THREAD_DETAILS,
       payload: data
     });
     return data;
@@ -201,7 +173,7 @@ export const getThreadDetails = threadId => async dispatch => {
  */
 export const userPostThread = (dataThread, cb) => async dispatch => {
   const postThredsSuccess = data => ({
-    type: POST_THREDS,
+    type: ActionTypes.POST_THREDS,
     payload: data
   });
 
@@ -255,9 +227,9 @@ export const searchThread = (searchKeyword, threadType = 'thread') => async disp
       threadsPayload.threads = res.data.data.threads;
     }
 
-    dispatch({ type: SEARCH_THREADS, payload: threadsPayload });
+    dispatch({ type: ActionTypes.SEARCH_THREADS, payload: threadsPayload });
   } catch (error) {
-    dispatch({ type: SEARCH_THREADS, payload: error });
+    dispatch({ type: ActionTypes.SEARCH_THREADS, payload: error });
   }
 };
 
@@ -331,9 +303,9 @@ export const userReport = dataThreads => async dispatch => {
       status_code: result.status,
       message: result.data.message
     };
-    dispatch({ type: REPORT_THREAD, payload: reportPayload });
+    dispatch({ type: ActionTypes.REPORT_THREAD, payload: reportPayload });
   } catch (error) {
-    dispatch({ type: REPORT_THREAD, payload: error });
+    dispatch({ type: ActionTypes.REPORT_THREAD, payload: error });
   }
 };
 
@@ -343,7 +315,7 @@ export const userReport = dataThreads => async dispatch => {
  * @param {*} token
  */
 export const makeBookmark = (thread, threadIndex) => async dispatch => {
-  dispatch({ type: RESET_SAVE_BOOKMARK });
+  dispatch({ type: ActionTypes.RESET_SAVE_BOOKMARK });
 
   const option = {
     method: thread.isBookmarked ? 'delete' : 'post',
@@ -358,15 +330,15 @@ export const makeBookmark = (thread, threadIndex) => async dispatch => {
       threadIndex
     };
 
-    dispatch({ type: BOOKMARK_THREAD, payload: reportPayload });
+    dispatch({ type: ActionTypes.BOOKMARK_THREAD, payload: reportPayload });
 
     // Update bookmark list
     dispatch(getBookmarkedThreads(1, true));
 
     // update thread on lates
-    dispatch({ type: UPDATE_BOOKMARK_LATEST_THREADS_BY_ID, payload: thread._id });
+    dispatch({ type: ActionTypes.UPDATE_BOOKMARK_LATEST_THREADS_BY_ID, payload: thread._id });
   } catch (error) {
-    dispatch({ type: BOOKMARK_THREAD, payload: error });
+    dispatch({ type: ActionTypes.BOOKMARK_THREAD, payload: error });
   }
 };
 
@@ -376,7 +348,7 @@ export const makeBookmark = (thread, threadIndex) => async dispatch => {
  * @param {*} token
  */
 export const makeBookmarkLatestThreads = (thread, threadIndex) => async dispatch => {
-  dispatch({ type: RESET_SAVE_BOOKMARK });
+  dispatch({ type: ActionTypes.RESET_SAVE_BOOKMARK });
 
   const option = {
     method: thread.isBookmarked ? 'delete' : 'post',
@@ -390,15 +362,18 @@ export const makeBookmarkLatestThreads = (thread, threadIndex) => async dispatch
       message: res.data.message,
       threadIndex
     };
-    dispatch({ type: BOOKMARK_LATEST_THREAD, payload: reportPayload });
+    dispatch({ type: ActionTypes.BOOKMARK_LATEST_THREAD, payload: reportPayload });
 
     // Update bookmark list
     dispatch(getBookmarkedThreads(1, true));
 
     // udpate bookmark list in home
-    dispatch({ type: UPDATE_BOOKMARK_THREADS_BY_ID, payload: { threadId: thread._id } });
+    dispatch({
+      type: ActionTypes.UPDATE_BOOKMARK_THREADS_BY_ID,
+      payload: { threadId: thread._id }
+    });
   } catch (error) {
-    dispatch({ type: BOOKMARK_LATEST_THREAD, payload: error });
+    dispatch({ type: ActionTypes.BOOKMARK_LATEST_THREAD, payload: error });
   }
 };
 
@@ -420,17 +395,26 @@ export const makeBookmarkSearhedThread = (thread, threadIndex) => async dispatch
       message: res.data.message,
       threadIndex
     };
-    dispatch({ type: BOOKMARK_SEARCH_THREAD, payload: reportPayload });
+    dispatch({ type: ActionTypes.BOOKMARK_SEARCH_THREAD, payload: reportPayload });
 
     // Update bookmark list
     dispatch(getBookmarkedThreads(1, true));
 
     // update all thread list
-    dispatch({ type: UPDATE_BOOKMARK_THREADS_BY_ID, payload: { threadId: thread._id } });
-    dispatch({ type: UPDATE_BOOKMARK_FEATURED_THREADS_BY_ID, payload: { threadId: thread._id } });
-    dispatch({ type: UPDATE_BOOKMARK_LATEST_THREADS_BY_ID, payload: { threadId: thread._id } });
+    dispatch({
+      type: ActionTypes.UPDATE_BOOKMARK_THREADS_BY_ID,
+      payload: { threadId: thread._id }
+    });
+    dispatch({
+      type: ActionTypes.UPDATE_BOOKMARK_FEATURED_THREADS_BY_ID,
+      payload: { threadId: thread._id }
+    });
+    dispatch({
+      type: ActionTypes.UPDATE_BOOKMARK_LATEST_THREADS_BY_ID,
+      payload: { threadId: thread._id }
+    });
   } catch (error) {
-    dispatch({ type: BOOKMARK_SEARCH_THREAD, payload: error });
+    dispatch({ type: ActionTypes.BOOKMARK_SEARCH_THREAD, payload: error });
   }
 };
 
@@ -440,7 +424,7 @@ export const makeBookmarkSearhedThread = (thread, threadIndex) => async dispatch
  * @param {*} token
  */
 export const makeBookmarkFeaturedThreads = (thread, threadIndex) => async dispatch => {
-  dispatch({ type: RESET_SAVE_BOOKMARK });
+  dispatch({ type: ActionTypes.RESET_SAVE_BOOKMARK });
 
   const option = {
     method: thread.isBookmarked ? 'delete' : 'post',
@@ -454,11 +438,11 @@ export const makeBookmarkFeaturedThreads = (thread, threadIndex) => async dispat
       message: res.data.message,
       threadIndex
     };
-    dispatch({ type: BOOKMARK_FEATURED_THREAD, payload: reportPayload });
+    dispatch({ type: ActionTypes.BOOKMARK_FEATURED_THREAD, payload: reportPayload });
     // update bookmark list
-    dispatch({ type: GET_BOOKMARKED_THREADS });
+    dispatch({ type: ActionTypes.GET_BOOKMARKED_THREADS });
   } catch (error) {
-    dispatch({ type: BOOKMARK_FEATURED_THREAD, payload: error });
+    dispatch({ type: ActionTypes.BOOKMARK_FEATURED_THREAD, payload: error });
   }
 };
 
@@ -468,7 +452,7 @@ export const makeBookmarkFeaturedThreads = (thread, threadIndex) => async dispat
  * @param {*} token
  */
 export const deleteBookmarkedThread = (thread, threadIndex) => async dispatch => {
-  dispatch({ type: RESET_SAVE_BOOKMARK });
+  dispatch({ type: ActionTypes.RESET_SAVE_BOOKMARK });
 
   const option = {
     method: 'delete',
@@ -482,13 +466,22 @@ export const deleteBookmarkedThread = (thread, threadIndex) => async dispatch =>
       message: res.data.message,
       threadIndex
     };
-    dispatch({ type: DELETE_BOOKMARKED_THREAD, payload: reportPayload });
+    dispatch({ type: ActionTypes.DELETE_BOOKMARKED_THREAD, payload: reportPayload });
 
-    dispatch({ type: UPDATE_BOOKMARK_THREADS_BY_ID, payload: { threadId: thread._id } });
-    dispatch({ type: UPDATE_BOOKMARK_FEATURED_THREADS_BY_ID, payload: { threadId: thread._id } });
-    dispatch({ type: UPDATE_BOOKMARK_LATEST_THREADS_BY_ID, payload: { threadId: thread._id } });
+    dispatch({
+      type: ActionTypes.UPDATE_BOOKMARK_THREADS_BY_ID,
+      payload: { threadId: thread._id }
+    });
+    dispatch({
+      type: ActionTypes.UPDATE_BOOKMARK_FEATURED_THREADS_BY_ID,
+      payload: { threadId: thread._id }
+    });
+    dispatch({
+      type: ActionTypes.UPDATE_BOOKMARK_LATEST_THREADS_BY_ID,
+      payload: { threadId: thread._id }
+    });
   } catch (error) {
-    dispatch({ type: DELETE_BOOKMARKED_THREAD, payload: error });
+    dispatch({ type: ActionTypes.DELETE_BOOKMARKED_THREAD, payload: error });
   }
 };
 
@@ -507,7 +500,7 @@ export const createComment = comment => async dispatch => {
 
   function onSuccess(data) {
     dispatch({
-      type: CREATE_COMMENT,
+      type: ActionTypes.CREATE_COMMENT,
       payload: data
     });
 
@@ -543,7 +536,7 @@ export const commentToReply = comment => async dispatch => {
 
   function onSuccess(data) {
     dispatch({
-      type: COMMENT_TO_REPLY,
+      type: ActionTypes.COMMENT_TO_REPLY,
       payload: data
     });
 
@@ -580,7 +573,7 @@ export const toFollowThread = idThread => async dispatch => {
 
   function onSuccess(data) {
     dispatch({
-      type: FOLLOW_THREADS,
+      type: ActionTypes.FOLLOW_THREADS,
       payload: data
     });
 
@@ -613,7 +606,7 @@ export const toUnFollowThread = idThread => async dispatch => {
 
   function onSuccess(data) {
     dispatch({
-      type: UNFOLLOW_THREADS,
+      type: ActionTypes.UNFOLLOW_THREADS,
       payload: data
     });
 
@@ -646,7 +639,7 @@ export const getCommentDetails = idComment => async dispatch => {
 
   function onSuccess(data) {
     dispatch({
-      type: GET_COMMENT_DETAILS,
+      type: ActionTypes.GET_COMMENT_DETAILS,
       payload: data
     });
 
@@ -671,7 +664,7 @@ export const getCommentDetails = idComment => async dispatch => {
 export const getCommentList = ({ url }) => async dispatch => {
   function onSuccess(data) {
     dispatch({
-      type: GET_COMMENT_LIST,
+      type: ActionTypes.GET_COMMENT_LIST,
       payload: data
     });
 
@@ -679,7 +672,7 @@ export const getCommentList = ({ url }) => async dispatch => {
   }
 
   try {
-    const option = {  
+    const option = {
       method: 'GET',
       url
     };
@@ -689,4 +682,4 @@ export const getCommentList = ({ url }) => async dispatch => {
   } catch (error) {
     onSuccess(error);
   }
-}
+};
