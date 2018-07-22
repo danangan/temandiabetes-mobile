@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import {
   View,
   Text,
@@ -101,7 +100,12 @@ class CommentDetails extends React.Component {
           />
           <TouchableOpacity
             style={{ backgroundColor: '#252c68' }}
-            onPress={() => this.onSubmitComment()}
+            onPress={() => {
+              this.state.isSubmit ?
+              null
+              :
+              this.onSubmitComment();
+            }}
           >
             <Text
               style={{

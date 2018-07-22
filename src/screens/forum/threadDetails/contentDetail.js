@@ -8,7 +8,6 @@ const ContentDetail = (props) => {
 	const state = {
 		data: [1, 2, 3, 4, 5, 6, 7]
 	};
-	console.log('PROPS -->00', props);
 	return (
 		<View>
 			<ThreadDesc desc={props.threadItem.description} />

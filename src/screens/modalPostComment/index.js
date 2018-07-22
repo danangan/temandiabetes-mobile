@@ -71,7 +71,6 @@ class ModalPostComponent extends Component {
   }
 
   render() {
-    console.log('THIS STATE Comment', this.state);
     return (
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
