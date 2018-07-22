@@ -179,16 +179,24 @@ class InputTracker extends Component {
                     minute.toString().length === 1 ? `0${minute}` : '00';
       if (action !== TimePickerAndroid.dismissedAction) {
         const { inputDate } = this.state;
+        // selected Date
+        const selectedDate = new moment(inputDate)
+        selectedDate.hour(hour).minute(minute)
+        const dateNow = moment();
+        const isBeforeNow = selectedDate.isBefore(dateNow)
+        console.log('selected date', selectedDate)
+        console.log('date now', dateNow)
+        console.log('is valid', isBeforeNow)
+
         // const limitTime = new moment().hours(hour).minute(minute);
         // const checking = limitTime.isBefore(new moment());
-        const dateNow = moment();
-        const isBeforeNow = inputDate.diff(dateNow, 'days');
-        if (isBeforeNow < 0) {
+        if (isBeforeNow) {
           this.setState({
             time: {
               hour,
               minute: menit
             },
+            inputDate: selectedDate,
             isTime: new moment().hour(hour).minute(minute),
             iniJam: `${hour}`,
             iniMenit: `${menit}`,
@@ -197,8 +205,12 @@ class InputTracker extends Component {
         } else {
           Alert.alert(
             'Perhatian!',
-            'Tidak boleh lebih dari jam sekarang'
-          );
+            'Waktu tidak boleh lebih dari jam saat ini',
+            [
+              {text: 'Pilih ulang', onPress: () => this.openTimePicker()},
+            ],
+            { cancelable: false }
+          )
         }
       }
     } catch ({ code, message }) {
@@ -501,7 +513,7 @@ class InputTracker extends Component {
     const displayDate = `${inputDate.format('ddd DD/MM/YYYY')} at ${isTime.format('HH:mm')}`;
 
     return (
-      <View 
+      <View
         style={{
           // flex: 1,
           marginVertical: 10,
