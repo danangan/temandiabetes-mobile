@@ -16,26 +16,21 @@ class CommentThread extends React.Component {
 
   renderCommentChild() {
     const { replies } = this.props.contentComment;
-
-    return replies.map((item, index) => {
-      if (index < 2) {
-        return (
-          <CommentChild
-            key={index}
-            comment={item}
-            containerStyle={{
-              flex: 0,
-              flexDirection: 'row',
-              paddingVertical: 10,
-              alignItems: 'center',
-              borderBottomColor: '#f3f3f4',
-              borderBottomWidth: 1,
-              width: '100%'
-            }}
-          />
-        );
-      }
-    });
+    return replies.slice(0, 2).map((item, index) => (
+      <CommentChild
+        key={index}
+        comment={item}
+        containerStyle={{
+          flex: 0,
+          flexDirection: 'row',
+          paddingVertical: 10,
+          alignItems: 'center',
+          borderBottomColor: '#f3f3f4',
+          borderBottomWidth: 1,
+          width: '100%'
+        }}
+      />
+    ));
   }
 
   renderInitialReply() {

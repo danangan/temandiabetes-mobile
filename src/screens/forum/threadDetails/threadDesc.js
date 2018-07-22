@@ -2,7 +2,7 @@
 Thread Deskripsi
 */
 import React from 'react';
-import { View, Text, Linking, TouchableHighlight } from 'react-native';
+import { View, Text } from 'react-native';
 import { CardSection, TextWithClickableURL } from '../../../components';
 
 const ThreadDesc = (props) => {
