@@ -71,6 +71,7 @@ class ModalPostComponent extends Component {
   }
 
   render() {
+    console.log('THIS STATE Comment', this.state);
     return (
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
@@ -110,7 +111,10 @@ class ModalPostComponent extends Component {
               paddingVertical: 5,
               height: 33
             }}
-            onPress={debounce(this.onSubmitComment, 200)}
+            onPress={
+              this.state.isSubmit ? null :
+              debounce(this.onSubmitComment, 200)
+            }
           >
             <Text style={{ fontSize: 14, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>
               { this.state.isSubmit ? 'Loading' : 'Kirim' }
