@@ -7,7 +7,14 @@ import {
   TextInput,
   TouchableOpacity
 } from 'react-native';
-import { NavigationBar, CardSection, Avatar, Spinner, TextWithClickableURL } from '../../../components';
+import { Navigation } from 'react-native-navigation';
+import { 
+  NavigationBar, 
+  CardSection, 
+  Avatar, 
+  Spinner, 
+  TextWithClickableURL 
+} from '../../../components';
 import CommentChild from '../threadDetails/commentChild';
 import {
   commentToReply,
@@ -26,8 +33,11 @@ class CommentDetails extends React.Component {
       params: 0,
       isComment: true,
       komentar: '',
-      isSubmit: false
+      isSubmit: false,
+      count: 1
     };
+    this.handleNavigate = this.handleNavigate.bind(this);
+    this.dismisModal = this.dismisModal.bind(this);
   }
 
   componentDidMount() {
@@ -121,11 +131,39 @@ class CommentDetails extends React.Component {
     );
   }
 
+  dismisModal() {
+    Navigation.dismissModal({
+      animationType: 'slide-down'
+    });
+  }
+
+  async handleNavigate() {
+    if (this.props.itemThread === undefined) {
+      this.props.navigator.pop();
+    } else {
+      const { threads } = this.props.itemThread;
+      const paramsToDetails = {
+        item: { ...threads }
+      };
+      if (this.state.count === 0) {
+        this.props.navigator.pop();
+      } else {
+        this.props.navigator.push({
+          screen: 'TemanDiabetes.ThreadDetails',
+          navigatorStyle: {
+            navBarHidden: true
+          },
+          passProps: paramsToDetails,
+        });
+        await this.setState({ count: 0 });
+      }
+    }
+  }
+
   render() {
     const { isComment } = this.state;
     const { commentDetails } = this.props;
     const { nama, foto_profile } = this.props.dataAuth;
-
     if (commentDetails === null) {
       return (
         <View style={styles.container}>
@@ -140,7 +178,7 @@ class CommentDetails extends React.Component {
     return (
       <View style={styles.container}>
         <NavigationBar
-          onPress={() => this.props.navigator.pop()} title="COMMENTS"
+          onPress={() => this.handleNavigate()} title="COMMENTS"
         />
         <CardSection
           containerStyle={{

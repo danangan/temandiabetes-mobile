@@ -41,7 +41,7 @@ class TabComments extends React.Component {
   }
 
   onPostBookmark = async (thread, threadIndex) => {
-    console.log('thread thread ', thread);
+    // console.log('thread thread ', thread);
     this.setState(
       {
         isProses: true
@@ -61,7 +61,7 @@ class TabComments extends React.Component {
         author: comments.item.user
       }
     };
-    const idThread = comments.item.thread._id;
+    const threads = comments.item.thread;
     const idComment = comments.item._id;
     return (
       <ThreadItem  
@@ -73,8 +73,11 @@ class TabComments extends React.Component {
               navBarHidden: true
             },
             passProps: {
-              idThread,
-              commentId: idComment
+              commentId: idComment,
+              itemThread: {
+                origin: 'FROM_PROFILE',
+                threads
+              }
             }
           });
         }}
