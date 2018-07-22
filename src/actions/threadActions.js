@@ -188,7 +188,7 @@ export const getThreadDetails = threadId => async dispatch => {
         isSubscriber: request.data.data.isSubscriber
       }
     };
-    onSuccess(threadItem);
+    return onSuccess(threadItem);
   } catch (error) {
     onSuccess(error);
   }
