@@ -34,10 +34,11 @@ export const TextWithClickableURL = ({ inputText }) => {
   let finalResult = []
 
   let idx = 0
-  result.forEach((item) => {
+  result.forEach((item, idx) => {
     if (item === urlList[idx]) {
        finalResult.push(
          <Text
+          key={idx}
           style={{
             color:'#252C68',
             textDecorationLine: 'underline'
@@ -51,7 +52,7 @@ export const TextWithClickableURL = ({ inputText }) => {
        )
        idx++
     } else {
-       finalResult.push(<Text>{item}</Text>)
+       finalResult.push(<Text key={idx}>{item}</Text>)
     }
   })
 
