@@ -11,16 +11,25 @@ const HistoryBloodPressure = ({ history }) => {
       ? '00/00'
       : history.bloodPressure;
   const itemBlood = bloodPressure.split('/');
-  const sistolic = parseInt(itemBlood[0]);
-  const distolic = parseInt(itemBlood[1]);
+  const systolic = parseInt(itemBlood[0]);
+  const diastolic = parseInt(itemBlood[1]);
 
   let wording = 'Masukkan data tekanan darah Anda';
   switch (true) {
-    case sistolic <= 139 && distolic >= 61 && distolic <= 89:
+    case systolic <= 139 && diastolic >= 61 && diastolic <= 89:
       wording = 'Pertahankan gaya hidup sehat dan lakukan aktifitas fisik secara teratur';
       break;
-    case sistolic >= 140 && sistolic <= 190 && distolic >= 90:
-      wording = 'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur serta konsumsi obat secara teratur';
+    case systolic >= 140 && systolic <= 190 && diastolic >= 90:
+      wording =
+        'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur serta konsumsi obat secara teratur';
+      break;
+    case systolic <= 139 && diastolic >= 61 && diastolic >= 90:
+      wording =
+        'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur serta konsumsi obat secara teratur';
+      break;
+    case systolic >= 140 && systolic <= 190 && diastolic >= 61 && diastolic <= 89:
+      wording =
+        'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur serta konsumsi obat secara teratur';
       break;
     default:
       break;
