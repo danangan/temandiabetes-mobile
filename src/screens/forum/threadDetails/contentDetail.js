@@ -31,11 +31,29 @@ const ContentDetail = (props) => {
 			}
 			{
 				props.isLoadMore ?
-				<TouchableOpacity 
+				<TouchableOpacity
 					style={styles.loadMoreBtn}
 					onPress={props.nextPageCommentList}
-				>
-					<Text style={styles.textStyle}>Lihat selengkapnya</Text>
+        >
+          <View
+            style={{
+              margin: 10,
+              elevation: 2,
+              backgroundColor: '#fff',
+              width: 140,
+              borderRadius: 50
+            }}
+          >
+            <Text
+              style={{
+                textAlign: 'center',
+                marginVertical: 10,
+                color: '#afafaf'
+              }}
+            >
+              Muat lebih banyak
+            </Text>
+          </View>
 				</TouchableOpacity>
 				:
 				null
@@ -47,13 +65,7 @@ const ContentDetail = (props) => {
 const styles = {
 	loadMoreBtn: {
     width: '100%', justifyContent: 'center', alignItems: 'center'
-	},
-	textStyle: {
-		fontFamily: 'OpenSans-Regular',
-    color: '#424242',
-    fontSize: 15,
-    textAlign: 'center'
-  }
+	}
 };
 
 export { ContentDetail };
