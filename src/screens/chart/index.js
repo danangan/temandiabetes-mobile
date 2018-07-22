@@ -198,6 +198,8 @@ const styles = {
     justifyContent: 'center'
   },
   cardStyle: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     height: Style.CARD_WIDTH / 1.35,
     width: Style.CARD_WIDTH / 2,
     padding: Style.PADDING,
@@ -217,7 +219,7 @@ const styles = {
   },
   productNameStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALL - 2,
+    fontSize: Style.FONT_SIZE_SMALLER,
     fontWeight: 'bold',
     lineHeight: 15,
     textAlign: 'center',
@@ -242,10 +244,7 @@ const styles = {
   borderLineStyle: {
     borderBottomColor: 'rgba(222,221,221,1)',
     borderBottomWidth: 1,
-    width: Style.CARD_WIDTH,
-    marginLeft: -30,
-    marginTop: 23.2,
-    marginBottom: 5
+    width: '100%'
   },
   spinnerStyle: {
     backgroundColor: 'transparent',
