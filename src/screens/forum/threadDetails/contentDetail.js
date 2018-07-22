@@ -34,33 +34,31 @@ class ContentDetail extends React.Component {
   }
 
   onRefresh() {
-    console.log('refreshing')
     this.setState({
       isRefreshing: true
+    }, () => {
+      this.props.refreshPage(() => {
+        this.setState({
+          isRefreshing: false
+        })
+      })
     })
   }
 
   render () {
     const { isRefreshing } = this.state;
-    const { threadItem, navigator, threadDetails, commentList } = this.props;
+    const { threadItem, navigator, commentList } = this.props;
     return (
       <View style={{ marginBottom: 15 }}>
         <ThreadDesc desc={threadItem.description} />
-        {
-          threadDetails === null ?
-          <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
-          </View>
-          :
-          <FlatList
-            data={commentList}
-            renderItem={this.renderItem(threadItem, navigator)}
-            refreshing={isRefreshing}
-            onRefresh={this.onRefresh}
-            onEndReached={this.onEndReached}
-            onEndReachedThreshold={0.2}
-          />
-        }
+        <FlatList
+          data={commentList}
+          renderItem={this.renderItem(threadItem, navigator)}
+          refreshing={isRefreshing}
+          onRefresh={this.onRefresh}
+          onEndReached={this.onEndReached}
+          onEndReachedThreshold={0.3}
+        />
       </View>
     );
   }
