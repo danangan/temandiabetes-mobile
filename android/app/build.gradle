@@ -102,6 +102,9 @@ def enableSeparateBuildPerCPUArchitecture = false
 def enableProguardInReleaseBuilds = false
 
 android {
+    dexOptions {
+        preDexLibraries = false
+    }
     compileSdkVersion 25
     buildToolsVersion '26.0.2'
 
@@ -110,7 +113,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "0.1.55"
+        versionName "0.1.57"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
