@@ -23,7 +23,7 @@ const borderColor = typeOfUser => {
   }
 };
 
-const TabRequest = ({ innerCircle, accept, reject, onChangeIsProcess, navigator }) => {
+const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navigator }) => {
   if (innerCircle.length === 0) {
     return (
       <View style={styles.placeholderContainerStyle}>

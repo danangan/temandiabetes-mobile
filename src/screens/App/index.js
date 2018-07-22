@@ -186,6 +186,7 @@ class App extends Component {
       case "receiver_innercircle":
         title = `${JSON.parse(notif.sender).name} mengirimkan permintaan inner circle`
         screen = 'TemanDiabetes.InnerCircleList'
+        passProps = { tab: 1 }
         id = JSON.parse(notif.sender).id
         break;
       case 'sender_innercircle':

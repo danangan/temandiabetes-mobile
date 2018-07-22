@@ -19,7 +19,7 @@ class InnerCircleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      tab: 0,
+      tab: props.tab || 0,
       isProcess: false
     };
   }
