@@ -75,7 +75,7 @@ export const getUserRecentComment = userId => async dispatch => {
     const request = await instance.get(
       `api/users/${userId}/recent-activity/comment?page=1&limit=10&`
     );
-    
+
     onSuccess(request.data.data);
   } catch (error) {
     onSuccess(error);
@@ -117,8 +117,8 @@ export const getUserRecentActivityResponse = (userId, page, limit) => async disp
     const payload = {
       status_code: request.status,
       message: request.data.message,
-      pages: page,
       response: request.data.data,
+      page,
     };
     onSuccess(payload);
   } catch (error) {

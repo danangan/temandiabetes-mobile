@@ -19,8 +19,8 @@ const initialState = {
 function getUserRecentThread(state, payload) {
   return {
     ...state,
-    recentThreads: { 
-      ...state.recentThreads, status_code: 201, data: payload 
+    recentThreads: {
+      ...state.recentThreads, status_code: 201, data: payload
     }
   };
 }
@@ -35,14 +35,15 @@ function getUserRecentComment(state, payload) {
 }
 
 function getUserRecentActivityResponse(state, payload) {
+  const initialData = payload.page === 1 ? [] :  state.recentResponse.data
   return {
     ...state,
     recentResponse: {
       ...state.recentResponse,
         data: [
-          ...state.recentResponse.data,
-           ...payload.response
-        ], 
+          ...initialData,
+          ...payload.response
+        ],
       status_code: payload.response.length === 0 && payload.status_code === 201 ? 400 : 201,
       page: payload.pages
     }
@@ -51,9 +52,9 @@ function getUserRecentActivityResponse(state, payload) {
 
 const recentActivityReducer = (state = initialState, action) => {
 	switch (action.type) {
-    case 'PENDING_GET_USER_RECENT_THREADS': 
+    case 'PENDING_GET_USER_RECENT_THREADS':
       return {
-        ...state, 
+        ...state,
         recentThreads: {
           ...state.recentThreads, status_code: 0, data: []
         }
@@ -62,17 +63,17 @@ const recentActivityReducer = (state = initialState, action) => {
       return getUserRecentThread(state, action.payload);
     case 'PENDING_GET_USER_RECENT_COMMENTS': {
       return {
-        ...state, 
+        ...state,
         recentThreads: {
           ...state.recentComments, status_code: 0, data: []
         }
       };
     }
-    case ActionTypes.GET_USER_RECENT_COMMENTS: 
+    case ActionTypes.GET_USER_RECENT_COMMENTS:
       return getUserRecentComment(state, action.payload);
     // case 'PENDING_GET_USER_RECENT_RESPONSES': {
     //   return {
-    //     ...state, 
+    //     ...state,
     //     recentResponse: {
     //       ...state.recentResponse, status_code: 0, data: []
     //     }
