@@ -5,7 +5,7 @@ import { Avatar } from '../../../../components';
 import BookMark from '../../../../assets/icons/bookmark.png';
 import BookMarked from '../../../../assets/icons/bookmark_dark.png';
 import Share from '../../../../assets/icons/share.png';
-import { formatDateTime } from '../../../../utils/helpers';
+import { dateFormatter } from '../../../../utils/helpers';
 
 const defaultAuthor = {
   nama: '',
@@ -33,14 +33,14 @@ const Footer = ({ author, saveBookmark, shareThread, threadItem, threadIndex }) 
             imageSource={author.foto_profile}
             userName={author.nama}
             customSize={40}
-            initialStyle={{ paddingVertical: 8 }}
+            initialStyle={{ paddingVertical: 2 }}
             textStyle={{ fontSize: 18 }}
           />
         )}
         {author.nama !== '' && (
           <View style={styles.nameAndMonthStyle}>
             <Text style={styles.nameStyle}>{processName(author.nama)}</Text>
-            <Text style={styles.monthStyle}>{formatDateTime(threadItem.createdAt)}</Text>
+            <Text style={styles.monthStyle}>{dateFormatter(threadItem.createdAt)}</Text>
           </View>
         )}
       </View>
@@ -75,21 +75,21 @@ const styles = {
   },
   footerLeftStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingLeft: 10,
-    alignSelf: 'flex-start'
+    justifyContent: 'space-between',
+    alignSelf: 'flex-start',
+    paddingLeft: 7
   },
   footerRightStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
   avatarStyle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    marginVertical: 5
   },
   nameAndMonthStyle: {
-    paddingLeft: 7,
     flexDirection: 'column',
     justifyContent: 'space-around'
   },
