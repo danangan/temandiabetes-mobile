@@ -168,10 +168,12 @@ class InputTracker extends Component {
   }
 
   async openTimePicker() {
+    const dateNow = moment();
+
     try {
       const { action, hour, minute } = await TimePickerAndroid.open({
-        hour: this.state.isTime.hour(),
-        minute: this.state.isTime.minute(),
+        hour: dateNow.hour(),
+        minute: dateNow.minute(),
         is24Hour: true,
       });
 
@@ -182,14 +184,8 @@ class InputTracker extends Component {
         // selected Date
         const selectedDate = new moment(inputDate)
         selectedDate.hour(hour).minute(minute)
-        const dateNow = moment();
         const isBeforeNow = selectedDate.isBefore(dateNow)
-        console.log('selected date', selectedDate)
-        console.log('date now', dateNow)
-        console.log('is valid', isBeforeNow)
 
-        // const limitTime = new moment().hours(hour).minute(minute);
-        // const checking = limitTime.isBefore(new moment());
         if (isBeforeNow) {
           this.setState({
             time: {
