@@ -278,7 +278,7 @@ export const saveUserSearch = keyword => async dispatch => {
       // maksimal keywordnya di simpan 3 keyword string
       let count = 0;
       for (let i = 0; i < toSetValue.length; i++) {
-        if (toSetValue[i].toString() === keyword.toString()) {
+        if (toSetValue[i].toString() === keyword.toString().trim()) {
           count += 1;
         }
       }
@@ -286,14 +286,14 @@ export const saveUserSearch = keyword => async dispatch => {
         if (toSetValue.length === 3) {
           // kalau keyword sudah 3
           toSetValue.pop();
-          toSetValue.unshift(keyword);
+          toSetValue.unshift(keyword.trim());
           const done = toSetValue.join(',');
           await AsyncStorage.setItem(keywordRecent, done);
           count += 0;
         } else {
           // kalau keyword < 3
           // tambah keyword ke index paling awal
-          toSetValue.unshift(keyword);
+          toSetValue.unshift(keyword.trim());
           const done = toSetValue.join(',');
           await AsyncStorage.setItem(keywordRecent, done);
           count += 0;
