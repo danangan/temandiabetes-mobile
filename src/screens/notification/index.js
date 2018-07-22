@@ -169,6 +169,7 @@ class Notification extends React.Component {
         break;
       case 'receiver_innercircle':
         screen = 'TemanDiabetes.InnerCircleList';
+        passProps = { tab: 1 };
         break;
       case 'sender_innercircle':
         screen = 'TemanDiabetes.InnerCircleList';
