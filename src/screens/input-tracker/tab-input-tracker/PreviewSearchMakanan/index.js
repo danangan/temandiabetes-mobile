@@ -127,9 +127,7 @@ class PreviewSearchMakanan extends React.Component {
         const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
           'July', 'August', 'September', 'October', 'November', 'December'
         ];
-        console.log('DAY NYAA', day);
         const selectedDate = new moment().year(year).month(month).date(day);
-        console.log('INi datenyaa ',  selectedDate);
         this.setState({
           date: {
             day,
@@ -137,7 +135,7 @@ class PreviewSearchMakanan extends React.Component {
             year
           },
           isDate: `${day} ${monthNames[month]} ${year}`,
-          inputDate: selectedDate 
+          inputDate: selectedDate
         }, () => {
           this.openTimePicker();
         });
@@ -148,26 +146,33 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   async openTimePicker() {
+    const dateNow = moment();
+
     try {
       const { action, hour, minute } = await TimePickerAndroid.open({
-        hour: this.state.isTime.hour(),
-        minute: this.state.isTime.minute(),
+        hour: dateNow.hour(),
+        minute: dateNow.minute(),
         is24Hour: true,
       });
+
       const menit = minute === 0 ? '00' :
                     minute.toString().length === 1 ? `0${minute}` : '00';
       if (action !== TimePickerAndroid.dismissedAction) {
         const { inputDate } = this.state;
         // const limitTime = new moment().hours(hour).minute(minute);
         // const checking = limitTime.isBefore(new moment());
-        const dateNow = moment();
-        const isBeforeNow = inputDate.diff(dateNow, 'days');
-        if (isBeforeNow < 0) {
+
+        const selectedDate = new moment(inputDate)
+        selectedDate.hour(hour).minute(minute)
+        const isBeforeNow = selectedDate.isBefore(dateNow)
+
+        if (isBeforeNow) {
           this.setState({
             time: {
               hour,
               minute: menit
             },
+            inputDate: selectedDate,
             isTime: new moment().hour(hour).minute(minute),
             iniJam: `${hour}`,
             iniMenit: `${menit}`,
@@ -176,8 +181,12 @@ class PreviewSearchMakanan extends React.Component {
         } else {
           Alert.alert(
             'Perhatian!',
-            'Tidak boleh lebih dari jam sekarang'
-          );
+            'Waktu tidak boleh lebih dari jam saat ini',
+            [
+              {text: 'Pilih ulang', onPress: () => this.openTimePicker()},
+            ],
+            { cancelable: false }
+          )
         }
       }
     } catch ({ code, message }) {
@@ -303,27 +312,14 @@ class PreviewSearchMakanan extends React.Component {
 
   submitInputFood() {
     const { sarapan, makanSiang, makanMalam, snack } = this.state.selected;
-    const { date, time, inputDate } = this.state;
-    
-    // const inputDate = new Date(dateInput + ' ' + isTime + ':00');
-    // else if (date === null || sarapan === null || makanSiang === null || makanMalam === null || snack === null || time === '') {
-    //   Alert.alert(
-    //     'Perhatian!',
-    //     'Silahkan lengkapi semua inputan'
-    //   );
-    // } 
+    const { inputDate } = this.state;
+
     if (this.state.sarapan !== '' || this.state.makanSiang !== '' || this.state.makanMalam !== '' || this.state.snack !== '') {
       Alert.alert(
         'Perhatian!',
         'Makanan yang diisi tidak ada didalam daftar'
       );
     } else {
-      // const checkingSarapan = this.validationInput(sarapan);
-      // const checkingMakanSiang = this.validationInput(makanSiang);
-      // const checkingMakanMalam = this.validationInput(makanMalam);
-      // const checkingSnack = this.validationInput(snack);
-      // const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
-      // inputDate.toUTCString();
       const value = {
         waktuInput: inputDate,
         sarapan,
@@ -336,17 +332,6 @@ class PreviewSearchMakanan extends React.Component {
       }, () => {
         this.props.inputTrackerFood(value);
       });
-      // if (!checkingSarapan) {
-      //   alert('Inputan Sarapan Anda salah');
-      // } else if (!checkingMakanSiang) {
-      //   alert('Inputan Makan Siang Anda salah');
-      // } else if (!checkingMakanMalam) {
-      //   alert('Inputan Makan Malam Anda salah');
-      // } else if (!checkingSnack) {
-      //   alert('Inputan Snack Anda salah');
-      // } else {
-
-      // }
     }
   }
 
