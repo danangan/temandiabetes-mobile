@@ -9,7 +9,7 @@ import Closed from '../../../assets/icons/close.png';
 
 class ModalReplyComment extends Component {
   static navigatorStyle = {
-		navBarHidden: true
+    navBarHidden: true
   };
 
   constructor(props) {
@@ -17,23 +17,23 @@ class ModalReplyComment extends Component {
     this.state = {
       komentar: '',
       keyboardActive: false,
-      isSubmit: false,
+      isSubmit: false
     };
     this.onSubmitComment = this.onSubmitComment.bind(this);
   }
 
   componentWillMount() {
-		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-			this.setState({ keyboardActive: true });
-		});
-		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-			this.setState({ keyboardActive: false });
-		});
-	}
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ keyboardActive: true });
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ keyboardActive: false });
+    });
+  }
 
-	componentWillUnmount() {
-		this.keyboardDidShowListener.remove();
-		this.keyboardDidHideListener.remove();
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   componentDidUpdate() {
@@ -42,13 +42,16 @@ class ModalReplyComment extends Component {
       // get thread details again
       this.props.getThreadDetails(this.props.idThread);
 
-      this.setState({
-        isSubmit: false
-      }, () => {
-        Navigation.dismissModal({
-          animationType: 'slide-down'
-        });
-      });
+      this.setState(
+        {
+          isSubmit: false
+        },
+        () => {
+          Navigation.dismissModal({
+            animationType: 'slide-down'
+          });
+        }
+      );
     }
   }
 
@@ -58,18 +61,21 @@ class ModalReplyComment extends Component {
     if (this.state.komentar === '') {
       alert('Silahkan input komentar Anda');
     } else {
-      this.setState({
-        isSubmit: true
-      }, () => {
-        const comment = {
-          idComment: this.props.idComment,
-          params: {
-            user: currentUser._id,
-            text: this.state.komentar
-          }
-        };
-        this.props.commentToReply(comment);
-      });
+      this.setState(
+        {
+          isSubmit: true
+        },
+        () => {
+          const comment = {
+            idComment: this.props.idComment,
+            params: {
+              user: currentUser._id,
+              text: this.state.komentar
+            }
+          };
+          this.props.commentToReply(comment);
+        }
+      );
     }
   }
 
@@ -79,25 +85,24 @@ class ModalReplyComment extends Component {
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
             <TouchableOpacity
-              onPress={() => Navigation.dismissModal({
-                animationType: 'slide-down'
-              })}
+              onPress={() =>
+                Navigation.dismissModal({
+                  animationType: 'slide-down'
+                })
+              }
               style={{ flex: 0.5 }}
             >
-                <Image
-                  source={Closed}
-                  style={{ width: 20, height: 20 }}
-                />
-              </TouchableOpacity>
-              <View style={{ flex: 1.5 }}>
-                <Text style={styles.titleForm}>Tambah Komentar</Text>
-              </View>
+              <Image source={Closed} style={{ width: 20, height: 20 }} />
+            </TouchableOpacity>
+            <View style={{ flex: 1.5 }}>
+              <Text style={styles.titleForm}>Tambah Komentar</Text>
+            </View>
           </View>
           <View style={styles.wrapTextInput}>
             <TextInput
               multiline
               underlineColorAndroid="transparent"
-              onChangeText={(komentar) => this.setState({ komentar })}
+              onChangeText={komentar => this.setState({ komentar })}
               style={styles.itemTextInput}
               placeholder="Tambahkan komen disini"
             />
@@ -114,10 +119,13 @@ class ModalReplyComment extends Component {
               paddingVertical: 5,
               height: 33
             }}
+            disabled={this.state.isSubmit}
             onPress={debounce(this.onSubmitComment, 200)}
           >
-            <Text style={{ fontSize: 14, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>
-              { this.state.isSubmit ? 'Loading' : 'Kirim' }
+            <Text
+              style={{ fontSize: 14, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}
+            >
+              {this.state.isSubmit ? 'Loading' : 'Kirim'}
             </Text>
           </TouchableOpacity>
         </View>
@@ -172,7 +180,9 @@ const styles = {
     backgroundColor: '#fff'
   },
   titleForm: {
-    fontFamily: 'Montserrat-Bold', color: '#99a0c2', fontSize: 16
+    fontFamily: 'Montserrat-Bold',
+    color: '#99a0c2',
+    fontSize: 16
   },
   wrapTextInput: {
     flex: 2,
@@ -210,8 +220,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  commentToReply: (comment) => dispatch(commentToReply(comment)),
-  getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread))
+  commentToReply: comment => dispatch(commentToReply(comment)),
+  getThreadDetails: idThread => dispatch(getThreadDetails(idThread))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalReplyComment);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ModalReplyComment);

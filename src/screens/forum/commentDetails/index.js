@@ -1,19 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  Text,
-  ScrollView,
-  TextInput,
-  TouchableOpacity
-} from 'react-native';
+import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { 
-  NavigationBar, 
-  CardSection, 
-  Avatar, 
-  Spinner, 
-  TextWithClickableURL 
+import {
+  NavigationBar,
+  CardSection,
+  Avatar,
+  Spinner,
+  TextWithClickableURL
 } from '../../../components';
 import CommentChild from '../threadDetails/commentChild';
 import {
@@ -51,36 +45,42 @@ class CommentDetails extends React.Component {
       // get thread details again
       this.props.getCommentDetails(commentDetails._id);
 
-      this.setState({
-        isSubmit: false
-      }, () => {
-        this.props.navigator.pop();
-        if (this.props.idThread) {
-          this.props.getThreadDetails(this.props.idThread);
+      this.setState(
+        {
+          isSubmit: false
+        },
+        () => {
+          this.props.navigator.pop();
+          if (this.props.idThread) {
+            this.props.getThreadDetails(this.props.idThread);
+          }
         }
-      });
+      );
     }
   }
 
   onSubmitComment() {
     const { _id } = this.props.dataAuth;
     const { commentDetails } = this.props;
-   if (this.state.komentar !== '') {
-    this.setState({
-      isSubmit: true
-    }, () => {
-      const comment = {
-        idComment: commentDetails._id,
-        params: {
-          user: _id,
-          text: this.state.komentar
+    if (this.state.komentar !== '') {
+      this.setState(
+        {
+          isSubmit: true
+        },
+        () => {
+          const comment = {
+            idComment: commentDetails._id,
+            params: {
+              user: _id,
+              text: this.state.komentar
+            }
+          };
+          this.props.commentToReply(comment);
         }
-      };
-      this.props.commentToReply(comment);
-    });
-   } else {
-    alert('Silahkan input komentar Anda.');
-   }
+      );
+    } else {
+      alert('Silahkan input komentar Anda.');
+    }
   }
 
   renderCommentChild() {
@@ -88,33 +88,29 @@ class CommentDetails extends React.Component {
     const { commentDetails } = this.props;
     return (
       <View style={{ flex: 1, width: '100%' }}>
-        {
-          commentDetails ?
-          commentDetails.replies.map((item, index) => <CommentChild key={index} containerStyle={styles.containerStyle} comment={item} />)
-          : commentDetails
-        }
+        {commentDetails
+          ? commentDetails.replies.map((item, index) => (
+              <CommentChild key={index} containerStyle={styles.containerStyle} comment={item} />
+            ))
+          : commentDetails}
         <View style={styles.innerContainer}>
-          <Avatar
-            avatarSize="ExtraSmall"
-            userName={nama}
-            imageSource={foto_profile}
-          />
+          <Avatar avatarSize="ExtraSmall" userName={nama} imageSource={foto_profile} />
           <TextInput
             value={this.state.komentar}
             blurOnSubmit={false}
             placeholder="Komentari"
             style={{ flex: 1, margin: 5 }}
             underlineColorAndroid={'#fff'}
-            onChangeText={(komentar) => this.setState({ komentar })}
-            onSubmitEditing={() => { this.onSubmitComment() }}
+            onChangeText={komentar => this.setState({ komentar })}
+            onSubmitEditing={() => {
+              this.onSubmitComment();
+            }}
           />
           <TouchableOpacity
             style={{ backgroundColor: '#252c68' }}
+            disabled={this.state.isSubmit}
             onPress={() => {
-              this.state.isSubmit ?
-              null
-              :
-              this.onSubmitComment();
+              this.state.isSubmit ? null : this.onSubmitComment();
             }}
           >
             <Text
@@ -124,7 +120,9 @@ class CommentDetails extends React.Component {
                 paddingVertical: 3,
                 color: '#8084a7'
               }}
-            >Balas</Text>
+            >
+              Balas
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -153,7 +151,7 @@ class CommentDetails extends React.Component {
           navigatorStyle: {
             navBarHidden: true
           },
-          passProps: paramsToDetails,
+          passProps: paramsToDetails
         });
         await this.setState({ count: 0 });
       }
@@ -167,19 +165,13 @@ class CommentDetails extends React.Component {
     if (commentDetails === null) {
       return (
         <View style={styles.container}>
-          <Spinner
-            containerStyle={{ backgroundColor: '#f2f4fd' }}
-            color="#EF434F"
-            size="large"
-          />
+          <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="large" />
         </View>
       );
     }
     return (
       <View style={styles.container}>
-        <NavigationBar
-          onPress={() => this.handleNavigate()} title="COMMENTS"
-        />
+        <NavigationBar onPress={() => this.handleNavigate()} title="COMMENTS" />
         <CardSection
           containerStyle={{
             flex: 1,
@@ -201,36 +193,29 @@ class CommentDetails extends React.Component {
             />
             <View style={{ flex: 1, margin: 5 }}>
               <Text style={{ fontSize: 12 }}>{commentDetails.user.nama}</Text>
-              <Text style={{ fontSize: 10 }}></Text>
+              <Text style={{ fontSize: 10 }} />
             </View>
           </View>
           <ScrollView style={styles.innerText}>
             <Text style={{ fontSize: 22 }}>
-              <TextWithClickableURL inputText={ commentDetails.text }/>
+              <TextWithClickableURL inputText={commentDetails.text} />
             </Text>
           </ScrollView>
         </CardSection>
-        {
-          commentDetails.replies.length ?
-          <ScrollView style={{ marginTop: -50 }} keyboardShouldPersistTaps={true}>
-            <View style={styles.containerCommentChild}>
-              {this.renderCommentChild()}
-            </View>
+        {commentDetails.replies.length ? (
+          <ScrollView style={{ marginTop: -50 }} keyboardShouldPersistTaps>
+            <View style={styles.containerCommentChild}>{this.renderCommentChild()}</View>
           </ScrollView>
-          :
+        ) : (
           <View style={styles.containerEmptyCommentChild}>
             <View style={styles.innerContainerEmptyComment}>
-              <Avatar
-                avatarSize="ExtraSmall"
-                userName={nama}
-                imageSource={foto_profile}
-              />
+              <Avatar avatarSize="ExtraSmall" userName={nama} imageSource={foto_profile} />
               <TextInput
                 value={this.state.komentar}
                 placeholder="Komentari"
                 style={{ flex: 1, margin: 5 }}
                 underlineColorAndroid={'#fff'}
-                onChangeText={(komentar) => this.setState({ komentar })}
+                onChangeText={komentar => this.setState({ komentar })}
               />
               <TouchableOpacity
                 style={{ backgroundColor: '#252c68' }}
@@ -243,12 +228,13 @@ class CommentDetails extends React.Component {
                     paddingVertical: 3,
                     color: '#8084a7'
                   }}
-                >Balas</Text>
+                >
+                  Balas
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
-
-        }
+        )}
         {/* <View style={{
           backgroundColor: '#fff',
           }}
@@ -268,44 +254,44 @@ const styles = {
     paddingVertical: 15
   },
   innerContainer: {
-		flex: 0.5,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'center',
+    flex: 0.5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     // paddingTop: 15,
-		paddingHorizontal: 15,
-		borderRadius: 20
+    paddingHorizontal: 15,
+    borderRadius: 20
   },
   innerContainerEmptyComment: {
-		flex: 0,
-		flexDirection: 'row',
-		alignItems: 'center',
-		justifyContent: 'flex-start',
+    flex: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
     paddingTop: 0,
-		paddingHorizontal: 15,
-		borderRadius: 20
+    paddingHorizontal: 15,
+    borderRadius: 20
   },
   innerText: {
-		// flex: 2,
-		// flexDirection: 'row',
-		// alignItems: 'flex-start',
+    // flex: 2,
+    // flexDirection: 'row',
+    // alignItems: 'flex-start',
     // justifyContent: 'flex-start',
     // flexWrap: 'wrap',
     // marginTop: 15,
     // minHeight: 150,
-		paddingHorizontal: 15,
-	},
+    paddingHorizontal: 15
+  },
   wrapperButton: {
-		marginVertical: 5,
-		marginHorizontal: 1,
-		alignItems: 'center',
+    marginVertical: 5,
+    marginHorizontal: 1,
+    alignItems: 'center',
     backgroundColor: '#252c68',
-    borderRadius: 10,
-	},
-	titleButton: {
-		fontSize: 12,
-		color: '#8084a7',
-		paddingHorizontal: 10
+    borderRadius: 10
+  },
+  titleButton: {
+    fontSize: 12,
+    color: '#8084a7',
+    paddingHorizontal: 10
   },
   containerCommentChild: {
     flex: 1,
@@ -350,11 +336,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  commentToReply: (comment) => dispatch(commentToReply(comment)),
-  getCommentDetails: (idComment) => dispatch(getCommentDetails(idComment)),
-  getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread)),
-
+  commentToReply: comment => dispatch(commentToReply(comment)),
+  getCommentDetails: idComment => dispatch(getCommentDetails(idComment)),
+  getThreadDetails: idThread => dispatch(getThreadDetails(idThread))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentDetails);
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CommentDetails);
