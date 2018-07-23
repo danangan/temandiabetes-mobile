@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const randomizer = () => Math.floor((1 + Math.random()) * 0x100000000000).toString(16);
 
 export const getInitialName = (name, defaultVal = 'NA') => {
@@ -10,29 +12,21 @@ export const getInitialName = (name, defaultVal = 'NA') => {
 
 export const dateFormatter = (date) => {
   if (!date) return '';
-  date = new Date(date);
-  let formattedDate = date.toUTCString()
-  formattedDate = formattedDate.split(' ')
-  return formattedDate.slice(1, 4).join(' ')
-  // the month is added 1 because month is defined 0-11
-  // return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+  date = new moment(date).utc();
+  return date.format('DD-MM-YYYY')
 };
 
 export const dateFormateName = (date) => {
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
   if (!date) return '';
-  date = new Date(date);
-  // the month is added 1 because month is defined 0-11
-  return `${date.getDate()} ${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+  date = new moment(date).utc();
+  return date.format('DD MMM YYYY')
 };
 
 export const formatTimeFromDate = (date, separator = ':') => {
-  date = new Date(date)
-  let hours = String(date.getHours())
-  hours = String(hours).length <= 1 ? `0${hours}` : hours
-  let minutes = String(date.getMinutes())
+  date = new moment(date).utc()
+  let hours = String(date.hour())
+  hours = hours.length <= 1 ? `0${hours}` : hours
+  let minutes = String(date.minute())
   minutes = minutes.length <= 1 ? `0${minutes}` : minutes
   return hours + separator + minutes
 }

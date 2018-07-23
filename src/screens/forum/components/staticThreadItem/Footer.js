@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import Style from '../../../../style/defaultStyle';
 import { Avatar } from '../../../../components';
 import { dateFormatter } from '../../../../utils/helpers';
