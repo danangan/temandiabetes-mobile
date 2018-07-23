@@ -2,9 +2,6 @@ import React from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import Style from '../../../../style/defaultStyle';
 import { Avatar } from '../../../../components';
-import BookMark from '../../../../assets/icons/bookmark.png';
-import BookMarked from '../../../../assets/icons/bookmark_dark.png';
-import Share from '../../../../assets/icons/share.png';
 import { dateFormatter } from '../../../../utils/helpers';
 
 const defaultAuthor = {
@@ -14,19 +11,18 @@ const defaultAuthor = {
 };
 
 const processName = name => {
-  const a = name.split(' ');
-  if (a.length > 1) {
-    return `${a[0]} ${a[1][0]}`;
+  if (name === 'Gue Sehat') {
+    return 'GueSehat'
   }
-  return a[0];
+  return name.split(' ').slice(0, 2).join(' ')
 };
 
-const Footer = ({ author, saveBookmark, shareThread, threadItem, threadIndex }) => {
+const Footer = ({ author, threadItem }) => {
   author = author || defaultAuthor;
 
   return (
     <View style={styles.containerFooterStyle}>
-      <View style={styles.footerLeftStyle}>
+      <View style={styles.footerStyle}>
         {author.nama !== '' && (
           <Avatar
             avatarStyle={styles.avatarStyle}
@@ -44,44 +40,20 @@ const Footer = ({ author, saveBookmark, shareThread, threadItem, threadIndex }) 
           </View>
         )}
       </View>
-      <View style={styles.footerRightStyle}>
-        <TouchableOpacity
-          onPress={() => {
-            shareThread(threadItem);
-          }}
-        >
-          <Image source={Share} style={styles.iconStyle} resizeMode={'contain'} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
-            saveBookmark(threadItem, threadIndex);
-          }}
-        >
-          <Image
-            source={threadItem.isBookmarked ? BookMarked : BookMark}
-            style={styles.iconStyle}
-            resizeMode={'contain'}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
 
 const styles = {
   containerFooterStyle: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between'
   },
-  footerLeftStyle: {
+  footerStyle: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignSelf: 'flex-start',
     paddingLeft: 7
-  },
-  footerRightStyle: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
   },
   avatarStyle: {
     width: 30,
@@ -105,11 +77,6 @@ const styles = {
     fontStyle: 'normal',
     textAlign: 'left',
     bottom: 3
-  },
-  iconStyle: {
-    marginLeft: 5,
-    height: 50,
-    width: 25
   }
 };
 
