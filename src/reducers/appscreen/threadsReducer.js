@@ -512,11 +512,6 @@ const threadsReducer = (state = initialState, action) => {
 		case 'PENDING_CREATE_COMMENT':
 			return {
 				...state,
-				listThreads: {
-					...state.listThreads,
-					threadDetails: null,
-					status_code: 0
-				},
 				createComment: {
 					...state.createComment,
 					status_code: 0

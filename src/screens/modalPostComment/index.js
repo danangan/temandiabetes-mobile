@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { debounce } from 'lodash';
 import { View, Image, TouchableOpacity, Text, TextInput, Keyboard } from 'react-native';
 
-import { createComment, getThreadDetails } from '../../actions/threadActions';
+import { createComment } from '../../actions/threadActions';
 import Closed from '../../assets/icons/close.png';
 
 class ModalPostComponent extends Component {
@@ -31,12 +31,9 @@ class ModalPostComponent extends Component {
 		});
   }
 
-  componentDidUpdate() {
-    const { status_code } = this.props.dataThreads.createComment;
+  componentWillReceiveProps(nextProps) {
+    const { status_code } = nextProps.dataThreads.createComment;
     if (status_code === 201 && this.state.isSubmit) {
-      // get thread details again
-      this.props.getThreadDetails(this.props.idThread);
-
       this.setState({
         isSubmit: false
       }, () => {
@@ -192,8 +189,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createComment: (comment) => dispatch(createComment(comment)),
-  getThreadDetails: (idThread) => dispatch(getThreadDetails(idThread))
+  createComment: (comment) => dispatch(createComment(comment))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalPostComponent);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'lodash';
+import { debounce, result } from 'lodash';
 import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
@@ -141,7 +141,7 @@ class ThreadDetails extends React.Component {
 
   renderButtonFollow() {
     const { listThreads, followThread } = this.props.dataThreads;
-    if (listThreads.threadDetails.author._id === this.props.dataAuth.currentUser._id) {
+    if (result(listThreads.threadDetails, 'author._id') === this.props.dataAuth.currentUser._id) {
       return null;
     }
     if (followThread.isFetch) {
@@ -160,7 +160,7 @@ class ThreadDetails extends React.Component {
           <ActivityIndicator size="small" color="#8084a7" />
         </TouchableOpacity>
       );
-    } else if (listThreads.threadDetails.isSubscriber) {
+    } else if (result(listThreads.threadDetails, 'isSubscriber')) {
       return (
         <TouchableOpacity
           onPress={this.requestUnfollowThread}
@@ -198,11 +198,7 @@ class ThreadDetails extends React.Component {
     const { _id } = this.props.item;
     const { listThreads } = this.props.dataThreads;
     const { threadDetails } = listThreads;
-    if (this.state.isProcess) {
-      return (
-        <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="large" />
-      );
-    } else if (threadDetails === null) {
+    if (this.state.isProcess || threadDetails === null) {
       return (
         <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="large" />
       );
@@ -215,10 +211,10 @@ class ThreadDetails extends React.Component {
           </View>
         ) : (
           <HeaderDetail
-            threadType={threadDetails.threadType}
-            categoryItem={threadDetails.category}
-            date={threadDetails.createdAt}
-            authorItem={threadDetails.author}
+            threadType={result(threadDetails, 'threadType')}
+            categoryItem={result(threadDetails, 'category')}
+            date={result(threadDetails, 'createdAt')}
+            authorItem={result(threadDetails, 'author')}
           />
         )}
         {/* <ContentDetail /> */}
@@ -233,7 +229,7 @@ class ThreadDetails extends React.Component {
             }}
           >
             <Text style={{ fontSize: 22 }}>
-              {listThreads.threadDetails === null ? 'Loading' : threadDetails.topic}
+              {listThreads.threadDetails === null ? 'Loading' : result(threadDetails, 'topic')}
             </Text>
           </View>
         </CardSection>
@@ -276,7 +272,7 @@ class ThreadDetails extends React.Component {
             >
               <Text style={styles.buttonText}>Balas</Text>
             </TouchableOpacity>
-            {this.props.dataAuth.currentUser._id !== threadDetails.author._id &&
+            {this.props.dataAuth.currentUser._id !== result(threadDetails, 'author._id') &&
             threadDetails !== null ? (
               <TouchableOpacity
                 onPress={() => {
