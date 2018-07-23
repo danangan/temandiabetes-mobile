@@ -30,13 +30,11 @@ const HistoryHba1c = ({ history }) => {
     <View style={styles.containerStyle}>
       <Text style={styles.titleStyle}>HbA1c</Text>
       <Card containerStyle={styles.cardStyle}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={styles.hba1cContainerStyle}>
-            <Text style={styles.hba1cStyle}>{valueHba1c}%</Text>
-            <Text style={styles.statusHba1cStyle}>({status})</Text>
-          </View>
-          <Text style={styles.textStyle}>{wording}</Text>
+        <View style={styles.hba1cContainerStyle}>
+          <Text style={styles.hba1cStyle}>{valueHba1c}%</Text>
+          <Text style={styles.statusHba1cStyle}>({status})</Text>
         </View>
+        <Text style={styles.textStyle}>{wording}</Text>
       </Card>
     </View>
   );
@@ -51,6 +49,8 @@ const styles = StyleSheet.create({
   cardStyle: {
     height: Style.CARD_WIDTH / 4.5,
     width: Style.CARD_WIDTH / 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderRadius: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingTop: 6.42,
     paddingBottom: 10,
-    paddingRight: Style.CARD_PADDING_X,
+    paddingRight: 45,
     marginLeft: 0,
     marginRight: 5,
     marginTop: 0,
@@ -102,8 +102,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER,
     fontWeight: 'bold',
-    color: '#556299',
-    top: -10
+    color: '#556299'
   }
 });
 
