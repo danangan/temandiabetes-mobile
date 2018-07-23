@@ -307,7 +307,7 @@ class ThreadDetails extends React.Component {
         </CardSection>
         <View style={{ flex: 1, paddingBottom: 25 }}>
           <ContentDetail
-            threadItem={this.props.item}
+            threadItem={threadDetails}
             navigator={this.toCommentDetails}
             commentList={this.state.commentsList}
             nextPageCommentList={this.nextPageCommentList}

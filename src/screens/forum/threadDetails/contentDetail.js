@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, ActivityIndicator, Text, TouchableOpacity, FlatList } from 'react-native';
+import { result } from 'lodash';
+import { View, FlatList } from 'react-native';
 
 import CommentThread from './commentThread';
 import ThreadDesc from './threadDesc';
@@ -22,7 +23,7 @@ class ContentDetail extends React.Component {
       <CommentThread
         key={index}
         contentComment={item}
-        idThread={threadItem._id}
+        idThread={result(threadItem, '_id')}
         idComment={item._id}
         navigator={navigator}
       />
@@ -50,7 +51,7 @@ class ContentDetail extends React.Component {
     const { threadItem, navigator, commentList } = this.props;
     return (
       <View style={{ marginBottom: 15 }}>
-        <ThreadDesc desc={threadItem.description} />
+        <ThreadDesc desc={result(threadItem, 'description', '')} />
         <FlatList
           data={commentList}
           renderItem={this.renderItem(threadItem, navigator)}
