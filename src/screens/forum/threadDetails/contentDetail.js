@@ -50,9 +50,11 @@ class ContentDetail extends React.Component {
     const { isRefreshing } = this.state;
     const { threadItem, navigator, commentList } = this.props;
     return (
-      <View style={{ marginBottom: 15 }}>
-        <ThreadDesc desc={result(threadItem, 'description', '')} />
+      <View>
         <FlatList
+          ListHeaderComponent={
+            <ThreadDesc desc={result(threadItem, 'description', '')} />
+          }
           data={commentList}
           renderItem={this.renderItem(threadItem, navigator)}
           refreshing={isRefreshing}
