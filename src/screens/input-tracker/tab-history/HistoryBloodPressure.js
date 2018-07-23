@@ -53,13 +53,14 @@ const HistoryBloodPressure = ({ history }) => {
 
 const styles = StyleSheet.create({
   containerStyle: {
-    width: Style.DEVICE_WIDTH / 2.2,
+    width: Style.CARD_WIDTH / 2,
     flexDirection: 'column',
     justifyContent: 'space-around',
     marginTop: 10.25
   },
   cardStyle: {
-    // height: '41.74%',
+    height: Style.CARD_WIDTH / 4.1,
+    width: Style.CARD_WIDTH / 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 15,
@@ -67,8 +68,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    paddingLeft: 10,
+    paddingLeft: 5,
     paddingRight: 5,
+    paddingTop: 6.42,
     marginLeft: 0,
     marginRight: 5,
     marginTop: 0,
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
   },
   bloodPressureStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_TITLE * 1.2,
+    fontSize: Style.FONT_SIZE_TITLE * 1.1,
     fontWeight: 'bold',
     color: '#556299',
     bottom: 3
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
     fontSize: Style.FONT_SIZE_SMALLER,
     fontWeight: 'bold',
     color: '#556299',
-    marginTop: 13,
+    marginTop: 7,
     left: 1
   }
 });

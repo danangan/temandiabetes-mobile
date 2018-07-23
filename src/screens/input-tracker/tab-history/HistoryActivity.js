@@ -44,12 +44,12 @@ const HistoryActivity = ({ history }) => {
 
 const styles = StyleSheet.create({
   containerStyle: {
-    width: Style.DEVICE_WIDTH / 2.13,
+    width: Style.CARD_WIDTH / 2,
     flexDirection: 'column',
-    justifyContent: 'space-around',
-    right: 35
+    justifyContent: 'space-around'
   },
   cardStyle: {
+    height: Style.CARD_WIDTH / 4.5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 15,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    paddingLeft: 11.18,
+    paddingLeft: 5,
     paddingTop: 5.42,
     paddingBottom: 10,
     paddingRight: 45,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
   activityContainerStyle: {
     flexDirection: 'column',
-    justifyContent: 'space-between'
+    justifyContent: 'space-around'
   },
   iconActivityStyle: {
     width: 34,

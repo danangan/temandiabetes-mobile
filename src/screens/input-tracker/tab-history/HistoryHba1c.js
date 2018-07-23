@@ -44,20 +44,22 @@ const HistoryHba1c = ({ history }) => {
 
 const styles = StyleSheet.create({
   containerStyle: {
-    width: Style.DEVICE_WIDTH / 2.2,
+    width: Style.CARD_WIDTH / 2,
     flexDirection: 'column',
     justifyContent: 'space-around'
   },
   cardStyle: {
+    height: Style.CARD_WIDTH / 4.5,
+    width: Style.CARD_WIDTH / 2,
     borderRadius: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    paddingLeft: 10,
+    paddingLeft: 5,
     paddingTop: 6.42,
     paddingBottom: 10,
-    paddingRight: 45,
+    paddingRight: Style.CARD_PADDING_X,
     marginLeft: 0,
     marginRight: 5,
     marginTop: 0,

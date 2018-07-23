@@ -32,13 +32,13 @@ const HistoryWeight = ({ history }) => {
 
 const styles = StyleSheet.create({
   containerStyle: {
-    width: Style.DEVICE_WIDTH / 2.13,
+    width: Style.CARD_WIDTH / 2,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    right: 35,
     marginTop: 10.25
   },
   cardStyle: {
+    height: Style.CARD_WIDTH / 4.1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 15,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    paddingLeft: 10,
+    paddingLeft: 5,
     paddingRight: 5,
     marginLeft: 5,
     marginRight: 0,
