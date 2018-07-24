@@ -55,13 +55,13 @@ export default staticThreadItem = ({ threads, toStaticThreadDetail, onPostBookma
             </View>
           </View>
           <View style={styles.shareAndBookmark}>
-            <View style={{ flex: 1}}>
+            <View style={{ flex: 1, alignContent: 'center' }}>
               <TouchableOpacity
                 onPress={() => {
                   onPostBookmark(item, index);
                 }}
               >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                   <Image
                     source={item.isBookmarked ? BookMarked : BookMark}
                     style={styles.iconStyle}
@@ -71,13 +71,13 @@ export default staticThreadItem = ({ threads, toStaticThreadDetail, onPostBookma
                 </View>
               </TouchableOpacity>
             </View>
-            <View style={{ flex: 1}}>
+            <View style={{ flex: 1, alignContent: 'center' }}>
               <TouchableOpacity
                 onPress={() => {
                   onShareThread(item);
                 }}
               >
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
                   <Image source={Share} style={styles.iconStyle} resizeMode={'contain'} />
                   <Text style={{ marginLeft: 5 }}>Bagikan</Text>
                 </View>
