@@ -9,3 +9,7 @@ export const updateDeepLinkExpire = data => ({
 	type: ActionTypes.UPDATE_DEEPLINK_EXPIRED,
 	payload: data
 })
+
+export const resetDeepLink = () => ({
+  type: ActionTypes.RESET_DEEPLINK
+})

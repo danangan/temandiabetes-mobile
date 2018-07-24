@@ -27,13 +27,19 @@ const updateDeepLinkExpire = (state, payload) => {
   };
 };
 
+const resetDeepLink = () => {
+  return initialState
+}
+
 const appReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ActionTypes.UPDATE_DEEPLINK:
       return updateDeepLink(state, action.payload);
     case ActionTypes.UPDATE_DEEPLINK_EXPIRED:
 			return updateDeepLinkExpire(state, action.payload);
-		default:
+    case ActionTypes.RESET_DEEPLINK:
+      return resetDeepLink();
+    default:
 			return state;
 	}
 };

@@ -11,7 +11,14 @@ import { debounce } from 'lodash';
 import FCM, { FCMEvent } from 'react-native-fcm';
 
 // ACTIONS
-import { updateNotificationCount, resetNotificationCount, getCurrentUser, updateFCMToken, addNotificationCount } from '../../actions';
+import {
+  updateNotificationCount,
+  resetNotificationCount,
+  getCurrentUser,
+  updateFCMToken,
+  addNotificationCount,
+  resetDeepLink
+} from '../../actions';
 
 // COMPONENTS
 import Navigator from './components/Navigator'
@@ -115,6 +122,9 @@ class App extends Component {
       this.redirectByUrl({
         url: deepLink.currentDeepLink
       })
+
+      // set the deeplink to expired
+      this.props.resetDeepLink()
     }
 
     // add event listener for direct incoming deeplink
@@ -152,7 +162,6 @@ class App extends Component {
   }
 
 	_displayNotificationAndroid(notif) {
-    console.log(notif)
     let displayNotif = true
     let title = ''
     let body = 'Sentuh untuk info lebih lanjut'
@@ -211,8 +220,6 @@ class App extends Component {
       default:
         break;
     }
-
-    console.log('Title', title)
 
     if (notif.opened_from_tray) {
       if (notif.screen && notif.screen !== '') {
@@ -363,7 +370,8 @@ const mapDispatchToProps = dispatch => ({
   getCurrentUser: () => dispatch(getCurrentUser()),
   updateNotificationCount: currentUserId => dispatch(updateNotificationCount(currentUserId)),
   resetNotificationCount : currentUserId => dispatch(resetNotificationCount(currentUserId)),
-  updateFCMToken: param => dispatch(updateFCMToken(param))
+  updateFCMToken: param => dispatch(updateFCMToken(param)),
+  resetDeepLink: () => dispatch(resetDeepLink())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
