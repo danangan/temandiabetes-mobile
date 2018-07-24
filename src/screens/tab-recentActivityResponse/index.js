@@ -114,9 +114,9 @@ class TabRecentActivityResponse extends React.Component {
   renderPreviewResponse(response) {
     switch (response.activityType) {
       case 'comment':
-        return `Anda telah memberikan komentar pada ${response.comment.text}`;
+        return `Anda telah membuat sebuah komentar ${response.comment.text}`;
       case 'reply_comment':
-        return `Anda telah membalas komentar pada ${response.comment.text}`;
+        return `Anda telah membuat sebuah komentar ${response.comment.text}`;
       case 'follow':
         return `Anda telah mengikuti ${response.thread.topic}`;
       case 'unfollow':
@@ -148,6 +148,8 @@ class TabRecentActivityResponse extends React.Component {
   };
 
   render() {
+    console.log('THIS STATE ', this.state);
+    console.log('THIDS PROPS ', this.props);
     const { recentResponse } = this.props.dataActivity;
     // recentResponse.status_code === 201 &&
     if (recentResponse.data.length === 0) {
