@@ -12,8 +12,7 @@ import {
 import CommentChild from '../threadDetails/commentChild';
 import {
   commentToReply,
-  getCommentDetails,
-  getThreadDetails
+  getCommentDetails
 } from '../../../actions/threadActions';
 
 class CommentDetails extends React.Component {
@@ -43,44 +42,34 @@ class CommentDetails extends React.Component {
     const { commentDetails } = nextProps;
     if (status_code === 201 && this.state.isSubmit) {
       // get thread details again
-      this.props.getCommentDetails(commentDetails._id);
-
-      this.setState(
-        {
-          isSubmit: false
-        },
-        () => {
-          this.props.navigator.pop();
-          if (this.props.idThread) {
-            this.props.getThreadDetails(this.props.idThread);
-          }
-        }
-      );
+      this.setState({
+        isSubmit: false,
+        komentar: ''
+      })
     }
   }
 
   onSubmitComment() {
     const { _id } = this.props.dataAuth;
     const { commentDetails } = this.props;
-    if (this.state.komentar !== '') {
-      this.setState(
-        {
-          isSubmit: true
-        },
-        () => {
-          const comment = {
-            idComment: commentDetails._id,
-            params: {
-              user: _id,
-              text: this.state.komentar
-            }
-          };
-          this.props.commentToReply(comment);
+   if (this.state.komentar !== '') {
+    this.setState({
+      isSubmit: true
+    }, async () => {
+      const comment = {
+        idThread: this.props.idThread,
+        idComment: commentDetails._id,
+        params: {
+          user: _id,
+          text: this.state.komentar
         }
-      );
-    } else {
-      alert('Silahkan input komentar Anda.');
-    }
+      };
+      await this.props.commentToReply(comment);
+      this.props.getCommentDetails(this.props.commentId);
+    });
+   } else {
+    alert('Silahkan input komentar Anda.');
+   }
   }
 
   renderCommentChild() {
@@ -336,9 +325,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  commentToReply: comment => dispatch(commentToReply(comment)),
-  getCommentDetails: idComment => dispatch(getCommentDetails(idComment)),
-  getThreadDetails: idThread => dispatch(getThreadDetails(idThread))
+  commentToReply: (comment) => dispatch(commentToReply(comment)),
+  getCommentDetails: (idComment) => dispatch(getCommentDetails(idComment))
 });
 
 export default connect(

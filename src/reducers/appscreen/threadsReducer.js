@@ -8,12 +8,17 @@ const initialState = {
       page: 1,
       pages: 1,
 			total: 0
-		},
+    },
 		threadDetails: null,
 		message: '',
     status_code: 0,
     initialLoading: true
-	},
+  },
+  commentList: {
+    list: [],
+    page: 1,
+    pages: 0
+  },
 	commentDetails: {
 		data: null,
 		message: '',
@@ -52,6 +57,7 @@ const initialState = {
     status_code: 0,
     initialLoading: true
   },
+
 	submitThreads: {
 		message: '',
 		status_code: 0
@@ -522,11 +528,6 @@ const threadsReducer = (state = initialState, action) => {
 		case 'PENDING_COMMENT_TO_REPLY':
 			return {
 				...state,
-				listThreads: {
-					...state.listThreads,
-					threadDetails: null,
-					status_code: 0
-				},
 				createComment: {
 					...state.createComment,
 					commentToReply: {
@@ -591,16 +592,38 @@ const threadsReducer = (state = initialState, action) => {
 				}
 			};
 		case ActionTypes.GET_COMMENT_DETAILS:
-			const { data, status } = action.payload;
 			return {
 				...state,
 				commentDetails: {
 					...state.commentDetails,
-					data: data.data[0],
+					data: action.payload.data.data[0],
 					message: 'Success get comment details',
-					status_code: status
+					status_code: action.payload.status
 				}
-			};
+      };
+    case 'GET_COMMENT_LIST':
+      // this is a work around to make sure every first page fetch is replacing the existing list
+      const initialList = action.payload.page === 1 ? [] : state.commentList.list
+      return {
+        ...state,
+        commentList: {
+          list: [
+            ...initialList,
+            ...action.payload.data.data.comments
+          ],
+          page: action.payload.page,
+          pages: action.payload.data.totalPage
+        }
+      }
+    case 'REFRESH_COMMENT_LIST':
+      return {
+        ...state,
+        commentList: {
+          list: [],
+          page: 1,
+          pa
+        }
+      }
 		default:
 			return state;
 	}

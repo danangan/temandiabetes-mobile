@@ -40,18 +40,13 @@ class ModalReplyComment extends Component {
     const { status_code } = this.props.dataThreads.createComment.commentToReply;
     if (status_code === 201 && this.state.isSubmit) {
       // get thread details again
-      this.props.getThreadDetails(this.props.idThread);
-
-      this.setState(
-        {
-          isSubmit: false
-        },
-        () => {
-          Navigation.dismissModal({
-            animationType: 'slide-down'
-          });
-        }
-      );
+      this.setState({
+        isSubmit: false
+      }, () => {
+        Navigation.dismissModal({
+          animationType: 'slide-down'
+        });
+      });
     }
   }
 
@@ -61,21 +56,19 @@ class ModalReplyComment extends Component {
     if (this.state.komentar === '') {
       alert('Silahkan input komentar Anda');
     } else {
-      this.setState(
-        {
-          isSubmit: true
-        },
-        () => {
-          const comment = {
-            idComment: this.props.idComment,
-            params: {
-              user: currentUser._id,
-              text: this.state.komentar
-            }
-          };
-          this.props.commentToReply(comment);
-        }
-      );
+      this.setState({
+        isSubmit: true
+      }, () => {
+        const comment = {
+          idThread: this.props.idThread,
+          idComment: this.props.idComment,
+          params: {
+            user: currentUser._id,
+            text: this.state.komentar
+          }
+        };
+        this.props.commentToReply(comment);
+      });
     }
   }
 
@@ -129,23 +122,6 @@ class ModalReplyComment extends Component {
             </Text>
           </TouchableOpacity>
         </View>
-        {/* <TouchableOpacity
-          style={{
-            display: !this.state.keyboardActive ? 'none' : null,
-            position: 'absolute',
-            width: '30%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            bottom: 0,
-            right: 10,
-            backgroundColor: '#262d67',
-            paddingHorizontal: 15,
-            paddingVertical: 15
-          }}
-          onPress={this.state.isSubmit ? null : this.onSubmitComment}
-        >
-          <Text style={{ color: '#fff' }}>{this.state.isSubmit ? 'Loading' : 'Kirim'}</Text>
-        </TouchableOpacity> */}
       </View>
     );
   }

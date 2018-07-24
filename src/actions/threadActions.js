@@ -499,6 +499,9 @@ export const createComment = comment => async dispatch => {
   };
 
   function onSuccess(data) {
+    // refresh the commentlist
+    dispatch(getCommentList({ threadId: comment.idThread, page: 1 }))
+
     dispatch({
       type: ActionTypes.CREATE_COMMENT,
       payload: data
@@ -517,6 +520,7 @@ export const createComment = comment => async dispatch => {
     });
 
     onSuccess(request);
+
   } catch (error) {
     onSuccess(error);
   }
@@ -535,6 +539,8 @@ export const commentToReply = comment => async dispatch => {
   };
 
   function onSuccess(data) {
+    dispatch(getCommentList({ threadId: comment.idThread, page: 1 }))
+
     dispatch({
       type: ActionTypes.COMMENT_TO_REPLY,
       payload: data
@@ -628,6 +634,10 @@ export const toUnFollowThread = idThread => async dispatch => {
   }
 };
 
+export const resetComment = {
+  type: 'RESET_COMMENT_LIST'
+}
+
 export const getCommentDetails = idComment => async dispatch => {
   const isPending = () => {
     dispatch({
@@ -661,12 +671,19 @@ export const getCommentDetails = idComment => async dispatch => {
   }
 };
 
-export const getCommentList = ({ url }) => async dispatch => {
+export const getCommentList = ({ threadId, page = 1, limit = 10 }) => async dispatch => {
+  const url = `api/threads/${threadId}/comment/list?limit=${limit}&page=${page}`
   function onSuccess(data) {
-    dispatch({
-      type: ActionTypes.GET_COMMENT_LIST,
-      payload: data
-    });
+    // only update if the data result is not and empty array
+    if (data.data.data.comments.length > 0) {
+      dispatch({
+        type: ActionTypes.GET_COMMENT_LIST,
+        payload: {
+          ...data,
+          page
+        }
+      });
+    }
 
     return data;
   }

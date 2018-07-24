@@ -108,7 +108,7 @@ class CommentThread extends React.Component {
                     title: 'Modal',
                     passProps: {
                       idComment: _id,
-                      idThread: this.props.idThread
+                      idThread: this.props.threadId
                     },
                     navigatorButtons: {
                       leftButtons: [{}]

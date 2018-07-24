@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { debounce, result } from 'lodash';
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, Image } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
   getThreadDetails,
   toFollowThread,
   toUnFollowThread,
   getCommentDetails,
-  getCommentList
+  getCommentList,
+  resetComment
 } from '../../../actions/threadActions';
 
 import { CardSection, Spinner } from '../../../components';
@@ -30,8 +31,6 @@ class ThreadDetails extends React.Component {
       idThread: this.props.item._id,
       isProcess: true,
       isLoadingSubscribe: false,
-      commentsList: [],
-      pageComment: 1,
       isLoadMore: true
     };
     this.requestFollowThread = this.requestFollowThread.bind(this);
@@ -42,8 +41,13 @@ class ThreadDetails extends React.Component {
   }
 
   componentDidMount() {
+    // reset comment list
     this.fetchThreadDetails();
     this.toGetCommentList();
+  }
+
+  componentWillUnmount() {
+    this.props.resetComment();
   }
 
   shouldComponentUpdate() {
@@ -69,29 +73,23 @@ class ThreadDetails extends React.Component {
     this.props.getThreadDetails(this.state.idThread);
   }
 
-  async toGetCommentList({ isRefresh = false } = {}, cb = () => {}) {
-    const { idThread, pageComment } = this.state;
-    const requestList = await this.props.getCommentList({ url: `api/threads/${idThread}/comment/list?limit=10&page=${pageComment}` });
-    const { comments } = requestList.data.data;
-    if (comments.length) {
-      this.setState({ commentsList: isRefresh ? comments : [...this.state.commentsList, ...comments] }, () => {
-        cb()
-      });
-    }
+  async toGetCommentList(cb = () => {}) {
+    const { idThread } = this.state;
+    const { dataThreads: { commentList } } = this.props;
+    await this.props.getCommentList({ threadId: idThread, page: commentList.page });
+    cb()
   }
 
-  refreshPage(cb) {
-    this.setState({
-      pageComment: 1
-    }, () => {
-      this.toGetCommentList({ isRefresh: true}, cb)
-    })
+  async refreshPage(cb = () => {}) {
+    const { idThread } = this.state;
+    await this.props.getCommentList({ threadId: idThread, page: 1 });
+    cb()
   }
 
   nextPageCommentList() {
-    this.setState({ pageComment: this.state.pageComment + 1 }, () => {
-      this.toGetCommentList();
-    });
+    const { idThread } = this.state;
+    const { dataThreads: { commentList } } = this.props;
+    this.props.getCommentList({ threadId: idThread, page: commentList.page + 1 });
   }
 
   requestUnfollowThread() {
@@ -196,7 +194,7 @@ class ThreadDetails extends React.Component {
 
   render() {
     const { _id } = this.props.item;
-    const { listThreads } = this.props.dataThreads;
+    const { listThreads, commentList } = this.props.dataThreads;
     const { threadDetails } = listThreads;
     if (this.state.isProcess || threadDetails === null) {
       return (
@@ -303,9 +301,10 @@ class ThreadDetails extends React.Component {
         </CardSection>
         <View style={{ flex: 1, paddingBottom: 0 }}>
           <ContentDetail
+            threadId={this.state.idThread}
             threadItem={threadDetails}
             navigator={this.toCommentDetails}
-            commentList={this.state.commentsList}
+            commentList={commentList.list}
             nextPageCommentList={this.nextPageCommentList}
             refreshPage={this.refreshPage}
             isLoadMore={this.state.isLoadMore}
@@ -357,7 +356,8 @@ const mapDispatchToProps = dispatch => ({
   toFollowThread: idThread => dispatch(toFollowThread(idThread)),
   toUnFollowThread: idThread => dispatch(toUnFollowThread(idThread)),
   getCommentDetails: idComment => dispatch(getCommentDetails(idComment)),
-  getCommentList: url => dispatch(getCommentList(url))
+  getCommentList: data => dispatch(getCommentList(data)),
+  resetComment: () => dispatch(resetComment)
 });
 
 export default connect(

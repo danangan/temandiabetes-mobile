@@ -18,12 +18,12 @@ class ContentDetail extends React.Component {
     this.onRefresh = this.onRefresh.bind(this);
   }
 
-  renderItem(threadItem, navigator) {
+  renderItem(threadId, navigator) {
     return ({ item, index }) => (
       <CommentThread
         key={index}
         contentComment={item}
-        idThread={result(threadItem, '_id')}
+        threadId={threadId}
         idComment={item._id}
         navigator={navigator}
       />
@@ -48,7 +48,7 @@ class ContentDetail extends React.Component {
 
   render () {
     const { isRefreshing } = this.state;
-    const { threadItem, navigator, commentList } = this.props;
+    const { threadItem, navigator, commentList, threadId } = this.props;
     return (
       <View>
         <FlatList
@@ -56,7 +56,7 @@ class ContentDetail extends React.Component {
             <ThreadDesc desc={result(threadItem, 'description', '')} />
           }
           data={commentList}
-          renderItem={this.renderItem(threadItem, navigator)}
+          renderItem={this.renderItem(threadId, navigator)}
           refreshing={isRefreshing}
           onRefresh={this.onRefresh}
           onEndReached={this.onEndReached}
