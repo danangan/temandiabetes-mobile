@@ -37,7 +37,7 @@ class HeaderDetail extends React.Component {
 					/>
 					<View style={{ flex: 1, margin: 5 }}>
             <Text style={{ fontSize: 12 }}>{author.nama}</Text>
-						<Text style={{ fontSize: 10 }}>Posted on {formatDateTime(date)}</Text>
+						<Text style={{ fontSize: 10 }}>Posted on {formatDateTime(date, {isUTC: true})}</Text>
 						<Text style={{ fontSize: 10 }}>{author.tipe_user}</Text>
           </View>
           {this.renderCategory(category)}

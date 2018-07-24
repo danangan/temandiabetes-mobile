@@ -36,7 +36,7 @@ const Footer = ({ author, threadItem }) => {
         {author.nama !== '' && (
           <View style={styles.nameAndMonthStyle}>
             <Text style={styles.nameStyle}>{processName(author.nama)}</Text>
-            <Text style={styles.monthStyle}>{dateFormatter(threadItem.createdAt)}</Text>
+            <Text style={styles.monthStyle}>{dateFormatter(threadItem.createdAt, {isUTC: true})}</Text>
           </View>
         )}
       </View>

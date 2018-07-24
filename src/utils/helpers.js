@@ -10,20 +10,32 @@ export const getInitialName = (name, defaultVal = 'NA') => {
   return initialName.toUpperCase();
 };
 
-export const dateFormatter = (date) => {
+export const dateFormatter = (date, { isUTC = false } = {}) => {
   if (!date) return '';
-  date = new moment(date).utc();
+  if (isUTC) {
+    date = new moment(date).utc();
+  } else {
+    date = new moment(date).local();
+  }
   return date.format('DD-MM-YYYY')
 };
 
-export const dateFormateName = (date) => {
+export const dateFormateName = (date, { isUTC = false } = {}) => {
   if (!date) return '';
-  date = new moment(date).utc();
+  if (isUTC) {
+    date = new moment(date).utc();
+  } else {
+    date = new moment(date).local();
+  }
   return date.format('DD MMM YYYY')
 };
 
-export const formatTimeFromDate = (date, separator = ':') => {
-  date = new moment(date).utc()
+export const formatTimeFromDate = (date, separator = ':', { isUTC = false } = {}) => {
+  if (isUTC) {
+    date = new moment(date).utc();
+  } else {
+    date = new moment(date).local();
+  }
   let hours = String(date.hour())
   hours = hours.length <= 1 ? `0${hours}` : hours
   let minutes = String(date.minute())
@@ -31,8 +43,8 @@ export const formatTimeFromDate = (date, separator = ':') => {
   return hours + separator + minutes
 }
 
-export const formatDateTime = date => {
-  return dateFormateName(date) + ' ' + formatTimeFromDate(date)
+export const formatDateTime = (date, { isUTC = false } = {}) => {
+  return dateFormateName(date, { isUTC }) + ' ' + formatTimeFromDate(date, ':', { isUTC })
 }
 
 // result is like result from lodash

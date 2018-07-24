@@ -6,7 +6,7 @@ import { NavigationBar, Button, Spinner } from '../../components';
 import { result } from 'lodash';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import { sliceString } from '../../utils/helpers';
-import { dateFormateName, formatTimeFromDate, capitalize } from '../../utils/helpers';
+import { dateFormateName, formatTimeFromDate } from '../../utils/helpers';
 
 class Notification extends React.Component {
   static navigatorStyle = {

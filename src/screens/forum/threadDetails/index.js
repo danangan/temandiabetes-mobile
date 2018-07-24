@@ -42,6 +42,7 @@ class ThreadDetails extends React.Component {
 
   componentDidMount() {
     // reset comment list
+    this.props.resetComment();
     this.fetchThreadDetails();
     this.toGetCommentList();
   }

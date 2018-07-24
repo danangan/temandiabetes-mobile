@@ -615,6 +615,15 @@ const threadsReducer = (state = initialState, action) => {
           pages: action.payload.data.totalPage
         }
       }
+    case 'RESET_COMMENT_LIST':
+      return {
+        ...state,
+        commentList: {
+          list: [],
+          page: 1,
+          pages: 0
+        }
+      }
     case 'REFRESH_COMMENT_LIST':
       return {
         ...state,
