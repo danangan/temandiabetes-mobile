@@ -26,12 +26,24 @@ const HistoryHba1c = ({ history }) => {
       break;
   }
 
+  let size = 0;
+  switch (true) {
+    case valueHba1c.toString().length >= 4:
+      size = Style.FONT_SIZE * 1.2;
+      break;
+    default:
+      size = Style.FONT_SIZE_TITLE * 1.2;
+      break;
+  }
+
   return (
     <View style={styles.containerStyle}>
       <Text style={styles.titleStyle}>HbA1c</Text>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.hba1cContainerStyle}>
-          <Text style={styles.hba1cStyle}>{valueHba1c}%</Text>
+          <Text style={[styles.hba1cStyle, { fontSize: size }]}>
+            {valueHba1c.toString().slice(0, 4)}%
+          </Text>
           <Text style={styles.statusHba1cStyle}>({status})</Text>
         </View>
         <Text style={styles.textStyle}>{wording}</Text>
@@ -94,7 +106,6 @@ const styles = StyleSheet.create({
   },
   hba1cStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_TITLE * 1.2,
     fontWeight: 'bold',
     color: '#556299'
   },

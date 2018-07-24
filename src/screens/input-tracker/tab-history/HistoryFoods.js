@@ -9,8 +9,6 @@ import MealTime from './MealTime';
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
 
-const today = new Date();
-const hours = moment(today).format('LT');
 const LineVertical = () => (
   <View
     style={{
@@ -37,7 +35,7 @@ const HistoryFoods = ({ history }) => {
       <Text style={styles.titleStyle}>Log Makanan</Text>
       <View style={{ flexDirection: 'row' }}>
         <Text style={styles.todayStyle}>Hari Ini</Text>
-        <Text style={styles.hourStyle}>{hours}</Text>
+        <Text style={styles.hourStyle}>{moment(mealTime.waktuInput).format('LT')}</Text>
       </View>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.cardContentStyle}>

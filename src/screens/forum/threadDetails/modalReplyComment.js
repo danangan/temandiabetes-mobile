@@ -6,6 +6,7 @@ import { Navigation } from 'react-native-navigation';
 
 import { commentToReply, getThreadDetails } from '../../../actions/threadActions';
 import Closed from '../../../assets/icons/close.png';
+import Style from '../../../style/defaultStyle';
 
 class ModalReplyComment extends Component {
   static navigatorStyle = {
@@ -103,23 +104,11 @@ class ModalReplyComment extends Component {
         </View>
         <View style={styles.wrapFooter}>
           <TouchableOpacity
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#262d67',
-              width: '25%',
-              paddingHorizontal: 15,
-              paddingVertical: 5,
-              height: 33
-            }}
+            style={styles.buttonSend}
             disabled={this.state.isSubmit}
             onPress={debounce(this.onSubmitComment, 200)}
           >
-            <Text
-              style={{ fontSize: 14, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}
-            >
-              {this.state.isSubmit ? 'Loading' : 'Kirim'}
-            </Text>
+            <Text style={styles.titleButtonSend}>{this.state.isSubmit ? 'Loading' : 'Kirim'}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -187,6 +176,21 @@ const styles = {
     borderTopColor: '#f2f3f7',
     elevation: 4,
     paddingVertical: 10
+  },
+  buttonSend: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#262d67',
+    flexWrap: 'wrap',
+    paddingHorizontal: 15,
+    paddingVertical: 5,
+    height: 33
+  },
+  titleButtonSend: {
+    fontSize: Style.FONT_SIZE_SMALL,
+    color: '#fff',
+    textAlign: 'center',
+    paddingHorizontal: 5
   }
 };
 

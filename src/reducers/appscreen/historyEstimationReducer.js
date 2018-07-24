@@ -6,7 +6,8 @@ const initialState = {
   hba1c: null,
   activity: null,
   bloodPressure: null,
-  weight: null
+  weight: null,
+  foods: null
 };
 
 const getHistoryHba1c = (state, payload) => ({
@@ -32,8 +33,8 @@ const getHistoryBloodPressure = (state, payload) => ({
 
 const getHistoryWeight = (state, payload) => ({
   ...state,
-  status: null,
-  message: null,
+  status: 200,
+  message: 'success',
   weight: payload.beratBadan
 });
 
@@ -53,6 +54,8 @@ const getHistoryBloodSugarLevels = (state, payload) => ({
 
 const historyEstimationReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'RESET_STATE':
+      return { ...state, status: null, message: null, foods: null };
     case ActionTypes.GET_HISTORY_HBA1C:
       return getHistoryHba1c(state, action.payload);
     case ActionTypes.GET_HISTORY_ACTIVITY:

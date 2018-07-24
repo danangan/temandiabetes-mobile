@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
   Keyboard,
-  ScrollView,
+  ScrollView
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { debounce } from 'lodash';
@@ -16,10 +16,11 @@ import Closed from '../../assets/icons/close.png';
 import { Avatar } from '../../components';
 
 import { userReport } from '../../actions/threadActions';
+import Style from '../../style/defaultStyle';
 
 class ModalReport extends Component {
   static navigatorStyle = {
-		navBarHidden: true
+    navBarHidden: true
   };
 
   constructor(props) {
@@ -28,18 +29,18 @@ class ModalReport extends Component {
       reason: '',
       description: '',
       keyboardActive: false,
-      isSubmit: false,
+      isSubmit: false
     };
     this.onSubmitThread = this.onSubmitThread.bind(this);
   }
 
   componentWillMount() {
-		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-			this.setState({ keyboardActive: true });
-		});
-		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-			this.setState({ keyboardActive: false });
-		});
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ keyboardActive: true });
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ keyboardActive: false });
+    });
   }
 
   componentWillReceiveProps({ dataThreads }) {
@@ -48,9 +49,7 @@ class ModalReport extends Component {
       Alert.alert(
         'Laporan Anda berhasil terkirim!',
         'Terimakasih atas partisipasi Anda',
-        [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-        ],
+        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
         { cancelable: false }
       );
       Navigation.dismissModal({
@@ -62,9 +61,9 @@ class ModalReport extends Component {
     }
   }
 
-	componentWillUnmount() {
-		this.keyboardDidShowListener.remove();
-		this.keyboardDidHideListener.remove();
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   async onSubmitThread() {
@@ -74,15 +73,18 @@ class ModalReport extends Component {
         reason: this.state.reason,
         description: this.state.description
       };
-      this.setState({
-        isSubmit: true
-      }, () => {
-        this.props.userReport(dataThread);
-      });
+      this.setState(
+        {
+          isSubmit: true
+        },
+        () => {
+          this.props.userReport(dataThread);
+        }
+      );
     } else {
-      Alert.alert('Error', 'Lengkapi data terlebih dahulu')
+      Alert.alert('Error', 'Lengkapi data terlebih dahulu');
     }
-	}
+  }
 
   render() {
     const { reason } = this.state;
@@ -98,31 +100,39 @@ class ModalReport extends Component {
             alignItems: 'center'
           }}
         >
-					<Text style={{ fontSize: 20, color: '#000', fontFamily: 'Montserrat-ExtraLight' }}>Loading...</Text>
-				</View>
-			);
+          <Text style={{ fontSize: 20, color: '#000', fontFamily: 'Montserrat-ExtraLight' }}>
+            Loading...
+          </Text>
+        </View>
+      );
     }
     return (
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
             <TouchableOpacity
-              onPress={() => Navigation.dismissModal({
-                animationType: 'slide-down'
-              })}
+              onPress={() =>
+                Navigation.dismissModal({
+                  animationType: 'slide-down'
+                })
+              }
             >
-                <Image
-                  source={Closed}
-                  style={{ width: 15, height: 15 }}
-                />
-              </TouchableOpacity>
-              <View style={{ flex: 1, justifyContent: 'flex-end', marginRight: 15  }}>
-                <Text style={styles.titleForm}>Report Thread</Text>
-              </View>
+              <Image source={Closed} style={{ width: 15, height: 15 }} />
+            </TouchableOpacity>
+            <View style={{ flex: 1, justifyContent: 'flex-end', marginRight: 15 }}>
+              <Text style={styles.titleForm}>Report Thread</Text>
+            </View>
           </View>
 
           <View style={styles.wrapTextInput}>
-            <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', padding: 10 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                padding: 10
+              }}
+            >
               <Avatar
                 avatarSize="ExtraSmall"
                 imageSource={currentUser.foto_profile}
@@ -130,18 +140,34 @@ class ModalReport extends Component {
               />
               <Text>{currentUser.nama}</Text>
             </View>
-            <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'space-around', marginVertical: 20 }}>
-              <TouchableOpacity
-                onPress={() => this.setState({reason: 'offensive'})}
-              >
+            <View
+              style={{
+                flex: 0,
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                marginVertical: 20
+              }}
+            >
+              <TouchableOpacity onPress={() => this.setState({ reason: 'offensive' })}>
                 <Text
-                  style={{ color: '#4a4a4a', fontFamily: reason === 'offensive' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight' }}>OFFENSIVE</Text>
+                  style={{
+                    color: '#4a4a4a',
+                    fontFamily: reason === 'offensive' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight'
+                  }}
+                >
+                  OFFENSIVE
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => this.setState({reason: 'hoax'})}
-              >
-                <Text style={{ color: '#4a4a4a', fontFamily: reason === 'hoax' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight' }}>HOAX</Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => this.setState({ reason: 'hoax' })}>
+                <Text
+                  style={{
+                    color: '#4a4a4a',
+                    fontFamily: reason === 'hoax' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight'
+                  }}
+                >
+                  HOAX
+                </Text>
+              </TouchableOpacity>
             </View>
             <ScrollView>
               <TextInput
@@ -149,24 +175,17 @@ class ModalReport extends Component {
                 multiline
                 style={styles.itemTextInput}
                 placeholder={'Optional: masukkan link yang dapat mendukung konteks'}
-                onChangeText={(description) => this.setState({ description })}
+                onChangeText={description => this.setState({ description })}
               />
             </ScrollView>
           </View>
           <View style={styles.wrapFooter}>
             <TouchableOpacity
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: '#262d67',
-                width: '30%',
-                paddingHorizontal: 15,
-                paddingVertical: 5,
-              }}
+              style={styles.buttonReport}
               onPress={debounce(this.onSubmitThread, 300)}
             >
-              <Text style={{ fontFamily: 'Montserrat-Medium', fontSize: 13, color: '#fff', textAlign: 'center', paddingHorizontal: 5 }}>
-                { this.state.isSubmit ? 'Loading' : 'Laporkan' }
+              <Text style={styles.titleButtonReport}>
+                {this.state.isSubmit ? 'Loading' : 'Laporkan'}
               </Text>
             </TouchableOpacity>
           </View>
@@ -243,7 +262,7 @@ const styles = {
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
     color: '#4a4a4a',
-    fontSize: 12,
+    fontSize: 12
   },
   wrapFooter: {
     width: '100%',
@@ -255,7 +274,22 @@ const styles = {
     backgroundColor: '#fff',
     borderTopColor: '#f2f3f7',
     elevation: 4,
-    paddingVertical: 5,
+    paddingVertical: 5
+  },
+  buttonReport: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#262d67',
+    flexWrap: 'wrap',
+    paddingHorizontal: 15,
+    paddingVertical: 5
+  },
+  titleButtonReport: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: Style.FONT_SIZE_SMALL,
+    color: '#fff',
+    textAlign: 'center',
+    paddingHorizontal: 5
   }
 };
 
@@ -265,7 +299,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	userReport: (dataThreads, token) => dispatch(userReport(dataThreads, token )),
+  userReport: (dataThreads, token) => dispatch(userReport(dataThreads, token))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalReport);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ModalReport);

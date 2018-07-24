@@ -160,3 +160,20 @@ export const getHistoryBloodSugarLevels = () => async dispatch => {
     return onSuccess(error);
   }
 };
+
+export const resetStateHistory = () => async dispatch => {
+  function onReset() {
+    dispatch({
+      type: 'RESET_STATE',
+      payload: true
+    });
+
+    return true;
+  }
+
+  try {
+    onReset();
+  } catch (error) {
+    onReset(error);
+  }
+};

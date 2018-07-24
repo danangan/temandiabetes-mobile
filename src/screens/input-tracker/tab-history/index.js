@@ -22,7 +22,8 @@ import {
   getHistoryBloodPressure,
   getHistoryWeight,
   getHistoryFoods,
-  getHistoryBloodSugarLevels
+  getHistoryBloodSugarLevels,
+  resetStateHistory
 } from '../../../actions';
 
 class TabHistoryEstimation extends Component {
@@ -35,14 +36,24 @@ class TabHistoryEstimation extends Component {
 
   componentDidMount() {
     this.getMakeRequest();
+    this.setState({ refreshing: true });
+  }
+
+  componentDidUpdate() {
+    const { status, foods } = this.props.historyEstimation;
+    const { refreshing } = this.state;
+    if (status === 200 && refreshing && foods !== null) {
+      this.setState({ refreshing: false }, () => this.props.resetState());
+    }
   }
 
   onRefresh = () => {
-    this.setState({ refreshing: true });
-    this.getMakeRequest().then(() => this.setState({ refreshing: false }));
+    this.setState({ refreshing: true }, () => {
+      this.getMakeRequest();
+    });
   };
 
-  getMakeRequest = async () => {
+  getMakeRequest = () => {
     try {
       Promise.all([
         this.props.getHistoryBloodSugarLevels(),
@@ -162,16 +173,21 @@ const styles = {
   }
 };
 
+const mapStateToProps = state => ({
+  historyEstimation: state.historyEstimationReducer
+});
+
 const mapDispatchToProps = dispatch => ({
   getHistoryHba1c: () => dispatch(getHistoryHba1c()),
   getHistoryActivity: () => dispatch(getHistoryActivity()),
   getHistoryBloodPressure: () => dispatch(getHistoryBloodPressure()),
   getHistoryWeight: () => dispatch(getHistoryWeight()),
   getHistoryFoods: () => dispatch(getHistoryFoods()),
-  getHistoryBloodSugarLevels: () => dispatch(getHistoryBloodSugarLevels())
+  getHistoryBloodSugarLevels: () => dispatch(getHistoryBloodSugarLevels()),
+  resetState: () => dispatch(resetStateHistory())
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(TabHistoryEstimation);
