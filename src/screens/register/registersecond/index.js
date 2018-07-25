@@ -20,6 +20,7 @@ import {
   clearDataRegister
 } from '../../../actions/registerActions';
 import Images from '../../../assets/images';
+import { SnackBar } from '../../../components';
 
 class RegisterScreenSecond extends React.Component {
   static navigatorStyle = {
@@ -30,9 +31,10 @@ class RegisterScreenSecond extends React.Component {
     super(props);
     this.state = {
       email: null,
-      message: '',
       emailChecking: false,
-      keyboardActive: false
+      keyboardActive: false,
+      showSnackBar: true,
+      errorMessage: ''
     };
     this.handleNavigation = this.handleNavigation.bind(this);
   }
@@ -84,9 +86,6 @@ class RegisterScreenSecond extends React.Component {
         fcmToken: this.props.fcmToken
       }
     });
-    this.setState({
-      message: ''
-    });
   }
 
   handleNavigation() {
@@ -100,23 +99,37 @@ class RegisterScreenSecond extends React.Component {
           const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
           const shouldTrue = emailRegex.test(email);
           if (!shouldTrue) {
-            this.setState({
-              message: 'Email yang Anda masukkan tidak valid!',
-              keyboardActive: false,
-              emailChecking: false
-            });
+            this.setState(
+              {
+                keyboardActive: false,
+                emailChecking: false
+              },
+              () => this.showSnackBar('Email yang Anda masukkan tidak valid!')
+            );
           } else {
             this.props.emailAlreadyRegistered(email);
           }
         } else {
-          this.setState({
-            message: 'Masukan email Anda',
-            emailChecking: false
-          });
+          this.setState(
+            {
+              emailChecking: false
+            },
+            () => this.showSnackBar('Masukan email Anda')
+          );
         }
       }
     );
   }
+
+  showSnackBar = message => {
+    this.setState({ showSnackBar: true, errorMessage: message }, () => this.hideSnackBar());
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false });
+    }, 2000);
+  };
 
   render() {
     const { email } = this.props.registerReducer.dataUser;
@@ -168,6 +181,11 @@ class RegisterScreenSecond extends React.Component {
               <Indicator persentase={{ width: '40%' }} />
             </View>
           </View>
+          <SnackBar
+            visible={this.state.showSnackBar}
+            textMessage={this.state.errorMessage}
+            position="top"
+          />
         </ImageBackground>
       </View>
     );

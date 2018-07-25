@@ -14,7 +14,7 @@ import {
 
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
-import { Spinner } from '../../../components/';
+import { Spinner, SnackBar } from '../../../components/';
 import Style from '../../../style/defaultStyle';
 import { registerAction, registerSip } from '../../../actions';
 import { API_BASE } from '../../../utils/API';
@@ -30,7 +30,9 @@ class RegisterFive extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sip: ''
+      sip: '',
+      showSnackBar: true,
+      errorMessage: ''
     };
   }
 
@@ -119,9 +121,19 @@ class RegisterFive extends React.Component {
         }
       );
     } else {
-      Alert.alert('Harap input nomor SIP Anda.');
+      this.showSnackBar('Harap input nomor SIP Anda.');
     }
   }
+
+  showSnackBar = message => {
+    this.setState({ showSnackBar: true, errorMessage: message }, () => this.hideSnackBar());
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false });
+    }, 2000);
+  };
 
   render() {
     const { message, status_code, sip } = this.props.dataRegister.dataUser;
@@ -132,7 +144,7 @@ class RegisterFive extends React.Component {
         </View>
       );
     } else if (message === 'registration data incomplete' && status_code === 400) {
-      Alert.alert('Data already exist!');
+      this.showSnackBar('Data Anda sudah terdaftar.');
     }
     return (
       <View style={styles.container}>
@@ -180,6 +192,11 @@ class RegisterFive extends React.Component {
               <Indicator persentase={{ width: '100%' }} />
             </View>
           </View>
+          <SnackBar
+            visible={this.state.showSnackBar}
+            textMessage={this.state.errorMessage}
+            position="top"
+          />
         </ImageBackground>
       </View>
     );

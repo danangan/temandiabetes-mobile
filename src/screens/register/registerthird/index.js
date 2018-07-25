@@ -15,6 +15,7 @@ import { Indicator } from '../../../components/indicator/Indicator';
 import Style from '../../../style/defaultStyle';
 import { registerPassword } from '../../../actions/registerActions';
 import Images from '../../../assets/images';
+import { SnackBar } from '../../../components';
 
 class RegisterScreenThird extends React.Component {
   static navigatorStyle = {
@@ -26,8 +27,9 @@ class RegisterScreenThird extends React.Component {
     this.state = {
       password: null,
       confirmPassword: null,
-      message: '',
-      keyboardActive: false
+      keyboardActive: false,
+      showSnackBar: false,
+      errorMessage: ''
     };
   }
 
@@ -49,9 +51,7 @@ class RegisterScreenThird extends React.Component {
     const { password, confirmPassword } = this.props.registerReducer.dataUser;
     if (password || confirmPassword !== '') {
       if (password !== confirmPassword) {
-        this.setState({
-          message: 'Kata sandi Anda tidak sesuai'
-        });
+        this.showSnackBar('Kata sandi Anda tidak sesuai');
       } else if (password === confirmPassword) {
         // detect length string
         const passwordLength = password.length < 6;
@@ -61,9 +61,7 @@ class RegisterScreenThird extends React.Component {
         const oneNumber = /\d+/.test(password);
 
         if (passwordLength || !isOneUpperCase || !oneNumber) {
-          this.setState({
-            message: 'Password minimal 5 karakter, 1 huruf kapital, dan 1 angka'
-          });
+          this.showSnackBar('Password minimal 6 karakter dengan 1 huruf kapital dan 1 angka');
         } else {
           this.props.navigator.push({
             screen: 'TemanDiabetes.RegisterScreenFourth',
@@ -72,17 +70,22 @@ class RegisterScreenThird extends React.Component {
               fcmToken: this.props.fcmToken
             }
           });
-          this.setState({
-            message: ''
-          });
         }
       }
     } else {
-      this.setState({
-        message: 'Silakan lengkapi semua isian'
-      });
+      this.showSnackBar('Silakan lengkapi semua isian');
     }
   }
+
+  showSnackBar = message => {
+    this.setState({ showSnackBar: true, errorMessage: message }, () => this.hideSnackBar());
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false });
+    }, 3000);
+  };
 
   render() {
     const { password, confirmPassword } = this.props.registerReducer.dataUser;
@@ -137,14 +140,16 @@ class RegisterScreenThird extends React.Component {
               <TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
                 <Text style={styles.buttonText}>LANJUT</Text>
               </TouchableOpacity>
-              <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 20, color: 'red' }}>
-                {this.state.message}
-              </Text>
             </View>
             <View style={styles.indicatorWrapper}>
               <Indicator persentase={{ width: '60%' }} />
             </View>
           </View>
+          <SnackBar
+            visible={this.state.showSnackBar}
+            textMessage={this.state.errorMessage}
+            position="top"
+          />
         </ImageBackground>
       </View>
     );

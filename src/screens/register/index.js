@@ -15,6 +15,7 @@ import styles from './style';
 import { registerNama } from '../../actions/registerActions';
 import Style from '../../style/defaultStyle';
 import Images from '../../assets/images';
+import { SnackBar } from '../../components';
 
 class Register extends Component {
   static navigatorStyle = {
@@ -24,7 +25,8 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      message: '',
+      errorMessage: '',
+      showSnackBar: false,
       keyboardActive: false
     };
   }
@@ -47,28 +49,27 @@ class Register extends Component {
     const { nama } = this.props.registerReducer.dataUser;
     if (nama !== '') {
       if (nama.length < 3) {
-        this.setState({
-          message: 'Minimal 3 karakter'
-        });
+        this.showSnackBar('Minimal 3 karakter');
       } else {
-        this.setState(
-          {
-            message: ''
-          },
-          () => {
-            this.props.navigator.push({
-              screen: 'TemanDiabetes.RegisterScreenSecond',
-              title: 'Next Step 2'
-            });
-          }
-        );
+        this.props.navigator.push({
+          screen: 'TemanDiabetes.RegisterScreenSecond',
+          title: 'Next Step 2'
+        });
       }
     } else {
-      this.setState({
-        message: 'Masukkan nama Anda'
-      });
+      this.showSnackBar('Masukkan nama Anda');
     }
   }
+
+  showSnackBar = message => {
+    this.setState({ showSnackBar: true, errorMessage: message }, () => this.hideSnackBar());
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false });
+    }, 2000);
+  };
 
   render() {
     const { nama } = this.props.registerReducer.dataUser;
@@ -115,12 +116,16 @@ class Register extends Component {
               <TouchableOpacity style={styles.btnNext} onPress={() => this.handleNavigation()}>
                 <Text style={styles.buttonText}>LANJUT</Text>
               </TouchableOpacity>
-              <Text style={stylesLocal.errMessage}>{this.state.message}</Text>
             </View>
             <View style={styles.indicatorWrapper}>
               <Indicator persentase={stylesLocal.indicatorStyle} />
             </View>
           </View>
+          <SnackBar
+            visible={this.state.showSnackBar}
+            textMessage={this.state.errorMessage}
+            position="top"
+          />
         </ImageBackground>
       </View>
     );
@@ -138,13 +143,7 @@ const stylesLocal = {
     paddingLeft: 20,
     fontFamily: 'Montserrat-Regular'
   },
-  indicatorStyle: { width: '20%' },
-  errMessage: {
-    fontSize: Style.FONT_SIZE_SMALL * 1.2,
-    color: 'red',
-    marginTop: 10,
-    fontFamily: 'Montserrat-Regular'
-  }
+  indicatorStyle: { width: '20%' }
 };
 
 const mapStateToProps = state => ({ registerReducer: state.registerReducer });
