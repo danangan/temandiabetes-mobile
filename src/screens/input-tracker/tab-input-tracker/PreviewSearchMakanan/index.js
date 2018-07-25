@@ -40,7 +40,7 @@ const TextInputHoc = (props) => (
         placeholder={props.placeholder}
         style={{
           textAlign: 'center',
-          fontSize: 20,
+          fontSize: 18,
           fontFamily: 'OpenSans-Italic',
         }}
         underlineColorAndroid="#ef434e"
@@ -407,7 +407,7 @@ class PreviewSearchMakanan extends React.Component {
           title="Sarapan"
           type="sarapan"
           onFocus={() => this.setState({ typingText: 'MAKAN_SIANG' })}
-          placeholder="Input Sarapan"
+          placeholder="Masukkan menu sarapan"
           value={
             this.state.selected.sarapan === null ?
             this.state.sarapan :
@@ -423,7 +423,7 @@ class PreviewSearchMakanan extends React.Component {
           <TextInputHoc
             type="makanSiang"
             title="Makan Siang"
-            placeholder="Input Makan Siang"
+            placeholder="Masukkan menu makan siang"
             value={
               this.state.selected.makanSiang === null ?
               this.state.makanSiang :
@@ -439,7 +439,7 @@ class PreviewSearchMakanan extends React.Component {
           <TextInputHoc
             type="makanMalam"
             title="Makan Malam"
-            placeholder="Input Makan Malam"
+            placeholder="Masukkan menu makan malam"
             value={
               this.state.selected.makanMalam === null ?
               this.state.makanMalam :
@@ -455,7 +455,7 @@ class PreviewSearchMakanan extends React.Component {
           <TextInputHoc
             type="snack"
             title="Snack"
-            placeholder="Input Snack"
+            placeholder="Masukkan camilan"
             value={
               this.state.selected.snack === null ?
               this.state.snack :

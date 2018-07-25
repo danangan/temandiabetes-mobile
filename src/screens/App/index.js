@@ -264,7 +264,7 @@ class App extends Component {
           />
         <BottomTabs activeTab={activeBottomTab} updateActiveTab={this.props.updateBottomTab}>
           <TopTabs
-            title="forum"
+            title="Forum"
             icon={ForumIcon}
             activeIcon={ForumActiveIcon}
             activeTab={activeTopTab}
@@ -284,7 +284,7 @@ class App extends Component {
             </View>
           </TopTabs>
           <TopTabs
-            title="event"
+            title="Event"
             icon={EventIcon}
             activeIcon={EventActiveIcon}
             activeTab={activeTopTab}
@@ -302,23 +302,23 @@ class App extends Component {
             // only render if the user is a diabetesi
             currentUser.tipe_user === 'diabetesi' ?
             <TopTabs
-              title="rekaman"
+              title="Riwayat"
               icon={InputTrackerIcon}
               activeIcon={InputTrackerActiveIcon}
               activeTab={activeTopTab}
               updateActiveTab={this.props.updateTopTab}
             >
-              <View title="MASUKKAN PELACAK" style={styles.content}>
+              <View title="Masukkan Data" style={styles.content}>
                 <InputTrackerTab navigator={navigator}/>
               </View>
-              <View title="RIWAYAT DAN ESTIMASI" style={styles.content}>
+              <View title="Riwayat" style={styles.content}>
                 <HistoryTab navigator={navigator}/>
               </View>
             </TopTabs>
             : null
           }
           <TopTabs
-            title="belanja"
+            title="Belanja"
             icon={CartIcon}
             activeIcon={CartActiveIcon}
             activeTab={activeTopTab}
@@ -329,7 +329,7 @@ class App extends Component {
             </View>
           </TopTabs>
           <TopTabs
-            title="darurat"
+            title="Darurat"
             icon={EmergencyIcon}
             activeIcon={EmergencyActiveIcon}
             activeTab={activeTopTab}

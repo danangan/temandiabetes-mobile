@@ -11,7 +11,7 @@ class bloodGlucose extends React.Component {
         <CardSection>
           <Image source={require('../../../assets/icons/dnurse.png')} style={styles.iconStyle} />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>Gula darah</Text>
+            <Text style={styles.titleStyle}>Gula Darah</Text>
             <Text style={styles.valueStyle}>Masukkan gula darah Anda</Text>
           </View>
         </CardSection>

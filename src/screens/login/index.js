@@ -10,10 +10,6 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
-
-import firebase from 'react-native-firebase';
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 import { ButtonFacebook, ButtonGoogle, Button, Spinner, SnackBar } from '../../components/';
 import Form from './Form';

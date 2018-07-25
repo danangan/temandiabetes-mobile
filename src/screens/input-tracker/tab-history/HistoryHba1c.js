@@ -11,15 +11,15 @@ const HistoryHba1c = ({ history }) => {
   let status = 'cta';
   switch (true) {
     case valueHba1c > 0 && valueHba1c <= 5.69:
-      wording = 'Pertahankan pola makan dan lakukan aktifitas fisik secara teratur';
+      wording = 'Pertahankan pola makan dan lakukan aktivitas fisik secara teratur';
       status = 'normal';
       break;
     case valueHba1c >= 5.7 && valueHba1c <= 6.49:
-      wording = 'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur';
+      wording = 'Terapkan gaya hidup sehat dan lakukan aktivitas fisik secara teratur';
       status = 'prediabetes';
       break;
     case valueHba1c >= 6.41:
-      wording = 'Terapkan gaya hidup sehat dan lakukan aktifitas fisik secara teratur';
+      wording = 'Terapkan gaya hidup sehat dan lakukan aktivitas fisik secara teratur';
       status = 'diabetes';
       break;
     default:

@@ -18,9 +18,9 @@ class TabVideo extends Component {
           />
           <Text style={styles.subTitleStyle}>Video</Text>
         </View>
-        <Text style={styles.titleStyle}>Coming Soon</Text>
+        <Text style={styles.titleStyle}>Segera Hadir!</Text>
         <Text style={styles.descStyle}>
-          Ikut event kesehatan diabetes dan dapatkan jadwal dengan mudah
+          Ikut event kesehatan seputar diabetes dan dapatkan jadwal dengan mudah
         </Text>
       </View>
     );

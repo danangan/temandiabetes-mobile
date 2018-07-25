@@ -15,6 +15,23 @@ from '../../../../components';
 
 import ContentThread from './contentThread';
 
+function capitalize(string) {
+  switch (string) {
+    case 'diabetesi':
+      return 'Diabetesi';
+      break;
+    case 'non-diabetesi': 
+      return 'Non-Diabetesi';
+      break;
+    case 'ahli': 
+      return 'Ahli';
+      break;
+    default:
+      return string;
+      break;
+  }
+}
+
 export default threadItem = ({ threads, toThreadDetails, onPostBookmark, onShareThread }) => {
   let { author, comments } = threads.item;
   if (!author || author['tipe_user'] === undefined) {
@@ -35,7 +52,7 @@ export default threadItem = ({ threads, toThreadDetails, onPostBookmark, onShare
         <HeaderThread
           source={author.foto_profile}
           name={author.nama}
-          category={author.tipe_user.toUpperCase()}
+          category={capitalize(author.tipe_user)}
         />
         <ContentThread property={threads.item} />
       </TouchableOpacity>

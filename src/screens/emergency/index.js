@@ -18,7 +18,7 @@ class Emergency extends Component {
           />
           <Text style={styles.subTitleStyle}>Darurat</Text>
         </View>
-        <Text style={styles.titleStyle}>Coming Soon</Text>
+        <Text style={styles.titleStyle}>Segera Hadir!</Text>
         <Text style={styles.descStyle}>
           Beritahu keluarga sesegera mungkin dengan fitur panggilan darurat
         </Text>

@@ -15,7 +15,7 @@ const StepTwo = props => (
       <View steyl={styles.containerTextStyle}>
         <Text style={styles.titleStyle}>Pasang TestStrip</Text>
         <Text style={styles.descriptionStyle}>
-          Pasang test strip pada DNurse,{'\n'}pastikan posisi sesuai
+          Pasang test strip pada DNurse,{'\n'}pastikan posisi sesuai instruksi.
         </Text>
       </View>
     </View>

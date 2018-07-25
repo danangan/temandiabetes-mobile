@@ -414,7 +414,7 @@ class InputTracker extends Component {
       case 'ACTIVITY':
         value = {
           waktuInput: inputDate,
-          jenisAktifitas: 'kurang',
+          jenisAktivitas: 'kurang',
           kategori: activitySelected,
           deskripsi: descActivity
         };
@@ -880,7 +880,7 @@ class InputTracker extends Component {
       >
         { this.renderButtonOpenDate() }
         <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15 }}>
-          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Jenis Aktifitas</Text>
+          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Jenis Aktivitas</Text>
           <Picker
             mode="dialog"
             selectedValue={this.state.activitySelected}
@@ -894,7 +894,7 @@ class InputTracker extends Component {
               });
             })}
           >
-              <Picker.Item label="Pilih Aktifitas" value="" />
+              <Picker.Item label="Pilih Aktivitas" value="" />
               <Picker.Item label="Ringan" value="ringan" />
               <Picker.Item label="Sedang" value="sedang" />
               <Picker.Item label="Berat" value="berat" />
@@ -1045,7 +1045,7 @@ class InputTracker extends Component {
           }}
         >
           <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'Montserrat-SemiBold', color: '#000' }}>
-            APAKAH ANDA INGIN MEMASUKKAN GULA DARAH SECARA
+            APAKAH ANDA INGIN MEMASUKKAN DATA GULA DARAH SECARA
             MANUAL ATAU MENGGUNAKAN DNURSE?
           </Text>
         </View>

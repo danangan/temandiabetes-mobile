@@ -95,7 +95,7 @@ class DnurseResult extends React.Component {
         <View style={styles.contentStyle}>
           <Image source={this.sourceImage()} style={styles.imageStyle} />
           <Text style={styles.resultStyle}>
-            {bloodSugarLevels === null ? 'start' : bloodSugarLevels}
+            {bloodSugarLevels === null ? 'mulai' : bloodSugarLevels}
             {'\n'}
           </Text>
           <Text style={styles.formatStyle}>{bloodSugarLevels === null ? '' : 'mg/dL'}</Text>

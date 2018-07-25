@@ -17,7 +17,7 @@ class bloodPressure extends React.Component {
             style={styles.iconStyle}
           />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>Tekanan darah</Text>
+            <Text style={styles.titleStyle}>Tekanan Darah</Text>
             <Text style={styles.valueStyle}>Masukkan tekanan darah Anda</Text>
           </View>
         </CardSection>

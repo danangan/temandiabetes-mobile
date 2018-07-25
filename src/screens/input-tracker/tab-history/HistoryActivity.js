@@ -9,7 +9,7 @@ const HistoryActivity = ({ history }) => {
   const activity =
     history.activity === null || history.activity === undefined ? 'cta' : history.activity;
   const wording = {
-    cta: 'Masukan data aktifitas anda',
+    cta: 'Masukan data aktivitas anda',
     light: 'Jalan kaki santai',
     medium: 'Jalan cepat, jogging, berenang, bersepeda santai',
     hard: 'Sepakbola, bulutangkis, basket'
@@ -26,7 +26,7 @@ const HistoryActivity = ({ history }) => {
 
   return (
     <View style={styles.containerStyle}>
-      <Text style={styles.titleStyle}>Aktifitas</Text>
+      <Text style={styles.titleStyle}>Aktivitas</Text>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.activityContainerStyle}>
           <Image

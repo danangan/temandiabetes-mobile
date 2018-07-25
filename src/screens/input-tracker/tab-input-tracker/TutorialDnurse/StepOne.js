@@ -15,7 +15,7 @@ const StepOne = props => (
       <View steyl={styles.containerTextStyle}>
         <Text style={styles.titleStyle}>Pasang DNurse</Text>
         <Text style={styles.descriptionStyle}>
-          Pasang alat dnurse pada 3.5mm{'\n'}jack headset Anda
+          Pasang alat Dnurse pada 3.5mm{'\n'}jack headset Anda
         </Text>
       </View>
     </View>

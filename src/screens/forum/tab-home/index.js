@@ -100,7 +100,7 @@ class TabHome extends Component {
             fontSize: 16
           }}
         >
-          Tanya atau bagikan disini
+          Tanya atau bagikan di sini
         </Text>
       </TouchableOpacity>
     );

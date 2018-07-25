@@ -68,7 +68,7 @@ const FaqScreen = props => (
         {'  '} Makanan : untuk makanan, Anda dapat memasukkan data sarapan, makan siang, makan malam
         & snack, selain itu Anda dapat mengatur tanggal dan jam terkait dengan inputan makanan Anda.
         {'\n'}
-        {'  '}Aktifitas : pilih aktifitas yang Anda lakukan Ringan, Sedang atau Berat. {'\n'}
+        {'  '}Aktivitas : pilih aktivitas yang Anda lakukan Ringan, Sedang atau Berat. {'\n'}
         {'  '}Berat : masukkan data berat badan Anda dengan menuliskan angka berat badan Anda
         Lingkaran Dalam : untuk mengatur lingkaran dalam Anda dapat dilakukan melalui menu
         “Pengaturan – Inner Circle List”. Tambah Lingkaran Dalam : cari nama pengguna yang Anda

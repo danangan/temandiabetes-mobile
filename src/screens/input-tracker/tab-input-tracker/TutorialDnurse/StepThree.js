@@ -15,8 +15,8 @@ const StepThree = props => (
       <View steyl={styles.containerTextStyle}>
         <Text style={styles.titleStyle}>Tetes Darah</Text>
         <Text style={styles.descriptionStyle}>
-          Tusuk jari anda menggunakan{'\n'}alat yang telah disediakan dan{'\n'}teteskan pada
-          teststrip
+          Tusuk jari Anda menggunakan{'\n'}alat yang telah disediakan dan{'\n'}teteskan pada
+          test strip
         </Text>
       </View>
     </View>

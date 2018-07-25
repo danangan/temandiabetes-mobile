@@ -14,7 +14,7 @@ class Food extends React.Component {
             style={[styles.iconStyle, { width: 50 }]}
           />
           <View style={styles.containerTextStyle}>
-            <Text style={styles.titleStyle}>Makanan</Text>
+            <Text style={styles.titleStyle}>Menu Makanan</Text>
             <Text style={styles.valueStyle}>Masukkan makanan Anda</Text>
           </View>
         </CardSection>
