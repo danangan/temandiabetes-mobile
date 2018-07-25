@@ -105,15 +105,16 @@ android {
     dexOptions {
         preDexLibraries = false
     }
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.temandiabetes.android"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName "0.1.62"
+        multiDexEnabled true
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -159,6 +160,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-fbsdk')
     implementation(project(':react-native-image-picker'))
     implementation(project(':react-native-share')) // Add dependencies
 
@@ -177,9 +179,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.+'
     implementation 'com.google.android.gms:play-services-auth:11.+'
 
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
     implementation project(':react-native-config')
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "com.android.support:appcompat-v7:25.3.1"
+    implementation "com.android.support:appcompat-v7:27.0.2"
     implementation ("com.facebook.react:react-native:0.53.0") { force = true }  // From node_modules
     implementation project(':react-native-navigation') // ADD dependencies
     implementation project(':react-native-fcm') // ADD dependencies

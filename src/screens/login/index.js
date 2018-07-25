@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { View, Image, Text, ImageBackground, KeyboardAvoidingView, Keyboard, Linking } from 'react-native';
 import { connect } from 'react-redux';
 
+import firebase from 'react-native-firebase';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+
 import { ButtonFacebook, ButtonGoogle, Button, Spinner, SnackBar } from '../../components/';
 import Form from './Form';
 import BorderLine from './BorderLine';
@@ -95,6 +98,29 @@ class Login extends Component {
   onChangeTextHandlerEmail = e => this.setState({ email: e });
   onChangeTextHandlerPass = pass => this.setState({ password: pass });
   onGoogleSignIn = () => this.props.signWithGoogle();
+  onFacebookSignIn = () => {
+    LoginManager
+        .logInWithReadPermissions(['public_profile', 'email'])
+        .then((result) => {
+            if (result.isCancelled) {
+                return Promise.reject(new Error('The user cancelled the request'))
+            }
+
+            return AccessToken.getCurrentAccessToken();
+        })
+        .then((data) => {
+            const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+            alert(`credential: ${JSON.stringify(credential)}`);
+            
+            return firebase.auth().signInAndRetrieveDataWithCredential(credential);
+        })
+        .then((user) => {
+            alert(`user: ${JSON.stringify(user)}`);
+        })
+        .catch((error) => {
+            alert(`error: ${error}`);
+        })
+  }
 
   onLogin = () => {
     const user = {
@@ -189,7 +215,7 @@ class Login extends Component {
           </KeyboardAvoidingView>
           <View style={styles.contentBottomStyle}>
             <ButtonFacebook
-              onPress={() => alert('development')}
+              onPress={this.onFacebookSignIn}
               text="Masuk dengan Facebook"
               containerStyle={styles.buttonSocialStyle}
               textStyle={styles.buttonSocialTextStyle}

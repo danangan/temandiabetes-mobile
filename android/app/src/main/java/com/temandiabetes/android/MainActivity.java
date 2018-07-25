@@ -10,8 +10,9 @@ import android.os.Bundle;
 import io.fabric.sdk.android.Fabric;
 // slashscreen
 import android.view.View;
-import com.reactnativenavigation.controllers.SplashActivity;
+import android.widget.Toast;
 
+import com.reactnativenavigation.controllers.SplashActivity;
 
 public class MainActivity extends SplashActivity {
     @Override
@@ -22,6 +23,7 @@ public class MainActivity extends SplashActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Fabric.with(this, new Crashlytics());
         // ATTENTION: This was auto-generated to handle app links.
         Intent appLinkIntent = getIntent();
@@ -33,6 +35,13 @@ public class MainActivity extends SplashActivity {
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(getApplicationContext(), "masuk", Toast.LENGTH_LONG).show();
+        MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
     }
 }
 
