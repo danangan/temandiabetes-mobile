@@ -42,12 +42,5 @@ public class MainActivity extends SplashActivity {
         super.onActivityResult(requestCode, resultCode, data);
         MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(getApplicationContext(), "masuk", Toast.LENGTH_LONG).show();
-        MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
-    }
 }
 

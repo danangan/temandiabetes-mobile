@@ -3,7 +3,7 @@ package com.temandiabetes.android;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 
-import com.facebook.react.ReactApplication;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationApplication;
@@ -23,27 +23,10 @@ import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
-//google
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
-
-//Facebook
-import android.content.Intent;
-import android.os.Bundle;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookSdk;
-import com.facebook.reactnative.androidsdk.FBSDKPackage;
-import com.facebook.appevents.AppEventsLogger;
-
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication {
-    private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
-
-    protected static CallbackManager getCallbackManager() {
-        return mCallbackManager;
-    }
-
     private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
     protected static CallbackManager getCallbackManager() {
