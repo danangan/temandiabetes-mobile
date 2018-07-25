@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import com.facebook.react.ReactApplication;
 import com.imagepicker.ImagePickerPackage;
-import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -24,10 +23,26 @@ import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
+//google
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
+
+//Facebook
+import android.content.Intent;
+import android.os.Bundle;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.appevents.AppEventsLogger;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class MainApplication extends NavigationApplication {
+    private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
+
+    protected static CallbackManager getCallbackManager() {
+        return mCallbackManager;
+    }
 
     private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
@@ -47,15 +62,16 @@ public class MainApplication extends NavigationApplication {
         // No need to add RnnPackage and MainReactPackage
         return Arrays.<ReactPackage>asList(
             new ImagePickerPackage(),
-            new RNGoogleSigninPackage(),
-            new FBSDKPackage(mCallbackManager),
             new ReactNativeConfigPackage(),
             new RNFirebasePackage(),
             new RNFirebaseAuthPackage(),
             new RNFirebaseStoragePackage(),
             new FIRMessagingPackage(),
             new DnursePackage(),
-            new RNSharePackage()
+            new RNSharePackage(),
+            new RNGoogleSigninPackage(),
+            new FBSDKPackage(mCallbackManager)
+
         );
     }
 

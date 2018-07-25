@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
-import { View, Image, Text, ImageBackground, KeyboardAvoidingView, Keyboard, Linking } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  ImageBackground,
+  KeyboardAvoidingView,
+  Keyboard,
+  Linking
+} from 'react-native';
 import { connect } from 'react-redux';
+import firebase from 'react-native-firebase';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 import firebase from 'react-native-firebase';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
@@ -46,14 +56,14 @@ class Login extends Component {
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink && deepLink.currentDeepLink !== '' && !deepLink.expired) {
       if (deepLink.currentDeepLink.includes('reset-password')) {
-        this.redirectByUrl({url: deepLink.currentDeepLink})
+        this.redirectByUrl({ url: deepLink.currentDeepLink });
       }
     }
   }
 
   redirectByUrl({ url }) {
     if (url.includes('reset-password')) {
-      let pathname = url.split('/reset-password/')
+      const pathname = url.split('/reset-password/');
       this.props.navigator.push({
         screen: 'TemanDiabetes.ForgotPasswordInputNewPassword',
         navigatorStyle: {
@@ -99,28 +109,27 @@ class Login extends Component {
   onChangeTextHandlerPass = pass => this.setState({ password: pass });
   onGoogleSignIn = () => this.props.signWithGoogle();
   onFacebookSignIn = () => {
-    LoginManager
-        .logInWithReadPermissions(['public_profile', 'email'])
-        .then((result) => {
-            if (result.isCancelled) {
-                return Promise.reject(new Error('The user cancelled the request'))
-            }
+    LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+      .then(result => {
+        if (result.isCancelled) {
+          return Promise.reject(new Error('The user cancelled the request'));
+        }
 
-            return AccessToken.getCurrentAccessToken();
-        })
-        .then((data) => {
-            const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-            alert(`credential: ${JSON.stringify(credential)}`);
-            
-            return firebase.auth().signInAndRetrieveDataWithCredential(credential);
-        })
-        .then((user) => {
-            alert(`user: ${JSON.stringify(user)}`);
-        })
-        .catch((error) => {
-            alert(`error: ${error}`);
-        })
-  }
+        return AccessToken.getCurrentAccessToken();
+      })
+      .then(data => {
+        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+        alert(`credential: ${JSON.stringify(credential)}`);
+
+        return firebase.auth().signInAndRetrieveDataWithCredential(credential);
+      })
+      .then(user => {
+        alert(`user: ${JSON.stringify(user)}`);
+      })
+      .catch(error => {
+        alert(`error: ${error}`);
+      });
+  };
 
   onLogin = () => {
     const user = {

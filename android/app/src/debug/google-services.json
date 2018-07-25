@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "879115918599-n591m5ak1uk6qnhqcjcvv7k9q256l1rg.apps.googleusercontent.com",
+          "client_id": "879115918599-6tc0qj5np8b0e9ofjmct3iieqikg3jmr.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.temandiabetes.android",
             "certificate_hash": "0c5969d92be2c90779f8dfc6d6c2bda5fa8c51d1"
+          }
+        },
+        {
+          "client_id": "879115918599-l5nohr7lrdtliipbfvma266nlagnv2nt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.temandiabetes.android",
+            "certificate_hash": "2fdb6749114c160382749e0f6fb0ea3f92fdc845"
           }
         },
         {
