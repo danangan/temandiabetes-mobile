@@ -29,13 +29,14 @@ const HistoryFoods = ({ history }) => {
           snack: { title: '-', calories: 0 }
         }
       : history.foods;
+  const hours = result(history.foods, 'waktuInput');
 
   return (
     <View style={styles.containerStyle}>
       <Text style={styles.titleStyle}>Log Makanan</Text>
       <View style={{ flexDirection: 'row' }}>
         <Text style={styles.todayStyle}>Hari Ini</Text>
-        <Text style={styles.hourStyle}>{moment(mealTime.waktuInput).format('LT')}</Text>
+        <Text style={styles.hourStyle}>{moment(hours).format('LT')}</Text>
       </View>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.cardContentStyle}>

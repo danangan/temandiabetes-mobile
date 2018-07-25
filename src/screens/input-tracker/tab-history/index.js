@@ -40,9 +40,9 @@ class TabHistoryEstimation extends Component {
   }
 
   componentDidUpdate() {
-    const { status, foods } = this.props.historyEstimation;
+    const { status, isFood } = this.props.historyEstimation;
     const { refreshing } = this.state;
-    if (status === 200 && refreshing && foods !== null) {
+    if (status === 200 && refreshing && isFood) {
       this.setState({ refreshing: false }, () => this.props.resetState());
     }
   }
