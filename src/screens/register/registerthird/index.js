@@ -79,7 +79,7 @@ class RegisterScreenThird extends React.Component {
       }
     } else {
       this.setState({
-        message: 'Silahkan lengkapi semua isian'
+        message: 'Silakan lengkapi semua isian'
       });
     }
   }

@@ -110,7 +110,7 @@ class RegisterScreenFourth extends React.Component {
         if (!this.props.loginReducer.is_active) {
           Alert.alert(
             'Pemberitahuan',
-            'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silahkan tunggu beberapa email konfirmasi.',
+            'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silakan tunggu beberapa email konfirmasi.',
             [{ text: 'OK', onPress: () => self.props.onFirebaseSignOut() }],
             { cancelable: false }
           );
@@ -260,7 +260,7 @@ class RegisterScreenFourth extends React.Component {
         }
       );
     } else {
-      alert('Silahkan pilih jenis user Anda');
+      alert('Silakan pilih jenis user Anda');
     }
   }
 

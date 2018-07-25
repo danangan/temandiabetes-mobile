@@ -96,7 +96,7 @@ class ModalCreateReminder extends React.Component {
         console.log(this.state)
       });
     } else {
-      alert('Silahkan lengkapi inputan Anda.');
+      alert('Silakan lengkapi daftar Anda.');
     }
   }
 
@@ -125,7 +125,7 @@ class ModalCreateReminder extends React.Component {
     const { drugName, preReminders, status_action, idReminder, ruleConsume, datetimeConsume } = this.state;
     const reduceKey = preReminders;
     if (drugName === '' || preReminders.length === 0 || ruleConsume === '' || datetimeConsume === '') {
-      alert('Silahkan lengkapi inputan Anda.');
+      alert('Silakan lengkapi daftar Anda.');
     } else {
       if (status_action === 'CREATE_NEW') {
         reduceKey.map((item) => {
@@ -300,7 +300,7 @@ class ModalCreateReminder extends React.Component {
                     onPress={this.onSetReminder}
                   >
                     <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff', fontSize: 10 }}>
-                      ADD
+                      Tambahkan
                     </Text>
                   </TouchableOpacity>
                 </View>

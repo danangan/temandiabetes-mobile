@@ -55,7 +55,7 @@ class ModalReplyComment extends Component {
     const { currentUser } = this.props.dataAuth;
 
     if (this.state.komentar === '') {
-      alert('Silahkan input komentar Anda');
+      alert('Silakan masukkan komentar Anda');
     } else {
       this.setState({
         isSubmit: true
@@ -89,7 +89,7 @@ class ModalReplyComment extends Component {
               <Image source={Closed} style={{ width: 20, height: 20 }} />
             </TouchableOpacity>
             <View style={{ flex: 1.5 }}>
-              <Text style={styles.titleForm}>Tambah Komentar</Text>
+              <Text style={styles.titleForm}>Tambahkan Komentar</Text>
             </View>
           </View>
           <View style={styles.wrapTextInput}>
@@ -98,7 +98,7 @@ class ModalReplyComment extends Component {
               underlineColorAndroid="transparent"
               onChangeText={komentar => this.setState({ komentar })}
               style={styles.itemTextInput}
-              placeholder="Tambahkan komen di sini"
+              placeholder="Tambahkan komentar di sini"
             />
           </View>
         </View>

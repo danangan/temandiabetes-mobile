@@ -33,7 +33,7 @@ const HistoryFoods = ({ history }) => {
 
   return (
     <View style={styles.containerStyle}>
-      <Text style={styles.titleStyle}>Log Makanan</Text>
+      <Text style={styles.titleStyle}>Daftar Makanan</Text>
       <View style={{ flexDirection: 'row' }}>
         <Text style={styles.todayStyle}>Hari Ini</Text>
         <Text style={styles.hourStyle}>{moment(hours).format('LT')}</Text>

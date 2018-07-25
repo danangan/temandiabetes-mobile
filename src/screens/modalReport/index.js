@@ -120,7 +120,7 @@ class ModalReport extends Component {
               <Image source={Closed} style={{ width: 15, height: 15 }} />
             </TouchableOpacity>
             <View style={{ flex: 1, justifyContent: 'flex-end', marginRight: 15 }}>
-              <Text style={styles.titleForm}>Report Thread</Text>
+              <Text style={styles.titleForm}>Laporkan Thread</Text>
             </View>
           </View>
 
@@ -152,7 +152,7 @@ class ModalReport extends Component {
                 <Text
                   style={{
                     color: '#4a4a4a',
-                    fontFamily: reason === 'offensive' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight'
+                    fontFamily: reason === 'OFFENSIF' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight'
                   }}
                 >
                   OFFENSIVE
@@ -174,7 +174,7 @@ class ModalReport extends Component {
                 underlineColorAndroid={'#fff'}
                 multiline
                 style={styles.itemTextInput}
-                placeholder={'Optional: masukkan link yang dapat mendukung konteks'}
+                placeholder={'Optional: masukkan link yang dapat mendukung laporan Anda'}
                 onChangeText={description => this.setState({ description })}
               />
             </ScrollView>
@@ -185,7 +185,7 @@ class ModalReport extends Component {
               onPress={debounce(this.onSubmitThread, 300)}
             >
               <Text style={styles.titleButtonReport}>
-                {this.state.isSubmit ? 'Loading' : 'Laporkan'}
+                {this.state.isSubmit ? 'Loading...' : 'Laporkan'}
               </Text>
             </TouchableOpacity>
           </View>

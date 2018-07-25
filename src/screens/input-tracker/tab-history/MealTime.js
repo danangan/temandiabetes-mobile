@@ -18,7 +18,7 @@ const MealTime = ({ foodStyle }) => (
     </View>
     <View style={styles.mealTimeContainerStyle}>
       <Image source={Images.cutleryPurpleIcon} style={styles.iconStyle} />
-      <Text style={foodStyle}>Snack</Text>
+      <Text style={foodStyle}>Camilan</Text>
     </View>
   </View>
 );

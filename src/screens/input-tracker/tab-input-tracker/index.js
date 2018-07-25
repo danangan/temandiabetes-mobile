@@ -321,11 +321,11 @@ class InputTracker extends Component {
         };
 
         if (gulaDarah === 0 || gulaDarah === '') {
-          alert('Silahkan input Gula darah Anda.');
+          alert('Silakan masukkan Gula darah Anda.');
         } else {
           const checking = this.validationInput(gulaDarah);
           if (!checking) {
-            alert('Data yang Anda input salah.');
+            alert('Data yang Anda masukkan salah.');
           } else {
             this.setState({
               isManually: false,
@@ -351,9 +351,9 @@ class InputTracker extends Component {
         };
 
         if (Number(sistolic) === 0 || sistolic === '') {
-          alert('Silahkan input Sistolic Anda.');
+          alert('Silakan masukkan Sistolic Anda.');
         } else if (Number(distolic) === 0 || distolic === '') {
-          alert('Silahkan input Diastolic Anda.');
+          alert('Silakan masukkan Diastolic Anda.');
         } else if (Number(distolic) > Number(sistolic)) {
           alert('Nilai sistolic harus lebih besar daripada diastolic')
         } else {
@@ -377,11 +377,11 @@ class InputTracker extends Component {
       // INPUT HBA1C
       case 'HBA1C':
         if (hba1c === 0 || hba1c === '') {
-          alert('Silahkan input HBA1C Anda.');
+          alert('Silakan masukkan HBA1C Anda.');
         } else {
           const checkinghba1c = this.validationInput(hba1c);
           if (!checkinghba1c) {
-            alert('Data yang Anda input salah.');
+            alert('Data yang Anda masukkan salah.');
           } else {
             this.setModalVisible('IS_LOADING');
             this.setState({
@@ -419,7 +419,7 @@ class InputTracker extends Component {
           deskripsi: descActivity
         };
         if (activitySelected === '') {
-          alert('Silahkan pilih jenis aktivitas Anda');
+          alert('Silakan pilih jenis aktivitas Anda');
         } else {
           this.setState({
             modalVisible: true,
@@ -439,11 +439,11 @@ class InputTracker extends Component {
           beratBadan
         };
         if (beratBadan === 0 || beratBadan === '') {
-          alert('Silahkan input berat badan Anda.');
+          alert('Silakan masukkan berat badan Anda.');
         } else {
           const checkingWeight = this.validationInput(beratBadan);
           if (!checkingWeight) {
-            alert('Data yang Anda input salah.');
+            alert('Data yang Anda masukkan salah.');
           } else {
             this.setState({
               modalVisible: true,

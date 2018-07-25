@@ -22,7 +22,7 @@ class ProfileSettings extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <NavigationBar onPress={() => this.props.navigator.pop()} title="SETTING" />
+        <NavigationBar onPress={() => this.props.navigator.pop()} title="Pengaturan" />
         <View style={{ flex: 2 }}>
           <TouchableOpacity style={styles.buttonWrapper}>
             <Text style={{ color: '#ccc', fontSize: 12 }}>AKUN</Text>
@@ -31,13 +31,13 @@ class ProfileSettings extends React.Component {
             style={styles.buttonWrapper}
             onPress={() => this.onPushScreen('TemanDiabetes.EditProfile')}
           >
-            <Text style={styles.buttonText}>SUNTING PROFILE</Text>
+            <Text style={styles.buttonText}>EDIT PROFIL</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.onPushScreen('TemanDiabetes.InnerCircleList')}
             style={styles.buttonWrapper}
           >
-            <Text style={styles.buttonText}>INNER CIRCLE LIST</Text>
+            <Text style={styles.buttonText}>DAFTAR INNER CIRCLE</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => this.onPushScreen('TemanDiabetes.ThreadTopic')}

@@ -17,7 +17,7 @@ const HistoryBloodPressure = ({ history }) => {
   let wording = 'Masukkan data tekanan darah Anda';
   switch (true) {
     case systolic <= 139 && diastolic >= 61 && diastolic <= 89:
-      wording = 'Pertahankan gaya hidup sehat dan lakukan aktivitas fisik secara teratur';
+      wording = 'Hindari stres dan terapkan pola hidup sehat';
       break;
     case systolic >= 140 && systolic <= 190 && diastolic >= 90:
       wording =

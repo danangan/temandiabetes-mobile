@@ -68,7 +68,7 @@ class CommentDetails extends React.Component {
       this.props.getCommentDetails(this.props.commentId);
     });
    } else {
-    alert('Silahkan input komentar Anda.');
+    alert('Silakan input komentar Anda.');
    }
   }
 
@@ -160,7 +160,7 @@ class CommentDetails extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <NavigationBar onPress={() => this.handleNavigate()} title="COMMENTS" />
+        <NavigationBar onPress={() => this.handleNavigate()} title="KOMENTAR" />
         <CardSection
           containerStyle={{
             flex: 1,

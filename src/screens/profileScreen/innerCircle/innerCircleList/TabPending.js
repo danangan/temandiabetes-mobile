@@ -11,7 +11,7 @@ const TabPending = ({ innerCircle, deleted, onChangeIsProcess, navigator }) => {
   if (innerCircle.length === 0) {
     return (
       <View style={styles.placeholderContainerStyle}>
-        <Text style={styles.placeholderStyle}>Ajak keluarga kamu untuk dijadikan inner circle</Text>
+        <Text style={styles.placeholderStyle}>Ajak keluarga Anda untuk dijadikan inner circle</Text>
       </View>
     );
   }

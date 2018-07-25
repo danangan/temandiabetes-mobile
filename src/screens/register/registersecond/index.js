@@ -140,7 +140,7 @@ class RegisterScreenSecond extends React.Component {
             />
           </TouchableOpacity>
           <View style={[styles.wrapTitle, { flex: this.state.keyboardActive ? 1 : 2 }]}>
-            <Text style={styles.titles}>Silahkan masukkan email Anda</Text>
+            <Text style={styles.titles}>Silakan masukkan email Anda</Text>
           </View>
           <View style={styles.wrapForm}>
             <View

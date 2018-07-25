@@ -188,7 +188,7 @@ class EditProfile extends React.Component {
     return (
       <View style={styles.container}>
         {isLoading && <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />}
-        <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
+        <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFIL" />
         <ProfileCard
           updateLoadingState={(isLoading, cb) => {
             this.setState({ isLoading }, cb);

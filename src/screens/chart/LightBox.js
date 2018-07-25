@@ -24,7 +24,7 @@ const lightBox = ({ title, content, navigator, product, prePurchase }) => (
 				textStyle={[styles.textStyle, { color: color.red }]}
         onPress={() => navigator.dismissLightBox()}
       >
-        Close
+        Tutup
       </Button>
     </View>
   </View>

@@ -11,7 +11,7 @@ const TabFamily = ({ innerCircle = [], deleted, onChangeIsProcess, navigator }) 
   if (innerCircle.length === 0) {
     return (
       <View style={styles.placeholderContainerStyle}>
-        <Text style={styles.placeholderStyle}>Kamu belum memiliki Inner Circle</Text>
+        <Text style={styles.placeholderStyle}>Anda belum memiliki Inner Circle</Text>
       </View>
     );
   }

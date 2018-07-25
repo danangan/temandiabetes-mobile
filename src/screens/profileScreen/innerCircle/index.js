@@ -64,7 +64,7 @@ class InnerCircle extends React.Component {
           source={Images.backIcon}
         />
       </TouchableOpacity>
-      <Text style={styles.navBarTitleStyle}>ADD INNER CIRCLE</Text>
+      <Text style={styles.navBarTitleStyle}>TAMBAHKAN INNER CIRCLE</Text>
       <TouchableOpacity onPress={() => this.searchBar.show()} style={styles.rightButtonStyle}>
         <Image
           resizeMode={'contain'}

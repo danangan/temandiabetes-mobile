@@ -48,11 +48,11 @@ class InviteFriends extends React.Component {
 
   chooseToShare = () => {
     Alert.alert(
-      'Ajak teman anda bergabung di Aplikasi Teman Diabetes.',
-      'Apakah anda ingin membagikannya melalui media sosial atau menyalin kode nya ?',
+      'Ajak teman Anda bergabung di Aplikasi Teman Diabetes.',
+      'Apakah Anda ingin membagikannya melalui media sosial atau menyalin kode nya ?',
       [
         { text: 'Cancel', onPress: () => null, style: 'cancel' },
-        { text: 'Share', onPress: () => this.shareApp() },
+        { text: 'Bagikan', onPress: () => this.shareApp() },
         { text: 'Salin Kode', onPress: () => this.writeToClipboard() }
       ],
       { cancelable: false }
@@ -85,7 +85,7 @@ class InviteFriends extends React.Component {
               https://temandiabetes.com/{this.randomLinkReferral()}
             </Text>
             <Text style={styles.descriptionStyle}>
-              Bagikan kode undangan di atas melalui media sosial Anda, dan ajak teman anda bergabung
+              Bagikan kode undangan di atas melalui akun media sosial Anda, Ajak teman Anda bergabung
               dan saling berinteraksi di Teman Diabetes.
             </Text>
           </View>

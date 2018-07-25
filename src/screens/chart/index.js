@@ -79,7 +79,7 @@ class Chart extends Component {
         screen: 'TemanDiabetes.LightBox',
         passProps: {
           title: item.product_name,
-          content: 'Apakah Anda yakin akan membeli item ini?',
+          content: 'Apakah Anda yakin akan membeli produk ini?',
           product: item,
           prePurchase: this.handleClick
         },

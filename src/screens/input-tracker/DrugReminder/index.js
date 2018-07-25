@@ -170,7 +170,7 @@ class DrugReminder extends React.Component {
     if (listReminder.message === 'EmptyList') {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Light' }}>Anda belum memiliki list reminder saat ini.</Text>
+          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Light' }}>Anda belum memiliki daftar pengingat obat saat ini.</Text>
         </View>
       );
     } else {
@@ -233,7 +233,7 @@ class DrugReminder extends React.Component {
           <TouchableHighlight
             onPress={this.setModalVisible}
             style={{ flex: 0.5, backgroundColor: '#ef434f', justifyContent: 'center', alignItems: 'center', elevation: 3, borderRadius: 3 }}>
-            <Text style={{ color: '#fff', paddingHorizontal: 30, fontFamily: 'Montserrat-Light', fontSize: 12 }}>TAMBAH</Text>
+            <Text style={{ color: '#fff', paddingHorizontal: 30, fontFamily: 'Montserrat-Light', fontSize: 12 }}>TAMBAHKAN</Text>
           </TouchableHighlight>
         </View>
       </View>

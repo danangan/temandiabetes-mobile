@@ -35,7 +35,7 @@ import color from '../../../style/color';
 import { authToken } from '../../../utils/constants';
 import Images from '../../../assets/images';
 
-const listTabs = ['THREAD', 'ANSWER', 'ACTIVITY LOG', 'EVENT'];
+const listTabs = ['THREAD', 'BALASAN', 'AKTIVITAS', 'EVENT'];
 
 class ProfileDetails extends React.Component {
   static navigatorStyle = {
@@ -178,7 +178,7 @@ class ProfileDetails extends React.Component {
       </View>
       <View style={styles.indicatorDetailStyle}>
         <Text style={styles.textStyle}>
-          Profile Anda baru komplit {this.state.completePercentase},
+          Profil Anda baru komplit {this.state.completePercentase},
         </Text>
         <Text
           onPress={() => {
@@ -192,7 +192,7 @@ class ProfileDetails extends React.Component {
           style={[styles.textStyle, { color: '#4644f0' }]}
         >
           {' '}
-          lengkapi sekarang!
+          Mohon lengkapi profil Anda sekarang!
         </Text>
       </View>
     </View>
@@ -360,7 +360,7 @@ class ProfileDetails extends React.Component {
 
     return (
       <View style={styles.contentTopStyle}>
-        <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFILE" />
+        <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFIL" />
         <View style={styles.profileStyle}>
           <Avatar avatarSize="Medium" imageSource={foto_profile} userName={nama} />
           <View style={styles.attributeProfileStyle}>

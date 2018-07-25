@@ -9,7 +9,7 @@ const HistoryWeight = ({ history }) => {
   const weight = history.weight === null || history.weight === undefined ? 0 : history.weight;
   const wording = {
     cta: 'Masukkan data berat badan anda',
-    weight: 'Jaga berat badan anda agar selalu ideal '
+    weight: 'Jaga berat badan Anda agar selalu ideal '
   };
 
   const description = weight === 0 ? wording.cta : wording.weight;
