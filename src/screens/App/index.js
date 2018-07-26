@@ -93,6 +93,9 @@ class App extends Component {
     // get current user
     this.props.getCurrentUser()
 
+    // add event listener for direct incoming deeplink
+    Linking.addEventListener('url', this.redirectByUrl);
+
 		try {
       let result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
@@ -126,12 +129,10 @@ class App extends Component {
       // set the deeplink to expired
       this.props.resetDeepLink()
     }
-
-    // add event listener for direct incoming deeplink
-    Linking.addEventListener('url', this.redirectByUrl);
   }
 
   redirectByUrl({ url }) {
+    console.log(url)
     let pathname = url.replace(`${landingPageURL}/`, '');
     pathname = pathname.split('/')
     let screen = null
