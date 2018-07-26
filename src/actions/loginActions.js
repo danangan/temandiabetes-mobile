@@ -3,6 +3,7 @@ import axios from 'axios';
 import firebase from 'react-native-firebase';
 import Config from 'react-native-config';
 import { GoogleSignin } from 'react-native-google-signin';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 import * as ActionTypes from './constants';
 import { authToken } from '../utils/constants';
@@ -59,6 +60,7 @@ const signWithGoogle = () => async dispatch => {
         data.idToken,
         data.accessToken
       );
+
       const {
         additionalUserInfo: { profile, isNewUser }
       } = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
@@ -82,9 +84,6 @@ const signWithGoogle = () => async dispatch => {
       };
 
       onSuccess(payloadData);
-
-      AsyncStorage.setItem(authToken, firebaseIdToken, error => console.log(error));
-      AsyncStorage.setItem('isNewUser', String(isNewUser), error => console.log(error));
     }
   } catch (error) {
     onSuccess(error);
@@ -113,6 +112,51 @@ const setupGoogleSignIn = () => async () => {
   }
 };
 
+const signWithFacebook = () => async dispatch => {
+  function onSuccess(user) {
+    return dispatch({
+      type: ActionTypes.SIGN_WITH_FACEBOOK,
+      payload: user
+    });
+  }
+
+  try {
+    const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+
+    if (result.isCancelled) {
+      return Promise.reject(new Error('The user cancelled the request'));
+    }
+
+    const data = await AccessToken.getCurrentAccessToken();
+    const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+    const {
+      additionalUserInfo: { profile, isNewUser }
+    } = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+    const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+    const {
+      data: {
+        data: { currentUser }
+      }
+      // get current user
+    } = await axios.get(API_CURRENT_USER, {
+      headers: {
+        Authentication: firebaseIdToken
+      }
+    });
+
+    const payloadData = {
+      firebaseIdToken,
+      profile,
+      isNewUser,
+      currentUser
+    };
+
+    onSuccess(payloadData);
+  } catch (error) {
+    if (error) throw error;
+  }
+};
+
 const onSignOut = () => async dispatch => {
   function onSuccess() {
     return dispatch({
@@ -124,6 +168,7 @@ const onSignOut = () => async dispatch => {
   try {
     Promise.all([
       GoogleSignin.signOut(),
+      LoginManager.logOut(),
       firebase.auth().signOut(),
       AsyncStorage.removeItem(authToken)
     ]);
@@ -151,4 +196,4 @@ const resetState = () => async dispatch => {
   }
 };
 
-export { loginManual, signWithGoogle, setupGoogleSignIn, onSignOut, resetState };
+export { loginManual, signWithGoogle, setupGoogleSignIn, onSignOut, resetState, signWithFacebook };

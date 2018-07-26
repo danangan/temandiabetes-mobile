@@ -6,11 +6,12 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Keyboard,
-  Linking
+  Linking,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase';
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import { result } from 'lodash';
+import { Navigation } from 'react-native-navigation';
 
 import { ButtonFacebook, ButtonGoogle, Button, Spinner, SnackBar } from '../../components/';
 import Form from './Form';
@@ -24,7 +25,8 @@ import {
   setupGoogleSignIn,
   signWithGoogle,
   onSignOut,
-  resetState
+  resetState,
+  signWithFacebook
 } from '../../actions/loginActions';
 
 import { clearDataRegister } from '../../actions/registerActions';
@@ -46,9 +48,7 @@ class Login extends Component {
 
   componentDidMount() {
     this.props.setupGoogleSignIn();
-
     Linking.addEventListener('url', this.redirectByUrl);
-
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink && deepLink.currentDeepLink !== '' && !deepLink.expired) {
@@ -58,20 +58,35 @@ class Login extends Component {
     }
   }
 
-  redirectByUrl({ url }) {
-    if (url.includes('reset-password')) {
-      const pathname = url.split('/reset-password/');
-      this.props.navigator.push({
-        screen: 'TemanDiabetes.ForgotPasswordInputNewPassword',
-        navigatorStyle: {
-          navBarHidden: true
+  componentWillReceiveProps(nextProps) {
+    // the inactive user goes here
+    // here we check if the inactive user is a new user or not
+    // if the user is existing user, the isnewuser value will be false, thus
+    // we give them alert that the user account is inactive
+    if (nextProps.loginReducer.isNewUser === true) {
+      // redirect to fourth page
+      Navigation.startSingleScreenApp({
+        screen: {
+          screen: 'TemanDiabetes.RegisterScreenFourth',
+          navigatorStyle: {
+            navBarHidden: true
+          }
         },
-        animated: true,
-        animationType: 'fade',
         passProps: {
-          token: pathname[1]
-        }
+          email: nextProps.loginReducer.email,
+          _id: nextProps.loginReducer.currentUser._id,
+          nama: nextProps.loginReducer.nama,
+          registerType: 'GoogleSignIn'
+        },
+        animationType: 'fade'
       });
+    } else if (!result(nextProps.loginReducer, 'currentUser.is_active')) {
+      Alert.alert(
+        'Akun Anda sedang tidak aktif.',
+        'Hubungi penyedia layanan untuk info lebih lanjut.'
+      );
+      this.props.onSignOut();
+      this.props.resetState();
     }
   }
 
@@ -104,33 +119,8 @@ class Login extends Component {
 
   onChangeTextHandlerEmail = e => this.setState({ email: e });
   onChangeTextHandlerPass = pass => this.setState({ password: pass });
-  onGoogleSignIn = () => {
-    // this.props.signWithGoogle();
-    alert('Sedang di maintenance, dan validasi flow, cek user apakah user baru atau bukan');
-  };
-  onFacebookSignIn = () => {
-    // LoginManager.logInWithReadPermissions(['public_profile', 'email'])
-    //   .then(result => {
-    //     if (result.isCancelled) {
-    //       return Promise.reject(new Error('The user cancelled the request'));
-    //     }
-
-    //     return AccessToken.getCurrentAccessToken();
-    //   })
-    //   .then(data => {
-    //     const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-    //     alert(`credential: ${JSON.stringify(credential)}`);
-
-    //     return firebase.auth().signInAndRetrieveDataWithCredential(credential);
-    //   })
-    //   .then(user => {
-    //     alert(`user: ${JSON.stringify(user)}`);
-    //   })
-    //   .catch(error => {
-    //     alert(`error: ${error}`);
-    //   });
-    alert('Sedang di maintenance, dan validasi flow, cek user apakah user baru atau bukan');
-  };
+  onGoogleSignIn = () => this.props.signWithGoogle();
+  onFacebookSignIn = () => this.props.signWithFacebook();
 
   onLogin = () => {
     const user = {
@@ -153,6 +143,23 @@ class Login extends Component {
       });
     }
   };
+
+  redirectByUrl({ url }) {
+    if (url.includes('reset-password')) {
+      const pathname = url.split('/reset-password/');
+      this.props.navigator.push({
+        screen: 'TemanDiabetes.ForgotPasswordInputNewPassword',
+        navigatorStyle: {
+          navBarHidden: true
+        },
+        animated: true,
+        animationType: 'fade',
+        passProps: {
+          token: pathname[1]
+        }
+      });
+    }
+  }
 
   errorMessage = message => {
     switch (message) {
@@ -319,7 +326,8 @@ const mapDispatchToProps = dispatch => ({
   setupGoogleSignIn: () => dispatch(setupGoogleSignIn()),
   onSignOut: () => dispatch(onSignOut()),
   resetState: () => dispatch(resetState()),
-  clearDataRegister: type => dispatch(clearDataRegister(type))
+  clearDataRegister: type => dispatch(clearDataRegister(type)),
+  signWithFacebook: () => dispatch(signWithFacebook())
 });
 
 export default connect(

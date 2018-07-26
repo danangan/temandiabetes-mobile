@@ -59,10 +59,28 @@ const signWithGoogle = (state, payload) => {
   };
 };
 
+const signWithFacebook = (state, payload) => {
+  if (payload === null) {
+    return {
+      ...state
+    };
+  }
+
+  return {
+    ...state,
+    isNewUser: payload.isNewUser,
+    email: payload.profile.email,
+    name: payload.profile.name,
+    currentUser: payload.currentUser,
+    message: 'login success',
+    statusCode: 200
+  };
+};
+
 const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'RESET_STATE':
-      return { ...state, message: null, statusCode: null };
+      return initialState;
     case ActionTypes.LOGIN_MANUAL:
       return onLogin(state, action.payload);
     case ActionTypes.SIGN_WITH_GOOGLE:
@@ -72,6 +90,8 @@ const loginReducer = (state = initialState, action) => {
         ...initialState,
         statusCode: 400
       };
+    case ActionTypes.SIGN_WITH_FACEBOOK:
+      return signWithFacebook(state, action.payload);
     default:
       return state;
   }
