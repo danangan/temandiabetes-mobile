@@ -80,12 +80,11 @@ class Login extends Component {
         },
         animationType: 'fade'
       });
-    } else if (!result(nextProps.loginReducer, 'currentUser.is_active')) {
+    } else if (result(nextProps.loginReducer, 'currentUser.is_active') === false) {
       Alert.alert(
         'Akun Anda sedang tidak aktif.',
         'Hubungi penyedia layanan untuk info lebih lanjut.'
       );
-      this.props.onSignOut();
       this.props.resetState();
     }
   }

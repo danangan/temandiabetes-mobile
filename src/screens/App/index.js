@@ -132,7 +132,6 @@ class App extends Component {
   }
 
   redirectByUrl({ url }) {
-    console.log(url)
     let pathname = url.replace(`${landingPageURL}/`, '');
     pathname = pathname.split('/')
     let screen = null
