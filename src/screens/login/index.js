@@ -104,28 +104,32 @@ class Login extends Component {
 
   onChangeTextHandlerEmail = e => this.setState({ email: e });
   onChangeTextHandlerPass = pass => this.setState({ password: pass });
-  onGoogleSignIn = () => this.props.signWithGoogle();
+  onGoogleSignIn = () => {
+    // this.props.signWithGoogle();
+    alert('Sedang di maintenance, dan validasi flow, cek user apakah user baru atau bukan');
+  };
   onFacebookSignIn = () => {
-    LoginManager.logInWithReadPermissions(['public_profile', 'email'])
-      .then(result => {
-        if (result.isCancelled) {
-          return Promise.reject(new Error('The user cancelled the request'));
-        }
+    // LoginManager.logInWithReadPermissions(['public_profile', 'email'])
+    //   .then(result => {
+    //     if (result.isCancelled) {
+    //       return Promise.reject(new Error('The user cancelled the request'));
+    //     }
 
-        return AccessToken.getCurrentAccessToken();
-      })
-      .then(data => {
-        const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-        alert(`credential: ${JSON.stringify(credential)}`);
+    //     return AccessToken.getCurrentAccessToken();
+    //   })
+    //   .then(data => {
+    //     const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+    //     alert(`credential: ${JSON.stringify(credential)}`);
 
-        return firebase.auth().signInAndRetrieveDataWithCredential(credential);
-      })
-      .then(user => {
-        alert(`user: ${JSON.stringify(user)}`);
-      })
-      .catch(error => {
-        alert(`error: ${error}`);
-      });
+    //     return firebase.auth().signInAndRetrieveDataWithCredential(credential);
+    //   })
+    //   .then(user => {
+    //     alert(`user: ${JSON.stringify(user)}`);
+    //   })
+    //   .catch(error => {
+    //     alert(`error: ${error}`);
+    //   });
+    alert('Sedang di maintenance, dan validasi flow, cek user apakah user baru atau bukan');
   };
 
   onLogin = () => {
