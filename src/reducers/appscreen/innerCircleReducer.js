@@ -11,7 +11,7 @@ const getInnerCircle = (state, payload) => {
   const item = [
     {
       count: accepted,
-      tab: 'KELUARGA'
+      tab: 'INNER CIRCLE'
     },
     {
       count: pending,
