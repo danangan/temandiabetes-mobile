@@ -13,7 +13,7 @@ import {
 from '../../../../components';
 import Style from '../../../../style/defaultStyle';
 import { sliceString } from '../../../../utils/helpers';
-import Footer from './Footer'
+import Footer from './Footer';
 
 import BookMark from '../../../../assets/icons/bookmark.png';
 import BookMarked from '../../../../assets/icons/bookmark_dark.png';

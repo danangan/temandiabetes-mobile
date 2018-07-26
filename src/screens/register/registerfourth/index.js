@@ -11,6 +11,8 @@ import {
   AsyncStorage
 } from 'react-native';
 
+import Style from '../../../style/defaultStyle';
+
 import styles from '../style';
 import { Indicator } from '../../../components/indicator/Indicator';
 import { registerAction, loginManual, updateProfile } from '../../../actions';
@@ -332,8 +334,8 @@ const stylesLocal = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     backgroundColor: '#fff',
-    width: 150,
-    height: 150,
+    width: Style.DEVICE_WIDTH / 3.0,
+    height: Style.DEVICE_WIDTH / 3.0,
     marginVertical: 5,
     marginHorizontal: 5,
     padding: 10
