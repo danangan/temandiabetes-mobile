@@ -109,6 +109,10 @@ class PreviewSearchMakanan extends React.Component {
       this.setState({
         isProcess: false
       }, () => {
+        Alert.alert(
+          'Perhatian!',
+          'Menu makanan Anda berhasil disimpan.'
+        );
         this.props.navigator.pop();
       });
     }
@@ -314,7 +318,7 @@ class PreviewSearchMakanan extends React.Component {
     const { sarapan, makanSiang, makanMalam, snack } = this.state.selected;
     const { inputDate } = this.state;
 
-    if (this.state.sarapan === '' || this.state.makanSiang === '' || this.state.makanMalam === '' || this.state.snack === '') {
+    if (sarapan === null || makanSiang === null || makanMalam === null || snack === null) {
       Alert.alert(
         'Perhatian!',
         'Silahkan masukkan menu makanan Anda.'
@@ -392,6 +396,7 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   render() {
+    console.log('THIS STATE ', this.state);
     if (this.state.isProcess) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
