@@ -149,7 +149,6 @@ class InputTracker extends Component {
           'July', 'August', 'September', 'October', 'November', 'December'
         ];
         const selectedDate = new moment().year(year).month(month).date(day);
-        console.log('INi datenyaa ',  selectedDate);
         this.setState({
           date: {
             day,

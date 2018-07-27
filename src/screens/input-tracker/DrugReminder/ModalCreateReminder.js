@@ -92,8 +92,6 @@ class ModalCreateReminder extends React.Component {
           ...preReminders,
           newReminder
         ]
-      }, () => {
-        console.log(this.state)
       });
     } else {
       alert('Silakan lengkapi daftar Anda.');
@@ -112,8 +110,6 @@ class ModalCreateReminder extends React.Component {
         // console.log('JAM --- ' + hour + ' ' + minute);
         this.setState({
           selectTimeValue: new moment().hour(hour).minute(minute)
-        }, () => {
-          console.log(this.state)
         });
       }
     } catch ({ code, message }) {
@@ -158,14 +154,11 @@ class ModalCreateReminder extends React.Component {
       });
 
       if (action !== DatePickerAndroid.dismissedAction) {
-        console.log(year, month, day)
         const selectedDate = new moment().year(year).month(month).date(day);
-        console.log('selected date', selectedDate)
         // Selected year, month (0-11), day
         this.setState({
           selectDateValue: selectedDate,
         }, () => {
-          console.log(this.state);
           this.openTimePicker();
         });
       }

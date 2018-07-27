@@ -38,7 +38,6 @@ class TabThreadByUser extends React.Component {
   }
   
   onPostBookmark = async (thread, threadIndex) => {
-    console.log('thread thread ', thread);
     this.setState(
       {
         isProses: true
@@ -62,7 +61,6 @@ class TabThreadByUser extends React.Component {
   renderItem(threads, index) {
     const { threadType } = threads.item;
     const { nama, foto_profile } = this.props.dataAuth;
-    console.log('threadType ', threads.item);
 
     return (
       <ThreadItem

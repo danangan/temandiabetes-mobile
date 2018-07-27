@@ -117,7 +117,6 @@ export const updateDrugReminder = (reminder, index) => async dispatch => {
     };
 
 		const res = await API_CALL(option);
-		console.log('BALIKAN UPDATE REMINDER ', res);
 		return onSuccess(res.data);
 	} catch (error) {
 		onSuccess(error);

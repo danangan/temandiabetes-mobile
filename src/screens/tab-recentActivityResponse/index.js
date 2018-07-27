@@ -140,8 +140,6 @@ class TabRecentActivityResponse extends React.Component {
   };
 
   render() {
-    console.log('THIS STATE ', this.state);
-    console.log('THIDS PROPS ', this.props);
     const { recentResponse } = this.props.dataActivity;
     // recentResponse.status_code === 201 &&
     if (recentResponse.data.length === 0) {
@@ -151,8 +149,6 @@ class TabRecentActivityResponse extends React.Component {
         </View>
       );
     }
-
-    console.log(recentResponse.data);
 
     return (
       <FlatList
