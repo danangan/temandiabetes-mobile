@@ -314,24 +314,31 @@ class PreviewSearchMakanan extends React.Component {
     const { sarapan, makanSiang, makanMalam, snack } = this.state.selected;
     const { inputDate } = this.state;
 
-    if (this.state.sarapan !== '' || this.state.makanSiang !== '' || this.state.makanMalam !== '' || this.state.snack !== '') {
+    if (this.state.sarapan === '' || this.state.makanSiang === '' || this.state.makanMalam === '' || this.state.snack === '') {
       Alert.alert(
         'Perhatian!',
-        'Makanan yang diisi tidak ada didalam daftar'
+        'Silahkan masukkan menu makanan Anda.'
       );
     } else {
-      const value = {
-        waktuInput: inputDate,
-        sarapan,
-        makanSiang,
-        makanMalam,
-        snack
-      };
-      this.setState({
-        isProcess: true
-      }, () => {
-        this.props.inputTrackerFood(value);
-      });
+      if (this.state.sarapan !== '' || this.state.makanSiang !== '' || this.state.makanMalam !== '' || this.state.snack !== '') {
+        Alert.alert(
+          'Perhatian!',
+          'Makanan yang diisi tidak ada didalam daftar'
+        );
+      } else {
+        const value = {
+          waktuInput: inputDate,
+          sarapan,
+          makanSiang,
+          makanMalam,
+          snack
+        };
+        this.setState({
+          isProcess: true
+        }, () => {
+          this.props.inputTrackerFood(value);
+        });
+      }
     }
   }
 
