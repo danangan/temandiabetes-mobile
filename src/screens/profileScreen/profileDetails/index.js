@@ -312,7 +312,6 @@ class ProfileDetails extends React.Component {
   renderTabContent() {
     const { listThreads } = this.props.dataThreads;
     const { recentThreads, recentComments, recentResponse } = this.props.dataRecentActivity;
-    console.log('recentComments.data.thread._id ', recentComments);
     if (this.state.tab === 0) {
       return (
         <TabThreadByUser
