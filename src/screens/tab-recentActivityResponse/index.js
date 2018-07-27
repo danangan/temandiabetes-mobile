@@ -156,7 +156,7 @@ class TabRecentActivityResponse extends React.Component {
 
     return (
       <FlatList
-        ListFooterComponent={this.renderFooter}
+        // ListFooterComponent={this.renderFooter}
         data={recentResponse.data}
         renderItem={item => this.renderItem(item)}
         refreshing={this.state.refreshing}
