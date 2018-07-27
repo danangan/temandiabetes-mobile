@@ -65,6 +65,9 @@ class TabComments extends React.Component {
     const idComment = comments.item._id;
     return (
       <ThreadItem  
+        btnShare={false}
+        btnMark={false}
+        btnComment={false}
         threads={itemComments}
         toThreadDetails={() => {
           this.props.navi.push({

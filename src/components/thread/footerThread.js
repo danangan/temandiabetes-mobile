@@ -18,28 +18,46 @@ const FooterThread = ({
   threadIndex,
   saveBookmark,
   leftAction,
-  shareThread
+  shareThread,
+  btnShare,
+  btnMark,
+  btnComment
 }) => {
   threadItem = threadItem || {};
   const isBookmarked = threadItem.hasOwnProperty('isBookmarked') ? threadItem.isBookmarked : false;
   return (
     <CardSection>
       <View style={[styles.containerStyle, containerStyle]}>
-        <TouchableOpacity onPress={() => leftAction()} style={styles.itemContainer}>
-          <Image source={Comment} style={{ width: 20, height: 20 }} />
-          <Text style={styles.titleItem}>{numOfComments} Balasan</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={debounce(() => saveBookmark(threadItem, threadIndex), 300, { leading: true, trailing: false })}
-          style={styles.itemContainer}
-        >
-          <Image source={isBookmarked ? BookMarked : BookMark} style={{ width: 20, height: 20 }} />
-          <Text style={styles.titleItem}>Tandai</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.itemContainer} onPress={() => shareThread(threadItem)}>
-          <Image source={Share} style={{ width: 20, height: 20 }} />
-          <Text style={styles.titleItem}>Bagikan</Text>
-        </TouchableOpacity>
+        {
+          btnComment ? 
+          <TouchableOpacity onPress={() => leftAction()} style={styles.itemContainer}>
+            <Image source={Comment} style={{ width: 20, height: 20 }} />
+            <Text style={styles.titleItem}>{numOfComments} Balasan</Text>
+          </TouchableOpacity>
+          :
+          null
+        }
+        {
+          btnMark ?
+          <TouchableOpacity
+            onPress={debounce(() => saveBookmark(threadItem, threadIndex), 300, { leading: true, trailing: false })}
+            style={styles.itemContainer}
+          >
+            <Image source={isBookmarked ? BookMarked : BookMark} style={{ width: 20, height: 20 }} />
+            <Text style={styles.titleItem}>Tandai</Text>
+          </TouchableOpacity>
+          :
+          null
+        }
+        {
+          btnShare ?
+          <TouchableOpacity style={styles.itemContainer} onPress={() => shareThread(threadItem)}>
+            <Image source={Share} style={{ width: 20, height: 20 }} />
+            <Text style={styles.titleItem}>Bagikan</Text>
+          </TouchableOpacity>
+          :
+          null
+        }
       </View>
     </CardSection>
   );

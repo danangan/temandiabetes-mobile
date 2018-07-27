@@ -1,5 +1,5 @@
 import React from 'react';
-
+import propTypes from 'prop-types';
 import { debounce } from 'lodash';
 
 import {
@@ -32,7 +32,7 @@ function capitalize(string) {
   }
 }
 
-export default threadItem = ({ threads, toThreadDetails, onPostBookmark, onShareThread }) => {
+export default threadItem = ({ threads, toThreadDetails, onPostBookmark, onShareThread, btnShare, btnMark, btnComment }) => {
   let { author, comments } = threads.item;
   if (!author || author['tipe_user'] === undefined) {
     author = {
@@ -63,10 +63,29 @@ export default threadItem = ({ threads, toThreadDetails, onPostBookmark, onShare
         threadItem={threads.item}
         threadIndex={threads.index}
         shareThread={onShareThread}
+        btnShare={btnShare}
+        btnMark={btnMark}
+        btnComment={btnComment}
       />
     </Card>
-  )
-}
+  );
+};
+
+threadItem.propTypes = {
+  threads: propTypes.object,
+  toThreadDetails: propTypes.func,
+  onPostBookmark: propTypes.func,
+  onShareThread: propTypes.func,
+  btnShare: propTypes.bool,
+  btnMark: propTypes.bool,
+  btnComment: propTypes.bool,
+};
+
+threadItem.defaultProps = {
+  btnShare: true,
+  btnMark: true,
+  btnComment: true,
+};
 
 const styles = {
   cardStyle: {
@@ -84,4 +103,6 @@ const styles = {
     paddingVertical: 10,
     paddingHorizontal: 20
   },
-}
+};
+
+
