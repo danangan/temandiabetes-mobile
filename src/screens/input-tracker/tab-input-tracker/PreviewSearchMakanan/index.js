@@ -396,7 +396,6 @@ class PreviewSearchMakanan extends React.Component {
   }
 
   render() {
-    console.log('THIS STATE ', this.state);
     if (this.state.isProcess) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

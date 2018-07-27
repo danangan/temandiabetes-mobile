@@ -170,7 +170,9 @@ class DrugReminder extends React.Component {
     if (listReminder.message === 'EmptyList') {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Light' }}>Anda belum memiliki daftar pengingat obat saat ini.</Text>
+          <Text style={{ fontSize: 16, fontFamily: 'Montserrat-Light', textAlign: 'center', paddingHorizontal: 10 }}>
+            Anda belum memiliki daftar pengingat obat saat ini.
+          </Text>
         </View>
       );
     } else {

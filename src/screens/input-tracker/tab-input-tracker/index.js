@@ -319,9 +319,18 @@ class InputTracker extends Component {
           waktuInput: inputDate,
           gulaDarah
         };
+        let isDecimal = gulaDarah.indexOf(',') > -1 ? true : false
 
         if (gulaDarah === 0 || gulaDarah === '') {
-          alert('Silakan masukkan Gula darah Anda.');
+          Alert.alert(
+            'Perhatian!',
+            'Silakan masukkan gula darah Anda.'
+          );
+        } else if (isDecimal) {
+          Alert.alert(
+            'Perhatian!',
+            'Angka yang Anda masukkan tidak boleh mengandung koma (,)'
+          );
         } else {
           const checking = this.validationInput(gulaDarah);
           if (!checking) {
