@@ -216,7 +216,7 @@ class Login extends Component {
   };
 
   render() {
-    const spinner = this.state.shouldRedirect ? (
+    const spinner = this.state.shouldRedirect || this.props.loginReducer.loading ? (
       <Spinner color="#EF434F" text="Logging In..." size="large" />
     ) : (
       <View />

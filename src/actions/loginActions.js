@@ -1,4 +1,4 @@
-import { AsyncStorage, Platform } from 'react-native';
+import { AsyncStorage, Platform, Alert } from 'react-native';
 import axios from 'axios';
 import firebase from 'react-native-firebase';
 import Config from 'react-native-config';
@@ -53,6 +53,12 @@ const signWithGoogle = () => async dispatch => {
   }
 
   try {
+    // set loading to true
+    dispatch({
+      type: ActionTypes.SET_LOGIN_LOADING,
+      payload: { loading: true }
+    })
+
     const data = await GoogleSignin.signIn();
 
     if (data) {
@@ -64,6 +70,7 @@ const signWithGoogle = () => async dispatch => {
       const {
         additionalUserInfo: { profile, isNewUser }
       } = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
       const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
       const {
         data: {
@@ -86,7 +93,11 @@ const signWithGoogle = () => async dispatch => {
       onSuccess(payloadData);
     }
   } catch (error) {
-    onSuccess(error);
+    Alert.alert('Error', 'Login via Google gagal.');
+    dispatch({
+      type: ActionTypes.SET_LOGIN_LOADING,
+      payload: { loading: false }
+    })
   }
 };
 
@@ -120,10 +131,28 @@ const signWithFacebook = () => async dispatch => {
     });
   }
 
+  function onError() {
+    Alert.alert('Error', 'Login via Facebook gagal.');
+    dispatch({
+      type: ActionTypes.SET_LOGIN_LOADING,
+      payload: { loading: false }
+    })
+  }
+
   try {
+    // set loading to true
+    dispatch({
+      type: ActionTypes.SET_LOGIN_LOADING,
+      payload: { loading: true }
+    })
+
     const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
 
     if (result.isCancelled) {
+      dispatch({
+        type: ActionTypes.SET_LOGIN_LOADING,
+        payload: { loading: false }
+      })
       return Promise.reject(new Error('The user cancelled the request'));
     }
 
@@ -132,6 +161,9 @@ const signWithFacebook = () => async dispatch => {
     const {
       additionalUserInfo: { profile, isNewUser }
     } = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+
+
+
     const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
     const {
       data: {
@@ -153,7 +185,7 @@ const signWithFacebook = () => async dispatch => {
 
     onSuccess(payloadData);
   } catch (error) {
-    if (error) throw error;
+    onError()
   }
 };
 

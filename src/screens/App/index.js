@@ -90,6 +90,10 @@ class App extends Component {
   }
 
   async componentDidMount() {
+
+    // set the loading in login page to false
+    this.props.resetLoginLoader()
+
     // get current user
     this.props.getCurrentUser()
 
@@ -371,7 +375,8 @@ const mapDispatchToProps = dispatch => ({
   updateNotificationCount: currentUserId => dispatch(updateNotificationCount(currentUserId)),
   resetNotificationCount : currentUserId => dispatch(resetNotificationCount(currentUserId)),
   updateFCMToken: param => dispatch(updateFCMToken(param)),
-  resetDeepLink: () => dispatch(resetDeepLink())
+  resetDeepLink: () => dispatch(resetDeepLink()),
+  resetLoginLoader: () => dispatch({type: 'SET_LOGIN_LOADING', payload: { loading: false } })
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

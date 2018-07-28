@@ -5,7 +5,8 @@ const initialState = {
   password: null,
   message: null,
   typeUser: null,
-  statusCode: 0
+  statusCode: 0,
+  loading: false
 };
 
 const messages = 'success login';
@@ -92,6 +93,11 @@ const loginReducer = (state = initialState, action) => {
       };
     case ActionTypes.SIGN_WITH_FACEBOOK:
       return signWithFacebook(state, action.payload);
+    case ActionTypes.SET_LOGIN_LOADING:
+      return {
+        ...state,
+        loading: action.payload.loading
+      }
     default:
       return state;
   }
