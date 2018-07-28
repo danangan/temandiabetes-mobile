@@ -127,12 +127,8 @@ export const declineRequestToInnerCircle = (friendId, innerCircleId) => async di
 
   try {
     const option = {
-      method: 'PUT',
-      url: `api/users/${friendId}/innercircles/${innerCircleId}`,
-      data: {
-        status: 'rejected',
-        action: 'reject'
-      }
+      method: 'DELETE',
+      url: `api/users/${friendId}/innercircles/${innerCircleId}`
     };
 
     const res = await API_CALL(option);
