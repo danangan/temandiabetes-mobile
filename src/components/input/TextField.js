@@ -43,11 +43,16 @@ const TextField = ({
   onPressRight,
   tintColor,
   iconLeftStyle,
-  iconRightStyle
+  iconRightStyle,
+  rightButtonStyle
 }) => (
   <View style={[styles.containerStyle, containerStyle]}>
     <View style={[styles.sectionStyle, sectionStyle]}>
-      <Image source={leftIcon} tintColor={tintColor} style={[styles.iconLeftStyle, iconLeftStyle]} />
+      <Image
+        source={leftIcon}
+        tintColor={tintColor}
+        style={[styles.iconLeftStyle, iconLeftStyle]}
+      />
       <TextInput
         value={value}
         placeholderTextColor={placeholderTextColor}
@@ -79,8 +84,12 @@ const TextField = ({
         onKeyPress={onKeyPress}
         style={[styles.inputStyle, inputStyle]}
       />
-      <TouchableOpacity onPress={onPressRight}>
-        <Image source={rightIcon} style={[styles.iconRightStyle, iconRightStyle]} />
+      <TouchableOpacity onPress={onPressRight} style={rightButtonStyle}>
+        <Image
+          source={rightIcon}
+          tintColor={tintColor}
+          style={[styles.iconRightStyle, iconRightStyle]}
+        />
       </TouchableOpacity>
     </View>
   </View>
@@ -146,7 +155,7 @@ const styles = {
     borderWidth: 0,
     borderColor: color.black,
     height: 40,
-    borderRadius: 5,
+    borderRadius: 5
   },
   iconLeftStyle: {
     padding: 10,

@@ -1,16 +1,7 @@
 import React from 'react';
 import { debounce } from 'lodash';
-import {
-  TouchableOpacity,
-  Image,
-  View,
-  Text
-} from 'react-native';
-import {
-  Card,
-  CardSection
-}
-from '../../../../components';
+import { TouchableOpacity, Image, View, Text } from 'react-native';
+import { Card, CardSection } from '../../../../components';
 import Style from '../../../../style/defaultStyle';
 import { sliceString } from '../../../../utils/helpers';
 import Footer from './Footer';
@@ -19,7 +10,12 @@ import BookMark from '../../../../assets/icons/bookmark.png';
 import BookMarked from '../../../../assets/icons/bookmark_dark.png';
 import Share from '../../../../assets/icons/share.png';
 
-export default staticThreadItem = ({ threads, toStaticThreadDetail, onPostBookmark, onShareThread }) => {
+export default (staticThreadItem = ({
+  threads,
+  toStaticThreadDetail,
+  onPostBookmark,
+  onShareThread
+}) => {
   const { item, index } = threads;
   let { author } = item;
 
@@ -32,9 +28,18 @@ export default staticThreadItem = ({ threads, toStaticThreadDetail, onPostBookma
   }
 
   return (
-    <TouchableOpacity key={index} onPress={debounce(() => {toStaticThreadDetail(item)}, 500, {trailing: false, leading: true})}>
+    <TouchableOpacity
+      key={index}
+      onPress={debounce(
+        () => {
+          toStaticThreadDetail(item);
+        },
+        500,
+        { trailing: false, leading: true }
+      )}
+    >
       <Card containerStyle={styles.cardStyle}>
-        <CardSection containerStyle={{ flexDirection: 'column', }}>
+        <CardSection containerStyle={{ flexDirection: 'column' }}>
           <View style={{ flexDirection: 'row' }}>
             <Image
               resizeMode={'cover'}
@@ -47,11 +52,7 @@ export default staticThreadItem = ({ threads, toStaticThreadDetail, onPostBookma
             />
             <View style={styles.contentStyle}>
               <Text style={styles.titleStyle}>{sliceString(item.topic, 120)}</Text>
-              <Footer
-                threadItem={item}
-                threadIndex={index}
-                author={author}
-              />
+              <Footer threadItem={item} threadIndex={index} author={author} />
             </View>
           </View>
           <View style={styles.shareAndBookmark}>
@@ -61,7 +62,9 @@ export default staticThreadItem = ({ threads, toStaticThreadDetail, onPostBookma
                   onPostBookmark(item, index);
                 }}
               >
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <View
+                  style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+                >
                   <Image
                     source={item.isBookmarked ? BookMarked : BookMark}
                     style={styles.iconStyle}
@@ -77,7 +80,9 @@ export default staticThreadItem = ({ threads, toStaticThreadDetail, onPostBookma
                   onShareThread(item);
                 }}
               >
-                <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <View
+                  style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+                >
                   <Image source={Share} style={styles.iconStyle} resizeMode={'contain'} />
                   <Text style={{ marginLeft: 5 }}>Bagikan</Text>
                 </View>
@@ -87,8 +92,8 @@ export default staticThreadItem = ({ threads, toStaticThreadDetail, onPostBookma
         </CardSection>
       </Card>
     </TouchableOpacity>
-  )
-}
+  );
+});
 
 const styles = {
   contentStyle: {
@@ -127,4 +132,4 @@ const styles = {
   iconStyle: {
     width: 25
   }
-}
+};

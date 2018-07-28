@@ -4,17 +4,17 @@ import { View, TouchableOpacity, Image } from 'react-native';
 import HeaderDetail from './HeaderDetail';
 import color from '../../../style/color';
 import { Spinner } from '../../../components';
-import { API_CALL } from '../../../utils/ajaxRequestHelper'
+import { API_CALL } from '../../../utils/ajaxRequestHelper';
 import ContentFeatured from './ContentFeatured';
 
 class FeaturedDetail extends Component {
-	static navigatorStyle = {
-		tabBarHidden: true
-	};
+  static navigatorStyle = {
+    tabBarHidden: true
+  };
 
-	constructor(props) {
-		super(props);
-		this.state = {
+  constructor(props) {
+    super(props);
+    this.state = {
       thread: {},
       isLoading: true
     };
@@ -23,70 +23,64 @@ class FeaturedDetail extends Component {
   async fetchFeaturedDetail() {
     const option = {
       method: 'get',
-      url: `/api/threads/${this.props.item._id}`,
+      url: `/api/threads/${this.props.item._id}`
     };
 
     try {
-      const { data: { data : { thread } } } = await API_CALL(option);
-      this.setState({thread})
+      const {
+        data: {
+          data: { thread }
+        }
+      } = await API_CALL(option);
+      this.setState({ thread });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
     this.setState({
       isLoading: false
-    })
+    });
   }
 
-  componentDidMount(){
-    this.fetchFeaturedDetail()
+  componentDidMount() {
+    this.fetchFeaturedDetail();
   }
 
-	render() {
-    const { thread, isLoading } = this.state
+  render() {
+    const { thread, isLoading } = this.state;
     if (isLoading) {
       return (
-        <Spinner
-        containerStyle={{ backgroundColor: '#f2f4fd' }}
-        color="#EF434F"
-        size="large"
-      />
-      )
-    } else {
-      return (
-        <View style={styles.containerStyle}>
-          {
-            thread.author &&
-            <HeaderDetail
-              category={thread.category}
-              date={thread.createdAt}
-              author={thread.author}
-            />
-          }
-          <ContentFeatured item={thread} />
-          <TouchableOpacity
-            style={styles.buttonContainerStyle}
-            onPress={() => this.props.navigator.pop()}
-          >
-            <Image
-              tintColor={color.white}
-              borderWidth={15}
-              resizeMode={'contain'}
-              source={require('../../../assets/icons/close.png')}
-              style={styles.buttonImageStyle}
-            />
-          </TouchableOpacity>
-        </View>
+        <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="large" />
       );
     }
-	}
+    return (
+      <View style={styles.containerStyle}>
+        {thread.author && (
+          <HeaderDetail category={thread.category} date={thread.createdAt} author={thread.author} />
+        )}
+        <ContentFeatured item={thread} />
+        <TouchableOpacity
+          style={styles.buttonContainerStyle}
+          onPress={() => this.props.navigator.pop()}
+        >
+          <Image
+            tintColor={color.white}
+            borderWidth={15}
+            resizeMode={'contain'}
+            source={require('../../../assets/icons/close.png')}
+            style={styles.buttonImageStyle}
+          />
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
 
 const styles = {
-	containerStyle: {
-		flex: 2,
-		backgroundColor: color.solitude
-	},
+  containerStyle: {
+    flex: 2,
+    backgroundColor: color.solitude
+  },
   buttonContainerStyle: {
     height: 43.02,
     width: '100%',

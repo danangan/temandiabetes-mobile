@@ -59,3 +59,48 @@ export const getOneUser = userID => async dispatch => {
     return onSuccess(error);
   }
 };
+
+export const searchUser = name => async dispatch => {
+  function onSuccess(user) {
+    dispatch({
+      type: ActionTypes.SEARCH_USER,
+      payload: user
+    });
+
+    return user;
+  }
+
+  try {
+    const option = {
+      method: 'GET',
+      url: `api/users/?search=${name}`
+    };
+
+    const {
+      data: {
+        data: { users }
+      }
+    } = await API_CALL(option);
+
+    onSuccess(users);
+  } catch (error) {
+    onSuccess(error);
+  }
+};
+
+export const resetResultSearch = () => async dispatch => {
+  function onReset() {
+    dispatch({
+      type: 'RESET_STATE_RESULT_SEARCH',
+      payload: true
+    });
+
+    return true;
+  }
+
+  try {
+    onReset();
+  } catch (error) {
+    onReset(error);
+  }
+};

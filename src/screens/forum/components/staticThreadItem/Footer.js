@@ -12,9 +12,12 @@ const defaultAuthor = {
 
 const processName = name => {
   if (name === 'Gue Sehat') {
-    return 'GueSehat'
+    return 'GueSehat';
   }
-  return name.split(' ').slice(0, 2).join(' ')
+  return name
+    .split(' ')
+    .slice(0, 2)
+    .join(' ');
 };
 
 const Footer = ({ author, threadItem }) => {
@@ -36,7 +39,9 @@ const Footer = ({ author, threadItem }) => {
         {author.nama !== '' && (
           <View style={styles.nameAndMonthStyle}>
             <Text style={styles.nameStyle}>{processName(author.nama)}</Text>
-            <Text style={styles.monthStyle}>{dateFormatter(threadItem.createdAt, {isUTC: true})}</Text>
+            <Text style={styles.monthStyle}>
+              {dateFormatter(threadItem.createdAt, { isUTC: true })}
+            </Text>
           </View>
         )}
       </View>

@@ -1,4 +1,5 @@
 const Images = {
+  closeIcon: require('./icons/close.png'),
   userIcon: require('./icons/username-dark.png'),
   lockIcon: require('./icons/pasword_black.png'),
   logoApp: require('./icons/logo.png'),

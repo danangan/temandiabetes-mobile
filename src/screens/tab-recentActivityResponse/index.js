@@ -111,11 +111,11 @@ class TabRecentActivityResponse extends React.Component {
       case 'follow':
         return `Anda telah mengikuti ${response.thread.topic}`;
       case 'unfollow':
-        return 'Anda berhenti mengikuti...';
+        return `Anda berhenti mengikuti ${response.thread.topic}`;
       case 'drug_reminder':
         return 'Anda telah membuat pengingat obat';
       case 'sender_innercircle':
-        return 'Anda telah mengirimkan permintaan pertemanan ke';
+        return `Anda telah mengirimkan permintaan pertemanan ke "${response.innerCircle.name}"`;
       default:
         return '';
     }

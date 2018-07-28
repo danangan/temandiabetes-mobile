@@ -5,9 +5,8 @@ import { View, ScrollView, TouchableOpacity, Image, Text } from 'react-native';
 import UsersList from './UsersList';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
-import SearchBar from './innerCircleList/Search';
-import { getUsers } from '../../../actions';
-import { Spinner } from '../../../components';
+import { getUsers, searchUser, resetResultSearch } from '../../../actions';
+import { Spinner, TextField } from '../../../components';
 import Images from '../../../assets/images';
 
 class InnerCircle extends React.Component {
@@ -20,7 +19,7 @@ class InnerCircle extends React.Component {
     super(props);
     this.state = {
       results: [],
-      notFound: false
+      searchBar: false
     };
   }
 
@@ -28,17 +27,7 @@ class InnerCircle extends React.Component {
     this.props.getUsers();
   }
 
-  handleResults = results => {
-    this.setState({ results });
-    if (results.length) {
-      this.setState({ notFound: true });
-    }
-  };
-
-  hideSearchBar = () => this.setState({ notFound: false }, () => this.searchBar.hide());
-
   pushNavigation = item => {
-    // console.log('INI KAH ID USER ', item) ;
     this.props.navigator.push({
       screen: 'TemanDiabetes.ProfileDetails',
       passProps: {
@@ -55,38 +44,65 @@ class InnerCircle extends React.Component {
   };
 
   renderNavBar = () => (
-    <View style={styles.navBarContainerStyle}>
-      <TouchableOpacity style={styles.leftButtonStyle} onPress={() => this.props.navigator.pop()}>
-        <Image
-          resizeMode={'contain'}
-          style={styles.iconStyle}
-          tintColor={color.red}
-          source={Images.backIcon}
-        />
-      </TouchableOpacity>
-      <Text style={styles.navBarTitleStyle}>TAMBAHKAN INNER CIRCLE</Text>
-      <TouchableOpacity onPress={() => this.searchBar.show()} style={styles.rightButtonStyle}>
-        <Image
-          resizeMode={'contain'}
-          style={styles.iconStyle}
-          tintColor={color.red}
-          source={Images.searchIcon}
-        />
-      </TouchableOpacity>
-      <SearchBar
-        ref={ref => (this.searchBar = ref)}
-        data={this.props.data.users}
-        handleResults={this.handleResults}
-        placeholder="Search..."
-        onBack={this.hideSearchBar}
-        fontFamily={'Montserrat-Regular'}
-        fontSize={Style.FONT_SIZE}
-      />
+    <View>
+      {!this.state.searchBar && (
+        <View style={styles.navBarContainerStyle}>
+          <TouchableOpacity
+            style={styles.leftButtonStyle}
+            onPress={() => this.props.navigator.pop()}
+          >
+            <Image
+              resizeMode={'contain'}
+              style={styles.iconStyle}
+              tintColor={color.red}
+              source={Images.backIcon}
+            />
+          </TouchableOpacity>
+          <Text style={styles.navBarTitleStyle}>TAMBAHKAN INNER CIRCLE</Text>
+          <TouchableOpacity
+            onPress={() => this.setState({ searchBar: true })}
+            style={styles.rightButtonStyle}
+          >
+            <Image
+              resizeMode={'contain'}
+              style={styles.iconStyle}
+              tintColor={color.red}
+              source={Images.searchIcon}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
+      {this.state.searchBar && (
+        <View
+          style={{
+            marginTop: Style.PADDING + 10,
+            paddingLeft: Style.PADDING,
+            paddingRight: Style.PADDING,
+            marginBottom: Style.PADDING
+          }}
+        >
+          <TextField
+            onPressRight={() => this.setState({ searchBar: false }, () => this.props.resetState())}
+            placeholder="Search..."
+            onChangeText={text => this.props.searchUser(text)}
+            inputStyle={styles.searchBar}
+            underlineColorAndroid="rgba(0,0,0,0)"
+            rightIcon={Images.closeIcon}
+            tintColor={color.red}
+            rightButtonStyle={{ width: 35, height: 35 }}
+            iconRightStyle={{
+              alignSelf: 'flex-end',
+              height: 10,
+              width: 10
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 
-  renderData() {
-    const { users } = this.props.data;
+  renderInitialData() {
+    const { users } = this.props.initData;
     if (users !== undefined) {
       return users.map((item, index) => (
         <UsersList navigation={this.pushNavigation} item={item} key={index} />
@@ -94,36 +110,43 @@ class InnerCircle extends React.Component {
     }
   }
 
-  renderContent = () => (
-    <View style={styles.containerStyle}>
-      {this.renderNavBar()}
-      <ScrollView>
-        <View style={styles.contentStyle}>
-          {this.state.results.length === 0 ? (
-            this.state.notFound ? (
-              <View style={styles.placeholderContainerStyle}>
-                <Text style={styles.placeholderStyle}>Pencarian tidak ditemukan</Text>
-              </View>
-            ) : (
-              this.renderData()
-            )
-          ) : (
-            this.state.results.map((item, index) => (
-              <UsersList navigation={this.pushNavigation} item={item} key={index} />
-            ))
-          )}
-        </View>
-      </ScrollView>
-    </View>
-  );
+  renderResultData = () => {
+    const { result } = this.props.resultData;
+    return result.map((item, index) => (
+      <UsersList navigation={this.pushNavigation} item={item} key={index} />
+    ));
+  };
+
+  renderContent = () => {
+    const { result, statusSearch } = this.props.resultData;
+    switch (true) {
+      case statusSearch === 400:
+        return (
+          <View style={styles.placeholderContainerStyle}>
+            <Text style={styles.placeholderStyle}>Pencarian Anda tidak ditemukan.</Text>
+          </View>
+        );
+      case result.length !== 0:
+        return this.renderResultData();
+      default:
+        return this.renderInitialData();
+    }
+  };
 
   render() {
-    const { users } = this.props.data;
+    const { users } = this.props.initData;
     if (users === undefined) {
       return <Spinner color={color.red} text="" size="large" />;
     }
 
-    return this.renderContent();
+    return (
+      <View style={styles.containerStyle}>
+        {this.renderNavBar()}
+        <ScrollView>
+          <View style={styles.contentStyle}>{this.renderContent()}</View>
+        </ScrollView>
+      </View>
+    );
   }
 }
 
@@ -180,11 +203,14 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-  data: state.userReducer
+  initData: state.userReducer,
+  resultData: state.userReducer
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUsers: () => dispatch(getUsers())
+  getUsers: () => dispatch(getUsers()),
+  searchUser: name => dispatch(searchUser(name)),
+  resetState: () => dispatch(resetResultSearch())
 });
 
 export default connect(

@@ -64,6 +64,7 @@ export const PENDING_FETCH = 'PENDING_FETCH';
 // USERS
 export const GET_USERS = 'GET_USERS';
 export const GET_ONE_USER = 'GET_ONE_USER';
+export const SEARCH_USER = 'SEARCH_USER';
 
 /**
  * RECENT ACTIVITY

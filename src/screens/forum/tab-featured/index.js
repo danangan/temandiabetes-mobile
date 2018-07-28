@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  ActivityIndicator,
-  Alert
-} from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
 
@@ -121,8 +115,7 @@ class TabFeatured extends Component {
     });
   }
 
-  renderItem = threads => {
-    return (
+  renderItem = threads => (
       <StaticThreadItem
         threads={threads}
         toStaticThreadDetail={this.toStaticThreadDetail}
@@ -130,7 +123,6 @@ class TabFeatured extends Component {
         onShareThread={this.onShareThread}
       />
     );
-  };
 
   renderFooter() {
     const { page, pages } = this.props.dataThreads.item;
@@ -192,7 +184,7 @@ class TabFeatured extends Component {
       <View />
     );
     return (
-      <View style={styles.containerStyle} removeClippedSubviews={true}>
+      <View style={styles.containerStyle} removeClippedSubviews>
         {!initialLoading && (
           <FlatList
             ListEmptyComponent={this.renderEmptySection}
