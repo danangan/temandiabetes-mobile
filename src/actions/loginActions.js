@@ -61,6 +61,8 @@ const signWithGoogle = () => async dispatch => {
 
     const data = await GoogleSignin.signIn();
 
+    console.log(data)
+
     if (data) {
       const credential = firebase.auth.GoogleAuthProvider.credential(
         data.idToken,
@@ -93,7 +95,9 @@ const signWithGoogle = () => async dispatch => {
       onSuccess(payloadData);
     }
   } catch (error) {
-    Alert.alert('Error', 'Login via Google gagal.');
+    if (error.message === 'DEVELOPER_ERROR') {
+      Alert.alert('Error', 'Login via Google gagal.');
+    }
     dispatch({
       type: ActionTypes.SET_LOGIN_LOADING,
       payload: { loading: false }
