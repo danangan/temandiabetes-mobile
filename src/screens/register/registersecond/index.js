@@ -33,7 +33,7 @@ class RegisterScreenSecond extends React.Component {
       email: null,
       emailChecking: false,
       keyboardActive: false,
-      showSnackBar: true,
+      showSnackBar: false,
       errorMessage: ''
     };
     this.handleNavigation = this.handleNavigation.bind(this);
@@ -65,6 +65,7 @@ class RegisterScreenSecond extends React.Component {
             ]);
           } else if (dataUser.emailValid.message === 'VALID') {
             this.handleSuccessValidation();
+            this.props.clearDataRegister('PENDING_EMAIL_ALREADY_REGISTERED');
           }
         }
       );

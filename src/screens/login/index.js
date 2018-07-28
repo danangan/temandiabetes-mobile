@@ -97,8 +97,20 @@ class Login extends Component {
     if (statusCode === 200 && message === 'success login' && this.state.shouldRedirect) {
       self.setState({ shouldRedirect: false }, () => {
         if (!is_active) {
-          this.props.resetState();
-          self.props.onSignOut();
+          Alert.alert(
+            'Pemberitahuan',
+            'Akun anda sedang tidak aktif.',
+            [
+              {
+                text: 'OK',
+                onPress: () => {
+                  this.props.resetState();
+                  self.props.onSignOut();
+                }
+              }
+            ],
+            { cancelable: false }
+          );
         }
       });
     } else if (statusCode === 500 && this.state.shouldRedirect) {

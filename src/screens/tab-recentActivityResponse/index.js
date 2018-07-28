@@ -1,12 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import { result } from 'lodash';
 import { View, Text, Platform, FlatList, ActivityIndicator } from 'react-native';
 
 import { dateFormateName, formatTimeFromDate } from '../../utils/helpers';
-
 import Style from '../../style/defaultStyle';
-
 import { getUserRecentActivityResponse } from '../../actions/recentActivityAction';
 
 class TabRecentActivityResponse extends React.Component {
@@ -26,7 +24,7 @@ class TabRecentActivityResponse extends React.Component {
   }
 
   onEndReached() {
-    const { idUser, page } = this.state;
+    const { page } = this.state;
     const { userId } = this.props;
     const { recentResponse } = this.props.dataActivity;
 
@@ -109,7 +107,7 @@ class TabRecentActivityResponse extends React.Component {
       case 'comment':
         return `Anda telah membuat komentar "${response.comment.text}"`;
       case 'reply_comment':
-        return `Anda telah membalas komentar dengan "${response.comment.text}"`;
+        return `Anda telah membalas komentar dengan "${result(response.replyComment, 'text')}"`;
       case 'follow':
         return `Anda telah mengikuti ${response.thread.topic}`;
       case 'unfollow':

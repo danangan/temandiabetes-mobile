@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
-import { 
-  getUserRecentThread, 
-  getUserRecentComment, 
-  getUserRecentActivityResponse 
+import {
+  getUserRecentThread,
+  getUserRecentComment,
+  getUserRecentActivityResponse
 } from '../../../actions/recentActivityAction';
 import { Avatar, Indicator, NavigationBar, Spinner, SnackBar } from '../../../components';
 import Event from './Event';
@@ -339,9 +339,9 @@ class ProfileDetails extends React.Component {
     }
     if (this.state.tab === 2) {
       return (
-        <TabRecentActivityResponse 
-          navi={this.props.navigator} 
-          listActivity={recentResponse.data} 
+        <TabRecentActivityResponse
+          navi={this.props.navigator}
+          listActivity={recentResponse.data}
           userId={this.state.userId}
         />
       );

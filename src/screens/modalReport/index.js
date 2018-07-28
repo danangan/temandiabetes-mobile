@@ -152,7 +152,7 @@ class ModalReport extends Component {
                 <Text
                   style={{
                     color: '#4a4a4a',
-                    fontFamily: reason === 'OFFENSIF' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight'
+                    fontFamily: reason === 'offensive' ? 'Montserrat-Bold' : 'Montserrat-ExtraLight'
                   }}
                 >
                   OFFENSIVE

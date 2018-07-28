@@ -31,7 +31,7 @@ class RegisterFive extends React.Component {
     super(props);
     this.state = {
       sip: '',
-      showSnackBar: true,
+      showSnackBar: false,
       errorMessage: ''
     };
   }

@@ -26,7 +26,6 @@
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
 
         <!--REACT NATIVE FIREBASE CLOUD MESSAGING-->
         <receiver android:name="com.evollu.react.fcm.FIRLocalMessagingPublisher" />
