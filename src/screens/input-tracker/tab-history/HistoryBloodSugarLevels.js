@@ -13,6 +13,7 @@ import {
 import DotsInfo from './DotsInfo';
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
+import { formatTimeFromDate } from '../../../utils/helpers';
 
 const ranges = [600, 400, 200, 140, 70, 0];
 const graphContainerPadding = 10;
@@ -79,7 +80,7 @@ class Dots extends React.Component {
                 : {}
             ]}
           >
-            <Text style={styles.textToolTipStyle}>{result(item, 'waktuInput', '00:00')}</Text>
+            <Text style={styles.textToolTipStyle}>{formatTimeFromDate(result(item, 'waktuInput'))}</Text>
             <Text style={[styles.textToolTipStyle, { color: color.red }]}>
               {result(item, 'nilai', 0)}mg/dL
             </Text>
