@@ -80,7 +80,7 @@ class Dots extends React.Component {
                 : {}
             ]}
           >
-            <Text style={styles.textToolTipStyle}>{formatTimeFromDate(result(item, 'waktuInput'))}</Text>
+            <Text style={styles.textToolTipStyle}>{formatTimeFromDate(result(item, 'waktuInput'), ':', {isUTC: true})}</Text>
             <Text style={[styles.textToolTipStyle, { color: color.red }]}>
               {result(item, 'nilai', 0)}mg/dL
             </Text>

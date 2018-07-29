@@ -315,7 +315,8 @@ class InputTracker extends Component {
       // INPUT GULA DARAH
       case 'GULA_DARAH':
         value = {
-          waktuInput: inputDate,
+          // formatting the inputDate to normalize the utc
+          waktuInput: inputDate.format('YYYY-MM-DDTHH:mm:ss'),
           gulaDarah
         };
         let isDecimal = gulaDarah.indexOf(',') > -1 ? true : false
