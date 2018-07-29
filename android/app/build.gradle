@@ -107,13 +107,13 @@ android {
         preDexLibraries = false
     }
 
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.2'
 
     defaultConfig {
         applicationId "com.temandiabetes.android"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "0.1.67"
         multiDexEnabled true
@@ -174,17 +174,19 @@ dependencies {
     implementation(project(':react-native-firebase')) {
         transitive = false
     }
-    implementation "com.google.android.gms:play-services-base:11.+"
-    implementation "com.google.firebase:firebase-auth:11.+"
-    implementation "com.google.firebase:firebase-core:11.+"
-    implementation "com.google.firebase:firebase-storage:11.+"
-    implementation 'com.google.firebase:firebase-messaging:11.+'
-    implementation 'com.google.android.gms:play-services-auth:11.+'
+    //noinspection GradleCompatible
+    implementation "com.google.android.gms:play-services-base:15.0.1"
+    implementation "com.google.firebase:firebase-auth:16.0.2"
+    implementation "com.google.firebase:firebase-core:16.0.1"
+    implementation "com.google.firebase:firebase-storage:16.0.1"
+    implementation 'com.google.firebase:firebase-messaging:17.1.0'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
 
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
     implementation project(':react-native-config')
     implementation fileTree(dir: "libs", include: ["*.jar"])
+    //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:27.0.2"
     implementation ("com.facebook.react:react-native:0.53.0") { force = true }  // From node_modules
     implementation project(':react-native-navigation') // ADD dependencies
