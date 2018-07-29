@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Image, Text, NativeModules } from 'react-native';
+import moment from 'moment';
 
 import color from '../../../style/color';
 import { Button } from '../../../components';
@@ -60,7 +61,8 @@ class DnurseResult extends React.Component {
         method: 'POST',
         url: 'api/blood-glucose-tracker',
         data: {
-          waktuInput: new Date().toUTCString(),
+          // using moment and format to normalize utc
+          waktuInput: new moment().format('YYYY-MM-DDTHH:mm:ss'),
           gulaDarah: blood
         }
       };
