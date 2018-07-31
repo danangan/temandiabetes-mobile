@@ -1,4 +1,4 @@
-import { Config } from 'react-native-config';
+import Config from 'react-native-config';
 
 export const API_BASE = Config.BASE_URL;
 export const API_SIGN_UP = `${API_BASE}/api/sign-up`;
