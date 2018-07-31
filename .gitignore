@@ -60,3 +60,4 @@ android/app/.settings/org.eclipse.buildship.core.prefs
 # vscode debugger
 .vscode
 IsolatedStorage
+.vs

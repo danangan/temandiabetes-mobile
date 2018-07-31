@@ -33,9 +33,9 @@ export const TextWithClickableURL = ({ inputText }) => {
 
   let finalResult = []
 
-  let idx = 0
   result.forEach((item, idx) => {
-    if (item === urlList[idx]) {
+    // if the item is url
+    if (expression.test(item)) {
        finalResult.push(
          <Text
           key={idx}
@@ -50,7 +50,6 @@ export const TextWithClickableURL = ({ inputText }) => {
           {item}
          </Text>
        )
-       idx++
     } else {
        finalResult.push(<Text key={idx}>{item}</Text>)
     }
