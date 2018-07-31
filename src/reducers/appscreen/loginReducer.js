@@ -35,7 +35,7 @@ const onLogin = (state, payload) => {
   } else if (payloadCode === 'auth/unknown') {
     return {
       ...state,
-      message: 'Kami telah memblokir semua permintaan dari perangkat ini karena aktivitas yang tidak biasa, silahkan cek kembali username dan password yang ada masukan.',
+      message: 'Kata sandi salah.',
       statusCode: 500
     };
   }

@@ -107,16 +107,15 @@ android {
         preDexLibraries = false
     }
 
-    compileSdkVersion 27
-    buildToolsVersion '27.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.temandiabetes.android"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 1
-        versionName "0.1.72"
-        multiDexEnabled true
+        versionName "0.1.73"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -175,12 +174,12 @@ dependencies {
         transitive = false
     }
     //noinspection GradleCompatible
-    implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation "com.google.firebase:firebase-auth:16.0.2"
-    implementation "com.google.firebase:firebase-core:16.0.1"
-    implementation "com.google.firebase:firebase-storage:16.0.1"
-    implementation 'com.google.firebase:firebase-messaging:17.1.0'
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation "com.google.android.gms:play-services-base:11.8.0"
+    implementation "com.google.firebase:firebase-auth:11.8.0"
+    implementation "com.google.firebase:firebase-core:11.8.0"
+    implementation "com.google.firebase:firebase-storage:11.8.0"
+    implementation 'com.google.firebase:firebase-messaging:11.8.0'
+    implementation 'com.google.android.gms:play-services-auth:11.8.0'
 
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
 
