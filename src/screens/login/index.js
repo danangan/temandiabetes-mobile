@@ -216,11 +216,12 @@ class Login extends Component {
   };
 
   render() {
-    const spinner = this.state.shouldRedirect || this.props.loginReducer.loading ? (
-      <Spinner color="#EF434F" text="Logging In..." size="large" />
-    ) : (
-      <View />
-    );
+    const spinner =
+      this.state.shouldRedirect || this.props.loginReducer.loading ? (
+        <Spinner color="#EF434F" text="Logging In..." size="large" />
+      ) : (
+        <View />
+      );
 
     return (
       <ImageBackground source={Images.backgroundLogin} style={styles.containerStyle}>

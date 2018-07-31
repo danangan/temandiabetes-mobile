@@ -27,7 +27,7 @@ import {
   addInnerCircle,
   getOneUser,
   getInnerCircle,
-  acceptRequestToInnerCircle,
+  acceptRequestToInnerCircle
 } from '../../../actions';
 import color from '../../../style/color';
 
@@ -251,7 +251,7 @@ class ProfileDetails extends React.Component {
           'Terima Permintaan',
           'Apakah anda ingin menerima permintaan sebagai inner circle ?',
           [
-            { text: 'Cancel', onPress: () => null, style: 'cancel' },
+            { text: 'Cancel', onPress: () => this.setState({ loading: false }), style: 'cancel' },
             {
               text: 'OK',
               onPress: () => {
@@ -567,8 +567,10 @@ const mapDispatchToProps = dispatch => ({
   addInnerCircle: userId => dispatch(addInnerCircle(userId)),
   getOneUser: userId => dispatch(getOneUser(userId)),
   getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken)),
-  accept: (friendId, innerCircleId) => dispatch(acceptRequestToInnerCircle(friendId, innerCircleId)),
-  getUserRecentActivityResponse: (idUser, page, limit) => dispatch(getUserRecentActivityResponse(idUser, page, limit))
+  accept: (friendId, innerCircleId) =>
+    dispatch(acceptRequestToInnerCircle(friendId, innerCircleId)),
+  getUserRecentActivityResponse: (idUser, page, limit) =>
+    dispatch(getUserRecentActivityResponse(idUser, page, limit))
 });
 
 export default connect(

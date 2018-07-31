@@ -32,6 +32,12 @@ const onLogin = (state, payload) => {
       message: 'Format email salah',
       statusCode: 500
     };
+  } else if (payloadCode === 'auth/unknown') {
+    return {
+      ...state,
+      message: 'Kami telah memblokir semua permintaan dari perangkat ini karena aktivitas yang tidak biasa, silahkan cek kembali username dan password yang ada masukan.',
+      statusCode: 500
+    };
   }
 
   return {
@@ -97,7 +103,7 @@ const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: action.payload.loading
-      }
+      };
     default:
       return state;
   }

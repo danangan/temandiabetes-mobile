@@ -9,6 +9,7 @@ import TabRequest from './TabRequest';
 import TabPending from './TabPending';
 import { getInnerCircle } from '../../../../actions';
 import { authToken } from '../../../../utils/constants';
+import { SnackBar } from '../../../../components';
 
 class InnerCircleList extends Component {
   static navigatorStyle = {
@@ -20,7 +21,9 @@ class InnerCircleList extends Component {
     super(props);
     this.state = {
       tab: props.tab || 0,
-      isProcess: false
+      isProcess: false,
+      showSnackBar: false,
+      errorMessage: ''
     };
   }
 
@@ -48,20 +51,14 @@ class InnerCircleList extends Component {
   }
 
   onPushScreen(screen) {
-    const { pending } = this.props.innerCircle;
-    if (pending.length === 10) {
-      return Alert.alert('Maaf, Batas permintaan maksimal 10 orang.');
+    const { requested } = this.props.innerCircle;
+    if (requested.length === 10) {
+      return this.showSnackBar('Maaf, batas permintaan inner circle maksimal 10 orang.');
     }
 
-    this.props.navigator.push(
-      {
-        screen
-      },
-      () =>
-        this.props.navigator.dismissAllModals({
-          animationType: 'none'
-        })
-    );
+    this.props.navigator.push({
+      screen
+    });
   }
 
   onChangeIsProcess = value => {
@@ -104,6 +101,16 @@ class InnerCircleList extends Component {
         />
       );
     }
+  };
+
+  showSnackBar = message => {
+    this.setState({ showSnackBar: true, errorMessage: message }, () => this.hideSnackBar());
+  };
+
+  hideSnackBar = () => {
+    setTimeout(() => {
+      this.setState({ showSnackBar: false });
+    }, 2000);
   };
 
   render() {
@@ -164,6 +171,11 @@ class InnerCircleList extends Component {
           </View>
           <View style={{ flex: 5 }}>{this.renderTabContent()}</View>
         </View>
+        <SnackBar
+          visible={this.state.showSnackBar}
+          textMessage={this.state.errorMessage}
+          position="top"
+        />
       </View>
     );
   }

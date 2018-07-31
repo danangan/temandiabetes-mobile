@@ -39,7 +39,8 @@ const loginManual = ({ email, password }) => async dispatch => {
       return onSuccess(currentUser);
     }
   } catch (error) {
-    return onSuccess(error);
+    const parsed = JSON.parse(JSON.stringify(error));
+    return onSuccess(parsed);
   }
 };
 
@@ -57,11 +58,11 @@ const signWithGoogle = () => async dispatch => {
     dispatch({
       type: ActionTypes.SET_LOGIN_LOADING,
       payload: { loading: true }
-    })
+    });
 
     const data = await GoogleSignin.signIn();
 
-    console.log(data)
+    console.log(data);
 
     if (data) {
       const credential = firebase.auth.GoogleAuthProvider.credential(
@@ -101,7 +102,7 @@ const signWithGoogle = () => async dispatch => {
     dispatch({
       type: ActionTypes.SET_LOGIN_LOADING,
       payload: { loading: false }
-    })
+    });
   }
 };
 
@@ -140,7 +141,7 @@ const signWithFacebook = () => async dispatch => {
     dispatch({
       type: ActionTypes.SET_LOGIN_LOADING,
       payload: { loading: false }
-    })
+    });
   }
 
   try {
@@ -148,7 +149,7 @@ const signWithFacebook = () => async dispatch => {
     dispatch({
       type: ActionTypes.SET_LOGIN_LOADING,
       payload: { loading: true }
-    })
+    });
 
     const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
 
@@ -156,7 +157,7 @@ const signWithFacebook = () => async dispatch => {
       dispatch({
         type: ActionTypes.SET_LOGIN_LOADING,
         payload: { loading: false }
-      })
+      });
       return Promise.reject(new Error('The user cancelled the request'));
     }
 
@@ -165,8 +166,6 @@ const signWithFacebook = () => async dispatch => {
     const {
       additionalUserInfo: { profile, isNewUser }
     } = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
-
-
 
     const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
     const {
@@ -189,7 +188,7 @@ const signWithFacebook = () => async dispatch => {
 
     onSuccess(payloadData);
   } catch (error) {
-    onError()
+    onError();
   }
 };
 

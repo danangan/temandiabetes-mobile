@@ -52,6 +52,7 @@ const FaqScreen = props => (
           Tinggi), maka aplikasi akan segera mengirimkan notifikasi kepada Inner Circle Anda sebagai
           informasi bahwa Anda membutuhkan bantuan darurat.
           {'\n'}
+          {'\n'}
         </Text>
         <Text style={styles.questionStyle}>
           Apakah saya harus registrasi GoApotik agar dapat bertransaksi ?{'\n'}
@@ -102,14 +103,16 @@ const FaqScreen = props => (
           {'\n'}
         </Text>
         <Text style={styles.questionStyle}>
-          Bagaimana cara menggunakan DNurse ?
+          Bagaimana cara menggunakan Teman Diabetes ?
           {'\n'}
         </Text>
         <Text style={styles.answerStyle}>
-          Pastikan Anda sudah mengunduh aplikasi Dnurse, kemudian ikuti langkah menggunakan Dnurse :
-          1. Pasang Dnurse pada 3.5mm jack headset Anda. {'\n'}
+          Pastikan Anda sudah mengunduh aplikasi Teman Diabetes, kemudian ikuti langkah menggunakan
+          Teman Diabetes : {'\n'}
           {'\n'}
-          2. Pasang test strip pada Dnurse, pastikan posisi test strip Anda benar.{'\n'}
+          1. Pasang Teman Diabetes pada 3.5mm jack headset Anda. {'\n'}
+          {'\n'}
+          2. Pasang test strip pada Teman Diabetes, pastikan posisi test strip Anda benar.{'\n'}
           {'\n'}
           3. Tusuk jari Anda menggunakan alat yang telah disediakan dan teteskan pada teststrip.
           {'\n'}

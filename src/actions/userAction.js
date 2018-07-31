@@ -73,7 +73,7 @@ export const searchUser = name => async dispatch => {
   try {
     const option = {
       method: 'GET',
-      url: `api/users/?search=${name}`
+      url: `api/users/?search=${name}&limit=100`
     };
 
     const {

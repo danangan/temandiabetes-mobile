@@ -20,7 +20,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { getFoodSuggetion, inputTrackerFood } from '../../../../actions';
 import { dateFormateName } from '../../../../utils/helpers';
 
-const TextInputHoc = (props) => (
+const TextInputHoc = props => (
   <View
     style={{
       flex: 1,
@@ -31,7 +31,7 @@ const TextInputHoc = (props) => (
       backgroundColor: '#fff'
     }}
   >
-  <View style={{ flex: 1, width: '70%' }}>
+    <View style={{ flex: 1, width: '70%' }}>
       <Text style={{ color: '#b6b6b6' }}>{props.title}</Text>
       <TextInput
         onFocus={this.onFocus}
@@ -41,7 +41,7 @@ const TextInputHoc = (props) => (
         style={{
           textAlign: 'center',
           fontSize: 18,
-          fontFamily: 'OpenSans-Italic',
+          fontFamily: 'OpenSans-Italic'
         }}
         underlineColorAndroid="#ef434e"
       />
@@ -106,15 +106,15 @@ class PreviewSearchMakanan extends React.Component {
   componentDidUpdate() {
     const { inputTracker } = this.props.dataInputTracker;
     if (this.state.isProcess && inputTracker.status_code === 201) {
-      this.setState({
-        isProcess: false
-      }, () => {
-        Alert.alert(
-          'Perhatian!',
-          'Menu makanan Anda berhasil disimpan.'
-        );
-        this.props.navigator.pop();
-      });
+      this.setState(
+        {
+          isProcess: false
+        },
+        () => {
+          Alert.alert('Perhatian!', 'Menu makanan Anda berhasil disimpan.');
+          this.props.navigator.pop();
+        }
+      );
     }
   }
 
@@ -128,21 +128,38 @@ class PreviewSearchMakanan extends React.Component {
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
-        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-          'July', 'August', 'September', 'October', 'November', 'December'
+        const monthNames = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
         ];
-        const selectedDate = new moment().year(year).month(month).date(day);
-        this.setState({
-          date: {
-            day,
-            month,
-            year
+        const selectedDate = new moment()
+          .year(year)
+          .month(month)
+          .date(day);
+        this.setState(
+          {
+            date: {
+              day,
+              month,
+              year
+            },
+            isDate: `${day} ${monthNames[month]} ${year}`,
+            inputDate: selectedDate
           },
-          isDate: `${day} ${monthNames[month]} ${year}`,
-          inputDate: selectedDate
-        }, () => {
-          this.openTimePicker();
-        });
+          () => {
+            this.openTimePicker();
+          }
+        );
       }
     } catch ({ code, message }) {
       console.warn('Cannot open date picker', message);
@@ -156,19 +173,18 @@ class PreviewSearchMakanan extends React.Component {
       const { action, hour, minute } = await TimePickerAndroid.open({
         hour: dateNow.hour(),
         minute: dateNow.minute(),
-        is24Hour: true,
+        is24Hour: true
       });
 
-      const menit = minute === 0 ? '00' :
-                    minute.toString().length === 1 ? `0${minute}` : '00';
+      const menit = minute === 0 ? '00' : minute.toString().length === 1 ? `0${minute}` : '00';
       if (action !== TimePickerAndroid.dismissedAction) {
         const { inputDate } = this.state;
         // const limitTime = new moment().hours(hour).minute(minute);
         // const checking = limitTime.isBefore(new moment());
 
-        const selectedDate = new moment(inputDate)
-        selectedDate.hour(hour).minute(minute)
-        const isBeforeNow = selectedDate.isBefore(dateNow)
+        const selectedDate = new moment(inputDate);
+        selectedDate.hour(hour).minute(minute);
+        const isBeforeNow = selectedDate.isBefore(dateNow);
 
         if (isBeforeNow) {
           this.setState({
@@ -186,11 +202,9 @@ class PreviewSearchMakanan extends React.Component {
           Alert.alert(
             'Perhatian!',
             'Waktu tidak boleh lebih dari jam saat ini',
-            [
-              {text: 'Pilih ulang', onPress: () => this.openTimePicker()},
-            ],
+            [{ text: 'Pilih ulang', onPress: () => this.openTimePicker() }],
             { cancelable: false }
-          )
+          );
         }
       }
     } catch ({ code, message }) {
@@ -222,7 +236,7 @@ class PreviewSearchMakanan extends React.Component {
     }
     // IF current hour is grater than 12 then minus 12 from current hour to make it in 12 Hours Format.
     if (hour > 12) {
-      hour = hour - 12;
+      hour -= 12;
     }
 
     // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format.
@@ -235,7 +249,7 @@ class PreviewSearchMakanan extends React.Component {
 
     // Checking if the minutes value is less then 10 then add 0 before minutes.
     if (minutes < 10) {
-      minutes = '0' + minutes.toString();
+      minutes = `0${minutes.toString()}`;
     }
 
     //Getting current seconds from date object.
@@ -245,7 +259,7 @@ class PreviewSearchMakanan extends React.Component {
     //   seconds = '0' + seconds.toString();
     // }
     // Adding all the variables in fullTime variable.
-    fullTime = hour.toString() + ':' + minutes.toString();
+    fullTime = `${hour.toString()}:${minutes.toString()}`;
     // + ':' + seconds.toString()
     // + ' ' + TimeType.toString()
     // Setting up fullTime variable in State.
@@ -271,30 +285,34 @@ class PreviewSearchMakanan extends React.Component {
         }}
         onPress={() => this.openDatePicker()}
       >
-          <Image
-            resizeModa={'contain'}
-            style={{ width: 20, height: 20 }}
-            source={require('../../../../assets/icons/calendar.png')}
-          />
-          <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light', paddingLeft: 15, }}>
+        <Image
+          resizeModa={'contain'}
+          style={{ width: 20, height: 20 }}
+          source={require('../../../../assets/icons/calendar.png')}
+        />
+        <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light', paddingLeft: 15 }}>
           {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
-          { displayDate }
-          </Text>
+          {displayDate}
+        </Text>
       </TouchableOpacity>
     );
   }
 
   onChangesText(type) {
-    return (text) => {
-      this.setState({
-        [type]: text
-      }, () => {
-        this.setState({
-          selected: {
-            ...this.state.selected, [type]: null
-          }
-        });
-      });
+    return text => {
+      this.setState(
+        {
+          [type]: text
+        },
+        () => {
+          this.setState({
+            selected: {
+              ...this.state.selected,
+              [type]: null
+            }
+          });
+        }
+      );
 
       // It's debounced!
       this.getRecomendation(type);
@@ -309,41 +327,45 @@ class PreviewSearchMakanan extends React.Component {
     const checking = params.split('');
     if (checking[0] === ',' || checking[0] === '.') {
       return false;
-    } else {
-      return true;
     }
+    return true;
   }
 
   submitInputFood() {
     const { sarapan, makanSiang, makanMalam, snack } = this.state.selected;
     const { inputDate } = this.state;
 
-    if (sarapan === null || makanSiang === null || makanMalam === null || snack === null) {
-      Alert.alert(
-        'Perhatian!',
-        'Silahkan masukkan menu makanan Anda.'
-      );
+    // if (sarapan === null || makanSiang === null || makanMalam === null || snack === null) {
+    //   Alert.alert(
+    //     'Perhatian!',
+    //     'Silahkan masukkan menu makanan Anda.'
+    //   );
+    // } else {
+    if (
+      this.state.sarapan !== '' ||
+      this.state.makanSiang !== '' ||
+      this.state.makanMalam !== '' ||
+      this.state.snack !== ''
+    ) {
+      Alert.alert('Perhatian!', 'Makanan yang diisi tidak ada didalam daftar');
     } else {
-      if (this.state.sarapan !== '' || this.state.makanSiang !== '' || this.state.makanMalam !== '' || this.state.snack !== '') {
-        Alert.alert(
-          'Perhatian!',
-          'Makanan yang diisi tidak ada didalam daftar'
-        );
-      } else {
-        const value = {
-          waktuInput: inputDate,
-          sarapan,
-          makanSiang,
-          makanMalam,
-          snack
-        };
-        this.setState({
+      const value = {
+        waktuInput: inputDate,
+        sarapan,
+        makanSiang,
+        makanMalam,
+        snack
+      };
+      this.setState(
+        {
           isProcess: true
-        }, () => {
+        },
+        () => {
           this.props.inputTrackerFood(value);
-        });
-      }
+        }
+      );
     }
+    // }
   }
 
   renderFoodSuggetion(paramsState) {
@@ -364,32 +386,30 @@ class PreviewSearchMakanan extends React.Component {
     return (
       <ScrollView>
         <View style={styles.cardResult}>
-          {
-           suggetion.food.map((item, index) => (
-              <TouchableOpacity
-                style={{
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                  width: '100%',
-                  backgroundColor: index % 2 === 1 ? '#EEEEEE' : '#FAFAFA',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-                onPress={() => {
-                  this.setState({
-                    selected: {
-                      ...this.state.selected,
-                      [paramsState]: item
-                    },
-                    [paramsState]: ''
-                  });
-                }}
-                key={index}
-              >
-                <Text>{item.title}</Text>
-              </TouchableOpacity>
-            ))
-          }
+          {suggetion.food.map((item, index) => (
+            <TouchableOpacity
+              style={{
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                width: '100%',
+                backgroundColor: index % 2 === 1 ? '#EEEEEE' : '#FAFAFA',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onPress={() => {
+                this.setState({
+                  selected: {
+                    ...this.state.selected,
+                    [paramsState]: item
+                  },
+                  [paramsState]: ''
+                });
+              }}
+              key={index}
+            >
+              <Text>{item.title}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
     );
@@ -413,99 +433,92 @@ class PreviewSearchMakanan extends React.Component {
         // contentContainerStyle={{ flex: 1, backgroundColor: '#000' }}
         scrollEnabled
       >
-        { this.renderButtonOpenDate() }
+        {this.renderButtonOpenDate()}
         <TextInputHoc
           title="Sarapan"
           type="sarapan"
           onFocus={() => this.setState({ typingText: 'MAKAN_SIANG' })}
           placeholder="Masukkan menu sarapan"
           value={
-            this.state.selected.sarapan === null ?
-            this.state.sarapan :
-            this.state.selected.sarapan.title
+            this.state.selected.sarapan === null
+              ? this.state.sarapan
+              : this.state.selected.sarapan.title
           }
           onChangesText={this.onChangesText}
         />
-          {
-            this.state.sarapan === '' ? null :
-            this.renderFoodSuggetion('sarapan')
-          }
+        {this.state.sarapan === '' ? null : this.renderFoodSuggetion('sarapan')}
 
-          <TextInputHoc
-            type="makanSiang"
-            title="Makan Siang"
-            placeholder="Masukkan menu makan siang"
-            value={
-              this.state.selected.makanSiang === null ?
-              this.state.makanSiang :
-              this.state.selected.makanSiang.title
-            }
-            onChangesText={this.onChangesText}
-          />
-          {
-            this.state.makanSiang === '' ? null :
-            this.renderFoodSuggetion('makanSiang')
+        <TextInputHoc
+          type="makanSiang"
+          title="Makan Siang"
+          placeholder="Masukkan menu makan siang"
+          value={
+            this.state.selected.makanSiang === null
+              ? this.state.makanSiang
+              : this.state.selected.makanSiang.title
           }
+          onChangesText={this.onChangesText}
+        />
+        {this.state.makanSiang === '' ? null : this.renderFoodSuggetion('makanSiang')}
 
-          <TextInputHoc
-            type="makanMalam"
-            title="Makan Malam"
-            placeholder="Masukkan menu makan malam"
-            value={
-              this.state.selected.makanMalam === null ?
-              this.state.makanMalam :
-              this.state.selected.makanMalam.title
-            }
-            onChangesText={this.onChangesText}
-          />
-          {
-            this.state.makanMalam === '' ? null :
-            this.renderFoodSuggetion('makanMalam')
+        <TextInputHoc
+          type="makanMalam"
+          title="Makan Malam"
+          placeholder="Masukkan menu makan malam"
+          value={
+            this.state.selected.makanMalam === null
+              ? this.state.makanMalam
+              : this.state.selected.makanMalam.title
           }
+          onChangesText={this.onChangesText}
+        />
+        {this.state.makanMalam === '' ? null : this.renderFoodSuggetion('makanMalam')}
 
-          <TextInputHoc
-            type="snack"
-            title="Snack"
-            placeholder="Masukkan camilan"
-            value={
-              this.state.selected.snack === null ?
-              this.state.snack :
-              this.state.selected.snack.title
-            }
-            onChangesText={this.onChangesText}
-          />
-          {
-            this.state.snack === '' ? null :
-            this.renderFoodSuggetion('snack')
+        <TextInputHoc
+          type="snack"
+          title="Snack"
+          placeholder="Masukkan camilan"
+          value={
+            this.state.selected.snack === null ? this.state.snack : this.state.selected.snack.title
           }
+          onChangesText={this.onChangesText}
+        />
+        {this.state.snack === '' ? null : this.renderFoodSuggetion('snack')}
 
-          <View
+        <View
+          style={{
+            flex: 2,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            paddingHorizontal: 10,
+            paddingVertical: 10,
+            backgroundColor: '#fff'
+          }}
+        >
+          <TouchableOpacity
             style={{
-              flex: 2,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              paddingHorizontal: 10,
-              paddingVertical: 10,
-              backgroundColor: '#fff'
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                flex: 0,
-                width: '40%',
+              flex: 0,
+              width: '40%',
 
-                paddingHorizontal: 5,
-                alignItems: 'center',
-                backgroundColor: '#ef434e',
-                justifyContent: 'center',
+              paddingHorizontal: 5,
+              alignItems: 'center',
+              backgroundColor: '#ef434e',
+              justifyContent: 'center'
+            }}
+            onPress={() => this.submitInputFood()}
+          >
+            <Text
+              style={{
+                fontSize: 15,
+                paddingVertical: 5,
+                fontFamily: 'Montserrat-Bold',
+                color: '#fff'
               }}
-              onPress={() => this.submitInputFood()}
             >
-              <Text style={{ fontSize: 15, paddingVertical: 5, fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-                SIMPAN
-              </Text>
-            </TouchableOpacity>
-          </View>
+              SIMPAN
+            </Text>
+          </TouchableOpacity>
+        </View>
       </KeyboardAwareScrollView>
     );
   }
@@ -528,8 +541,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getFoodSuggetion: (keyword) => dispatch(getFoodSuggetion(keyword)),
-  inputTrackerFood: (params) => dispatch(inputTrackerFood(params)),
+  getFoodSuggetion: keyword => dispatch(getFoodSuggetion(keyword)),
+  inputTrackerFood: params => dispatch(inputTrackerFood(params))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(PreviewSearchMakanan);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PreviewSearchMakanan);
