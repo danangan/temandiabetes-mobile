@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { result } from 'lodash';
 import { View, Text, TouchableOpacity, Image, FlatList, Alert } from 'react-native';
 
 import { Avatar } from '../../../../components';
@@ -54,29 +55,29 @@ const TabFamily = ({ innerCircle = [], deleted, onChangeIsProcess, navigator }) 
             <View style={styles.contentStyle}>
               <Avatar
                 avatarSize="Small"
-                userName={item.friend.nama}
-                imageSource={item.friend.foto_profile}
+                userName={result(item.friend, 'nama')}
+                imageSource={result(item.friend, 'foto_profile')}
                 avatarStyle={[
                   styles.avatarStyle,
                   {
                     borderColor:
-                      item.friend.tipe_user === 'non-diabetesi'
+                      result(item.friend, 'tipe_user') === 'non-diabetesi'
                         ? 'rgba(126,211,33,1)'
-                        : item.friend.tipe_user === 'diabetesi'
+                        : result(item.friend, 'tipe_user') === 'diabetesi'
                           ? color.red
                           : 'rgba(74,144,226,1)'
                   }
                 ]}
               />
               <View style={{ margin: 10 }}>
-                <Text style={styles.nameStyle}>{item.friend.nama}</Text>
-                <Text style={styles.relationStyle}>{item.friend.tipe_user}</Text>
+                <Text style={styles.nameStyle}>{result(item.friend, 'nama')}</Text>
+                <Text style={styles.relationStyle}>{result(item.friend, 'tipe_user')}</Text>
               </View>
             </View>
             <View style={styles.buttonContainerStyle}>
               <TouchableOpacity
                 style={styles.closeButtonStyle}
-                onPress={() => deleteInnerCircle(item.friend._id, item._id)}
+                onPress={() => deleteInnerCircle(result(item.friend, '_id'), item._id)}
               >
                 <Image
                   source={require('../../../../assets/icons/close.png')}

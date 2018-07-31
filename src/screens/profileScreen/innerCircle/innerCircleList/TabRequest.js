@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { result } from 'lodash';
 import { View, Text, TouchableOpacity, Image, FlatList, Alert } from 'react-native';
 
 import { Avatar } from '../../../../components';
@@ -88,8 +89,8 @@ const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navig
             <View style={styles.contentStyle}>
               <Avatar
                 avatarSize="Small"
-                userName={item.friend.nama}
-                imageSource={item.friend.foto_profile}
+                userName={result(item.friend, 'nama')}
+                imageSource={result(item.friend, 'foto_profile')}
                 avatarStyle={[
                   styles.avatarStyle,
                   {
@@ -98,20 +99,20 @@ const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navig
                 ]}
               />
               <View style={{ margin: 10 }}>
-                <Text style={styles.nameStyle}>{item.friend.nama}</Text>
-                <Text style={styles.relationStyle}>{item.friend.tipe_user}</Text>
+                <Text style={styles.nameStyle}>{result(item.friend, 'nama')}</Text>
+                <Text style={styles.relationStyle}>{result(item.friend, 'tipe_user')}</Text>
               </View>
             </View>
             <View style={styles.buttonContainerStyle}>
               <TouchableOpacity
                 style={styles.closeButtonStyle}
-                onPress={() => rejectRequest(item.friend._id, item._id)}
+                onPress={() => rejectRequest(result(item.friend, '_id'), item._id)}
               >
                 <Image source={close} tintColor={color.red} style={styles.iconStyle} />
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.closeButtonStyle}
-                onPress={() => acceptRequest(item.friend._id, item._id)}
+                onPress={() => acceptRequest(result(item.friend, '_id'), item._id)}
               >
                 <Image
                   source={checklist}

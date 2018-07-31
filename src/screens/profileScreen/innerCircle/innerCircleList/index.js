@@ -51,8 +51,8 @@ class InnerCircleList extends Component {
   }
 
   onPushScreen(screen) {
-    const { requested } = this.props.innerCircle;
-    if (requested.length === 10) {
+    const { accepted } = this.props.innerCircle;
+    if (accepted.length === 10) {
       return this.showSnackBar('Maaf, batas permintaan inner circle maksimal 10 orang.');
     }
 
