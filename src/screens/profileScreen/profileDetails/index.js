@@ -255,8 +255,15 @@ class ProfileDetails extends React.Component {
             {
               text: 'OK',
               onPress: () => {
-                this.props.accept(friendId, innerCircleId);
-                this.props.navigator.pop();
+                this.setState(
+                  {
+                    loading: false,
+                    innerCircleStatus: 'accepted'
+                  },
+                  () => {
+                    this.props.accept(friendId, innerCircleId);
+                  }
+                );
               }
             }
           ],
