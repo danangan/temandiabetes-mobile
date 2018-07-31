@@ -7,7 +7,7 @@ import {
 } from './constants';
 
 /**
- * 
+ *
  * @param {*} idToken
  */
 export const getListReminder = () => async dispatch => {
@@ -18,7 +18,7 @@ export const getListReminder = () => async dispatch => {
     });
     return true;
 	};
-	
+
 	function onSuccess(data) {
 		dispatch({
 			type: GET_LIST_REMINDER,
@@ -45,11 +45,10 @@ export const getListReminder = () => async dispatch => {
 
 
 /**
- * 
+ *
  * @param {*} idToken
  */
 export const createDrugReminder = (reminder) => async dispatch => {
-	console.log('reminder CREATED ', reminder);
 	const isPending = () => {
     dispatch({
       type: 'PENDING_CREATE_DRUG_REMINDER',
@@ -57,7 +56,7 @@ export const createDrugReminder = (reminder) => async dispatch => {
     });
     return reminder;
 	};
-	
+
 	function onSuccess(data) {
 		dispatch({
 			type: CREATE_DRUG_REMINDER,
@@ -68,7 +67,7 @@ export const createDrugReminder = (reminder) => async dispatch => {
 	}
 
 	isPending();
-	
+
 	try {
     const option = {
       method: 'post',
@@ -77,7 +76,6 @@ export const createDrugReminder = (reminder) => async dispatch => {
     };
 
 		const res = await API_CALL(option);
-		console.log('BALIKAN CREATE REMINDER ', res);
 		return onSuccess(res.data);
 	} catch (error) {
 		onSuccess(error);
@@ -85,8 +83,6 @@ export const createDrugReminder = (reminder) => async dispatch => {
 };
 
 export const updateDrugReminder = (reminder, index) => async dispatch => {
-	// console.log('UPDATE REMINDER ', reminder);
-	// console.log('indexNYaaa.... ', index);
 	const isPending = () => {
     dispatch({
       type: 'PENDING_UPDATE_DRUG_REMINDER',
@@ -97,7 +93,7 @@ export const updateDrugReminder = (reminder, index) => async dispatch => {
     });
     return reminder;
 	};
-	
+
 	function onSuccess(data) {
 		dispatch({
 			type: UPDATE_DRUG_REMINDER,
@@ -108,7 +104,7 @@ export const updateDrugReminder = (reminder, index) => async dispatch => {
 	}
 
 	isPending();
-	
+
 	try {
     const option = {
       method: 'put',
@@ -132,7 +128,7 @@ export const getDetailsReminder = (idReminder) => async dispatch => {
     });
     return true;
 	};
-	
+
 	function onSuccess(data) {
 		dispatch({
 			type: GET_DETAILS_REMINDER,
@@ -143,7 +139,7 @@ export const getDetailsReminder = (idReminder) => async dispatch => {
 	}
 
 	isPending();
-	
+
 	try {
     const option = {
       method: 'GET',
@@ -151,7 +147,6 @@ export const getDetailsReminder = (idReminder) => async dispatch => {
     };
 
 		const res = await API_CALL(option);
-		console.log('BALIKAN DETAILS REMINDER ', res);
 		return onSuccess(res.data);
 	} catch (error) {
 		onSuccess(error);
