@@ -109,7 +109,7 @@ class Notification extends React.Component {
 
   renderItem({ item, index }) {
     // prevent rendering own activity
-    if ((result(item, 'activity.user._id') === this.props.currentUserId) || !item.activity) {
+    if (!item.activity) {
       return null
     }
     return (
