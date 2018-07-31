@@ -261,7 +261,23 @@ class ProfileDetails extends React.Component {
                     innerCircleStatus: 'accepted'
                   },
                   () => {
-                    this.props.accept(friendId, innerCircleId);
+                    let innerCircleId
+                    const { innerCircles } = this.props.data.user;
+                    if (this.props.innerCircleId) {
+                      innerCircleId = this.props.innerCircleId
+                    } else {
+                      // manually check for the correct id in requested
+                      innerCircles.requested.forEach((item) => {
+                        if (item.friend._id === this.props.dataAuth._id) {
+                          innerCircleId = item._id
+                        }
+                      })
+                    }
+                    this.props.accept(friendId, innerCircleId, () => {
+                      this.setState({
+                        innerCircleStatus: 'accepted'
+                      })
+                    });
                   }
                 );
               }
@@ -574,8 +590,8 @@ const mapDispatchToProps = dispatch => ({
   addInnerCircle: userId => dispatch(addInnerCircle(userId)),
   getOneUser: userId => dispatch(getOneUser(userId)),
   getInnerCircle: (userId, idToken) => dispatch(getInnerCircle(userId, idToken)),
-  accept: (friendId, innerCircleId) =>
-    dispatch(acceptRequestToInnerCircle(friendId, innerCircleId)),
+  accept: (friendId, innerCircleId, cb) =>
+    dispatch(acceptRequestToInnerCircle(friendId, innerCircleId, cb)),
   getUserRecentActivityResponse: (idUser, page, limit) =>
     dispatch(getUserRecentActivityResponse(idUser, page, limit))
 });

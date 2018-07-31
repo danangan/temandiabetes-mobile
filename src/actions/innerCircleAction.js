@@ -54,6 +54,7 @@ export const addInnerCircle = userID => async dispatch => {
     };
 
     const { data } = await API_CALL(option);
+    dispatch(getInnerCircle(userId))
 
     return onSuccess(data);
   } catch (error) {
@@ -82,13 +83,14 @@ export const deleteInnerCircle = (userId, innerCircleId) => async dispatch => {
     };
 
     const res = await API_CALL(option);
+    dispatch(getInnerCircle(userId))
     onSuccess(res);
   } catch (error) {
     onSuccess(error);
   }
 };
 
-export const acceptRequestToInnerCircle = (friendId, innerCircleId) => async dispatch => {
+export const acceptRequestToInnerCircle = (friendId, innerCircleId, cb = () => {}) => async dispatch => {
   function onSuccess(response) {
     dispatch({
       type: ActionTypes.ACCEPT_REQUEST_TO_INNER_CIRCLE,
@@ -109,6 +111,8 @@ export const acceptRequestToInnerCircle = (friendId, innerCircleId) => async dis
     };
 
     const res = await API_CALL(option);
+    dispatch(getInnerCircle(friendId))
+    cb()
     onSuccess(res);
   } catch (error) {
     onSuccess(error);
@@ -132,6 +136,7 @@ export const declineRequestToInnerCircle = (friendId, innerCircleId) => async di
     };
 
     const res = await API_CALL(option);
+    dispatch(getInnerCircle(friendId))
     onSuccess(res);
   } catch (error) {
     onSuccess(error);

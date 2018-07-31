@@ -73,7 +73,8 @@ const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navig
     navigator.push({
       screen: 'TemanDiabetes.ProfileDetails',
       passProps: {
-        id: item.friend._id
+        id: item.friend._id,
+        innerCircleId: item._id
       },
       animation: true,
       animationType: 'fade'
