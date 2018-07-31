@@ -18,9 +18,14 @@ class AppLoader extends Component {
     this.timeout = setTimeout(() => {
       this.initMainApp();
     }, 1200);
+
+    this.redirectForNewUser = this.redirectForNewUser.bind(this);
   }
 
   componentDidMount() {
+    // firebase.auth().signOut()
+    // AsyncStorage.removeItem('isNewUser')
+
     // handling deeplink here
     // save to store to handle later in main app
     Linking.getInitialURL().then(url => {
@@ -30,35 +35,21 @@ class AppLoader extends Component {
     this.firebaseHandler();
   }
 
-  componentWillReceiveProps(nextProps) {
-    // the inactive user goes here
-    // here we check if the inactive user is a new user or not
-    // if the user is existing user, the isnewuser value will be false, thus
-    // we give them alert that the user account is inactive
-    if (nextProps.loginReducer.isNewUser === true) {
-      // redirect to fourth page
-      Navigation.startSingleScreenApp({
-        screen: {
-          screen: 'TemanDiabetes.RegisterScreenFourth',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        },
-        passProps: {
-          email: nextProps.loginReducer.email,
-          _id: nextProps.loginReducer.currentUser._id,
-          nama: nextProps.loginReducer.nama,
-          registerType: 'GoogleSignIn'
-        },
-        animationType: 'fade'
-      });
-    } else if (result(nextProps.loginReducer, 'currentUser.is_active') === false) {
-      Alert.alert(
-        'Akun Anda sedang tidak aktif.',
-        'Hubungi penyedia layanan untuk info lebih lanjut.'
-      );
-      this.props.resetState();
-    }
+  redirectForNewUser({ email, _id, nama }) {
+    Navigation.startSingleScreenApp({
+      screen: {
+        screen: 'TemanDiabetes.RegisterScreenFourth',
+        navigatorStyle: {
+          navBarHidden: true
+        }
+      },
+      passProps: {
+        email,
+        _id,
+        nama,
+        registerType: 'GoogleSignIn'
+      }
+    });
   }
 
   async initMainApp(cb = () => {}) {
@@ -84,38 +75,51 @@ class AppLoader extends Component {
       if (user) {
         // clear the timeout
         clearTimeout(this.timeout);
-        firebase
-          .auth()
-          .currentUser.getIdToken()
-          .then(firebaseIdToken => {
-            AsyncStorage.setItem(authToken, firebaseIdToken).then(() => {
-              const option = {
-                method: 'get',
-                url: 'api/users/getcurrentuser'
-              };
-
-              API_CALL(option)
-                .then(res => {
-                  const { tipe_user, is_active } = res.data.data.currentUser;
-                  if (is_active) {
-                    switch (tipe_user) {
-                      case 'non-diabetesi':
-                      case 'diabetesi':
-                      case 'ahli':
-                        mainApp();
-                        break;
-                      default:
-                        // do nothing
-                        break;
-                    }
-                  }
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-            });
-          });
+        this.onLogin()
       }
+    });
+  }
+
+  onLogin() {
+    firebase
+    .auth()
+    .currentUser.getIdToken()
+    .then(firebaseIdToken => {
+      AsyncStorage.setItem(authToken, firebaseIdToken).then(() => {
+        const option = {
+          method: 'get',
+          url: 'api/users/getcurrentuser'
+        };
+
+        API_CALL(option)
+          .then(res => {
+            const { tipe_user, is_active, email, _id, nama } = res.data.data.currentUser;
+
+            AsyncStorage.getItem('isNewUser', error => { startLoginPage() })
+              .then((isNewUser) => {
+                if (isNewUser === 'true') {
+                  this.redirectForNewUser({ email, _id, nama })
+                } else if (is_active) {
+                  switch (tipe_user) {
+                    case 'non-diabetesi':
+                    case 'diabetesi':
+                    case 'ahli':
+                      mainApp();
+                      break;
+                    default:
+                      // do nothing
+                      break;
+                  }
+                } else {
+                  // redirect to login page if the current user is not active yet
+                  startLoginPage()
+                }
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
     });
   }
 

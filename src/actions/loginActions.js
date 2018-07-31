@@ -62,8 +62,6 @@ const signWithGoogle = () => async dispatch => {
 
     const data = await GoogleSignin.signIn();
 
-    console.log(data);
-
     if (data) {
       const credential = firebase.auth.GoogleAuthProvider.credential(
         data.idToken,
@@ -92,6 +90,9 @@ const signWithGoogle = () => async dispatch => {
         isNewUser,
         currentUser
       };
+
+       // set this flag to redirect user to onboarding when user kills apps
+      await AsyncStorage.setItem('isNewUser', String(isNewUser))
 
       onSuccess(payloadData);
     }
@@ -185,6 +186,9 @@ const signWithFacebook = () => async dispatch => {
       isNewUser,
       currentUser
     };
+
+    // set this flag to redirect user to onboarding when user kills apps
+    await AsyncStorage.setItem('isNewUser', String(isNewUser))
 
     onSuccess(payloadData);
   } catch (error) {

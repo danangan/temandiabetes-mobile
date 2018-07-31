@@ -64,7 +64,6 @@ class Login extends Component {
     // if the user is existing user, the isnewuser value will be false, thus
     // we give them alert that the user account is inactive
     if (nextProps.loginReducer.isNewUser === true) {
-      // redirect to fourth page
       Navigation.startSingleScreenApp({
         screen: {
           screen: 'TemanDiabetes.RegisterScreenFourth',
@@ -77,8 +76,7 @@ class Login extends Component {
           _id: nextProps.loginReducer.currentUser._id,
           nama: nextProps.loginReducer.nama,
           registerType: 'GoogleSignIn'
-        },
-        animationType: 'fade'
+        }
       });
     } else if (result(nextProps.loginReducer, 'currentUser.is_active') === false) {
       Alert.alert(

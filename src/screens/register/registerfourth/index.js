@@ -145,8 +145,9 @@ class RegisterScreenFourth extends React.Component {
       },
       () => {
         // redirect here
-        AsyncStorage.removeItem('isNewUser');
-        mainApp();
+        AsyncStorage.removeItem('isNewUser').then(() => {
+          mainApp();
+        });
       }
     );
   }
@@ -280,6 +281,8 @@ class RegisterScreenFourth extends React.Component {
     return (
       <View style={[styles.container, { paddingBottom: 0 }]}>
         <ImageBackground style={styles.imageBackground} source={Images.backgroundTypeUser}>
+        {
+          this.props.registerType !== 'GoogleSignIn' &&
           <TouchableOpacity
             style={{
               flex: 0,
@@ -296,6 +299,7 @@ class RegisterScreenFourth extends React.Component {
               source={Images.backIcon}
             />
           </TouchableOpacity>
+        }
           <View style={styles.wrapTitle}>
             <Text style={styles.titles}>Siapakah Anda?</Text>
           </View>
