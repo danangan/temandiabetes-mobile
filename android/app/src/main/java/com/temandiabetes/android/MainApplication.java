@@ -15,7 +15,9 @@ import com.evollu.react.fcm.FIRMessagingPackage;
 import cl.json.RNSharePackage;
 
 import com.reactnativenavigation.controllers.ActivityCallbacks;
+//start Dnurse package
 import com.temandiabetes.generator.*;
+//end Dnurse package
 import com.facebook.soloader.SoLoader;
 
 import com.facebook.CallbackManager;

@@ -15,6 +15,10 @@ import android.widget.Toast;
 import com.reactnativenavigation.controllers.SplashActivity;
 
 public class MainActivity extends SplashActivity {
+    protected String getMainComponentName() {
+        return "Teman Diabetes";
+    }
+
     @Override
     public View createSplashLayout() {
         return new View(this);   // <====== TO AVOID WHITE BACKGROUND

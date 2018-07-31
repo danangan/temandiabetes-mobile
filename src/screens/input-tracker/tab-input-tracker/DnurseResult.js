@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Image, Text, NativeModules } from 'react-native';
+import { View, Image, Text, NativeModules, PermissionsAndroid } from 'react-native';
 import moment from 'moment';
 
 import color from '../../../style/color';
@@ -24,26 +24,8 @@ class DnurseResult extends React.Component {
   }
 
   componentDidMount() {
-    this.onStart();
+    this.requestAudioPermission();
   }
-
-  onStart = () => {
-    dNurse.openRequest('null').then(res => {
-      const bloodSugar = res * 18.018018;
-      const calculate = () => {
-        if (bloodSugar < 0.5) {
-          return Math.floor(bloodSugar);
-        }
-
-        if (bloodSugar > 0.51) {
-          return Math.ceil(bloodSugar);
-        }
-      };
-
-      const result = calculate();
-      this.setState({ bloodSugarLevels: result });
-    });
-  };
 
   onNavigation = () => {
     this.props.updateTopTab(2);
@@ -67,10 +49,49 @@ class DnurseResult extends React.Component {
         }
       };
 
-      await API_CALL(option);
-      this.onNavigation();
+      const {
+        data: {
+          data: { message }
+        }
+      } = await API_CALL(option);
+
+      if (message === 'successfully input blood glucose !!') {
+        this.onNavigation();
+      }
     } catch (error) {
       throw error;
+    }
+  };
+
+  requestAudioPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        {
+          title: 'App Audio Permission',
+          message: 'App needs access to your Audio.'
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        // return this.onStart();
+        dNurse.openRequest('null').then(res => {
+          const bloodSugar = res * 18.018018;
+          const calculate = () => {
+            if (bloodSugar < 0.5) {
+              return Math.floor(bloodSugar);
+            }
+
+            if (bloodSugar > 0.51) {
+              return Math.ceil(bloodSugar);
+            }
+          };
+
+          const result = calculate();
+          this.setState({ bloodSugarLevels: result });
+        });
+      }
+    } catch (err) {
+      console.warn(err);
     }
   };
 
