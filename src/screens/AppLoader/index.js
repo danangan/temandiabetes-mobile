@@ -3,10 +3,10 @@ import { Linking, AsyncStorage, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
 import { Navigation } from 'react-native-navigation';
-import { result } from 'lodash';
 
 import { Spinner } from '../../components/Spinner';
 import { authToken } from '../../utils/constants';
+import { guelogin } from '../../utils/GueLogin';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import { updateDeepLink } from '../../actions';
 import { mainApp, startApp, startLoginPage } from '../../../App';
@@ -71,7 +71,7 @@ class AppLoader extends Component {
 
   firebaseHandler() {
     // Handle firebase login here
-    firebase.auth().onAuthStateChanged(user => {
+    guelogin.auth().onAuthStateChanged(user => {
       if (user) {
         // clear the timeout
         clearTimeout(this.timeout);
@@ -81,7 +81,7 @@ class AppLoader extends Component {
   }
 
   onLogin() {
-    firebase
+    guelogin
     .auth()
     .currentUser.getIdToken()
     .then(firebaseIdToken => {

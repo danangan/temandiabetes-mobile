@@ -1,12 +1,12 @@
 import { AsyncStorage, Platform, Alert } from 'react-native';
 import axios from 'axios';
-import firebase from 'react-native-firebase';
 import Config from 'react-native-config';
 import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 
 import * as ActionTypes from './constants';
 import { authToken } from '../utils/constants';
+import { guelogin } from '../utils/GueLogin';
 import { API_CURRENT_USER } from '../utils/API';
 
 const loginManual = ({ email, password }) => async dispatch => {
@@ -19,12 +19,12 @@ const loginManual = ({ email, password }) => async dispatch => {
   }
 
   try {
-    const loggedInUser = await firebase
+    const loggedInUser = await guelogin
       .auth()
       .signInAndRetrieveDataWithEmailAndPassword(email, password);
 
     if (loggedInUser) {
-      const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+      const firebaseIdToken = await guelogin.auth().currentUser.getIdToken();
       const {
         data: {
           data: { currentUser }
@@ -63,16 +63,16 @@ const signWithGoogle = () => async dispatch => {
     const data = await GoogleSignin.signIn();
 
     if (data) {
-      const credential = firebase.auth.GoogleAuthProvider.credential(
+      const credential = guelogin.auth.GoogleAuthProvider.credential(
         data.idToken,
         data.accessToken
       );
 
       const {
         additionalUserInfo: { profile, isNewUser }
-      } = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+      } = await guelogin.auth().signInAndRetrieveDataWithCredential(credential);
 
-      const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+      const firebaseIdToken = await guelogin.auth().currentUser.getIdToken();
       const {
         data: {
           data: { currentUser }
@@ -163,12 +163,12 @@ const signWithFacebook = () => async dispatch => {
     }
 
     const data = await AccessToken.getCurrentAccessToken();
-    const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+    const credential = guelogin.auth.FacebookAuthProvider.credential(data.accessToken);
     const {
       additionalUserInfo: { profile, isNewUser }
-    } = await firebase.auth().signInAndRetrieveDataWithCredential(credential);
+    } = await guelogin.auth().signInAndRetrieveDataWithCredential(credential);
 
-    const firebaseIdToken = await firebase.auth().currentUser.getIdToken();
+    const firebaseIdToken = await guelogin.auth().currentUser.getIdToken();
     const {
       data: {
         data: { currentUser }
@@ -208,7 +208,7 @@ const onSignOut = () => async dispatch => {
     Promise.all([
       GoogleSignin.signOut(),
       LoginManager.logOut(),
-      firebase.auth().signOut(),
+      guelogin.auth().signOut(),
       AsyncStorage.removeItem(authToken)
     ]);
 
