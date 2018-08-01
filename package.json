@@ -5,10 +5,10 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "android-dev": "ENVFILE=.env react-native run-android",
+    "android-dev": "ENVFILE=.env react-native run-android --variant=debug",
     "ios-dev": "ENVFILE=.env react-native run-ios",
-    "android-prod": "ENVFILE=.env.production react-native run-android",
-    "build-android-prod": "export ENVFILE=.env.prod && cd android && ./gradlew assembleRelease && cd ..",
+    "android-prod": "ENVFILE=.env.production react-native run-android --variant=release",
+    "build-android-prod": "export ENVFILE=.env.production && cd android && ./gradlew assembleRelease && cd ..",
     "build-android-dev": "export ENVFILE=.env && cd android && ./gradlew assembleRelease && cd ..",
     "deploy-crashlytics": "cd android && ./gradlew assembleRelease crashlyticsUploadDistributionRelease"
   },
