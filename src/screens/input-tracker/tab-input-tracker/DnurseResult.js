@@ -49,13 +49,9 @@ class DnurseResult extends React.Component {
         }
       };
 
-      const {
-        data: {
-          data: { message }
-        }
-      } = await API_CALL(option);
+      const { data } = await API_CALL(option);
 
-      if (message === 'successfully input blood glucose !!') {
+      if (data.message === 'successfully input blood glucose !!') {
         this.onNavigation();
       }
     } catch (error) {
