@@ -24,7 +24,7 @@ class DnurseResult extends React.Component {
   }
 
   componentDidMount() {
-    // this.requestAudioPermission();
+    this.requestAudioPermission();
   }
 
   onNavigation = () => {
