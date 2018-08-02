@@ -54,7 +54,7 @@ export const addInnerCircle = userID => async dispatch => {
     };
 
     const { data } = await API_CALL(option);
-    dispatch(getInnerCircle(userId))
+    dispatch(getInnerCircle(userID))
 
     return onSuccess(data);
   } catch (error) {

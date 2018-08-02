@@ -98,14 +98,11 @@ class ProfileDetails extends React.Component {
         innerCircleStatus: nextProps.data.user.innerCircleStatus
       });
     }
-  }
 
-  componentDidUpdate() {
     const self = this;
-    const { status, message } = this.props.dataInnerCircle;
-    const { _id } = this.props.dataAuth;
+    const { status, message } = nextProps.dataInnerCircle;
+    const { _id } = nextProps.dataAuth;
     const { loading } = this.state;
-    const { user } = this.props.data;
 
     if (status === 201 && loading) {
       self.setState(
