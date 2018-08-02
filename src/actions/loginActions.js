@@ -3,6 +3,7 @@ import axios from 'axios';
 import Config from 'react-native-config';
 import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import firebase from 'react-native-firebase';
 
 import * as ActionTypes from './constants';
 import { authToken } from '../utils/constants';
@@ -63,7 +64,7 @@ const signWithGoogle = () => async dispatch => {
     const data = await GoogleSignin.signIn();
 
     if (data) {
-      const credential = guelogin.auth.GoogleAuthProvider.credential(
+      const credential = firebase.auth.GoogleAuthProvider.credential(
         data.idToken,
         data.accessToken
       );
@@ -163,7 +164,7 @@ const signWithFacebook = () => async dispatch => {
     }
 
     const data = await AccessToken.getCurrentAccessToken();
-    const credential = guelogin.auth.FacebookAuthProvider.credential(data.accessToken);
+    const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
     const {
       additionalUserInfo: { profile, isNewUser }
     } = await guelogin.auth().signInAndRetrieveDataWithCredential(credential);
