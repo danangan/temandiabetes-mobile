@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Image, Text, NativeModules, PermissionsAndroid } from 'react-native';
+import { View, Image, Text, NativeModules, PermissionsAndroid, Alert } from 'react-native';
 import moment from 'moment';
 
 import color from '../../../style/color';
@@ -24,7 +24,7 @@ class DnurseResult extends React.Component {
   }
 
   componentDidMount() {
-    this.requestAudioPermission();
+    // this.requestAudioPermission();
   }
 
   onNavigation = () => {
@@ -39,20 +39,42 @@ class DnurseResult extends React.Component {
 
   onHandleClick = async blood => {
     try {
-      const option = {
-        method: 'POST',
-        url: 'api/blood-glucose-tracker',
-        data: {
-          // using moment and format to normalize utc
-          waktuInput: new moment().format('YYYY-MM-DDTHH:mm:ss'),
-          gulaDarah: blood
+      if (blood !== 0 && blood !== undefined && blood !== null && blood !== '') {
+        const option = {
+          method: 'POST',
+          url: 'api/blood-glucose-tracker',
+          data: {
+            // using moment and format to normalize utc
+            waktuInput: new moment().format('YYYY-MM-DDTHH:mm:ss'),
+            gulaDarah: blood
+          }
+        };
+
+        const { data } = await API_CALL(option);
+
+        if (data.message === 'successfully input blood glucose !!') {
+          this.onNavigation();
         }
-      };
-
-      const { data } = await API_CALL(option);
-
-      if (data.message === 'successfully input blood glucose !!') {
-        this.onNavigation();
+      } else {
+        Alert.alert(
+          'Informasi',
+          ' Maaf perangkat anda belum mendukung fitur ini.',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                this.props.updateTopTab(1);
+                this.props.navigator.resetTo({
+                  screen: 'TemanDiabetes.AppContainer',
+                  navigatorStyle: {
+                    navBarHidden: true
+                  }
+                });
+              }
+            }
+          ],
+          { cancelable: false }
+        );
       }
     } catch (error) {
       throw error;
