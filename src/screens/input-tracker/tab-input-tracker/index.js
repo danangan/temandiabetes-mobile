@@ -319,7 +319,7 @@ class InputTracker extends Component {
           waktuInput: inputDate.format('YYYY-MM-DDTHH:mm:ss'),
           gulaDarah
         };
-        let isDecimal = gulaDarah.indexOf(',') > -1 ? true : false
+        let isDecimal = String(gulaDarah).includes(',')
 
         if (gulaDarah === 0 || gulaDarah === '') {
           Alert.alert(

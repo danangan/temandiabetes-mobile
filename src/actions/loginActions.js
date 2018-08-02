@@ -9,7 +9,6 @@ import * as ActionTypes from './constants';
 import { authToken } from '../utils/constants';
 import { guelogin } from '../utils/GueLogin';
 import { API_CURRENT_USER } from '../utils/API';
-import firebase from 'react-native-firebase';
 
 const loginManual = ({ email, password }) => async dispatch => {
   function onSuccess(currentUser) {
