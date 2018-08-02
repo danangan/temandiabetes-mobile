@@ -1,13 +1,31 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, WebView } from 'react-native';
 
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
 import { NavigationBar } from '../../../components';
 
+let videoTag = `<html>
+        <head>
+          <style>
+          .intrinsic-container{position:relative;height:0;overflow:hidden}.intrinsic-container-16x9{padding-bottom:56.25%}.intrinsic-container-4x3{padding-bottom:75%}.intrinsic-container iframe{position:absolute;top:0;left:0;width:100%;height:100%}          
+          </style>
+        </head>
+        <body>
+          <div class="intrinsic-container intrinsic-container-16x9"><iframe width="560" height="315" 
+          src="https://www.youtube.com/embed/9IvNVFvR8Zw" 
+          frameborder="0" allow="autoplay; encrypted-media" 
+          allowfullscreen></iframe></div>
+        </body>
+      </html>`
+
 const FaqScreen = props => (
   <View style={styles.containerStyle}>
     <NavigationBar onPress={() => props.navigator.pop()} title={'F.A.Q'} />
+    {/* <WebView
+         style={{flex:1}}
+         javaScriptEnabled={true}
+         source={{html: videoTag}} /> */}
     <ScrollView>
       <View style={{ padding: Style.PADDING }}>
         <Text style={[styles.questionStyle, { paddingTop: Style.PADDING }]}>
@@ -71,18 +89,18 @@ const FaqScreen = props => (
           menjadi hijau.{'\n'} {'\n'}
           2. Rekam Medis : Anda dapat memasukkan data Rekam Medis melalui menu Masukkan Pelacak,
           rekam medis yang dapat Anda masukkan adalah data sbb : {'\n'} {'\n'}
-          3. Gula Darah : untuk gula darah, Anda dapat memasukkan data secara manual atau
+          Gula Darah : untuk gula darah, Anda dapat memasukkan data secara manual atau
           menggunakan Dnurse.{'\n'} {'\n'}
-          4. hba1c : untuk memasukkan hba1c, Anda cukup klik pada hba1c dan masukkan angka hba1c
+          hba1c : untuk memasukkan hba1c, Anda cukup klik pada hba1c dan masukkan angka hba1c
           Anda.{'\n'} {'\n'}
-          5. Makanan : untuk makanan, Anda dapat memasukkan data sarapan, makan siang, makan malam &
+          Makanan : untuk makanan, Anda dapat memasukkan data sarapan, makan siang, makan malam &
           snack, selain itu Anda dapat mengatur tanggal dan jam terkait dengan inputan makanan Anda.
           {'\n'} {'\n'}
-          6. Aktivitas : pilih aktivitas yang Anda lakukan Ringan, Sedang atau Berat. {'\n'}
+          Aktivitas : pilih aktivitas yang Anda lakukan Ringan, Sedang atau Berat. {'\n'}
           {'\n'}
-          7. Berat : masukkan data berat badan Anda dengan menuliskan angka berat badan Anda.{'\n'}
+          Berat : masukkan data berat badan Anda dengan menuliskan angka berat badan Anda.{'\n'}
           {'\n'}
-          8. Lingkaran Dalam : untuk mengatur lingkaran dalam Anda dapat dilakukan melalui menu
+          3. Lingkaran Dalam : untuk mengatur lingkaran dalam Anda dapat dilakukan melalui menu
           “Pengaturan – Inner Circle List”.{'\n'}
           {'\n'}
           a. Tambah Lingkaran Dalam : cari nama pengguna yang Anda ingin tambahkan dan klik tanda +{' '}
@@ -101,7 +119,20 @@ const FaqScreen = props => (
           pilih tab Tertunda, Anda dapat melihat list permintaan Anda yang tertunda di menu tsb.
           Maksimal permintaan Lingkaran Dalam yang dapat Anda kirimkan sebanyak 10 permintaan.{'\n'}
           {'\n'}
+        </Text> 
+        <Text style={styles.questionStyle}>
+          Mengapa saya perlu memberitahu lokasi saya ?
+          {'\n'}
         </Text>
+        <Text style={styles.answerStyle}>
+        Lokasi Anda diperlukan di fitur Emergency Button (untuk mengetahui titik lokasi provider kesehatan terdekat dari lokasi Anda) dan di fitur Belanja (untuk mengetahui lokasi apotik terdekat dari lokasi Anda).
+        {'\n'}
+        {'\n'}
+        Untuk mengisi alamat lengkap dapat dilakukan dengan langkah sebagai berikut : Buka Burger Menu (menu dengan icon 3 garis di sebelah kiri atas aplikasi) – klik icon setting di sebelah kiri bawah – pilih Edit Profile – Lengkapi bagian Alamat dengan menuliskan alamat lengkap Anda (misal : Perumahan Green Garden Blok C3/25, Serpong, Tangerang Selatan)
+        {'\n'}
+        {'\n'}
+        </Text>
+        
         <Text style={styles.questionStyle}>
           Bagaimana cara menggunakan Teman Diabetes ?
           {'\n'}
@@ -119,6 +150,11 @@ const FaqScreen = props => (
           {'\n'}
           4. Tunggu, maka hasilnya akan muncul di aplikasi Anda.{'\n'}
         </Text>
+
+      <WebView
+         style={{flex:1, height : 300,}}
+         javaScriptEnabled={true}
+         source={{html: videoTag}} />
       </View>
     </ScrollView>
   </View>
@@ -140,7 +176,7 @@ const styles = {
     fontFamily: 'OpenSans-Regular',
     fontSize: Style.FONT_SIZE_SMALL,
     textAlign: 'justify'
-  }
+  },
 };
 
 export default FaqScreen;

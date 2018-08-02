@@ -17,8 +17,9 @@ const iosConfig = {
   // pluck values from your `google-services.json` file you created on the firebase console
 const androidConfig = {
     clientId: '127784416281-epnvn2n12te5amjekdoeki5rbn4vkc4m.apps.googleusercontent.com',
-    appId: '1:127784416281:android:feace3a7c1886f1a',
-    apiKey: 'AIzaSyAx9Dv2gOk-lBB-zhTd4aTkvPmkVkd21MU',
+    // appId: '1:127784416281:android:feace3a7c1886f1a',
+    appId: '1:127784416281:android:29dfe4ef3b1c9465',
+    apiKey: 'AIzaSyD2XA3Yg5khVade5Z6pavKptnq3CYAlBj8',
     databaseURL: 'x',
     storageBucket: 'x',
     messagingSenderId: 'x',
