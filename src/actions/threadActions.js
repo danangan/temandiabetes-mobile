@@ -204,7 +204,9 @@ export const userPostThread = (dataThread, cb) => async dispatch => {
 export const searchThread = (searchKeyword, threadType = 'thread') => async dispatch => {
   const option = {
     method: 'get',
-    url: `api/${threadType === 'bookmark' ? 'bookmarks' : 'threads'}?search=${searchKeyword}`
+    url: `api/${
+      threadType === 'bookmark' ? 'bookmarks' : 'threads'
+    }?search=${searchKeyword}&is_active=true`
   };
 
   try {
@@ -500,7 +502,7 @@ export const createComment = comment => async dispatch => {
 
   function onSuccess(data) {
     // refresh the commentlist
-    dispatch(getCommentList({ threadId: comment.idThread, page: 1 }))
+    dispatch(getCommentList({ threadId: comment.idThread, page: 1 }));
 
     dispatch({
       type: ActionTypes.CREATE_COMMENT,
@@ -520,7 +522,6 @@ export const createComment = comment => async dispatch => {
     });
 
     onSuccess(request);
-
   } catch (error) {
     onSuccess(error);
   }
@@ -539,7 +540,7 @@ export const commentToReply = comment => async dispatch => {
   };
 
   function onSuccess(data) {
-    dispatch(getCommentList({ threadId: comment.idThread, page: 1 }))
+    dispatch(getCommentList({ threadId: comment.idThread, page: 1 }));
 
     dispatch({
       type: ActionTypes.COMMENT_TO_REPLY,
@@ -636,7 +637,7 @@ export const toUnFollowThread = idThread => async dispatch => {
 
 export const resetComment = {
   type: 'RESET_COMMENT_LIST'
-}
+};
 
 export const getCommentDetails = idComment => async dispatch => {
   const isPending = () => {
@@ -672,7 +673,7 @@ export const getCommentDetails = idComment => async dispatch => {
 };
 
 export const getCommentList = ({ threadId, page = 1, limit = 10 }) => async dispatch => {
-  const url = `api/threads/${threadId}/comment/list?limit=${limit}&page=${page}`
+  const url = `api/threads/${threadId}/comment/list?limit=${limit}&page=${page}`;
   function onSuccess(data) {
     // only update if the data result is not and empty array
     if (data.data.data.comments.length > 0) {
