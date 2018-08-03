@@ -19,7 +19,7 @@ class DnurseResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      bloodSugarLevels: null
+      bloodSugarLevels: null,
     };
   }
 
@@ -93,19 +93,22 @@ class DnurseResult extends React.Component {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         // return this.onStart();
         dNurse.openRequest('null').then(res => {
-          const bloodSugar = res * 18.018018;
+          let newRes = isNaN(res) ? parseFloat(res.replace(',', '.')).toFixed(2) : res;
+          const bloodSugar = newRes * 18.018018;
           const calculate = () => {
             if (bloodSugar < 0.5) {
               return Math.floor(bloodSugar);
-            }
-
-            if (bloodSugar > 0.51) {
+            }else{
               return Math.ceil(bloodSugar);
             }
+            
+            // if (bloodSugar > 0.51) {
+            //   return Math.ceil(bloodSugar);
+            // }
           };
 
           const result = calculate();
-          this.setState({ bloodSugarLevels: result });
+          this.setState({ bloodSugarLevels: result,});
         });
       }
     } catch (err) {

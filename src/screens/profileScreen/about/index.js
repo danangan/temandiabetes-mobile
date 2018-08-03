@@ -38,7 +38,7 @@ const AboutScreen = props => (
               source={require('../../../assets/icons/contact_us.png')}/>
             <View style={styles.viewTextContactUs}>
                 <Text style={styles.textContactUs}>Untuk pertanyaan umum seputar Teman Diabetes dan pengguna mobile application, kirimkan email anda di : </Text>
-                <Text style={[styles.textContactUs, {marginTop : 5}]}>cs@temandiabetes.com</Text>
+                <Text style={[styles.textContactUs, {marginTop : 5}]}>info@temandiabetes.com</Text>
             </View>  
         </View>
 
