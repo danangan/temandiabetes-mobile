@@ -12,7 +12,8 @@ import {
   Keyboard,
   ScrollView,
   TimePickerAndroid,
-  ActivityIndicator
+  ActivityIndicator,
+  Alert
 } from 'react-native';
 
 import { dateFormateName } from '../../../utils/helpers';
@@ -31,7 +32,7 @@ class ModalCreateReminder extends React.Component {
       ],
       prefieldData: null,
       status_action: 'CREATE_NEW',
-      idReminder: ''
+      idReminder: '',
     };
     this.onSetReminder = this.onSetReminder.bind(this);
   }
@@ -99,18 +100,36 @@ class ModalCreateReminder extends React.Component {
   }
 
   async openTimePicker() {
+    const dateNow = moment();
+
     try {
       const { action, hour, minute } = await TimePickerAndroid.open({
         hour: this.state.selectTimeValue.hour(),
         minute: this.state.selectTimeValue.minute(),
-        is24Hour: false, // Will display '2 PM'
+        is24Hour: true, // Will display '2 PM'
       });
       if (action !== TimePickerAndroid.dismissedAction) {
-        // Selected hour (0-23), minute (0-59)
-        // console.log('JAM --- ' + hour + ' ' + minute);
-        this.setState({
-          selectTimeValue: new moment().hour(hour).minute(minute)
-        });
+        const { selectTimeValue } = this.state;
+        const selectDate = new moment(selectTimeValue);
+        selectDate.hour(hour).minute(minute);
+        console.log('dateNow', dateNow);
+        console.log('selectDate -->', selectDate);
+        const isBeforeNow = selectDate.isAfter(dateNow);
+        console.log('isBeforeNow ', isBeforeNow);
+        if (isBeforeNow) {
+          this.setState({
+            selectTimeValue: new moment().hour(hour).minute(minute)
+          });
+        } else {
+          Alert.alert(
+            'Perhatian!',
+            'Waktu tidak boleh sebelum dari jam saat ini',
+            [
+              { text: 'Pilih ulang', onPress: () => this.openTimePicker() },
+            ],
+            { cancelable: false }
+          );
+        }
       }
     } catch ({ code, message }) {
       console.warn('Cannot open time picker', message);
@@ -142,15 +161,17 @@ class ModalCreateReminder extends React.Component {
       }
       this.props.setModalVisible();
     }
-
   }
 
   async openDatePicker() {
+    const currentDate = new Date();
+    currentDate.setDate(currentDate.getDate() + 1);
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
         // May 25 2020. Month 0 is January.
-        date: new Date(this.state.selectDateValue.format('MM/DD/YYYY'))
+        date: new Date(this.state.selectDateValue.format('MM/DD/YYYY')),
+        minDate: currentDate
       });
 
       if (action !== DatePickerAndroid.dismissedAction) {

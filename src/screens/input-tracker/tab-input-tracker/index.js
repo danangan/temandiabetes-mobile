@@ -181,9 +181,9 @@ class InputTracker extends Component {
       if (action !== TimePickerAndroid.dismissedAction) {
         const { inputDate } = this.state;
         // selected Date
-        const selectedDate = new moment(inputDate)
-        selectedDate.hour(hour).minute(minute)
-        const isBeforeNow = selectedDate.isBefore(dateNow)
+        const selectedDate = new moment(inputDate); 
+        selectedDate.hour(hour).minute(minute);
+        const isBeforeNow = selectedDate.isBefore(dateNow);
 
         if (isBeforeNow) {
           this.setState({
@@ -205,7 +205,7 @@ class InputTracker extends Component {
               {text: 'Pilih ulang', onPress: () => this.openTimePicker()},
             ],
             { cancelable: false }
-          )
+          );
         }
       }
     } catch ({ code, message }) {
