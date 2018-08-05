@@ -35,6 +35,7 @@ public class DnurseModule extends ReactContextBaseJavaModule {
     private String mDeviceSN;
     private Calendar mTime;
     private byte mAccuracy;
+    
 
     private final ActivityEventListener mActivityEventListener = new BaseActivityEventListener();
 
@@ -61,7 +62,7 @@ public class DnurseModule extends ReactContextBaseJavaModule {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getReactApplicationContext(), "success", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getReactApplicationContext(), "success", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -81,6 +82,8 @@ public class DnurseModule extends ReactContextBaseJavaModule {
         @Override
         public void run() {
             // TODO Auto-generated method stub
+            if(mPickerPromise != null && mDnurseState != m_arg0){
+
             mDnurseState = m_arg0;
             // Change wakeup button state
             if(mDnurseState != DnurseConstant.NOT_INSERTED
@@ -108,39 +111,34 @@ public class DnurseModule extends ReactContextBaseJavaModule {
                     Toast.makeText(getReactApplicationContext(), "recognizing", Toast.LENGTH_SHORT).show();
                     break;
                 case DnurseConstant.DEVICE_RECOGNIZED:
-                    Toast.makeText(getReactApplicationContext(), "recognized", Toast.LENGTH_SHORT).show();
+                    mPickerPromise.resolve("INPUT_TESTSTRIP");
+                    mPickerPromise = null;
+                    // Toast.makeText(getReactApplicationContext(), "recognized", Toast.LENGTH_SHORT).show();
                     break;
                 case DnurseConstant.TEST_PAPER_INSERTED:
-                    Toast.makeText(getReactApplicationContext(), "test paper inserted", Toast.LENGTH_SHORT).show();
+                    mPickerPromise.resolve("DROPS_BLOOD");
+                    mPickerPromise = null;
+                    // Toast.makeText(getReactApplicationContext(), "test paper inserted", Toast.LENGTH_SHORT).show();
                     break;
                 case DnurseConstant.OLD_TEST_PAPER_INSERTED:
                     Toast.makeText(getReactApplicationContext(), "test paper has been used", Toast.LENGTH_SHORT).show();
+                    mPickerPromise.resolve("INPUT_TESTSTRIP");
+                    mPickerPromise = null;
                     break;
                 case DnurseConstant.TEST_PAPER_REMOVED:
-                    Toast.makeText(getReactApplicationContext(), "test paper used", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getReactApplicationContext(), "test paper has been removed", Toast.LENGTH_SHORT).show();
+                    mPickerPromise.resolve("INPUT_TESTSTRIP");
+                    mPickerPromise = null;
                     break;
                 case DnurseConstant.START_TEST:
-                    Toast.makeText(getReactApplicationContext(), "Test Start", Toast.LENGTH_SHORT).show();
+                    mPickerPromise.resolve("CALCULATING");
+                    mPickerPromise = null;
+                    // Toast.makeText(getReactApplicationContext(), "Test Start", Toast.LENGTH_SHORT).show();
                     break;
                 case DnurseConstant.TEST_FINISH:
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-                    String t = format.format(mTime.getTime());
-                    if(DnurseConstant.isLowValue(mTestResult)) {
-			  mPickerPromise.resolve(String.format("%.2f", mTestResult));
-//                        mInfo.setText(String.format(getString(R.string.test_finished), t, "LOW", mDeviceSN));
-                    } else if(DnurseConstant.isHighValue(mTestResult)) {
-			  mPickerPromise.resolve(String.format("%.2f", mTestResult));
-//                        mInfo.setText(String.format(getString(R.string.test_finished), t, "HIGH", mDeviceSN));
-                    } else {
-                        if(mAccuracy == 2) {
-			      mPickerPromise.resolve(String.format("%.2f", mTestResult));
-//                            mInfo.setText(t + "\n血糖" + String.format("%.2f", mTestResult) + "mmol/L\nSN: " + mDeviceSN);
-                        } else {
-			      mPickerPromise.resolve(String.format("%.2f", mTestResult));
-//                            mInfo.setText(t + "\n血糖" + String.format("%.1f", mTestResult) + "mmol/L\nSN: " + mDeviceSN);
-                        }
-                    }
-                    Toast.makeText(getReactApplicationContext(), "finished", Toast.LENGTH_SHORT).show();
+                    mPickerPromise.resolve(String.format("%.2f", mTestResult).replace(",", "."));
+                    mPickerPromise = null;
+                    // Toast.makeText(getReactApplicationContext(), "finished", Toast.LENGTH_SHORT).show();
                     break;
                 case DnurseConstant.DEVICE_SLEEP:
                     Toast.makeText(getReactApplicationContext(), "device sleep", Toast.LENGTH_SHORT).show();
@@ -170,6 +168,8 @@ public class DnurseModule extends ReactContextBaseJavaModule {
                     Toast.makeText(getReactApplicationContext(), "timed out", Toast.LENGTH_SHORT).show();
                     break;
             }
+
+            }
         }
     };
 
@@ -180,9 +180,10 @@ public class DnurseModule extends ReactContextBaseJavaModule {
             case "null":
                 if(m_deviceTest == null) {
                     m_deviceTest = new DnurseDeviceTest(getReactApplicationContext());
-                } else {
-                    Toast.makeText(getReactApplicationContext(), "null device", Toast.LENGTH_SHORT).show();
-                }
+                } 
+                // else {
+                //     Toast.makeText(getReactApplicationContext(), "null device", Toast.LENGTH_SHORT).show();
+                // }
 	        /* Start test */
                 m_deviceTest.startTest(iMeasureDataResultCallback);
 
@@ -196,7 +197,9 @@ public class DnurseModule extends ReactContextBaseJavaModule {
                     m_deviceTest = new DnurseDeviceTest(getReactApplicationContext());
                     m_deviceTest.startTest(iMeasureDataResultCallback);
                 } else {
-                    Toast.makeText(getReactApplicationContext(), "no device", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getReactApplicationContext(), "no device", Toast.LENGTH_SHORT).show();
+                    m_deviceTest = new DnurseDeviceTest(getReactApplicationContext());
+                    m_deviceTest.startTest(iMeasureDataResultCallback);
                 }
                 break;
             case "stop":
