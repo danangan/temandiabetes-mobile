@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -20,10 +20,100 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.googleusercontent.apps.879115918599-mhl2nv9cbih5qnlql1lm62rmvv93oi94</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.879115918599-mhl2nv9cbih5qnlql1lm62rmvv93oi94</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.temandiabetes.ios</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.temandiabetes.ios</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Montserrat-Black.otf</string>
+		<string>Montserrat-Bold.otf</string>
+		<string>Montserrat-ExtraBold.otf</string>
+		<string>Montserrat-ExtraLight.otf</string>
+		<string>Montserrat-Light.otf</string>
+		<string>Montserrat-Medium.otf</string>
+		<string>Montserrat-Regular.otf</string>
+		<string>Montserrat-SemiBold.otf</string>
+		<string>Montserrat-Thin.otf</string>
+		<string>MontserratAlternates-Black.otf</string>
+		<string>MontserratAlternates-Bold.otf</string>
+		<string>MontserratAlternates-ExtraBold.otf</string>
+		<string>MontserratAlternates-ExtraLight.otf</string>
+		<string>MontserratAlternates-Light.otf</string>
+		<string>MontserratAlternates-Medium.otf</string>
+		<string>MontserratAlternates-Regular.otf</string>
+		<string>MontserratAlternates-SemiBold.otf</string>
+		<string>MontserratAlternates-Thin.otf</string>
+		<string>Arista-Pro-Alternate-Bold-trial.ttf</string>
+		<string>Arista-Pro-Alternate-ExtraLight-trial.ttf</string>
+		<string>Arista-Pro-Alternate-Fat-trial.ttf</string>
+		<string>Arista-Pro-Alternate-Hairline-trial.ttf</string>
+		<string>Arista-Pro-Alternate-Light-trial.ttf</string>
+		<string>Arista-Pro-Alternate-Regular-trial.ttf</string>
+		<string>Arista-Pro-Alternate-SemiBold-trial.ttf</string>
+		<string>Arista-Pro-Alternate-Thin-trial.ttf</string>
+		<string>Arista-Pro-Bold-trial.ttf</string>
+		<string>Arista-Pro-ExtraLight-trial.ttf</string>
+		<string>Arista-Pro-Fat-trial.ttf</string>
+		<string>Arista-Pro-Hairline-trial.ttf</string>
+		<string>Arista-Pro-Icons-Bold-trial.ttf</string>
+		<string>Arista-Pro-Icons-ExtraLight-trial.ttf</string>
+		<string>Arista-Pro-Icons-Hairline-trial.ttf</string>
+		<string>Arista-Pro-Icons-Light-trial.ttf</string>
+		<string>Arista-Pro-Icons-Regular-trial.ttf</string>
+		<string>Arista-Pro-Icons-SemiBold-trial.ttf</string>
+		<string>Arista-Pro-Icons-Thin-trial.ttf</string>
+		<string>Arista-Pro-Light-trial.ttf</string>
+		<string>Arista-Pro-Regular-trial.ttf</string>
+		<string>Arista-Pro-SemiBold-trial.ttf</string>
+		<string>Arista-Pro-Thin-trial.ttf</string>
+		<string>OpenSans-Bold.ttf</string>
+		<string>OpenSans-BoldItalic.ttf</string>
+		<string>OpenSans-ExtraBold.ttf</string>
+		<string>OpenSans-ExtraBoldItalic.ttf</string>
+		<string>OpenSans-Italic.ttf</string>
+		<string>OpenSans-Light.ttf</string>
+		<string>OpenSans-LightItalic.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
+		<string>OpenSans-Semibold.ttf</string>
+		<string>OpenSans-SemiboldItalic.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -38,19 +128,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
-	<key>NSAppTransportSecurity</key>
-	<!--See http://ste.vn/2015/06/10/configuring-app-transport-security-ios-9-osx-10-11/ -->
-	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
-	</dict>
 </dict>
 </plist>
