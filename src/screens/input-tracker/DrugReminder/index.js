@@ -56,23 +56,31 @@ class DrugReminder extends React.Component {
           this.props.getListReminder();
         }
       });
-    } else if (nexProps.dataReminder.createReminder.status_code === 200 && this.state.isProcess) {
+    } 
+
+    if (nexProps.dataReminder.createReminder.status_code === 200 && this.state.isProcess) {
       this.setState({
-        isProcess: false
+        isProcess: false,
+        refreshing: false
       }, () => {
         this.props.getListReminder();
       });
-    } else if (this.props.dataReminder.detailsReminder !== nexProps.dataReminder.detailsReminder && this.state.getDetails) {
+    } 
+    
+    if (this.props.dataReminder.detailsReminder !== nexProps.dataReminder.detailsReminder && this.state.getDetails) {
       this.setState({
         getDetails: false
       }, () => {
         this.setModalVisible();
       });
-    } else if (updateReminder.status_code === 200 && this.state.isProcess) {
+    } 
+
+    if (updateReminder.status_code === 200 && this.state.isProcess) {
       this.setState({
-        isProcess: false
+        isProcess: false,
+        refreshing: false
       }, () => {
-        // this.props.getListReminder();
+        this.props.getListReminder();
       });
     }
   }
@@ -85,7 +93,8 @@ class DrugReminder extends React.Component {
 
   onSubmitReminder(reminder) {
     this.setState({
-      isProcess: true
+      isProcess: true,
+      item: []
     }, () => {
       this.props.createDrugReminder(reminder);
     });
@@ -98,21 +107,18 @@ class DrugReminder extends React.Component {
   }
 
   toUpdateStatusReminder({ index, _id, is_active }) {
-    // console.log('INDEX', index, _id, is_active);
-    // const listReminder = this.state.item;
     const updateReminder = {
       drugReminderId: _id,
       is_active: !is_active
     };
     const currentItem = this.state.item;
-    let mutatedItem = this.state.item[index];
-    mutatedItem.is_active = !is_active;
-    const newStateItem = [...currentItem, { ...mutatedItem }];
+    currentItem[index].is_active = !is_active;
     // listReminder[index].is_active = !listReminder[index].is_active;
     this.setState({
       isProcess: true,
+      refreshing: true,
       indexChange: index,
-      item: newStateItem
+      item: currentItem
     }, () => {
       this.props.updateDrugReminder(updateReminder, index);
     });
@@ -224,6 +230,7 @@ class DrugReminder extends React.Component {
             this.isLoadingData()
             :
             <FlatList
+              keyExtractor={item => item.id}
               data={this.state.item}
               renderItem={item => this.renderItem(item)}
               onRefresh={this.handleRefresh}
