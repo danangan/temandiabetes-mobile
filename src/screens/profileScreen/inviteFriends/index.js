@@ -13,15 +13,17 @@ class InviteFriends extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      clipboardContent: landingPageURL
+      clipboardContent: 'https://www.temandiabetes.com',
     };
   }
 
   shareApp = () => {
     const options = {
       title: 'Ajakan bergabung di Teman Diabetes',
-      message: 'Dapatkan aplikasi Teman Diabetes dengan klik link berikut',
-      url: landingPageURL,
+      message: 'Aplikasi Teman Diabetes bisa digunakan oleh diabetisi, inner circle atau anggota keluarga, dan ahli medis.' +'\n\n' + 
+      'Yuk, dukung diabetisi dengan ikut menggunakan aplikasi Teman Diabetes dan tunjukkan kepedulian Anda kepada mereka.' +'\n\n' + 
+      'Klik link berikut untuk mendownload aplikasi ini:',
+      url: 'https://www.temandiabetes.com',
       subject: 'Ajakan bergabung di Teman Diabetes' //  for email
     };
     Share.open(options).catch(err => {

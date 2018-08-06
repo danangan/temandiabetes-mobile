@@ -23,6 +23,7 @@ const VIEW_DNURSE = {
 };
 
 class DnurseResult extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
