@@ -286,16 +286,6 @@ class DnurseResult extends React.Component {
   };
 
   render() {
-    const { bloodSugarLevels } = this.state;
-    const textButton =
-      this.state.statusView == VIEW_DNURSE.CALCULATING
-        ? 'SELESAI'
-        : this.state.statusView == VIEW_DNURSE.INPUT_TESTSTRIP
-          ? 'LANGKAH 2'
-          : this.state.statusView == VIEW_DNURSE.DROPS_BLOOD
-            ? 'LANGKAH 3'
-            : 'LANGKAH 1';
-
     return (
       <View style={styles.containerStyle}>
         {this.switchView()}
