@@ -1,6 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Image, Text, NativeModules, PermissionsAndroid, Alert, ToastAndroid, } from 'react-native';
+import {
+  View,
+  Image,
+  Text,
+  NativeModules,
+  PermissionsAndroid,
+  Alert,
+  ToastAndroid
+} from 'react-native';
 import moment from 'moment';
 
 import color from '../../../style/color';
@@ -16,19 +24,18 @@ import placeholder from '../../../assets/images/result_dnurse.png';
 const dNurse = NativeModules.DnurseModule;
 
 const VIEW_DNURSE = {
-  INPUT_DNURSE      : "INPUT_DNURSE",
-  INPUT_TESTSTRIP   : "INPUT_TESTSTRIP",
-  DROPS_BLOOD       : "DROPS_BLOOD",
-  CALCULATING       : "CALCULATING",
+  INPUT_DNURSE: 'INPUT_DNURSE',
+  INPUT_TESTSTRIP: 'INPUT_TESTSTRIP',
+  DROPS_BLOOD: 'DROPS_BLOOD',
+  CALCULATING: 'CALCULATING'
 };
 
 class DnurseResult extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       bloodSugarLevels: null,
-      statusView : VIEW_DNURSE.INPUT_DNURSE,
+      statusView: VIEW_DNURSE.INPUT_DNURSE
     };
   }
 
@@ -48,50 +55,37 @@ class DnurseResult extends React.Component {
 
   onHandleClick = async blood => {
     try {
-      if(this.state.statusView == VIEW_DNURSE.CALCULATING){
-      if (blood !== 0 && blood !== undefined && blood !== null && blood !== '') {
-        // const option = {
-        //   method: 'POST',
-        //   url: 'api/blood-glucose-tracker',
-        //   data: {
-        //     // using moment and format to normalize utc
-        //     waktuInput: new moment().format('YYYY-MM-DDTHH:mm:ss'),
-        //     gulaDarah: blood
-        //   }
-        // };
-
-        // const { data } = await API_CALL(option);
-
-        // if (data.message === 'successfully input blood glucose !!') {
+      if (this.state.statusView == VIEW_DNURSE.CALCULATING) {
+        if (blood !== 0 && blood !== undefined && blood !== null && blood !== '') {
           this.onNavigation();
-        // }
-      } else {
-        Alert.alert(
-          'Maaf',
-          'Terjadi kegagalan dalam mendapatkan gula darah. Apakah anda ingin mencoba lagi?',
-          [{
-            text: 'Tidak',
-            onPress: () => {
-              this.props.updateTopTab(1);
-              this.props.navigator.resetTo({
-                screen: 'TemanDiabetes.AppContainer',
-                navigatorStyle: {
-                  navBarHidden: true
+        } else {
+          Alert.alert(
+            'Maaf',
+            'Terjadi kegagalan dalam mendapatkan gula darah. Apakah anda ingin mencoba lagi?',
+            [
+              {
+                text: 'Tidak',
+                onPress: () => {
+                  this.props.updateTopTab(1);
+                  this.props.navigator.resetTo({
+                    screen: 'TemanDiabetes.AppContainer',
+                    navigatorStyle: {
+                      navBarHidden: true
+                    }
+                  });
                 }
-              });
-            }
-          },{
-              text: 'Ya',
-              onPress: () => {
-                this.requestAudioPermission();  
-                this.setState({statusView : VIEW_DNURSE.INPUT_DNURSE, bloodSugarLevels : null});
+              },
+              {
+                text: 'Ya',
+                onPress: () => {
+                  this.requestAudioPermission();
+                  this.setState({ statusView: VIEW_DNURSE.INPUT_DNURSE, bloodSugarLevels: null });
+                }
               }
-            }
-          ],
-          { cancelable: false }
-        );
-      }
-
+            ],
+            { cancelable: false }
+          );
+        }
       }
     } catch (error) {
       throw error;
@@ -113,10 +107,10 @@ class DnurseResult extends React.Component {
       const { data } = await API_CALL(option);
 
       if (data.message === 'successfully input blood glucose !!') {
-          ToastAndroid.show('Pengecekan gula darah berhasil', ToastAndroid.SHORT);
+        ToastAndroid.show('Pengecekan gula darah berhasil', ToastAndroid.SHORT);
       }
     }
-  }
+  };
 
   requestAudioPermission = async () => {
     try {
@@ -127,7 +121,7 @@ class DnurseResult extends React.Component {
           message: 'App needs access to your Audio.'
         }
       );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED || granted === true ) {
+      if (granted === PermissionsAndroid.RESULTS.GRANTED || granted === true) {
         this.doExecuteDnurse('wakeup');
       }
     } catch (err) {
@@ -135,33 +129,33 @@ class DnurseResult extends React.Component {
     }
   };
 
-  doExecuteDnurse = (type) => {
+  doExecuteDnurse = type => {
     dNurse.openRequest(type).then(res => {
-      this.doExecuteDnurse('null')
+      this.doExecuteDnurse('null');
 
-      // this.setState({statusView : res})
-
-      if(res == VIEW_DNURSE.INPUT_DNURSE || res == VIEW_DNURSE.INPUT_TESTSTRIP || 
-        res == VIEW_DNURSE.DROPS_BLOOD || res == VIEW_DNURSE.CALCULATING){
-        this.setState({statusView : res, bloodSugarLevels : null});
-      }else if(!isNaN(res)){
+      if (
+        res == VIEW_DNURSE.INPUT_DNURSE ||
+        res == VIEW_DNURSE.INPUT_TESTSTRIP ||
+        res == VIEW_DNURSE.DROPS_BLOOD ||
+        res == VIEW_DNURSE.CALCULATING
+      ) {
+        this.setState({ statusView: res, bloodSugarLevels: null });
+      } else if (!isNaN(res)) {
         const bloodSugar = res * 18.018018;
         const calculate = () => {
           if (bloodSugar < 0.5) {
             return Math.floor(bloodSugar);
-          }else{
-            return Math.ceil(bloodSugar);
           }
+          return Math.ceil(bloodSugar);
         };
         const result = calculate();
         this.doSaveData(result);
-        this.setState({ bloodSugarLevels: result, statusView : VIEW_DNURSE.CALCULATING});
-      }else{
-        this.setState({statusView : VIEW_DNURSE.INPUT_DNURSE, bloodSugarLevels : null});
+        this.setState({ bloodSugarLevels: result, statusView: VIEW_DNURSE.CALCULATING });
+      } else {
+        this.setState({ statusView: VIEW_DNURSE.INPUT_DNURSE, bloodSugarLevels: null });
       }
     });
-
-  }
+  };
 
   sourceImage = () => {
     const { bloodSugarLevels } = this.state;
@@ -179,64 +173,66 @@ class DnurseResult extends React.Component {
   };
 
   switchView = () => {
-    if(this.state.statusView == VIEW_DNURSE.INPUT_TESTSTRIP){
-      return(
+    if (this.state.statusView == VIEW_DNURSE.INPUT_TESTSTRIP) {
+      return (
         <View style={styles.contentStyle}>
-      <Image
-        source={require('../../../assets/images/plugin_paper.gif')}
-        style={styles.imageStyleStep}
-      />
-      <View steyl={styles.containerTextStyle}>
-        <Text style={styles.titleStyle}>Pasang TestStrip</Text>
-        <Text style={styles.descriptionStyle}>
-          Pasang test strip pada DNurse,{'\n'}pastikan posisi sesuai instruksi.
-        </Text>
-      </View>
-    </View>
-      )
-    }else if(this.state.statusView == VIEW_DNURSE.DROPS_BLOOD){
-     return(
-      <View style={styles.contentStyle}>
-      <Image
-        source={require('../../../assets/images/drop_blood.gif')}
-        style={styles.imageStyle}
-      />
-      <View steyl={styles.containerTextStyle}>
-        <Text style={styles.titleStyle}>Tetes Darah</Text>
-        <Text style={styles.descriptionStyle}>
-          Tusuk jari Anda menggunakan{'\n'}alat yang telah disediakan dan{'\n'}teteskan pada
-          test strip
-        </Text>
-      </View>
-    </View>
-     )
-    }else if(this.state.statusView == VIEW_DNURSE.CALCULATING){
+          <Image
+            source={require('../../../assets/images/plugin_paper.gif')}
+            style={styles.imageStyleStep}
+          />
+          <View steyl={styles.containerTextStyle}>
+            <Text style={styles.titleStyle}>Pasang TestStrip</Text>
+            <Text style={styles.descriptionStyle}>
+              Pasang test strip pada DNurse,{'\n'}pastikan posisi sesuai instruksi.
+            </Text>
+          </View>
+        </View>
+      );
+    } else if (this.state.statusView == VIEW_DNURSE.DROPS_BLOOD) {
+      return (
+        <View style={styles.contentStyle}>
+          <Image
+            source={require('../../../assets/images/drop_blood.gif')}
+            style={styles.imageStyle}
+          />
+          <View steyl={styles.containerTextStyle}>
+            <Text style={styles.titleStyle}>Tetes Darah</Text>
+            <Text style={styles.descriptionStyle}>
+              Tusuk jari Anda menggunakan{'\n'}alat yang telah disediakan dan{'\n'}teteskan pada
+              test strip
+            </Text>
+          </View>
+        </View>
+      );
+    } else if (this.state.statusView == VIEW_DNURSE.CALCULATING) {
       const { bloodSugarLevels } = this.state;
 
-      if(bloodSugarLevels != null){
+      if (bloodSugarLevels != null) {
         return (
-        <View style={styles.contentStyle}>
+          <View style={styles.contentStyle}>
             <Image source={this.sourceImage()} style={styles.imageStyle} />
             <Text style={styles.resultStyle}>
               {bloodSugarLevels === null ? 'tunggu' : bloodSugarLevels}
               {'\n'}
             </Text>
             <Text style={styles.formatStyle}>{bloodSugarLevels === null ? '' : 'mg/dL'}</Text>
-        </View>
-      );
-      } else {
-        return (
-          <View style={styles.contentStyle}>
-              <Image source={this.sourceImage()} style={styles.imageStyle} />
-              <Text style={styles.resultEmptyStyle}>
-                {'\n'}{'Harap'}{'\n'}{'Menunggu'}
-              </Text>
           </View>
         );
       }
-    }else{
-      return(
+      return (
         <View style={styles.contentStyle}>
+          <Image source={this.sourceImage()} style={styles.imageStyle} />
+          <Text style={styles.resultEmptyStyle}>
+            {'\n'}
+            {'Harap'}
+            {'\n'}
+            {'Menunggu'}
+          </Text>
+        </View>
+      );
+    }
+    return (
+      <View style={styles.contentStyle}>
         <Image
           source={require('../../../assets/images/plugin_device.gif')}
           style={styles.imageStyleStep}
@@ -248,78 +244,64 @@ class DnurseResult extends React.Component {
           </Text>
         </View>
       </View>
-      )
-
-    }
-  }
+    );
+  };
 
   switchButton = () => {
-    if(this.state.statusView == VIEW_DNURSE.INPUT_TESTSTRIP){
-      return(
-        <View style={[styles.viewBottom, styles.buttonStyle]}>
-        <Text style={[styles.textBottom, styles.textButtonStyle]}>
-          LANGKAH 2
-        </Text>
-      </View>
-      )
-    }else if(this.state.statusView == VIEW_DNURSE.DROPS_BLOOD){
-      return(
-        <View style={[styles.viewBottom, styles.buttonStyle]}>
-        <Text style={[styles.textBottom, styles.textButtonStyle]}>
-          LANGKAH 3
-        </Text>
-      </View>
-      )
-
-    }else if(this.state.statusView == VIEW_DNURSE.CALCULATING){
-      if(this.state.bloodSugarLevels != null){
-        return(
-        <Button
-        buttonStyle={styles.buttonStyle}
-        textStyle={styles.textButtonStyle}
-        onPress={() => this.onHandleClick(this.state.bloodSugarLevels)}>
-          SELESAI
-        </Button>
-      )
-      }else{
-        return(
-          <View style={[styles.viewBottom, styles.buttonStyle]}>
-            <Text style={[styles.textBottom, styles.textButtonStyle]}>
-              SEDANG MEMPROSES
-            </Text>
-          </View>
-          )
-      }
-    }else {
-      return(
-      <View style={[styles.viewBottom, styles.buttonStyle]}>
-      <Text style={[styles.textBottom, styles.textButtonStyle]}>
-        LANGKAH 1
-      </Text>
-    </View>
-    )
-    }
-  }
-
-  render() {
-    const { bloodSugarLevels } = this.state;
-    let textButton = this.state.statusView == VIEW_DNURSE.CALCULATING ? 'SELESAI' :
-                     this.state.statusView == VIEW_DNURSE.INPUT_TESTSTRIP ? 'LANGKAH 2' :
-                     this.state.statusView == VIEW_DNURSE.DROPS_BLOOD ? 'LANGKAH 3' : 'LANGKAH 1';
-
+    if (this.state.statusView == VIEW_DNURSE.INPUT_TESTSTRIP) {
       return (
-        <View style={styles.containerStyle}>
-          {this.switchView()}
-          {/* <Button
+        <View style={[styles.viewBottom, styles.buttonStyle]}>
+          <Text style={[styles.textBottom, styles.textButtonStyle]}>LANGKAH 2</Text>
+        </View>
+      );
+    } else if (this.state.statusView == VIEW_DNURSE.DROPS_BLOOD) {
+      return (
+        <View style={[styles.viewBottom, styles.buttonStyle]}>
+          <Text style={[styles.textBottom, styles.textButtonStyle]}>LANGKAH 3</Text>
+        </View>
+      );
+    } else if (this.state.statusView == VIEW_DNURSE.CALCULATING) {
+      if (this.state.bloodSugarLevels != null) {
+        return (
+          <Button
             buttonStyle={styles.buttonStyle}
             textStyle={styles.textButtonStyle}
             onPress={() => this.onHandleClick(this.state.bloodSugarLevels)}
           >
-            {textButton}
-          </Button> */}
-          {this.switchButton()}
+            SELESAI
+          </Button>
+        );
+      }
+      return (
+        <View style={[styles.viewBottom, styles.buttonStyle]}>
+          <Text style={[styles.textBottom, styles.textButtonStyle]}>SEDANG MEMPROSES</Text>
         </View>
       );
+    }
+    return (
+      <View style={[styles.viewBottom, styles.buttonStyle]}>
+        <Text style={[styles.textBottom, styles.textButtonStyle]}>LANGKAH 1</Text>
+      </View>
+    );
+  };
+
+  render() {
+    const { bloodSugarLevels } = this.state;
+    const textButton =
+      this.state.statusView == VIEW_DNURSE.CALCULATING
+        ? 'SELESAI'
+        : this.state.statusView == VIEW_DNURSE.INPUT_TESTSTRIP
+          ? 'LANGKAH 2'
+          : this.state.statusView == VIEW_DNURSE.DROPS_BLOOD
+            ? 'LANGKAH 3'
+            : 'LANGKAH 1';
+
+    return (
+      <View style={styles.containerStyle}>
+        {this.switchView()}
+        {this.switchButton()}
+      </View>
+    );
   }
 }
 
@@ -407,22 +389,22 @@ const styles = {
     alignSelf: 'center'
   },
   viewBottom: {
-		alignSelf: 'stretch',
-		backgroundColor: color.red,
-		borderRadius: 5,
-		borderWidth: 1,
-		borderColor: color.red,
-		marginLeft: 5,
-		marginRight: 5
-	},
+    alignSelf: 'stretch',
+    backgroundColor: color.red,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: color.red,
+    marginLeft: 5,
+    marginRight: 5
+  },
   textBottom: {
-		alignSelf: 'center',
-		fontFamily: 'Montserrat-Regular',
-		color: color.white,
-		fontSize: Style.FONT_SIZE_TITLE,
-		paddingTop: 10,
-		paddingBottom: 10
-	}
+    alignSelf: 'center',
+    fontFamily: 'Montserrat-Regular',
+    color: color.white,
+    fontSize: Style.FONT_SIZE_TITLE,
+    paddingTop: 10,
+    paddingBottom: 10
+  }
 };
 
 const mapDispatchToProps = dispatch => ({
