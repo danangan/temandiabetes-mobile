@@ -112,10 +112,7 @@ class ModalCreateReminder extends React.Component {
         const { selectTimeValue } = this.state;
         const selectDate = new moment(selectTimeValue);
         selectDate.hour(hour).minute(minute);
-        console.log('dateNow', dateNow);
-        console.log('selectDate -->', selectDate);
         const isBeforeNow = selectDate.isAfter(dateNow);
-        console.log('isBeforeNow ', isBeforeNow);
         if (isBeforeNow) {
           this.setState({
             selectTimeValue: new moment().hour(hour).minute(minute)
