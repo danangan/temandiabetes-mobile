@@ -30,7 +30,8 @@ class DrugReminder extends React.Component {
       item: [],
       isProcess: false,
       getDetails: false,
-      refreshing: false
+      refreshing: false,
+      reminderDetail: null
     };
     this.onChangeSwitch = this.onChangeSwitch.bind(this);
     this.setModalVisible = this.setModalVisible.bind(this);
@@ -136,6 +137,7 @@ class DrugReminder extends React.Component {
   }
 
   updateReminder(reminder) {
+    console.log('toUpdateReminder ', reminder);
     this.setState({
       isProcess: true
     }, () => {
@@ -145,6 +147,7 @@ class DrugReminder extends React.Component {
 
   renderModalCreate() {
     const { detailsReminder: { data } } = this.props.dataReminder;
+    console.log('DATAAA ', data);
     if (this.state.isProcess) {
       return (
         <View>
@@ -157,17 +160,19 @@ class DrugReminder extends React.Component {
         modalVisible={this.state.modalActive}
         setModalVisible={this.setModalVisible}
         onSubmit={this.onSubmitReminder}
-        preData={data}
+        preData={this.state.reminderDetail}
         toUpdateReminder={this.updateReminder}
       />
     );
   }
 
-  getReminderDetails(id) {
+  getReminderDetails(item) {
     this.setState({
-      getDetails: true
+      // getDetails: true,
+      reminderDetail: item
     }, () => {
-      this.props.getDetailsReminder(id);
+      this.setModalVisible();
+      // this.props.getDetailsReminder(item.id);
     });
   }
 
@@ -217,7 +222,8 @@ class DrugReminder extends React.Component {
   }
 
   render() {
-    const { listReminder } = this.props.dataReminder;
+    // const { listReminder } = this.props.dataReminder;
+    // console.log('this state --> ', this.state);
     return (
       <View style={styles.container}>
         { this.state.modalActive ? this.renderModalCreate() : null }

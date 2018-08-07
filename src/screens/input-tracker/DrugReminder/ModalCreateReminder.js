@@ -47,8 +47,22 @@ class ModalCreateReminder extends React.Component {
   }
 
   componentDidMount() {
+    const { reminders } = this.props.preData;
+    const ruleConsume = reminders[0].ruleConsume === "sesudahMakan" ? 'Sesudah Makan' : 'Sebelum Makan';
+    const now = moment(this.props.preData.reminders[0].datetimeConsume);
+    const clock = now.hours() + ':' + now.minutes();
     this.setState({
-      prefieldData: this.props.preData
+      prefieldData: this.props.preData,
+      idReminder: this.props.preData._id,
+      drugName: this.props.preData.drugName,
+      preReminders: this.props.preData.reminders.map(item => {
+        item.datetimeConsume = new moment(new Date(item.datetimeConsume));
+        item.hours = item.datetimeConsume.format('HH:mm');
+        return item;
+      }),
+      status_action: 'UPDATE',
+      isTime: clock,
+      ruleConsume
     });
   }
 
@@ -112,8 +126,10 @@ class ModalCreateReminder extends React.Component {
         const { selectTimeValue } = this.state;
         const selectDate = new moment(selectTimeValue);
         selectDate.hour(hour).minute(minute);
-        const isBeforeNow = selectDate.isAfter(dateNow);
-        if (isBeforeNow) {
+        const isAfter = selectDate.isAfter(dateNow);
+        const isSame = dateNow.diff(selectDate) >= 0;
+        
+        if (isAfter || isSame) {
           this.setState({
             selectTimeValue: new moment().hour(hour).minute(minute)
           });
@@ -154,6 +170,7 @@ class ModalCreateReminder extends React.Component {
           drugName,
           reminders: preReminders,
         };
+        console.log('reminder object ', reminder);
         this.props.toUpdateReminder(reminder);
       }
       this.props.setModalVisible();
@@ -216,12 +233,14 @@ class ModalCreateReminder extends React.Component {
 
   render() {
     // onPress={() => this.props.setModalVisible()}
+    // console.log('THIS PROPS MODAL', this.props);
     const { detailsReminder } = this.props.dataReminder;
     return (
       <Modal
         animationType="none"
         transparent={true}
         visible={this.props.modalVisible}
+        onRequestClose={() => null }
       >
         {
           // detailsReminder.status_code === 0
