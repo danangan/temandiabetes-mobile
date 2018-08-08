@@ -190,7 +190,7 @@ class ModalCreateReminder extends React.Component {
 
   async openDatePicker() {
     const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() + 1);
+    currentDate.setDate(currentDate.getDate());
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
         // Use `new Date()` for current date.
