@@ -80,7 +80,7 @@ const reminderReducer = (state = initialState, action) => {
     case 'PENDING_UPDATE_DRUG_REMINDER': {
       return {
         ...state,
-        // listReminder: initialState.listReminder,
+        listReminder: initialState.listReminder,
         updateReminder: {
           message: '',
           status_code: 0,

@@ -40,7 +40,7 @@ class ReminderCard extends React.Component {
         <View style={styles.rightSide}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => this.props.getReminderDetails(_id)}
+            onPress={() => this.props.getReminderDetails(this.props.item)}
           >
             <Text style={styles.btnRight}>UBAH</Text>
           </TouchableOpacity>
