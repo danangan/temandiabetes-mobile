@@ -35,9 +35,7 @@ import color from '../../../style/color';
 import { Card } from '../../../components';
 import MenuButton from './MenuButton';
 import Style from '../../../style/defaultStyle';
-import { dateFormateName } from '../../../utils/helpers';
 import { activityList } from './initialValue';
-import { authToken } from '../../../utils/constants';
 import ButtonSave from './ButtonSave';
 
 class InputTracker extends Component {
@@ -81,16 +79,6 @@ class InputTracker extends Component {
     this.handleSave = this.handleSave.bind(this);
   }
 
-  getDateDefault() {
-    const dt = new Date();
-    const defaultDate = {
-      day: dt.getDate(),
-      month: dt.getMonth(),
-      year: dt.getFullYear()
-    };
-    return defaultDate;
-  }
-
   componentDidMount() {
     this.setState({
       date: this.getDateDefault()
@@ -100,16 +88,16 @@ class InputTracker extends Component {
   }
 
   componentWillMount() {
-		this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-			this.setState({ keyboardActive: true });
-		});
-		this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-			this.setState({ keyboardActive: false });
-		});
-	}
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ keyboardActive: true });
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ keyboardActive: false });
+    });
+  }
 
-	componentWillUnmount() {
-		this.keyboardDidShowListener.remove();
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
     clearInterval(this.Clock);
   }
@@ -135,6 +123,27 @@ class InputTracker extends Component {
     }
   }
 
+  getDateDefault() {
+    const dt = new Date();
+    const defaultDate = {
+      day: dt.getDate(),
+      month: dt.getMonth(),
+      year: dt.getFullYear()
+    };
+    return defaultDate;
+  }
+
+  setModalVisible(isModal) {
+    const params = isModal === undefined ? '' : isModal;
+    this.setState({
+      modalVisible: !this.state.modalVisible,
+      isModal: params,
+      activitySelected: '',
+      descActivity: '',
+      isManually: false
+    });
+  }
+
   async openDatePicker() {
     try {
       const { action, year, month, day } = await DatePickerAndroid.open({
@@ -145,21 +154,38 @@ class InputTracker extends Component {
       });
       if (action !== DatePickerAndroid.dismissedAction) {
         // Selected year, month (0-11), day
-        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-          'July', 'August', 'September', 'October', 'November', 'December'
+        const monthNames = [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December'
         ];
-        const selectedDate = new moment().year(year).month(month).date(day);
-        this.setState({
-          date: {
-            day,
-            month,
-            year
+        const selectedDate = new moment()
+          .year(year)
+          .month(month)
+          .date(day);
+        this.setState(
+          {
+            date: {
+              day,
+              month,
+              year
+            },
+            isDate: `${day} ${monthNames[month]} ${year}`,
+            inputDate: selectedDate
           },
-          isDate: `${day} ${monthNames[month]} ${year}`,
-          inputDate: selectedDate
-        }, () => {
-          this.openTimePicker();
-        });
+          () => {
+            this.openTimePicker();
+          }
+        );
       }
     } catch ({ code, message }) {
       console.warn('Cannot open date picker', message);
@@ -173,15 +199,14 @@ class InputTracker extends Component {
       const { action, hour, minute } = await TimePickerAndroid.open({
         hour: dateNow.hour(),
         minute: dateNow.minute(),
-        is24Hour: true,
+        is24Hour: true
       });
 
-      const menit = minute === 0 ? '00' :
-                    minute.toString().length === 1 ? `0${minute}` : '00';
+      const menit = minute === 0 ? '00' : minute.toString().length === 1 ? `0${minute}` : '00';
       if (action !== TimePickerAndroid.dismissedAction) {
         const { inputDate } = this.state;
         // selected Date
-        const selectedDate = new moment(inputDate); 
+        const selectedDate = new moment(inputDate);
         selectedDate.hour(hour).minute(minute);
         const isBeforeNow = selectedDate.isBefore(dateNow);
 
@@ -201,9 +226,7 @@ class InputTracker extends Component {
           Alert.alert(
             'Perhatian!',
             'Waktu tidak boleh lebih dari jam saat ini',
-            [
-              {text: 'Pilih ulang', onPress: () => this.openTimePicker()},
-            ],
+            [{ text: 'Pilih ulang', onPress: () => this.openTimePicker() }],
             { cancelable: false }
           );
         }
@@ -216,18 +239,13 @@ class InputTracker extends Component {
   GetTime() {
     // Creating variables to hold time.
     let date = '';
-    let TimeType = '';
     let hour = '';
     let minutes = '';
-    // let seconds = '';
-    let fullTime = '';
 
     // Creating Date() function object.
     date = new Date();
-
     // Getting current hour from Date object.
     hour = date.getHours();
-
     // Checking if the Hour is less than equals to 11 then Set the Time format as AM.
     if (hour <= 11) {
       TimeType = 'AM';
@@ -237,7 +255,7 @@ class InputTracker extends Component {
     }
     // IF current hour is grater than 12 then minus 12 from current hour to make it in 12 Hours Format.
     if (hour > 12) {
-      hour = hour - 12;
+      hour -= 12;
     }
 
     // If hour value is 0 then by default set its value to 12, because 24 means 0 in 24 hours time format.
@@ -250,22 +268,9 @@ class InputTracker extends Component {
 
     // Checking if the minutes value is less then 10 then add 0 before minutes.
     if (minutes < 10) {
-      minutes = '0' + minutes.toString();
+      minutes = `0${minutes.toString()}`;
     }
-
-    //Getting current seconds from date object.
-    seconds = date.getSeconds();
-    // If seconds value is less than 10 then add 0 before seconds.
-    // if (seconds < 10) {
-    //   seconds = '0' + seconds.toString();
-    // }
-    // Adding all the variables in fullTime variable.
-    fullTime = hour.toString() + ':' + minutes.toString();
-    // + ':' + seconds.toString()
-    // + ' ' + TimeType.toString()
-    // Setting up fullTime variable in State.
     if (!this.state.hasSetTime) {
-      // console.log('Hour ... ', hour.toString());
       this.setState({
         time: {
           hour: hour.toString(),
@@ -275,24 +280,12 @@ class InputTracker extends Component {
     }
   }
 
-  setModalVisible(isModal) {
-    const params = isModal === undefined ? '' : isModal;
-    this.setState({
-      modalVisible: !this.state.modalVisible,
-      isModal: params,
-      activitySelected: '',
-      descActivity: '',
-      isManually: false
-    });
-  }
-
   validationInput(params) {
     const checkDecimal = /^[0-9]+([,.][0-9]+)?$/g.test(params);
     if (checkDecimal) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
   handleSave(casing) {
@@ -307,10 +300,7 @@ class InputTracker extends Component {
       inputDate
     } = this.state;
 
-    // const inputDate = new Date(date.year, date.month, date.day, time.hour, time.minute, 0);
-    // inputDate.toUTCString();
-
-    let value
+    let value;
     switch (casing) {
       // INPUT GULA DARAH
       case 'GULA_DARAH':
@@ -319,32 +309,29 @@ class InputTracker extends Component {
           waktuInput: inputDate.format('YYYY-MM-DDTHH:mm:ss'),
           gulaDarah
         };
-        let isDecimal = String(gulaDarah).includes(',')
+        const isDecimal = String(gulaDarah).includes(',');
 
         if (gulaDarah === 0 || gulaDarah === '') {
-          Alert.alert(
-            'Perhatian!',
-            'Silakan masukkan gula darah Anda.'
-          );
+          Alert.alert('Perhatian!', 'Silakan masukkan gula darah Anda.');
         } else if (isDecimal) {
-          Alert.alert(
-            'Perhatian!',
-            'Angka yang Anda masukkan tidak boleh mengandung koma (,)'
-          );
+          Alert.alert('Perhatian!', 'Angka yang Anda masukkan tidak boleh mengandung koma (,)');
         } else {
           const checking = this.validationInput(gulaDarah);
           if (!checking) {
             alert('Data yang Anda masukkan salah.');
           } else {
-            this.setState({
-              isManually: false,
-              modalVisible: true,
-              isModal: 'IS_LOADING',
-            }, () => {
-              setTimeout(() => {
-                this.props.inputTrackerBloodGlucose(value);
-              }, 1500);
-            });
+            this.setState(
+              {
+                isManually: false,
+                modalVisible: true,
+                isModal: 'IS_LOADING'
+              },
+              () => {
+                setTimeout(() => {
+                  this.props.inputTrackerBloodGlucose(value);
+                }, 1500);
+              }
+            );
           }
         }
         break;
@@ -364,21 +351,24 @@ class InputTracker extends Component {
         } else if (Number(distolic) === 0 || distolic === '') {
           alert('Silakan masukkan Diastolic Anda.');
         } else if (Number(distolic) > Number(sistolic)) {
-          alert('Nilai sistolic harus lebih besar daripada diastolic')
+          alert('Nilai sistolic harus lebih besar daripada diastolic');
         } else {
           const checkingSistolic = this.validationInput(sistolic);
           const checkingDistolic = this.validationInput(distolic);
           if (!checkingSistolic || !checkingDistolic) {
             alert('Data yang Anda input salah.');
           } else {
-            this.setState({
-              modalVisible: true,
-              isModal: 'IS_LOADING',
-            }, () => {
-              setTimeout(() => {
-                this.props.inputTrackerBloodPressure(value);
-              }, 1500);
-            });
+            this.setState(
+              {
+                modalVisible: true,
+                isModal: 'IS_LOADING'
+              },
+              () => {
+                setTimeout(() => {
+                  this.props.inputTrackerBloodPressure(value);
+                }, 1500);
+              }
+            );
           }
         }
         break;
@@ -393,29 +383,32 @@ class InputTracker extends Component {
             alert('Data yang Anda masukkan salah.');
           } else {
             this.setModalVisible('IS_LOADING');
-            this.setState({
-              modalVisible: true,
-              isModal: 'IS_LOADING',
-            }, () => {
-              if (hba1c.indexOf(',') !== -1) {
-                const manipulateDot = hba1c.replace(',', '.');
-                const value = {
-                  waktuInput: inputDate,
-                  hba1c: manipulateDot
-                };
-                setTimeout(() => {
-                  this.props.inputTrackerHba1c(value);
-                }, 1500);
-              } else {
-                const value = {
-                  waktuInput: inputDate,
-                  hba1c
-                };
-                setTimeout(() => {
-                  this.props.inputTrackerHba1c(value);
-                }, 1500);
+            this.setState(
+              {
+                modalVisible: true,
+                isModal: 'IS_LOADING'
+              },
+              () => {
+                if (hba1c.indexOf(',') !== -1) {
+                  const manipulateDot = hba1c.replace(',', '.');
+                  const value = {
+                    waktuInput: inputDate,
+                    hba1c: manipulateDot
+                  };
+                  setTimeout(() => {
+                    this.props.inputTrackerHba1c(value);
+                  }, 1500);
+                } else {
+                  const value = {
+                    waktuInput: inputDate,
+                    hba1c
+                  };
+                  setTimeout(() => {
+                    this.props.inputTrackerHba1c(value);
+                  }, 1500);
+                }
               }
-            });
+            );
           }
         }
         break;
@@ -430,14 +423,17 @@ class InputTracker extends Component {
         if (activitySelected === '') {
           alert('Silakan pilih jenis aktivitas Anda');
         } else {
-          this.setState({
-            modalVisible: true,
-            isModal: 'IS_LOADING',
-          }, () => {
-            setTimeout(() => {
-              this.props.inputTrackerActivity(value);
-            }, 1500);
-          });
+          this.setState(
+            {
+              modalVisible: true,
+              isModal: 'IS_LOADING'
+            },
+            () => {
+              setTimeout(() => {
+                this.props.inputTrackerActivity(value);
+              }, 1500);
+            }
+          );
         }
         break;
 
@@ -454,14 +450,17 @@ class InputTracker extends Component {
           if (!checkingWeight) {
             alert('Data yang Anda masukkan salah.');
           } else {
-            this.setState({
-              modalVisible: true,
-              isModal: 'IS_LOADING',
-            }, () => {
-              setTimeout(() => {
-                this.props.inputTrackerWeight(value);
-              }, 1500);
-            });
+            this.setState(
+              {
+                modalVisible: true,
+                isModal: 'IS_LOADING'
+              },
+              () => {
+                setTimeout(() => {
+                  this.props.inputTrackerWeight(value);
+                }, 1500);
+              }
+            );
           }
         }
         break;
@@ -470,63 +469,27 @@ class InputTracker extends Component {
     }
 
     if (casing === 'GULA_DARAH') {
-
     } else if (casing === 'TEKANAN_DARAH') {
-
     } else if (casing === 'HBA1C') {
-
     } else if (casing === 'ACTIVITY') {
-
     } else if (casing === 'WEIGHT') {
-
     }
   }
 
-  // renderButtonOpenDate() {
-  //   const { isTime, inputDate } = this.state;
-  //   // const displayDate = `${dateNow} at ${displayTime === '' ? '00:00' : displayTime}`;
-  //   const displayDate = `${inputDate.format('ddd DD/MM/YYYY')} at ${isTime.format('HH:mm')}`;
-  //   return (
-  //     <TouchableOpacity
-  //       style={{
-  //         flex: 1,
-  //         flexDirection: 'row',
-  //         justifyContent: 'center',
-  //         alignItems: 'center',
-  //         marginVertical: 10
-  //       }}
-  //       onPress={() => this.openDatePicker()}
-  //     >
-  //         <Image
-  //           resizeModa={'contain'}
-  //           style={{ width: 20, height: 20 }}
-  //           source={require('../../../../assets/icons/calendar.png')}
-  //         />
-  //         <Text style={{ fontSize: 20, fontFamily: 'OpenSans-Light', paddingLeft: 15, }}>
-  //         {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
-  //         { displayDate }
-  //         </Text>
-  //     </TouchableOpacity>
-  //   );
-  // }
-
   renderButtonOpenDate() {
-    const { isDate, isTime, time, hasSetTime, inputDate } = this.state;
-    // const dt = isDate === '' ? new Date() : isDate;
-    // const dateNow = dateFormateName(dt);
-    // const displayTime = `${time.hour}:${time.minute}`;
+    const { isTime, inputDate } = this.state;
     const displayDate = `${inputDate.format('ddd DD/MM/YYYY')} at ${isTime.format('HH:mm')}`;
 
     return (
       <View
         style={{
-          // flex: 1,
           marginVertical: 10,
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
           paddingHorizontal: 20
-        }}>
+        }}
+      >
         <Image
           resizeModa={'contain'}
           style={{ width: 20, height: 20 }}
@@ -534,17 +497,11 @@ class InputTracker extends Component {
         />
         <TouchableOpacity
           style={{
-            // flex: 1,
-            paddingHorizontal: 10,
-            // justifyContent: 'center',
-            // alignItems: 'flex-start',
+            paddingHorizontal: 10
           }}
           onPress={() => this.openDatePicker()}
         >
-            <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Light' }}>
-            {/* {this.state.isDate === '' || this.state.isTime === '' ? dateNow : displayDate} */}
-            { displayDate }
-            </Text>
+          <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Light' }}>{displayDate}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -569,55 +526,46 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 20,
-        backgroundColor: '#fff'
-      }}
-      >
-        { this.renderButtonOpenDate() }
-       <View
-        style={{
           flex: 1,
-          width: '70%',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingVertical: 20,
+          backgroundColor: '#fff'
+        }}
+      >
+        {this.renderButtonOpenDate()}
+        <View
+          style={{
+            flex: 1,
+            width: '70%',
+            justifyContent: 'center'
           }}
         >
-          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Gula darah</Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#878787',
+              fontFamily: 'OpenSans-Light',
+              marginBottom: -7
+            }}
+          >
+            Gula darah
+          </Text>
           <TextInput
             value={this.state.gulaDarah}
             keyboardType={'numeric'}
             placeholder="200 mg/dL"
-            onChangeText={(newValue) => {
+            onChangeText={newValue => {
               this.setState({
                 gulaDarah: newValue.replace('.', ',')
-              })
+              });
             }}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
         </View>
-        <ButtonSave
-          onSubmit={this.handleSave}
-          type="GULA_DARAH"
-          title="SIMPAN"
-        />
-        {/* <TouchableOpacity
-          style={{
-            flex: 0.5,
-            width: '50%',
-            alignItems: 'center',
-            backgroundColor: '#ef434e',
-            justifyContent: 'center',
-          }}
-          onPress={() => this.handleSave('GULA_DARAH')}
-        >
-            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-            SIMPAN
-            </Text>
-        </TouchableOpacity> */}
+        <ButtonSave onSubmit={this.handleSave} type="GULA_DARAH" title="SIMPAN" />
       </View>
     );
   }
@@ -626,27 +574,36 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 30,
-        backgroundColor: '#fff'
-      }}
+          flex: 1,
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingVertical: 30,
+          backgroundColor: '#fff'
+        }}
       >
         {this.renderButtonOpenDate()}
-       <View
-        style={{
-          flex: 1,
-          width: '70%',
-          justifyContent: 'center',
-        }}
-       >
-        <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Hba1c</Text>
+        <View
+          style={{
+            flex: 1,
+            width: '70%',
+            justifyContent: 'center'
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#878787',
+              fontFamily: 'OpenSans-Light',
+              marginBottom: -7
+            }}
+          >
+            Hba1c
+          </Text>
           <TextInput
             value={this.state.hba1c}
             keyboardType={'numeric'}
-            onChangeText={(hba1c) => {
+            onChangeText={hba1c => {
               if (hba1c.indexOf('.') !== -1) {
                 const manipulateDot = hba1c.replace('.', ',');
                 this.setState({
@@ -667,11 +624,7 @@ class InputTracker extends Component {
             underlineColorAndroid="#EF434F"
           />
         </View>
-        <ButtonSave
-          onSubmit={this.handleSave}
-          type="HBA1C"
-          title="SIMPAN"
-        />
+        <ButtonSave onSubmit={this.handleSave} type="HBA1C" title="SIMPAN" />
       </View>
     );
   }
@@ -680,27 +633,25 @@ class InputTracker extends Component {
     return (
       <Modal
         animationType="none"
-        transparent={true}
+        transparent
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          this.setModalVisible()
+          this.setModalVisible();
         }}
       >
         <TouchableHighlight
           onPress={() => {
-            this.setModalVisible()
+            this.setModalVisible();
           }}
-          style={styles.modalOverlay}>
+          style={styles.modalOverlay}
+        >
           <View />
         </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
-            style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
+            style={[styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
           >
-            {
-              this.contentInputhba1c()
-            }
+            {this.contentInputhba1c()}
           </View>
         </View>
       </Modal>
@@ -711,79 +662,54 @@ class InputTracker extends Component {
     return (
       <Modal
         animationType="none"
-        transparent={true}
+        transparent
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          this.setModalVisible()
+          this.setModalVisible();
         }}
       >
         <TouchableHighlight
           onPress={() => {
-            this.setModalVisible()
+            this.setModalVisible();
           }}
-          style={styles.modalOverlay}>
+          style={styles.modalOverlay}
+        >
           <View />
         </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
-            style={
-              [styles.modalContent,  { height: this.state.keyboardActive ? '60%' : '40%' }]}
+            style={[styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
           >
-            { this.contentGulaDarah() }
+            {this.contentGulaDarah()}
           </View>
         </View>
       </Modal>
     );
   }
 
-  // ModalMakanan() {
-  //   return (
-  //     <Modal
-  //       animationType="none"
-  //       transparent={true}
-  //       visible={this.state.modalVisible}
-  //     >
-  //       <TouchableHighlight onPress={() => this.setModalVisible()} style={styles.modalOverlay}>
-  //         <View
-  //           style={
-  //             [styles.modalContent, { height: '60%' }]}
-  //         >
-  //           { this.contentMakanan() }
-  //         </View>
-  //       </TouchableHighlight>
-  //     </Modal>
-  //   );
-  // }
-
-  // contentMakanan() {
-  //   return (
-
-  //   );
-  // }
-
   ModalTekananDarah() {
     return (
       <Modal
         animationType="none"
-        transparent={true}
+        transparent
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          this.setModalVisible()
+          this.setModalVisible();
         }}
       >
         <TouchableHighlight
           onPress={() => {
-            this.setModalVisible()
+            this.setModalVisible();
           }}
-          style={styles.modalOverlay}>
+          style={styles.modalOverlay}
+        >
           <View />
         </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
-            style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
+            style={[styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
-            { this.contentTekananDarah() }
+            {this.contentTekananDarah()}
           </View>
         </View>
       </Modal>
@@ -794,53 +720,67 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 20,
-        backgroundColor: '#fff'
-      }}
+          flex: 1,
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingVertical: 20,
+          backgroundColor: '#fff'
+        }}
       >
         {this.renderButtonOpenDate()}
-       <View
-        style={{
-          flex: 1,
-          width: '70%',
-          paddingTop: 10
-        }}
-       >
-          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Sistolic</Text>
+        <View
+          style={{
+            flex: 1,
+            width: '70%',
+            paddingTop: 10
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#878787',
+              fontFamily: 'OpenSans-Light',
+              marginBottom: -7
+            }}
+          >
+            Sistolic
+          </Text>
           <TextInput
             value={this.state.sistolic}
             keyboardType={'numeric'}
-            onChangeText={(sistolic) => this.setState({ sistolic })}
+            onChangeText={sistolic => this.setState({ sistolic })}
             placeholder="120 mm/Hg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
         </View>
         <View
-        style={{
-          flex: 1,
-          width: '70%',
+          style={{
+            flex: 1,
+            width: '70%'
           }}
         >
-          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Diastolic</Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#878787',
+              fontFamily: 'OpenSans-Light',
+              marginBottom: -7
+            }}
+          >
+            Diastolic
+          </Text>
           <TextInput
             value={this.state.distolic}
             keyboardType={'numeric'}
             placeholder="80 mm/Hg"
-            onChangeText={(distolic) => this.setState({ distolic })}
+            onChangeText={distolic => this.setState({ distolic })}
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
         </View>
-        <ButtonSave
-          onSubmit={this.handleSave}
-          type="TEKANAN_DARAH"
-          title="SIMPAN"
-        />
+        <ButtonSave onSubmit={this.handleSave} type="TEKANAN_DARAH" title="SIMPAN" />
       </View>
     );
   }
@@ -849,26 +789,25 @@ class InputTracker extends Component {
     return (
       <Modal
         animationType="none"
-        transparent={true}
+        transparent
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          this.setModalVisible()
+          this.setModalVisible();
         }}
       >
-        {/* this.setModalVisible() */}
         <TouchableHighlight
           onPress={() => {
-            this.setModalVisible()
+            this.setModalVisible();
           }}
-          style={styles.modalOverlay}>
+          style={styles.modalOverlay}
+        >
           <View />
         </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
-            style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
+            style={[styles.modalContent, { height: this.state.keyboardActive ? '70%' : '50%' }]}
           >
-            { this.contentAktivitas() }
+            {this.contentAktivitas()}
           </View>
         </View>
       </Modal>
@@ -879,50 +818,57 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 20,
-        backgroundColor: '#fff'
-      }}
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingVertical: 20,
+          backgroundColor: '#fff'
+        }}
       >
-        { this.renderButtonOpenDate() }
+        {this.renderButtonOpenDate()}
         <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15 }}>
-          <Text style={{ fontSize: 13, color: '#878787', fontFamily: 'OpenSans-Light', marginBottom: -7 }}>Jenis Aktivitas</Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: '#878787',
+              fontFamily: 'OpenSans-Light',
+              marginBottom: -7
+            }}
+          >
+            Jenis Aktivitas
+          </Text>
           <Picker
             mode="dialog"
             selectedValue={this.state.activitySelected}
             style={{ padding: 0, margin: 0, height: 50, width: 200, alignSelf: 'flex-start' }}
-            onValueChange={(itemValue) => this.setState({
-              activitySelected: itemValue
-            }, () => {
-              const desc = activityList.filter(item => item.type === this.state.activitySelected);
-              this.setState({
-                descActivity: this.state.activitySelected === '' ? '' : desc[0].description
-              });
-            })}
-          >
-              <Picker.Item label="Pilih Aktivitas" value="" />
-              <Picker.Item label="Ringan" value="ringan" />
-              <Picker.Item label="Sedang" value="sedang" />
-              <Picker.Item label="Berat" value="berat" />
-          </Picker>
-          <View style={ {borderBottomColor: '#EF434F', borderBottomWidth: 1, marginBottom: 15 }}/>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            {
-              this.state.activitySelected !== '' ?
-              this.renderDescAktivity()
-              :
-              null
+            onValueChange={itemValue =>
+              this.setState(
+                {
+                  activitySelected: itemValue
+                },
+                () => {
+                  const desc = activityList.filter(
+                    item => item.type === this.state.activitySelected
+                  );
+                  this.setState({
+                    descActivity: this.state.activitySelected === '' ? '' : desc[0].description
+                  });
+                }
+              )
             }
+          >
+            <Picker.Item label="Pilih Aktivitas" value="" />
+            <Picker.Item label="Ringan" value="ringan" />
+            <Picker.Item label="Sedang" value="sedang" />
+            <Picker.Item label="Berat" value="berat" />
+          </Picker>
+          <View style={{ borderBottomColor: '#EF434F', borderBottomWidth: 1, marginBottom: 15 }} />
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            {this.state.activitySelected !== '' ? this.renderDescAktivity() : null}
           </View>
         </View>
-        <ButtonSave
-          onSubmit={this.handleSave}
-          type="ACTIVITY"
-          title="SIMPAN"
-        />
+        <ButtonSave onSubmit={this.handleSave} type="ACTIVITY" title="SIMPAN" />
       </View>
     );
   }
@@ -940,15 +886,15 @@ class InputTracker extends Component {
     return (
       <Modal
         animationType="none"
-        transparent={true}
+        transparent
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          this.setModalVisible()
+          this.setModalVisible();
         }}
       >
         <TouchableHighlight
           onPress={() => {
-            this.setModalVisible()
+            this.setModalVisible();
           }}
           style={styles.modalOverlay}
         >
@@ -956,10 +902,9 @@ class InputTracker extends Component {
         </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
-            style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
+            style={[styles.modalContent, { height: this.state.keyboardActive ? '60%' : '40%' }]}
           >
-            { this.contentWeight() }
+            {this.contentWeight()}
           </View>
         </View>
       </Modal>
@@ -970,36 +915,32 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 20,
-        backgroundColor: '#fff'
-      }}
+          flex: 1,
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingVertical: 20,
+          backgroundColor: '#fff'
+        }}
       >
         {this.renderButtonOpenDate()}
-       <View
-        style={{
-          flex: 1,
-          width: '70%',
-          justifyContent: 'center'
-        }}
-       >
+        <View
+          style={{
+            flex: 1,
+            width: '70%',
+            justifyContent: 'center'
+          }}
+        >
           <TextInput
             value={this.state.beratBadan}
             keyboardType={'numeric'}
-            onChangeText={(beratBadan) => this.setState({ beratBadan })}
+            onChangeText={beratBadan => this.setState({ beratBadan })}
             placeholder="80 kg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#000"
           />
         </View>
-        <ButtonSave
-          onSubmit={this.handleSave}
-          type="WEIGHT"
-          title="SIMPAN"
-        />
+        <ButtonSave onSubmit={this.handleSave} type="WEIGHT" title="SIMPAN" />
       </View>
     );
   }
@@ -1008,25 +949,25 @@ class InputTracker extends Component {
     return (
       <Modal
         animationType="none"
-        transparent={true}
+        transparent
         visible={this.state.modalVisible}
         onRequestClose={() => {
-          this.setModalVisible()
+          this.setModalVisible();
         }}
       >
         <TouchableHighlight
           onPress={() => {
-            this.setModalVisible()
+            this.setModalVisible();
           }}
-          style={styles.modalOverlay}>
+          style={styles.modalOverlay}
+        >
           <View />
         </TouchableHighlight>
         <View style={styles.modalWrapper}>
           <View
-            style={
-              [styles.modalContent, { height: this.state.keyboardActive ? '40%' : '40%' }]}
+            style={[styles.modalContent, { height: this.state.keyboardActive ? '40%' : '40%' }]}
           >
-            { this.contentAlertGulaDarah() }
+            {this.contentAlertGulaDarah()}
           </View>
         </View>
       </Modal>
@@ -1037,51 +978,61 @@ class InputTracker extends Component {
     return (
       <View
         style={{
-        flex: 2,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 20,
-        backgroundColor: '#fff'
-      }}
+          flex: 2,
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          paddingHorizontal: 10,
+          paddingVertical: 20,
+          backgroundColor: '#fff'
+        }}
       >
-        {/* {this.renderButtonOpenDate()} */}
         <View
-        style={{
-          flex: 4,
-          justifyContent: 'center',
-          alignItems: 'center'
+          style={{
+            flex: 4,
+            justifyContent: 'center',
+            alignItems: 'center'
           }}
         >
-          <Text style={{ textAlign: 'center', fontSize: 14, fontFamily: 'Montserrat-SemiBold', color: '#000' }}>
-            APAKAH ANDA INGIN MEMASUKKAN DATA GULA DARAH SECARA
-            MANUAL ATAU MENGGUNAKAN DNURSE?
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 14,
+              fontFamily: 'Montserrat-SemiBold',
+              color: '#000'
+            }}
+          >
+            APAKAH ANDA INGIN MEMASUKKAN DATA GULA DARAH SECARA MANUAL ATAU MENGGUNAKAN DNURSE?
           </Text>
         </View>
-        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', marginHorizontal: 1, paddingVertical: 2 }}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            marginHorizontal: 1,
+            paddingVertical: 2
+          }}
+        >
           <TouchableOpacity
             style={{
               flex: 1,
               alignItems: 'center',
               backgroundColor: '#ef434e',
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}
             onPress={() => {
               this.setState({ isManually: false }, () => {
                 this.setModalVisible();
                 this.props.navigator.push({
-                  // screen: 'TemanDiabetes.StepOne',
                   screen: 'TemanDiabetes.DnurseResult',
                   navigatorStyle: { tabBarHidden: true, navBarHidden: true }
                 });
               });
             }}
           >
-              <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>
-              DNURSE
-              </Text>
+            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff' }}>DNURSE</Text>
           </TouchableOpacity>
-          <View style={{ width: 10 }}></View>
+          <View style={{ width: 10 }} />
           <TouchableOpacity
             style={{
               flex: 1,
@@ -1089,13 +1040,11 @@ class InputTracker extends Component {
               backgroundColor: '#fff',
               borderWidth: 1,
               borderColor: '#ef434e',
-              justifyContent: 'center',
+              justifyContent: 'center'
             }}
             onPress={() => this.setState({ isManually: true })}
           >
-              <Text style={{ fontFamily: 'Montserrat-Bold', color: '#ef434e' }}>
-                MANUAL
-              </Text>
+            <Text style={{ fontFamily: 'Montserrat-Bold', color: '#ef434e' }}>MANUAL</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -1104,17 +1053,14 @@ class InputTracker extends Component {
 
   ModalLoading() {
     return (
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={this.state.modalVisible}
-        onRequestClose={() => {
-          // alert('Modal has been closed.');
-        }}
-      >
+      <Modal animationType="none" transparent visible={this.state.modalVisible}>
         <TouchableHighlight style={styles.modalLoading}>
           <View
-            style={{ justifyContent: 'center', alignItems: 'center', height: this.state.keyboardActive ? '70%' : '50%' }}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: this.state.keyboardActive ? '70%' : '50%'
+            }}
           >
             <ActivityIndicator size="large" color="#ff1200" />
           </View>
@@ -1128,7 +1074,6 @@ class InputTracker extends Component {
       return this.ModalAlertInputGulaDarah();
     } else if (this.state.isModal === 'BLOOD_GLUCOSE' && this.state.isManually) {
       return this.ModalGlucose();
-      // return this.ModalLoading();
     } else if (this.state.isModal === 'IS_LOADING') {
       return this.ModalLoading();
     } else if (this.state.isModal === 'INPUT_HBA1C') {
@@ -1160,10 +1105,7 @@ class InputTracker extends Component {
         <ScrollView>
           {this.renderModalInput()}
           <Card containerStyle={styles.cardStyle}>
-            <MenuButton
-              toNavigate={this.toNavigate}
-              onModalInput={this.setModalVisible}
-            />
+            <MenuButton toNavigate={this.toNavigate} onModalInput={this.setModalVisible} />
           </Card>
         </ScrollView>
       </View>
@@ -1177,7 +1119,7 @@ const styles = {
     backgroundColor: color.solitude
   },
   cardStyle: {
-    height: Style.DEVICE_HEIGHT / 1.5,  //default height => 463.51
+    height: Style.DEVICE_HEIGHT / 1.5, //default height => 463.51
     borderRadius: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
@@ -1186,7 +1128,7 @@ const styles = {
     marginLeft: 8.8,
     marginRight: 8.8,
     marginTop: 19.44,
-    marginBottom: 22.59,
+    marginBottom: 19.44,
     paddingLeft: 29.2,
     paddingTop: 25.6,
     paddingBottom: 24.85,
@@ -1246,12 +1188,12 @@ const styles = {
   modalWrapper: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   modalContent: {
     backgroundColor: '#fff',
     opacity: 1,
-    width: '70%',
+    width: '70%'
   }
 };
 
@@ -1261,14 +1203,17 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  inputTrackerBloodGlucose: (params) => dispatch(inputTrackerBloodGlucose(params)),
-  inputTrackerHba1c: (params) => dispatch(inputTrackerHba1c(params)),
-  inputTrackerFood: (params) => dispatch(inputTrackerFood(params)),
-  inputTrackerBloodPressure: (params) => dispatch(inputTrackerBloodPressure(params)),
-  inputTrackerActivity: (params) => dispatch(inputTrackerActivity(params)),
-  inputTrackerWeight: (params) => dispatch(inputTrackerWeight(params)),
+  inputTrackerBloodGlucose: params => dispatch(inputTrackerBloodGlucose(params)),
+  inputTrackerHba1c: params => dispatch(inputTrackerHba1c(params)),
+  inputTrackerFood: params => dispatch(inputTrackerFood(params)),
+  inputTrackerBloodPressure: params => dispatch(inputTrackerBloodPressure(params)),
+  inputTrackerActivity: params => dispatch(inputTrackerActivity(params)),
+  inputTrackerWeight: params => dispatch(inputTrackerWeight(params)),
   inputTrackerManually: (method, params) => dispatch(inputTrackerManually(method, params)),
-  getFoodSuggetion: (keyword) => dispatch(getFoodSuggetion(keyword)),
+  getFoodSuggetion: keyword => dispatch(getFoodSuggetion(keyword))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputTracker);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InputTracker);

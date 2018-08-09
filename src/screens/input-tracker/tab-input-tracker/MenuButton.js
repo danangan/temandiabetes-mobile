@@ -7,11 +7,12 @@ import Food from './Food';
 import BloodPressure from './BloodPressure';
 import Activity from './Activity';
 import Weight from './Weight';
+import Style from '../../../style/defaultStyle';
 
 class MenuButton extends React.Component {
   render() {
     return (
-      <View>
+      <View style={{ height: Style.DEVICE_HEIGHT / 1.69 }}>
         <BloodGlucose onModalInput={this.props.onModalInput} />
         <Hba1c onModalInput={this.props.onModalInput} />
         <Food toNavigate={this.props.toNavigate} />
