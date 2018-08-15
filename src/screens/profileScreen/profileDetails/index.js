@@ -148,7 +148,7 @@ class ProfileDetails extends React.Component {
       'no_telp',
       'jenis_kelamin',
       'foto_profile',
-      'jenis_diabetes'
+      'diabetesi_tipe'
     ];
 
     arrayOfProps.forEach(item => {
