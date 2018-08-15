@@ -221,9 +221,22 @@ class ModalPostThred extends Component {
               underlineColorAndroid={'#fff'}
               multiline
               style={styles.contentInput}
+              maxLength={200}
               placeholder={'Optional: masukkan link yang dapat mendukung konteks'}
               onChangeText={(description) => this.setState({ description })}
             />
+            <Text 
+              style={{ 
+                position: 'absolute', 
+                right: 10, 
+                bottom: 0, 
+                fontSize: 12,
+                border: '1px solid #ccc',
+                fontFamily: 'Montserrat-ExtraLight', 
+              }}
+            >
+                { this.state.description.length }/200 karakter
+              </Text>
           </View>
           {
             errors.description &&
