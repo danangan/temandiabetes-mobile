@@ -16,9 +16,10 @@ import { Button } from '../../../components';
 import Style from '../../../style/defaultStyle';
 import { API_CALL } from '../../../utils/ajaxRequestHelper';
 import gif from '../../../assets/images/dnurse-start.gif';
-import red from '../../../assets/images/red.png';
-import green from '../../../assets/images/green.png';
-import yellow from '../../../assets/images/yellow.png';
+import red from '../../../assets/images/dnurse_result_red.png';
+import pink from '../../../assets/images/dnurse_result_pink.png';
+import green from '../../../assets/images/dnurse_result_green.png';
+import yellow from '../../../assets/images/dnurse_result_yellow.png';
 import placeholder from '../../../assets/images/result_dnurse.png';
 
 const dNurse = NativeModules.DnurseModule;
@@ -160,16 +161,20 @@ class DnurseResult extends React.Component {
   sourceImage = () => {
     const { bloodSugarLevels } = this.state;
 
-    if (bloodSugarLevels === null) {
-      return gif;
-    } else if (bloodSugarLevels === 0 || bloodSugarLevels <= 69 || bloodSugarLevels > 200) {
-      return red;
-    } else if (bloodSugarLevels >= 70 || bloodSugarLevels <= 139) {
-      return green;
-    } else if (bloodSugarLevels >= 140 || bloodSugarLevels <= 199) {
-      return yellow;
+    switch (true) {
+      case bloodSugarLevels === null:
+        return gif;
+      case bloodSugarLevels <= 69:
+        return pink;
+      case bloodSugarLevels > 69 && bloodSugarLevels <= 139:
+        return green;
+      case bloodSugarLevels > 139 && bloodSugarLevels <= 199:
+        return yellow;
+      case bloodSugarLevels > 199:
+        return red;
+      default:
+        return placeholder;
     }
-    return placeholder;
   };
 
   switchView = () => {
