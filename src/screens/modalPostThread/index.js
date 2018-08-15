@@ -151,7 +151,8 @@ class ModalPostThred extends Component {
     const { errors } = this.state;
     if (this.state.isSubmit) {
       return (
-				<View style={{
+        <View 
+        style={{
           flex: 1,
           backgroundColor: '#f3f5fe',
           paddingHorizontal: 10,
@@ -167,16 +168,17 @@ class ModalPostThred extends Component {
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
             <TouchableOpacity
+              style={{ marginVertical: 5, marginHorizontal: 10 }}
               onPress={() => {this.props.navigator.pop()}}
             >
-                <Image
-                  source={Closed}
-                  style={{ width: 15, height: 15 }}
-                />
-              </TouchableOpacity>
-              <View style={{ flex: 1, justifyContent: 'flex-end', marginRight: 15 }}>
-                <Text style={styles.titleForm}>Tanyakan atau bagikan sesuatu</Text>
-              </View>
+              <Image
+                source={Closed}
+                style={{ width: 15, height: 15 }}
+              />
+            </TouchableOpacity>
+            <View style={{ flex: 1, justifyContent: 'flex-end', marginRight: 15 }}>
+              <Text style={styles.titleForm}>Tanyakan atau bagikan sesuatu</Text>
+            </View>
           </View>
           <View style={styles.titleInputWrapper}>
             <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
@@ -191,9 +193,24 @@ class ModalPostThred extends Component {
               multiline
               underlineColorAndroid={'#fff'}
               style={styles.titleInput}
+              maxLength={60}
               placeholder="Judul Threads"
-              onChangeText={(topic) => this.setState({ topic })}
+              onChangeText={(topic) => {
+                this.state.topic.length === 60 ? null : this.setState({ topic })
+              }}
             />
+            <Text 
+              style={{ 
+                position: 'absolute', 
+                right: 10, 
+                bottom: 0, 
+                fontSize: 12,
+                border: '1px solid #ccc',
+                fontFamily: 'Montserrat-ExtraLight', 
+              }}
+            >
+                { this.state.topic.length }/60 karakter
+              </Text>
           </View>
           {
             errors.topic &&
@@ -212,13 +229,14 @@ class ModalPostThred extends Component {
             errors.description &&
             <Text style={styles.errorText}>Konten thread tidak boleh kosong</Text>
           }
-          <View style={{
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            borderTopWidth: 1,
-            borderTopColor: '#f2f3f7',
+          <View 
+            style={{
+              flexDirection: 'row',
+              paddingHorizontal: 10,
+              alignItems: 'center',
+              justifyContent: 'flex-end',
+              borderTopWidth: 1,
+              borderTopColor: '#f2f3f7'
           }}>
             <Picker
             style={{
@@ -283,9 +301,11 @@ const styles = {
     flex: 1,
     backgroundColor: '#fff',
     width: '100%',
-    paddingHorizontal: 5,
+    // paddingHorizontal: 5,
     borderRadius: 10,
-    alignItems: 'center'
+    alignItems: 'center',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
   },
   wrapNav: {
     flex: 0.6,
@@ -294,11 +314,12 @@ const styles = {
     alignItems: 'center',
     position: 'absolute',
     paddingVertical: 10,
-    paddingHorizontal: 10,
     borderBottomWidth: 1,
-    top: 0,
+    top: -8,
     borderBottomColor: '#000',
-    backgroundColor: '#fff'
+    backgroundColor: '#f0f0f0',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
   },
   titleForm: {
     textAlign: 'center',
@@ -307,7 +328,7 @@ const styles = {
     fontSize: 13
   },
   contentInputWrapper: {
-    flex: 1.5,
+    flex: 2,
     marginVertical: 10,
     width: '100%',
     backgroundColor: '#fff',
@@ -315,33 +336,34 @@ const styles = {
     borderTopColor: '#f2f3f7'
   },
   titleInputWrapper: {
-    flex: 1,
-    marginTop: 40,
+    flex: 0.6,
+    marginTop: 30,
     width: '100%',
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#f2f3f7',
-    paddingTop: 5
+    paddingVertical: 15
+    
   },
   titleInput: {
     flexWrap: 'wrap',
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
-    color: '#4a4a4a',
     fontSize: 14,
+    color: '#c9cfdb'
   },
   contentInput: {
     flexWrap: 'wrap',
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
-    color: '#4a4a4a',
-    fontSize: 12,
+    color: '#b0b5cb',
+    fontSize: 12
   },
   errorText: {
     color: 'red',
     fontSize: 12,
     marginBottom: 5,
-    marginHorizontal: 5,
+    marginHorizontal: 5
   }
 };
 
