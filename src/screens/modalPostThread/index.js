@@ -190,13 +190,19 @@ class ModalPostThred extends Component {
               <Text>{ currentUser.nama }</Text>
             </View>
             <TextInput
+              focus
+              autoFocus
+              ref="TextInput"
               multiline
               underlineColorAndroid={'#fff'}
               style={styles.titleInput}
-              maxLength={60}
+              // maxLength={60}
               placeholder="Judul Threads"
+              // onChangeText={(topic) => {
+              //   this.state.topic.length === 60 ? null : this.setState({ topic })
+              // }}
               onChangeText={(topic) => {
-                this.state.topic.length === 60 ? null : this.setState({ topic })
+                this.setState({ topic });
               }}
             />
             <Text 
@@ -221,8 +227,8 @@ class ModalPostThred extends Component {
               underlineColorAndroid={'#fff'}
               multiline
               style={styles.contentInput}
-              maxLength={200}
-              placeholder={'Optional: masukkan link yang dapat mendukung konteks'}
+              // maxLength={200}
+              placeholder={'Deskripsikan thread Anda'}
               onChangeText={(description) => this.setState({ description })}
             />
             <Text 
