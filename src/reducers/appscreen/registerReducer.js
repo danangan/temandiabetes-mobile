@@ -126,7 +126,9 @@ const registerReducer = (state = initialState, action) => {
           tipe_user: '',
           message: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
+          sip: '',
+          status_code: 0
         }
       };
     }

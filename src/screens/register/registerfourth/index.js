@@ -60,7 +60,6 @@ class RegisterScreenFourth extends React.Component {
               messagingRegistrationToken: this.props.fcmToken
             }
           };
-          // this.props.updateFCMToken(params);
         }
       );
     }
@@ -117,7 +116,6 @@ class RegisterScreenFourth extends React.Component {
             { cancelable: false }
           );
         }
-        // alert('Jalan...');
       });
     }
   }
@@ -161,7 +159,6 @@ class RegisterScreenFourth extends React.Component {
       password,
       tipeuser: this.state.selected
     };
-    // this.props.registerAction(dataUser);
     this.setState(
       {
         shouldRedirect: selected !== 'ahli'
@@ -281,25 +278,24 @@ class RegisterScreenFourth extends React.Component {
     return (
       <View style={[styles.container, { paddingBottom: 0 }]}>
         <ImageBackground style={styles.imageBackground} source={Images.backgroundTypeUser}>
-        {
-          this.props.registerType !== 'GoogleSignIn' &&
-          <TouchableOpacity
-            style={{
-              flex: 0,
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
-              alignSelf: 'flex-start',
-              marginTop: this.state.keyboardActive ? 10 : 0
-            }}
-            onPress={() => this.props.navigator.pop()}
-          >
-            <Image
-              resizeMode={'contain'}
-              style={{ width: 30, height: 30, margin: 10 }}
-              source={Images.backIcon}
-            />
-          </TouchableOpacity>
-        }
+          {this.props.registerType !== 'GoogleSignIn' && (
+            <TouchableOpacity
+              style={{
+                flex: 0,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-start',
+                alignSelf: 'flex-start',
+                marginTop: this.state.keyboardActive ? 10 : 0
+              }}
+              onPress={() => this.props.navigator.pop()}
+            >
+              <Image
+                resizeMode={'contain'}
+                style={{ width: 30, height: 30, margin: 10 }}
+                source={Images.backIcon}
+              />
+            </TouchableOpacity>
+          )}
           <View style={styles.wrapTitle}>
             <Text style={styles.titles}>Siapakah Anda?</Text>
           </View>
