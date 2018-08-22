@@ -174,23 +174,34 @@ class ProfileDetails extends React.Component {
         <Indicator persentase={{ width: this.state.completePercentase }} />
       </View>
       <View style={styles.indicatorDetailStyle}>
-        <Text style={styles.textStyle}>
-          Profil Anda baru komplit {this.state.completePercentase},
-        </Text>
-        <Text
-          onPress={() => {
-            this.props.navigator.push({
-              screen: 'TemanDiabetes.EditProfile',
-              navigatorStyle: {
-                navBarHidden: true
-              }
-            });
-          }}
-          style={[styles.textStyle, { color: '#4644f0' }]}
-        >
-          {' '}
-          Mohon lengkapi profil Anda sekarang!
-        </Text>
+        {
+          this.state.completePercentase === '100%' &&
+          <Text style={styles.textStyle}>
+            Profile Anda sudah komplit!
+          </Text>
+        }
+        {
+          this.state.completePercentase !== '100%' &&
+          <Text>
+            <Text style={styles.textStyle}>
+              Profil Anda baru komplit {this.state.completePercentase},
+            </Text>
+            <Text
+              onPress={() => {
+                this.props.navigator.push({
+                  screen: 'TemanDiabetes.EditProfile',
+                  navigatorStyle: {
+                    navBarHidden: true
+                  }
+                });
+              }}
+              style={[styles.textStyle, { color: '#4644f0' }]}
+            >
+              {' '}
+              Mohon lengkapi profil Anda sekarang!
+            </Text>
+          </Text>
+        }
       </View>
     </View>
   );

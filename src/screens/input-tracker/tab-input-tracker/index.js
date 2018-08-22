@@ -1130,8 +1130,8 @@ const styles = {
     marginTop: 19.44,
     marginBottom: 19.44,
     paddingLeft: 29.2,
-    paddingTop: 25.6,
-    paddingBottom: 24.85,
+    paddingTop: 15,
+    paddingBottom: 10,
     ...Platform.select({
       ios: {
         shadowColor: 'rgba(0,0,0, .2)',

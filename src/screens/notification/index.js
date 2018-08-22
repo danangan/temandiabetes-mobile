@@ -172,6 +172,9 @@ class Notification extends React.Component {
       case 'sender_innercircle':
         screen = 'TemanDiabetes.InnerCircleList';
         break;
+      case 'drug_reminder':
+        screen = 'TemanDiabetes.DrugReminder'
+        break;
       default:
         break;
     }

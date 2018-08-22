@@ -12,7 +12,7 @@ import Style from '../../../style/defaultStyle';
 class MenuButton extends React.Component {
   render() {
     return (
-      <View style={{ height: Style.DEVICE_HEIGHT / 1.69 }}>
+      <View style={{ flex: 1, justifyContent: 'space-around' }}>
         <BloodGlucose onModalInput={this.props.onModalInput} />
         <Hba1c onModalInput={this.props.onModalInput} />
         <Food toNavigate={this.props.toNavigate} />
