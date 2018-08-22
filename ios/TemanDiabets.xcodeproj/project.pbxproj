@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -12,28 +13,29 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* TemanDiabetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TemanDiabetsTests.m */; };
+		01E216B010D542E6993E07B9 /* Arista-Pro-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47AF7B03BC154EE29A38B612 /* Arista-Pro-Hairline-trial.ttf */; };
+		037F29E6B92F42D8924B4B6F /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 130F1423ECB640588275F0F4 /* OpenSans-Bold.ttf */; };
 		05A5D838DEC04F3694DDF368 /* Montserrat-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 5E1782085D424B95A98D1BCF /* Montserrat-Light.otf */; };
 		060B0D28204AC9F60007560E /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 063386AB204A56BE00AE9BA2 /* libRNFirebase.a */; };
-		060B0D29204ACA050007560E /* libPods-TemanDiabetsTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 060B0D2A204ACA050007560E /* libPods-TemanDiabetsTests.a */; };
 		060B0D2B204ACA2C0007560E /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06133EC52037765400147635 /* libReactNativeConfig.a */; };
-		062E28BA2039A964009BD1CD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 062E28B92039A963009BD1CD /* GoogleService-Info.plist */; };
-		0645FF9E2039AF290057D8F0 /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 062E28B82039A943009BD1CD /* libRNGoogleSignin.a */; };
-		068240E42039B74E00F59CEE /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 068240DF2039B74B00F59CEE /* GoogleSignInDependencies.framework */; };
-		068240E52039B74E00F59CEE /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 068240E02039B74C00F59CEE /* GoogleSignIn.bundle */; };
-		068240E62039B74E00F59CEE /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 068240E12039B74C00F59CEE /* GoogleSymbolUtilities.framework */; };
-		068240E72039B74E00F59CEE /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 068240E22039B74D00F59CEE /* GoogleSignIn.framework */; };
-		068240E82039B74E00F59CEE /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 068240E32039B74D00F59CEE /* GoogleAppUtilities.framework */; };
 		06A10269202C2E0700FFECEC /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06A10268202C2DA100FFECEC /* libReactNativeNavigation.a */; };
+		098E75DC54664F7491F04056 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4DF948DA8B504B918171415D /* OpenSans-LightItalic.ttf */; };
+		0D53DEF32C8F4E318C7539C7 /* Arista-Pro-Icons-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B92F6FDE6B6457CB6F13653 /* Arista-Pro-Icons-Regular-trial.ttf */; };
+		10A5E3BB551F482D8A9D761F /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC99135DF6914E5EBCA3DD25 /* AddressBook.framework */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		145D72649E254F469EC896A2 /* Arista-Pro-Icons-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 427EA3DEE2E0435AA302636B /* Arista-Pro-Icons-Hairline-trial.ttf */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		1B72A0D93144425283BAAEDB /* Arista-Pro-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1C1CEC34F46453989E78B1E /* Arista-Pro-Light-trial.ttf */; };
 		1E56D74347124FCCA8E22DEB /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 74C2EE2A4F3647B5BFAA5F1D /* Montserrat-Regular.otf */; };
+		1E9A531F49464DD889C93910 /* Arista-Pro-Alternate-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDFC3A68C8F44339B7739426 /* Arista-Pro-Alternate-ExtraLight-trial.ttf */; };
+		233E13FC4C83470C896D4336 /* Arista-Pro-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EE4FB506BF64637BA373616 /* Arista-Pro-Regular-trial.ttf */; };
+		2351D511EB524024A456D041 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B00906843374288A1329108 /* OpenSans-Regular.ttf */; };
 		256AC2551A8E426698116643 /* MontserratAlternates-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = A733DC5E6F9244F38DE6CC0E /* MontserratAlternates-Thin.otf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -45,65 +47,71 @@
 		2D02E4C61E0B4AEC006451C7 /* libRCTSettings-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E901DF850E9000B6D8A /* libRCTSettings-tvOS.a */; };
 		2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E941DF850E9000B6D8A /* libRCTText-tvOS.a */; };
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
-		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2D6B82953F81445990A193DF /* MontserratAlternates-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 38A625BFCD1347129EBB51D8 /* MontserratAlternates-ExtraBold.otf */; };
 		2DCD954D1E0B4F2C00145EB5 /* TemanDiabetsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* TemanDiabetsTests.m */; };
-		476CF35F0E39420C88ACB4CD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB562186A91D4DD9B413514A /* SystemConfiguration.framework */; };
+		33D6AB3959614CDA90F11927 /* Arista-Pro-Icons-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF3C39E934AB40CEBEDE8528 /* Arista-Pro-Icons-Thin-trial.ttf */; };
+		39B6FC01E30C4659B86A676C /* Arista-Pro-Alternate-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEFFE85256984675B1642F15 /* Arista-Pro-Alternate-Thin-trial.ttf */; };
 		4AE47D82E05241CCA965A20E /* MontserratAlternates-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 2F28A1FB8C2B4EE7B4D91ADC /* MontserratAlternates-Black.otf */; };
-		51E727F0A0B245DCBFF81E7F /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAAB97CE77D4F9B8BA7B0C0 /* AddressBook.framework */; };
-		5791453749C8433D8B1FE3FD /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B4817BBED354F2AB3107AC8 /* libz.tbd */; };
+		4D4FA8A01F9B4E2EA4676FEA /* libRNGoogleSignin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5580F01E99A44E8B55CA911 /* libRNGoogleSignin.a */; };
+		4EA2608DDE9445E5ABD3FED2 /* Arista-Pro-Icons-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BA88342725648EC956A2166 /* Arista-Pro-Icons-Light-trial.ttf */; };
+		53FE3FB3A99444AF954AAFA1 /* Arista-Pro-Icons-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C218B928634442838DBF7688 /* Arista-Pro-Icons-SemiBold-trial.ttf */; };
+		5735581D48C24672A7DA2AB9 /* Arista-Pro-Fat-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CF013A46FDD4D7DBDD9CFEF /* Arista-Pro-Fat-trial.ttf */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
-		60ED06C9FEE3F0DF3EDA8E8A /* libPods-TemanDiabets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C2C6D8B9F047895F04FF2FAA /* libPods-TemanDiabets.a */; };
+		63CB29F0E94B4F28AD88A1D0 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64BF8BAA5F21487BB93BB970 /* OpenSans-SemiboldItalic.ttf */; };
+		65AD77FEAD9D4AD581104363 /* Arista-Pro-Alternate-Bold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04CCC8199FE14066B9924E94 /* Arista-Pro-Alternate-Bold-trial.ttf */; };
+		6AF48F30BD2143429FF32749 /* Arista-Pro-Alternate-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF55C58EEDF74B799D38424A /* Arista-Pro-Alternate-Regular-trial.ttf */; };
+		723460023BDF40F99A8574A5 /* Arista-Pro-Bold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF37DE6D1E524109B3F8566E /* Arista-Pro-Bold-trial.ttf */; };
 		7A78B36F59034F06BA40309E /* Montserrat-ExtraBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = EA425EAFDE784D0DB2A1D02B /* Montserrat-ExtraBold.otf */; };
 		7BF5D5B3C6EE4C09B1675922 /* Montserrat-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6654B1C9A93440AC9764050B /* Montserrat-Bold.otf */; };
 		7FF3BEEDE4374E7197370AEC /* MontserratAlternates-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 44518EDC3C2845D0A93C27DD /* MontserratAlternates-ExtraLight.otf */; };
+		82FCD29CC99F4B63B35CDAD9 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70CB0C4C41144EFDBB868261 /* SafariServices.framework */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		871E3B0F5AE8482EB120FF0C /* Arista-Pro-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F7C1F3252A34CEABC786813 /* Arista-Pro-ExtraLight-trial.ttf */; };
+		8C4BD2A2821944C79F7D5244 /* Arista-Pro-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADE1476A53EB460EA10B0100 /* Arista-Pro-SemiBold-trial.ttf */; };
 		9AA3882F4AE8412F93A10A84 /* MontserratAlternates-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 638346BA2BC34DEABE995DD3 /* MontserratAlternates-Medium.otf */; };
+		9B07E60221220B1800C7B01A /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B07E60121220AC300C7B01A /* libRNShare.a */; };
+		9B07E60D21220F9600C7B01A /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B07E60C21220F6900C7B01A /* libRNImagePicker.a */; };
+		9B7F722121237BAC00FD6867 /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F721C21237BAC00FD6867 /* GoogleSymbolUtilities.framework */; };
+		9B7F722221237BAC00FD6867 /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9B7F721D21237BAC00FD6867 /* GoogleSignIn.bundle */; };
+		9B7F722321237BAC00FD6867 /* GoogleSignInDependencies.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F721E21237BAC00FD6867 /* GoogleSignInDependencies.framework */; };
+		9B7F722421237BAC00FD6867 /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F721F21237BAC00FD6867 /* GoogleSignIn.framework */; };
+		9B7F722521237BAC00FD6867 /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B7F722021237BAC00FD6867 /* GoogleAppUtilities.framework */; };
+		9BC56B7D21233ABC00813F37 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC56B4D21233ABC00813F37 /* FBSDKCoreKit.framework */; };
+		9BC56B7E21233ABC00813F37 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC56B7A21233ABC00813F37 /* FBSDKShareKit.framework */; };
+		9BC56B7F21233ABC00813F37 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC56B7B21233ABC00813F37 /* Bolts.framework */; };
+		9BC56B8021233ABC00813F37 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC56B7C21233ABC00813F37 /* FBSDKLoginKit.framework */; };
+		9BC56C4E2123447000813F37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9BC56C4D2123447000813F37 /* GoogleService-Info.plist */; };
+		9BC56C572123466E00813F37 /* libRNFIRMessaging.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BC56C542123464000813F37 /* libRNFIRMessaging.a */; };
+		9BCE83032123728E00741417 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BCE83022123728E00741417 /* libc++.tbd */; };
+		9BDA6F8C21231F0D004CFB99 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BD31D89211DAAC700EA728F /* libRCTFBSDK.a */; };
+		9BE82EEE2124CD6A0027CCCB /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE82EEC2124CD6A0027CCCB /* Fabric.framework */; };
+		9BE82EEF2124CD6A0027CCCB /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BE82EED2124CD6A0027CCCB /* Crashlytics.framework */; };
+		A578472CCF1841EBAEA1660F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DAB5204FC6443098384F478 /* SystemConfiguration.framework */; };
+		A83A552658F44997976147CA /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17A7F64F4F634D28B3BAC2C3 /* OpenSans-ExtraBold.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
+		B18B10FCE718442F9B1D6DB0 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D834C98219324C0184249224 /* OpenSans-ExtraBoldItalic.ttf */; };
 		B4696E715551475794DC0BF9 /* Montserrat-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 02DF43F987A745EFBC7DF5AA /* Montserrat-Medium.otf */; };
+		B5FBEE03A8174FCDB1BB60D2 /* Arista-Pro-Alternate-Fat-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FBC76367B164067A013DBD1 /* Arista-Pro-Alternate-Fat-trial.ttf */; };
+		BCA897B5EC854C6B99AA7255 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09E3BA3CBA714D45A02882DA /* OpenSans-Italic.ttf */; };
 		C0ECA6480E7A492C9B8C4405 /* MontserratAlternates-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 526C472F85454F0FAD2800A4 /* MontserratAlternates-Bold.otf */; };
+		C2704BADE79448F799BBCACA /* Arista-Pro-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A98634C2BFA84A4DBD6D37D6 /* Arista-Pro-Thin-trial.ttf */; };
+		C278DA586092491CACDA345B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C659A01B1704D399AB9E32C /* OpenSans-Light.ttf */; };
+		CBB35CA0935988F469464D57 /* libPods-TemanDiabets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9111A1BFE6DACE8D6AC36D0D /* libPods-TemanDiabets.a */; };
 		CEB422BAC0FB47FB81BDCAF5 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C6F6DE7C3ECF4092AE48C237 /* Montserrat-SemiBold.otf */; };
+		D06BC5E661E74FB9931BA599 /* Arista-Pro-Alternate-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5921F9FACF12496294738C2E /* Arista-Pro-Alternate-Light-trial.ttf */; };
+		D5948772F72D44489BF39595 /* Arista-Pro-Icons-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 835FEFC24BEE4874B06CB594 /* Arista-Pro-Icons-ExtraLight-trial.ttf */; };
 		D642E7055F1D44EB8473B27E /* MontserratAlternates-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 98553CC3D6124064B23F6AC4 /* MontserratAlternates-SemiBold.otf */; };
+		D7F57DA666D74492859C1417 /* Arista-Pro-Alternate-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4946FB3A87604A34A3C0CED8 /* Arista-Pro-Alternate-SemiBold-trial.ttf */; };
 		D8B7EFD775BB411FB8C5B444 /* MontserratAlternates-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9C498ED196AA404693274C80 /* MontserratAlternates-Light.otf */; };
+		D9DD501110D3494CB44B013A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 03D776F7CA414306982B54A6 /* libz.tbd */; };
+		DBFA89AB7A9B4E2C87F42FE5 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F10D9DFB09A4432B60DBD04 /* OpenSans-Semibold.ttf */; };
+		E2050104F93948A18E102DAC /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC150AE2BA4545A5BD6BDA93 /* OpenSans-BoldItalic.ttf */; };
 		E27DDEE63D744B6BA51F37BB /* Montserrat-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AFE2534FA2914B5D8D1DDB99 /* Montserrat-Black.otf */; };
 		EC29049C1C8748EE94B3204A /* Montserrat-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9F78FAD1588E483C843D562E /* Montserrat-Thin.otf */; };
-		F09EE970EA884DD6AF9C69B9 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1568666E9F9747B5BBC2F776 /* SafariServices.framework */; };
+		EFEDFBAACA354687A532B632 /* Arista-Pro-Alternate-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AAF346EC9FC4EBABC926776 /* Arista-Pro-Alternate-Hairline-trial.ttf */; };
 		F883C34299DB45C0B9AA3133 /* MontserratAlternates-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 86EA25CB7D2744CFB1A99246 /* MontserratAlternates-Regular.otf */; };
 		FA3BE64DAF3B4FEF84BA291F /* Montserrat-ExtraLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = 189FFC1EE1594C82B73F15BA /* Montserrat-ExtraLight.otf */; };
-		65AD77FEAD9D4AD581104363 /* Arista-Pro-Alternate-Bold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04CCC8199FE14066B9924E94 /* Arista-Pro-Alternate-Bold-trial.ttf */; };
-		1E9A531F49464DD889C93910 /* Arista-Pro-Alternate-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CDFC3A68C8F44339B7739426 /* Arista-Pro-Alternate-ExtraLight-trial.ttf */; };
-		B5FBEE03A8174FCDB1BB60D2 /* Arista-Pro-Alternate-Fat-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0FBC76367B164067A013DBD1 /* Arista-Pro-Alternate-Fat-trial.ttf */; };
-		EFEDFBAACA354687A532B632 /* Arista-Pro-Alternate-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5AAF346EC9FC4EBABC926776 /* Arista-Pro-Alternate-Hairline-trial.ttf */; };
-		D06BC5E661E74FB9931BA599 /* Arista-Pro-Alternate-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5921F9FACF12496294738C2E /* Arista-Pro-Alternate-Light-trial.ttf */; };
-		6AF48F30BD2143429FF32749 /* Arista-Pro-Alternate-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF55C58EEDF74B799D38424A /* Arista-Pro-Alternate-Regular-trial.ttf */; };
-		D7F57DA666D74492859C1417 /* Arista-Pro-Alternate-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4946FB3A87604A34A3C0CED8 /* Arista-Pro-Alternate-SemiBold-trial.ttf */; };
-		39B6FC01E30C4659B86A676C /* Arista-Pro-Alternate-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AEFFE85256984675B1642F15 /* Arista-Pro-Alternate-Thin-trial.ttf */; };
-		723460023BDF40F99A8574A5 /* Arista-Pro-Bold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF37DE6D1E524109B3F8566E /* Arista-Pro-Bold-trial.ttf */; };
-		871E3B0F5AE8482EB120FF0C /* Arista-Pro-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4F7C1F3252A34CEABC786813 /* Arista-Pro-ExtraLight-trial.ttf */; };
-		5735581D48C24672A7DA2AB9 /* Arista-Pro-Fat-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0CF013A46FDD4D7DBDD9CFEF /* Arista-Pro-Fat-trial.ttf */; };
-		01E216B010D542E6993E07B9 /* Arista-Pro-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 47AF7B03BC154EE29A38B612 /* Arista-Pro-Hairline-trial.ttf */; };
 		FE3FD7C8AB334BFEAA4552A9 /* Arista-Pro-Icons-Bold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 33A28C00D7A9472A8D2A5D9F /* Arista-Pro-Icons-Bold-trial.ttf */; };
-		D5948772F72D44489BF39595 /* Arista-Pro-Icons-ExtraLight-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 835FEFC24BEE4874B06CB594 /* Arista-Pro-Icons-ExtraLight-trial.ttf */; };
-		145D72649E254F469EC896A2 /* Arista-Pro-Icons-Hairline-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 427EA3DEE2E0435AA302636B /* Arista-Pro-Icons-Hairline-trial.ttf */; };
-		4EA2608DDE9445E5ABD3FED2 /* Arista-Pro-Icons-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BA88342725648EC956A2166 /* Arista-Pro-Icons-Light-trial.ttf */; };
-		0D53DEF32C8F4E318C7539C7 /* Arista-Pro-Icons-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B92F6FDE6B6457CB6F13653 /* Arista-Pro-Icons-Regular-trial.ttf */; };
-		53FE3FB3A99444AF954AAFA1 /* Arista-Pro-Icons-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C218B928634442838DBF7688 /* Arista-Pro-Icons-SemiBold-trial.ttf */; };
-		33D6AB3959614CDA90F11927 /* Arista-Pro-Icons-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF3C39E934AB40CEBEDE8528 /* Arista-Pro-Icons-Thin-trial.ttf */; };
-		1B72A0D93144425283BAAEDB /* Arista-Pro-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1C1CEC34F46453989E78B1E /* Arista-Pro-Light-trial.ttf */; };
-		233E13FC4C83470C896D4336 /* Arista-Pro-Regular-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EE4FB506BF64637BA373616 /* Arista-Pro-Regular-trial.ttf */; };
-		8C4BD2A2821944C79F7D5244 /* Arista-Pro-SemiBold-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADE1476A53EB460EA10B0100 /* Arista-Pro-SemiBold-trial.ttf */; };
-		C2704BADE79448F799BBCACA /* Arista-Pro-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A98634C2BFA84A4DBD6D37D6 /* Arista-Pro-Thin-trial.ttf */; };
-		037F29E6B92F42D8924B4B6F /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 130F1423ECB640588275F0F4 /* OpenSans-Bold.ttf */; };
-		E2050104F93948A18E102DAC /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AC150AE2BA4545A5BD6BDA93 /* OpenSans-BoldItalic.ttf */; };
-		A83A552658F44997976147CA /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17A7F64F4F634D28B3BAC2C3 /* OpenSans-ExtraBold.ttf */; };
-		B18B10FCE718442F9B1D6DB0 /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D834C98219324C0184249224 /* OpenSans-ExtraBoldItalic.ttf */; };
-		BCA897B5EC854C6B99AA7255 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09E3BA3CBA714D45A02882DA /* OpenSans-Italic.ttf */; };
-		C278DA586092491CACDA345B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C659A01B1704D399AB9E32C /* OpenSans-Light.ttf */; };
-		098E75DC54664F7491F04056 /* OpenSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4DF948DA8B504B918171415D /* OpenSans-LightItalic.ttf */; };
-		2351D511EB524024A456D041 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B00906843374288A1329108 /* OpenSans-Regular.ttf */; };
-		DBFA89AB7A9B4E2C87F42FE5 /* OpenSans-Semibold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3F10D9DFB09A4432B60DBD04 /* OpenSans-Semibold.ttf */; };
-		63CB29F0E94B4F28AD88A1D0 /* OpenSans-SemiboldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64BF8BAA5F21487BB93BB970 /* OpenSans-SemiboldItalic.ttf */; };
-		F45B78A524654BC7A032F085 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E3CEA6CE8904896A88CD9E4 /* libRCTFBSDK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,13 +163,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
 			remoteInfo = ReactNativeConfig;
-		};
-		062E28B72039A943009BD1CD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = DF438524807D46BAABEA4065 /* RNGoogleSignin.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
-			remoteInfo = RNGoogleSignin;
 		};
 		063386AA204A56BE00AE9BA2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -401,6 +402,41 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		9B07E60021220AC300C7B01A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9B07E5D221220AC200C7B01A /* RNShare.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNShare;
+		};
+		9B07E60B21220F6900C7B01A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9B07E60721220F6900C7B01A /* RNImagePicker.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
+			remoteInfo = RNImagePicker;
+		};
+		9B7F727B21237DE000FD6867 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4649DFC4ADAD4C5ABFF238C0 /* RNGoogleSignin.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9FD355121D3E4A2900D06170;
+			remoteInfo = RNGoogleSignin;
+		};
+		9BC56C532123464000813F37 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9BC56C4F2123464000813F37 /* RNFIRMessaging.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNFIRMessaging;
+		};
+		9BD31D88211DAAC700EA728F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F5A024D73FBC42FEAD65E878 /* RCTFBSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
+			remoteInfo = RCTFBSDK;
+		};
 		ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -421,99 +457,105 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* TemanDiabetsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TemanDiabetsTests.m; sourceTree = "<group>"; };
 		02DF43F987A745EFBC7DF5AA /* Montserrat-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Medium.otf"; sourceTree = "<group>"; };
-		060B0D2A204ACA050007560E /* libPods-TemanDiabetsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libPods-TemanDiabetsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		062E28B92039A963009BD1CD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		068240DF2039B74B00F59CEE /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignInDependencies.framework; sourceTree = "<group>"; };
-		068240E02039B74C00F59CEE /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
-		068240E12039B74C00F59CEE /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
-		068240E22039B74D00F59CEE /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
-		068240E32039B74D00F59CEE /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = "<group>"; };
+		03D776F7CA414306982B54A6 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		04CCC8199FE14066B9924E94 /* Arista-Pro-Alternate-Bold-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Bold-trial.ttf"; sourceTree = "<group>"; };
 		06A1022E202C2DA100FFECEC /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
+		09E3BA3CBA714D45A02882DA /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Italic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Italic.ttf"; sourceTree = "<group>"; };
+		0B92F6FDE6B6457CB6F13653 /* Arista-Pro-Icons-Regular-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Icons-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Regular-trial.ttf"; sourceTree = "<group>"; };
+		0CF013A46FDD4D7DBDD9CFEF /* Arista-Pro-Fat-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Fat-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Fat-trial.ttf"; sourceTree = "<group>"; };
+		0DAB5204FC6443098384F478 /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		0FBC76367B164067A013DBD1 /* Arista-Pro-Alternate-Fat-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-Fat-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Fat-trial.ttf"; sourceTree = "<group>"; };
+		130F1423ECB640588275F0F4 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* TemanDiabets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TemanDiabets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = TemanDiabets/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = TemanDiabets/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = TemanDiabets/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = TemanDiabets/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = TemanDiabets/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		1568666E9F9747B5BBC2F776 /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		17A7F64F4F634D28B3BAC2C3 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
 		189FFC1EE1594C82B73F15BA /* Montserrat-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraLight.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-ExtraLight.otf"; sourceTree = "<group>"; };
-		1B4817BBED354F2AB3107AC8 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		2BA88342725648EC956A2166 /* Arista-Pro-Icons-Light-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Icons-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Light-trial.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* TemanDiabets-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TemanDiabets-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* TemanDiabets-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TemanDiabets-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E3CEA6CE8904896A88CD9E4 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
 		2F28A1FB8C2B4EE7B4D91ADC /* MontserratAlternates-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Black.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Black.otf"; sourceTree = "<group>"; };
-		30C4E4964C9693A19510816D /* libPods-TemanDiabetsTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TemanDiabetsTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		33A28C00D7A9472A8D2A5D9F /* Arista-Pro-Icons-Bold-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Icons-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Bold-trial.ttf"; sourceTree = "<group>"; };
 		38A625BFCD1347129EBB51D8 /* MontserratAlternates-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-ExtraBold.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-ExtraBold.otf"; sourceTree = "<group>"; };
-		4286D930586C444E9FAB5D88 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
+		3F10D9DFB09A4432B60DBD04 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Semibold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Semibold.ttf"; sourceTree = "<group>"; };
+		427EA3DEE2E0435AA302636B /* Arista-Pro-Icons-Hairline-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Icons-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Hairline-trial.ttf"; sourceTree = "<group>"; };
 		44518EDC3C2845D0A93C27DD /* MontserratAlternates-ExtraLight.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-ExtraLight.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-ExtraLight.otf"; sourceTree = "<group>"; };
+		4649DFC4ADAD4C5ABFF238C0 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
+		47AF7B03BC154EE29A38B612 /* Arista-Pro-Hairline-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Hairline-trial.ttf"; sourceTree = "<group>"; };
+		4946FB3A87604A34A3C0CED8 /* Arista-Pro-Alternate-SemiBold-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-SemiBold-trial.ttf"; sourceTree = "<group>"; };
+		4C659A01B1704D399AB9E32C /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		4DF948DA8B504B918171415D /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-LightItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		4F7C1F3252A34CEABC786813 /* Arista-Pro-ExtraLight-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-ExtraLight-trial.ttf"; sourceTree = "<group>"; };
 		526C472F85454F0FAD2800A4 /* MontserratAlternates-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Bold.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Bold.otf"; sourceTree = "<group>"; };
+		5921F9FACF12496294738C2E /* Arista-Pro-Alternate-Light-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Light-trial.ttf"; sourceTree = "<group>"; };
+		5AAF346EC9FC4EBABC926776 /* Arista-Pro-Alternate-Hairline-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Hairline-trial.ttf"; sourceTree = "<group>"; };
 		5E1782085D424B95A98D1BCF /* Montserrat-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Light.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Light.otf"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		638346BA2BC34DEABE995DD3 /* MontserratAlternates-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Medium.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Medium.otf"; sourceTree = "<group>"; };
+		64BF8BAA5F21487BB93BB970 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-SemiboldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; };
 		6654B1C9A93440AC9764050B /* Montserrat-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Bold.otf"; sourceTree = "<group>"; };
+		6B00906843374288A1329108 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		6CB13FFE5078453695F98135 /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
+		70CB0C4C41144EFDBB868261 /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		74C2EE2A4F3647B5BFAA5F1D /* Montserrat-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		835FEFC24BEE4874B06CB594 /* Arista-Pro-Icons-ExtraLight-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Icons-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-ExtraLight-trial.ttf"; sourceTree = "<group>"; };
 		8442E177E15C458BA7236114 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		86EA25CB7D2744CFB1A99246 /* MontserratAlternates-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Regular.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Regular.otf"; sourceTree = "<group>"; };
 		89C59F4758D646E082FD7F48 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
+		8EE4FB506BF64637BA373616 /* Arista-Pro-Regular-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Regular-trial.ttf"; sourceTree = "<group>"; };
+		9111A1BFE6DACE8D6AC36D0D /* libPods-TemanDiabets.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TemanDiabets.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98553CC3D6124064B23F6AC4 /* MontserratAlternates-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-SemiBold.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-SemiBold.otf"; sourceTree = "<group>"; };
+		9B07E5D221220AC200C7B01A /* RNShare.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNShare.xcodeproj; path = "../node_modules/react-native-share/ios/RNShare.xcodeproj"; sourceTree = "<group>"; };
+		9B07E60721220F6900C7B01A /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
+		9B7F721C21237BAC00FD6867 /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
+		9B7F721D21237BAC00FD6867 /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = GoogleSignIn.bundle; sourceTree = "<group>"; };
+		9B7F721E21237BAC00FD6867 /* GoogleSignInDependencies.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignInDependencies.framework; sourceTree = "<group>"; };
+		9B7F721F21237BAC00FD6867 /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleSignIn.framework; sourceTree = "<group>"; };
+		9B7F722021237BAC00FD6867 /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppUtilities.framework; sourceTree = "<group>"; };
+		9BC56B4D21233ABC00813F37 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Frameworks/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		9BC56B7A21233ABC00813F37 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = Frameworks/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		9BC56B7B21233ABC00813F37 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Frameworks/Bolts.framework; sourceTree = "<group>"; };
+		9BC56B7C21233ABC00813F37 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Frameworks/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		9BC56C4D2123447000813F37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9BC56C4F2123464000813F37 /* RNFIRMessaging.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNFIRMessaging.xcodeproj; path = "../node_modules/react-native-fcm/ios/RNFIRMessaging.xcodeproj"; sourceTree = "<group>"; };
+		9BC56C562123465B00813F37 /* libFirebaseMessaging.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFirebaseMessaging.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BC56C58212346BE00813F37 /* TemanDiabets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TemanDiabets.entitlements; path = TemanDiabets/TemanDiabets.entitlements; sourceTree = "<group>"; };
+		9BCE83022123728E00741417 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		9BE82EEC2124CD6A0027CCCB /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		9BE82EED2124CD6A0027CCCB /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9C498ED196AA404693274C80 /* MontserratAlternates-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Light.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Light.otf"; sourceTree = "<group>"; };
 		9F78FAD1588E483C843D562E /* Montserrat-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Thin.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Thin.otf"; sourceTree = "<group>"; };
 		A733DC5E6F9244F38DE6CC0E /* MontserratAlternates-Thin.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "MontserratAlternates-Thin.otf"; path = "../src/assets/fonts/Montserrat/MontserratAlternates-Thin.otf"; sourceTree = "<group>"; };
+		A98634C2BFA84A4DBD6D37D6 /* Arista-Pro-Thin-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Thin-trial.ttf"; sourceTree = "<group>"; };
+		AC150AE2BA4545A5BD6BDA93 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-BoldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		ADE1476A53EB460EA10B0100 /* Arista-Pro-SemiBold-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-SemiBold-trial.ttf"; sourceTree = "<group>"; };
+		AEFFE85256984675B1642F15 /* Arista-Pro-Alternate-Thin-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Thin-trial.ttf"; sourceTree = "<group>"; };
+		AF37DE6D1E524109B3F8566E /* Arista-Pro-Bold-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Bold-trial.ttf"; sourceTree = "<group>"; };
+		AF3C39E934AB40CEBEDE8528 /* Arista-Pro-Icons-Thin-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Icons-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Thin-trial.ttf"; sourceTree = "<group>"; };
 		AFE2534FA2914B5D8D1DDB99 /* Montserrat-Black.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Black.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Black.otf"; sourceTree = "<group>"; };
-		BAAAB97CE77D4F9B8BA7B0C0 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
-		C2C6D8B9F047895F04FF2FAA /* libPods-TemanDiabets.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TemanDiabets.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC99135DF6914E5EBCA3DD25 /* AddressBook.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		BF55C58EEDF74B799D38424A /* Arista-Pro-Alternate-Regular-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Regular-trial.ttf"; sourceTree = "<group>"; };
+		C218B928634442838DBF7688 /* Arista-Pro-Icons-SemiBold-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Icons-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-SemiBold-trial.ttf"; sourceTree = "<group>"; };
 		C5B4326C0B5A4162B293B7EC /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		C6F6DE7C3ECF4092AE48C237 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
-		DB562186A91D4DD9B413514A /* SystemConfiguration.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		DF438524807D46BAABEA4065 /* RNGoogleSignin.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGoogleSignin.xcodeproj; path = "../node_modules/react-native-google-signin/ios/RNGoogleSignin.xcodeproj"; sourceTree = "<group>"; };
+		CDFC3A68C8F44339B7739426 /* Arista-Pro-Alternate-ExtraLight-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-ExtraLight-trial.ttf"; sourceTree = "<group>"; };
+		D834C98219324C0184249224 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		E5580F01E99A44E8B55CA911 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
 		E7BFF8C07C6008382E6E9F7C /* Pods-TemanDiabets.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemanDiabets.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TemanDiabets/Pods-TemanDiabets.debug.xcconfig"; sourceTree = "<group>"; };
 		EA425EAFDE784D0DB2A1D02B /* Montserrat-ExtraBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-ExtraBold.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-ExtraBold.otf"; sourceTree = "<group>"; };
+		F1C1CEC34F46453989E78B1E /* Arista-Pro-Light-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Light-trial.ttf"; sourceTree = "<group>"; };
 		F297AF071B485B8EFA91689F /* Pods-TemanDiabets.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TemanDiabets.release.xcconfig"; path = "Pods/Target Support Files/Pods-TemanDiabets/Pods-TemanDiabets.release.xcconfig"; sourceTree = "<group>"; };
-		04CCC8199FE14066B9924E94 /* Arista-Pro-Alternate-Bold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Bold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		CDFC3A68C8F44339B7739426 /* Arista-Pro-Alternate-ExtraLight-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-ExtraLight-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		0FBC76367B164067A013DBD1 /* Arista-Pro-Alternate-Fat-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Fat-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Fat-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5AAF346EC9FC4EBABC926776 /* Arista-Pro-Alternate-Hairline-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Hairline-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5921F9FACF12496294738C2E /* Arista-Pro-Alternate-Light-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Light-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		BF55C58EEDF74B799D38424A /* Arista-Pro-Alternate-Regular-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Regular-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4946FB3A87604A34A3C0CED8 /* Arista-Pro-Alternate-SemiBold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-SemiBold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AEFFE85256984675B1642F15 /* Arista-Pro-Alternate-Thin-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Alternate-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Thin-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AF37DE6D1E524109B3F8566E /* Arista-Pro-Bold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Bold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4F7C1F3252A34CEABC786813 /* Arista-Pro-ExtraLight-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-ExtraLight-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		0CF013A46FDD4D7DBDD9CFEF /* Arista-Pro-Fat-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Fat-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Fat-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		47AF7B03BC154EE29A38B612 /* Arista-Pro-Hairline-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Hairline-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		33A28C00D7A9472A8D2A5D9F /* Arista-Pro-Icons-Bold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Bold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		835FEFC24BEE4874B06CB594 /* Arista-Pro-Icons-ExtraLight-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-ExtraLight-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		427EA3DEE2E0435AA302636B /* Arista-Pro-Icons-Hairline-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Hairline-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Hairline-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2BA88342725648EC956A2166 /* Arista-Pro-Icons-Light-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Light-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		0B92F6FDE6B6457CB6F13653 /* Arista-Pro-Icons-Regular-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Regular-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		C218B928634442838DBF7688 /* Arista-Pro-Icons-SemiBold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-SemiBold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AF3C39E934AB40CEBEDE8528 /* Arista-Pro-Icons-Thin-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Icons-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-Thin-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F1C1CEC34F46453989E78B1E /* Arista-Pro-Light-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Light-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Light-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		8EE4FB506BF64637BA373616 /* Arista-Pro-Regular-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Regular-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Regular-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		ADE1476A53EB460EA10B0100 /* Arista-Pro-SemiBold-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-SemiBold-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		A98634C2BFA84A4DBD6D37D6 /* Arista-Pro-Thin-trial.ttf */ = {isa = PBXFileReference; name = "Arista-Pro-Thin-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Thin-trial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		130F1423ECB640588275F0F4 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		AC150AE2BA4545A5BD6BDA93 /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; name = "OpenSans-BoldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		17A7F64F4F634D28B3BAC2C3 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; name = "OpenSans-ExtraBold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D834C98219324C0184249224 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; name = "OpenSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		09E3BA3CBA714D45A02882DA /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; name = "OpenSans-Italic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4C659A01B1704D399AB9E32C /* OpenSans-Light.ttf */ = {isa = PBXFileReference; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		4DF948DA8B504B918171415D /* OpenSans-LightItalic.ttf */ = {isa = PBXFileReference; name = "OpenSans-LightItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		6B00906843374288A1329108 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3F10D9DFB09A4432B60DBD04 /* OpenSans-Semibold.ttf */ = {isa = PBXFileReference; name = "OpenSans-Semibold.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Semibold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		64BF8BAA5F21487BB93BB970 /* OpenSans-SemiboldItalic.ttf */ = {isa = PBXFileReference; name = "OpenSans-SemiboldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-SemiboldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		BE44D62EFA704618BFCF98EA /* RNUUIDGenerator.xcodeproj */ = {isa = PBXFileReference; name = "RNUUIDGenerator.xcodeproj"; path = "../node_modules/react-native-uuid-generator/ios/RNUUIDGenerator.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		68F28DF380BB43EF97C38926 /* libRNUUIDGenerator.a */ = {isa = PBXFileReference; name = "libRNUUIDGenerator.a"; path = "libRNUUIDGenerator.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		F5A024D73FBC42FEAD65E878 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; name = "RCTFBSDK.xcodeproj"; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		2E3CEA6CE8904896A88CD9E4 /* libRCTFBSDK.a */ = {isa = PBXFileReference; name = "libRCTFBSDK.a"; path = "libRCTFBSDK.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		F5A024D73FBC42FEAD65E878 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -529,35 +571,43 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9BCE83032123728E00741417 /* libc++.tbd in Frameworks */,
+				9BDA6F8C21231F0D004CFB99 /* libRCTFBSDK.a in Frameworks */,
+				9B07E60D21220F9600C7B01A /* libRNImagePicker.a in Frameworks */,
+				9B07E60221220B1800C7B01A /* libRNShare.a in Frameworks */,
+				9BC56C572123466E00813F37 /* libRNFIRMessaging.a in Frameworks */,
+				9BE82EEF2124CD6A0027CCCB /* Crashlytics.framework in Frameworks */,
+				9B7F722121237BAC00FD6867 /* GoogleSymbolUtilities.framework in Frameworks */,
+				9B7F722521237BAC00FD6867 /* GoogleAppUtilities.framework in Frameworks */,
+				9BC56B7D21233ABC00813F37 /* FBSDKCoreKit.framework in Frameworks */,
 				060B0D2B204ACA2C0007560E /* libReactNativeConfig.a in Frameworks */,
-				060B0D29204ACA050007560E /* libPods-TemanDiabetsTests.a in Frameworks */,
 				060B0D28204AC9F60007560E /* libRNFirebase.a in Frameworks */,
-				0645FF9E2039AF290057D8F0 /* libRNGoogleSignin.a in Frameworks */,
+				9BC56B8021233ABC00813F37 /* FBSDKLoginKit.framework in Frameworks */,
+				9B7F722321237BAC00FD6867 /* GoogleSignInDependencies.framework in Frameworks */,
+				9BC56B7E21233ABC00813F37 /* FBSDKShareKit.framework in Frameworks */,
 				06A10269202C2E0700FFECEC /* libReactNativeNavigation.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
+				9B7F722421237BAC00FD6867 /* GoogleSignIn.framework in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
-				068240E62039B74E00F59CEE /* GoogleSymbolUtilities.framework in Frameworks */,
-				068240E72039B74E00F59CEE /* GoogleSignIn.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
+				9BC56B7F21233ABC00813F37 /* Bolts.framework in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
+				9BE82EEE2124CD6A0027CCCB /* Fabric.framework in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				068240E42039B74E00F59CEE /* GoogleSignInDependencies.framework in Frameworks */,
-				068240E82039B74E00F59CEE /* GoogleAppUtilities.framework in Frameworks */,
-				5791453749C8433D8B1FE3FD /* libz.tbd in Frameworks */,
-				F09EE970EA884DD6AF9C69B9 /* SafariServices.framework in Frameworks */,
-				476CF35F0E39420C88ACB4CD /* SystemConfiguration.framework in Frameworks */,
-				51E727F0A0B245DCBFF81E7F /* AddressBook.framework in Frameworks */,
-				60ED06C9FEE3F0DF3EDA8E8A /* libPods-TemanDiabets.a in Frameworks */,
-				AC322E61DE5D482590B28275 /* libRNUUIDGenerator.a in Frameworks */,
-				F45B78A524654BC7A032F085 /* libRCTFBSDK.a in Frameworks */,
+				CBB35CA0935988F469464D57 /* libPods-TemanDiabets.a in Frameworks */,
+				4D4FA8A01F9B4E2EA4676FEA /* libRNGoogleSignin.a in Frameworks */,
+				D9DD501110D3494CB44B013A /* libz.tbd in Frameworks */,
+				82FCD29CC99F4B63B35CDAD9 /* SafariServices.framework in Frameworks */,
+				A578472CCF1841EBAEA1660F /* SystemConfiguration.framework in Frameworks */,
+				10A5E3BB551F482D8A9D761F /* AddressBook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -565,7 +615,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */,
 				2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */,
 				2D02E4C31E0B4AEC006451C7 /* libRCTImage-tvOS.a in Frameworks */,
 				2D02E4C41E0B4AEC006451C7 /* libRCTLinking-tvOS.a in Frameworks */,
@@ -649,8 +698,9 @@
 			isa = PBXGroup;
 			children = (
 				C5B4326C0B5A4162B293B7EC /* libReactNativeConfig.a */,
-				4286D930586C444E9FAB5D88 /* libRNGoogleSignin.a */,
 				89C59F4758D646E082FD7F48 /* libRNFirebase.a */,
+				2E3CEA6CE8904896A88CD9E4 /* libRCTFBSDK.a */,
+				E5580F01E99A44E8B55CA911 /* libRNGoogleSignin.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -659,14 +709,6 @@
 			isa = PBXGroup;
 			children = (
 				06133EC52037765400147635 /* libReactNativeConfig.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		062E28B42039A943009BD1CD /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				062E28B82039A943009BD1CD /* libRNGoogleSignin.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -685,6 +727,31 @@
 				06A10268202C2DA100FFECEC /* libReactNativeNavigation.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		09E6CF2598E619D6EC9A42CC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9BE82EED2124CD6A0027CCCB /* Crashlytics.framework */,
+				9BE82EEC2124CD6A0027CCCB /* Fabric.framework */,
+				9B7F722021237BAC00FD6867 /* GoogleAppUtilities.framework */,
+				9B7F721D21237BAC00FD6867 /* GoogleSignIn.bundle */,
+				9B7F721F21237BAC00FD6867 /* GoogleSignIn.framework */,
+				9B7F721E21237BAC00FD6867 /* GoogleSignInDependencies.framework */,
+				9B7F721C21237BAC00FD6867 /* GoogleSymbolUtilities.framework */,
+				9BCE83022123728E00741417 /* libc++.tbd */,
+				9BC56C562123465B00813F37 /* libFirebaseMessaging.a */,
+				9BC56B7B21233ABC00813F37 /* Bolts.framework */,
+				9BC56B4D21233ABC00813F37 /* FBSDKCoreKit.framework */,
+				9BC56B7C21233ABC00813F37 /* FBSDKLoginKit.framework */,
+				9BC56B7A21233ABC00813F37 /* FBSDKShareKit.framework */,
+				9111A1BFE6DACE8D6AC36D0D /* libPods-TemanDiabets.a */,
+				03D776F7CA414306982B54A6 /* libz.tbd */,
+				70CB0C4C41144EFDBB868261 /* SafariServices.framework */,
+				0DAB5204FC6443098384F478 /* SystemConfiguration.framework */,
+				BC99135DF6914E5EBCA3DD25 /* AddressBook.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
@@ -710,13 +777,13 @@
 		13B07FAE1A68108700A75B9A /* TemanDiabets */ = {
 			isa = PBXGroup;
 			children = (
-				062E28B92039A963009BD1CD /* GoogleService-Info.plist */,
+				9BC56C58212346BE00813F37 /* TemanDiabets.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
+				9BC56C4D2123447000813F37 /* GoogleService-Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = TemanDiabets;
@@ -803,26 +870,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				060B0D2A204ACA050007560E /* libPods-TemanDiabetsTests.a */,
-				068240E32039B74D00F59CEE /* GoogleAppUtilities.framework */,
-				068240E02039B74C00F59CEE /* GoogleSignIn.bundle */,
-				068240E22039B74D00F59CEE /* GoogleSignIn.framework */,
-				068240DF2039B74B00F59CEE /* GoogleSignInDependencies.framework */,
-				068240E12039B74C00F59CEE /* GoogleSymbolUtilities.framework */,
-				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				30C4E4964C9693A19510816D /* libPods-TemanDiabetsTests.a */,
-				1B4817BBED354F2AB3107AC8 /* libz.tbd */,
-				1568666E9F9747B5BBC2F776 /* SafariServices.framework */,
-				DB562186A91D4DD9B413514A /* SystemConfiguration.framework */,
-				BAAAB97CE77D4F9B8BA7B0C0 /* AddressBook.framework */,
-				C2C6D8B9F047895F04FF2FAA /* libPods-TemanDiabets.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,6 +891,9 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9BC56C4F2123464000813F37 /* RNFIRMessaging.xcodeproj */,
+				9B07E60721220F6900C7B01A /* RNImagePicker.xcodeproj */,
+				9B07E5D221220AC200C7B01A /* RNShare.xcodeproj */,
 				06A1022E202C2DA100FFECEC /* ReactNativeNavigation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -858,10 +908,9 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				8442E177E15C458BA7236114 /* ReactNativeConfig.xcodeproj */,
-				DF438524807D46BAABEA4065 /* RNGoogleSignin.xcodeproj */,
 				6CB13FFE5078453695F98135 /* RNFirebase.xcodeproj */,
-				BE44D62EFA704618BFCF98EA /* RNUUIDGenerator.xcodeproj */,
 				F5A024D73FBC42FEAD65E878 /* RCTFBSDK.xcodeproj */,
+				4649DFC4ADAD4C5ABFF238C0 /* RNGoogleSignin.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -882,10 +931,10 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* TemanDiabetsTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				156DEED8957D42BDB23355BD /* Resources */,
 				06133E9A2037765100147635 /* Recovered References */,
 				CB131AD6070E61B66E8F5F9B /* Pods */,
+				09E6CF2598E619D6EC9A42CC /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -899,6 +948,46 @@
 				00E356EE1AD99517003FC87E /* TemanDiabetsTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* TemanDiabets-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* TemanDiabets-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9B07E5D321220AC200C7B01A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B07E60121220AC300C7B01A /* libRNShare.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9B07E60821220F6900C7B01A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B07E60C21220F6900C7B01A /* libRNImagePicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9B7F727821237DE000FD6867 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9B7F727C21237DE000FD6867 /* libRNGoogleSignin.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9BC56C502123464000813F37 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9BC56C542123464000813F37 /* libRNFIRMessaging.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9BD31D85211DAAC700EA728F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9BD31D89211DAAC700EA728F /* libRCTFBSDK.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -951,8 +1040,7 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				CEC03BF6BB7A6DC2C3377DD9 /* [CP] Embed Pods Frameworks */,
-				AEFF22E3E3F92346B4D1A237 /* [CP] Copy Pods Resources */,
+				9BE82EAA2124C8E00027CCCB /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1012,6 +1100,17 @@
 						CreatedOnToolsVersion = 6.2;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = RAT64M5AWC;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
+					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -1046,6 +1145,10 @@
 				{
 					ProductGroup = ADBDB9201DFEBF0600ED6528 /* Products */;
 					ProjectRef = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
+				},
+				{
+					ProductGroup = 9BD31D85211DAAC700EA728F /* Products */;
+					ProjectRef = F5A024D73FBC42FEAD65E878 /* RCTFBSDK.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -1096,8 +1199,20 @@
 					ProjectRef = 6CB13FFE5078453695F98135 /* RNFirebase.xcodeproj */;
 				},
 				{
-					ProductGroup = 062E28B42039A943009BD1CD /* Products */;
-					ProjectRef = DF438524807D46BAABEA4065 /* RNGoogleSignin.xcodeproj */;
+					ProductGroup = 9BC56C502123464000813F37 /* Products */;
+					ProjectRef = 9BC56C4F2123464000813F37 /* RNFIRMessaging.xcodeproj */;
+				},
+				{
+					ProductGroup = 9B7F727821237DE000FD6867 /* Products */;
+					ProjectRef = 4649DFC4ADAD4C5ABFF238C0 /* RNGoogleSignin.xcodeproj */;
+				},
+				{
+					ProductGroup = 9B07E60821220F6900C7B01A /* Products */;
+					ProjectRef = 9B07E60721220F6900C7B01A /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 9B07E5D321220AC200C7B01A /* Products */;
+					ProjectRef = 9B07E5D221220AC200C7B01A /* RNShare.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1151,13 +1266,6 @@
 			fileType = archive.ar;
 			path = libReactNativeConfig.a;
 			remoteRef = 06133EC42037765400147635 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		062E28B82039A943009BD1CD /* libRNGoogleSignin.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRNGoogleSignin.a;
-			remoteRef = 062E28B72039A943009BD1CD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		063386AB204A56BE00AE9BA2 /* libRNFirebase.a */ = {
@@ -1391,6 +1499,41 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9B07E60121220AC300C7B01A /* libRNShare.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNShare.a;
+			remoteRef = 9B07E60021220AC300C7B01A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B07E60C21220F6900C7B01A /* libRNImagePicker.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNImagePicker.a;
+			remoteRef = 9B07E60B21220F6900C7B01A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9B7F727C21237DE000FD6867 /* libRNGoogleSignin.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNGoogleSignin.a;
+			remoteRef = 9B7F727B21237DE000FD6867 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9BC56C542123464000813F37 /* libRNFIRMessaging.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNFIRMessaging.a;
+			remoteRef = 9BC56C532123464000813F37 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9BD31D89211DAAC700EA728F /* libRCTFBSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTFBSDK.a;
+			remoteRef = 9BD31D88211DAAC700EA728F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1413,8 +1556,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				068240E52039B74E00F59CEE /* GoogleSignIn.bundle in Resources */,
 				E27DDEE63D744B6BA51F37BB /* Montserrat-Black.otf in Resources */,
 				7BF5D5B3C6EE4C09B1675922 /* Montserrat-Bold.otf in Resources */,
 				7A78B36F59034F06BA40309E /* Montserrat-ExtraBold.otf in Resources */,
@@ -1424,6 +1565,7 @@
 				1E56D74347124FCCA8E22DEB /* Montserrat-Regular.otf in Resources */,
 				CEB422BAC0FB47FB81BDCAF5 /* Montserrat-SemiBold.otf in Resources */,
 				EC29049C1C8748EE94B3204A /* Montserrat-Thin.otf in Resources */,
+				9BC56C4E2123447000813F37 /* GoogleService-Info.plist in Resources */,
 				4AE47D82E05241CCA965A20E /* MontserratAlternates-Black.otf in Resources */,
 				C0ECA6480E7A492C9B8C4405 /* MontserratAlternates-Bold.otf in Resources */,
 				2D6B82953F81445990A193DF /* MontserratAlternates-ExtraBold.otf in Resources */,
@@ -1433,7 +1575,6 @@
 				F883C34299DB45C0B9AA3133 /* MontserratAlternates-Regular.otf in Resources */,
 				D642E7055F1D44EB8473B27E /* MontserratAlternates-SemiBold.otf in Resources */,
 				256AC2551A8E426698116643 /* MontserratAlternates-Thin.otf in Resources */,
-				062E28BA2039A964009BD1CD /* GoogleService-Info.plist in Resources */,
 				65AD77FEAD9D4AD581104363 /* Arista-Pro-Alternate-Bold-trial.ttf in Resources */,
 				1E9A531F49464DD889C93910 /* Arista-Pro-Alternate-ExtraLight-trial.ttf in Resources */,
 				B5FBEE03A8174FCDB1BB60D2 /* Arista-Pro-Alternate-Fat-trial.ttf in Resources */,
@@ -1459,6 +1600,7 @@
 				C2704BADE79448F799BBCACA /* Arista-Pro-Thin-trial.ttf in Resources */,
 				037F29E6B92F42D8924B4B6F /* OpenSans-Bold.ttf in Resources */,
 				E2050104F93948A18E102DAC /* OpenSans-BoldItalic.ttf in Resources */,
+				9B7F722221237BAC00FD6867 /* GoogleSignIn.bundle in Resources */,
 				A83A552658F44997976147CA /* OpenSans-ExtraBold.ttf in Resources */,
 				B18B10FCE718442F9B1D6DB0 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				BCA897B5EC854C6B99AA7255 /* OpenSans-Italic.ttf in Resources */,
@@ -1516,35 +1658,18 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		AEFF22E3E3F92346B4D1A237 /* [CP] Copy Pods Resources */ = {
+		9BE82EAA2124C8E00027CCCB /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TemanDiabets/Pods-TemanDiabets-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CEC03BF6BB7A6DC2C3377DD9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TemanDiabets/Pods-TemanDiabets-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "./Fabric.framework/run 7647ec4e4cea2e0f07cc369c20d2ae46cffb7c0f 9910437daa4cb289fefad10057dffe50b5c17fefe90be85a7a7499a6856c1157";
 		};
 		DF3766D28221020E2CD76CFA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1616,18 +1741,6 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				13B07FB21A68108700A75B9A /* Base */,
-			);
-			name = LaunchScreen.xib;
-			path = TemanDiabets;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1643,23 +1756,16 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native-uuid-generator/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 				);
 				INFOPLIST_FILE = TemanDiabetsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1682,23 +1788,16 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native-uuid-generator/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 				);
 				INFOPLIST_FILE = TemanDiabetsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1715,11 +1814,15 @@
 			baseConfigurationReference = E7BFF8C07C6008382E6E9F7C /* Pods-TemanDiabets.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = TemanDiabets/TemanDiabets.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = RAT64M5AWC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1730,15 +1833,16 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
-					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-uuid-generator/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/Frameworks",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 				);
 				INFOPLIST_FILE = TemanDiabets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1756,10 +1860,14 @@
 			baseConfigurationReference = F297AF071B485B8EFA91689F /* Pods-TemanDiabets.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = TemanDiabets/TemanDiabets.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RAT64M5AWC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -1770,15 +1878,16 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios",
-					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
-					"$(SRCROOT)/../node_modules/react-native-uuid-generator/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+					"$(SRCROOT)/Frameworks",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 				);
 				INFOPLIST_FILE = TemanDiabets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1809,22 +1918,15 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native-uuid-generator/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 				);
 				INFOPLIST_FILE = "TemanDiabets-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1857,22 +1959,15 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/lib/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
-					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/../node_modules/react-native-uuid-generator/ios",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 				);
 				INFOPLIST_FILE = "TemanDiabets-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1903,13 +1998,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TemanDiabets-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1934,13 +2022,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.TemanDiabets-tvOSTests";

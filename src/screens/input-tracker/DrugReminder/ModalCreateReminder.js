@@ -12,11 +12,10 @@ import {
   Keyboard,
   ScrollView,
   TimePickerAndroid,
-  ActivityIndicator,
   Alert
 } from 'react-native';
 
-import { dateFormateName } from '../../../utils/helpers';
+import { Spinner } from '../../../components';
 
 class ModalCreateReminder extends React.Component {
   constructor(props) {
@@ -263,7 +262,7 @@ class ModalCreateReminder extends React.Component {
         {// detailsReminder.status_code === 0
         false ? (
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ActivityIndicator color="rgb(239, 67, 79)" size="large" />
+            <Spinner color="rgb(239, 67, 79)" size="large" />
           </View>
         ) : (
           <View style={styles.modalWrapper}>

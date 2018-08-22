@@ -14,7 +14,6 @@ import {
   Keyboard,
   ScrollView,
   Picker,
-  ActivityIndicator,
   Image,
   Alert,
   Dimensions
@@ -32,7 +31,7 @@ import {
 } from '../../../actions';
 
 import color from '../../../style/color';
-import { Card } from '../../../components';
+import { Card, Spinner } from '../../../components';
 import MenuButton from './MenuButton';
 import Style from '../../../style/defaultStyle';
 import { activityList } from './initialValue';
@@ -1062,7 +1061,7 @@ class InputTracker extends Component {
               height: this.state.keyboardActive ? '70%' : '50%'
             }}
           >
-            <ActivityIndicator size="large" color="#ff1200" />
+            <Spinner size="large" color="#ff1200" />
           </View>
         </TouchableHighlight>
       </Modal>

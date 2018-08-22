@@ -1,14 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ActivityIndicator,
-  Image,
-  AsyncStorage,
-  Alert
-} from 'react-native';
+import { View, Text, TouchableOpacity, Image, AsyncStorage, Alert } from 'react-native';
 
 import { getThreads } from '../../../actions/threadActions';
 import {
@@ -269,22 +261,22 @@ class ProfileDetails extends React.Component {
                     innerCircleStatus: 'accepted'
                   },
                   () => {
-                    let innerCircleId
+                    let innerCircleId;
                     const { innerCircles } = this.props.data.user;
                     if (this.props.innerCircleId) {
-                      innerCircleId = this.props.innerCircleId
+                      innerCircleId = this.props.innerCircleId;
                     } else {
                       // manually check for the correct id in requested
-                      innerCircles.requested.forEach((item) => {
+                      innerCircles.requested.forEach(item => {
                         if (item.friend._id === this.props.dataAuth._id) {
-                          innerCircleId = item._id
+                          innerCircleId = item._id;
                         }
-                      })
+                      });
                     }
                     this.props.accept(friendId, innerCircleId, () => {
                       this.setState({
                         innerCircleStatus: 'accepted'
-                      })
+                      });
                     });
                   }
                 );
@@ -356,7 +348,7 @@ class ProfileDetails extends React.Component {
       if (recentComments.data.length === 0 && recentComments.status_code === 0) {
         return (
           <View>
-            <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+            <Spinner size="large" color="rgb(239, 67, 79)" />
           </View>
         );
       }
@@ -457,7 +449,7 @@ class ProfileDetails extends React.Component {
         <View style={{ flex: 2, marginHorizontal: 10 }}>
           {recentThreads.data.length === 0 && recentThreads.status_code === 0 ? (
             <View>
-              <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+              <Spinner size="large" color="rgb(239, 67, 79)" />
             </View>
           ) : (
             this.renderTabContent()

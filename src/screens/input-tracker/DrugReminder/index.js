@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableHighlight, ActivityIndicator, FlatList } from 'react-native';
+import { View, Text, TouchableHighlight, FlatList } from 'react-native';
 
 import {
   getListReminder,
@@ -9,7 +9,7 @@ import {
   getDetailsReminder
 } from '../../../actions';
 
-import { NavigationBar } from '../../../components';
+import { NavigationBar, Spinner } from '../../../components';
 import ReminderCard from './ReminderCard';
 import ModalCreateReminder from './ModalCreateReminder';
 
@@ -157,7 +157,7 @@ class DrugReminder extends React.Component {
     if (this.state.isProcess) {
       return (
         <View>
-          <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+          <Spinner size="large" color="rgb(239, 67, 79)" />
         </View>
       );
     }
@@ -203,7 +203,7 @@ class DrugReminder extends React.Component {
     }
     return (
       <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+        <Spinner size="large" color="rgb(239, 67, 79)" />
       </View>
     );
   }

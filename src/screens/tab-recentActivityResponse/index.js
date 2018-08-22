@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { result } from 'lodash';
-import { View, Text, Platform, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, Platform, FlatList } from 'react-native';
 
 import { dateFormateName, formatTimeFromDate } from '../../utils/helpers';
 import Style from '../../style/defaultStyle';
 import { getUserRecentActivityResponse } from '../../actions/recentActivityAction';
+import { Spinner } from '../../components';
 
 class TabRecentActivityResponse extends React.Component {
   constructor(props) {
@@ -53,7 +54,7 @@ class TabRecentActivityResponse extends React.Component {
     const { recentResponse } = this.props.dataActivity;
     const Loader = (
       <View style={styles.loadMoreContent}>
-        <ActivityIndicator color="#EF434F" size={25} />
+        <Spinner color="#EF434F" size="large" />
       </View>
     );
 

@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  Text,
-  ScrollView,
-  Platform,
-  TouchableOpacity,
-  FlatList,
-  Alert,
-  ActivityIndicator
-} from 'react-native';
+import { View, Text, Platform, TouchableOpacity, FlatList, Alert } from 'react-native';
 import Share from 'react-native-share';
-
 
 import ThreadItem from '../components/threadItem';
 import StaticThreadItem from '../components/staticThreadItem';
@@ -128,22 +118,23 @@ class TabBookmark extends Component {
 
   renderItem(threads) {
     if (threads.item.threadType === 'static') {
-      return <StaticThreadItem
-        threads={threads}
-        toStaticThreadDetail={this.toStaticThreadDetail}
-        onPostBookmark={this.deleteBookmarkedThread}
-        onShareThread={this.onShareThread}
-      />
-    } else {
       return (
-        <ThreadItem
+        <StaticThreadItem
           threads={threads}
-          toThreadDetails={this.toThreadDetails}
+          toStaticThreadDetail={this.toStaticThreadDetail}
           onPostBookmark={this.deleteBookmarkedThread}
           onShareThread={this.onShareThread}
         />
       );
     }
+    return (
+      <ThreadItem
+        threads={threads}
+        toThreadDetails={this.toThreadDetails}
+        onPostBookmark={this.deleteBookmarkedThread}
+        onShareThread={this.onShareThread}
+      />
+    );
   }
 
   renderHeader() {
@@ -172,7 +163,7 @@ class TabBookmark extends Component {
 
     const Loader = (
       <View style={styles.loadMoreContent}>
-        <ActivityIndicator color="#EF434F" size={25} />
+        <Spinner color="#EF434F" size="large" />
       </View>
     );
 
@@ -284,11 +275,11 @@ class TabBookmark extends Component {
         </View>
       );
     return (
-      <View style={styles.containerStyle} removeClippedSubviews={true}>
+      <View style={styles.containerStyle} removeClippedSubviews>
         {!initialLoading && content}
         {initialLoading && (
           <View style={styles.initialLoading}>
-            <ActivityIndicator color="#1a1a1a" size="large" />
+            <Spinner color="#1a1a1a" size="large" />
           </View>
         )}
         {spinner}

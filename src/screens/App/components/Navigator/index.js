@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
-    // alignContent: 'center',
   },
   notificationBadge: {
     position: 'absolute',
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18
   },
   navbarText: {
-    fontFamily: 'Arista-Pro-Alternate-Light-trial',
+    fontFamily: 'AristaProAlternate-Light',
     color: '#fff',
     fontSize: defaultStyle.FONT_SIZE_TITLE * 1.3
   }
