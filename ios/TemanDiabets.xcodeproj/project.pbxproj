@@ -1669,7 +1669,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 7647ec4e4cea2e0f07cc369c20d2ae46cffb7c0f 9910437daa4cb289fefad10057dffe50b5c17fefe90be85a7a7499a6856c1157";
+			shellScript = "\"${PROJECT_DIR}/Fabric.framework/run\" 7647ec4e4cea2e0f07cc369c20d2ae46cffb7c0f 9910437daa4cb289fefad10057dffe50b5c17fefe90be85a7a7499a6856c1157";
 		};
 		DF3766D28221020E2CD76CFA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1819,6 +1819,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = RAT64M5AWC;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1864,6 +1865,7 @@
 				CODE_SIGN_ENTITLEMENTS = TemanDiabets/TemanDiabets.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = RAT64M5AWC;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
