@@ -31,6 +31,9 @@
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme">
 
+        <!--ADDING META DATA FOR DEFAULT CHANNEL NAME-->
+        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="default_channel"/>
+
         <!--REACT NATIVE FIREBASE CLOUD MESSAGING-->
         <receiver android:name="com.evollu.react.fcm.FIRLocalMessagingPublisher" />
         <receiver
