@@ -107,6 +107,7 @@ class Register extends Component {
               ]}
             >
               <TextInput
+                autoCapitalize='none'
                 placeholder={'Your Fullname'}
                 underlineColorAndroid={'#fff'}
                 value={nama}
