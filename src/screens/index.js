@@ -46,6 +46,7 @@ import PreviewSearchMakanan from '../screens/input-tracker/tab-input-tracker/Pre
 import Request from '../screens/profileScreen/innerCircle/innerCircleList/TabRequest';
 import InviteFriend from '../screens/profileScreen/inviteFriends';
 import AppLoader from '../screens/AppLoader';
+import CreateAsuransi from '../screens/CreateAsuransi';
 
 export function registerScreens(store, Provider) {
 	Navigation.registerComponent('TemanDiabetes.AppLoader', () => AppLoader, store, Provider);
@@ -94,5 +95,6 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('TemanDiabetes.Notification', () => Notification, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.Request', () => Request, store, Provider);
 	Navigation.registerComponent('TemanDiabetes.InviteFriends', () => InviteFriend);
+	Navigation.registerComponent('TemanDiabetes.CreateAsuransi', () => CreateAsuransi);
 }
 
