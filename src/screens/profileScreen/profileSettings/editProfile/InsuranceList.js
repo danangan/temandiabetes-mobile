@@ -118,7 +118,7 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
     >
       <TouchableOpacity
         onPress={() => {
-          data.length > 10
+          data.length === 10
             ? Alert.alert('Anda sudah memiliki 10 Asuransi.')
             : navigator.push({
                 screen: 'TemanDiabetes.CreateAsuransi',
