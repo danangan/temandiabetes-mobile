@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 
 import { debounce } from 'lodash';
 import defaultStyle from '../../../../style/defaultStyle';
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18
   },
   navbarText: {
-    fontFamily: 'AristaProAlternate-Light',
+    fontFamily: Platform.OS === 'ios' ? 'AristaProAlternate-Light' : 'Arista-Pro-Alternate-Light-trial',
     color: '#fff',
     fontSize: defaultStyle.FONT_SIZE_TITLE * 1.3
   }
