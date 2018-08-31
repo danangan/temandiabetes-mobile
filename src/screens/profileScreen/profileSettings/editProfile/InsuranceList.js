@@ -3,110 +3,120 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react
 import Style from '../../../../style/defaultStyle';
 import color from '../../../../style/color';
 
-const InsuranceList = ({data, onDeleteItem, onUpdateItem, getInsurance, navigator}) => {
-  const renderItem = ({item, index}) => {
-    return (
-      <View style={styles.container}>
+const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigator }) => {
+  console.log('NO POLIS', data);
+  const renderItem = ({ item, index }) => (
+    <View style={styles.container}>
+      <View style={styles.vertical}>
+        <View style={styles.horizontal}>
+          <View style={{ flex: 1, alignItems: 'flex-start' }}>
+            <Text style={styles.textLabel}>Asuransi</Text>
+          </View>
+          <View style={{ flex: 0.2 }}>
+            <Text style={styles.text}>:</Text>
+          </View>
+          <View style={{ flex: 2 }}>
+            <Text style={styles.text}>{item.name}</Text>
+          </View>
+        </View>
+      </View>
+      <View style={styles.vertical}>
+        <View style={styles.horizontal}>
+          <View style={{ flex: 1, alignItems: 'flex-start' }}>
+            <Text style={styles.textLabel}>Tipe Asuransi</Text>
+          </View>
+          <View style={{ flex: 0.2 }}>
+            <Text style={styles.text}>:</Text>
+          </View>
+          <View style={{ flex: 2 }}>
+            <Text style={styles.text}>{item.type}</Text>
+          </View>
+        </View>
+      </View>
+      {item.type === 'Perusahaan' && (
         <View style={styles.vertical}>
           <View style={styles.horizontal}>
-            <View style={{ flex: 1, alignItems: 'flex-start'}}>
-              <Text style={styles.textLabel}>Asuransi</Text>
+            <View style={{ flex: 1, alignItems: 'flex-start' }}>
+              <Text style={styles.textLabel}>No Asuransi</Text>
             </View>
-            <View style={{ flex: 0.2}}>
+            <View style={{ flex: 0.2 }}>
               <Text style={styles.text}>:</Text>
             </View>
-            <View style={{ flex: 2}}>
-              <Text style={styles.text}>{item.name}</Text>
+            <View style={{ flex: 2 }}>
+              <Text style={styles.text}>{item.insuranceNumber}</Text>
             </View>
           </View>
         </View>
+      )}
+      {item.policyNumber !== '' && (
         <View style={styles.vertical}>
           <View style={styles.horizontal}>
-            <View style={{ flex: 1, alignItems: 'flex-start'}}>
-              <Text style={styles.textLabel}>Tipe Asuransi</Text>
-            </View>
-            <View style={{ flex: 0.2}}>
-              <Text style={styles.text}>:</Text>
-            </View>
-            <View style={{ flex: 2}}>
-              <Text style={styles.text}>{item.type}</Text>
-            </View>
-          </View>
-        </View>
-        {
-          item.type === 'corporate' &&
-          <View style={styles.vertical}>
-            <View style={styles.horizontal}>
-              <View style={{ flex: 1, alignItems: 'flex-start'}}>
-                <Text style={styles.textLabel}>No Asuransi</Text>
-              </View>
-              <View style={{ flex: 0.2}}>
-                <Text style={styles.text}>:</Text>
-              </View>
-              <View style={{ flex: 2}}>
-                <Text style={styles.text}>{item.insuranceNumber}</Text>
-              </View>
-            </View>
-          </View>
-        }
-        <View style={styles.vertical}>
-          <View style={styles.horizontal}>
-            <View style={{ flex: 1, alignItems: 'flex-start'}}>
+            <View style={{ flex: 1, alignItems: 'flex-start' }}>
               <Text style={styles.textLabel}>No Polis</Text>
             </View>
-            <View style={{ flex: 0.2}}>
+            <View style={{ flex: 0.2 }}>
               <Text style={styles.text}>:</Text>
             </View>
-            <View style={{ flex: 2}}>
+            <View style={{ flex: 2 }}>
               <Text style={styles.text}>{item.policyNumber}</Text>
             </View>
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={() => {
-            onDeleteItem(item._id, index)
-          }}>
-            <View style={{
+      )}
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            onDeleteItem(item._id, index);
+          }}
+        >
+          <View
+            style={{
               flexDirection: 'row'
-            }}>
-              <Image
-                source={require('../../../../assets/icons/delete.png')}
-                style={{
-                  height: 20,
-                  width: 20,
-                  marginRight: 10
-                }}
-              />
-              <Text>Delete</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => {
-            onUpdateItem(item._id)
-          }}>
-            <View style={{
+            }}
+          >
+            <Image
+              source={require('../../../../assets/icons/delete.png')}
+              style={{
+                height: 20,
+                width: 20,
+                marginRight: 10
+              }}
+            />
+            <Text>Delete</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            onUpdateItem(item._id);
+          }}
+        >
+          <View
+            style={{
               flexDirection: 'row'
-            }}>
-              <Image
-                source={require('../../../../assets/icons/edit.png')}
-                style={{
-                  height: 20,
-                  width: 20,
-                  marginRight: 10
-                }}
-              />
-              <Text>Edit</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+            }}
+          >
+            <Image
+              source={require('../../../../assets/icons/edit.png')}
+              style={{
+                height: 20,
+                width: 20,
+                marginRight: 10
+              }}
+            />
+            <Text>Edit</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-    );
-  }
+    </View>
+  );
 
   const footer = () => (
-    <View style={{
-      marginVertical: 15,
-      alignItems: 'center'
-    }}>
+    <View
+      style={{
+        marginVertical: 15,
+        alignItems: 'center'
+      }}
+    >
       <TouchableOpacity
         onPress={() => {
           navigator.push({
@@ -117,7 +127,7 @@ const InsuranceList = ({data, onDeleteItem, onUpdateItem, getInsurance, navigato
             },
             passProps: {
               onSuccessCallback: () => {
-                getInsurance()
+                getInsurance();
               }
             }
           });
@@ -131,21 +141,26 @@ const InsuranceList = ({data, onDeleteItem, onUpdateItem, getInsurance, navigato
           borderRadius: 3
         }}
       >
-        <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular', textAlign: 'center' }}>
+        <Text
+          style={{
+            color: '#fff',
+            fontSize: 12,
+            fontFamily: 'OpenSans-Regular',
+            textAlign: 'center'
+          }}
+        >
           TAMBAH ASURANSI
         </Text>
       </TouchableOpacity>
     </View>
-  )
+  );
   return (
-    <View style={{
-      flex: 1
-    }}>
-      <FlatList
-        data={data}
-        renderItem={renderItem}
-        ListFooterComponent={footer}
-      />
+    <View
+      style={{
+        flex: 1
+      }}
+    >
+      <FlatList data={data} renderItem={renderItem} ListFooterComponent={footer} />
     </View>
   );
 };
@@ -180,7 +195,7 @@ const styles = StyleSheet.create({
   },
   textLabel: {
     textAlign: 'left',
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   buttonContainer: {
     flexDirection: 'row',

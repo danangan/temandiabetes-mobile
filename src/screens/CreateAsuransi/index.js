@@ -1,21 +1,27 @@
 import React from 'react';
 import { View, Text, Picker, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
-import { NavigationBar } from '../../components';
+import { NavigationBar, Spinner } from '../../components';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import Style from '../../style/defaultStyle';
 
 class CreateAsuransi extends React.Component {
+  static navigatorStyle = {
+    navBarHidden: true,
+    navBarBackgroundColor: 'white'
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       // set default value
-      namaAsuransi: 'alianz',
+      namaAsuransi: 'Alianz',
       // set default value
-      tipeAsuransi: 'corporate',
+      tipeAsuransi: 'Perusahaan',
       nomorAsuransi: '',
       nomorPolis: '',
       _errors: null,
-      errorMessage: ''
+      errorMessage: '',
+      isLoading: false
     };
 
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -47,14 +53,11 @@ class CreateAsuransi extends React.Component {
     }
   }
 
-  static navigatorStyle = {
-    navBarHidden: true,
-    navBarBackgroundColor: 'white'
-  };
-
   async onSubmitHandler() {
     const { namaAsuransi, tipeAsuransi, nomorAsuransi, nomorPolis } = this.state;
     const isComplete = this.formValidation();
+
+    this.setState({ isLoading: true });
 
     if (Object.keys(isComplete).length === 0) {
       const option = {
@@ -82,15 +85,18 @@ class CreateAsuransi extends React.Component {
         if (this.props.onSuccessCallback) {
           this.props.onSuccessCallback();
         }
-        await this.setState({ _errors: null });
-        Alert.alert('Perhatian!', 'Asuransi berhasil di simpan.');
+        await this.setState({ _errors: null, isLoading: false }, () => {
+          Alert.alert('Perhatian!', 'Asuransi berhasil di simpan.');
+        });
         // close the modal
         this.props.navigator.pop();
       } catch (error) {
         console.log(error);
       }
     } else {
-      Alert.alert('Perhatian!', 'Silahkan lengkapi data asuransi Anda');
+      this.setState({ isLoading: false }, () => {
+        Alert.alert('Perhatian!', 'Silahkan lengkapi data asuransi Anda');
+      });
     }
   }
 
@@ -105,10 +111,14 @@ class CreateAsuransi extends React.Component {
 
   formValidation() {
     const errors = {};
-    if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi === 'corporate') {
+    if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi === 'Perusahaan') {
       errors.nomorAsuransi = ['Silahkan isi nomor asuransi'];
     }
-    if (this.state.nomorPolis === '') errors.nomorPolis = ['Silahkan isi nomor polis'];
+
+    if (this.state.nomorPolis === '' && this.state.tipeAsuransi === 'Pribadi') {
+      errors.nomorPolis = ['Silahkan isi nomor polis'];
+    }
+
     if (Object.keys(errors).length) {
       this.setState({
         _errors: errors
@@ -118,8 +128,15 @@ class CreateAsuransi extends React.Component {
   }
 
   render() {
+    const spinner = this.state.isLoading ? (
+      <Spinner color="#EF434F" text="Loading..." size="large" />
+    ) : (
+      <View />
+    );
+
     return (
       <View style={styles.container}>
+        {spinner}
         <View
           style={{ flex: 0, backgroundColor: '#fff', paddingVertical: 10, paddingHorizontal: 10 }}
         >
@@ -157,9 +174,9 @@ class CreateAsuransi extends React.Component {
                       this.setState({ namaAsuransi: itemValue })
                     }
                   >
-                    <Picker.Item label="Alianz" value="alianz" />
-                    <Picker.Item label="Axa Mandiri" value="axamandiri" />
-                    <Picker.Item label="Sinarmas" value="sinarmas" />
+                    <Picker.Item label="Astra Life" value="Astra Life" />
+                    <Picker.Item label="FWD" value="FWD" />
+                    <Picker.Item label="Lainnya" value="Lainnya" />
                   </Picker>
                 </View>
               </View>
@@ -180,12 +197,12 @@ class CreateAsuransi extends React.Component {
                       this.setState({ tipeAsuransi: itemValue });
                     }}
                   >
-                    <Picker.Item label="Corporate" value="corporate" />
-                    <Picker.Item label="Individu" value="individu" />
+                    <Picker.Item label="Perusahaan" value="Perusahaan" />
+                    <Picker.Item label="Pribadi" value="Pribadi" />
                   </Picker>
                 </View>
               </View>
-              {this.state.tipeAsuransi === 'corporate' && (
+              {this.state.tipeAsuransi === 'Perusahaan' && (
                 <View style={styles.fieldItemWrap}>
                   <Text style={styles.titleField}>Nomor Asuransi</Text>
                   <View style={styles.pickerWrapper}>
@@ -226,7 +243,7 @@ class CreateAsuransi extends React.Component {
         </View>
         <View style={styles.wrappErrorMessage}>
           <Text style={styles.errorMessage}>{this.checkError('nomorAsuransi')}</Text>
-          <Text style={styles.errorMessage}>{this.checkError('nomorPolis')}</Text>
+          {/* <Text style={styles.errorMessage}>{this.checkError('nomorPolis')}</Text> */}
         </View>
       </View>
     );
