@@ -47,54 +47,141 @@ import Request from '../screens/profileScreen/innerCircle/innerCircleList/TabReq
 import InviteFriend from '../screens/profileScreen/inviteFriends';
 import AppLoader from '../screens/AppLoader';
 import CreateAsuransi from '../screens/CreateAsuransi';
+import InsuranceList from '../screens/CreateAsuransi/InsuranceList';
 
 export function registerScreens(store, Provider) {
-	Navigation.registerComponent('TemanDiabetes.AppLoader', () => AppLoader, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.AppContainer', () => AppContainer, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.OnBoardingScreen', () => OnBoardingScreen, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.LoginScreen', () => LoginScreen, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.RegisterScreen', () => RegisterScreen, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.RegisterScreenSecond', () => RegisterScreenSecond, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.RegisterScreenThird', () => RegisterScreenThird, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.RegisterScreenFourth', () => RegisterScreenFourth, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.RegisterFive', () => RegisterFive, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ThreadDetails', () => ThreadDetails, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ModalSearch', () => ModalSearch, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ModalPostThread', () => ModalPostThread, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ModalPostComment', () => ModalPostComment, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ModalReport', () => ModalReport, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.FeaturedDetail', () => FeatureDetail);
-	Navigation.registerComponent('TemanDiabetes.ProfileScreen', () => ProfileScreen, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ProfileDetails', () => ProfileDetails, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ProfileSettings', () => ProfileSettings, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.EditProfile', () => EditProfile, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.AboutScreen', () => AboutScreen);
-	Navigation.registerComponent('TemanDiabetes.FaqScreen', () => FaqScreen);
-	Navigation.registerComponent('TemanDiabetes.ProductDetail', () => ProductDetail);
-	Navigation.registerComponent('TemanDiabetes.LightBox', () => LightBox);
+  Navigation.registerComponent('TemanDiabetes.AppLoader', () => AppLoader, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.AppContainer', () => AppContainer, store, Provider);
+  Navigation.registerComponent(
+    'TemanDiabetes.OnBoardingScreen',
+    () => OnBoardingScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.LoginScreen', () => LoginScreen, store, Provider);
+  Navigation.registerComponent(
+    'TemanDiabetes.RegisterScreen',
+    () => RegisterScreen,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.RegisterScreenSecond',
+    () => RegisterScreenSecond,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.RegisterScreenThird',
+    () => RegisterScreenThird,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.RegisterScreenFourth',
+    () => RegisterScreenFourth,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.RegisterFive', () => RegisterFive, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.ThreadDetails', () => ThreadDetails, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.ModalSearch', () => ModalSearch, store, Provider);
+  Navigation.registerComponent(
+    'TemanDiabetes.ModalPostThread',
+    () => ModalPostThread,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.ModalPostComment',
+    () => ModalPostComment,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.ModalReport', () => ModalReport, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.FeaturedDetail', () => FeatureDetail);
+  Navigation.registerComponent('TemanDiabetes.ProfileScreen', () => ProfileScreen, store, Provider);
+  Navigation.registerComponent(
+    'TemanDiabetes.ProfileDetails',
+    () => ProfileDetails,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.ProfileSettings',
+    () => ProfileSettings,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.EditProfile', () => EditProfile, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.AboutScreen', () => AboutScreen);
+  Navigation.registerComponent('TemanDiabetes.FaqScreen', () => FaqScreen);
+  Navigation.registerComponent('TemanDiabetes.ProductDetail', () => ProductDetail);
+  Navigation.registerComponent('TemanDiabetes.LightBox', () => LightBox);
   Navigation.registerComponent('TemanDiabetes.InnerCircle', () => InnerCircle, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.InnerCircleList', () => InnerCircleList, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ThreadTopic', () => ThreadTopic, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ModalReplyComment', () => ModalReplyComment, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.CommentDetails', () => CommentDetails, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.StepOne', () => StepOne);
-	Navigation.registerComponent('TemanDiabetes.StepTwo', () => StepTwo);
-	Navigation.registerComponent('TemanDiabetes.StepThree', () => StepThree);
-	Navigation.registerComponent('TemanDiabetes.DnurseResult', () => DnurseResult, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.HistoryHba1c', () => HistoryHba1c, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.HistoryActivity', () => HistoryActivity, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.HistoryBloodPressure', () => HistoryBloodPressure, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.HistoryWeight', () => HistoryWeight, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.HistoryFoods', () => HistoryFoods, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.HistoryBloodSugarLevels', () => HistoryBloodSugarLevels, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.DrugReminder', () => DrugReminder, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.Notification', () => Notification, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.ForgotPasswordInputEmail', () => ForgotPasswordInputEmail);
-	Navigation.registerComponent('TemanDiabetes.ForgotPasswordInputNewPassword', () => ForgotPasswordInputNewPassword);
-	Navigation.registerComponent('TemanDiabetes.PreviewSearchMakanan', () => PreviewSearchMakanan, store, Provider);
+  Navigation.registerComponent(
+    'TemanDiabetes.InnerCircleList',
+    () => InnerCircleList,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.ThreadTopic', () => ThreadTopic, store, Provider);
+  Navigation.registerComponent(
+    'TemanDiabetes.ModalReplyComment',
+    () => ModalReplyComment,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.CommentDetails',
+    () => CommentDetails,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.StepOne', () => StepOne);
+  Navigation.registerComponent('TemanDiabetes.StepTwo', () => StepTwo);
+  Navigation.registerComponent('TemanDiabetes.StepThree', () => StepThree);
+  Navigation.registerComponent('TemanDiabetes.DnurseResult', () => DnurseResult, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.HistoryHba1c', () => HistoryHba1c, store, Provider);
+  Navigation.registerComponent(
+    'TemanDiabetes.HistoryActivity',
+    () => HistoryActivity,
+    store,
+    Provider
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.HistoryBloodPressure',
+    () => HistoryBloodPressure,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.HistoryWeight', () => HistoryWeight, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.HistoryFoods', () => HistoryFoods, store, Provider);
+  Navigation.registerComponent(
+    'TemanDiabetes.HistoryBloodSugarLevels',
+    () => HistoryBloodSugarLevels,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.DrugReminder', () => DrugReminder, store, Provider);
   Navigation.registerComponent('TemanDiabetes.Notification', () => Notification, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.Request', () => Request, store, Provider);
-	Navigation.registerComponent('TemanDiabetes.InviteFriends', () => InviteFriend);
-	Navigation.registerComponent('TemanDiabetes.CreateAsuransi', () => CreateAsuransi);
+  Navigation.registerComponent(
+    'TemanDiabetes.ForgotPasswordInputEmail',
+    () => ForgotPasswordInputEmail
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.ForgotPasswordInputNewPassword',
+    () => ForgotPasswordInputNewPassword
+  );
+  Navigation.registerComponent(
+    'TemanDiabetes.PreviewSearchMakanan',
+    () => PreviewSearchMakanan,
+    store,
+    Provider
+  );
+  Navigation.registerComponent('TemanDiabetes.Notification', () => Notification, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.Request', () => Request, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.InviteFriends', () => InviteFriend);
+  Navigation.registerComponent('TemanDiabetes.CreateAsuransi', () => CreateAsuransi);
+  Navigation.registerComponent('TemanDiabetes.InsuranceList', () => InsuranceList);
 }
-

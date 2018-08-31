@@ -11,11 +11,15 @@ import {
   Picker,
   DatePickerAndroid,
   Platform,
-  Alert
+  Alert,
+  Image
 } from 'react-native';
 import { NavigationBar, Spinner, SnackBar } from '../../../../components';
 import { updateProfile } from '../../../../actions/profileActions';
 import ProfileCard from '../../../../components/card/profile';
+import color from '../../../../style/color';
+import { API_CALL } from '../../../../utils/ajaxRequestHelper';
+import InsuranceList from './InsuranceList'
 
 class EditProfile extends React.Component {
   static navigatorStyle = {
@@ -26,6 +30,9 @@ class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      activeTab: 0,
+      // state to store insuranceList
+      insuranceList: [],
       userData: {
         _id: '',
         nama: '',
@@ -46,6 +53,28 @@ class EditProfile extends React.Component {
       showSnackBar: false,
       message: ''
     };
+  }
+
+  componentDidMount() {
+    this.copyUserData(this.props.currentUser);
+
+    // FETCH INSURANCE DATA HERE
+    this.getInsurance()
+  }
+
+  getInsurance = async () => {
+    // CALL API TO GET API LIST AND SET INSURANCE LIST
+    const option = {
+      method: 'get',
+      url: '/api/insurance',
+    };
+
+    try {
+      const { data: { data: {  insurances }}} = await API_CALL(option);
+      this.setState({ insuranceList: insurances })
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   submitValidation(cb) {
@@ -106,10 +135,6 @@ class EditProfile extends React.Component {
     this.setState({
       userData: newUserData
     });
-  }
-
-  componentDidMount() {
-    this.copyUserData(this.props.currentUser);
   }
 
   updateProfileOnCLick = () => {
@@ -181,106 +206,138 @@ class EditProfile extends React.Component {
     }, 2000);
   };
 
+  addInsurance = () => {
+    this.props.navigator.push({
+      screen: 'Temandiabetes.CreateAsuransi',
+      navigatorStyle: {
+        navBarHidden,
+        tabBarHidden: true
+      }
+    });
+  }
+
+  onClickDeleteInsuranceItem = (id, index) => {
+    this.props.navigator.showLightBox({
+      screen: 'TemanDiabetes.LightBox',
+      passProps: {
+        title: 'Hapus Asuransi',
+        content: 'Apakah Anda yakin akan menghapus asuransi?',
+        confirmText: 'Hapus',
+        prePurchase: (item, cb) => {
+          this.deleteInsuranceItem(id, index, cb)
+        }
+      },
+      style: {
+        backgroundBlur: 'dark',
+        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        tapBackgroundToDismiss: true
+      }
+    });
+  }
+
+  deleteInsuranceItem = async (id, index, cb) => {
+    const option = {
+      method: 'delete',
+      url: '/api/insurance',
+      data: {
+        insuranceId: id
+      }
+    };
+
+    try {
+      if (cb) {
+        cb()
+      }
+
+      this.setState({
+        isLoading: true
+      })
+
+      await API_CALL(option);
+
+      // delete the item
+      this.setState({
+        insuranceList:
+          [
+            ...this.state.insuranceList.slice(0, index),
+            ...this.state.insuranceList.slice(index+1)
+          ],
+        isLoading: false
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  updateInsuranceItem = (id) => {
+    this.props.navigator.push({
+      screen: 'TemanDiabetes.CreateAsuransi',
+      navigatorStyle: {
+        navBarHidden: true,
+        tabBarHidden: true
+      },
+      passProps: {
+        onSuccessCallback: () => {
+          this.getInsurance()
+        },
+        insuranceId: id
+      }
+    })
+  }
+
   render() {
     const { userData, isLoading, errors } = this.state;
     const { currentUser } = this.props;
     // const dateOfBirth = this.handleDisplayDate();
     return (
       <View style={styles.container}>
-        {isLoading && <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />}
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFIL" />
-        <ProfileCard
-          updateLoadingState={(isLoading, cb) => {
-            this.setState({ isLoading }, cb);
-          }}
-        />
-        <View style={{ flex: 3, marginTop: 10, paddingLeft: 20, paddingRight: 20 }}>
-          <ScrollView>
-            <View>
-              <Text style={styles.titleTextInput}>Username</Text>
-              <TextInput
-                value={userData.nama}
-                style={styles.textInput}
-                placeholderTextColor="#4a4a4a"
-                onChangeText={text => this.setUserData('nama', text)}
-                underlineColorAndroid="#ef434e"
-              />
-              {errors.nama.isError && <Text style={styles.errorText}>{errors.nama.label}</Text>}
-            </View>
-            <View>
-              <Text style={styles.titleTextInput}>Tanggal Lahir</Text>
-              <TouchableOpacity
-                style={[styles.pickerWrapper, { height: 35, marginLeft: 5 }]}
-                onPress={() => {
-                  this.openDatePicker();
-                }}
-              >
-                <Text style={[styles.textInput, { marginTop: 9 }]}>{
-                  userData.tgl_lahir && userData.tgl_lahir !== '' ? moment(userData.tgl_lahir).format('YYYY-MM-DD') : ''
-                }</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <Text style={styles.titleTextInput}>Alamat</Text>
-              <TextInput
-                value={userData.alamat}
-                style={styles.textInput}
-                placeholderTextColor="#4a4a4a"
-                onChangeText={text => this.setUserData('alamat', text)}
-                underlineColorAndroid="#ef434e"
-              />
-            </View>
-            <View>
-              <Text style={styles.titleTextInput}>Jenis Kelamin</Text>
-              <View style={styles.pickerWrapper}>
-                <Picker
-                  selectedValue={userData.jenis_kelamin}
-                  style={styles.picker}
-                  onValueChange={itemValue => this.setUserData('jenis_kelamin', itemValue)}
-                >
-                  <Picker.Item label="Pilih jenis kelamin" value="" />
-                  <Picker.Item label="Laki-laki" value="L" />
-                  <Picker.Item label="Perempuan" value="P" />
-                </Picker>
-              </View>
-            </View>
-            {currentUser.tipe_user === 'diabetesi' && (
-              <View>
-                <Text style={styles.titleTextInput}>Jenis Diabetes</Text>
-                <View style={styles.pickerWrapper}>
-                  <Picker
-                    pickerStyle={{ fontSize: 25 }}
-                    selectedValue={userData.diabetesi_tipe}
-                    style={styles.picker}
-                    onValueChange={itemValue => this.setUserData('diabetesi_tipe', itemValue)}
-                  >
-                    <Picker.Item label="Pre-diabetes" value="Pre-diabetes" />
-                    <Picker.Item label="Diabetes type1" value="Diabetes type1" />
-                    <Picker.Item label="Diabetes type2" value="Diabetes type2" />
-                    <Picker.Item label="Gestational" value="Gestational" />
-                  </Picker>
-                </View>
-              </View>
-            )}
-            <View>
-              <Text style={styles.titleTextInput}>No Hp</Text>
-              <TextInput
-                value={userData.no_telp}
-                style={styles.textInput}
-                keyboardType="numeric"
-                placeholderTextColor="#4a4a4a"
-                onChangeText={text => this.setUserData('no_telp', text)}
-                underlineColorAndroid="#ef434e"
-              />
-            </View>
-          </ScrollView>
+        { /*  Header Container */ }
+        <View style={{
+          padding: 10
+        }}>
+          {isLoading && <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />}
+          <ProfileCard
+            updateLoadingState={(isLoading, cb) => {
+              this.setState({ isLoading }, cb);
+            }}
+          />
         </View>
-        <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+
+        { /*  TAB */ }
+        <View style={{ height: 50, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#ef434e', }}>
           <TouchableOpacity
             onPress={() => {
-              this.updateProfileOnCLick();
+              this.setState({activeTab: 0});
             }}
             style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 104,
+              height: 34,
+              borderRadius: 3
+            }}
+          >
+            <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
+              PROFIL
+            </Text>
+            {
+              this.state.activeTab === 0 &&
+              <View style={{
+                borderBottomWidth: 4,
+                marginTop: 3,
+                width: '10%',
+                borderBottomColor: '#fff',
+              }}></View>
+            }
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              this.setState({activeTab: 1});
+            }}
+            style={{
+              flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
               width: 104,
@@ -290,9 +347,200 @@ class EditProfile extends React.Component {
             }}
           >
             <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
-              SIMPAN
+              ASURANSI
             </Text>
+            {
+              this.state.activeTab === 1 &&
+              <View style={{
+                borderBottomWidth: 4,
+                marginTop: 3,
+                width: '10%',
+                borderBottomColor: '#fff',
+              }}></View>
+            }
           </TouchableOpacity>
+        </View>
+
+        { /*  Content Container */ }
+        <View style={{
+          flex: 1,
+          backgroundColor: color.solitude
+        }}>
+          { /*  EDIT PROFILE TAB CONTENT */ }
+          {
+            this.state.activeTab === 0 &&
+            <ScrollView contentContainerStyle={{
+              padding: 10,
+              backgroundColor: '#fff'
+            }}>
+              <View>
+                <Text style={styles.titleTextInput}>Username</Text>
+                <TextInput
+                  value={userData.nama}
+                  style={styles.textInput}
+                  placeholderTextColor="#4a4a4a"
+                  onChangeText={text => this.setUserData('nama', text)}
+                  underlineColorAndroid="#ef434e"
+                />
+                {errors.nama.isError && <Text style={styles.errorText}>{errors.nama.label}</Text>}
+              </View>
+              <View>
+                <Text style={styles.titleTextInput}>Tanggal Lahir</Text>
+                <TouchableOpacity
+                  style={[styles.pickerWrapper, { height: 35, marginLeft: 5 }]}
+                  onPress={() => {
+                    this.openDatePicker();
+                  }}
+                >
+                  <Text style={[styles.textInput, { marginTop: 9 }]}>{
+                    userData.tgl_lahir && userData.tgl_lahir !== '' ? moment(userData.tgl_lahir).format('YYYY-MM-DD') : ''
+                  }</Text>
+                </TouchableOpacity>
+              </View>
+              <View>
+                <Text style={styles.titleTextInput}>Alamat</Text>
+                <TextInput
+                  value={userData.alamat}
+                  style={styles.textInput}
+                  placeholderTextColor="#4a4a4a"
+                  onChangeText={text => this.setUserData('alamat', text)}
+                  underlineColorAndroid="#ef434e"
+                />
+              </View>
+              <View>
+                <Text style={styles.titleTextInput}>Jenis Kelamin</Text>
+                <View style={styles.pickerWrapper}>
+                  <Picker
+                    selectedValue={userData.jenis_kelamin}
+                    style={styles.picker}
+                    onValueChange={itemValue => this.setUserData('jenis_kelamin', itemValue)}
+                  >
+                    <Picker.Item label="Pilih jenis kelamin" value="" />
+                    <Picker.Item label="Laki-laki" value="L" />
+                    <Picker.Item label="Perempuan" value="P" />
+                  </Picker>
+                </View>
+              </View>
+              {currentUser.tipe_user === 'diabetesi' && (
+                <View>
+                  <Text style={styles.titleTextInput}>Jenis Diabetes</Text>
+                  <View style={styles.pickerWrapper}>
+                    <Picker
+                      pickerStyle={{ fontSize: 25 }}
+                      selectedValue={userData.diabetesi_tipe}
+                      style={styles.picker}
+                      onValueChange={itemValue => this.setUserData('diabetesi_tipe', itemValue)}
+                    >
+                      <Picker.Item label="Pre-diabetes" value="Pre-diabetes" />
+                      <Picker.Item label="Diabetes type1" value="Diabetes type1" />
+                      <Picker.Item label="Diabetes type2" value="Diabetes type2" />
+                      <Picker.Item label="Gestational" value="Gestational" />
+                    </Picker>
+                  </View>
+                </View>
+              )}
+              <View>
+                <Text style={styles.titleTextInput}>No Hp</Text>
+                <TextInput
+                  value={userData.no_telp}
+                  style={styles.textInput}
+                  keyboardType="numeric"
+                  placeholderTextColor="#4a4a4a"
+                  onChangeText={text => this.setUserData('no_telp', text)}
+                  underlineColorAndroid="#ef434e"
+                />
+              </View>
+              <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.updateProfileOnCLick();
+                  }}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 104,
+                    height: 34,
+                    backgroundColor: '#ef434e',
+                    borderRadius: 3
+                  }}
+                >
+                <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
+                  SIMPAN
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        }
+
+        { /* EDIT INSURANCE TAB CONTENT*/ }
+        {
+          this.state.activeTab === 1 &&
+          <View style={{ flex: 1}}>
+
+            { /* INSURANCE LIST */ }
+            {
+              this.state.insuranceList.length > 0 &&
+              <InsuranceList
+                navigator={this.props.navigator}
+                getInsurance={this.getInsurance}
+                data={this.state.insuranceList}
+                onDeleteItem={this.onClickDeleteInsuranceItem}
+                onUpdateItem={this.updateInsuranceItem}
+              />
+            }
+
+            { /* EMPTY INSURANCE LIST PLACEHOLDER */ }
+            {
+              this.state.insuranceList.length === 0 &&
+              <View style={{ justifyContent: 'flex-start', alignItems: 'center', flex: 1, paddingTop: 70}}>
+                <Image
+                  source={require('../../../../assets/icons/insurance.png')}
+                  style={{
+                    height: 90,
+                    width: 100,
+                    marginBottom: 15
+                  }}
+                />
+                <View style={{
+                  marginHorizontal: 25,
+                }}>
+                  <Text style={{textAlign: 'center'}}>Anda belum memiliki asuransi.</Text>
+                  <Text style={{textAlign: 'center'}}>Silahkan tambahkan asuransi untuk menghubungkan ke aplikasi Teman Diabetes</Text>
+                </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigator.push({
+                      screen: 'TemanDiabetes.CreateAsuransi',
+                      navigatorStyle: {
+                        navBarHidden: true,
+                        tabBarHidden: true
+                      },
+                      passProps: {
+                        onSuccessCallback: () => {
+                          this.getInsurance()
+                        }
+                      }
+                    });
+                  }}
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: 155,
+                    height: 34,
+                    backgroundColor: '#ef434e',
+                    borderRadius: 3
+                  }}
+                >
+                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular', textAlign: 'center' }}>
+                    TAMBAH ASURANSI
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              </View>
+            }
+          </View>
+        }
         </View>
         <SnackBar
           visible={this.state.showSnackBar}
@@ -308,8 +556,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingHorizontal: 10,
-    paddingVertical: 15
+    paddingTop: 15
   },
   titleTextInput: {
     marginLeft: 5,

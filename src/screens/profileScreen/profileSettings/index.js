@@ -45,12 +45,6 @@ class ProfileSettings extends React.Component {
           >
             <Text style={styles.buttonText}>PILIHAN TOPIK FORUM</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.onPushScreen('TemanDiabetes.CreateAsuransi')}
-            style={styles.buttonWrapper}
-          >
-            <Text style={styles.buttonText}>TAMBAH ASURANSI</Text>
-          </TouchableOpacity>
         </View>
         <View style={{ flex: 1 }} />
       </View>
