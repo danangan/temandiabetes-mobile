@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
+import { debounce } from 'lodash';
 import {
   View,
   Text,
@@ -19,7 +20,7 @@ import { updateProfile } from '../../../../actions/profileActions';
 import ProfileCard from '../../../../components/card/profile';
 import color from '../../../../style/color';
 import { API_CALL } from '../../../../utils/ajaxRequestHelper';
-import InsuranceList from './InsuranceList'
+import InsuranceList from './InsuranceList';
 
 class EditProfile extends React.Component {
   static navigatorStyle = {
@@ -59,23 +60,27 @@ class EditProfile extends React.Component {
     this.copyUserData(this.props.currentUser);
 
     // FETCH INSURANCE DATA HERE
-    this.getInsurance()
+    this.getInsurance();
   }
 
   getInsurance = async () => {
     // CALL API TO GET API LIST AND SET INSURANCE LIST
     const option = {
       method: 'get',
-      url: '/api/insurance',
+      url: '/api/insurance'
     };
 
     try {
-      const { data: { data: {  insurances }}} = await API_CALL(option);
-      this.setState({ insuranceList: insurances })
+      const {
+        data: {
+          data: { insurances }
+        }
+      } = await API_CALL(option);
+      this.setState({ insuranceList: insurances });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   submitValidation(cb) {
     if (
@@ -184,7 +189,13 @@ class EditProfile extends React.Component {
         if (result.action !== DatePickerAndroid.dismissedAction) {
           const { year, month, day } = result;
           // Selected year, month (0-11), day
-          this.setUserData('tgl_lahir', moment().set('year', year).set('month', month).set('date', day));
+          this.setUserData(
+            'tgl_lahir',
+            moment()
+              .set('year', year)
+              .set('month', month)
+              .set('date', day)
+          );
         }
       } catch ({ code, message }) {
         console.warn('Cannot open date picker', message);
@@ -214,7 +225,7 @@ class EditProfile extends React.Component {
         tabBarHidden: true
       }
     });
-  }
+  };
 
   onClickDeleteInsuranceItem = (id, index) => {
     this.props.navigator.showLightBox({
@@ -224,7 +235,7 @@ class EditProfile extends React.Component {
         content: 'Apakah Anda yakin akan menghapus asuransi?',
         confirmText: 'Hapus',
         prePurchase: (item, cb) => {
-          this.deleteInsuranceItem(id, index, cb)
+          this.deleteInsuranceItem(id, index, cb);
         }
       },
       style: {
@@ -233,7 +244,7 @@ class EditProfile extends React.Component {
         tapBackgroundToDismiss: true
       }
     });
-  }
+  };
 
   deleteInsuranceItem = async (id, index, cb) => {
     const option = {
@@ -246,30 +257,29 @@ class EditProfile extends React.Component {
 
     try {
       if (cb) {
-        cb()
+        cb();
       }
 
       this.setState({
         isLoading: true
-      })
+      });
 
       await API_CALL(option);
 
       // delete the item
       this.setState({
-        insuranceList:
-          [
-            ...this.state.insuranceList.slice(0, index),
-            ...this.state.insuranceList.slice(index+1)
-          ],
+        insuranceList: [
+          ...this.state.insuranceList.slice(0, index),
+          ...this.state.insuranceList.slice(index + 1)
+        ],
         isLoading: false
-      })
+      });
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  updateInsuranceItem = (id) => {
+  updateInsuranceItem = id => {
     this.props.navigator.push({
       screen: 'TemanDiabetes.CreateAsuransi',
       navigatorStyle: {
@@ -278,12 +288,13 @@ class EditProfile extends React.Component {
       },
       passProps: {
         onSuccessCallback: () => {
-          this.getInsurance()
+          this.getInsurance();
         },
-        insuranceId: id
+        insuranceId: id,
+        method: 'edit'
       }
-    })
-  }
+    });
+  };
 
   render() {
     const { userData, isLoading, errors } = this.state;
@@ -292,10 +303,12 @@ class EditProfile extends React.Component {
     return (
       <View style={styles.container}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFIL" />
-        { /*  Header Container */ }
-        <View style={{
-          padding: 10
-        }}>
+        {/*  Header Container */}
+        <View
+          style={{
+            padding: 10
+          }}
+        >
           {isLoading && <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />}
           <ProfileCard
             updateLoadingState={(isLoading, cb) => {
@@ -304,11 +317,19 @@ class EditProfile extends React.Component {
           />
         </View>
 
-        { /*  TAB */ }
-        <View style={{ height: 50, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#ef434e', }}>
+        {/*  TAB */}
+        <View
+          style={{
+            height: 50,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            backgroundColor: '#ef434e'
+          }}
+        >
           <TouchableOpacity
             onPress={() => {
-              this.setState({activeTab: 0});
+              this.setState({ activeTab: 0 });
             }}
             style={{
               flex: 1,
@@ -322,19 +343,20 @@ class EditProfile extends React.Component {
             <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
               PROFIL
             </Text>
-            {
-              this.state.activeTab === 0 &&
-              <View style={{
-                borderBottomWidth: 4,
-                marginTop: 3,
-                width: '10%',
-                borderBottomColor: '#fff',
-              }}></View>
-            }
+            {this.state.activeTab === 0 && (
+              <View
+                style={{
+                  borderBottomWidth: 4,
+                  marginTop: 3,
+                  width: '10%',
+                  borderBottomColor: '#fff'
+                }}
+              />
+            )}
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              this.setState({activeTab: 1});
+              this.setState({ activeTab: 1 });
             }}
             style={{
               flex: 1,
@@ -349,30 +371,34 @@ class EditProfile extends React.Component {
             <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
               ASURANSI
             </Text>
-            {
-              this.state.activeTab === 1 &&
-              <View style={{
-                borderBottomWidth: 4,
-                marginTop: 3,
-                width: '10%',
-                borderBottomColor: '#fff',
-              }}></View>
-            }
+            {this.state.activeTab === 1 && (
+              <View
+                style={{
+                  borderBottomWidth: 4,
+                  marginTop: 3,
+                  width: '10%',
+                  borderBottomColor: '#fff'
+                }}
+              />
+            )}
           </TouchableOpacity>
         </View>
 
-        { /*  Content Container */ }
-        <View style={{
-          flex: 1,
-          backgroundColor: color.solitude
-        }}>
-          { /*  EDIT PROFILE TAB CONTENT */ }
-          {
-            this.state.activeTab === 0 &&
-            <ScrollView contentContainerStyle={{
-              padding: 10,
-              backgroundColor: '#fff'
-            }}>
+        {/*  Content Container */}
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: color.solitude
+          }}
+        >
+          {/*  EDIT PROFILE TAB CONTENT */}
+          {this.state.activeTab === 0 && (
+            <ScrollView
+              contentContainerStyle={{
+                padding: 10,
+                backgroundColor: '#fff'
+              }}
+            >
               <View>
                 <Text style={styles.titleTextInput}>Username</Text>
                 <TextInput
@@ -392,9 +418,11 @@ class EditProfile extends React.Component {
                     this.openDatePicker();
                   }}
                 >
-                  <Text style={[styles.textInput, { marginTop: 9 }]}>{
-                    userData.tgl_lahir && userData.tgl_lahir !== '' ? moment(userData.tgl_lahir).format('YYYY-MM-DD') : ''
-                  }</Text>
+                  <Text style={[styles.textInput, { marginTop: 9 }]}>
+                    {userData.tgl_lahir && userData.tgl_lahir !== ''
+                      ? moment(userData.tgl_lahir).format('YYYY-MM-DD')
+                      : ''}
+                  </Text>
                 </TouchableOpacity>
               </View>
               <View>
@@ -464,83 +492,103 @@ class EditProfile extends React.Component {
                     borderRadius: 3
                   }}
                 >
-                <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
-                  SIMPAN
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </ScrollView>
-        }
-
-        { /* EDIT INSURANCE TAB CONTENT*/ }
-        {
-          this.state.activeTab === 1 &&
-          <View style={{ flex: 1}}>
-
-            { /* INSURANCE LIST */ }
-            {
-              this.state.insuranceList.length > 0 &&
-              <InsuranceList
-                navigator={this.props.navigator}
-                getInsurance={this.getInsurance}
-                data={this.state.insuranceList}
-                onDeleteItem={this.onClickDeleteInsuranceItem}
-                onUpdateItem={this.updateInsuranceItem}
-              />
-            }
-
-            { /* EMPTY INSURANCE LIST PLACEHOLDER */ }
-            {
-              this.state.insuranceList.length === 0 &&
-              <View style={{ justifyContent: 'flex-start', alignItems: 'center', flex: 1, paddingTop: 70}}>
-                <Image
-                  source={require('../../../../assets/icons/insurance.png')}
-                  style={{
-                    height: 90,
-                    width: 100,
-                    marginBottom: 15
-                  }}
-                />
-                <View style={{
-                  marginHorizontal: 25,
-                }}>
-                  <Text style={{textAlign: 'center'}}>Anda belum memiliki asuransi.</Text>
-                  <Text style={{textAlign: 'center'}}>Silahkan tambahkan asuransi untuk menghubungkan ke aplikasi Teman Diabetes</Text>
-                </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigator.push({
-                      screen: 'TemanDiabetes.CreateAsuransi',
-                      navigatorStyle: {
-                        navBarHidden: true,
-                        tabBarHidden: true
-                      },
-                      passProps: {
-                        onSuccessCallback: () => {
-                          this.getInsurance()
-                        }
-                      }
-                    });
-                  }}
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: 155,
-                    height: 34,
-                    backgroundColor: '#ef434e',
-                    borderRadius: 3
-                  }}
-                >
-                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular', textAlign: 'center' }}>
-                    TAMBAH ASURANSI
+                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
+                    SIMPAN
                   </Text>
                 </TouchableOpacity>
               </View>
-              </View>
-            }
-          </View>
-        }
+            </ScrollView>
+          )}
+
+          {/* EDIT INSURANCE TAB CONTENT*/}
+          {this.state.activeTab === 1 && (
+            <View style={{ flex: 1 }}>
+              {/* INSURANCE LIST */}
+              {this.state.insuranceList.length > 0 && (
+                <InsuranceList
+                  navigator={this.props.navigator}
+                  getInsurance={this.getInsurance}
+                  data={this.state.insuranceList}
+                  onDeleteItem={this.onClickDeleteInsuranceItem}
+                  onUpdateItem={this.updateInsuranceItem}
+                />
+              )}
+
+              {/* EMPTY INSURANCE LIST PLACEHOLDER */}
+              {this.state.insuranceList.length === 0 && (
+                <View
+                  style={{
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    flex: 1,
+                    paddingTop: 70
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/icons/insurance.png')}
+                    style={{
+                      height: 90,
+                      width: 100,
+                      marginBottom: 15
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginHorizontal: 25
+                    }}
+                  >
+                    <Text style={{ textAlign: 'center' }}>Anda belum memiliki asuransi.</Text>
+                    <Text style={{ textAlign: 'center' }}>
+                      Silahkan tambahkan asuransi untuk menghubungkan ke aplikasi Teman Diabetes
+                    </Text>
+                  </View>
+                  <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <TouchableOpacity
+                      onPress={debounce(
+                        () =>
+                          this.props.navigator.push({
+                            screen: 'TemanDiabetes.CreateAsuransi',
+                            navigatorStyle: {
+                              navBarHidden: true,
+                              tabBarHidden: true
+                            },
+                            passProps: {
+                              onSuccessCallback: () => {
+                                this.getInsurance();
+                              }
+                            }
+                          }),
+                        500,
+                        {
+                          leading: true,
+                          trailing: false
+                        }
+                      )}
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 155,
+                        height: 34,
+                        backgroundColor: '#ef434e',
+                        borderRadius: 3
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: '#fff',
+                          fontSize: 12,
+                          fontFamily: 'OpenSans-Regular',
+                          textAlign: 'center'
+                        }}
+                      >
+                        TAMBAH ASURANSI
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            </View>
+          )}
         </View>
         <SnackBar
           visible={this.state.showSnackBar}
