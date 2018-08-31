@@ -14,7 +14,7 @@ class CreateAsuransi extends React.Component {
     super(props);
     this.state = {
       // set default value
-      namaAsuransi: 'Alianz',
+      namaAsuransi: 'Astra Life',
       // set default value
       tipeAsuransi: 'Perusahaan',
       nomorAsuransi: '',
@@ -207,6 +207,7 @@ class CreateAsuransi extends React.Component {
                   <Text style={styles.titleField}>Nomor Asuransi</Text>
                   <View style={styles.pickerWrapper}>
                     <TextInput
+                      keyboardType="numeric"
                       style={{ height: 40 }}
                       value={this.state.nomorAsuransi}
                       underlineColorAndroid="transparent"
@@ -219,6 +220,7 @@ class CreateAsuransi extends React.Component {
                 <Text style={styles.titleField}>Nomor Polis</Text>
                 <View style={styles.pickerWrapper}>
                   <TextInput
+                    keyboardType="numeric"
                     style={{ height: 40 }}
                     underlineColorAndroid="transparent"
                     value={this.state.nomorPolis}
