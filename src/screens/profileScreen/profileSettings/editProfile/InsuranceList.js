@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Alert } from 'react-native';
 import Style from '../../../../style/defaultStyle';
 import color from '../../../../style/color';
 
 const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigator }) => {
-  console.log('NO POLIS', data);
   const renderItem = ({ item, index }) => (
     <View style={styles.container}>
       <View style={styles.vertical}>
@@ -110,7 +109,7 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
     </View>
   );
 
-  const footer = () => (
+  const footer = data => (
     <View
       style={{
         marginVertical: 15,
@@ -119,18 +118,20 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
     >
       <TouchableOpacity
         onPress={() => {
-          navigator.push({
-            screen: 'TemanDiabetes.CreateAsuransi',
-            navigatorStyle: {
-              navBarHidden: true,
-              tabBarHidden: true
-            },
-            passProps: {
-              onSuccessCallback: () => {
-                getInsurance();
-              }
-            }
-          });
+          data.length > 10
+            ? Alert.alert('Anda sudah memiliki 10 Asuransi.')
+            : navigator.push({
+                screen: 'TemanDiabetes.CreateAsuransi',
+                navigatorStyle: {
+                  navBarHidden: true,
+                  tabBarHidden: true
+                },
+                passProps: {
+                  onSuccessCallback: () => {
+                    getInsurance();
+                  }
+                }
+              });
         }}
         style={{
           justifyContent: 'center',
@@ -154,13 +155,14 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
       </TouchableOpacity>
     </View>
   );
+
   return (
     <View
       style={{
         flex: 1
       }}
     >
-      <FlatList data={data} renderItem={renderItem} ListFooterComponent={footer} />
+      <FlatList data={data} renderItem={renderItem} ListFooterComponent={footer(data)} />
     </View>
   );
 };
