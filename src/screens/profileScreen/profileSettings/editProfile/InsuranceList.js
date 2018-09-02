@@ -1,4 +1,5 @@
 import React from 'react';
+import { debounce } from 'lodash';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Alert } from 'react-native';
 import Style from '../../../../style/defaultStyle';
 import color from '../../../../style/color';
@@ -117,7 +118,7 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
       }}
     >
       <TouchableOpacity
-        onPress={() => {
+        onPress={debounce(() => {
           data.length === 10
             ? Alert.alert('Anda sudah memiliki 10 Asuransi.')
             : navigator.push({
@@ -132,7 +133,12 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
                   }
                 }
               });
-        }}
+        },
+        500,
+        {
+          leading: true,
+          trailing: false
+        })}
         style={{
           justifyContent: 'center',
           alignItems: 'center',

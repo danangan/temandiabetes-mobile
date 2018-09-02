@@ -17,6 +17,7 @@ class CreateAsuransi extends React.Component {
       namaAsuransi: 'Astra Life',
       // set default value
       tipeAsuransi: 'Perusahaan',
+      insuranceNameList: [],
       nomorAsuransi: '',
       nomorPolis: '',
       _errors: null,
@@ -28,6 +29,7 @@ class CreateAsuransi extends React.Component {
   }
 
   async componentDidMount() {
+    // get insurance data if edit
     if (this.props.insuranceId) {
       const option = {
         method: 'get',
@@ -50,6 +52,23 @@ class CreateAsuransi extends React.Component {
       } catch (error) {
         console.log(error);
       }
+    }
+
+    // get the insurance list data
+    const option = {
+      method: 'get',
+      url: '/api/insurance/list'
+    };
+
+    try {
+      const {data: {data: {docs}}} = await API_CALL(option);
+
+      this.setState({
+        insuranceNameList: docs
+      })
+
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -174,9 +193,11 @@ class CreateAsuransi extends React.Component {
                       this.setState({ namaAsuransi: itemValue })
                     }
                   >
-                    <Picker.Item label="Astra Life" value="Astra Life" />
-                    <Picker.Item label="FWD" value="FWD" />
-                    <Picker.Item label="Lainnya" value="Lainnya" />
+                    {
+                      this.state.insuranceNameList.map(item => (
+                        <Picker.Item label={item.name} value={item.name} />
+                      ))
+                    }
                   </Picker>
                 </View>
               </View>
