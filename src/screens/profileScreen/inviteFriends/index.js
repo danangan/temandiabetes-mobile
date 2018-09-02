@@ -7,21 +7,25 @@ import back from '../../../assets/icons/back.png';
 import contentImage from '../../../assets/images/inviteFriend.png';
 import Style from '../../../style/defaultStyle';
 import { Button } from '../../../components';
-import landingPageURL from '../../../config/landingPageURL';
 
 class InviteFriends extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      clipboardContent: landingPageURL
+      clipboardContent: 'https://www.temandiabetes.com'
     };
   }
 
   shareApp = () => {
     const options = {
       title: 'Ajakan bergabung di Teman Diabetes',
-      message: 'Dapatkan aplikasi Teman Diabetes dengan klik link berikut',
-      url: landingPageURL,
+      message:
+        'Aplikasi Teman Diabetes bisa digunakan oleh diabetisi, inner circle atau anggota keluarga, dan ahli medis.' +
+        '\n\n' +
+        'Yuk, dukung diabetisi dengan ikut menggunakan aplikasi Teman Diabetes dan tunjukkan kepedulian Anda kepada mereka.' +
+        '\n\n' +
+        'Klik link berikut untuk mendownload aplikasi ini:',
+      url: 'https://www.temandiabetes.com',
       subject: 'Ajakan bergabung di Teman Diabetes' //  for email
     };
     Share.open(options).catch(err => {
@@ -85,8 +89,8 @@ class InviteFriends extends React.Component {
               https://temandiabetes.com/{this.randomLinkReferral()}
             </Text>
             <Text style={styles.descriptionStyle}>
-              Bagikan kode undangan di atas melalui akun media sosial Anda, Ajak teman Anda bergabung
-              dan saling berinteraksi di Teman Diabetes.
+              Bagikan kode undangan di atas melalui akun media sosial Anda, Ajak teman Anda
+              bergabung dan saling berinteraksi di Teman Diabetes.
             </Text>
           </View>
         </View>

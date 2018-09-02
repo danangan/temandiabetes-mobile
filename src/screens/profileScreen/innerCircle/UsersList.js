@@ -1,6 +1,7 @@
 import React from 'react';
-
 import { View, Text, TouchableOpacity } from 'react-native';
+import { result } from 'lodash';
+
 import { Avatar } from '../../../components';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
@@ -10,7 +11,7 @@ const UsersList = ({ item, navigation }) => (
     <TouchableOpacity style={styles.contentStyle} onPress={() => navigation(item)}>
       <View style={styles.leftContentStyle}>
         <Avatar
-          userName={item.nama}
+          userName={result(item, 'nama', 'Anonim')}
           avatarSize="Small"
           imageSource={item.foto_profile}
           avatarStyle={[
@@ -27,7 +28,7 @@ const UsersList = ({ item, navigation }) => (
         />
         <View style={styles.nameContainerStyle}>
           <Text style={styles.nameStyle}>
-            {item.nama
+            {result(item, 'nama', 'Anonim')
               .split(' ')
               .slice(0, 2)
               .join(' ')}

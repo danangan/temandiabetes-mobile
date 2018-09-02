@@ -8,7 +8,6 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
   DatePickerAndroid,
   TimePickerAndroid,
   Alert
@@ -18,7 +17,7 @@ import debounce from 'lodash/debounce';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getFoodSuggetion, inputTrackerFood } from '../../../../actions';
-import { dateFormateName } from '../../../../utils/helpers';
+import { Spinner } from '../../../../components';
 
 const TextInputHoc = props => (
   <View
@@ -373,7 +372,7 @@ class PreviewSearchMakanan extends React.Component {
     if (suggetion.food.length === 0 && suggetion.status_code === 0) {
       return (
         <View style={styles.cardResult}>
-          <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+          <Spinner size="large" color="rgb(239, 67, 79)" />
         </View>
       );
     } else if (suggetion.food.length === 0 && suggetion.status_code === 204) {
@@ -419,7 +418,7 @@ class PreviewSearchMakanan extends React.Component {
     if (this.state.isProcess) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+          <Spinner size="large" color="rgb(239, 67, 79)" />
         </View>
       );
     }

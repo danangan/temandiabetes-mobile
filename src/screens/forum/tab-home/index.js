@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  Platform,
-  TouchableOpacity,
-  FlatList,
-  Text,
-  Alert,
-  ActivityIndicator
-} from 'react-native';
+import { View, TouchableOpacity, FlatList, Text, Alert } from 'react-native';
 import Share from 'react-native-share';
 
 import { Spinner, SearchButton } from '../../../components';
@@ -132,7 +124,7 @@ class TabHome extends Component {
 
     const Loader = (
       <View style={styles.loadMoreContent}>
-        <ActivityIndicator color="#EF434F" size={25} />
+        <Spinner color="#EF434F" size="large" />
       </View>
     );
 
@@ -214,7 +206,7 @@ class TabHome extends Component {
     );
 
     return (
-      <View style={styles.containerStyle} removeClippedSubviews={true}>
+      <View style={styles.containerStyle} removeClippedSubviews>
         {!listThreads.initialLoading && (
           <FlatList
             ListEmptyComponent={this.renderEmptySection}
@@ -230,7 +222,7 @@ class TabHome extends Component {
         )}
         {listThreads.initialLoading && (
           <View style={styles.initialLoading}>
-            <ActivityIndicator color="rgb(239, 67, 79)" size="large" />
+            <Spinner color="rgb(239, 67, 79)" size="large" />
           </View>
         )}
         {spinner}

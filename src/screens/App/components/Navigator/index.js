@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Platform } from 'react-native';
 
 import { debounce } from 'lodash';
 import defaultStyle from '../../../../style/defaultStyle';
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
-    // alignContent: 'center',
   },
   notificationBadge: {
     position: 'absolute',
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18
   },
   navbarText: {
-    fontFamily: 'Arista-Pro-Alternate-Light-trial',
+    fontFamily: Platform.OS === 'ios' ? 'AristaProAlternate-Light' : 'Arista-Pro-Alternate-Light-trial',
     color: '#fff',
     fontSize: defaultStyle.FONT_SIZE_TITLE * 1.3
   }

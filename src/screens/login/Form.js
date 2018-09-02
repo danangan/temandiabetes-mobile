@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Platform } from 'react-native';
 
 import { Card, CardSection, TextField } from '../../components';
 import Style from '../../style/defaultStyle';
@@ -44,6 +44,7 @@ const styles = {
     marginBottom: -7
 	},
 	inputStyle: {
+    marginLeft: Platform.OS === 'ios' ? -35 : 0,
     fontStyle: 'italic',
     fontWeight: 'normal',
 	},

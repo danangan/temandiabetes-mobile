@@ -92,8 +92,8 @@ const signWithGoogle = () => async dispatch => {
         currentUser
       };
 
-       // set this flag to redirect user to onboarding when user kills apps
-      await AsyncStorage.setItem('isNewUser', String(isNewUser))
+      // set this flag to redirect user to onboarding when user kills apps
+      await AsyncStorage.setItem('isNewUser', String(isNewUser));
 
       onSuccess(payloadData);
     }
@@ -189,7 +189,7 @@ const signWithFacebook = () => async dispatch => {
     };
 
     // set this flag to redirect user to onboarding when user kills apps
-    await AsyncStorage.setItem('isNewUser', String(isNewUser))
+    await AsyncStorage.setItem('isNewUser', String(isNewUser));
 
     onSuccess(payloadData);
   } catch (error) {

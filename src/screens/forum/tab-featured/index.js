@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, FlatList, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
 
@@ -116,20 +116,20 @@ class TabFeatured extends Component {
   }
 
   renderItem = threads => (
-      <StaticThreadItem
-        threads={threads}
-        toStaticThreadDetail={this.toStaticThreadDetail}
-        onPostBookmark={this.onPostBookmark}
-        onShareThread={this.onShareThread}
-      />
-    );
+    <StaticThreadItem
+      threads={threads}
+      toStaticThreadDetail={this.toStaticThreadDetail}
+      onPostBookmark={this.onPostBookmark}
+      onShareThread={this.onShareThread}
+    />
+  );
 
   renderFooter() {
     const { page, pages } = this.props.dataThreads.item;
 
     const Loader = (
       <View style={styles.loadMoreContent}>
-        <ActivityIndicator color="#EF434F" size="large" />
+        <Spinner color="#EF434F" size="large" />
       </View>
     );
 
@@ -200,7 +200,7 @@ class TabFeatured extends Component {
         )}
         {initialLoading && (
           <View style={styles.initialLoading}>
-            <ActivityIndicator color="#1a1a1a" size={25} />
+            <Spinner color="#1a1a1a" size="large" />
           </View>
         )}
         {spinner}

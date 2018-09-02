@@ -7,7 +7,9 @@ import styles from './Styles';
 class bloodGlucose extends React.Component {
   render() {
     return (
-      <TouchableOpacity onPress={() => this.props.onModalInput('BLOOD_GLUCOSE')}>
+      <TouchableOpacity
+        onPress={() => this.props.onModalInput('BLOOD_GLUCOSE')}
+        style={styles.buttonMenuStyle} >
         <CardSection>
           <Image source={require('../../../assets/icons/dnurse.png')} style={styles.iconStyle} />
           <View style={styles.containerTextStyle}>
