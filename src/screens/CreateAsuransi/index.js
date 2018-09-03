@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Picker, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, ActionSheetIOS, Text, Picker, TextInput, TouchableOpacity, Alert, ScrollView, Platform } from 'react-native';
 import { NavigationBar, Spinner } from '../../components';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import Style from '../../style/defaultStyle';
@@ -146,6 +146,30 @@ class CreateAsuransi extends React.Component {
     return errors;
   }
 
+  // format options = array of { label: 'Some label', value: 'Some value' }
+  openIOSPicker(options = [], title, onSelect) {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [ ...options.map(item => item.label), 'Batal'],
+      title,
+      destructiveButtonIndex: options.length
+    },
+    (buttonIndex) => {
+      if (options[buttonIndex]) {
+        onSelect(options[buttonIndex].value)
+      }
+    });
+  }
+
+  getLabelByVal = (options, val) => {
+    let result
+    options.forEach((item) => {
+      if (item.value === val) {
+        result = item.label
+      }
+    })
+    return result
+  }
+
   render() {
     const spinner = this.state.isLoading ? (
       <Spinner color="#EF434F" text="Loading..." size="large" />
@@ -184,21 +208,38 @@ class CreateAsuransi extends React.Component {
               >
                 <Text style={styles.titleField}>Nama Asuransi</Text>
                 <View style={styles.pickerWrapper}>
-                  <Picker
-                    enabled={!this.props.insuranceId}
-                    pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
-                    selectedValue={this.state.namaAsuransi}
-                    style={{ height: 50, width: '100%', color: '#4a4a4a', bottom: 5 }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ namaAsuransi: itemValue })
-                    }
-                  >
-                    {
-                      this.state.insuranceNameList.map(item => (
-                        <Picker.Item label={item.name} value={item.name} />
-                      ))
-                    }
-                  </Picker>
+                  {
+                    Platform.OS === 'android' &&
+                    <Picker
+                      enabled={!this.props.insuranceId}
+                      pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
+                      selectedValue={this.state.namaAsuransi}
+                      style={{ height: 50, width: '100%', color: '#4a4a4a', bottom: 5 }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({ namaAsuransi: itemValue })
+                      }
+                    >
+                      {
+                        this.state.insuranceNameList.map(item => (
+                          <Picker.Item label={item.name} value={item.name} />
+                        ))
+                      }
+                    </Picker>
+                  }
+                  {
+                    Platform.OS === 'ios' &&
+                    <TouchableOpacity
+                      style={{ height: 35, marginLeft: 0 }}
+                      onPress={() => {
+                        const option = this.state.insuranceNameList.map(item => ({ value: item.name, label: item.name }))
+                        const title = 'Nama asuransi'
+                        const onSelect = val => this.setState({ namaAsuransi: val })
+                        this.openIOSPicker(option, title, onSelect)
+                      }}
+                    >
+                      <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.state.namaAsuransi}</Text>
+                    </TouchableOpacity>
+                  }
                 </View>
               </View>
               <View
@@ -209,6 +250,8 @@ class CreateAsuransi extends React.Component {
               >
                 <Text style={styles.titleField}>Tipe Asuransi</Text>
                 <View style={styles.pickerWrapper}>
+                {
+                  Platform.OS === 'android' &&
                   <Picker
                     enabled={!this.props.insuranceId}
                     pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
@@ -221,6 +264,21 @@ class CreateAsuransi extends React.Component {
                     <Picker.Item label="Perusahaan" value="Perusahaan" />
                     <Picker.Item label="Pribadi" value="Pribadi" />
                   </Picker>
+                }
+                {
+                  Platform.OS === 'ios' &&
+                  <TouchableOpacity
+                    style={{ height: 35, marginLeft: 0 }}
+                    onPress={() => {
+                      const option = [{ label: 'Pribadi', value: 'Pribadi' }, { label: 'Perusahaan', value: 'perusahaan' }]
+                      const title = 'Nama asuransi'
+                      const onSelect = val => this.setState({ tipeAsuransi: val })
+                      this.openIOSPicker(option, title, onSelect)
+                    }}
+                  >
+                    <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.state.tipeAsuransi}</Text>
+                  </TouchableOpacity>
+                }
                 </View>
               </View>
               {this.state.tipeAsuransi === 'Perusahaan' && (
@@ -256,7 +314,7 @@ class CreateAsuransi extends React.Component {
                   }}
                   style={styles.buttonSubmit}
                 >
-                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
+                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
                     SIMPAN
                   </Text>
                 </TouchableOpacity>
