@@ -169,9 +169,13 @@ class CommentDetails extends React.Component {
             marginTop: 20,
             marginHorizontal: 20,
             elevation: 3,
+            shadowColor: '#999',
+            shadowOffset: { width: 1, height: 3 },
+            shadowOpacity: 0.7,
             maxHeight: '50%',
             paddingBottom: 20,
-            borderRadius: 20
+            borderRadius: 20,
+            zIndex: 999
           }}
         >
           <View style={styles.innerContainer}>

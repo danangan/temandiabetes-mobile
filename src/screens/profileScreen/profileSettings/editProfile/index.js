@@ -67,6 +67,8 @@ const getLabelByVal = (options, val) => {
 }
 
 
+import { fontMaker } from '../../../../utils/fontMaker';
+
 class EditProfile extends React.Component {
   static navigatorStyle = {
     navBarHidden: true,
