@@ -142,7 +142,6 @@ class DrugReminder extends React.Component {
   }
 
   updateReminder(reminder) {
-    console.log('toUpdateReminder ', reminder);
     this.setState(
       {
         isProcess: true
