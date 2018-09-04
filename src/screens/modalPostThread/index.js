@@ -214,10 +214,6 @@ class ModalPostThred extends Component {
               underlineColorAndroid={'#fff'}
               multiline
               style={styles.contentInput}
-<<<<<<< HEAD
-              // maxLength={200}
-=======
->>>>>>> development
               placeholder={'Deskripsikan thread Anda'}
               onChangeText={(description) => this.setState({ description })}
             />
