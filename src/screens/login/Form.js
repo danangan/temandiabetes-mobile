@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Platform } from 'react-native';
 
 import { Card, CardSection, TextField } from '../../components';
 import Style from '../../style/defaultStyle';
@@ -11,6 +11,7 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
     <Text style={[styles.labelStyle, { marginTop: 15 }]}>USERNAME</Text>
     <CardSection>
       <TextField
+        autoCapitalize='none'
         value={onValue.email}
         placeholder="masukkan username"
         onChangeText={email => onChangeTextHandlerEmail(email)}
@@ -23,6 +24,7 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
     <Text style={styles.labelStyle}>KATA SANDI</Text>
     <CardSection>
       <TextField
+        autoCapitalize='none'
         value={onValue.pass}
         secureTextEntry
         placeholder="masukkan password"
@@ -44,6 +46,7 @@ const styles = {
     marginBottom: -7
 	},
 	inputStyle: {
+    marginLeft: Platform.OS === 'ios' ? -35 : 0,
     fontStyle: 'italic',
     fontWeight: 'normal',
 	},

@@ -7,7 +7,9 @@ import styles from './Styles';
 class Food extends React.Component {
   render() {
     return (
-      <TouchableOpacity style={styles.buttonMenuStyle} onPress={() => this.props.toNavigate()}>
+      <TouchableOpacity
+        style={styles.buttonMenuStyle}
+        onPress={() => this.props.toNavigate()}>
         <CardSection>
           <Image
             source={require('../../../assets/icons/food.png')}

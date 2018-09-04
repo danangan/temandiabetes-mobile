@@ -25,7 +25,7 @@ const styles = {
     height: 44.47
   },
   buttonMenuStyle: {
-    marginTop: Style.PADDING - 5
+    flex: 1
   }
 };
 

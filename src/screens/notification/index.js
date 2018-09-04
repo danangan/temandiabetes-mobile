@@ -1,12 +1,12 @@
 import React from 'react';
-import { Platform, View, Text, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native';
+import { Platform, View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { NavigationBar, Button, Spinner } from '../../components';
 import { result } from 'lodash';
+
+import { NavigationBar, Spinner } from '../../components';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
-import { sliceString } from '../../utils/helpers';
-import { dateFormateName, formatTimeFromDate } from '../../utils/helpers';
+import { sliceString, dateFormateName, formatTimeFromDate } from '../../utils/helpers';
 
 class Notification extends React.Component {
   static navigatorStyle = {
@@ -45,7 +45,7 @@ class Notification extends React.Component {
 
     const Loader = (
       <View style={styles.loadMoreContent}>
-        <ActivityIndicator color="#EF434F" size={25} />
+        <Spinner color="#EF434F" size="large" />
       </View>
     );
 
@@ -110,7 +110,7 @@ class Notification extends React.Component {
   renderItem({ item, index }) {
     // prevent rendering own activity
     if (!item.activity) {
-      return null
+      return null;
     }
     return (
       <TouchableOpacity onPress={this.redirectOnPress(item, index)} style={{ padding: 1 }}>
@@ -172,6 +172,9 @@ class Notification extends React.Component {
       case 'sender_innercircle':
         screen = 'TemanDiabetes.InnerCircleList';
         break;
+      case 'drug_reminder':
+        screen = 'TemanDiabetes.DrugReminder'
+        break;
       default:
         break;
     }
@@ -225,13 +228,15 @@ class Notification extends React.Component {
             </Text>
             <Text> memberikan komentar </Text>
             <Text style={styles.boldText}>"{sliceString(activity.comment.text, 30)}"</Text>
-            {
-              result(activity.comment, 'thread.author._id') === this.props.currentUserId ?
+            {result(activity.comment, 'thread.author._id') === this.props.currentUserId ? (
               <Text> di thread Anda </Text>
-              :
+            ) : (
               <Text> di thread yang Anda ikuti </Text>
-            }
-            <Text style={styles.boldText}>"{sliceString(activity.comment.thread.topic, 50)}".</Text>
+            )}
+            <Text style={styles.boldText}>
+              "{sliceString(activity.comment.thread.topic, 50)}
+              ".
+            </Text>
           </Text>
         );
       case 'reply_comment':
@@ -242,13 +247,15 @@ class Notification extends React.Component {
             </Text>
             <Text> membalas komentar </Text>
             <Text style={styles.boldText}>"{sliceString(activity.comment.text, 30)}"</Text>
-            {
-              result(activity.comment, 'thread.author._id') === this.props.currentUserId ?
+            {result(activity.comment, 'thread.author._id') === this.props.currentUserId ? (
               <Text> di thread Anda </Text>
-              :
+            ) : (
               <Text> di thread yang Anda ikuti </Text>
-            }
-            <Text style={styles.boldText}>"{sliceString(activity.comment.thread.topic, 50)}".</Text>
+            )}
+            <Text style={styles.boldText}>
+              "{sliceString(activity.comment.thread.topic, 50)}
+              ".
+            </Text>
           </Text>
         );
         break;
@@ -259,7 +266,10 @@ class Notification extends React.Component {
               {activity.followedUser ? activity.followedUser.nama : 'Seseorang'}
             </Text>
             <Text> mengikuti thread Anda </Text>
-            <Text style={styles.boldText}>"{sliceString(activity.thread.topic, 50)}".</Text>
+            <Text style={styles.boldText}>
+              "{sliceString(activity.thread.topic, 50)}
+              ".
+            </Text>
           </Text>
         );
         break;

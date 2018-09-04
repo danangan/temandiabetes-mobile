@@ -43,7 +43,7 @@ class HeaderDetail extends React.Component {
             <Text style={{ fontSize: 12 }}>
               {authorItem.nama === null ? 'Loading' : authorItem.nama}
             </Text>
-            <Text style={{ fontSize: 10 }}>Posted on {formatDateTime(date, { isUTC: true })}</Text>
+            <Text style={{ fontSize: 10, paddingVertical: 5 }}>Posted on {formatDateTime(date, { isUTC: true })}</Text>
           </View>
           {this.renderCategory(threadType)}
           {this.renderCategory(categoryItem)}

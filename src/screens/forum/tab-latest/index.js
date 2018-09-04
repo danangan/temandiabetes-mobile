@@ -1,15 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  View,
-  ActivityIndicator,
-  ScrollView,
-  Platform,
-  TouchableOpacity,
-  FlatList,
-  Alert,
-  Text
-} from 'react-native';
+import { View, FlatList, Alert, Text } from 'react-native';
 
 import Share from 'react-native-share';
 import ThreadItem from '../components/threadItem';
@@ -90,7 +81,7 @@ class TabLatest extends Component {
 
     const Loader = (
       <View style={styles.loadMoreContent}>
-        <ActivityIndicator color="#EF434F" size={25} />
+        <Spinner color="#EF434F" size="large" />
       </View>
     );
 
@@ -193,7 +184,7 @@ class TabLatest extends Component {
     );
 
     return (
-      <View style={styles.containerStyle} removeClippedSubviews={true}>
+      <View style={styles.containerStyle} removeClippedSubviews>
         {!initialLoading && (
           <FlatList
             ListEmptyComponent={this.renderEmptySection}
@@ -209,7 +200,7 @@ class TabLatest extends Component {
         )}
         {initialLoading && (
           <View style={styles.initialLoading}>
-            <ActivityIndicator color="#1a1a1a" size="large" />
+            <Spinner color="#1a1a1a" size="large" />
           </View>
         )}
         {spinner}

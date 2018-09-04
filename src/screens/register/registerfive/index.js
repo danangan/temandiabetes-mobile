@@ -9,7 +9,8 @@ import {
   ImageBackground,
   Image,
   AsyncStorage,
-  Alert
+  Alert,
+  Keyboard
 } from 'react-native';
 
 import styles from '../style';
@@ -32,8 +33,18 @@ class RegisterFive extends React.Component {
     this.state = {
       sip: '',
       showSnackBar: false,
-      errorMessage: ''
+      errorMessage: '',
+      keyboardActive: false
     };
+  }
+
+  componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ keyboardActive: true });
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ keyboardActive: false });
+    });
   }
 
   componentDidUpdate() {
@@ -179,7 +190,9 @@ class RegisterFive extends React.Component {
                 onChangeText={sip => this.props.registerSip(sip)}
                 value={sip}
                 underlineColorAndroid={'#fff'}
-                style={[styles.textInputStyle, stylesLocal.inputStyle]}
+                style={[styles.textInputStyle, stylesLocal.inputStyle, {
+
+                }]}
               />
               <TouchableOpacity style={styles.btnNext} onPress={() => this.toHome()}>
                 <Text style={styles.buttonText}>SELESAI</Text>
@@ -211,7 +224,8 @@ const stylesLocal = {
     fontSize: Style.FONT_SIZE * 1.2,
     marginBottom: 15,
     paddingLeft: 20,
-    fontFamily: 'Montserrat-Regular'
+    fontFamily: 'Montserrat-Regular',
+    
   }
 };
 

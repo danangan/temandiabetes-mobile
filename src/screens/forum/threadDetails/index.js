@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { debounce, result } from 'lodash';
-import { View, Text, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
   getThreadDetails,
@@ -76,20 +76,24 @@ class ThreadDetails extends React.Component {
 
   async toGetCommentList(cb = () => {}) {
     const { idThread } = this.state;
-    const { dataThreads: { commentList } } = this.props;
+    const {
+      dataThreads: { commentList }
+    } = this.props;
     await this.props.getCommentList({ threadId: idThread, page: commentList.page });
-    cb()
+    cb();
   }
 
   async refreshPage(cb = () => {}) {
     const { idThread } = this.state;
     await this.props.getCommentList({ threadId: idThread, page: 1 });
-    cb()
+    cb();
   }
 
   nextPageCommentList() {
     const { idThread } = this.state;
-    const { dataThreads: { commentList } } = this.props;
+    const {
+      dataThreads: { commentList }
+    } = this.props;
     this.props.getCommentList({ threadId: idThread, page: commentList.page + 1 });
   }
 
@@ -156,7 +160,7 @@ class ThreadDetails extends React.Component {
             marginRight: 10
           }}
         >
-          <ActivityIndicator size="small" color="#8084a7" />
+          <Spinner size="small" color="#8084a7" />
         </TouchableOpacity>
       );
     } else if (result(listThreads.threadDetails, 'isSubscriber')) {
@@ -344,7 +348,7 @@ const styles = {
     paddingVertical: 3,
     color: '#FFFFFF',
     textAlign: 'center'
-  },
+  }
 };
 
 const mapStateToProps = state => ({

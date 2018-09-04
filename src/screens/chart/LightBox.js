@@ -5,19 +5,19 @@ import Style from '../../style/defaultStyle';
 import { Button } from '../../components';
 import color from '../../style/color';
 
-const lightBox = ({ title, content, navigator, product, prePurchase }) => (
+const lightBox = ({ title, content, navigator, product, prePurchase, confirmText }) => (
   <View style={styles.containerStyle}>
-    <View style={{ flex: 8 }}>
-      <Text style={styles.titleStyle}>{title}</Text>
-      <Text style={styles.contentStyle}>{content}</Text>
-    </View>
+    <Text style={styles.titleStyle}>{title}</Text>
+    <Text style={styles.contentStyle}>{content}</Text>
     <View style={styles.buttonContainerStyle}>
       <Button
         buttonStyle={styles.buttonStyle}
         textStyle={styles.textStyle}
-        onPress={() => prePurchase(product)}
+        onPress={() => prePurchase(product, () => {
+          navigator.dismissLightBox()
+        })}
       >
-        Beli
+        { confirmText || 'Beli' }
       </Button>
       <Button
         buttonStyle={[styles.buttonStyle, { backgroundColor: color.white }]}
@@ -33,7 +33,6 @@ const lightBox = ({ title, content, navigator, product, prePurchase }) => (
 const styles = StyleSheet.create({
   containerStyle: {
     width: Dimensions.get('window').width * 0.7,
-    height: Dimensions.get('window').height * 0.3,
     backgroundColor: '#ffffff',
     borderRadius: 5,
     padding: 16
@@ -49,10 +48,10 @@ const styles = StyleSheet.create({
     fontSize: Style.FONT_SIZE,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: Style.PADDING
+    marginTop: Style.PADDING,
+    marginBottom: 15,
   },
   buttonContainerStyle: {
-    flex: 2,
     flexDirection: 'row',
     justifyContent: 'space-around'
   },

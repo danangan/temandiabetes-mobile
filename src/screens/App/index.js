@@ -108,6 +108,10 @@ class App extends Component {
             if (notif.targetUser === this.props.currentUser._id) {
               this._displayNotificationAndroid(notif);
             }
+          } else if (notif.userId) {
+            if (notif.userId === this.props.currentUser._id) {
+              this._displayNotificationAndroid(notif);
+            }
           } else {
             this._displayNotificationAndroid(notif);
           }

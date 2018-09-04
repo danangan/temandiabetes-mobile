@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Linking,
-  Alert
+  Alert,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { result } from 'lodash';

@@ -4,6 +4,7 @@ import moment from 'moment';
 import {
   View,
   Platform,
+  ActionSheetIOS,
   Modal,
   Text,
   TouchableOpacity,
@@ -14,7 +15,6 @@ import {
   Keyboard,
   ScrollView,
   Picker,
-  ActivityIndicator,
   Image,
   Alert,
   Dimensions
@@ -32,11 +32,27 @@ import {
 } from '../../../actions';
 
 import color from '../../../style/color';
-import { Card } from '../../../components';
+import { Card, Spinner } from '../../../components';
+import DatePickerDialog from '../../../components/DatePickerIOSModal';
 import MenuButton from './MenuButton';
 import Style from '../../../style/defaultStyle';
 import { activityList } from './initialValue';
 import ButtonSave from './ButtonSave';
+
+const activityType = [
+  {
+    label: 'Ringan',
+    value: 'ringan'
+  },
+  {
+    label: 'Sedang',
+    value: 'sedang'
+  },
+  {
+    label: 'Berat',
+    value: 'berat'
+  },
+]
 
 class InputTracker extends Component {
   constructor(props) {
@@ -116,10 +132,11 @@ class InputTracker extends Component {
         makanSiang: null,
         makanMalam: null,
         snack: null
+      }, () => {
+        setTimeout(() => {
+          this.setModalVisible();
+        }, 1500);
       });
-      // setTimeout(() => {
-      //   this.setModalVisible();
-      // }, 1500);
     }
   }
 
@@ -499,10 +516,34 @@ class InputTracker extends Component {
           style={{
             paddingHorizontal: 10
           }}
-          onPress={() => this.openDatePicker()}
+          onPress={() => {
+            if (Platform.OS === 'android') {
+              this.openDatePicker()
+            } else {
+              this.refs.dateTimePickerIOS.open({
+                date: new Date(),
+                maxDate: new Date() //To restirct past date
+              })
+            }
+          }}
         >
           <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Light' }}>{displayDate}</Text>
         </TouchableOpacity>
+        {
+          Platform.OS === 'ios' &&
+          <DatePickerDialog
+            ref="dateTimePickerIOS"
+            datePickerMode="datetime"
+            okLabel="Pilih"
+            cancelLabel="Batal"
+            onDatePicked={(val) => {
+              this.setState({
+                inputDate: new moment(val),
+                isTime: new moment(val)
+              })
+            }}
+          />
+        }
       </View>
     );
   }
@@ -564,6 +605,10 @@ class InputTracker extends Component {
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <ButtonSave onSubmit={this.handleSave} type="GULA_DARAH" title="SIMPAN" />
       </View>
@@ -623,6 +668,10 @@ class InputTracker extends Component {
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <ButtonSave onSubmit={this.handleSave} type="HBA1C" title="SIMPAN" />
       </View>
@@ -754,6 +803,10 @@ class InputTracker extends Component {
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <View
           style={{
@@ -779,6 +832,10 @@ class InputTracker extends Component {
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <ButtonSave onSubmit={this.handleSave} type="TEKANAN_DARAH" title="SIMPAN" />
       </View>
@@ -814,6 +871,31 @@ class InputTracker extends Component {
     );
   }
 
+  getLabelByVal(options, val) {
+    console.log(options)
+    let result
+    options.forEach((item) => {
+      if (item.value === val) {
+        result = item.label
+      }
+    })
+    return result
+  }
+
+  // format options = array of { label: 'Some label', value: 'Some value' }
+  openIOSPicker(options = [], title, onSelect) {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [ ...options.map(item => item.label), 'Batal'],
+      title,
+      destructiveButtonIndex: options.length
+    },
+    (buttonIndex) => {
+      if (options[buttonIndex]) {
+        onSelect(options[buttonIndex].value)
+      }
+    });
+  }
+
   contentAktivitas() {
     return (
       <View
@@ -832,39 +914,66 @@ class InputTracker extends Component {
             style={{
               fontSize: 13,
               color: '#878787',
+              width: '100%',
               fontFamily: 'OpenSans-Light',
               marginBottom: -7
             }}
           >
             Jenis Aktivitas
           </Text>
-          <Picker
-            mode="dialog"
-            selectedValue={this.state.activitySelected}
-            style={{ padding: 0, margin: 0, height: 50, width: 200, alignSelf: 'flex-start' }}
-            onValueChange={itemValue =>
-              this.setState(
-                {
-                  activitySelected: itemValue
-                },
-                () => {
+          {
+            Platform.OS === 'android' &&
+            <Picker
+              mode="dialog"
+              selectedValue={this.state.activitySelected}
+              style={{ padding: 0, margin: 0, height: 50, width: 200, alignSelf: 'flex-start' }}
+              onValueChange={itemValue =>
+                this.setState(
+                  {
+                    activitySelected: itemValue
+                  },
+                  () => {
+                    const desc = activityList.filter(
+                      item => item.type === this.state.activitySelected
+                    );
+                    this.setState({
+                      descActivity: this.state.activitySelected === '' ? '' : desc[0].description
+                    });
+                  }
+                )
+              }
+            >
+              <Picker.Item label="Pilih Aktivitas" value="" />
+              <Picker.Item label="Ringan" value="ringan" />
+              <Picker.Item label="Sedang" value="sedang" />
+              <Picker.Item label="Berat" value="berat" />
+            </Picker>
+          }
+          {
+            Platform.OS === 'ios' &&
+            <TouchableOpacity
+            style={{ height: 35, marginLeft: 0, width: '100%' }}
+            onPress={() => {
+              const option = activityType
+              const title = 'Pilih Jenis Aktifitas'
+              const onSelect = val => {
+                this.setState({activitySelected: val}, () => {
                   const desc = activityList.filter(
                     item => item.type === this.state.activitySelected
                   );
                   this.setState({
                     descActivity: this.state.activitySelected === '' ? '' : desc[0].description
                   });
-                }
-              )
-            }
+                })
+              }
+              this.openIOSPicker(option, title, onSelect)
+            }}
           >
-            <Picker.Item label="Pilih Aktivitas" value="" />
-            <Picker.Item label="Ringan" value="ringan" />
-            <Picker.Item label="Sedang" value="sedang" />
-            <Picker.Item label="Berat" value="berat" />
-          </Picker>
+            <Text style={{ marginTop: 9 }}>{this.getLabelByVal(activityType, this.state.activitySelected)}</Text>
+          </TouchableOpacity>
+          }
           <View style={{ borderBottomColor: '#EF434F', borderBottomWidth: 1, marginBottom: 15 }} />
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
             {this.state.activitySelected !== '' ? this.renderDescAktivity() : null}
           </View>
         </View>
@@ -937,8 +1046,12 @@ class InputTracker extends Component {
             onChangeText={beratBadan => this.setState({ beratBadan })}
             placeholder="80 kg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
+            underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <ButtonSave onSubmit={this.handleSave} type="WEIGHT" title="SIMPAN" />
       </View>
@@ -1062,7 +1175,7 @@ class InputTracker extends Component {
               height: this.state.keyboardActive ? '70%' : '50%'
             }}
           >
-            <ActivityIndicator size="large" color="#ff1200" />
+            <Spinner size="large" color="#ff1200" />
           </View>
         </TouchableHighlight>
       </Modal>
@@ -1130,8 +1243,8 @@ const styles = {
     marginTop: 19.44,
     marginBottom: 19.44,
     paddingLeft: 29.2,
-    paddingTop: 25.6,
-    paddingBottom: 24.85,
+    paddingTop: 15,
+    paddingBottom: 10,
     ...Platform.select({
       ios: {
         shadowColor: 'rgba(0,0,0, .2)',
@@ -1194,7 +1307,11 @@ const styles = {
     backgroundColor: '#fff',
     opacity: 1,
     width: '70%'
-  }
+  },
+  underLine: {
+    borderBottomColor: '#ef434e',
+    borderBottomWidth: 1,
+  },
 };
 
 const mapStateToProps = state => ({

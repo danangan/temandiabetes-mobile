@@ -1,15 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'lodash';
-import {
-  View,
-  Text,
-  FlatList,
-  AsyncStorage,
-  ActivityIndicator,
-  TouchableOpacity,
-  Alert
-} from 'react-native';
+import { View, Text, FlatList, AsyncStorage, TouchableOpacity, Alert } from 'react-native';
 import Share from 'react-native-share';
 
 import {
@@ -128,22 +119,23 @@ class ModalSearch extends React.Component {
 
   toRenderItem(threads) {
     if (threads.item.threadType === 'static') {
-      return <StaticThreadItem
-        threads={threads}
-        toStaticThreadDetail={this.toStaticThreadDetail}
-        onPostBookmark={this.onBookmark}
-        onShareThread={this.onShareThread}
-      />
-    } else {
       return (
-        <ThreadItem
+        <StaticThreadItem
           threads={threads}
-          toThreadDetails={this.toThreadDetails}
+          toStaticThreadDetail={this.toStaticThreadDetail}
           onPostBookmark={this.onBookmark}
           onShareThread={this.onShareThread}
         />
       );
     }
+    return (
+      <ThreadItem
+        threads={threads}
+        toThreadDetails={this.toThreadDetails}
+        onPostBookmark={this.onBookmark}
+        onShareThread={this.onShareThread}
+      />
+    );
   }
 
   handleExtraData() {
@@ -155,7 +147,7 @@ class ModalSearch extends React.Component {
   }
 
   toThreadDetails(threads) {
-    this.props.saveUserSearch(this.state.searchKeyword)
+    this.props.saveUserSearch(this.state.searchKeyword);
     this.props.navigator.push({
       screen: 'TemanDiabetes.ThreadDetails',
       navigatorStyle: {
@@ -166,7 +158,7 @@ class ModalSearch extends React.Component {
   }
 
   toStaticThreadDetail = item => {
-    this.props.saveUserSearch(this.state.searchKeyword)
+    this.props.saveUserSearch(this.state.searchKeyword);
     this.props.navigator.push({
       screen: 'TemanDiabetes.FeaturedDetail',
       navigatorStyle: {
@@ -217,15 +209,13 @@ class ModalSearch extends React.Component {
       }
       return (
         <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color="rgb(239, 67, 79)" />
+          <Spinner size="large" color="rgb(239, 67, 79)" />
         </View>
       );
     }
     return (
       <View style={{ padding: 15, flex: 1, width: '100%' }}>
-        <FlatList
-          data={searchResult.data}
-          renderItem={item => this.toRenderItem(item)} />
+        <FlatList data={searchResult.data} renderItem={item => this.toRenderItem(item)} />
       </View>
     );
   }

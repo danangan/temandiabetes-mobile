@@ -151,7 +151,7 @@ class ModalPostThred extends Component {
     const { errors } = this.state;
     if (this.state.isSubmit) {
       return (
-        <View 
+        <View
         style={{
           flex: 1,
           backgroundColor: '#f3f5fe',
@@ -196,7 +196,6 @@ class ModalPostThred extends Component {
               multiline
               underlineColorAndroid={'#fff'}
               style={styles.titleInput}
-              // maxLength={60}
               placeholder="Judul Threads"
               // onChangeText={(topic) => {
               //   this.state.topic.length === 60 ? null : this.setState({ topic })
@@ -205,18 +204,6 @@ class ModalPostThred extends Component {
                 this.setState({ topic });
               }}
             />
-            <Text 
-              style={{ 
-                position: 'absolute', 
-                right: 10, 
-                bottom: 0, 
-                fontSize: 12,
-                border: '1px solid #ccc',
-                fontFamily: 'Montserrat-ExtraLight', 
-              }}
-            >
-                { this.state.topic.length }/60 karakter
-              </Text>
           </View>
           {
             errors.topic &&
@@ -227,28 +214,19 @@ class ModalPostThred extends Component {
               underlineColorAndroid={'#fff'}
               multiline
               style={styles.contentInput}
+<<<<<<< HEAD
               // maxLength={200}
+=======
+>>>>>>> development
               placeholder={'Deskripsikan thread Anda'}
               onChangeText={(description) => this.setState({ description })}
             />
-            <Text 
-              style={{ 
-                position: 'absolute', 
-                right: 10, 
-                bottom: 0, 
-                fontSize: 12,
-                border: '1px solid #ccc',
-                fontFamily: 'Montserrat-ExtraLight', 
-              }}
-            >
-                { this.state.description.length }/200 karakter
-              </Text>
           </View>
           {
             errors.description &&
             <Text style={styles.errorText}>Konten thread tidak boleh kosong</Text>
           }
-          <View 
+          <View
             style={{
               flexDirection: 'row',
               paddingHorizontal: 10,
@@ -362,20 +340,19 @@ const styles = {
     borderTopWidth: 1,
     borderTopColor: '#f2f3f7',
     paddingVertical: 15
-    
   },
   titleInput: {
     flexWrap: 'wrap',
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
     fontSize: 14,
-    color: '#c9cfdb'
+    color: '#000'
   },
   contentInput: {
     flexWrap: 'wrap',
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
-    color: '#b0b5cb',
+    color: '#000',
     fontSize: 12
   },
   errorText: {

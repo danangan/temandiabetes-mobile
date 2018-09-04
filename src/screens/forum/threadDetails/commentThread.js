@@ -135,7 +135,7 @@ class CommentThread extends React.Component {
             </TouchableOpacity>
           </View>
           <View style={styles.commentContent}>
-            <Text style={{ fontSize: 14, marginTop: 5 }}>
+            <Text style={styles.wrapTextComment}>
               <TextWithClickableURL inputText={text} />
             </Text>
           </View>
@@ -154,10 +154,14 @@ const styles = {
   container: {
     flex: 1,
     borderRadius: 20,
-    elevation: 2,
+    elevation: 4,
+    shadowColor: '#999',
+    shadowOffset: { width: 1, height: 3 },
+    shadowOpacity: 0.7,
     backgroundColor: '#fff',
     marginHorizontal: 10,
-    marginVertical: 4
+    marginVertical: 4,
+    zIndex: 999
   },
   wrapperHeader: {
     flex: 1,
@@ -189,7 +193,13 @@ const styles = {
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
     backgroundColor: '#fff',
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    marginTop: 0
+  },
+  wrapTextComment: { 
+    fontSize: 14,
+    marginTop: 10, 
+    marginBottom: 15 
   }
 };
 
