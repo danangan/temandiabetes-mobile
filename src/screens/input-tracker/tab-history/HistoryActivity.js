@@ -78,14 +78,14 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE : Style.FONT_SIZE*0.9,
     fontWeight: '900',
     color: '#252C68',
     marginLeft: 10
   },
   textStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
     fontWeight: '500',
     color: '#556299',
     paddingLeft: 3.02
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   },
   statusActivityStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
     fontWeight: 'bold',
     color: '#556299'
   }

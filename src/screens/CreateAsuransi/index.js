@@ -14,7 +14,7 @@ class CreateAsuransi extends React.Component {
     super(props);
     this.state = {
       // set default value
-      namaAsuransi: 'Astra Life',
+      namaAsuransi: '',
       // set default value
       tipeAsuransi: 'Perusahaan',
       insuranceNameList: [],
@@ -105,10 +105,15 @@ class CreateAsuransi extends React.Component {
           this.props.onSuccessCallback();
         }
         await this.setState({ _errors: null, isLoading: false }, () => {
-          Alert.alert('Perhatian!', 'Asuransi berhasil di simpan.');
+          Alert.alert('Perhatian!', this.props.insuranceId ? 'Asuransi berhasil diperbarui' : 'Asuransi berhasil di simpan.', [
+            {
+              text: 'Tutup',
+              onPress: () => {
+                this.props.navigator.pop();
+              }
+            }
+          ]);
         });
-        // close the modal
-        this.props.navigator.pop();
       } catch (error) {
         console.log(error);
       }
@@ -134,7 +139,7 @@ class CreateAsuransi extends React.Component {
       errors.nomorAsuransi = ['Silahkan isi nomor asuransi'];
     }
 
-    if (this.state.nomorPolis === '' && this.state.tipeAsuransi === 'Pribadi') {
+    if (this.state.nomorPolis === '') {
       errors.nomorPolis = ['Silahkan isi nomor polis'];
     }
 
@@ -227,7 +232,7 @@ class CreateAsuransi extends React.Component {
                     </Picker>
                   }
                   {
-                    Platform.OS === 'ios' &&
+                    Platform.OS === 'ios' && !this.props.insuranceId &&
                     <TouchableOpacity
                       style={{ height: 35, marginLeft: 0 }}
                       onPress={() => {
@@ -237,8 +242,12 @@ class CreateAsuransi extends React.Component {
                         this.openIOSPicker(option, title, onSelect)
                       }}
                     >
-                      <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.state.namaAsuransi}</Text>
+                      <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.state.namaAsuransi === '' ? 'Pilih asuransi' : this.state.namaAsuransi}</Text>
                     </TouchableOpacity>
+                  }
+                  {
+                    Platform.OS === 'ios' && this.props.insuranceId &&
+                    <Text style={{ marginLeft: 5, marginVertical: 8 }}>{this.state.namaAsuransi}</Text>
                   }
                 </View>
               </View>
@@ -266,7 +275,7 @@ class CreateAsuransi extends React.Component {
                   </Picker>
                 }
                 {
-                  Platform.OS === 'ios' &&
+                  Platform.OS === 'ios' && !this.props.insuranceId &&
                   <TouchableOpacity
                     style={{ height: 35, marginLeft: 0 }}
                     onPress={() => {
@@ -278,6 +287,10 @@ class CreateAsuransi extends React.Component {
                   >
                     <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.state.tipeAsuransi}</Text>
                   </TouchableOpacity>
+                }
+                {
+                  Platform.OS === 'ios' && this.props.insuranceId &&
+                  <Text style={{ marginLeft: 5, marginVertical: 8 }}>{this.state.tipeAsuransi}</Text>
                 }
                 </View>
               </View>
