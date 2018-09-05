@@ -4,7 +4,8 @@ import {
   View,
   Text,
   Switch,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform
 } from 'react-native';
 import moment from 'moment';
 
@@ -45,7 +46,7 @@ class ReminderCard extends React.Component {
             <Text style={styles.btnRight}>UBAH</Text>
           </TouchableOpacity>
           <Switch
-            style={{ borderColor: '#000', borderWidth: 1 }}
+            style={Platform.select({ ios: { marginTop: 5 }})}
             onValueChange={() => this.props.toUpdateStatusReminder({ index, _id, is_active })}
             value={this.props.statusReminder}
           />
