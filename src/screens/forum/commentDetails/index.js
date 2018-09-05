@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
   NavigationBar,
@@ -27,7 +27,7 @@ class CommentDetails extends React.Component {
       isComment: true,
       komentar: '',
       isSubmit: false,
-      count: 1
+      count: 1,
     };
     this.handleNavigate = this.handleNavigate.bind(this);
     this.dismisModal = this.dismisModal.bind(this);
@@ -159,82 +159,85 @@ class CommentDetails extends React.Component {
       );
     }
     return (
-      <View style={styles.container}>
-        <NavigationBar onPress={() => this.handleNavigate()} title="KOMENTAR" />
-        <CardSection
-          containerStyle={{
-            flex: 1,
-            flexDirection: 'column',
-            backgroundColor: '#fff',
-            marginTop: 20,
-            marginHorizontal: 20,
-            elevation: 3,
-            shadowColor: '#999',
-            shadowOffset: { width: 1, height: 3 },
-            shadowOpacity: 0.7,
-            maxHeight: '50%',
-            paddingBottom: 20,
-            borderRadius: 20,
-            zIndex: 999
+        <KeyboardAvoidingView style={{ flex: 1, height: '100%' }} behavior="padding" enabled>
+          <View 
+            style={{ 
+              flex: 1,
+              backgroundColor: '#f3f5fe',
+              paddingHorizontal: 10,
+              paddingVertical: 15
           }}
-        >
-          <View style={styles.innerContainer}>
-            <Avatar
-              avatarSize="Small"
-              userName={commentDetails.user.nama}
-              imageSource={commentDetails.user.foto_profile}
-            />
-            <View style={{ flex: 1, margin: 5 }}>
-              <Text style={{ fontSize: 12 }}>{commentDetails.user.nama}</Text>
-              <Text style={{ fontSize: 10 }} />
-            </View>
-          </View>
-          <ScrollView style={styles.innerText}>
-            <Text style={{ fontSize: 22 }}>
-              <TextWithClickableURL inputText={commentDetails.text} />
-            </Text>
-          </ScrollView>
-        </CardSection>
-        {commentDetails.replies.length ? (
-          <ScrollView style={{ marginTop: -50 }} keyboardShouldPersistTaps>
-            <View style={styles.containerCommentChild}>{this.renderCommentChild()}</View>
-          </ScrollView>
-        ) : (
-          <View style={styles.containerEmptyCommentChild}>
-            <View style={styles.innerContainerEmptyComment}>
-              <Avatar avatarSize="ExtraSmall" userName={nama} imageSource={foto_profile} />
-              <TextInput
-                value={this.state.komentar}
-                placeholder="Komentari"
-                style={{ flex: 1, margin: 5 }}
-                underlineColorAndroid={'#fff'}
-                onChangeText={komentar => this.setState({ komentar })}
-              />
-              <TouchableOpacity
-                style={{ backgroundColor: '#252c68' }}
-                onPress={() => this.onSubmitComment()}
-              >
-                <Text
-                  style={{
-                    fontSize: 12,
-                    paddingHorizontal: 20,
-                    paddingVertical: 3,
-                    color: '#8084a7'
-                  }}
-                >
-                  Balas
+          >
+            <NavigationBar onPress={() => this.handleNavigate()} title="KOMENTAR" />
+            <CardSection
+              containerStyle={{
+                flex: 1,
+                flexDirection: 'column',
+                backgroundColor: '#fff',
+                marginTop: 20,
+                marginHorizontal: 20,
+                elevation: 3,
+                shadowColor: '#999',
+                shadowOffset: { width: 1, height: 3 },
+                shadowOpacity: 0.7,
+                maxHeight: '50%',
+                paddingBottom: 20,
+                borderRadius: 20,
+                zIndex: 999
+              }}
+            >
+              <View style={styles.innerContainer}>
+                <Avatar
+                  avatarSize="Small"
+                  userName={commentDetails.user.nama}
+                  imageSource={commentDetails.user.foto_profile}
+                />
+                <View style={{ flex: 1, margin: 5 }}>
+                  <Text style={{ fontSize: 12 }}>{commentDetails.user.nama}</Text>
+                  <Text style={{ fontSize: 10 }} />
+                </View>
+              </View>
+              <ScrollView style={styles.innerText}>
+                <Text style={{ fontSize: 22 }}>
+                  <TextWithClickableURL inputText={commentDetails.text} />
                 </Text>
-              </TouchableOpacity>
-            </View>
+              </ScrollView>
+            </CardSection>
+            {commentDetails.replies.length ? (
+              <ScrollView style={{ marginTop: -50 }} keyboardShouldPersistTaps>
+                <View style={styles.containerCommentChild}>{this.renderCommentChild()}</View>
+              </ScrollView>
+            ) : (
+              <View style={styles.containerEmptyCommentChild}>
+                <View style={styles.innerContainerEmptyComment}>
+                  <Avatar avatarSize="ExtraSmall" userName={nama} imageSource={foto_profile} />
+                  <TextInput
+                    value={this.state.komentar}
+                    placeholder="Komentari"
+                    style={{ flex: 1, margin: 5 }}
+                    underlineColorAndroid={'#fff'}
+                    onChangeText={komentar => this.setState({ komentar })}
+                  />
+                  <TouchableOpacity
+                    style={{ backgroundColor: '#252c68' }}
+                    onPress={() => this.onSubmitComment()}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        paddingHorizontal: 20,
+                        paddingVertical: 3,
+                        color: '#8084a7'
+                      }}
+                    >
+                      Balas
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
           </View>
-        )}
-        {/* <View style={{
-          backgroundColor: '#fff',
-          }}
-        >
-
-        </View> */}
-      </View>
+        </KeyboardAvoidingView>
     );
   }
 }
