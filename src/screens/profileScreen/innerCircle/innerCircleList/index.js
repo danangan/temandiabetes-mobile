@@ -226,7 +226,8 @@ const styles = {
   },
   iconStyle: {
     width: 25,
-    height: 25
+    height: 25,
+    tintColor: color.red
   },
   navBarTitleStyle: {
     fontSize: Style.FONT_SIZE,
