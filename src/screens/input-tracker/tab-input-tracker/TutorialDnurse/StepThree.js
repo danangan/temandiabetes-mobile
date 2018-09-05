@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Platform } from 'react-native';
 
 import color from '../../../../style/color';
 import { Button } from '../../../../components';
@@ -59,7 +59,7 @@ const styles = {
     marginBottom: 20.73
   },
   descriptionStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
     fontSize: Style.FONT_SIZE_SMALL,
     color: 'rgba(0,0,0,1)',
     textAlign: 'left',

@@ -144,7 +144,7 @@ class TabRecentActivityResponse extends React.Component {
     if (recentResponse.data.length === 0) {
       return (
         <View style={styles.messageEmpty}>
-          <Text style={styles.textHistory}>Tidak ada riwayat aktivittas Anda</Text>
+          <Text style={styles.textHistory}>Tidak ada riwayat aktifitas Anda</Text>
         </View>
       );
     }
