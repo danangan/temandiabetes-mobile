@@ -147,6 +147,7 @@ class ModalPostThred extends Component {
 	}
 
   render() {
+    console.log('THREAD TES ', this.state.topic.length);
     const { currentUser } = this.props;
     const { errors } = this.state;
     if (this.state.isSubmit) {
@@ -190,6 +191,7 @@ class ModalPostThred extends Component {
               <Text>{ currentUser.nama }</Text>
             </View>
             <TextInput
+              maxLength={60}
               focus
               autoFocus
               ref="TextInput"
@@ -197,11 +199,8 @@ class ModalPostThred extends Component {
               underlineColorAndroid={'#fff'}
               style={styles.titleInput}
               placeholder="Judul Threads"
-              // onChangeText={(topic) => {
-              //   this.state.topic.length === 60 ? null : this.setState({ topic })
-              // }}
               onChangeText={(topic) => {
-                this.setState({ topic });
+                this.state.topic.length === 60 ? null : this.setState({ topic })
               }}
             />
           </View>
