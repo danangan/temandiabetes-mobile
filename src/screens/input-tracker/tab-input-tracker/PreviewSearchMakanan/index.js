@@ -4,6 +4,7 @@ import moment from 'moment';
 import {
   View,
   Text,
+  Platform,
   TextInput,
   ScrollView,
   Image,
@@ -17,7 +18,8 @@ import debounce from 'lodash/debounce';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getFoodSuggetion, inputTrackerFood } from '../../../../actions';
-import { Spinner } from '../../../../components';
+import { Spinner, NavigationBar } from '../../../../components';
+import DatePickerDialog from '../../../../components/DatePickerIOSModal';
 
 const TextInputHoc = props => (
   <View
@@ -44,6 +46,13 @@ const TextInputHoc = props => (
         }}
         underlineColorAndroid="#ef434e"
       />
+      {
+        Platform.OS === 'ios' &&
+        <View style={{
+          borderBottomColor: '#ef434e',
+          borderBottomWidth: 1,
+        }}></View>
+      }
     </View>
   </View>
 );
@@ -110,8 +119,13 @@ class PreviewSearchMakanan extends React.Component {
           isProcess: false
         },
         () => {
-          Alert.alert('Perhatian!', 'Menu makanan Anda berhasil disimpan.');
-          this.props.navigator.pop();
+          Alert.alert('Perhatian!', 'Menu makanan Anda berhasil disimpan.', [
+            {
+              text: 'OK', onPress: () =>{
+                this.props.navigator.pop();
+              }
+            },
+          ]);
         }
       );
     }
@@ -282,7 +296,13 @@ class PreviewSearchMakanan extends React.Component {
           alignItems: 'center',
           marginVertical: 10
         }}
-        onPress={() => this.openDatePicker()}
+        onPress={Platform.select({
+          android: () => this.openDatePicker(),
+          ios: () =>  this.refs.datetimepicker.open({
+            date: new Date(),
+            maxDate: new Date(this.state.inputDate.format('MM/DD/YYYY'))
+          })
+        })}
       >
         <Image
           resizeModa={'contain'}
@@ -429,10 +449,23 @@ class PreviewSearchMakanan extends React.Component {
           x: 120,
           y: 120
         }}
-        // contentContainerStyle={{ flex: 1, backgroundColor: '#000' }}
         scrollEnabled
       >
+        <NavigationBar onPress={() => this.props.navigator.pop()} title="Input Menu Makanan" />
         {this.renderButtonOpenDate()}
+        {
+          Platform.OS === 'ios' &&
+          <DatePickerDialog
+            ref="datetimepicker"
+            okLabel="Pilih"
+            datePickerMode="datetime"
+            cancelLabel="Batal"
+            onDatePicked={(val) => { this.setState({
+              inputDate: new moment(val),
+              isTime: new moment(val)
+            }) }}
+          />
+        }
         <TextInputHoc
           title="Sarapan"
           type="sarapan"

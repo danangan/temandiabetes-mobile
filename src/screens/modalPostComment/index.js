@@ -84,7 +84,7 @@ class ModalPostComponent extends Component {
                 <Image source={Closed} style={{ width: 20, height: 20 }} />
               </TouchableOpacity>
               <View style={{ flex: 1.5 }}>
-                <Text style={styles.titleForm}>Tambah Komentar cui</Text>
+                <Text style={styles.titleForm}>Tambah Komentar</Text>
               </View>
             </View>
             <View style={styles.wrapTextInput}>

@@ -93,6 +93,7 @@ class InputTracker extends Component {
     this.setModalVisible = this.setModalVisible.bind(this);
     this.toNavigate = this.toNavigate.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.openIOSPicker = this.openIOSPicker.bind(this);
   }
 
   componentDidMount() {
@@ -118,25 +119,29 @@ class InputTracker extends Component {
     clearInterval(this.Clock);
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps(nextProps) {
     const { isModal } = this.state;
-    const { inputTracker } = this.props.dataInputTracker;
+    const { inputTracker } = nextProps.dataInputTracker;
     if (isModal === 'IS_LOADING' && inputTracker.message === 'Success') {
-      alert('Inputan Anda berhasil disimpan.');
-      this.setState({
-        modalVisible: false,
-        isModal: '',
-        gulaDarah: 0,
-        hba1c: 0,
-        sarapan: null,
-        makanSiang: null,
-        makanMalam: null,
-        snack: null
-      }, () => {
-        setTimeout(() => {
-          this.setModalVisible();
-        }, 1500);
-      });
+      Alert.alert(
+        'Alert',
+        'Inputan Anda berhasil disimpan.',
+        [
+          { text: 'OK', onPress: () =>{
+            this.setState({
+              modalVisible: false,
+              isModal: '',
+              gulaDarah: 0,
+              hba1c: 0,
+              sarapan: null,
+              makanSiang: null,
+              makanMalam: null,
+              snack: null
+            });
+          }},
+        ],
+        { cancelable: false }
+      )
     }
   }
 
@@ -872,7 +877,6 @@ class InputTracker extends Component {
   }
 
   getLabelByVal(options, val) {
-    console.log(options)
     let result
     options.forEach((item) => {
       if (item.value === val) {
@@ -909,7 +913,7 @@ class InputTracker extends Component {
         }}
       >
         {this.renderButtonOpenDate()}
-        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15 }}>
+        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15, width: '100%'}}>
           <Text
             style={{
               fontSize: 13,
@@ -926,7 +930,7 @@ class InputTracker extends Component {
             <Picker
               mode="dialog"
               selectedValue={this.state.activitySelected}
-              style={{ padding: 0, margin: 0, height: 50, width: 200, alignSelf: 'flex-start' }}
+              style={{ padding: 0, margin: 0, height: 50, width: '100%', alignSelf: 'flex-start' }}
               onValueChange={itemValue =>
                 this.setState(
                   {
@@ -952,7 +956,7 @@ class InputTracker extends Component {
           {
             Platform.OS === 'ios' &&
             <TouchableOpacity
-            style={{ height: 35, marginLeft: 0, width: '100%' }}
+            style={{ height: 35, width: 50, marginLeft: 0, width: '100%'}}
             onPress={() => {
               const option = activityType
               const title = 'Pilih Jenis Aktifitas'
@@ -969,7 +973,9 @@ class InputTracker extends Component {
               this.openIOSPicker(option, title, onSelect)
             }}
           >
-            <Text style={{ marginTop: 9 }}>{this.getLabelByVal(activityType, this.state.activitySelected)}</Text>
+            <View style={{width: '100%'}}>
+              <Text style={{ marginTop: 9 }}>{this.state.activitySelected!== '' ? this.getLabelByVal(activityType, this.state.activitySelected) : 'Pilih Aktifitas'}</Text>
+            </View>
           </TouchableOpacity>
           }
           <View style={{ borderBottomColor: '#EF434F', borderBottomWidth: 1, marginBottom: 15 }} />
@@ -1207,7 +1213,7 @@ class InputTracker extends Component {
         navBarHidden: true
       },
       animated: true,
-      animationType: 'fade',
+      animationType: 'slide',
       passProps: {}
     });
   }
@@ -1285,11 +1291,12 @@ const styles = {
     color: color.red
   },
   modalOverlay: {
-    position: 'absolute',
+    // position: 'absolute',
+    // flex: 1,
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     backgroundColor: '#4a4a4a',
-    opacity: 0.9
+    opacity: 0.9,
   },
   modalLoading: {
     flex: 1,
@@ -1299,14 +1306,16 @@ const styles = {
     opacity: 0.9
   },
   modalWrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    position: 'absolute',
+    marginHorizontal: Dimensions.get('window').width*0.1,
+    marginVertical: Dimensions.get('window').height*0.25,
+    height: Dimensions.get('window').height*0.4,
+    width: Dimensions.get('window').width*0.8,
   },
   modalContent: {
     backgroundColor: '#fff',
     opacity: 1,
-    width: '70%'
+    flex: 1,
   },
   underLine: {
     borderBottomColor: '#ef434e',
