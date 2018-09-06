@@ -93,7 +93,7 @@ class Dots extends React.Component {
           }}
         >
           <View style={styles.dotsWrapper}>
-            <Text style={[styles.dotsStyle, { backgroundColor: dotsStyle.backgroundColor }]} />
+            <View style={[styles.dotsStyle, { backgroundColor: dotsStyle.backgroundColor }]} />
           </View>
         </TouchableOpacity>
       </View>
@@ -277,8 +277,8 @@ const styles = {
     left: 6,
     height: 15,
     width: 15,
+    borderRadius: 15/2,
     bottom: -10,
-    borderRadius: 7.5
   },
   toolTipContainerStyle: {
     justifyContent: 'center',

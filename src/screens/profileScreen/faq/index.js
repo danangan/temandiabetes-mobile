@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, WebView } from 'react-native';
+import { Platform, View, Text, ScrollView, WebView } from 'react-native';
 
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
@@ -8,13 +8,13 @@ import { NavigationBar } from '../../../components';
 let videoTag = `<html>
         <head>
           <style>
-          .intrinsic-container{position:relative;height:0;overflow:hidden}.intrinsic-container-16x9{padding-bottom:56.25%}.intrinsic-container-4x3{padding-bottom:75%}.intrinsic-container iframe{position:absolute;top:0;left:0;width:100%;height:100%}          
+          .intrinsic-container{position:relative;height:0;overflow:hidden}.intrinsic-container-16x9{padding-bottom:56.25%}.intrinsic-container-4x3{padding-bottom:75%}.intrinsic-container iframe{position:absolute;top:0;left:0;width:100%;height:100%}
           </style>
         </head>
         <body>
-          <div class="intrinsic-container intrinsic-container-16x9"><iframe width="560" height="315" 
-          src="https://www.youtube.com/embed/9IvNVFvR8Zw" 
-          frameborder="0" allow="autoplay; encrypted-media" 
+          <div class="intrinsic-container intrinsic-container-16x9"><iframe width="560" height="315"
+          src="https://www.youtube.com/embed/9IvNVFvR8Zw"
+          frameborder="0" allow="autoplay; encrypted-media"
           allowfullscreen></iframe></div>
         </body>
       </html>`
@@ -76,7 +76,7 @@ const FaqScreen = props => (
           {'\n'}
         </Text>
         <Text style={styles.answerStyle}>
-            Inner Circle ialah Keluarga / kerabat / dokter Diabetisi yang dapat membantu memberikan support untuk Diabetisi. 
+            Inner Circle ialah Keluarga / kerabat / dokter Diabetisi yang dapat membantu memberikan support untuk Diabetisi.
             Anda dapat mengundang teman, keluarga bahkan dokter Anda untuk menggunakan aplikasi Teman Diabetes dengan mengirimkan link untuk download melalui email dan Whatsapp.
           {'\n'}
           {'\n'}
@@ -113,29 +113,29 @@ const FaqScreen = props => (
           b. Rekam Medis: Anda dapat memasukkan data Rekam Medis melalui menu Masukkan Pelacak, rekam medis yang dapat Anda masukkan adalah data sbb: {'\n'}
           - Gula Darah: Untuk gula darah, Anda dapat memasukkan data secara manual sesuai hasil tes Anda atau cek darah otomatis dengan menggunakan Dnurse.{'\n'}
           - HbA1c: Untuk memasukkan HbA1c, Anda cukup klik pada HbA1c dan masukkan angka hasil tes HbA1c Anda. Tes HbA1c sendiri bisa dilakukan di lab.{'\n'}
-          - Menu Makan: Untuk menu makan Anda dapat memasukkan data sarapan, makan siang, makan malam & snack, selain itu Anda dapat mengatur tanggal dan jam terkait dengan inputan menu makan Anda. Detail kalori pada jenis menu makan yang Anda masukan hanya merupakan data kalori dalam hitungan 1 porsi sedang, jumlah kaolri merupakan rata rata tergantung dari seberapa besar porsi yang Anda makan. {'\n'} 
+          - Menu Makan: Untuk menu makan Anda dapat memasukkan data sarapan, makan siang, makan malam & snack, selain itu Anda dapat mengatur tanggal dan jam terkait dengan inputan menu makan Anda. Detail kalori pada jenis menu makan yang Anda masukan hanya merupakan data kalori dalam hitungan 1 porsi sedang, jumlah kaolri merupakan rata rata tergantung dari seberapa besar porsi yang Anda makan. {'\n'}
           - Aktivitas: Pilih aktivitas yang Anda lakukan Ringan, Sedang atau Berat. Kategori aktivitas tergantung penilaian anda dari banyaknya gerakan fisik yang Anda lakukan pada hari itu. {'\n'}
           - Berat Badan: Masukkan data berat badan Anda dengan menuliskan angka berat badan Anda (dalam kilogram){'\n'}{'\n'}
-            
+
           c. Inner Circle: Untuk mengatur Inner Circle Anda dapat dilakukan melalui menu “Pengaturan – Daftar Inner Circle”. {'\n'}{'\n'}
           d. Tambah Inner Circle: Cari nama pengguna yang Anda ingin tambahkan dan klik tanda + {'\n'}{'\n'}
           e. Menghapus Inner Circle: Melalui menu Pengaturan - pilih Daftar Inner Circle - di tab Inner Circle pilih nama yang akan dihapus kemudian klik tanda X untuk menghapus Inner Circle Anda. {'\n'}{'\n'}
           f. Menerima & Menolak Permintaan: Untuk dapat menerima permintaan Inner Circle, buka menu Inner Circle di Pengaturan – pilih tab Permintaan - klik di tanda V untuk menerima permintaan Inner Circle, klik X untuk menolak permintaan. {'\n'}{'\n'}
           g. Melihat list permintaan tertunda : Buka menu Pengaturan – pilih Daftar Inner Circle – pilih tab Pending, maka Anda dapat melihat list permintaan Anda yang tertunda di menu tersebut.{'\n'}{'\n'}
-        </Text> 
+        </Text>
         <Text style={styles.questionStyle}>
           10. Bagaimana dan mengapa saya perlu memberitahu lokasi saya ?{'\n'}
         </Text>
         <Text style={styles.answerStyle}>
           Lokasi Anda diperlukan di fitur Emergency Button (untuk mengetahui titik lokasi provider kesehatan terdekat dari lokasi Anda) dan di fitur Belanja (untuk mengetahui lokasi apotik terdekat dari lokasi Anda){'\n'}
-        {'\n'} 
+        {'\n'}
         </Text>
         <Text style={styles.questionStyle}>
           11. Apa itu Dnurse ?{'\n'}
         </Text>
         <Text style={styles.answerStyle}>
         Dnurse adalah alat tes gula darah (glucometer) yang terintegrasi dengan aplikasi Teman diabetes. Dnurse tidak menggunakan layar pada device, namun hasil tes darah hanya bisa terlihat dengan menggunakan aplikasi Teman Diabetes{'\n'}
-        {'\n'} 
+        {'\n'}
         </Text>
         <Text style={styles.questionStyle}>
           12. Bagaimana cara menggunakan Dnurse?{'\n'}
@@ -158,7 +158,7 @@ const FaqScreen = props => (
           <Text style={styles.textBold}>Petunjuk hasil pengetesan gula darah:</Text>{'\n'}
           - Gula darah sesudah makan tidak boleh >200mg/dl{'\n'}
           - Gula darah puasa 8 jam tidak boleh >126 mg/dl{'\n'}
-        {'\n'} 
+        {'\n'}
         Video tutorial penggunaan Dnurse dapat Anda lihat pada video di bawah berikut ini : {'\n'}
         </Text>
 
@@ -174,21 +174,21 @@ const FaqScreen = props => (
           - Diabet dengan obat - 1x sehari{'\n'}
           - Diabet dengan insulin - 2x sehari{'\n'}
           Atau sesuai saran dokter{'\n'}
-        {'\n'} 
+        {'\n'}
         </Text>
         <Text style={styles.questionStyle}>
          14. Dnurse akan dapat digunakan sampai berapa kali pemakaian ?{'\n'}
         </Text>
         <Text style={styles.answerStyle}>
           4000 kali atau 5 tahun (tergantung mana yang lebih cepat){'\n'}
-        {'\n'} 
+        {'\n'}
         </Text>
         <Text style={styles.questionStyle}>
          15. Mengapa hasil pengecekan darah saya hasilnya 0mg/dl? Apa yang harus saya lakukan ?{'\n'}
         </Text>
         <Text style={styles.answerStyle}>
           Kemungkinan terbesar adalah karena volume darah yang diteteskan ke test strip kurang banyak. Lakukan pengetesan ulang dengan mengulang tahapan nomor 12 di atas{'\n'}
-        {'\n'} 
+        {'\n'}
         </Text>
         <Text style={styles.questionStyle}>
          16. Bagaimana cara mengikuti event?{'\n'}
@@ -196,7 +196,7 @@ const FaqScreen = props => (
         <Text style={styles.answerStyle}>
           - Untuk Event Offline anda dapat melakukan registrasi melalui contact person yang sudah tertera di informasi detail event.{'\n'}
           - Untuk Live Event, Anda dapat melakukan RSVP terlebih dahulu sebelum event berlangsung.{'\n'}
-        {'\n'} 
+        {'\n'}
         </Text>
 
       </View>
@@ -217,7 +217,7 @@ const styles = {
     textAlign: 'justify'
   },
   answerStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
     fontSize: Style.FONT_SIZE_SMALL,
     textAlign: 'justify'
   },

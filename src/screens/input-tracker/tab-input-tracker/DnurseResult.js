@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   View,
+  Platform,
   Image,
   Text,
   NativeModules,
@@ -377,7 +378,7 @@ const styles = {
     marginBottom: 20.73
   },
   descriptionStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
     fontSize: Style.FONT_SIZE_SMALL,
     color: 'rgba(0,0,0,1)',
     textAlign: 'left',

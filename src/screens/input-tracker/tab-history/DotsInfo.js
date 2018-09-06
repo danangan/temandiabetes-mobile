@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   dotsStyle: {
     height: 15,
     width: 15,
-    borderRadius: 7.5
+    borderRadius: 15/2
   },
   textStyle: {
     fontFamily: 'Montserrat-Regular',

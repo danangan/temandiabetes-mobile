@@ -12,9 +12,11 @@ import {
   Keyboard,
   ScrollView,
   TimePickerAndroid,
+  Platform,
   Alert
 } from 'react-native';
 
+import DatePickerDialog from '../../../components/DatePickerIOSModal';
 import { Spinner } from '../../../components';
 
 class ModalCreateReminder extends React.Component {
@@ -227,7 +229,15 @@ class ModalCreateReminder extends React.Component {
           justifyContent: 'center',
           alignItems: 'center'
         }}
-        onPress={() => this.openDatePicker()}
+        onPress={
+          Platform.select({
+            android: () => this.openDatePicker(),
+            ios: () => this.refs.dateTimePicker.open({
+              date: new Date(),
+              minDate: new Date() //To restirct past date
+            })
+          })
+        }
       >
         <Text style={{ fontSize: 30, fontFamily: 'OpenSans-Light' }}>
           {selectTimeValue.format('HH:mm')}
@@ -248,10 +258,7 @@ class ModalCreateReminder extends React.Component {
   }
 
   render() {
-    // onPress={() => this.props.setModalVisible()}
-    // console.log('THIS PROPS MODAL', this.props);
     const { detailsReminder } = this.props.dataReminder;
-    console.log(this.state.status_action);
     return (
       <Modal
         animationType="none"
@@ -297,6 +304,19 @@ class ModalCreateReminder extends React.Component {
               <View style={{ flex: 1, borderBottomColor: '#000', flexDirection: 'row' }}>
                 <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
                   {this.renderButtonOpenDate()}
+                  {
+                    Platform.OS === 'ios' &&
+                    <DatePickerDialog
+                      ref="dateTimePicker"
+                      datePickerMode="datetime"
+                      okLabel="Pilih"
+                      cancelLabel="Batal"
+                      onDatePicked={(val) => { this.setState({
+                        selectDateValue: new moment(val),
+                        selectTimeValue: new moment(val),
+                      }) }}
+                    />
+                  }
                 </View>
                 <View style={{ flex: 1.2, justifyContent: 'center', alignItems: 'center' }}>
                   <View

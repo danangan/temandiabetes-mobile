@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, Linking, Image } from 'react-native';
+import { Platform, View, Text, ScrollView, Linking, Image } from 'react-native';
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
 
@@ -39,7 +39,7 @@ const AboutScreen = props => (
             <View style={styles.viewTextContactUs}>
                 <Text style={styles.textContactUs}>Untuk pertanyaan umum seputar Teman Diabetes dan pengguna mobile application, kirimkan email anda di : </Text>
                 <Text style={[styles.textContactUs, {marginTop : 5}]}>info@temandiabetes.com</Text>
-            </View>  
+            </View>
         </View>
 
         <View style={styles.viewContactUs}>
@@ -50,7 +50,7 @@ const AboutScreen = props => (
             <View style={styles.viewTextContactUs}>
                 <Text style={styles.textContactUs}>Untuk membahas seputar informasi kerjasama dengan Teman Diabetes, kirimkan email anda di :</Text>
                 <Text style={[styles.textContactUs, {marginTop : 5}]}>partnership@temandiabetes.com</Text>
-            </View>  
+            </View>
         </View>
 
       </View>
@@ -66,35 +66,35 @@ const styles = {
   },
   textStyle: {
     textAlign: 'justify',
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
     fontSize: Style.FONT_SIZE_SMALL,
     padding: Style.PADDING
   },
   textContactUs: {
     textAlign: 'justify',
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
     fontSize: Style.FONT_SIZE_SMALL,
     fontWeight: 'bold',
   },
   mainViewContactUs: {
-    flex : 1, 
-    // flexDirection : 'row', 
+    flex : 1,
+    // flexDirection : 'row',
     paddingHorizontal : Style.PADDING
   },
-  viewContactUs: { 
-    flex:  1, 
+  viewContactUs: {
+    flex:  1,
     flexDirection : 'row',
-    justifyContent : 'center', 
+    justifyContent : 'center',
     alignItems: 'center',
     marginBottom: Style.PADDING,
   },
-  images: { 
-    width: 60, 
+  images: {
+    width: 60,
     height: 60,
   },
   viewTextContactUs: {
-    flex : 1, 
-    justifyContent : 'center', 
+    flex : 1,
+    justifyContent : 'center',
     paddingLeft : 10
   },
 };

@@ -32,7 +32,8 @@ const styles = {
 	},
 	imageStyle: {
 		width: 25,
-		height: 25
+    height: 25,
+    tintColor: color.red
 	},
 	titleContainerStyle: {
 		flex: 1,

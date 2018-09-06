@@ -20,7 +20,7 @@ export const fontMaker = (options = {}) => {
   let { weight, style, family } = Object.assign({
     weight: null,
     style: null,
-    family: 'OpenSans-Regular'
+    family: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans'
   }, options);
 
   const { weights, styles } = font[family]

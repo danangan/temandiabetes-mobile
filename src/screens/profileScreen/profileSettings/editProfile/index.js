@@ -711,7 +711,7 @@ class EditProfile extends React.Component {
                       style={{
                         color: '#fff',
                         fontSize: 12,
-                        fontFamily: 'OpenSans-Regular',
+                        fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
                         textAlign: 'center'
                       }}
                     >
