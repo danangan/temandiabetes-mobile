@@ -13,7 +13,9 @@ import {
   ScrollView,
   TimePickerAndroid,
   Platform,
-  Alert
+  Alert,
+  Dimensions,
+  TouchableHighlight
 } from 'react-native';
 
 import DatePickerDialog from '../../../components/DatePickerIOSModal';
@@ -266,165 +268,73 @@ class ModalCreateReminder extends React.Component {
         visible={this.props.modalVisible}
         onRequestClose={() => null}
       >
-        {// detailsReminder.status_code === 0
-        false ? (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Spinner color="rgb(239, 67, 79)" size="large" />
-          </View>
-        ) : (
-          <View style={styles.modalWrapper}>
-            <View
-              style={[styles.modalContent, { height: this.state.keyboardActive ? '80%' : '60%' }]}
-            >
-              <TouchableOpacity
-                style={{ flex: 0, justifyContent: 'flex-end', alignItems: 'flex-end' }}
-                onPress={() => this.props.setModalVisible()}
+        <TouchableHighlight
+          style={styles.modalOverlay}
+          onPress={() => {
+            this.props.setModalVisible()
+          }}
+        >
+          <View />
+        </TouchableHighlight>
+        <View style={styles.modalContentWrapper}>
+          {// detailsReminder.status_code === 0
+          false ? (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <Spinner color="rgb(239, 67, 79)" size="large" />
+            </View>
+          ) : (
+            <View style={styles.modalWrapper}>
+              <View
+                style={[styles.modalContent, { height: this.state.keyboardActive ? '80%' : '60%' }]}
               >
-                <Image
-                  resizeModa={'contain'}
-                  style={{ width: 20, height: 20 }}
-                  source={require('../../../assets/icons/close.png')}
-                />
-              </TouchableOpacity>
-              <View style={{ flex: 1, borderBottomColor: '#000' }}>
-                <Text style={{ fontFamily: 'OpenSans-Light', color: '#000' }}>Nama Obat</Text>
-                <TextInput
-                  value={this.state.drugName}
-                  onChangeText={text => this.setState({ drugName: text })}
-                  placeholder="masukkan nama obat"
-                  style={{
-                    textAlign: 'left',
-                    fontSize: 12,
-                    fontFamily: 'OpenSans-Light',
-                    paddingVertical: 1
-                  }}
-                  underlineColorAndroid="#000"
-                />
-              </View>
-              <View style={{ flex: 1, borderBottomColor: '#000', flexDirection: 'row' }}>
-                <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
-                  {this.renderButtonOpenDate()}
+                <TouchableOpacity
+                  style={{ flex: 0, justifyContent: 'flex-end', alignItems: 'flex-end' }}
+                  onPress={() => this.props.setModalVisible()}
+                >
+                  <Image
+                    resizeModa={'contain'}
+                    style={{ width: 20, height: 20 }}
+                    source={require('../../../assets/icons/close.png')}
+                  />
+                </TouchableOpacity>
+                <View style={{ flex: 1, borderBottomColor: '#000', marginBottom: 10 }}>
+                  <Text style={{ fontFamily: 'OpenSans-Light', color: '#000' }}>Nama Obat</Text>
+                  <TextInput
+                    value={this.state.drugName}
+                    onChangeText={text => this.setState({ drugName: text })}
+                    placeholder="masukkan nama obat"
+                    style={{
+                      textAlign: 'left',
+                      fontSize: 12,
+                      fontFamily: 'OpenSans-Light',
+                      paddingVertical: 1
+                    }}
+                    underlineColorAndroid="#EF434F"
+                  />
                   {
                     Platform.OS === 'ios' &&
-                    <DatePickerDialog
-                      ref="dateTimePicker"
-                      datePickerMode="datetime"
-                      okLabel="Pilih"
-                      cancelLabel="Batal"
-                      onDatePicked={(val) => { this.setState({
-                        selectDateValue: new moment(val),
-                        selectTimeValue: new moment(val),
-                      }) }}
-                    />
+                    <View style={{ borderBottomWidth: 1, borderBottomColor: '#EF434F' }}/>
                   }
                 </View>
-                <View style={{ flex: 1.2, justifyContent: 'center', alignItems: 'center' }}>
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <TouchableOpacity
-                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                      onPress={() => this.setState({ ruleConsume: 'Sebelum Makan' })}
-                      style={{
-                        flex: 0,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 10,
-                        height: 10,
-                        backgroundColor:
-                          this.state.ruleConsume === 'Sebelum Makan' ? '#f8b6bb' : '#fff',
-                        borderColor: '#f25760',
-                        borderWidth: 1
-                      }}
-                    >
-                      <Text />
-                    </TouchableOpacity>
-                    <Text
-                      style={{
-                        fontFamily: 'Montserrat-Light',
-                        color: '#000',
-                        fontSize: 10,
-                        paddingHorizontal: 2
-                      }}
-                    >
-                      Sebelum Makan
-                    </Text>
+                <View style={{ flex: 1, borderBottomColor: '#000', flexDirection: 'row', marginBottom: 10 }}>
+                  <View style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
+                    {this.renderButtonOpenDate()}
+                    {
+                      Platform.OS === 'ios' &&
+                      <DatePickerDialog
+                        ref="dateTimePicker"
+                        datePickerMode="datetime"
+                        okLabel="Pilih"
+                        cancelLabel="Batal"
+                        onDatePicked={(val) => { this.setState({
+                          selectDateValue: new moment(val),
+                          selectTimeValue: new moment(val),
+                        }) }}
+                      />
+                    }
                   </View>
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <TouchableOpacity
-                      hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                      onPress={() => this.setState({ ruleConsume: 'Sesudah Makan' })}
-                      style={{
-                        flex: 0,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        width: 10,
-                        height: 10,
-                        backgroundColor:
-                          this.state.ruleConsume === 'Sesudah Makan' ? '#f8b6bb' : '#fff',
-                        borderColor: '#f25760',
-                        borderWidth: 1
-                      }}
-                    >
-                      <Text />
-                    </TouchableOpacity>
-                    <Text
-                      style={{
-                        fontFamily: 'Montserrat-Light',
-                        color: '#000',
-                        fontSize: 10,
-                        paddingHorizontal: 2
-                      }}
-                    >
-                      Sesudah Makan
-                    </Text>
-                  </View>
-                </View>
-              </View>
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity
-                  opacity={1}
-                  style={{
-                    flex: 0.5,
-                    width: '30%',
-                    alignItems: 'center',
-                    backgroundColor: '#ef434e',
-                    justifyContent: 'center'
-                  }}
-                  onPress={this.onSetReminder}
-                >
-                  <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff', fontSize: 10 }}>
-                    Tambahkan
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  flex: 1,
-                  height: '100%',
-                  backgroundColor: '#f2f2f2',
-                  borderColor: '#ccc',
-                  borderWidth: 1,
-                  alignItems: 'center',
-                  justifyContent: 'flex-start'
-                }}
-              >
-                <ScrollView>
-                  {this.state.preReminders.map((item, index) => (
+                  <View style={{ flex: 1.2, justifyContent: 'center', alignItems: 'center' }}>
                     <View
-                      key={index}
                       style={{
                         flex: 1,
                         flexDirection: 'row',
@@ -432,63 +342,168 @@ class ModalCreateReminder extends React.Component {
                         alignItems: 'center'
                       }}
                     >
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          fontFamily: 'Montserrat-Light',
-                          paddingVertical: 5,
-                          textAlign: 'left'
-                        }}
-                      >
-                        {item.hours} -{' '}
-                        {item.ruleConsume === 'sesudahMakan' ? 'Sesudah Makan' : 'Sebelum Makan'}
-                      </Text>
                       <TouchableOpacity
+                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        onPress={() => this.setState({ ruleConsume: 'Sebelum Makan' })}
                         style={{
                           flex: 0,
                           justifyContent: 'center',
                           alignItems: 'center',
-                          paddingHorizontal: 15
+                          width: 10,
+                          height: 10,
+                          backgroundColor:
+                            this.state.ruleConsume === 'Sebelum Makan' ? '#f8b6bb' : '#fff',
+                          borderColor: '#f25760',
+                          borderWidth: 1
                         }}
-                        onPress={() => this.removePreReminders(index)}
                       >
-                        <Image
-                          resizeModa={'contain'}
-                          style={{ width: 15, height: 15 }}
-                          source={require('../../../assets/icons/close.png')}
-                        />
+                        <Text />
                       </TouchableOpacity>
+                      <Text
+                        style={{
+                          fontFamily: 'Montserrat-Light',
+                          color: '#000',
+                          fontSize: 10,
+                          paddingHorizontal: 2
+                        }}
+                      >
+                        Sebelum Makan
+                      </Text>
                     </View>
-                  ))}
-                </ScrollView>
-              </View>
-
-              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity
-                  opacity={1}
-                  style={{
-                    flex: 0.5,
-                    backgroundColor: '#ef434f',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                  onPress={() => this.onSubmit()}
-                >
-                  <Text
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <TouchableOpacity
+                        hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        onPress={() => this.setState({ ruleConsume: 'Sesudah Makan' })}
+                        style={{
+                          flex: 0,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          width: 10,
+                          height: 10,
+                          backgroundColor:
+                            this.state.ruleConsume === 'Sesudah Makan' ? '#f8b6bb' : '#fff',
+                          borderColor: '#f25760',
+                          borderWidth: 1
+                        }}
+                      >
+                        <Text />
+                      </TouchableOpacity>
+                      <Text
+                        style={{
+                          fontFamily: 'Montserrat-Light',
+                          color: '#000',
+                          fontSize: 10,
+                          paddingHorizontal: 2
+                        }}
+                      >
+                        Sesudah Makan
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
+                  <TouchableOpacity
+                    opacity={1}
                     style={{
-                      color: '#fff',
-                      paddingHorizontal: 30,
-                      fontFamily: 'Montserrat-Light',
-                      fontSize: 12
+                      height: 24,
+                      width: '30%',
+                      alignItems: 'center',
+                      backgroundColor: '#ef434e',
+                      justifyContent: 'center'
                     }}
+                    onPress={this.onSetReminder}
                   >
-                    SELESAI
-                  </Text>
-                </TouchableOpacity>
+                    <Text style={{ fontFamily: 'Montserrat-Bold', color: '#fff', fontSize: 10 }}>
+                      Tambahkan
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    height: 100,
+                    backgroundColor: '#f2f2f2',
+                    borderColor: '#ccc',
+                    borderWidth: 1,
+                    alignItems: 'center',
+                    justifyContent: 'flex-start'
+                  }}
+                >
+                  <ScrollView>
+                    {this.state.preReminders.map((item, index) => (
+                      <View
+                        key={index}
+                        style={{
+                          flex: 1,
+                          flexDirection: 'row',
+                          justifyContent: 'center',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontSize: 14,
+                            fontFamily: 'Montserrat-Light',
+                            paddingVertical: 5,
+                            textAlign: 'left'
+                          }}
+                        >
+                          {item.hours} -{' '}
+                          {item.ruleConsume === 'sesudahMakan' ? 'Sesudah Makan' : 'Sebelum Makan'}
+                        </Text>
+                        <TouchableOpacity
+                          style={{
+                            flex: 0,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            paddingHorizontal: 15
+                          }}
+                          onPress={() => this.removePreReminders(index)}
+                        >
+                          <Image
+                            resizeModa={'contain'}
+                            style={{ width: 15, height: 15 }}
+                            source={require('../../../assets/icons/close.png')}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    ))}
+                  </ScrollView>
+                </View>
+
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                  <TouchableOpacity
+                    opacity={1}
+                    style={{
+                      height: 27,
+                      backgroundColor: '#ef434f',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                    onPress={() => this.onSubmit()}
+                  >
+                    <Text
+                      style={{
+                        color: '#fff',
+                        paddingHorizontal: 30,
+                        fontFamily: 'Montserrat-Light',
+                        fontSize: 12
+                      }}
+                    >
+                      SELESAI
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
-          </View>
-        )}
+          )}
+        </View>
       </Modal>
     );
   }
@@ -496,20 +511,32 @@ class ModalCreateReminder extends React.Component {
 
 const styles = {
   modalWrapper: {
+    backgroundColor: '#ffa',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  modalContentWrapper: {
+    backgroundColor: '#eaa',
+    position: 'absolute',
+    marginHorizontal: Dimensions.get('window').width*0.1,
+    marginVertical: Dimensions.get('window').height*0.15,
+    // height: Dimensions.get('window').height*0.5,
+    width: Dimensions.get('window').width*0.8,
+  },
+  modalOverlay: {
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
     backgroundColor: '#4a4a4a',
     opacity: 0.9,
-    zIndex: -2
   },
   modalContent: {
-    flex: 0,
+    flex: 1,
     zIndex: 2,
     padding: 20,
     backgroundColor: '#fff',
     opacity: 1,
-    width: '70%'
+    width: '100%'
   }
 };
 
