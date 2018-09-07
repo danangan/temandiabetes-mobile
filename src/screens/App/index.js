@@ -52,6 +52,9 @@ import HistoryTab from '../input-tracker/tab-history';
 // SHOP
 import ShopTab from '../chart';
 
+// INSURANCE CATALOG
+import InsuranceCatalog from '../insuranceCatalog';
+
 // EMERGENCY
 import EmergencyTab from '../emergency';
 
@@ -338,6 +341,9 @@ class App extends Component {
           >
             <View title="KATALOG" style={styles.content}>
               <ShopTab navigator={navigator} />
+            </View>
+            <View title="ASURANSI" style={styles.content}>
+              <InsuranceCatalog navigator={navigator} />
             </View>
           </TopTabs>
           <TopTabs
