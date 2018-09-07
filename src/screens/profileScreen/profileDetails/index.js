@@ -166,14 +166,10 @@ class ProfileDetails extends React.Component {
         <Indicator persentase={{ width: this.state.completePercentase }} />
       </View>
       <View style={styles.indicatorDetailStyle}>
-        {
-          this.state.completePercentase === '100%' &&
-          <Text style={styles.textStyle}>
-            Profile Anda sudah komplit!
-          </Text>
-        }
-        {
-          this.state.completePercentase !== '100%' &&
+        {this.state.completePercentase === '100%' && (
+          <Text style={styles.textStyle}>Profile Anda sudah komplit!</Text>
+        )}
+        {this.state.completePercentase !== '100%' && (
           <Text>
             <Text style={styles.textStyle}>
               Profil Anda baru komplit {this.state.completePercentase},
@@ -193,7 +189,7 @@ class ProfileDetails extends React.Component {
               Mohon lengkapi profil Anda sekarang!
             </Text>
           </Text>
-        }
+        )}
       </View>
     </View>
   );
