@@ -49,15 +49,19 @@ class ModalReport extends Component {
       Alert.alert(
         'Laporan Anda berhasil terkirim!',
         'Terimakasih atas partisipasi Anda',
-        [{ text: 'OK', onPress: () => console.log('OK Pressed') }],
+        [
+          { text: 'OK', onPress: () => {
+            Navigation.dismissModal({
+              animationType: 'slide-down'
+            });
+            this.setState({
+              isSubmit: false
+            });
+          }
+        }],
         { cancelable: false }
       );
-      Navigation.dismissModal({
-        animationType: 'slide-down'
-      });
-      this.setState({
-        isSubmit: false
-      });
+
     }
   }
 

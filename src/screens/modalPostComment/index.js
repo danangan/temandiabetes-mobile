@@ -76,7 +76,7 @@ class ModalPostComponent extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={{ flex: 1, height: '100%' }} behavior="padding" enabled>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
         <View style={styles.container}>
           <View style={styles.innerWrapper}>
             <View style={styles.wrapNav}>
