@@ -161,6 +161,7 @@ class RegisterFive extends React.Component {
       <View style={styles.container}>
         <ImageBackground style={styles.imageBackground} source={Images.backgroundSip}>
           <TouchableOpacity
+            hitSlop={{ top: 20, bottom: 20, left: 50, right: 70 }}
             style={{
               flex: 1,
               justifyContent: 'flex-start',
