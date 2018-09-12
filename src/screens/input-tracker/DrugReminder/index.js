@@ -117,7 +117,8 @@ class DrugReminder extends React.Component {
 
   setModalVisible() {
     this.setState({
-      modalActive: !this.state.modalActive
+      modalActive: !this.state.modalActive,
+      reminderDetail: this.state.modalActive ? null : this.state.reminderDetail
     });
   }
 
