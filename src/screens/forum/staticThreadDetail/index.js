@@ -7,6 +7,8 @@ import { Spinner } from '../../../components';
 import { API_CALL } from '../../../utils/ajaxRequestHelper';
 import ContentFeatured from './ContentFeatured';
 
+import Closed from '../../../assets/icons/close_white.png';
+
 class FeaturedDetail extends Component {
   static navigatorStyle = {
     tabBarHidden: true
@@ -59,18 +61,17 @@ class FeaturedDetail extends Component {
           <HeaderDetail category={thread.category} date={thread.createdAt} author={thread.author} />
         )}
         <ContentFeatured item={thread} />
-        <TouchableOpacity
-          style={styles.buttonContainerStyle}
-          onPress={() => this.props.navigator.pop()}
-        >
-          <Image
-            tintColor={color.white}
-            borderWidth={15}
-            resizeMode={'contain'}
-            source={require('../../../assets/icons/close.png')}
-            style={styles.buttonImageStyle}
-          />
-        </TouchableOpacity>
+        <View style={{ height: 40 }}>
+          <TouchableOpacity
+            style={styles.buttonContainerStyle}
+            onPress={() => this.props.navigator.pop()}
+          >
+            <Image
+              source={Closed}
+              style={styles.buttonImageStyle}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -89,8 +90,9 @@ const styles = {
     alignItems: 'center'
   },
   buttonImageStyle: {
-    height: 25,
-    width: 25
+    height: 20,
+    width: 20,
+    backgroundColor: 'trasparent'
   }
 };
 
