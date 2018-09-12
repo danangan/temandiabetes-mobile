@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Linking, Dimensions, Platform } from 'react-native';
+import { View, Text, Linking, Dimensions, Platform, ScrollView, Image } from 'react-native';
 import HTMLView from 'react-native-render-html';
 import { NavigationBar } from '../../components';
 import Style from '../../style/defaultStyle';
@@ -60,8 +60,7 @@ const DEFAULT_PROPS = {
 export default class InsuranceCatalogDetail extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   render() {
@@ -73,9 +72,11 @@ export default class InsuranceCatalogDetail extends Component {
         <View style={styles.contentWrapper}>
           <Text style={styles.titleStyle}>{title}</Text>
           <Text style={styles.subTitleStyle}>{subTitle}</Text>
-          <View style={styles.underLine}/>
-          <HTMLView {...DEFAULT_PROPS} html={description} />
+          <View style={styles.underLine} />
         </View>
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          <HTMLView {...DEFAULT_PROPS} html={description} />
+        </ScrollView>
       </View>
     );
   }
@@ -85,11 +86,14 @@ const styles = {
   containerStyle: {
     flex: 1,
     backgroundColor: color.solitude,
-    paddingTop: Platform.OS === 'ios' ? 15 : 0,
+    paddingTop: Platform.OS === 'ios' ? 15 : 0
   },
   contentWrapper: {
     paddingVertical: 10,
-    paddingHorizontal: 15,
+    paddingHorizontal: 15
+  },
+  scrollView: {
+    paddingHorizontal: 15
   },
   titleStyle: {
     fontFamily: Platform.OS === 'android' ? 'Montserrat-Regular' : 'MontSerrat',
