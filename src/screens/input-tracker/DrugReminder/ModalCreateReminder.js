@@ -276,7 +276,6 @@ class ModalCreateReminder extends React.Component {
   }
 
   render() {
-    console.log('this statee modal reminder ', this.state);
     const { detailsReminder } = this.props.dataReminder;
     return (
       <Modal
