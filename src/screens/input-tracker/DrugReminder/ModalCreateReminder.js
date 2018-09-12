@@ -36,6 +36,7 @@ class ModalCreateReminder extends React.Component {
       idReminder: ''
     };
     this.onSetReminder = this.onSetReminder.bind(this);
+    this.setDefaultState = this.setDefaultState.bind(this);
   }
 
   componentWillMount() {
@@ -259,6 +260,21 @@ class ModalCreateReminder extends React.Component {
     });
   }
 
+  async setDefaultState() {
+    await this.setState({
+      selectDateValue: new moment(),
+      selectTimeValue: new moment(),
+      keyboardActive: false,
+      drugName: '',
+      ruleConsume: '',
+      preReminders: [],
+      prefieldData: null,
+      status_action: 'CREATE_NEW',
+      idReminder: ''
+    });
+    this.props.setModalVisible();
+  }
+
   render() {
     const { detailsReminder } = this.props.dataReminder;
     return (
@@ -270,9 +286,7 @@ class ModalCreateReminder extends React.Component {
       >
         <TouchableHighlight
           style={styles.modalOverlay}
-          onPress={() => {
-            this.props.setModalVisible()
-          }}
+          onPress={this.setDefaultState}
         >
           <View />
         </TouchableHighlight>
@@ -496,7 +510,7 @@ class ModalCreateReminder extends React.Component {
                         fontSize: 12
                       }}
                     >
-                      SELESAI
+                      SELESAI BRO
                     </Text>
                   </TouchableOpacity>
                 </View>
