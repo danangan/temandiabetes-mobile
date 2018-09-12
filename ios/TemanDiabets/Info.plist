@@ -2,12 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>$(PRODUCT_NAME) would like access to your photo gallery</key>
-	<string>NSCameraUsageDescription</string>
-	<key>$(PRODUCT_NAME) would like to save photos to your photo gallery</key>
-	<string>NSMicrophoneUsageDescription</string>
-	<key>$(PRODUCT_NAME) would like to use your camera</key>
-	<string>NSPhotoLibraryAddUsageDescription</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like access to your photo gallery</string>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to use your camera</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to save photos to your photo gallery</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>$(PRODUCT_NAME) would like to your microphone (for videos)</string>
 	<key>875389782609283</key>
 	<string>FacebookDisplayName</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -98,7 +100,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>Teman Diabetes</key>
 	<string>NSPhotoLibraryUsageDescription</string>
 	<key>UIAppFonts</key>

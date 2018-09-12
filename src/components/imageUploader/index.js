@@ -36,15 +36,13 @@ class ImageUploader extends Component {
       else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       }
-      else {
-        // let source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-        // console.log(response.uri)
+      else if (response.fileSize*0.001 <= 1024)
+      {
         this.props.updateLoadingState(true, () => {
           this.onSelectedImage(response.uri)
         })
+      } else {
+        alert('Maksimal ukuran file adalah 1MB')
       }
     });
   }
@@ -57,8 +55,6 @@ class ImageUploader extends Component {
       // uploading to firebase storage
       const result = await firebase.storage().ref().child(`users/${filename}`).putFile(imgURI);
 
-      console.log(result)
-
       const payload = {
         _id: this.props.currentUserId,
         foto_profile: result.downloadURL
@@ -67,6 +63,7 @@ class ImageUploader extends Component {
       await this.props.updateProfile(payload)
       // turn off the loader and closing modal
       this.props.updateLoadingState(false)
+
     } catch (error) {
       console.log(error);
     }

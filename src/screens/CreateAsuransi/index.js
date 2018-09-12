@@ -4,6 +4,17 @@ import { NavigationBar, Spinner } from '../../components';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import Style from '../../style/defaultStyle';
 
+const tipeAsuransi = [
+  {
+    label: 'Pribadi',
+    value: 'pribadi'
+  },
+  {
+    label: 'Perusahaan',
+    value: 'perusahaan'
+  }
+]
+
 class CreateAsuransi extends React.Component {
   static navigatorStyle = {
     navBarHidden: true,
@@ -16,7 +27,7 @@ class CreateAsuransi extends React.Component {
       // set default value
       namaAsuransi: '',
       // set default value
-      tipeAsuransi: 'Perusahaan',
+      tipeAsuransi: 'Pilih tipe asuransi',
       insuranceNameList: [],
       nomorAsuransi: '',
       nomorPolis: '',
@@ -135,7 +146,11 @@ class CreateAsuransi extends React.Component {
 
   formValidation() {
     const errors = {};
-    if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi === 'Perusahaan') {
+    if (this.state.namaAsuransi === '') {
+      errors.namaAsuransi = ['Silahkan isi nama asuransi'];
+    }
+
+    if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi === 'perusahaan') {
       errors.nomorAsuransi = ['Silahkan isi nomor asuransi'];
     }
 
@@ -172,7 +187,11 @@ class CreateAsuransi extends React.Component {
         result = item.label
       }
     })
-    return result
+    if (result) {
+      return result
+    } else {
+      return val
+    }
   }
 
   render() {
@@ -270,8 +289,8 @@ class CreateAsuransi extends React.Component {
                       this.setState({ tipeAsuransi: itemValue });
                     }}
                   >
-                    <Picker.Item label="Perusahaan" value="Perusahaan" />
-                    <Picker.Item label="Pribadi" value="Pribadi" />
+                    <Picker.Item label="Perusahaan" value="perusahaan" />
+                    <Picker.Item label="Pribadi" value="pribadi" />
                   </Picker>
                 }
                 {
@@ -279,13 +298,13 @@ class CreateAsuransi extends React.Component {
                   <TouchableOpacity
                     style={{ height: 35, marginLeft: 0 }}
                     onPress={() => {
-                      const option = [{ label: 'Pribadi', value: 'Pribadi' }, { label: 'Perusahaan', value: 'perusahaan' }]
+                      const option = tipeAsuransi
                       const title = 'Nama asuransi'
                       const onSelect = val => this.setState({ tipeAsuransi: val })
                       this.openIOSPicker(option, title, onSelect)
                     }}
                   >
-                    <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.state.tipeAsuransi}</Text>
+                    <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.getLabelByVal(tipeAsuransi, this.state.tipeAsuransi)}</Text>
                   </TouchableOpacity>
                 }
                 {
@@ -294,7 +313,7 @@ class CreateAsuransi extends React.Component {
                 }
                 </View>
               </View>
-              {this.state.tipeAsuransi === 'Perusahaan' && (
+              {this.state.tipeAsuransi === 'perusahaan' && (
                 <View style={styles.fieldItemWrap}>
                   <Text style={styles.titleField}>Nomor Asuransi</Text>
                   <View style={styles.pickerWrapper}>

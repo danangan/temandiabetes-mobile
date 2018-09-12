@@ -208,6 +208,9 @@ class EditProfile extends React.Component {
             },
             () => {
               this.showSnackBar();
+              setTimeout(() => {
+                this.props.navigator.pop();
+              }, 1000);
             }
           );
         });
@@ -250,10 +253,11 @@ class EditProfile extends React.Component {
     }
   }
 
-  showSnackBar = () => {
-    this.setState({ showSnackBar: true, message: 'Data telah berhasil diubah.' }, () =>
-      this.hideSnackBar()
-    );
+  showSnackBar = (cb = () => {}) => {
+    this.setState({ showSnackBar: true, message: 'Data telah berhasil diubah.' }, () => {
+      this.hideSnackBar();
+      cb();
+    });
   };
 
   hideSnackBar = () => {

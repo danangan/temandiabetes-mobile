@@ -33,7 +33,7 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
           </View>
         </View>
       </View>
-      {item.type === 'Perusahaan' && (
+      {(item.type === 'perusahaan' || item.type === 'Perusahaan') && (
         <View style={styles.vertical}>
           <View style={styles.horizontal}>
             <View style={{ flex: 1, alignItems: 'flex-start' }}>

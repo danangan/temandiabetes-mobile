@@ -40,15 +40,15 @@ const Avatar = ({ avatarSize, containerStyle, imageSource, avatarStyle, textStyl
       {
         isImageExist &&
           <Image
-          source={{ uri: imageSource || '' }}
-          style={[styles.avatarStyle, avatarStyle]}
-          resizeMode={resizeMode}
-        />
+            source={{ uri: imageSource || '' }}
+            style={[{ width: size, height: size, borderRadius: size/2 }, avatarStyle]}
+            resizeMode={resizeMode}
+          />
       }
       {
         !isImageExist &&
         <View
-          style={[styles.avatarStyle, styles.initialStyle, { paddingVertical }, initialStyle, avatarStyle]}
+          style={[styles.initialStyle, { paddingVertical }, initialStyle, avatarStyle]}
         >
           <Text style={[styles.textStyle, { fontSize }, textStyle]}>{ getInitialName(userName) || '' }</Text>
         </View>
@@ -68,11 +68,14 @@ const styles = {
 	avatarStyle: {
 		width: '100%',
 		height: '100%',
-    borderRadius: 100
+    borderRadius: 50
   },
   initialStyle: {
     backgroundColor: '#E2E2E2',
-    paddingVertical: 18
+    paddingVertical: 18,
+    width: '100%',
+		height: '100%',
+    borderRadius: 100
   },
   textStyle:{
 		fontFamily: 'Montserrat-Regular',
