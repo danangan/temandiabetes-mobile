@@ -42,8 +42,8 @@ const onLogin = (state, payload) => {
 
   return {
     ...state,
-    message: messages,
-    statusCode: 200,
+    message: payload.is_active === false ? 'inactive' : messages,
+    statusCode: payload.is_active === false ? 400 : 200,
     ...payload
   };
 };
@@ -61,7 +61,7 @@ const signWithGoogle = (state, payload) => {
     email: payload.profile.email,
     name: payload.profile.name,
     currentUser: payload.currentUser,
-    message: 'login success',
+    message: messages,
     statusCode: 200
   };
 };
@@ -79,7 +79,7 @@ const signWithFacebook = (state, payload) => {
     email: payload.profile.email,
     name: payload.profile.name,
     currentUser: payload.currentUser,
-    message: 'login success',
+    message: messages,
     statusCode: 200
   };
 };

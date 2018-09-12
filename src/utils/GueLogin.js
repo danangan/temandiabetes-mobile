@@ -45,7 +45,7 @@ const iosGueLoginDev = {
   databaseURL: 'x',
   storageBucket: 'x',
   messagingSenderId: 'x',
-  projectId: 'gue-login',
+  projectId: 'gue-login-dev',
   // enable persistence by adding the below flag
   persistence: true
 };

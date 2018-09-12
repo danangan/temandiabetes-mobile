@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: 'rgba(0,0,0, .2)',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.9,
         shadowRadius: 2
       },
       android: {
@@ -89,13 +89,13 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE : Style.FONT_SIZE*0.9,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE : Style.FONT_SIZE * 0.9,
     fontWeight: '900',
     color: '#252C68'
   },
   textStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.8,
     fontWeight: '500',
     color: '#556299',
     paddingLeft: 3.02
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   },
   statusHba1cStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.8,
     fontWeight: 'bold',
     color: '#556299'
   }

@@ -36,12 +36,12 @@ const loginManual = ({ email, password }) => async dispatch => {
         }
       });
 
-      AsyncStorage.setItem(authToken, firebaseIdToken, error => onSuccess(error));
-      return onSuccess(currentUser);
+      AsyncStorage.setItem(authToken, firebaseIdToken);
+      onSuccess(currentUser);
     }
   } catch (error) {
     const parsed = JSON.parse(JSON.stringify(error));
-    return onSuccess(parsed);
+    onSuccess(parsed);
   }
 };
 

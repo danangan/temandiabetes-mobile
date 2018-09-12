@@ -7,7 +7,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Linking,
-  Alert,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import { result } from 'lodash';
@@ -92,25 +92,27 @@ class Login extends Component {
     const { statusCode, message, is_active } = this.props.loginReducer;
     const errorMessage = this.errorMessage(message);
 
+    if (statusCode === 400 && message === 'inactive' && this.state.shouldRedirect) {
+      Alert.alert(
+        'Akun Anda sedang tidak aktif.',
+        'Hubungi penyedia layanan untuk info lebih lanjut.',
+        [
+          {
+            text: 'OK',
+            onPress: () => {
+              self.setState({ shouldRedirect: false }, () => {
+                self.props.onSignOut();
+                this.props.resetState();
+              });
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+    }
+
     if (statusCode === 200 && message === 'success login' && this.state.shouldRedirect) {
-      self.setState({ shouldRedirect: false }, () => {
-        if (!is_active) {
-          Alert.alert(
-            'Pemberitahuan',
-            'Akun anda sedang tidak aktif.',
-            [
-              {
-                text: 'OK',
-                onPress: () => {
-                  this.props.resetState();
-                  self.props.onSignOut();
-                }
-              }
-            ],
-            { cancelable: false }
-          );
-        }
-      });
+      self.setState({ shouldRedirect: false });
     } else if (statusCode === 500 && this.state.shouldRedirect) {
       self.setState(
         {

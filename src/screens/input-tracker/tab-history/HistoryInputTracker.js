@@ -5,7 +5,6 @@ import HistoryHba1c from './HistoryHba1c';
 import HistoryActivity from './HistoryActivity';
 import HistoryBloodPressure from './HistoryBloodPressure';
 import HistoryWeight from './HistoryWeight';
-import Style from '../../../style/defaultStyle';
 
 const HistoryInputTracker = () => (
   <View style={styles.containerStyle}>
