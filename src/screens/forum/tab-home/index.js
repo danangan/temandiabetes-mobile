@@ -154,7 +154,7 @@ class TabHome extends Component {
       title: thread.topic,
       message: thread.topic,
       url: `${landingPageURL}/thread/${thread._id}`,
-      subject: 'Article from Teman Diabetes' //  for email
+      subject: thread.topic //  for email
     };
     Share.open(options).catch(err => {
       err && console.log(err);

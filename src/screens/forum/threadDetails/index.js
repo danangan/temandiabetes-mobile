@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { debounce, result } from 'lodash';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ActivityIndicator, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
   getThreadDetails,
@@ -149,8 +149,7 @@ class ThreadDetails extends React.Component {
     }
     if (followThread.isFetch) {
       return (
-        <TouchableOpacity
-          onPress={this.requestFollowThread}
+        <View
           style={{
             justifyContent: 'center',
             minWidth: 100,
@@ -160,8 +159,8 @@ class ThreadDetails extends React.Component {
             marginRight: 10
           }}
         >
-          <Spinner size="small" color="#8084a7" />
-        </TouchableOpacity>
+          <ActivityIndicator color="#fff" size={Platform.OS === 'ios' ? 'small' : 1} />
+        </View>
       );
     } else if (result(listThreads.threadDetails, 'isSubscriber')) {
       return (

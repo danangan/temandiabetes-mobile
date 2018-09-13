@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
   NavigationBar,
@@ -82,7 +82,7 @@ class CommentDetails extends React.Component {
               <CommentChild key={index} containerStyle={styles.containerStyle} comment={item} />
             ))
           : commentDetails}
-        <View style={styles.innerContainer}>
+        <View style={[styles.innerContainer, Platform.OS === 'ios' ? {padding: 10, marginLeft: 5} : {}]}>
           <Avatar avatarSize="ExtraSmall" userName={nama} imageSource={foto_profile} />
           <TextInput
             value={this.state.komentar}
@@ -160,8 +160,8 @@ class CommentDetails extends React.Component {
     }
     return (
         <KeyboardAvoidingView style={{ flex: 1, height: '100%' }} behavior="padding" enabled>
-          <View 
-            style={{ 
+          <View
+            style={{
               flex: 1,
               backgroundColor: '#f3f5fe',
               paddingHorizontal: 10,
@@ -254,7 +254,6 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    // paddingTop: 15,
     paddingHorizontal: 15,
     borderRadius: 20
   },
@@ -268,13 +267,6 @@ const styles = {
     borderRadius: 20
   },
   innerText: {
-    // flex: 2,
-    // flexDirection: 'row',
-    // alignItems: 'flex-start',
-    // justifyContent: 'flex-start',
-    // flexWrap: 'wrap',
-    // marginTop: 15,
-    // minHeight: 150,
     paddingHorizontal: 15
   },
   wrapperButton: {
