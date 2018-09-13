@@ -510,7 +510,7 @@ class ModalCreateReminder extends React.Component {
                         fontSize: 12
                       }}
                     >
-                      SELESAI BRO
+                      SELESAI
                     </Text>
                   </TouchableOpacity>
                 </View>
