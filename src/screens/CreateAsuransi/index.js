@@ -1,5 +1,15 @@
 import React from 'react';
-import { View, ActionSheetIOS, Text, Picker, TextInput, TouchableOpacity, Alert, ScrollView, Platform } from 'react-native';
+import {
+  View,
+  ActionSheetIOS,
+  Text,
+  Picker,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  Platform
+} from 'react-native';
 import { NavigationBar, Spinner } from '../../components';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import Style from '../../style/defaultStyle';
@@ -13,7 +23,7 @@ const tipeAsuransi = [
     label: 'Perusahaan',
     value: 'perusahaan'
   }
-]
+];
 
 class CreateAsuransi extends React.Component {
   static navigatorStyle = {
@@ -72,12 +82,15 @@ class CreateAsuransi extends React.Component {
     };
 
     try {
-      const {data: {data: {docs}}} = await API_CALL(option);
+      const {
+        data: {
+          data: { docs }
+        }
+      } = await API_CALL(option);
 
       this.setState({
         insuranceNameList: docs
-      })
-
+      });
     } catch (error) {
       console.log(error);
     }
@@ -116,14 +129,20 @@ class CreateAsuransi extends React.Component {
           this.props.onSuccessCallback();
         }
         await this.setState({ _errors: null, isLoading: false }, () => {
-          Alert.alert('Perhatian!', this.props.insuranceId ? 'Asuransi berhasil diperbarui' : 'Asuransi berhasil di simpan.', [
-            {
-              text: 'Tutup',
-              onPress: () => {
-                this.props.navigator.pop();
+          Alert.alert(
+            'Perhatian!',
+            this.props.insuranceId
+              ? 'Asuransi berhasil diperbarui'
+              : 'Asuransi berhasil di simpan.',
+            [
+              {
+                text: 'Tutup',
+                onPress: () => {
+                  this.props.navigator.pop();
+                }
               }
-            }
-          ]);
+            ]
+          );
         });
       } catch (error) {
         console.log(error);
@@ -150,11 +169,11 @@ class CreateAsuransi extends React.Component {
       errors.namaAsuransi = ['Silahkan isi nama asuransi'];
     }
 
-    if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi === 'perusahaan') {
+    if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi == 'perusahaan') {
       errors.nomorAsuransi = ['Silahkan isi nomor asuransi'];
     }
 
-    if (this.state.nomorPolis === '') {
+    if (this.state.nomorPolis === '' && this.state.tipeAsuransi == 'Pribadi') {
       errors.nomorPolis = ['Silahkan isi nomor polis'];
     }
 
@@ -168,31 +187,32 @@ class CreateAsuransi extends React.Component {
 
   // format options = array of { label: 'Some label', value: 'Some value' }
   openIOSPicker(options = [], title, onSelect) {
-    ActionSheetIOS.showActionSheetWithOptions({
-      options: [ ...options.map(item => item.label), 'Batal'],
-      title,
-      destructiveButtonIndex: options.length
-    },
-    (buttonIndex) => {
-      if (options[buttonIndex]) {
-        onSelect(options[buttonIndex].value)
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: [...options.map(item => item.label), 'Batal'],
+        title,
+        destructiveButtonIndex: options.length
+      },
+      buttonIndex => {
+        if (options[buttonIndex]) {
+          onSelect(options[buttonIndex].value);
+        }
       }
-    });
+    );
   }
 
   getLabelByVal = (options, val) => {
-    let result
-    options.forEach((item) => {
+    let result;
+    options.forEach(item => {
       if (item.value === val) {
-        result = item.label
+        result = item.label;
       }
-    })
+    });
     if (result) {
-      return result
-    } else {
-      return val
+      return result;
     }
-  }
+    return val;
+  };
 
   render() {
     const spinner = this.state.isLoading ? (
@@ -232,8 +252,7 @@ class CreateAsuransi extends React.Component {
               >
                 <Text style={styles.titleField}>Nama Asuransi</Text>
                 <View style={styles.pickerWrapper}>
-                  {
-                    Platform.OS === 'android' &&
+                  {Platform.OS === 'android' && (
                     <Picker
                       enabled={!this.props.insuranceId}
                       pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
@@ -243,31 +262,38 @@ class CreateAsuransi extends React.Component {
                         this.setState({ namaAsuransi: itemValue })
                       }
                     >
-                      {
-                        this.state.insuranceNameList.map(item => (
-                          <Picker.Item label={item.name} value={item.name} />
-                        ))
-                      }
+                      {this.state.insuranceNameList.map(item => (
+                        <Picker.Item label={item.name} value={item.name} />
+                      ))}
                     </Picker>
-                  }
-                  {
-                    Platform.OS === 'ios' && !this.props.insuranceId &&
-                    <TouchableOpacity
-                      style={{ height: 35, marginLeft: 0 }}
-                      onPress={() => {
-                        const option = this.state.insuranceNameList.map(item => ({ value: item.name, label: item.name }))
-                        const title = 'Nama asuransi'
-                        const onSelect = val => this.setState({ namaAsuransi: val })
-                        this.openIOSPicker(option, title, onSelect)
-                      }}
-                    >
-                      <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.state.namaAsuransi === '' ? 'Pilih asuransi' : this.state.namaAsuransi}</Text>
-                    </TouchableOpacity>
-                  }
-                  {
-                    Platform.OS === 'ios' && this.props.insuranceId &&
-                    <Text style={{ marginLeft: 5, marginVertical: 8 }}>{this.state.namaAsuransi}</Text>
-                  }
+                  )}
+                  {Platform.OS === 'ios' &&
+                    !this.props.insuranceId && (
+                      <TouchableOpacity
+                        style={{ height: 35, marginLeft: 0 }}
+                        onPress={() => {
+                          const option = this.state.insuranceNameList.map(item => ({
+                            value: item.name,
+                            label: item.name
+                          }));
+                          const title = 'Nama asuransi';
+                          const onSelect = val => this.setState({ namaAsuransi: val });
+                          this.openIOSPicker(option, title, onSelect);
+                        }}
+                      >
+                        <Text style={{ marginTop: 9, marginLeft: 5 }}>
+                          {this.state.namaAsuransi === ''
+                            ? 'Pilih asuransi'
+                            : this.state.namaAsuransi}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  {Platform.OS === 'ios' &&
+                    this.props.insuranceId && (
+                      <Text style={{ marginLeft: 5, marginVertical: 8 }}>
+                        {this.state.namaAsuransi}
+                      </Text>
+                    )}
                 </View>
               </View>
               <View
@@ -278,39 +304,42 @@ class CreateAsuransi extends React.Component {
               >
                 <Text style={styles.titleField}>Tipe Asuransi</Text>
                 <View style={styles.pickerWrapper}>
-                {
-                  Platform.OS === 'android' &&
-                  <Picker
-                    enabled={!this.props.insuranceId}
-                    pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
-                    selectedValue={this.state.tipeAsuransi}
-                    style={{ height: 50, width: '100%', color: '#4a4a4a', bottom: 5 }}
-                    onValueChange={(itemValue, itemIndex) => {
-                      this.setState({ tipeAsuransi: itemValue });
-                    }}
-                  >
-                    <Picker.Item label="Perusahaan" value="perusahaan" />
-                    <Picker.Item label="Pribadi" value="pribadi" />
-                  </Picker>
-                }
-                {
-                  Platform.OS === 'ios' && !this.props.insuranceId &&
-                  <TouchableOpacity
-                    style={{ height: 35, marginLeft: 0 }}
-                    onPress={() => {
-                      const option = tipeAsuransi
-                      const title = 'Nama asuransi'
-                      const onSelect = val => this.setState({ tipeAsuransi: val })
-                      this.openIOSPicker(option, title, onSelect)
-                    }}
-                  >
-                    <Text style={{ marginTop: 9, marginLeft: 5 }}>{this.getLabelByVal(tipeAsuransi, this.state.tipeAsuransi)}</Text>
-                  </TouchableOpacity>
-                }
-                {
-                  Platform.OS === 'ios' && this.props.insuranceId &&
-                  <Text style={{ marginLeft: 5, marginVertical: 8 }}>{this.state.tipeAsuransi}</Text>
-                }
+                  {Platform.OS === 'android' && (
+                    <Picker
+                      enabled={!this.props.insuranceId}
+                      pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
+                      selectedValue={this.state.tipeAsuransi}
+                      style={{ height: 50, width: '100%', color: '#4a4a4a', bottom: 5 }}
+                      onValueChange={(itemValue, itemIndex) => {
+                        this.setState({ tipeAsuransi: itemValue });
+                      }}
+                    >
+                      <Picker.Item label="Perusahaan" value="perusahaan" />
+                      <Picker.Item label="Pribadi" value="pribadi" />
+                    </Picker>
+                  )}
+                  {Platform.OS === 'ios' &&
+                    !this.props.insuranceId && (
+                      <TouchableOpacity
+                        style={{ height: 35, marginLeft: 0 }}
+                        onPress={() => {
+                          const option = tipeAsuransi;
+                          const title = 'Nama asuransi';
+                          const onSelect = val => this.setState({ tipeAsuransi: val });
+                          this.openIOSPicker(option, title, onSelect);
+                        }}
+                      >
+                        <Text style={{ marginTop: 9, marginLeft: 5 }}>
+                          {this.getLabelByVal(tipeAsuransi, this.state.tipeAsuransi)}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  {Platform.OS === 'ios' &&
+                    this.props.insuranceId && (
+                      <Text style={{ marginLeft: 5, marginVertical: 8 }}>
+                        {this.state.tipeAsuransi}
+                      </Text>
+                    )}
                 </View>
               </View>
               {this.state.tipeAsuransi === 'perusahaan' && (
@@ -346,7 +375,13 @@ class CreateAsuransi extends React.Component {
                   }}
                   style={styles.buttonSubmit}
                 >
-                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      fontSize: 12,
+                      fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans'
+                    }}
+                  >
                     SIMPAN
                   </Text>
                 </TouchableOpacity>
