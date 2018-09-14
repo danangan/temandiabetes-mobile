@@ -35,14 +35,17 @@ class ImageUploader extends Component {
       }
       else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
-      }
-      else if (response.fileSize*0.001 <= 1024)
-      {
-        this.props.updateLoadingState(true, () => {
-          this.onSelectedImage(response.uri)
-        })
       } else {
-        alert('Maksimal ukuran file adalah 1MB')
+        // not error and then checking the max file size
+        const maxFileSize = 5*1024*1024 // 5MB
+        if (response.fileSize <= maxFileSize)
+        {
+          this.props.updateLoadingState(true, () => {
+            this.onSelectedImage(response.uri)
+          })
+        } else {
+          alert('Maksimal ukuran file adalah 5MB')
+        }
       }
     });
   }
