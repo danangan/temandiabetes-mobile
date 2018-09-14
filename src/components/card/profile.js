@@ -20,7 +20,6 @@ const ProfileCard = (props) => {
         />
         <ImageUploader style={styles.imageOverlay} updateLoadingState={updateLoadingState}>
           <Image
-            tintColor="#EF434F"
             style={styles.image}
             source={{ uri: CAMERA_ICON }}
           />
@@ -57,7 +56,8 @@ const styles = {
   },
   image: {
     height: 41,
-    width: 41
+    width: 41,
+    tintColor: "#EF434F"
   }
 };
 
