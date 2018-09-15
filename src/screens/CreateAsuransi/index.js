@@ -37,7 +37,7 @@ class CreateAsuransi extends React.Component {
       // set default value
       namaAsuransi: '',
       // set default value
-      tipeAsuransi: 'Pilih tipe asuransi',
+      tipeAsuransi: '',
       insuranceNameList: [],
       nomorAsuransi: '',
       nomorPolis: '',
@@ -148,9 +148,7 @@ class CreateAsuransi extends React.Component {
         console.log(error);
       }
     } else {
-      this.setState({ isLoading: false }, () => {
-        Alert.alert('Perhatian!', 'Silahkan lengkapi data asuransi Anda');
-      });
+      this.setState({ isLoading: false });
     }
   }
 
@@ -164,17 +162,22 @@ class CreateAsuransi extends React.Component {
   }
 
   formValidation() {
-    const errors = {};
+    const errors = [];
     if (this.state.namaAsuransi === '') {
-      errors.namaAsuransi = ['Silahkan isi nama asuransi'];
+      errors.namaAsuransi = ['Nama asuransi tidak boleh kosong'];
+    }
+
+    if (this.state.tipeAsuransi === '') {
+      errors.tipeAsuransi = ['Tipe asuransi tidak boleh kosong'];
     }
 
     if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi == 'perusahaan') {
-      errors.nomorAsuransi = ['Silahkan isi nomor asuransi'];
+
+      errors.nomorAsuransi = ['Nomor asuransi tidak boleh kosong'];
     }
 
-    if (this.state.nomorPolis === '' && this.state.tipeAsuransi == 'Pribadi') {
-      errors.nomorPolis = ['Silahkan isi nomor polis'];
+    if (this.state.nomorPolis === '' && this.state.tipeAsuransi == 'pribadi') {
+      errors.nomorPolis = ['Nomor polis tidak boleh kosong'];
     }
 
     if (Object.keys(errors).length) {
@@ -295,6 +298,7 @@ class CreateAsuransi extends React.Component {
                       </Text>
                     )}
                 </View>
+                <Text style={styles.errorMessage}>{this.checkError('namaAsuransi')}</Text>
               </View>
               <View
                 style={{
@@ -330,7 +334,7 @@ class CreateAsuransi extends React.Component {
                         }}
                       >
                         <Text style={{ marginTop: 9, marginLeft: 5 }}>
-                          {this.getLabelByVal(tipeAsuransi, this.state.tipeAsuransi)}
+                          {this.getLabelByVal(tipeAsuransi, this.state.tipeAsuransi) === '' ? 'Pilih tipe asuransi' : this.getLabelByVal(tipeAsuransi, this.state.tipeAsuransi)}
                         </Text>
                       </TouchableOpacity>
                     )}
@@ -341,6 +345,7 @@ class CreateAsuransi extends React.Component {
                       </Text>
                     )}
                 </View>
+                <Text style={styles.errorMessage}>{this.checkError('tipeAsuransi')}</Text>
               </View>
               {this.state.tipeAsuransi === 'perusahaan' && (
                 <View style={styles.fieldItemWrap}>
@@ -354,6 +359,7 @@ class CreateAsuransi extends React.Component {
                       onChangeText={text => this.setState({ nomorAsuransi: text })}
                     />
                   </View>
+                  <Text style={styles.errorMessage}>{this.checkError('nomorAsuransi')}</Text>
                 </View>
               )}
               <View style={styles.fieldItemWrap}>
@@ -367,6 +373,7 @@ class CreateAsuransi extends React.Component {
                     onChangeText={text => this.setState({ nomorPolis: text })}
                   />
                 </View>
+                <Text style={styles.errorMessage}>{this.checkError('nomorPolis')}</Text>
               </View>
               <View style={styles.buttonWrapper}>
                 <TouchableOpacity
@@ -388,10 +395,6 @@ class CreateAsuransi extends React.Component {
               </View>
             </View>
           </ScrollView>
-        </View>
-        <View style={styles.wrappErrorMessage}>
-          <Text style={styles.errorMessage}>{this.checkError('nomorAsuransi')}</Text>
-          {/* <Text style={styles.errorMessage}>{this.checkError('nomorPolis')}</Text> */}
         </View>
       </View>
     );
@@ -418,6 +421,7 @@ const styles = {
   errorMessage: {
     flex: 0,
     fontSize: 12,
+    marginLeft: 4,
     fontFamily: 'Montserrat-SemiBold',
     color: '#ef434e'
   },
