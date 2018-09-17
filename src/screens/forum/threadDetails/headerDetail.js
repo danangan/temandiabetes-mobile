@@ -31,17 +31,26 @@ class HeaderDetail extends React.Component {
 
   render() {
     const { authorItem, categoryItem, date, threadType } = this.props;
+    console.log('authorItem.nama --->', authorItem);
     return (
       <CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
         <View style={styles.container}>
           <Avatar
             avatarSize="Small"
-            userName={authorItem.nama === null ? 'Loading' : authorItem.nama}
-            imageSource={authorItem.foto_profile}
+            userName={
+              authorItem === null ? '?' : 
+              authorItem.nama === null ? 'Loading' : 
+              authorItem.nama
+            }
+            imageSource={authorItem === null ? '' : authorItem.foto_profile}
           />
           <View style={{ flex: 1, margin: 5 }}>
             <Text style={{ fontSize: 12 }}>
-              {authorItem.nama === null ? 'Loading' : authorItem.nama}
+              {
+                 authorItem === null ? 'Author tidak ditemukan' : 
+                 authorItem.nama === null ? 'Loading' : 
+                 authorItem.nama
+              }
             </Text>
             <Text style={{ fontSize: 10, paddingVertical: 5 }}>Posted on {formatDateTime(date, { isUTC: true })}</Text>
           </View>
