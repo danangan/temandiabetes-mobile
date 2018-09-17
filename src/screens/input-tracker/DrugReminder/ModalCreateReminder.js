@@ -282,11 +282,11 @@ class ModalCreateReminder extends React.Component {
         animationType="none"
         transparent
         visible={this.props.modalVisible}
-        onRequestClose={() => null}
+        // onRequestClose={() => null}
       >
         <TouchableHighlight
           style={styles.modalOverlay}
-          onPress={this.setDefaultState}
+          onPress={() => null }
         >
           <View />
         </TouchableHighlight>
