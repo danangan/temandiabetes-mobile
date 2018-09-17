@@ -265,6 +265,7 @@ class CreateAsuransi extends React.Component {
                         this.setState({ namaAsuransi: itemValue })
                       }
                     >
+                      <Picker.Item label="Pilih asuransi" value="" />
                       {this.state.insuranceNameList.map(item => (
                         <Picker.Item label={item.name} value={item.name} />
                       ))}
@@ -318,6 +319,7 @@ class CreateAsuransi extends React.Component {
                         this.setState({ tipeAsuransi: itemValue });
                       }}
                     >
+                      <Picker.Item label="Pilih tipe asuransi" value="" />
                       <Picker.Item label="Perusahaan" value="perusahaan" />
                       <Picker.Item label="Pribadi" value="pribadi" />
                     </Picker>
