@@ -250,17 +250,18 @@ class App extends Component {
         )();
       }
     } else if (displayNotif) {
-      FCM.presentLocalNotification({
-        title,
-        body,
-        screen,
-        passProps,
-        priority: 'high',
-        sound: 'default',
-        show_in_foreground: true
-      });
-
-      this.props.addNotificationCount();
+      if (Platform.OS === 'android' || (Platform.OS === 'ios' && notif.aps)) {
+        FCM.presentLocalNotification({
+          title,
+          body,
+          screen,
+          passProps,
+          priority: 'high',
+          sound: 'default',
+          show_in_foreground: true
+        });
+        this.props.addNotificationCount();
+      }
     }
   }
 
