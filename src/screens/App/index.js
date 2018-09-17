@@ -100,24 +100,22 @@ class App extends Component {
     try {
       const result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
-        if (Platform.OS === 'android') {
-          // checking if the receiver is the correct person
-          if (notif.receiver) {
-            const receiver = JSON.parse(notif.receiver);
-            if (receiver.id === this.props.currentUser._id) {
-              this._displayNotificationAndroid(notif);
-            }
-          } else if (notif.targetUser) {
-            if (notif.targetUser === this.props.currentUser._id) {
-              this._displayNotificationAndroid(notif);
-            }
-          } else if (notif.userId) {
-            if (notif.userId === this.props.currentUser._id) {
-              this._displayNotificationAndroid(notif);
-            }
-          } else {
+        // checking if the receiver is the correct person
+        if (notif.receiver) {
+          const receiver = JSON.parse(notif.receiver);
+          if (receiver.id === this.props.currentUser._id) {
             this._displayNotificationAndroid(notif);
           }
+        } else if (notif.targetUser) {
+          if (notif.targetUser === this.props.currentUser._id) {
+            this._displayNotificationAndroid(notif);
+          }
+        } else if (notif.userId) {
+          if (notif.userId === this.props.currentUser._id) {
+            this._displayNotificationAndroid(notif);
+          }
+        } else {
+          this._displayNotificationAndroid(notif);
         }
       });
     } catch (e) {
