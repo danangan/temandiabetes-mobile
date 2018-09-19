@@ -282,7 +282,6 @@ class ModalCreateReminder extends React.Component {
         animationType="none"
         transparent
         visible={this.props.modalVisible}
-        style={{ backgroundColor: '#ccc' }}
         // onRequestClose={() => null}
       >
         <TouchableHighlight
