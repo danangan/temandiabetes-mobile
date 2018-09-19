@@ -38,7 +38,7 @@ const authReducer = (state = initialState, action) => {
       }
     case ActionTypes.USER_LOGOUT:
 			return {
-				...state, 
+				...state,
         currentUser: {},
         notificationCount: 0
 		  };

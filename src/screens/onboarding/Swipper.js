@@ -234,6 +234,7 @@ export default class OnboardingScreens extends Component {
             { leading: true, trailing: false }
           )}
         />
+        <View style={{flex: 1}}/>
         <Button
           text="Masuk"
           backGroundColor="#fff"
@@ -323,6 +324,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 40,
     justifyContent: 'space-around',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   }
 });
