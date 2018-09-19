@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions
 } from 'react-native';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,         // Rounded border
     borderWidth: 1,           // 2 point border widht
     borderColor: color.red,   // White colored border
-    paddingHorizontal: 50,    // Horizontal padding
+    paddingHorizontal: Dimensions.get('window').width*0.13,    // Horizontal padding
     paddingVertical: 10,      // Vertical padding
   },
   // Button text
