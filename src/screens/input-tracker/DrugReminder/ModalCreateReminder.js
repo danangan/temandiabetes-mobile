@@ -282,11 +282,13 @@ class ModalCreateReminder extends React.Component {
         animationType="none"
         transparent
         visible={this.props.modalVisible}
+        style={{ backgroundColor: '#ccc' }}
         // onRequestClose={() => null}
       >
         <TouchableHighlight
+          activeOpacity={1}
           style={styles.modalOverlay}
-          onPress={() => null }
+          // onPress={() => null }
         >
           <View />
         </TouchableHighlight>
@@ -525,13 +527,13 @@ class ModalCreateReminder extends React.Component {
 
 const styles = {
   modalWrapper: {
-    backgroundColor: '#ffa',
+    backgroundColor: '#ccc',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   modalContentWrapper: {
-    backgroundColor: '#eaa',
+    backgroundColor: '#4a4a4a',
     position: 'absolute',
     marginHorizontal: Dimensions.get('window').width*0.1,
     marginVertical: Dimensions.get('window').height*0.15,
