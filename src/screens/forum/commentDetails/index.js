@@ -262,7 +262,8 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 0,
+    // paddingTop: Platform.OS === 'ios' ? 10 : 0,
+    padding: Platform.OS === 'ios' ? 10 : 0,
     paddingHorizontal: 15,
     borderRadius: 20
   },

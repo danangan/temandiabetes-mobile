@@ -71,7 +71,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#EF434F',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingTop: Platform.OS === 'ios' ? 20 : 0,
   },
   notificationBadge: {
     position: 'absolute',
