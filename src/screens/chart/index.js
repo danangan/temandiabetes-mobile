@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Linking,
   Platform,
-  RefreshControl
+  RefreshControl,
+  Alert
 } from 'react-native';
 import { Card, Spinner } from '../../components';
 import Style from '../../style/defaultStyle';
@@ -98,7 +99,13 @@ class Chart extends Component {
   };
 
   render() {
-    const { products } = this.props.data;
+    const { products, message } = this.props.data;
+    if (products === undefined && message === 'Network Error') {
+      Alert.alert(
+        'Perhatian!',
+        'Internal server error'
+      );
+    }
     if (products === undefined) {
       return (
         <Spinner
