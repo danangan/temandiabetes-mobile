@@ -236,7 +236,7 @@ class CreateAsuransi extends React.Component {
           style={{
             flex: 4.5,
             backgroundColor: '#f3f5fe',
-            paddingVertical: 10,
+            paddingBottom: 100,
             paddingHorizontal: 10
           }}
         >
@@ -245,7 +245,9 @@ class CreateAsuransi extends React.Component {
               {this.props.insuranceId ? 'Ubah Data Asuransi' : 'Lengkapi Data Asuransi'}
             </Text>
           </View>
-          <ScrollView>
+          <ScrollView
+            style={{ paddingBottom: 180 }}
+          >
             <View style={styles.wrapperField}>
               <View
                 style={{
@@ -434,6 +436,7 @@ const styles = {
     height: '40%',
     backgroundColor: '#fff',
     paddingHorizontal: 5,
+    paddingBottom: 80,
     elevation: 3
   },
   fieldItemWrap: {

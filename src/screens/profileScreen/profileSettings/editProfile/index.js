@@ -450,14 +450,15 @@ class EditProfile extends React.Component {
         { /*  Content Container */ }
         <View style={{
           flex: 1,
-          backgroundColor: this.state.activeTab === 1 ? color.solitude : '#fff'
+          backgroundColor: this.state.activeTab === 1 ? color.solitude : '#fff',
+          marginBottom: 40
         }}>
           { /*  EDIT PROFILE TAB CONTENT */ }
           {
             this.state.activeTab === 0 &&
             <ScrollView contentContainerStyle={{
-              padding: 10,
-              backgroundColor: '#fff'
+              backgroundColor: '#fff',
+              paddingBottom: 120
             }}>
               <View style={styles.fieldWrapper}>
                 <Text style={styles.titleTextInput}>Username</Text>
