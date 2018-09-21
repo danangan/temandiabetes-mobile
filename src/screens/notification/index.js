@@ -173,7 +173,9 @@ class Notification extends React.Component {
         screen = 'TemanDiabetes.InnerCircleList';
         break;
       case 'drug_reminder':
-        screen = 'TemanDiabetes.DrugReminder'
+        if (result(activity, 'user._id') === this.props.currentUserId) {
+          screen = 'TemanDiabetes.DrugReminder';
+        }
         break;
       default:
         break;
@@ -276,7 +278,7 @@ class Notification extends React.Component {
       case 'drug_reminder':
         return (
           <Text>
-            <Text>Jadwal Anda mengkonsumsi obat </Text>
+            <Text>Jadwal {activity.user._id === this.props.currentUserId ? 'Anda' : <Text style={{ fontWeight: 'bold' }}>{activity.user.nama}</Text>} mengkonsumsi obat </Text>
             <Text style={styles.boldText}>{activity.drugReminder.drugName || ''}</Text>
             <Text> pada pukul </Text>
             <Text style={styles.boldText}>
