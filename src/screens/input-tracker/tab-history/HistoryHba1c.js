@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     width: Style.CARD_WIDTH / 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     borderRadius: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.8,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.7,
     fontWeight: '500',
     color: '#556299',
     paddingLeft: 3.02
