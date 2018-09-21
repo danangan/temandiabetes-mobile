@@ -152,7 +152,7 @@ class ThreadDetails extends React.Component {
         <View
           style={{
             justifyContent: 'center',
-            minWidth: 100,
+            flex: 1,
             height: 25,
             minHeight: 25,
             backgroundColor: '#252c68',
@@ -168,14 +168,21 @@ class ThreadDetails extends React.Component {
           onPress={this.requestUnfollowThread}
           style={{
             justifyContent: 'center',
-            minWidth: 100,
+            flex: 1.5,
             height: 25,
             minHeight: 25,
             backgroundColor: '#252c68',
             marginRight: 10
           }}
         >
-          <Text style={styles.buttonText}>Berhenti ikuti</Text>
+          <Text
+            style={{
+            ...styles.buttonText,
+            paddingHorizontal: 0
+          }}
+          >
+            Berhenti Ikuti
+          </Text>
         </TouchableOpacity>
       );
     }
@@ -184,11 +191,12 @@ class ThreadDetails extends React.Component {
         onPress={this.requestFollowThread}
         style={{
           justifyContent: 'center',
-          minWidth: 100,
+          flex: 1,
           height: 25,
           minHeight: 25,
           backgroundColor: '#252c68',
-          marginRight: 10
+          marginRight: 10,
+          padding: 0,
         }}
       >
         <Text style={styles.buttonText}>Ikuti</Text>
@@ -266,8 +274,8 @@ class ThreadDetails extends React.Component {
               style={{
                 justifyContent: 'center',
                 backgroundColor: '#252c68',
-                minWidth: 100,
                 height: 25,
+                flex: 1,
                 minHeight: 25,
                 marginRight: 10
               }}
@@ -293,14 +301,14 @@ class ThreadDetails extends React.Component {
                 style={{
                   justifyContent: 'center',
                   backgroundColor: '#252c68',
-                  minWidth: 100,
                   height: 25,
+                  flex: 1,
                   minHeight: 25
                 }}
               >
                 <Text style={styles.buttonText}>Lapor</Text>
               </TouchableOpacity>
-            ) : null}
+            ) : <View style={{ flex: 2 }} />}
           </View>
         </CardSection>
         <View style={{ flex: 1, paddingBottom: 0 }}>
