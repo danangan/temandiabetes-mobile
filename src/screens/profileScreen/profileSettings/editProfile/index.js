@@ -13,8 +13,10 @@ import {
   ActionSheetIOS,
   Platform,
   DatePickerAndroid,
+  Keyboard,
   Alert,
-  Image
+  Image,
+  Dimensions,
 } from 'react-native';
 import { NavigationBar, Spinner, SnackBar } from '../../../../components';
 import { updateProfile } from '../../../../actions/profileActions';
@@ -24,6 +26,7 @@ import color from '../../../../style/color';
 import { API_CALL } from '../../../../utils/ajaxRequestHelper';
 import InsuranceList from './InsuranceList';
 
+const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 // constants for picker
 const jenisKelamin = [
@@ -78,6 +81,7 @@ class EditProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      keyboardActive: false,
       activeTab: 0,
       // state to store insuranceList
       insuranceList: [],
@@ -103,11 +107,25 @@ class EditProfile extends React.Component {
     };
   }
 
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ keyboardActive: true });
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ keyboardActive: false });
+    });
+  }
+
   componentDidMount() {
     this.copyUserData(this.props.currentUser);
 
     // FETCH INSURANCE DATA HERE
     this.getInsurance();
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   getInsurance = async () => {
@@ -129,45 +147,6 @@ class EditProfile extends React.Component {
     }
   };
 
-  submitValidation(cb) {
-    if (
-      this.state.userData.nama.trim() === '' &&
-      this.state.userData.tgl_lahir === '' &&
-      this.state.userData.alamat === '' &&
-      this.state.userData.no_telp === ''
-    ) {
-      this.setState(
-        {
-          errors: {
-            ...this.state.errors,
-            nama: {
-              ...this.state.errors.nama,
-              isError: true
-            }
-          }
-        },
-        cb
-      );
-    } else {
-      this.setState(
-        {
-          errors: {
-            ...this.state.errors,
-            nama: {
-              ...this.state.errors.nama,
-              isError: false
-            }
-          }
-        },
-        cb
-      );
-    }
-  }
-
-  isValid() {
-    return !this.state.errors.nama.isError;
-  }
-
   copyUserData(obj) {
     const currentUser = Object.create(obj);
     const userDataKeys = Object.keys(this.state.userData);
@@ -187,6 +166,10 @@ class EditProfile extends React.Component {
     this.setState({
       userData: newUserData
     });
+  }
+
+  isValid() {
+    return !this.state.errors.nama.isError;
   }
 
   updateProfileOnCLick = () => {
@@ -227,6 +210,41 @@ class EditProfile extends React.Component {
         [key]: value
       }
     });
+  }
+
+  submitValidation(cb) {
+    if (
+      this.state.userData.nama.trim() === '' &&
+      this.state.userData.tgl_lahir === '' &&
+      this.state.userData.alamat === '' &&
+      this.state.userData.no_telp === ''
+    ) {
+      this.setState(
+        {
+          errors: {
+            ...this.state.errors,
+            nama: {
+              ...this.state.errors.nama,
+              isError: true
+            }
+          }
+        },
+        cb
+      );
+    } else {
+      this.setState(
+        {
+          errors: {
+            ...this.state.errors,
+            nama: {
+              ...this.state.errors.nama,
+              isError: false
+            }
+          }
+        },
+        cb
+      );
+    }
   }
 
   async openDatePicker() {
@@ -367,98 +385,105 @@ class EditProfile extends React.Component {
       <View style={styles.container}>
         <NavigationBar onPress={() => this.props.navigator.pop()} title="PROFIL" />
         {/*  Header Container */}
-        <View
-          style={{
-            padding: 10
-          }}
-        >
-          {isLoading && <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />}
-          <ProfileCard
-            updateLoadingState={(isLoading, cb) => {
-              this.setState({ isLoading }, cb);
+        {
+          !this.state.keyboardActive &&
+          <View
+            style={{
+              padding: 10
             }}
-          />
-        </View>
+          >
+            {isLoading && <Spinner color="#EF434F" text="Memperbarui profil..." size="large" />}
+            <ProfileCard
+              updateLoadingState={(isLoading, cb) => {
+                this.setState({ isLoading }, cb);
+              }}
+            />
+          </View>
+        }
 
         {/*  TAB */}
-        <View
-          style={{
-            height: 50,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            backgroundColor: '#ef434e'
-          }}
-        >
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ activeTab: 0 });
-            }}
+        {
+          !this.state.keyboardActive &&
+          <View
             style={{
-              flex: 1,
-              justifyContent: 'center',
+              height: 50,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              width: 104,
-              height: 34,
-              borderRadius: 3
+              backgroundColor: '#ef434e'
             }}
           >
-            <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
-              PROFIL
-            </Text>
-            {this.state.activeTab === 0 && (
-              <View
-                style={{
-                  borderBottomWidth: 4,
-                  marginTop: 3,
-                  width: '10%',
-                  borderBottomColor: '#fff'
-                }}
-              />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({ activeTab: 1 });
-            }}
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-              width: 104,
-              height: 34,
-              backgroundColor: '#ef434e',
-              borderRadius: 3
-            }}
-          >
-            <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
-              ASURANSI
-            </Text>
-            {this.state.activeTab === 1 && (
-              <View
-                style={{
-                  borderBottomWidth: 4,
-                  marginTop: 3,
-                  width: '10%',
-                  borderBottomColor: '#fff'
-                }}
-              />
-            )}
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({ activeTab: 0 });
+              }}
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 104,
+                height: 34,
+                borderRadius: 3
+              }}
+            >
+              <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
+                PROFIL
+              </Text>
+              {this.state.activeTab === 0 && (
+                <View
+                  style={{
+                    borderBottomWidth: 4,
+                    marginTop: 3,
+                    width: '10%',
+                    borderBottomColor: '#fff'
+                  }}
+                />
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({ activeTab: 1 });
+              }}
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 104,
+                height: 34,
+                backgroundColor: '#ef434e',
+                borderRadius: 3
+              }}
+            >
+              <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
+                ASURANSI
+              </Text>
+              {this.state.activeTab === 1 && (
+                <View
+                  style={{
+                    borderBottomWidth: 4,
+                    marginTop: 3,
+                    width: '10%',
+                    borderBottomColor: '#fff'
+                  }}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+        }
 
         { /*  Content Container */ }
         <View style={{
           flex: 1,
           backgroundColor: this.state.activeTab === 1 ? color.solitude : '#fff',
-          marginBottom: 40
+          paddingHorizontal: 10,
         }}>
           { /*  EDIT PROFILE TAB CONTENT */ }
           {
             this.state.activeTab === 0 &&
             <ScrollView contentContainerStyle={{
               backgroundColor: '#fff',
-              paddingBottom: 120
+              paddingTop: 10,
+              paddingBottom: this.state.keyboardActive ? (DEVICE_HEIGHT / 2) - 50 : 10,
             }}>
               <View style={styles.fieldWrapper}>
                 <Text style={styles.titleTextInput}>Username</Text>
@@ -552,10 +577,10 @@ class EditProfile extends React.Component {
                     <TouchableOpacity
                       style={{ height: 35, marginLeft: 0 }}
                       onPress={() => {
-                        const option = jenisKelamin
-                        const title = 'Jenis Kelamin'
-                        const onSelect = val => this.setUserData('jenis_kelamin', val)
-                        this.openIOSPicker(option, title, onSelect)
+                        const option = jenisKelamin;
+                        const title = 'Jenis Kelamin';
+                        const onSelect = val => this.setUserData('jenis_kelamin', val);
+                        this.openIOSPicker(option, title, onSelect);
                       }}
                     >
                       <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(jenisKelamin, userData.jenis_kelamin)}</Text>
@@ -614,25 +639,28 @@ class EditProfile extends React.Component {
                   <View style={styles.underLine}></View>
                 }
               </View>
-              <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.updateProfileOnCLick();
-                  }}
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    width: 104,
-                    height: 34,
-                    backgroundColor: '#ef434e',
-                    borderRadius: 3
-                  }}
-                >
-                <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
-                  SIMPAN
-                </Text>
-              </TouchableOpacity>
-            </View>
+              {
+                !this.state.keyboardActive &&
+                <View style={{ flex: 0.5, justifyContent: 'center', alignItems: 'center' }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.updateProfileOnCLick();
+                    }}
+                    style={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      width: 104,
+                      height: 34,
+                      backgroundColor: '#ef434e',
+                      borderRadius: 3
+                    }}
+                  >
+                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
+                    SIMPAN
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              }
           </ScrollView>
         }
 

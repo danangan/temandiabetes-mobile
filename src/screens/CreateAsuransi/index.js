@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Alert,
   ScrollView,
-  Platform
+  Platform,
+  Keyboard,
 } from 'react-native';
 import { NavigationBar, Spinner } from '../../components';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
@@ -34,6 +35,7 @@ class CreateAsuransi extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      keyboardActive: false,
       // set default value
       namaAsuransi: '',
       // set default value
@@ -47,6 +49,15 @@ class CreateAsuransi extends React.Component {
     };
 
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
+  }
+
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ keyboardActive: true });
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ keyboardActive: false });
+    });
   }
 
   async componentDidMount() {
@@ -94,6 +105,11 @@ class CreateAsuransi extends React.Component {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   async onSubmitHandler() {
@@ -236,17 +252,21 @@ class CreateAsuransi extends React.Component {
           style={{
             flex: 4.5,
             backgroundColor: '#f3f5fe',
-            paddingBottom: 100,
+            paddingTop: 10,
+            paddingBottom: this.state.keyboardActive ? 220 : 10,
             paddingHorizontal: 10
           }}
         >
-          <View style={{ flex: 0, justifyContent: 'center', alignItems: 'center', height: '20%' }}>
-            <Text style={styles.titleForm}>
-              {this.props.insuranceId ? 'Ubah Data Asuransi' : 'Lengkapi Data Asuransi'}
-            </Text>
-          </View>
+          {
+            !this.state.keyboardActive &&
+            <View style={{ flex: 0, justifyContent: 'center', alignItems: 'center', height: '20%' }}>
+              <Text style={styles.titleForm}>
+                {this.props.insuranceId ? 'Ubah Data Asuransi' : 'Lengkapi Data Asuransi'}
+              </Text>
+            </View>
+          }
           <ScrollView
-            style={{ paddingBottom: 180 }}
+            style={{ paddingBottom: 0 }}
           >
             <View style={styles.wrapperField}>
               <View
@@ -379,24 +399,27 @@ class CreateAsuransi extends React.Component {
                 </View>
                 <Text style={styles.errorMessage}>{this.checkError('nomorPolis')}</Text>
               </View>
-              <View style={styles.buttonWrapper}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.onSubmitHandler();
-                  }}
-                  style={styles.buttonSubmit}
-                >
-                  <Text
-                    style={{
-                      color: '#fff',
-                      fontSize: 12,
-                      fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans'
+              {
+                !this.state.keyboardActive &&
+                <View style={styles.buttonWrapper}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.onSubmitHandler();
                     }}
+                    style={styles.buttonSubmit}
                   >
-                    SIMPAN
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: 12,
+                        fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans'
+                      }}
+                    >
+                      SIMPAN
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              }
             </View>
           </ScrollView>
         </View>
@@ -436,7 +459,6 @@ const styles = {
     height: '40%',
     backgroundColor: '#fff',
     paddingHorizontal: 5,
-    paddingBottom: 80,
     elevation: 3
   },
   fieldItemWrap: {
