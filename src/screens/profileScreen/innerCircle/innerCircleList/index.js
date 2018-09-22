@@ -31,8 +31,8 @@ class InnerCircleList extends Component {
     this.getInnerCircle();
   }
 
-  componentDidUpdate() {
-    const { status, message } = this.props.innerCircle;
+  componentWillReceiveProps(nextProps) {
+    const { status, message } = nextProps.innerCircle;
     const { isProcess } = this.state;
     const acceptedOrRejected = 'Inner Circle status updated';
     const deleted = 'Inner circle successfully deleted';
