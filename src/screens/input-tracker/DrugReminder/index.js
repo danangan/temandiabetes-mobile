@@ -213,6 +213,7 @@ class DrugReminder extends React.Component {
   }
 
   renderItem(reminder) {
+    // console.log('reminder broo ', reminder);
     return (
       <ReminderCard
         key={reminder.index}

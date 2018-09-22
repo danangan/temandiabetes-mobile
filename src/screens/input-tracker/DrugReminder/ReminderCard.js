@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import {
   View,
@@ -18,9 +19,17 @@ class ReminderCard extends React.Component {
     return `${moment(dateTime).format('HH:mm')} - ${rulesDrugs}`;
   }
 
+  shouldComponentUpdate(nextProps) {
+    const { index } = this.props;
+    if (nextProps.index === index) return true;
+    
+    return false;
+  }
+
   render() {
     const { _id, is_active } = this.props.item;
-    const { index } = this.props;
+    const { index, statusReminder } = this.props;
+    
     return (
       <View style={styles.container}>
         <View style={styles.leftSide}>
@@ -48,7 +57,7 @@ class ReminderCard extends React.Component {
           <Switch
             style={Platform.select({ ios: { marginTop: 5 }})}
             onValueChange={() => this.props.toUpdateStatusReminder({ index, _id, is_active })}
-            value={this.props.statusReminder}
+            value={statusReminder}
           />
         </View>
       </View>
@@ -91,4 +100,8 @@ const styles = {
   }
 };
 
-export default ReminderCard;
+const mapStateToProps = state => ({
+  reminder: state.reminderReducer.updateReminder
+});
+
+export default connect(mapStateToProps)(ReminderCard);
