@@ -18,6 +18,7 @@
 #import "RNFIRMessaging.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import <React/RCTLinkingManager.h>
 
 
 
@@ -68,6 +69,24 @@
   
   return YES;
 }
+
+//=============START SHARE LINK============
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+  return [RCTLinkingManager application:application openURL:url
+                      sourceApplication:sourceApplication annotation:annotation];
+}
+
+// Only if your app is using [Universal Links](https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html).
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
+ restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+{
+  return [RCTLinkingManager application:application
+                   continueUserActivity:userActivity
+                     restorationHandler:restorationHandler];
+}
+//==========END SHARE LINK=================
 
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
