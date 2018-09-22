@@ -10,10 +10,13 @@ import {
   ScrollView,
   Platform,
   Keyboard,
+  Dimensions,
 } from 'react-native';
 import { NavigationBar, Spinner } from '../../components';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import Style from '../../style/defaultStyle';
+
+const DEVICE_HEIGHT = Dimensions.get('window').height;
 
 const tipeAsuransi = [
   {
@@ -53,7 +56,11 @@ class CreateAsuransi extends React.Component {
 
   componentWillMount() {
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      this.setState({ keyboardActive: true });
+      this.setState({ keyboardActive: true }, () => {
+        setTimeout(() => {
+          this.refs.formView.scrollToEnd();
+        }, 600);
+      });
     });
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       this.setState({ keyboardActive: false });
@@ -253,7 +260,7 @@ class CreateAsuransi extends React.Component {
             flex: 4.5,
             backgroundColor: '#f3f5fe',
             paddingTop: 10,
-            paddingBottom: this.state.keyboardActive ? 220 : 10,
+            paddingBottom: this.state.keyboardActive ? DEVICE_HEIGHT * 0.42 : 10,
             paddingHorizontal: 10
           }}
         >
@@ -267,6 +274,7 @@ class CreateAsuransi extends React.Component {
           }
           <ScrollView
             style={{ paddingBottom: 0 }}
+            ref="formView"
           >
             <View style={styles.wrapperField}>
               <View
