@@ -292,7 +292,7 @@ class App extends Component {
             <View title="TERBARU" style={styles.content}>
               <LatestTab navigator={navigator} />
             </View>
-            <View title="TERPILIH" style={styles.content}>
+            <View title="ARTIKEL" style={styles.content}>
               <FeaturedTab navigator={this.props.navigator} />
             </View>
             <View title="BOOKMARK" style={styles.content}>
@@ -341,9 +341,9 @@ class App extends Component {
             <View title="KATALOG" style={styles.content}>
               <ShopTab navigator={navigator} />
             </View>
-            <View title="ASURANSI" style={styles.content}>
+            {/* <View title="ASURANSI" style={styles.content}>
               <InsuranceCatalog navigator={navigator} />
-            </View>
+            </View> */}
           </TopTabs>
           <TopTabs
             title="Darurat"
