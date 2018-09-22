@@ -56,7 +56,11 @@ class CreateAsuransi extends React.Component {
 
   componentWillMount() {
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      this.setState({ keyboardActive: true });
+      this.setState({ keyboardActive: true }, () => {
+        setTimeout(() => {
+          this.refs.formView.scrollToEnd();
+        }, 600);
+      });
     });
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       this.setState({ keyboardActive: false });
@@ -270,6 +274,7 @@ class CreateAsuransi extends React.Component {
           }
           <ScrollView
             style={{ paddingBottom: 0 }}
+            ref="formView"
           >
             <View style={styles.wrapperField}>
               <View
