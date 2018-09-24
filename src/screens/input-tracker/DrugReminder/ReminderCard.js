@@ -6,11 +6,14 @@ import {
   Text,
   Switch,
   TouchableOpacity,
-  Platform
+  Platform,
+  Alert
 } from 'react-native';
 import moment from 'moment';
 
 import Dot from './Dot';
+
+import Style from '../../../style/defaultStyle';
 
 class ReminderCard extends React.Component {
 
@@ -40,7 +43,7 @@ class ReminderCard extends React.Component {
           <View style={{ flex: 0, paddingVertical: 10 }}>
             {
               this.props.item.reminders.map((a, index) => (
-                <Text key={index} style={{ fontFamily: 'Montserrat-Light', color: '#9ea4af', fontSize: 9 }}>
+                <Text key={index} style={styles.reminderDesc}>
                 { this.renderReminderDetail(a.datetimeConsume, a.ruleConsume)}
                 </Text>
               ))
@@ -48,12 +51,22 @@ class ReminderCard extends React.Component {
           </View>
         </View>
         <View style={styles.rightSide}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => this.props.getReminderDetails(this.props.item)}
-          >
-            <Text style={styles.btnRight}>UBAH</Text>
-          </TouchableOpacity>
+          <View style={styles.wrappButtonOption}>
+            <TouchableOpacity
+              style={styles.buttonOption}
+              activeOpacity={0.8}
+              onPress={() => this.props.getReminderDetails(this.props.item)}
+            >
+              <Text style={styles.btnRight}>UBAH</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonOption}
+              activeOpacity={0.8}
+              onPress={() => Alert.alert('Perhatian!', 'Pengingat obat di hapus')}
+            >
+              <Text style={styles.btnRight}>HAPUS</Text>
+            </TouchableOpacity>
+          </View>
           <Switch
             style={Platform.select({ ios: { marginTop: 5 }})}
             onValueChange={() => this.props.toUpdateStatusReminder({ index, _id, is_active })}
@@ -77,13 +90,18 @@ const styles = {
   titleDrug: {
     color: '#696977',
     fontFamily: 'Montserrat-Regular',
-    fontSize: 15
+    fontSize: Style.FONT_SIZE_SMALL
   },
   leftSide: {
     flex: 0.5,
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingVertical: 5
+  },
+  reminderDesc: { 
+    fontFamily: 'Montserrat-Light', 
+    color: '#9ea4af', 
+    fontSize: Style.FONT_SIZE_SMALLER
   },
   rightSide: {
     flex: 1,
@@ -97,6 +115,17 @@ const styles = {
     color: '#fff',
     fontSize: 9,
     backgroundColor: '#ef434f'
+  },
+  wrappButtonOption: { 
+    flex: 1, 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
+    alignItems: 'center' 
+  },
+  buttonOption: {
+    marginHorizontal: 5, 
+    maxWidth: 50, 
+    minWidth: 40 
   }
 };
 
