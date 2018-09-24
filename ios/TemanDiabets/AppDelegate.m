@@ -55,24 +55,6 @@
   return YES;
 }
 
-//==================================BEGIN SHARE LINK========================================================
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-  return [RCTLinkingManager application:application openURL:url
-                      sourceApplication:sourceApplication annotation:annotation];
-}
-
-// Only if your app is using [Universal Links](https://developer.apple.com/library/prerelease/ios/documentation/General/Conceptual/AppSearch/UniversalLinks.html).
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
- restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
-{
-  return [RCTLinkingManager application:application
-                   continueUserActivity:userActivity
-                     restorationHandler:restorationHandler];
-}
-//===================================END SHARE LINK=========================================================
-
 //===================================BEGIN AUTH CONFIGURATION===============================================
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
@@ -89,8 +71,15 @@
                                 sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
                                        annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
                        ];
+  
+//  deep link
+  BOOL handleDeepLink = [RCTLinkingManager application:application
+                                               openURL:url
+                                     sourceApplication:options[UIApplicationOpenURLOptionsAnnotationKey]
+                                            annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+                         ];
   // Add any custom logic here.
-  return handledFacebook || handleGoogle;
+  return handleDeepLink || handledFacebook || handleGoogle;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
