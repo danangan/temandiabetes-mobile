@@ -98,7 +98,15 @@ class App extends Component {
     Linking.addEventListener('url', this.redirectByUrl);
 
     try {
-      const result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
+      await FCM.requestPermissions(
+        {
+          badge: true,
+          sound: true,
+          alert: true,
+          'content-available': 1
+        }
+      );
+
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
         // checking if the receiver is the correct person
         if (notif.receiver) {
