@@ -480,11 +480,14 @@ class EditProfile extends React.Component {
           { /*  EDIT PROFILE TAB CONTENT */ }
           {
             this.state.activeTab === 0 &&
-            <ScrollView contentContainerStyle={{
-              backgroundColor: '#fff',
-              paddingTop: 10,
-              paddingBottom: this.state.keyboardActive ? (DEVICE_HEIGHT / 2) - 50 : 10,
-            }}>
+            <ScrollView
+              ref="editProfileScroll"
+              contentContainerStyle={{
+                backgroundColor: '#fff',
+                paddingTop: 10,
+                paddingBottom: this.state.keyboardActive ? (DEVICE_HEIGHT / 2) - 50 : 10,
+              }}
+            >
               <View style={styles.fieldWrapper}>
                 <Text style={styles.titleTextInput}>Username</Text>
                 <TextInput
@@ -629,6 +632,11 @@ class EditProfile extends React.Component {
                 <TextInput
                   value={userData.no_telp}
                   style={styles.textInput}
+                  onFocus={() => {
+                    setTimeout(() => {
+                      this.refs.editProfileScroll.scrollToEnd();
+                    }, 1000);
+                  }}
                   keyboardType="numeric"
                   placeholderTextColor="#4a4a4a"
                   onChangeText={text => this.setUserData('no_telp', text)}
