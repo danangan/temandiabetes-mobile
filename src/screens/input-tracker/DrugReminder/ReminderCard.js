@@ -25,14 +25,14 @@ class ReminderCard extends React.Component {
   shouldComponentUpdate(nextProps) {
     const { index } = this.props;
     if (nextProps.index === index) return true;
-    
+
     return false;
   }
 
   render() {
     const { _id, is_active } = this.props.item;
     const { index, statusReminder } = this.props;
-    
+
     return (
       <View style={styles.container}>
         <View style={styles.leftSide}>
@@ -62,7 +62,7 @@ class ReminderCard extends React.Component {
             <TouchableOpacity
               style={styles.buttonOption}
               activeOpacity={0.8}
-              onPress={() => Alert.alert('Perhatian!', 'Pengingat obat di hapus')}
+              onPress={() => this.props.deleteReminder({ reminderId: _id })}
             >
               <Text style={styles.btnRight}>HAPUS</Text>
             </TouchableOpacity>
@@ -98,9 +98,9 @@ const styles = {
     alignItems: 'center',
     paddingVertical: 5
   },
-  reminderDesc: { 
-    fontFamily: 'Montserrat-Light', 
-    color: '#9ea4af', 
+  reminderDesc: {
+    fontFamily: 'Montserrat-Light',
+    color: '#9ea4af',
     fontSize: Style.FONT_SIZE_SMALLER
   },
   rightSide: {
@@ -116,16 +116,16 @@ const styles = {
     fontSize: 9,
     backgroundColor: '#ef434f'
   },
-  wrappButtonOption: { 
-    flex: 1, 
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
-    alignItems: 'center' 
+  wrappButtonOption: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   buttonOption: {
-    marginHorizontal: 5, 
-    maxWidth: 50, 
-    minWidth: 40 
+    marginHorizontal: 5,
+    maxWidth: 50,
+    minWidth: 40
   }
 };
 
