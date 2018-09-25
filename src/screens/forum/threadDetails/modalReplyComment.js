@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
-import { View, Image, TouchableOpacity, Text, TextInput, Keyboard, KeyboardAvoidingView } from 'react-native';
+import { View, Image, TouchableOpacity, Text, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import { commentToReply, getThreadDetails } from '../../../actions/threadActions';
@@ -60,7 +60,7 @@ class ModalReplyComment extends Component {
 
   render() {
     return (
-      <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : null} enabled>
         <View style={styles.container}>
           <View style={styles.innerWrapper}>
             <View style={styles.wrapNav}>
