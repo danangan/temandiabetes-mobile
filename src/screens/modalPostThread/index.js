@@ -245,7 +245,9 @@ class ModalPostThread extends Component {
               style={styles.titleInput}
               placeholder="Judul Threads"
               onChangeText={(topic) => {
-                this.state.topic.length === 60 ? null : this.setState({ topic })
+                if (topic.length > 60) {
+                  this.setState({ topic });
+                }
               }}
             />
             <Text
