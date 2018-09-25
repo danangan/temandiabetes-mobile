@@ -273,6 +273,7 @@ class ProfileDetails extends React.Component {
                       this.setState({
                         innerCircleStatus: 'accepted'
                       });
+                      this.props.getInnerCircle(this.props.dataAuth._id);
                     });
                   }
                 );
