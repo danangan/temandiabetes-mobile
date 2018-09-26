@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { debounce } from 'lodash';
-import FCM, { FCMEvent } from 'react-native-fcm';
+import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
 
 // ACTIONS
 import {
@@ -109,6 +109,21 @@ class App extends Component {
 
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
         // checking if the receiver is the correct person
+
+        if (Platform.OS === 'ios') {
+          switch (notif._notificationType) {
+            case NotificationType.Remote:
+              notif.finish(RemoteNotificationResult.NewData); //other types available: RemoteNotificationResult.NewData, RemoteNotificationResult.ResultFailed
+              break;
+            case NotificationType.NotificationResponse:
+              notif.finish();
+              break;
+            case NotificationType.WillPresent:
+              notif.finish(WillPresentNotificationResult.All); //other types available: WillPresentNotificationResult.None
+              break;
+          }
+        }
+
         if (notif.receiver) {
           const receiver = JSON.parse(notif.receiver);
           if (receiver.id === this.props.currentUser._id) {
@@ -140,6 +155,10 @@ class App extends Component {
       // set the deeplink to expired
       this.props.resetDeepLink();
     }
+
+     FCM.on(FCMEvent.RefreshToken, token => {
+        console.log(token);
+    });
   }
 
   redirectByUrl({ url }) {
