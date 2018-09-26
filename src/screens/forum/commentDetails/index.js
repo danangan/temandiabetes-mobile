@@ -1,6 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, ScrollView, TextInput, TouchableOpacity, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform
+} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
   NavigationBar,
@@ -159,7 +167,7 @@ class CommentDetails extends React.Component {
       );
     }
     return (
-        <KeyboardAvoidingView style={{ flex: 1, height: '100%' }} behavior="padding" enabled>
+        <KeyboardAvoidingView style={{ flex: 1, height: '100%' }} behavior={Platform.OS === 'ios' ? 'padding' : null} enabled>
           <View
             style={{
               flex: 1,
