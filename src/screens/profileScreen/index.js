@@ -62,7 +62,7 @@ class ProfileScreen extends React.Component {
           navBarHidden: true
         }
       });
-      this.props.onSignOut();
+      this.props.onSignOut({ userId: this.props.dataAuth._id });
     });
 
   onPushScreen(screen, navBarHidden = true) {
@@ -229,7 +229,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSignOut: () => dispatch(onSignOut())
+  onSignOut: (data) => dispatch(onSignOut(data))
 });
 
 export default connect(

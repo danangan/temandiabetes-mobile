@@ -124,7 +124,9 @@ class App extends Component {
           }
         }
 
-        if (notif.receiver) {
+        if (notif.activityType === 'drug_reminder') {
+          this._displayNotificationAndroid(notif);
+        } else if (notif.receiver) {
           const receiver = JSON.parse(notif.receiver);
           if (receiver.id === this.props.currentUser._id) {
             this._displayNotificationAndroid(notif);
