@@ -9,9 +9,6 @@ import { updateProfile } from '../../actions/profileActions'
 
 const imagePickerOption = {
   title: 'Select Avatar',
-  customButtons: [
-    {name: 'fb', title: 'Choose Photo from Facebook'},
-  ],
   storageOptions: {
     skipBackup: true,
     path: 'images'
@@ -35,16 +32,17 @@ class ImageUploader extends Component {
       }
       else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
-      }
-      else {
-        // let source = { uri: response.uri };
-
-        // You can also display the image using data:
-        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-        // console.log(response.uri)
-        this.props.updateLoadingState(true, () => {
-          this.onSelectedImage(response.uri)
-        })
+      } else {
+        // not error and then checking the max file size
+        const maxFileSize = 5*1024*1024 // 5MB
+        if (response.fileSize <= maxFileSize)
+        {
+          this.props.updateLoadingState(true, () => {
+            this.onSelectedImage(response.uri)
+          })
+        } else {
+          alert('Maksimal ukuran file adalah 5MB')
+        }
       }
     });
   }
@@ -57,8 +55,6 @@ class ImageUploader extends Component {
       // uploading to firebase storage
       const result = await firebase.storage().ref().child(`users/${filename}`).putFile(imgURI);
 
-      console.log(result)
-
       const payload = {
         _id: this.props.currentUserId,
         foto_profile: result.downloadURL
@@ -67,6 +63,7 @@ class ImageUploader extends Component {
       await this.props.updateProfile(payload)
       // turn off the loader and closing modal
       this.props.updateLoadingState(false)
+
     } catch (error) {
       console.log(error);
     }

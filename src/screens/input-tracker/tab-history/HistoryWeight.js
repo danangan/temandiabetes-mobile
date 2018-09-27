@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: 'rgba(0,0,0, .2)',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.9,
         shadowRadius: 2
       },
       android: {
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE : Style.FONT_SIZE * 0.9,
     fontWeight: '900',
     color: '#252C68',
     marginLeft: 10,
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.8,
     fontWeight: '500',
     color: '#556299',
     paddingLeft: 3.02,
@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
   },
   weightStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_TITLE * 1.2,
+    fontSize: Style.FONT_SIZE_TITLE * 1.1,
     fontWeight: 'bold',
     color: '#556299',
     bottom: 3
   },
   unitWeightStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.8,
     fontWeight: 'bold',
     color: '#556299',
     marginTop: 10,

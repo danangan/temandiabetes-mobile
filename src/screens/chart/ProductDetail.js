@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { Platform, View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 
 import { Card } from '../../components';
 import color from '../../style/color';
@@ -83,7 +83,7 @@ const styles = {
     color: color.red
   },
   textStyle: {
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
     fontSize: Style.FONT_SIZE_SMALL,
     textAlign: 'justify',
     marginLeft: Style.PADDING

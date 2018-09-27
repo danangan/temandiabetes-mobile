@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableHighlight, FlatList } from 'react-native';
+import { View, Text, TouchableHighlight, FlatList, Alert } from 'react-native';
 
 import {
   getListReminder,
@@ -10,6 +10,7 @@ import {
 } from '../../../actions';
 
 import { NavigationBar, Spinner } from '../../../components';
+import { API_CALL } from '../../../utils/ajaxRequestHelper';
 import ReminderCard from './ReminderCard';
 import ModalCreateReminder from './ModalCreateReminder';
 
@@ -30,6 +31,7 @@ class DrugReminder extends React.Component {
     this.setModalVisible = this.setModalVisible.bind(this);
     this.onSubmitReminder = this.onSubmitReminder.bind(this);
     this.toUpdateStatusReminder = this.toUpdateStatusReminder.bind(this);
+    this.deleteReminder = this.deleteReminder.bind(this);
     this.getReminderDetails = this.getReminderDetails.bind(this);
     this.updateReminder = this.updateReminder.bind(this);
     this.resultValue = this.resultValue.bind(this);
@@ -117,7 +119,8 @@ class DrugReminder extends React.Component {
 
   setModalVisible() {
     this.setState({
-      modalActive: !this.state.modalActive
+      modalActive: !this.state.modalActive,
+      reminderDetail: this.state.modalActive ? null : this.state.reminderDetail
     });
   }
 
@@ -141,8 +144,46 @@ class DrugReminder extends React.Component {
     );
   }
 
+  deleteReminder({ reminderId }) {
+    Alert.alert(
+      'Hapus pengingat',
+      'Apakah Anda ingin menghapus pengingat obat ini?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'OK',
+          onPress: async () => {
+            this.setState({
+              isProcess: true
+            });
+
+            try {
+              const option = {
+                method: 'delete',
+                url: `api/drugs-reminder/${reminderId}`,
+              };
+
+              await API_CALL(option);
+
+              this.setState({
+                isProcess: false
+              }, () => {
+                this.props.getListReminder();
+              });
+            } catch (error) {
+              console.log(error);
+              this.setState({
+                isProcess: false
+              });
+            }
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+
   updateReminder(reminder) {
-    console.log('toUpdateReminder ', reminder);
     this.setState(
       {
         isProcess: true
@@ -213,6 +254,7 @@ class DrugReminder extends React.Component {
   }
 
   renderItem(reminder) {
+    // console.log('reminder broo ', reminder);
     return (
       <ReminderCard
         key={reminder.index}
@@ -221,6 +263,7 @@ class DrugReminder extends React.Component {
         statusReminder={this.resultValue(reminder.item.is_active)}
         onChangeSwitch={this.onChangeSwitch}
         toUpdateStatusReminder={this.toUpdateStatusReminder}
+        deleteReminder={this.deleteReminder}
         getReminderDetails={this.getReminderDetails}
       />
     );

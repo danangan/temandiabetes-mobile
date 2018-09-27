@@ -80,9 +80,12 @@ class Dots extends React.Component {
                 : {}
             ]}
           >
-            <Text style={styles.textToolTipStyle}>{formatTimeFromDate(result(item, 'waktuInput'), ':', {isUTC: true})}</Text>
+            <Text style={styles.textToolTipStyle}>
+              {formatTimeFromDate(result(item, 'waktuInput'), ':', { isUTC: true })}
+            </Text>
             <Text style={[styles.textToolTipStyle, { color: color.red }]}>
-              {result(item, 'nilai', 0)}mg/dL
+              {result(item, 'nilai', 0)}
+              mg/dL
             </Text>
             <Text style={styles.textToolTipStyle}>{result(item, 'level')}</Text>
           </View>
@@ -93,7 +96,7 @@ class Dots extends React.Component {
           }}
         >
           <View style={styles.dotsWrapper}>
-            <Text style={[styles.dotsStyle, { backgroundColor: dotsStyle.backgroundColor }]} />
+            <View style={[styles.dotsStyle, { backgroundColor: dotsStyle.backgroundColor }]} />
           </View>
         </TouchableOpacity>
       </View>
@@ -219,7 +222,7 @@ const styles = {
       ios: {
         shadowColor: 'rgba(0,0,0, .2)',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.9,
         shadowRadius: 2
       },
       android: {
@@ -277,8 +280,8 @@ const styles = {
     left: 6,
     height: 15,
     width: 15,
-    bottom: -10,
-    borderRadius: 7.5
+    borderRadius: 15 / 2,
+    bottom: -10
   },
   toolTipContainerStyle: {
     justifyContent: 'center',

@@ -55,7 +55,7 @@ class InnerCircle extends React.Component {
               resizeMode={'contain'}
               style={styles.iconStyle}
               tintColor={color.red}
-              source={Images.backIcon}
+				      source={require('../../../assets/icons/back.png')}
             />
           </TouchableOpacity>
           <Text style={styles.navBarTitleStyle}>TAMBAHKAN INNER CIRCLE</Text>
@@ -67,7 +67,7 @@ class InnerCircle extends React.Component {
               resizeMode={'contain'}
               style={styles.iconStyle}
               tintColor={color.red}
-              source={Images.searchIcon}
+				      source={require('../../../assets/icons/search_black.png')}
             />
           </TouchableOpacity>
         </View>
@@ -175,7 +175,8 @@ const styles = {
   },
   iconStyle: {
     width: 25,
-    height: 25
+    height: 25,
+    tintColor: color.red
   },
   navBarTitleStyle: {
     fontSize: Style.FONT_SIZE,

@@ -51,7 +51,7 @@ const HistoryFoods = ({ history }) => {
           <LineVertical />
           <View style={styles.calorieStyle}>
             <View style={styles.calorieListStyle}>
-              <Text style={[styles.foodsStyle]}>{result(mealTime.sarapan, 'calories', 0)}</Text>
+              <Text style={styles.foodsStyle}>{result(mealTime.sarapan, 'calories', 0)}</Text>
               <Text style={styles.foodsStyle}> Kkl</Text>
             </View>
             <View style={styles.calorieListStyle}>
@@ -103,7 +103,12 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 15,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    padding: Style.PADDING,
+    ...Platform.select({
+      ios: {
+        padding: Style.PADDING - 13
+      },
+      android: Style.PADDING
+    }),
     marginLeft: 0,
     marginRight: 0,
     marginTop: 11.35,
@@ -112,7 +117,7 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: 'rgba(0,0,0, .2)',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.9,
         shadowRadius: 2
       },
       android: {

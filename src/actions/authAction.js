@@ -64,6 +64,10 @@ export const updateFCMToken = (params) => async dispatch => {
 
     const {data: { data }} = await API_CALL(option)
     onSuccess(data);
+
+    if (params.callback) {
+      params.callback();
+    }
   } catch (error) {
     onSuccess(error);
   }

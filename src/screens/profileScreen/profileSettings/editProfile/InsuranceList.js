@@ -1,6 +1,6 @@
 import React from 'react';
 import { debounce } from 'lodash';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image, Alert, Platform } from 'react-native';
 import Style from '../../../../style/defaultStyle';
 import color from '../../../../style/color';
 
@@ -33,7 +33,7 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
           </View>
         </View>
       </View>
-      {item.type === 'Perusahaan' && (
+      {(item.type === 'perusahaan' || item.type === 'Perusahaan') && (
         <View style={styles.vertical}>
           <View style={styles.horizontal}>
             <View style={{ flex: 1, alignItems: 'flex-start' }}>
@@ -148,14 +148,7 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
           borderRadius: 3
         }}
       >
-        <Text
-          style={{
-            color: '#fff',
-            fontSize: 12,
-            fontFamily: 'OpenSans-Regular',
-            textAlign: 'center'
-          }}
-        >
+        <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans', textAlign: 'center' }}>
           TAMBAH ASURANSI
         </Text>
       </TouchableOpacity>

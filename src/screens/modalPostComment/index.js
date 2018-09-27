@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
-import { View, Image, TouchableOpacity, Text, TextInput, Keyboard } from 'react-native';
+import { View, Image, TouchableOpacity, Text, TextInput, Keyboard, KeyboardAvoidingView } from 'react-native';
 
 import { createComment } from '../../actions/threadActions';
 import Closed from '../../assets/icons/close.png';
@@ -76,36 +76,38 @@ class ModalPostComponent extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.innerWrapper}>
-          <View style={styles.wrapNav}>
-            <TouchableOpacity onPress={() => this.props.navigator.pop()} style={{ flex: 0.5 }}>
-              <Image source={Closed} style={{ width: 20, height: 20 }} />
-            </TouchableOpacity>
-            <View style={{ flex: 1.5 }}>
-              <Text style={styles.titleForm}>Tambah Komentar</Text>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+        <View style={styles.container}>
+          <View style={styles.innerWrapper}>
+            <View style={styles.wrapNav}>
+              <TouchableOpacity onPress={() => this.props.navigator.pop()} style={{ flex: 0.5 }}>
+                <Image source={Closed} style={{ width: 20, height: 20 }} />
+              </TouchableOpacity>
+              <View style={{ flex: 1.5 }}>
+                <Text style={styles.titleForm}>Tambah Komentar</Text>
+              </View>
+            </View>
+            <View style={styles.wrapTextInput}>
+              <TextInput
+                multiline
+                underlineColorAndroid="transparent"
+                onChangeText={komentar => this.setState({ komentar })}
+                style={styles.itemTextInput}
+                placeholder="Tambahkan komen di sini"
+              />
             </View>
           </View>
-          <View style={styles.wrapTextInput}>
-            <TextInput
-              multiline
-              underlineColorAndroid="transparent"
-              onChangeText={komentar => this.setState({ komentar })}
-              style={styles.itemTextInput}
-              placeholder="Tambahkan komen di sini"
-            />
+
+          <View style={styles.wrapFooter}>
+            <TouchableOpacity
+              style={styles.buttonSend}
+              onPress={this.state.isSubmit ? null : debounce(this.onSubmitComment, 200)}
+            >
+              <Text style={styles.titleButtonSend}>{this.state.isSubmit ? 'Loading' : 'Kirim'}</Text>
+            </TouchableOpacity>
           </View>
         </View>
-
-        <View style={styles.wrapFooter}>
-          <TouchableOpacity
-            style={styles.buttonSend}
-            onPress={this.state.isSubmit ? null : debounce(this.onSubmitComment, 200)}
-          >
-            <Text style={styles.titleButtonSend}>{this.state.isSubmit ? 'Loading' : 'Kirim'}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

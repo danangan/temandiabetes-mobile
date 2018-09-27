@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { debounce, result } from 'lodash';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ActivityIndicator, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
   getThreadDetails,
@@ -149,19 +149,18 @@ class ThreadDetails extends React.Component {
     }
     if (followThread.isFetch) {
       return (
-        <TouchableOpacity
-          onPress={this.requestFollowThread}
+        <View
           style={{
             justifyContent: 'center',
-            minWidth: 100,
+            flex: 1,
             height: 25,
             minHeight: 25,
             backgroundColor: '#252c68',
             marginRight: 10
           }}
         >
-          <Spinner size="small" color="#8084a7" />
-        </TouchableOpacity>
+          <ActivityIndicator color="#fff" size={Platform.OS === 'ios' ? 'small' : 1} />
+        </View>
       );
     } else if (result(listThreads.threadDetails, 'isSubscriber')) {
       return (
@@ -169,14 +168,21 @@ class ThreadDetails extends React.Component {
           onPress={this.requestUnfollowThread}
           style={{
             justifyContent: 'center',
-            minWidth: 100,
+            flex: 1.5,
             height: 25,
             minHeight: 25,
             backgroundColor: '#252c68',
             marginRight: 10
           }}
         >
-          <Text style={styles.buttonText}>Berhenti ikuti</Text>
+          <Text
+            style={{
+            ...styles.buttonText,
+            paddingHorizontal: 0
+          }}
+          >
+            Berhenti Ikuti
+          </Text>
         </TouchableOpacity>
       );
     }
@@ -185,11 +191,12 @@ class ThreadDetails extends React.Component {
         onPress={this.requestFollowThread}
         style={{
           justifyContent: 'center',
-          minWidth: 100,
+          flex: 1,
           height: 25,
           minHeight: 25,
           backgroundColor: '#252c68',
-          marginRight: 10
+          marginRight: 10,
+          padding: 0,
         }}
       >
         <Text style={styles.buttonText}>Ikuti</Text>
@@ -267,8 +274,8 @@ class ThreadDetails extends React.Component {
               style={{
                 justifyContent: 'center',
                 backgroundColor: '#252c68',
-                minWidth: 100,
                 height: 25,
+                flex: 1,
                 minHeight: 25,
                 marginRight: 10
               }}
@@ -294,14 +301,14 @@ class ThreadDetails extends React.Component {
                 style={{
                   justifyContent: 'center',
                   backgroundColor: '#252c68',
-                  minWidth: 100,
                   height: 25,
+                  flex: 1,
                   minHeight: 25
                 }}
               >
                 <Text style={styles.buttonText}>Lapor</Text>
               </TouchableOpacity>
-            ) : null}
+            ) : <View style={{ flex: 2 }} />}
           </View>
         </CardSection>
         <View style={{ flex: 1, paddingBottom: 0 }}>

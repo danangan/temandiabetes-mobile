@@ -8,6 +8,9 @@ PODS:
   - Firebase/Messaging (4.13.0):
     - Firebase/Core
     - FirebaseMessaging (= 2.2.0)
+  - Firebase/Storage (4.13.0):
+    - Firebase/Core
+    - FirebaseStorage (= 2.2.0)
   - FirebaseAnalytics (4.2.0):
     - FirebaseCore (~> 4.0)
     - FirebaseInstanceID (~> 2.0)
@@ -27,6 +30,10 @@ PODS:
     - FirebaseInstanceID (~> 2.0)
     - GoogleToolboxForMac/Logger (~> 2.1)
     - Protobuf (~> 3.5)
+  - FirebaseStorage (2.2.0):
+    - FirebaseAnalytics (~> 4.1)
+    - FirebaseCore (~> 4.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - GoogleToolboxForMac/DebugUtils (2.1.4):
     - GoogleToolboxForMac/Defines (= 2.1.4)
   - GoogleToolboxForMac/Defines (2.1.4)
@@ -51,6 +58,7 @@ DEPENDENCIES:
   - Firebase/Auth
   - Firebase/Core (~> 4.13.0)
   - Firebase/Messaging
+  - Firebase/Storage
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -60,6 +68,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseInstanceID
     - FirebaseMessaging
+    - FirebaseStorage
     - GoogleToolboxForMac
     - GTMSessionFetcher
     - nanopb
@@ -72,11 +81,12 @@ SPEC CHECKSUMS:
   FirebaseCore: 90cb1c53d69b556f112a1bf72b5fcfaad7650790
   FirebaseInstanceID: 8d20d890d65c917f9f7d9950b6e10a760ad34321
   FirebaseMessaging: 75cdb862e86c30e0913a2ff307e48d49357c5b73
+  FirebaseStorage: 0c223481c8f89ed300cf1239ddd2d9833622c65f
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMSessionFetcher: 0c4baf0a73acd0041bf9f71ea018deedab5ea84e
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
 
-PODFILE CHECKSUM: f399eb8ca112c160e42c249f94798415c57e3448
+PODFILE CHECKSUM: 169d393a03464f35365d4eb7cf8b48d37ad073cc
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.6.0.beta.1

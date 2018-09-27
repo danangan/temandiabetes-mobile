@@ -29,7 +29,7 @@ const HistoryHba1c = ({ history }) => {
   let size = 0;
   switch (true) {
     case valueHba1c.toString().length >= 4:
-      size = Style.FONT_SIZE * 1.2;
+      size = Style.FONT_SIZE * 1;
       break;
     default:
       size = Style.FONT_SIZE_TITLE * 1.2;
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
     width: Style.CARD_WIDTH / 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     borderRadius: 15,
     borderBottomLeftRadius: 15,
     borderBottomRightRadius: 15,
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingTop: 6.42,
     paddingBottom: 10,
-    paddingRight: 45,
+    paddingRight: 60,
     marginLeft: 0,
     marginRight: 5,
     marginTop: 0,
@@ -79,7 +80,7 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: 'rgba(0,0,0, .2)',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.9,
         shadowRadius: 2
       },
       android: {
@@ -89,13 +90,13 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE : Style.FONT_SIZE * 0.9,
     fontWeight: '900',
     color: '#252C68'
   },
   textStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.7,
     fontWeight: '500',
     color: '#556299',
     paddingLeft: 3.02
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
   },
   statusHba1cStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.8,
     fontWeight: 'bold',
     color: '#556299'
   }

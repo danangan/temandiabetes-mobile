@@ -280,6 +280,7 @@ class RegisterScreenFourth extends React.Component {
         <ImageBackground style={styles.imageBackground} source={Images.backgroundTypeUser}>
           {this.props.registerType !== 'GoogleSignIn' && (
             <TouchableOpacity
+              hitSlop={{ top: 20, bottom: 20, left: 50, right: 70 }}
               style={{
                 flex: 0,
                 justifyContent: 'flex-start',

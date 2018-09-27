@@ -509,6 +509,11 @@ export const createComment = comment => async dispatch => {
       payload: data
     });
 
+    // refresh all threads
+    dispatch(getThreads(1, true))
+    dispatch(getLatestThreads(1, true))
+    dispatch(getBookmarkedThreads(1, true))
+
     return data;
   }
 

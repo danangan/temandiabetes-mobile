@@ -9,6 +9,7 @@ import * as ActionTypes from './constants';
 import { authToken } from '../utils/constants';
 import { guelogin } from '../utils/GueLogin';
 import { API_CURRENT_USER } from '../utils/API';
+import { updateFCMToken } from './authAction';
 
 const loginManual = ({ email, password }) => async dispatch => {
   function onSuccess(currentUser) {
@@ -36,12 +37,12 @@ const loginManual = ({ email, password }) => async dispatch => {
         }
       });
 
-      AsyncStorage.setItem(authToken, firebaseIdToken, error => onSuccess(error));
-      return onSuccess(currentUser);
+      AsyncStorage.setItem(authToken, firebaseIdToken);
+      onSuccess(currentUser);
     }
   } catch (error) {
     const parsed = JSON.parse(JSON.stringify(error));
-    return onSuccess(parsed);
+    onSuccess(parsed);
   }
 };
 
@@ -197,7 +198,7 @@ const signWithFacebook = () => async dispatch => {
   }
 };
 
-const onSignOut = () => async dispatch => {
+const onSignOut = ({ userId }) => async dispatch => {
   function onSuccess() {
     return dispatch({
       type: ActionTypes.USER_LOGOUT,
@@ -205,18 +206,27 @@ const onSignOut = () => async dispatch => {
     });
   }
 
-  try {
-    Promise.all([
-      GoogleSignin.signOut(),
-      LoginManager.logOut(),
-      guelogin.auth().signOut(),
-      AsyncStorage.removeItem(authToken)
-    ]);
+  const callback = async () => {
+    try {
+      Promise.all([
+        GoogleSignin.signOut(),
+        LoginManager.logOut(),
+        guelogin.auth().signOut(),
+        AsyncStorage.removeItem(authToken)
+      ]);
+      return onSuccess();
+    } catch (error) {
+      if (error) throw error;
+    }
+  };
 
-    return onSuccess();
-  } catch (error) {
-    if (error) throw error;
-  }
+  dispatch(updateFCMToken({
+    userId,
+    callback,
+    token: {
+      messagingRegistrationToken: '',
+    },
+  }));
 };
 
 const resetState = () => async dispatch => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, Image, AsyncStorage, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, AsyncStorage, Platform } from 'react-native';
 
 import color from '../../../../style/color';
 import Style from '../../../../style/defaultStyle';
@@ -31,8 +31,8 @@ class InnerCircleList extends Component {
     this.getInnerCircle();
   }
 
-  componentDidUpdate() {
-    const { status, message } = this.props.innerCircle;
+  componentWillReceiveProps(nextProps) {
+    const { status, message } = nextProps.innerCircle;
     const { isProcess } = this.state;
     const acceptedOrRejected = 'Inner Circle status updated';
     const deleted = 'Inner circle successfully deleted';
@@ -67,6 +67,12 @@ class InnerCircleList extends Component {
     });
   };
 
+  onReceivedInnerCircle = () => {
+    this.setState({
+      tab: 0
+    })
+  }
+
   getInnerCircle = async () => {
     const { currentUser } = this.props.dataAuth;
     const idToken = await AsyncStorage.getItem(authToken);
@@ -89,6 +95,7 @@ class InnerCircleList extends Component {
           innerCircle={this.props.innerCircle.pending}
           onChangeIsProcess={this.onChangeIsProcess}
           navigator={this.props.navigator}
+          onReceivedInnerCircle={this.onReceivedInnerCircle}
         />
       );
     }
@@ -157,13 +164,17 @@ class InnerCircleList extends Component {
                   {item.count.length}
                 </Text>
                 <Text style={styles.titleStyle}>{item.tab}</Text>
-                <Text
+                <View
                   style={[
                     styles.indicatorStyle,
                     {
                       borderBottomWidth: this.state.tab === index ? 3 : 0,
                       borderBottomColor: this.state.tab === index ? color.red : color.white
-                    }
+                    },
+                    Platform.select({
+                      ios: { marginTop: 7 },
+                      android: {}
+                    })
                   ]}
                 />
               </TouchableOpacity>
@@ -213,7 +224,7 @@ const styles = {
     width: '50%',
     borderBottomWidth: 3,
     borderBottomColor: color.red,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   navBarContainerStyle: {
     flexDirection: 'row',
@@ -226,7 +237,8 @@ const styles = {
   },
   iconStyle: {
     width: 25,
-    height: 25
+    height: 25,
+    tintColor: color.red
   },
   navBarTitleStyle: {
     fontSize: Style.FONT_SIZE,

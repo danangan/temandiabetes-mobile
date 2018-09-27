@@ -24,7 +24,7 @@ const borderColor = typeOfUser => {
   }
 };
 
-const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navigator }) => {
+const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navigator, onReceivedInnerCircle }) => {
   if (innerCircle.length === 0) {
     return (
       <View style={styles.placeholderContainerStyle}>
@@ -51,7 +51,7 @@ const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navig
     );
   };
 
-  const acceptRequest = (friendId, innerCircleId) => {
+  const acceptRequest = (friendId, innerCircleId, onAcceptedCb) => {
     Alert.alert(
       'Terima Permintaan',
       'Apakah anda ingin menerima permintaan sebagai inner circle ?',
@@ -60,7 +60,9 @@ const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navig
         {
           text: 'OK',
           onPress: () => {
-            accept(friendId, innerCircleId);
+            accept(friendId, innerCircleId).then(() => {
+              onAcceptedCb()
+            });
             onChangeIsProcess(true);
           }
         }
@@ -113,7 +115,7 @@ const TabRequest = ({ innerCircle = [], accept, reject, onChangeIsProcess, navig
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.closeButtonStyle}
-                onPress={() => acceptRequest(result(item.friend, '_id'), item._id)}
+                onPress={() => acceptRequest(result(item.friend, '_id'), item._id, onReceivedInnerCircle)}
               >
                 <Image
                   source={checklist}

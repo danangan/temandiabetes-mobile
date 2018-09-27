@@ -83,7 +83,6 @@ export const deleteInnerCircle = (userId, innerCircleId) => async dispatch => {
     };
 
     const res = await API_CALL(option);
-    dispatch(getInnerCircle(userId))
     onSuccess(res);
   } catch (error) {
     onSuccess(error);
@@ -111,7 +110,6 @@ export const acceptRequestToInnerCircle = (friendId, innerCircleId, cb = () => {
     };
 
     const res = await API_CALL(option);
-    dispatch(getInnerCircle(friendId))
     cb()
     onSuccess(res);
   } catch (error) {

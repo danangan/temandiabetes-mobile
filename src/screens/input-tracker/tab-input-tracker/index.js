@@ -4,6 +4,7 @@ import moment from 'moment';
 import {
   View,
   Platform,
+  ActionSheetIOS,
   Modal,
   Text,
   TouchableOpacity,
@@ -32,10 +33,26 @@ import {
 
 import color from '../../../style/color';
 import { Card, Spinner } from '../../../components';
+import DatePickerDialog from '../../../components/DatePickerIOSModal';
 import MenuButton from './MenuButton';
 import Style from '../../../style/defaultStyle';
 import { activityList } from './initialValue';
 import ButtonSave from './ButtonSave';
+
+const activityType = [
+  {
+    label: 'Ringan',
+    value: 'ringan'
+  },
+  {
+    label: 'Sedang',
+    value: 'sedang'
+  },
+  {
+    label: 'Berat',
+    value: 'berat'
+  },
+]
 
 class InputTracker extends Component {
   constructor(props) {
@@ -76,6 +93,7 @@ class InputTracker extends Component {
     this.setModalVisible = this.setModalVisible.bind(this);
     this.toNavigate = this.toNavigate.bind(this);
     this.handleSave = this.handleSave.bind(this);
+    this.openIOSPicker = this.openIOSPicker.bind(this);
   }
 
   componentDidMount() {
@@ -101,24 +119,29 @@ class InputTracker extends Component {
     clearInterval(this.Clock);
   }
 
-  componentDidUpdate() {
+  componentWillReceiveProps(nextProps) {
     const { isModal } = this.state;
-    const { inputTracker } = this.props.dataInputTracker;
+    const { inputTracker } = nextProps.dataInputTracker;
     if (isModal === 'IS_LOADING' && inputTracker.message === 'Success') {
-      alert('Inputan Anda berhasil disimpan.');
-      this.setState({
-        modalVisible: false,
-        isModal: '',
-        gulaDarah: 0,
-        hba1c: 0,
-        sarapan: null,
-        makanSiang: null,
-        makanMalam: null,
-        snack: null
-      });
-      // setTimeout(() => {
-      //   this.setModalVisible();
-      // }, 1500);
+      Alert.alert(
+        'Alert',
+        'Inputan Anda berhasil disimpan.',
+        [
+          { text: 'OK', onPress: () =>{
+            this.setState({
+              modalVisible: false,
+              isModal: '',
+              gulaDarah: 0,
+              hba1c: 0,
+              sarapan: null,
+              makanSiang: null,
+              makanMalam: null,
+              snack: null
+            });
+          }},
+        ],
+        { cancelable: false }
+      )
     }
   }
 
@@ -133,14 +156,26 @@ class InputTracker extends Component {
   }
 
   setModalVisible(isModal) {
+    const directGlucose = Platform.OS === 'ios' ? true : false;
     const params = isModal === undefined ? '' : isModal;
-    this.setState({
-      modalVisible: !this.state.modalVisible,
-      isModal: params,
-      activitySelected: '',
-      descActivity: '',
-      isManually: false
-    });
+    if (directGlucose) {
+      this.setState({
+        modalVisible: !this.state.modalVisible,
+        isModal: params,
+        activitySelected: '',
+        descActivity: '',
+        isManually: true
+      });
+    } else {
+      this.setState({
+        modalVisible: !this.state.modalVisible,
+        isModal: params,
+        activitySelected: '',
+        descActivity: '',
+        isManually: false
+      });
+    }
+    
   }
 
   async openDatePicker() {
@@ -498,10 +533,34 @@ class InputTracker extends Component {
           style={{
             paddingHorizontal: 10
           }}
-          onPress={() => this.openDatePicker()}
+          onPress={() => {
+            if (Platform.OS === 'android') {
+              this.openDatePicker()
+            } else {
+              this.refs.dateTimePickerIOS.open({
+                date: new Date(),
+                maxDate: new Date() //To restirct past date
+              })
+            }
+          }}
         >
           <Text style={{ fontSize: 15, fontFamily: 'OpenSans-Light' }}>{displayDate}</Text>
         </TouchableOpacity>
+        {
+          Platform.OS === 'ios' &&
+          <DatePickerDialog
+            ref="dateTimePickerIOS"
+            datePickerMode="datetime"
+            okLabel="Pilih"
+            cancelLabel="Batal"
+            onDatePicked={(val) => {
+              this.setState({
+                inputDate: new moment(val),
+                isTime: new moment(val)
+              })
+            }}
+          />
+        }
       </View>
     );
   }
@@ -563,6 +622,10 @@ class InputTracker extends Component {
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <ButtonSave onSubmit={this.handleSave} type="GULA_DARAH" title="SIMPAN" />
       </View>
@@ -622,6 +685,10 @@ class InputTracker extends Component {
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <ButtonSave onSubmit={this.handleSave} type="HBA1C" title="SIMPAN" />
       </View>
@@ -753,6 +820,10 @@ class InputTracker extends Component {
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <View
           style={{
@@ -778,6 +849,10 @@ class InputTracker extends Component {
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
             underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <ButtonSave onSubmit={this.handleSave} type="TEKANAN_DARAH" title="SIMPAN" />
       </View>
@@ -813,6 +888,30 @@ class InputTracker extends Component {
     );
   }
 
+  getLabelByVal(options, val) {
+    let result
+    options.forEach((item) => {
+      if (item.value === val) {
+        result = item.label
+      }
+    })
+    return result
+  }
+
+  // format options = array of { label: 'Some label', value: 'Some value' }
+  openIOSPicker(options = [], title, onSelect) {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [ ...options.map(item => item.label), 'Batal'],
+      title,
+      destructiveButtonIndex: options.length
+    },
+    (buttonIndex) => {
+      if (options[buttonIndex]) {
+        onSelect(options[buttonIndex].value)
+      }
+    });
+  }
+
   contentAktivitas() {
     return (
       <View
@@ -826,44 +925,73 @@ class InputTracker extends Component {
         }}
       >
         {this.renderButtonOpenDate()}
-        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15 }}>
+        <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 15, width: '100%'}}>
           <Text
             style={{
               fontSize: 13,
               color: '#878787',
+              width: '100%',
               fontFamily: 'OpenSans-Light',
               marginBottom: -7
             }}
           >
             Jenis Aktivitas
           </Text>
-          <Picker
-            mode="dialog"
-            selectedValue={this.state.activitySelected}
-            style={{ padding: 0, margin: 0, height: 50, width: 200, alignSelf: 'flex-start' }}
-            onValueChange={itemValue =>
-              this.setState(
-                {
-                  activitySelected: itemValue
-                },
-                () => {
+          {
+            Platform.OS === 'android' &&
+            <Picker
+              mode="dialog"
+              selectedValue={this.state.activitySelected}
+              style={{ padding: 0, margin: 0, height: 50, width: '100%', alignSelf: 'flex-start' }}
+              onValueChange={itemValue =>
+                this.setState(
+                  {
+                    activitySelected: itemValue
+                  },
+                  () => {
+                    const desc = activityList.filter(
+                      item => item.type === this.state.activitySelected
+                    );
+                    this.setState({
+                      descActivity: this.state.activitySelected === '' ? '' : desc[0].description
+                    });
+                  }
+                )
+              }
+            >
+              <Picker.Item label="Pilih Aktivitas" value="" />
+              <Picker.Item label="Ringan" value="ringan" />
+              <Picker.Item label="Sedang" value="sedang" />
+              <Picker.Item label="Berat" value="berat" />
+            </Picker>
+          }
+          {
+            Platform.OS === 'ios' &&
+            <TouchableOpacity
+            style={{ height: 35, width: 50, marginLeft: 0, width: '100%'}}
+            onPress={() => {
+              const option = activityType
+              const title = 'Pilih Jenis Aktifitas'
+              const onSelect = val => {
+                this.setState({activitySelected: val}, () => {
                   const desc = activityList.filter(
                     item => item.type === this.state.activitySelected
                   );
                   this.setState({
                     descActivity: this.state.activitySelected === '' ? '' : desc[0].description
                   });
-                }
-              )
-            }
+                })
+              }
+              this.openIOSPicker(option, title, onSelect)
+            }}
           >
-            <Picker.Item label="Pilih Aktivitas" value="" />
-            <Picker.Item label="Ringan" value="ringan" />
-            <Picker.Item label="Sedang" value="sedang" />
-            <Picker.Item label="Berat" value="berat" />
-          </Picker>
+            <View style={{width: '100%'}}>
+              <Text style={{ marginTop: 9 }}>{this.state.activitySelected!== '' ? this.getLabelByVal(activityType, this.state.activitySelected) : 'Pilih Aktifitas'}</Text>
+            </View>
+          </TouchableOpacity>
+          }
           <View style={{ borderBottomColor: '#EF434F', borderBottomWidth: 1, marginBottom: 15 }} />
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', width: '100%' }}>
             {this.state.activitySelected !== '' ? this.renderDescAktivity() : null}
           </View>
         </View>
@@ -936,8 +1064,12 @@ class InputTracker extends Component {
             onChangeText={beratBadan => this.setState({ beratBadan })}
             placeholder="80 kg"
             style={{ textAlign: 'center', fontSize: 19, fontFamily: 'OpenSans-Italic' }}
-            underlineColorAndroid="#000"
+            underlineColorAndroid="#EF434F"
           />
+          {
+            Platform.OS === 'ios' &&
+            <View style={styles.underLine}></View>
+          }
         </View>
         <ButtonSave onSubmit={this.handleSave} type="WEIGHT" title="SIMPAN" />
       </View>
@@ -1093,7 +1225,7 @@ class InputTracker extends Component {
         navBarHidden: true
       },
       animated: true,
-      animationType: 'fade',
+      animationType: 'slide',
       passProps: {}
     });
   }
@@ -1171,11 +1303,10 @@ const styles = {
     color: color.red
   },
   modalOverlay: {
-    position: 'absolute',
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
     backgroundColor: '#4a4a4a',
-    opacity: 0.9
+    opacity: 0.9,
   },
   modalLoading: {
     flex: 1,
@@ -1185,15 +1316,21 @@ const styles = {
     opacity: 0.9
   },
   modalWrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    position: 'absolute',
+    marginHorizontal: Dimensions.get('window').width*0.1,
+    marginVertical: Dimensions.get('window').height*0.25,
+    height: Dimensions.get('window').height*0.4,
+    width: Dimensions.get('window').width*0.8,
   },
   modalContent: {
     backgroundColor: '#fff',
     opacity: 1,
-    width: '70%'
-  }
+    flex: 1,
+  },
+  underLine: {
+    borderBottomColor: '#ef434e',
+    borderBottomWidth: 1,
+  },
 };
 
 const mapStateToProps = state => ({

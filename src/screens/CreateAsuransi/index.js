@@ -1,8 +1,33 @@
 import React from 'react';
-import { View, Text, Picker, TextInput, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import {
+  View,
+  ActionSheetIOS,
+  Text,
+  Picker,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  ScrollView,
+  Platform,
+  Keyboard,
+  Dimensions,
+} from 'react-native';
 import { NavigationBar, Spinner } from '../../components';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import Style from '../../style/defaultStyle';
+
+const DEVICE_HEIGHT = Dimensions.get('window').height;
+
+const tipeAsuransi = [
+  {
+    label: 'Pribadi',
+    value: 'pribadi'
+  },
+  {
+    label: 'Perusahaan',
+    value: 'perusahaan'
+  }
+];
 
 class CreateAsuransi extends React.Component {
   static navigatorStyle = {
@@ -13,10 +38,11 @@ class CreateAsuransi extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      keyboardActive: false,
       // set default value
-      namaAsuransi: 'Astra Life',
+      namaAsuransi: '',
       // set default value
-      tipeAsuransi: 'Perusahaan',
+      tipeAsuransi: '',
       insuranceNameList: [],
       nomorAsuransi: '',
       nomorPolis: '',
@@ -26,6 +52,19 @@ class CreateAsuransi extends React.Component {
     };
 
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
+  }
+
+  componentWillMount() {
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({ keyboardActive: true }, () => {
+        setTimeout(() => {
+          this.refs.formView.scrollToEnd();
+        }, 600);
+      });
+    });
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({ keyboardActive: false });
+    });
   }
 
   async componentDidMount() {
@@ -61,15 +100,23 @@ class CreateAsuransi extends React.Component {
     };
 
     try {
-      const {data: {data: {docs}}} = await API_CALL(option);
+      const {
+        data: {
+          data: { docs }
+        }
+      } = await API_CALL(option);
 
       this.setState({
         insuranceNameList: docs
-      })
-
+      });
     } catch (error) {
       console.log(error);
     }
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
   }
 
   async onSubmitHandler() {
@@ -105,17 +152,26 @@ class CreateAsuransi extends React.Component {
           this.props.onSuccessCallback();
         }
         await this.setState({ _errors: null, isLoading: false }, () => {
-          Alert.alert('Perhatian!', 'Asuransi berhasil di simpan.');
+          Alert.alert(
+            'Perhatian!',
+            this.props.insuranceId
+              ? 'Asuransi berhasil diperbarui'
+              : 'Asuransi berhasil di simpan.',
+            [
+              {
+                text: 'Tutup',
+                onPress: () => {
+                  this.props.navigator.pop();
+                }
+              }
+            ]
+          );
         });
-        // close the modal
-        this.props.navigator.pop();
       } catch (error) {
         console.log(error);
       }
     } else {
-      this.setState({ isLoading: false }, () => {
-        Alert.alert('Perhatian!', 'Silahkan lengkapi data asuransi Anda');
-      });
+      this.setState({ isLoading: false });
     }
   }
 
@@ -129,13 +185,22 @@ class CreateAsuransi extends React.Component {
   }
 
   formValidation() {
-    const errors = {};
-    if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi === 'Perusahaan') {
-      errors.nomorAsuransi = ['Silahkan isi nomor asuransi'];
+    const errors = [];
+    if (this.state.namaAsuransi === '') {
+      errors.namaAsuransi = ['Nama asuransi tidak boleh kosong'];
     }
 
-    if (this.state.nomorPolis === '' && this.state.tipeAsuransi === 'Pribadi') {
-      errors.nomorPolis = ['Silahkan isi nomor polis'];
+    if (this.state.tipeAsuransi === '') {
+      errors.tipeAsuransi = ['Tipe asuransi tidak boleh kosong'];
+    }
+
+    if (this.state.nomorAsuransi === '' && this.state.tipeAsuransi == 'perusahaan') {
+
+      errors.nomorAsuransi = ['Nomor asuransi tidak boleh kosong'];
+    }
+
+    if (this.state.nomorPolis === '' && this.state.tipeAsuransi == 'pribadi') {
+      errors.nomorPolis = ['Nomor polis tidak boleh kosong'];
     }
 
     if (Object.keys(errors).length) {
@@ -145,6 +210,35 @@ class CreateAsuransi extends React.Component {
     }
     return errors;
   }
+
+  // format options = array of { label: 'Some label', value: 'Some value' }
+  openIOSPicker(options = [], title, onSelect) {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: [...options.map(item => item.label), 'Batal'],
+        title,
+        destructiveButtonIndex: options.length
+      },
+      buttonIndex => {
+        if (options[buttonIndex]) {
+          onSelect(options[buttonIndex].value);
+        }
+      }
+    );
+  }
+
+  getLabelByVal = (options, val) => {
+    let result;
+    options.forEach(item => {
+      if (item.value === val) {
+        result = item.label;
+      }
+    });
+    if (result) {
+      return result;
+    }
+    return val;
+  };
 
   render() {
     const spinner = this.state.isLoading ? (
@@ -165,16 +259,23 @@ class CreateAsuransi extends React.Component {
           style={{
             flex: 4.5,
             backgroundColor: '#f3f5fe',
-            paddingVertical: 10,
+            paddingTop: 10,
+            paddingBottom: this.state.keyboardActive ? DEVICE_HEIGHT * 0.42 : 10,
             paddingHorizontal: 10
           }}
         >
-          <View style={{ flex: 0, justifyContent: 'center', alignItems: 'center', height: '20%' }}>
-            <Text style={styles.titleForm}>
-              {this.props.insuranceId ? 'Ubah Data Asuransi' : 'Lengkapi Data Asuransi'}
-            </Text>
-          </View>
-          <ScrollView>
+          {
+            !this.state.keyboardActive &&
+            <View style={{ flex: 0, justifyContent: 'center', alignItems: 'center', height: '20%' }}>
+              <Text style={styles.titleForm}>
+                {this.props.insuranceId ? 'Ubah Data Asuransi' : 'Lengkapi Data Asuransi'}
+              </Text>
+            </View>
+          }
+          <ScrollView
+            style={{ paddingBottom: 0 }}
+            ref="formView"
+          >
             <View style={styles.wrapperField}>
               <View
                 style={{
@@ -184,22 +285,51 @@ class CreateAsuransi extends React.Component {
               >
                 <Text style={styles.titleField}>Nama Asuransi</Text>
                 <View style={styles.pickerWrapper}>
-                  <Picker
-                    enabled={!this.props.insuranceId}
-                    pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
-                    selectedValue={this.state.namaAsuransi}
-                    style={{ height: 50, width: '100%', color: '#4a4a4a', bottom: 5 }}
-                    onValueChange={(itemValue, itemIndex) =>
-                      this.setState({ namaAsuransi: itemValue })
-                    }
-                  >
-                    {
-                      this.state.insuranceNameList.map(item => (
+                  {Platform.OS === 'android' && (
+                    <Picker
+                      enabled={!this.props.insuranceId}
+                      pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
+                      selectedValue={this.state.namaAsuransi}
+                      style={{ height: 50, width: '100%', color: '#4a4a4a', bottom: 5 }}
+                      onValueChange={(itemValue, itemIndex) =>
+                        this.setState({ namaAsuransi: itemValue })
+                      }
+                    >
+                      <Picker.Item label="Pilih asuransi" value="" />
+                      {this.state.insuranceNameList.map(item => (
                         <Picker.Item label={item.name} value={item.name} />
-                      ))
-                    }
-                  </Picker>
+                      ))}
+                    </Picker>
+                  )}
+                  {Platform.OS === 'ios' &&
+                    !this.props.insuranceId && (
+                      <TouchableOpacity
+                        style={{ height: 35, marginLeft: 0 }}
+                        onPress={() => {
+                          const option = this.state.insuranceNameList.map(item => ({
+                            value: item.name,
+                            label: item.name
+                          }));
+                          const title = 'Nama asuransi';
+                          const onSelect = val => this.setState({ namaAsuransi: val });
+                          this.openIOSPicker(option, title, onSelect);
+                        }}
+                      >
+                        <Text style={{ marginTop: 9, marginLeft: 5 }}>
+                          {this.state.namaAsuransi === ''
+                            ? 'Pilih asuransi'
+                            : this.state.namaAsuransi}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  {Platform.OS === 'ios' &&
+                    this.props.insuranceId && (
+                      <Text style={{ marginLeft: 5, marginVertical: 8 }}>
+                        {this.state.namaAsuransi}
+                      </Text>
+                    )}
                 </View>
+                <Text style={styles.errorMessage}>{this.checkError('namaAsuransi')}</Text>
               </View>
               <View
                 style={{
@@ -209,21 +339,47 @@ class CreateAsuransi extends React.Component {
               >
                 <Text style={styles.titleField}>Tipe Asuransi</Text>
                 <View style={styles.pickerWrapper}>
-                  <Picker
-                    enabled={!this.props.insuranceId}
-                    pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
-                    selectedValue={this.state.tipeAsuransi}
-                    style={{ height: 50, width: '100%', color: '#4a4a4a', bottom: 5 }}
-                    onValueChange={(itemValue, itemIndex) => {
-                      this.setState({ tipeAsuransi: itemValue });
-                    }}
-                  >
-                    <Picker.Item label="Perusahaan" value="Perusahaan" />
-                    <Picker.Item label="Pribadi" value="Pribadi" />
-                  </Picker>
+                  {Platform.OS === 'android' && (
+                    <Picker
+                      enabled={!this.props.insuranceId}
+                      pickerStyleType={{ borderBottomColor: 'red', borderBottomWidth: 1 }}
+                      selectedValue={this.state.tipeAsuransi}
+                      style={{ height: 50, width: '100%', color: '#4a4a4a', bottom: 5 }}
+                      onValueChange={(itemValue, itemIndex) => {
+                        this.setState({ tipeAsuransi: itemValue });
+                      }}
+                    >
+                      <Picker.Item label="Pilih tipe asuransi" value="" />
+                      <Picker.Item label="Perusahaan" value="perusahaan" />
+                      <Picker.Item label="Pribadi" value="pribadi" />
+                    </Picker>
+                  )}
+                  {Platform.OS === 'ios' &&
+                    !this.props.insuranceId && (
+                      <TouchableOpacity
+                        style={{ height: 35, marginLeft: 0 }}
+                        onPress={() => {
+                          const option = tipeAsuransi;
+                          const title = 'Nama asuransi';
+                          const onSelect = val => this.setState({ tipeAsuransi: val });
+                          this.openIOSPicker(option, title, onSelect);
+                        }}
+                      >
+                        <Text style={{ marginTop: 9, marginLeft: 5 }}>
+                          {this.getLabelByVal(tipeAsuransi, this.state.tipeAsuransi) === '' ? 'Pilih tipe asuransi' : this.getLabelByVal(tipeAsuransi, this.state.tipeAsuransi)}
+                        </Text>
+                      </TouchableOpacity>
+                    )}
+                  {Platform.OS === 'ios' &&
+                    this.props.insuranceId && (
+                      <Text style={{ marginLeft: 5, marginVertical: 8 }}>
+                        {this.state.tipeAsuransi}
+                      </Text>
+                    )}
                 </View>
+                <Text style={styles.errorMessage}>{this.checkError('tipeAsuransi')}</Text>
               </View>
-              {this.state.tipeAsuransi === 'Perusahaan' && (
+              {this.state.tipeAsuransi === 'perusahaan' && (
                 <View style={styles.fieldItemWrap}>
                   <Text style={styles.titleField}>Nomor Asuransi</Text>
                   <View style={styles.pickerWrapper}>
@@ -235,6 +391,7 @@ class CreateAsuransi extends React.Component {
                       onChangeText={text => this.setState({ nomorAsuransi: text })}
                     />
                   </View>
+                  <Text style={styles.errorMessage}>{this.checkError('nomorAsuransi')}</Text>
                 </View>
               )}
               <View style={styles.fieldItemWrap}>
@@ -248,25 +405,31 @@ class CreateAsuransi extends React.Component {
                     onChangeText={text => this.setState({ nomorPolis: text })}
                   />
                 </View>
+                <Text style={styles.errorMessage}>{this.checkError('nomorPolis')}</Text>
               </View>
-              <View style={styles.buttonWrapper}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.onSubmitHandler();
-                  }}
-                  style={styles.buttonSubmit}
-                >
-                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: 'OpenSans-Regular' }}>
-                    SIMPAN
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              {
+                !this.state.keyboardActive &&
+                <View style={styles.buttonWrapper}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.onSubmitHandler();
+                    }}
+                    style={styles.buttonSubmit}
+                  >
+                    <Text
+                      style={{
+                        color: '#fff',
+                        fontSize: 12,
+                        fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans'
+                      }}
+                    >
+                      SIMPAN
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              }
             </View>
           </ScrollView>
-        </View>
-        <View style={styles.wrappErrorMessage}>
-          <Text style={styles.errorMessage}>{this.checkError('nomorAsuransi')}</Text>
-          {/* <Text style={styles.errorMessage}>{this.checkError('nomorPolis')}</Text> */}
         </View>
       </View>
     );
@@ -293,6 +456,7 @@ const styles = {
   errorMessage: {
     flex: 0,
     fontSize: 12,
+    marginLeft: 4,
     fontFamily: 'Montserrat-SemiBold',
     color: '#ef434e'
   },

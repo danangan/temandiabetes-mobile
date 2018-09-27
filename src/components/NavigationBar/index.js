@@ -22,17 +22,17 @@ const NavigationBar = ({ onPress, title }) => (
 
 const styles = {
 	containerStyle: {
-    flexDirection: 'row',
+    flexDirection: 'row'
 	},
 	backButtonStyle: {
-    // flex: 0.7,
     paddingLeft: 10,
 		justifyContent: 'flex-start',
 		alignItems: 'flex-start',
 	},
 	imageStyle: {
 		width: 25,
-		height: 25
+    height: 25,
+    tintColor: color.red
 	},
 	titleContainerStyle: {
 		flex: 1,

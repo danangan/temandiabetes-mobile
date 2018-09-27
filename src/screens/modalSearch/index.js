@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, FlatList, AsyncStorage, TouchableOpacity, Alert } from 'react-native';
+import { Platform, View, Text, FlatList, AsyncStorage, TouchableOpacity, Alert } from 'react-native';
 import Share from 'react-native-share';
 
 import {
@@ -260,7 +260,7 @@ class ModalSearch extends React.Component {
               width: 25
             }}
             inputStyle={{
-              fontFamily: 'OpenSans-Regular',
+              fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
               color: '#b6b6b6',
               fontSize: 14,
               backgroundColor: '#fff'

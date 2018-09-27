@@ -1,16 +1,48 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Image, TouchableOpacity, Text, TextInput, Keyboard, Alert, Picker } from 'react-native';
+import {
+  Platform,
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  Keyboard,
+  Alert,
+  ActionSheetIOS,
+  KeyboardAvoidingView,
+  Picker }
+from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Closed from '../../assets/icons/close.png';
 import { Avatar } from '../../components';
-import { authToken } from '../../utils/constants';
 import { API_CALL } from '../../utils/ajaxRequestHelper'
 import { capitalize } from '../../utils/helpers'
 
 import { userPostThread } from '../../actions/threadActions';
 
-class ModalPostThred extends Component {
+const tipeForum = [
+ {
+   label: 'Sharing',
+   value: 'sharing'
+ },
+ {
+   label: 'Pertanyaan',
+   value: 'question'
+ }
+]
+
+const getLabelByVal = (options, val) => {
+  let result
+  options.forEach((item) => {
+    if (item.value === val) {
+      result = item.label
+    }
+  })
+  return result
+}
+
+class ModalPostThread extends Component {
   static navigatorStyle = {
 		navBarHidden: true
   };
@@ -146,11 +178,25 @@ class ModalPostThred extends Component {
     });
 	}
 
+  openIOSPicker(options = [], title, onSelect) {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: [ ...options.map(item => item.label), 'Batal'],
+      title,
+      destructiveButtonIndex: options.length
+    },
+    (buttonIndex) => {
+      if (options[buttonIndex]) {
+        onSelect(options[buttonIndex].value)
+      }
+    });
+  }
+
   render() {
     const { currentUser } = this.props;
     const { errors } = this.state;
+    let content
     if (this.state.isSubmit) {
-      return (
+      content = (
         <View
         style={{
           flex: 1,
@@ -162,8 +208,8 @@ class ModalPostThred extends Component {
 					<Text style={{ fontSize: 20, color: '#000', fontFamily: 'Montserrat-ExtraLight' }}>Loading...</Text>
 				</View>
 			);
-    }
-    return (
+    } else {
+      content =
       <View style={styles.container}>
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
@@ -190,6 +236,7 @@ class ModalPostThred extends Component {
               <Text>{ currentUser.nama }</Text>
             </View>
             <TextInput
+              maxLength={60}
               focus
               autoFocus
               ref="TextInput"
@@ -198,9 +245,21 @@ class ModalPostThred extends Component {
               style={styles.titleInput}
               placeholder="Judul Threads"
               onChangeText={(topic) => {
-                this.setState({ topic });
+                this.setState({ topic: topic.substring(0, 60) });
               }}
             />
+            <Text
+              style={{
+                position: 'absolute',
+                right: 10,
+                bottom: 0,
+                fontSize: 12,
+                border: '1px solid #ccc',
+                fontFamily: 'Montserrat-ExtraLight',
+              }}
+            >
+              { this.state.topic.length }/60 karakter
+            </Text>
           </View>
           {
             errors.topic &&
@@ -214,6 +273,20 @@ class ModalPostThred extends Component {
               placeholder={'Deskripsikan thread Anda'}
               onChangeText={(description) => this.setState({ description })}
             />
+            {
+              // <Text
+              //   style={{
+              //     position: 'absolute',
+              //     right: 10,
+              //     bottom: 0,
+              //     fontSize: 12,
+              //     border: '1px solid #ccc',
+              //     fontFamily: 'Montserrat-ExtraLight',
+              //   }}
+              // >
+              //     { this.state.description.length }/200 karakter
+              //   </Text>
+            }
           </View>
           {
             errors.description &&
@@ -228,37 +301,76 @@ class ModalPostThred extends Component {
               borderTopWidth: 1,
               borderTopColor: '#f2f3f7'
           }}>
-            <Picker
-            style={{
-              flex:1,
-            }}
-              selectedValue={this.state.threadType}
-              mode="dropdown"
-              onValueChange={itemValue => {
-                this.setState({threadType: itemValue})
-              }
-              }>
-              <Picker.Item label="Tipe" value="" />
-              <Picker.Item label="Sharing" value="sharing" />
-              <Picker.Item label="Pertanyaan" value="question" />
-            </Picker>
-            <Picker
+            {
+              Platform.OS === 'android' &&
+              <Picker
               style={{
-                flex:1.2,
+                flex:1,
               }}
-              selectedValue={this.state.selectedCategory}
-              mode="dropdown"
-              onValueChange={itemValue => {
-                this.setState({selectedCategory: itemValue})
-              }
-              }>
-              <Picker.Item label="Kategori" value="" />
-              {
-                this.state.categories.map((item, id) => (
-                  <Picker.Item key={id} label={capitalize(item.category)} value={item._id} />
-                ))
-              }
-            </Picker>
+                selectedValue={this.state.threadType}
+                mode="dropdown"
+                onValueChange={itemValue => {
+                  this.setState({threadType: itemValue})
+                }
+                }>
+                <Picker.Item label="Tipe" value="" />
+                <Picker.Item label="Sharing" value="sharing" />
+                <Picker.Item label="Pertanyaan" value="question" />
+              </Picker>
+            }
+            {
+              Platform.OS === 'ios' &&
+              <TouchableOpacity
+                style={{ height: 35, marginLeft: 0, flex: 1 }}
+                onPress={() => {
+                  const option = tipeForum
+                  const title = 'Tipe forum'
+                  const onSelect = val => this.setState({'threadType': val})
+                  this.openIOSPicker(option, title, onSelect)
+                }}
+              >
+                <Text style={[styles.textInput, { marginTop: 9 }]}>{this.state.threadType !== '' ? getLabelByVal(tipeForum, this.state.threadType) : 'Pilih tipe'}</Text>
+              </TouchableOpacity>
+            }
+            {
+              Platform.OS === 'android' &&
+              <Picker
+                style={{
+                  flex:1.2,
+                }}
+                selectedValue={this.state.selectedCategory}
+                mode="dropdown"
+                onValueChange={itemValue => {
+                  this.setState({selectedCategory: itemValue})
+                }
+                }>
+                <Picker.Item label="Kategori" value="" />
+                {
+                  this.state.categories.map((item, id) => (
+                    <Picker.Item key={id} label={capitalize(item.category)} value={item._id} />
+                  ))
+                }
+              </Picker>
+            }
+            {
+              Platform.OS === 'ios' &&
+              <TouchableOpacity
+                style={{ height: 35, marginLeft: 0, flex: 1.4 }}
+                onPress={() => {
+                  const option = this.state.categories.map((item) => ({
+                    label: item.category,
+                    value: item._id
+                  }))
+                  const title = 'Kategori forum'
+                  const onSelect = val => this.setState({'selectedCategory': val})
+                  this.openIOSPicker(option, title, onSelect)
+                }}
+              >
+                <Text style={[styles.textInput, { marginTop: 9 }]}>
+                  {this.state.selectedCategory !== '' ? getLabelByVal(this.state.categories.map(item => ({ value: item._id, label: item.category })), this.state.selectedCategory) : 'Pilih kategori'}
+                </Text>
+              </TouchableOpacity>
+            }
             <TouchableOpacity
               style={{
                 // display: !this.state.keyboardActive ? 'none' : null,
@@ -275,7 +387,13 @@ class ModalPostThred extends Component {
           </View>
         </View>
       </View>
-    );
+    }
+
+    if (Platform.OS === 'ios') {
+      return <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>{content}</KeyboardAvoidingView>
+    } else {
+      return content
+    }
   }
 }
 
@@ -365,4 +483,4 @@ const mapDispatchToProps = dispatch => ({
 	userPostThread: (dataThreads, cb) => dispatch(userPostThread(dataThreads, cb)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalPostThred);
+export default connect(mapStateToProps, mapDispatchToProps)(ModalPostThread);

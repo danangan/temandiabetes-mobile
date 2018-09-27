@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, Platform } from 'react-native';
 import { Avatar } from '../avatar';
 import { CAMERA_ICON } from '../../utils/constants'
 import ImageUploader from '../imageUploader';
@@ -20,19 +20,20 @@ const ProfileCard = (props) => {
         />
         <ImageUploader style={styles.imageOverlay} updateLoadingState={updateLoadingState}>
           <Image
-            tintColor="#EF434F"
             style={styles.image}
             source={{ uri: CAMERA_ICON }}
           />
         </ImageUploader>
       </View>
       <View style={styles.titleContainerStyle}>
-        <Text style={{ fontSize: Style.FONT_SIZE, fontFamily: 'Monserrat-Regular', color: '#000' }}>{ currentUser.nama }</Text>
-        <Text style={{ fontSize: Style.FONT_SIZE_SMALLER, fontFamily: 'Monserrat-Regular', color: '#414141' }}>{ currentUser.tipe_user }</Text>
+        <Text style={{ fontSize: Style.FONT_SIZE, fontFamily: Monserrat, color: '#000' }}>{ currentUser.nama }</Text>
+        <Text style={{ fontSize: Style.FONT_SIZE_SMALLER, fontFamily: Monserrat, color: '#414141' }}>{ currentUser.tipe_user }</Text>
       </View>
     </View>
   )
 };
+
+const Monserrat = Platform.OS === 'android' ? 'Montserrat-Regular' : 'Montserrat'
 
 const styles = {
 	containerStyle: {
@@ -55,7 +56,8 @@ const styles = {
   },
   image: {
     height: 41,
-    width: 41
+    width: 41,
+    tintColor: "#EF434F"
   }
 };
 

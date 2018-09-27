@@ -7,14 +7,13 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  Platform,
   RefreshControl
 } from 'react-native';
-import { Card, Spinner, TextField } from '../../components';
+import { Card, Spinner } from '../../components';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import { getProductFromGOA, auditTrailPrePurchase } from '../../actions';
-import searchIcon from '../../assets/icons/close.png';
-import searchIcon2 from '../../assets/icons/search.png';
 
 class Chart extends Component {
   constructor(props) {
@@ -99,7 +98,7 @@ class Chart extends Component {
   };
 
   render() {
-    const { products } = this.props.data;
+    const { products, message } = this.props.data;
     if (products === undefined) {
       return (
         <Spinner
@@ -212,14 +211,14 @@ const styles = {
   },
   priceStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'rgba(37,44,104,1)'
   },
   productNameStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
     fontWeight: 'bold',
     lineHeight: 15,
     textAlign: 'center',
@@ -230,13 +229,13 @@ const styles = {
     justifyContent: 'space-around'
   },
   iconOrderStyle: {
-    height: 18,
-    width: 18,
+    height: Platform.OS === 'android' ? 18 : 15,
+    width: Platform.OS === 'android' ? 18 : 15,
     bottom: 2
   },
   textOrderStyle: {
-    fontFamily: 'Montserrat-Regular',
-    fontSize: Style.FONT_SIZE_SMALLER - 2,
+    fontFamily: Platform.OS === 'android' ? 'Montserrat-Regular' : 'Montserrat',
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER - 2 : Style.FONT_SIZE_SMALLER * 0.7,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'rgba(21,21,21,1)'

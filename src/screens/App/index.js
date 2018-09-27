@@ -3,7 +3,7 @@ import { View, StyleSheet, Platform, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { debounce } from 'lodash';
-import FCM, { FCMEvent } from 'react-native-fcm';
+import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
 
 // ACTIONS
 import {
@@ -52,6 +52,9 @@ import HistoryTab from '../input-tracker/tab-history';
 // SHOP
 import ShopTab from '../chart';
 
+// INSURANCE CATALOG
+import InsuranceCatalog from '../insuranceCatalog';
+
 // EMERGENCY
 import EmergencyTab from '../emergency';
 
@@ -95,26 +98,49 @@ class App extends Component {
     Linking.addEventListener('url', this.redirectByUrl);
 
     try {
-      const result = await FCM.requestPermissions({ badge: true, sound: true, alert: true });
+      await FCM.requestPermissions(
+        {
+          badge: true,
+          sound: true,
+          alert: true,
+          'content-available': 1
+        }
+      );
+
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
-        if (Platform.OS === 'android') {
-          // checking if the receiver is the correct person
-          if (notif.receiver) {
-            const receiver = JSON.parse(notif.receiver);
-            if (receiver.id === this.props.currentUser._id) {
-              this._displayNotificationAndroid(notif);
-            }
-          } else if (notif.targetUser) {
-            if (notif.targetUser === this.props.currentUser._id) {
-              this._displayNotificationAndroid(notif);
-            }
-          } else if (notif.userId) {
-            if (notif.userId === this.props.currentUser._id) {
-              this._displayNotificationAndroid(notif);
-            }
-          } else {
+        // checking if the receiver is the correct person
+
+        if (Platform.OS === 'ios') {
+          switch (notif._notificationType) {
+            case NotificationType.Remote:
+              notif.finish(RemoteNotificationResult.NewData); //other types available: RemoteNotificationResult.NewData, RemoteNotificationResult.ResultFailed
+              break;
+            case NotificationType.NotificationResponse:
+              notif.finish();
+              break;
+            case NotificationType.WillPresent:
+              notif.finish(WillPresentNotificationResult.All); //other types available: WillPresentNotificationResult.None
+              break;
+          }
+        }
+
+        if (notif.activityType === 'drug_reminder') {
+          this._displayNotificationAndroid(notif);
+        } else if (notif.receiver) {
+          const receiver = JSON.parse(notif.receiver);
+          if (receiver.id === this.props.currentUser._id) {
             this._displayNotificationAndroid(notif);
           }
+        } else if (notif.targetUser) {
+          if (notif.targetUser === this.props.currentUser._id) {
+            this._displayNotificationAndroid(notif);
+          }
+        } else if (notif.userId) {
+          if (notif.userId === this.props.currentUser._id) {
+            this._displayNotificationAndroid(notif);
+          }
+        } else {
+          this._displayNotificationAndroid(notif);
         }
       });
     } catch (e) {
@@ -131,6 +157,10 @@ class App extends Component {
       // set the deeplink to expired
       this.props.resetDeepLink();
     }
+
+     FCM.on(FCMEvent.RefreshToken, token => {
+        console.log(token);
+    });
   }
 
   redirectByUrl({ url }) {
@@ -249,17 +279,18 @@ class App extends Component {
         )();
       }
     } else if (displayNotif) {
-      FCM.presentLocalNotification({
-        title,
-        body,
-        screen,
-        passProps,
-        priority: 'high',
-        sound: 'default',
-        show_in_foreground: true
-      });
-
-      this.props.addNotificationCount();
+      if (Platform.OS === 'android' || (Platform.OS === 'ios' && notif.aps)) {
+        FCM.presentLocalNotification({
+          title,
+          body,
+          screen,
+          passProps,
+          priority: 'high',
+          sound: 'default',
+          show_in_foreground: true
+        });
+        this.props.addNotificationCount();
+      }
     }
   }
 
@@ -290,7 +321,7 @@ class App extends Component {
             <View title="TERBARU" style={styles.content}>
               <LatestTab navigator={navigator} />
             </View>
-            <View title="TERPILIH" style={styles.content}>
+            <View title="ARTIKEL" style={styles.content}>
               <FeaturedTab navigator={this.props.navigator} />
             </View>
             <View title="BOOKMARK" style={styles.content}>
@@ -339,6 +370,9 @@ class App extends Component {
             <View title="KATALOG" style={styles.content}>
               <ShopTab navigator={navigator} />
             </View>
+            {/* <View title="ASURANSI" style={styles.content}>
+              <InsuranceCatalog navigator={navigator} />
+            </View> */}
           </TopTabs>
           <TopTabs
             title="Darurat"

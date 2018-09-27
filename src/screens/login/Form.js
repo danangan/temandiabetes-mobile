@@ -11,6 +11,7 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
     <Text style={[styles.labelStyle, { marginTop: 15 }]}>USERNAME</Text>
     <CardSection>
       <TextField
+        autoCapitalize='none'
         value={onValue.email}
         placeholder="masukkan username"
         onChangeText={email => onChangeTextHandlerEmail(email)}
@@ -23,6 +24,7 @@ const Form = ({ onChangeTextHandlerEmail, onChangeTextHandlerPass, onValue }) =>
     <Text style={styles.labelStyle}>KATA SANDI</Text>
     <CardSection>
       <TextField
+        autoCapitalize='none'
         value={onValue.pass}
         secureTextEntry
         placeholder="masukkan password"

@@ -31,22 +31,36 @@ class HeaderDetail extends React.Component {
 
   render() {
     const { authorItem, categoryItem, date, threadType } = this.props;
+    console.log('authorItem.nama --->', authorItem);
     return (
       <CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
         <View style={styles.container}>
           <Avatar
             avatarSize="Small"
-            userName={authorItem.nama === null ? 'Loading' : authorItem.nama}
-            imageSource={authorItem.foto_profile}
+            userName={
+              authorItem === null ? '?' :
+              authorItem.nama === null ? 'Loading' :
+              authorItem.nama
+            }
+            imageSource={authorItem === null ? '' : authorItem.foto_profile}
           />
           <View style={{ flex: 1, margin: 5 }}>
             <Text style={{ fontSize: 12 }}>
-              {authorItem.nama === null ? 'Loading' : authorItem.nama}
+              {
+                 authorItem === null ? 'Author tidak ditemukan' :
+                 authorItem.nama === null ? 'Loading' :
+                 authorItem.nama
+              }
             </Text>
-            <Text style={{ fontSize: 10 }}>Posted on {formatDateTime(date, { isUTC: true })}</Text>
+            <Text style={{ fontSize: 10, paddingVertical: 5 }}>Posted on {formatDateTime(date, { isUTC: true })}</Text>
           </View>
-          {this.renderCategory(threadType)}
-          {this.renderCategory(categoryItem)}
+          {
+
+          }
+          <View>
+            {this.renderCategory(threadType)}
+            {this.renderCategory(categoryItem)}
+          </View>
         </View>
       </CardSection>
     );
@@ -64,22 +78,19 @@ const styles = {
     borderRadius: 15
   },
   wrapperButton: {
-    marginVertical: 5,
+    marginVertical: 2,
     marginHorizontal: 1,
-    alignItems: 'center',
-    backgroundColor: '#252c68',
-    borderRadius: 10
+    alignItems: 'flex-start',
   },
   titleButton: {
-    // fontSize: 12,
-    // color: '#FFFFFF',
-    // paddingHorizontal: 10
-
+    backgroundColor: '#252c68',
+    borderRadius: 10,
     fontSize: Style.FONT_SIZE_SMALLER,
     paddingHorizontal: 10,
+    overflow: 'hidden',
     paddingVertical: 3,
     color: '#FFFFFF',
-    textAlign: 'center'
+    textAlign: 'left'
   }
 };
 

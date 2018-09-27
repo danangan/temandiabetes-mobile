@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
-import { View, Image, TouchableOpacity, Text, TextInput, Keyboard } from 'react-native';
+import { View, Image, TouchableOpacity, Text, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
 import { commentToReply, getThreadDetails } from '../../../actions/threadActions';
@@ -17,24 +17,9 @@ class ModalReplyComment extends Component {
     super(props);
     this.state = {
       komentar: '',
-      keyboardActive: false,
       isSubmit: false
     };
     this.onSubmitComment = this.onSubmitComment.bind(this);
-  }
-
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
-      this.setState({ keyboardActive: true });
-    });
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
-      this.setState({ keyboardActive: false });
-    });
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
   }
 
   componentDidUpdate() {
@@ -75,43 +60,45 @@ class ModalReplyComment extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.innerWrapper}>
-          <View style={styles.wrapNav}>
-            <TouchableOpacity
-              onPress={() =>
-                Navigation.dismissModal({
-                  animationType: 'slide-down'
-                })
-              }
-              style={{ flex: 0.5 }}
-            >
-              <Image source={Closed} style={{ width: 20, height: 20 }} />
-            </TouchableOpacity>
-            <View style={{ flex: 1.5 }}>
-              <Text style={styles.titleForm}>Tambahkan Komentar</Text>
+      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : null} enabled>
+        <View style={styles.container}>
+          <View style={styles.innerWrapper}>
+            <View style={styles.wrapNav}>
+              <TouchableOpacity
+                onPress={() =>
+                  Navigation.dismissModal({
+                    animationType: 'slide-down'
+                  })
+                }
+                style={{ flex: 0.5 }}
+              >
+                <Image source={Closed} style={{ width: 20, height: 20 }} />
+              </TouchableOpacity>
+              <View style={{ flex: 1.5 }}>
+                <Text style={styles.titleForm}>Tambahkan Komentar</Text>
+              </View>
+            </View>
+            <View style={styles.wrapTextInput}>
+              <TextInput
+                multiline
+                underlineColorAndroid="transparent"
+                onChangeText={komentar => this.setState({ komentar })}
+                style={styles.itemTextInput}
+                placeholder="Tambahkan komentar di sini"
+              />
             </View>
           </View>
-          <View style={styles.wrapTextInput}>
-            <TextInput
-              multiline
-              underlineColorAndroid="transparent"
-              onChangeText={komentar => this.setState({ komentar })}
-              style={styles.itemTextInput}
-              placeholder="Tambahkan komentar di sini"
-            />
+          <View style={styles.wrapFooter}>
+            <TouchableOpacity
+              style={styles.buttonSend}
+              disabled={this.state.isSubmit}
+              onPress={debounce(this.onSubmitComment, 200)}
+            >
+              <Text style={styles.titleButtonSend}>{this.state.isSubmit ? 'Loading' : 'Kirim'}</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.wrapFooter}>
-          <TouchableOpacity
-            style={styles.buttonSend}
-            disabled={this.state.isSubmit}
-            onPress={debounce(this.onSubmitComment, 200)}
-          >
-            <Text style={styles.titleButtonSend}>{this.state.isSubmit ? 'Loading' : 'Kirim'}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

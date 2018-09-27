@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Linking, AsyncStorage, Alert } from 'react-native';
+import { Linking, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import firebase from 'react-native-firebase';
 import { Navigation } from 'react-native-navigation';
