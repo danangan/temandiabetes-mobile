@@ -162,7 +162,6 @@ const styles = {
     })
   },
   navContainer: {
-    marginTop: 10,
     padding: Style.PADDING,
     flexDirection: 'row',
     backgroundColor: '#FFFFFF'
