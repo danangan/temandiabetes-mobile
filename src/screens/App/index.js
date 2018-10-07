@@ -370,9 +370,9 @@ class App extends Component {
             <View title="KATALOG" style={styles.content}>
               <ShopTab navigator={navigator} />
             </View>
-            {/* <View title="ASURANSI" style={styles.content}>
+            <View title="ASURANSI" style={styles.content}>
               <InsuranceCatalog navigator={navigator} />
-            </View> */}
+            </View>
           </TopTabs>
           <TopTabs
             title="Darurat"

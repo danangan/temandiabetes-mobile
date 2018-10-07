@@ -149,13 +149,13 @@ export const getHistoryBloodSugarLevels = () => async dispatch => {
   try {
     const option = {
       method: 'GET',
-      url: 'api/blood-glucose-tracker/graph'
+      url: 'api/blood-glucose-tracker/graph?scroll=12'
     };
 
     const {
       data: { data }
     } = await API_CALL(option);
-    return onSuccess(data);
+    onSuccess(data);
   } catch (error) {
     return onSuccess(error);
   }

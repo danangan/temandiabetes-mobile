@@ -167,7 +167,13 @@ class HistoryBloodSugarLevels extends React.Component {
           </View>
           {/* x Axis */}
           <View style={styles.xAxisContainer}>
-            <ScrollView horizontal>
+            <ScrollView
+             horizontal
+              ref={ref => this.scrollView = ref}
+              onContentSizeChange={() => {
+                this.scrollView.scrollToEnd({ animated: true });
+              }}
+            >
               {[1, 2, 3, 4, 5, 6].map((item, index) => (
                 <LineHorizontal lineNumber={item} key={index} />
               ))}
