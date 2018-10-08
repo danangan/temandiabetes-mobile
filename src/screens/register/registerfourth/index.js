@@ -8,7 +8,8 @@ import {
   Image,
   StyleSheet,
   ImageBackground,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 
 import Style from '../../../style/defaultStyle';
@@ -265,6 +266,8 @@ class RegisterScreenFourth extends React.Component {
   }
 
   render() {
+    console.log('This props test ', this.props);
+    console.log('This state test ', this.state);
     const { message, status_code } = this.props.dataRegister.dataUser;
     if (this.state.shouldRedirect || this.state.shouldUserLogin) {
       return (

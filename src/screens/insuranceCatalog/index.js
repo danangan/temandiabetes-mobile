@@ -99,7 +99,7 @@ export default class componentName extends Component {
           <Spinner
             containerStyle={styles.spinnerStyle}
             textStyle={{ color: color.black }}
-            color={color.black}
+            color={color.red}
             text={''}
             size="large"
           />

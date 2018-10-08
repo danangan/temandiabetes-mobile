@@ -1,19 +1,40 @@
 import React, { Component } from 'react';
-import { View, Text, Linking, Dimensions, Platform, ScrollView, Image } from 'react-native';
+import {
+  View,
+  Text,
+  Linking,
+  Dimensions,
+  Platform,
+  ScrollView,
+  Image,
+  TouchableOpacity
+} from 'react-native';
 import HTMLView from 'react-native-render-html';
-import { NavigationBar } from '../../components';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
+import RecommendationInsurance from './recommendationInsurance';
 
 const CONTAINER_MAX_WIDTH = (Dimensions.get('window').width * 95) / 100;
-const IMAGES_MAX_WIDTH = CONTAINER_MAX_WIDTH - 25;
+const IMAGES_MAX_WIDTH = CONTAINER_MAX_WIDTH - 65;
 const CUSTOM_STYLES = {
   p: {
     marginBottom: 10
   },
   iframe: {
     maxWidth: IMAGES_MAX_WIDTH
-  }
+  },
+  h1: {
+    marginTop: 0,
+    marginBottom: 10
+  },
+  h2: {
+    marginTop: 0,
+    marginBottom: 10
+  },
+  h3: {
+    marginTop: 0,
+    marginBottom: 10
+  },
 };
 const CUSTOM_CONTAINER_STYLE = {
   maxWidth: CONTAINER_MAX_WIDTH
@@ -26,9 +47,10 @@ const CUSTOM_RENDERERS = {
     <Image
       key={attr.src + attr.alt}
       style={{
-        resizeMode: 'contain',
-        width: IMAGES_MAX_WIDTH,
-        height: defaultHeight
+        resizeMode: 'cover',
+        width: '100%',
+        marginBottom: 10,
+        height: Style.DEVICE_WIDTH / 2
       }}
       onLoad={() => {
         // use onload to fix the image width
@@ -42,7 +64,8 @@ const CUSTOM_RENDERERS = {
           'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FplaceholderTD-Android.png?alt=media&token=d26ffbb4-08d5-4890-b6f5-fc8922300a0e'
       }}
     />
-  )
+  ),
+  br: () => null
 };
 
 const DEFAULT_PROPS = {
@@ -64,18 +87,31 @@ export default class InsuranceCatalogDetail extends Component {
   }
 
   render() {
-    const { title, subTitle, imageURL, description } = this.props;
+    const { title, description } = this.props;
 
     return (
       <View style={styles.containerStyle}>
-        <NavigationBar onPress={() => this.props.navigator.pop()} title="Data Asuransi" />
-        <View style={styles.contentWrapper}>
-          <Text style={styles.titleStyle}>{title}</Text>
-          <Text style={styles.subTitleStyle}>{subTitle}</Text>
-          <View style={styles.underLine} />
+        <View style={styles.navContainer}>
+          <TouchableOpacity
+            style={styles.backButtonStyle}
+            onPress={() => this.props.navigator.pop()}
+          >
+            <Image
+              resizeMode={'contain'}
+              style={styles.imageStyle}
+              tintColor={color.red}
+              source={require('../../assets/icons/close.png')}
+            />
+          </TouchableOpacity>
+          <View style={styles.titleContainerStyle}>
+            <Text style={styles.navTitle}>{`Catalog ${title}`}</Text>
+          </View>
         </View>
         <ScrollView contentContainerStyle={styles.scrollView}>
-          <HTMLView {...DEFAULT_PROPS} html={description} />
+          <View style={styles.card}>
+            <HTMLView {...DEFAULT_PROPS} html={description} />
+          </View>
+          <RecommendationInsurance />
         </ScrollView>
       </View>
     );
@@ -109,5 +145,49 @@ const styles = {
     borderBottomWidth: 1,
     borderBottomColor: '#a1a1a1',
     marginBottom: 10
+  },
+  card: {
+    padding: Style.PADDING,
+    marginTop: Style.PADDING,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    ...Platform.select({
+      android: { elevation: 4 },
+      ios: {
+        shadowColor: 'rgba(0,0,0, .2)',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 2.5
+      }
+    })
+  },
+  navContainer: {
+    padding: Style.PADDING,
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF'
+  },
+  backButtonStyle: {
+    paddingLeft: 10,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start'
+  },
+  imageStyle: {
+    width: 25,
+    height: 25,
+    tintColor: color.red
+  },
+  titleContainerStyle: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start'
+  },
+  navTitle: {
+    flex: 1,
+    fontSize: Style.FONT_SIZE,
+    fontFamily: 'Montserrat-Regular',
+    textAlign: 'center',
+    alignSelf: 'center',
+    paddingRight: 25,
+    color: color.red
   }
 };
