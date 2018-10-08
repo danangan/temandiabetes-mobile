@@ -107,7 +107,7 @@ const styles = {
     height: 108.26,
     width: 108.08,
     alignSelf: 'center',
-    borderRadius: 55,
+    // borderRadius: 55,
   },
   h1: {
     fontFamily: 'Montserrat',
