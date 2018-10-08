@@ -300,6 +300,7 @@ class App extends Component {
 
   render() {
     const { activeTopTab, activeBottomTab, navigator, notificationCount, currentUser } = this.props;
+    console.log(currentUser)
     return (
       <View style={styles.container}>
         <Navigator
@@ -344,7 +345,7 @@ class App extends Component {
           </TopTabs>
 
           {// only render if the user is a diabetesi
-          currentUser.tipe_user === 'diabetesi' ? (
+          currentUser.tipe_user === 'diabetesi' || currentUser.tipe_user === 'non-diabetesi' ? (
             <TopTabs
               title="Rekaman"
               icon={InputTrackerIcon}
