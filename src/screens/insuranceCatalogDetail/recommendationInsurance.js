@@ -45,32 +45,39 @@ export default class RecommendationInsurance extends Component {
       <View>
         <Text style={styles.h1}>Rekomendasi Asuransi</Text>
         <View style={styles.contentStyle}>
-          {result(data, 'docs', []).map((item, idx) => (
-            <TouchableOpacity
-              style={styles.card}
-              key={idx}
-              onPress={() => this.handleOpenUrl(item.url)}
-            >
-              <Image source={{ uri: item.imageURL }} style={styles.image} />
-              <View>
-                <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.subTitle}>{item.description}</Text>
-              </View>
-              <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                <View style={styles.borderLine} />
-                <View
-                  style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}
-                >
-                  <Image
-                    source={require('../../assets/icons/shopping_bag.png')}
-                    style={styles.icon}
-                    tintColor={color.blue}
-                  />
-                  <Text style={styles.text}>PESAN SEKARANG</Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))}
+          {
+            result(data, 'docs', []).map((item, idx) => {
+              if (item.insuranceId === this.props.insuranceId) {
+                return (
+                  <TouchableOpacity
+                    style={styles.card}
+                    key={idx}
+                    onPress={() => this.handleOpenUrl(item.url)}
+                  >
+                    <Image source={{ uri: item.imageURL }} style={styles.image} />
+                    <View>
+                      <Text style={styles.title}>{item.title}</Text>
+                      <Text style={styles.subTitle}>{item.description}</Text>
+                    </View>
+                    <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <View style={styles.borderLine} />
+                      <View
+                        style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}
+                      >
+                        <Image
+                          source={require('../../assets/icons/shopping_bag.png')}
+                          style={styles.icon}
+                          tintColor={color.blue}
+                        />
+                        <Text style={styles.text}>PESAN SEKARANG</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }
+              return null;
+          })
+        }
         </View>
       </View>
     );
