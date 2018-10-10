@@ -87,7 +87,7 @@ export default class InsuranceCatalogDetail extends Component {
   }
 
   render() {
-    const { title, description } = this.props;
+    const { title, description, _id } = this.props;
 
     return (
       <View style={styles.containerStyle}>
@@ -111,7 +111,7 @@ export default class InsuranceCatalogDetail extends Component {
           <View style={styles.card}>
             <HTMLView {...DEFAULT_PROPS} html={description} />
           </View>
-          <RecommendationInsurance />
+          <RecommendationInsurance insuranceId={_id}/>
         </ScrollView>
       </View>
     );
