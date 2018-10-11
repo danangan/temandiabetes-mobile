@@ -68,14 +68,15 @@ class RegisterScreenFourth extends React.Component {
 
   componentDidUpdate() {
     const self = this;
+    const { currentUser } = this.props.loginReducer;
     const {
-      _id,
       status_code,
       tipe_user,
       message,
       email,
       password
     } = this.props.dataRegister.dataUser;
+
     if (status_code === 200 && this.state.shouldRedirect) {
       this.setState(
         {
@@ -99,8 +100,8 @@ class RegisterScreenFourth extends React.Component {
       message === 'Email Sudah digunakan' &&
       this.state.shouldRedirect
     ) {
-      alert('Maaf, internal server sedang bermasalah');
-      this.setState({
+      Alert.alert('Maaf, internal server sedang bermasalah');
+      self.setState({
         shouldRedirect: false
       });
     } else if (
@@ -109,7 +110,7 @@ class RegisterScreenFourth extends React.Component {
       this.state.shouldRedirect
     ) {
       self.setState({ shouldRedirect: false }, () => {
-        if (!this.props.loginReducer.is_active) {
+        if (!currentUser.is_active && currentUser.tipe_user === 'ahli') {
           Alert.alert(
             'Pemberitahuan',
             'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silakan tunggu beberapa email konfirmasi.',
@@ -266,8 +267,6 @@ class RegisterScreenFourth extends React.Component {
   }
 
   render() {
-    console.log('This props test ', this.props);
-    console.log('This state test ', this.state);
     const { message, status_code } = this.props.dataRegister.dataUser;
     if (this.state.shouldRedirect || this.state.shouldUserLogin) {
       return (

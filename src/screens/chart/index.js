@@ -175,7 +175,7 @@ class Chart extends Component {
                       style={styles.iconOrderStyle}
                       tintColor={color.blue}
                     />
-                    <Text style={styles.textOrderStyle}>PESAN SEKARANG</Text>
+                    <Text style={styles.textOrderStyle}>Dapatkan</Text>
                   </View>
                 </TouchableOpacity>
               </Card>

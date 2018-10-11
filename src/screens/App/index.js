@@ -300,7 +300,6 @@ class App extends Component {
 
   render() {
     const { activeTopTab, activeBottomTab, navigator, notificationCount, currentUser } = this.props;
-    console.log(currentUser)
     return (
       <View style={styles.container}>
         <Navigator
