@@ -39,6 +39,14 @@ public class MainActivity extends SplashActivity {
         Intent appLinkIntent = getIntent();
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
+
+
+        // String dataFwd = appLinkIntent.getStringExtra("Nama") + " - " +
+        //         appLinkIntent.getStringExtra("NoPolis") + " - " +
+        // appLinkIntent.getStringExtra("MemberCode") + " - " +
+        // appLinkIntent.getStringExtra("MemberType");
+
+        // Toast.makeText(this, dataFwd, Toast.LENGTH_SHORT).show();
     }
 
     @Override

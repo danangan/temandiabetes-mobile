@@ -92,7 +92,8 @@ class EditProfile extends React.Component {
         alamat: '',
         jenis_kelamin: '',
         diabetesi_tipe: 'Pre-diabetes',
-        no_telp: ''
+        no_telp: '',
+        tipe_user: 'non-diabetesi'
       },
       errors: {
         nama: {
@@ -181,6 +182,8 @@ class EditProfile extends React.Component {
         this.state.userData.jenis_kelamin !== '' &&
         this.state.userData.no_telp !== ''
       ) {
+        console.log('check user')
+        console.log(this.state.userData)
         this.setState({
           isLoading: true
         });
@@ -591,6 +594,40 @@ class EditProfile extends React.Component {
                   }
                 <View style={styles.underLine}></View>
               </View>
+              <View style={styles.fieldWrapper}>
+                  <Text style={styles.titleTextInput}>Tipe User</Text>
+                  {
+                    Platform.OS === 'android' &&
+                    <View>
+                      <Picker
+                        pickerStyle={{ fontSize: 25 }}
+                        selectedValue={userData.diabetesi_tipe}
+                        style={styles.picker}
+                        onValueChange={itemValue => this.setUserData('diabetesi_tipe', itemValue)}
+                      >
+                        <Picker.Item label="Pre-diabetes" value="Diabetes" />
+                        <Picker.Item label="Diabetes type1" value="Diabetes type1" />
+                        <Picker.Item label="Diabetes type2" value="Diabetes type2" />
+                        <Picker.Item label="Gestational" value="Gestational" />
+                      </Picker>
+                    </View>
+                  }
+                  {
+                    Platform.OS === 'ios' &&
+                    <TouchableOpacity
+                      style={{height: 40, marginLeft:0 }}
+                      onPress={() => {
+                        const option = jenisDiabetes
+                        const title = 'Jenis Diabetes'
+                        const onSelect = val => this.setUserData('diabetesi_tipe', val)
+                        this.openIOSPicker(option, title, onSelect)
+                      }}
+                    >
+                      <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(jenisDiabetes, userData.diabetesi_tipe)}</Text>
+                    </TouchableOpacity>
+                  }
+                  <View style={styles.underLine}></View>
+                </View>
               {currentUser.tipe_user === 'diabetesi' && (
                 <View style={styles.fieldWrapper}>
                   <Text style={styles.titleTextInput}>Jenis Diabetes</Text>
