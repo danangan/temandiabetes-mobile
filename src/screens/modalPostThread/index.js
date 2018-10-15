@@ -253,7 +253,7 @@ class ModalPostThread extends Component {
               style={{
                 position: 'absolute',
                 right: 10,
-                bottom: 0,
+                bottom: -10,
                 fontSize: 12,
                 border: '1px solid #ccc',
                 fontFamily: 'Montserrat-ExtraLight',
@@ -445,13 +445,13 @@ const styles = {
     borderTopColor: '#f2f3f7'
   },
   titleInputWrapper: {
-    flex: 0.6,
+    flex: 0.9,
     marginTop: 30,
     width: '100%',
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#f2f3f7',
-    paddingVertical: 15
+    paddingVertical: 20
   },
   titleInput: {
     flexWrap: 'wrap',
