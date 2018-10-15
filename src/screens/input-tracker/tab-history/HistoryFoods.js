@@ -9,6 +9,20 @@ import MealTime from './MealTime';
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
 
+const renderInputDate = (hours) => {
+  const dateNow = moment();
+  const inputData = moment(hours);
+  const different = Number(dateNow.date()) - Number(inputData.date());
+  
+  if (different === 0) {
+    return 'Hari ini';
+  } else if (different === 1) {
+    return 'Yesterday';
+  } else {
+    return moment(hours).format('l');
+  }
+};
+
 const LineVertical = () => (
   <View
     style={{
@@ -36,7 +50,7 @@ const HistoryFoods = ({ history }) => {
       <Text style={styles.titleStyle}>Daftar Makanan</Text>
       <View style={{ flexDirection: 'row' }}>
         <Text style={styles.todayStyle}>Tanggal Input</Text>
-        <Text style={styles.hourStyle}>{moment(hours).format('LT')}</Text>
+        <Text style={styles.hourStyle}>{ renderInputDate(hours) }</Text>
       </View>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.cardContentStyle}>
