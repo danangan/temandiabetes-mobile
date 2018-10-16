@@ -1232,7 +1232,6 @@ class InputTracker extends Component {
   }
 
   render() {
-    console.log('This props tessss ', this.props);
     return (
       <View style={styles.containerStyle}>
         <ScrollView>
