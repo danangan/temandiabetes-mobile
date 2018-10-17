@@ -17,7 +17,7 @@ const renderInputDate = (hours) => {
   if (different === 0) {
     return 'Hari ini';
   } else if (different === 1) {
-    return 'Yesterday';
+    return 'Kemarin';
   } else {
     return moment(hours).format('l');
   }
@@ -49,8 +49,8 @@ const HistoryFoods = ({ history }) => {
     <View style={styles.containerStyle}>
       <Text style={styles.titleStyle}>Daftar Makanan</Text>
       <View style={{ flexDirection: 'row' }}>
-        <Text style={styles.todayStyle}>Tanggal Input</Text>
-        <Text style={styles.hourStyle}>{ renderInputDate(hours) }</Text>
+        <Text style={styles.todayStyle}>{ renderInputDate(hours) }</Text>
+        <Text style={styles.hourStyle}>{ moment(hours).format('LT') }</Text>
       </View>
       <Card containerStyle={styles.cardStyle}>
         <View style={styles.cardContentStyle}>
