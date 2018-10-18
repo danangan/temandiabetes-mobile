@@ -128,6 +128,7 @@ class InputTracker extends Component {
         'Inputan Anda berhasil disimpan.',
         [
           { text: 'OK', onPress: () =>{
+            this.props.updateTopTab(2);
             this.setState({
               modalVisible: false,
               isModal: '',
@@ -1346,7 +1347,8 @@ const mapDispatchToProps = dispatch => ({
   inputTrackerActivity: params => dispatch(inputTrackerActivity(params)),
   inputTrackerWeight: params => dispatch(inputTrackerWeight(params)),
   inputTrackerManually: (method, params) => dispatch(inputTrackerManually(method, params)),
-  getFoodSuggetion: keyword => dispatch(getFoodSuggetion(keyword))
+  getFoodSuggetion: keyword => dispatch(getFoodSuggetion(keyword)),
+  updateTopTab: activeTab => dispatch({ type: 'UPDATE_ACTIVE_TOP_TAB', payload: activeTab })
 });
 
 export default connect(
