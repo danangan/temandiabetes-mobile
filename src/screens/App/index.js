@@ -111,7 +111,7 @@ class App extends Component {
       this.testgetURL();
     }
 
-    this.testgetURL();
+    // this.testgetURL();
 
     try {
       await FCM.requestPermissions(
@@ -180,6 +180,7 @@ class App extends Component {
   }
 
   redirectByUrl({ url }) {
+    console.log(url)
     let pathname = url.replace(`${landingPageURL}/`, '');
     pathname = pathname.split('/');
     let screen = null;

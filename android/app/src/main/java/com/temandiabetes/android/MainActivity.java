@@ -1,5 +1,6 @@
 package com.temandiabetes.android;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.content.Intent;
 
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import com.reactnativenavigation.controllers.SplashActivity;
 
 public class MainActivity extends SplashActivity {
+    public static String BUNDLE_INTENT = "BUNDLE_INTENT";
+
     protected String getMainComponentName() {
         return "Teman Diabetes";
     }
@@ -40,13 +43,13 @@ public class MainActivity extends SplashActivity {
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
 
+        SharedPreferences.Editor editor = getSharedPreferences(BUNDLE_INTENT, MODE_PRIVATE).edit();
+        editor.putString("Nama", appLinkIntent.getStringExtra("Nama"));
+        editor.putString("MemberType", appLinkIntent.getStringExtra("MemberType"));
+        editor.putString("ClientID", appLinkIntent.getStringExtra("ClientID"));
+        editor.apply();
 
-        // String dataFwd = appLinkIntent.getStringExtra("Nama") + " - " +
-        //         appLinkIntent.getStringExtra("NoPolis") + " - " +
-        // appLinkIntent.getStringExtra("MemberCode") + " - " +
-        // appLinkIntent.getStringExtra("MemberType");
-
-        // Toast.makeText(this, dataFwd, Toast.LENGTH_SHORT).show();
+        System.out.println(appLinkIntent.getExtras());
     }
 
     @Override
