@@ -41,9 +41,11 @@ public class AndroidStarterModule extends ReactContextBaseJavaModule {
 
                 WritableMap map = Arguments.createMap();
 
+                map.putString("NoPolis", prefs.getString("NoPolis", ""));
                 map.putString("Nama", prefs.getString("Nama", ""));
+                map.putString("MemberCode", prefs.getString("MemberCode", ""));
                 map.putString("MemberType", prefs.getString("MemberType", ""));
-                map.putString("ClientID", prefs.getString("ClientID", ""));
+                
 
                 promise.resolve(map);
             } catch (Error e) {

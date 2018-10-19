@@ -108,7 +108,13 @@ class App extends Component {
 
     if(Platform.OS === "android"){
       temp = activityStarter.getBundleIntent();
-      this.testgetURL();
+      const bodyFWD = new FormData();
+      bodyFWD.append("ClientID", temp.MemberCode)
+      bodyFWD.append("Type", temp.MemberType)
+      bodyFWD.append("NoPolis", temp.NoPolis)
+      
+      Alert.alert("test", "FWD: " + bodyFWD + " ClientID: " + bodyFWD.get("ClientID"))
+      // this.testgetURL();
     }
 
     // this.testgetURL();
