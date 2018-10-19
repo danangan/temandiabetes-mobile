@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform, Linking } from 'react-native';
+import { View, StyleSheet, Platform, Linking, NativeModules, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { debounce } from 'lodash';
@@ -60,6 +60,14 @@ import EmergencyTab from '../emergency';
 
 import landingPageURL from '../../config/landingPageURL';
 
+import axios from 'axios';
+
+import md5 from "./../../utils/md5";
+
+
+const activityStarter = NativeModules.ActivityStarter;
+
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -86,6 +94,7 @@ class App extends Component {
       console.log(e);
     }
   }
+  
 
   async componentDidMount() {
     // set the loading in login page to false
@@ -96,6 +105,13 @@ class App extends Component {
 
     // add event listener for direct incoming deeplink
     Linking.addEventListener('url', this.redirectByUrl);
+
+    if(Platform.OS === "android"){
+      temp = activityStarter.getBundleIntent();
+      this.testgetURL();
+    }
+
+    this.testgetURL();
 
     try {
       await FCM.requestPermissions(
@@ -174,6 +190,10 @@ class App extends Component {
       case 'thread-static':
         screen = 'TemanDiabetes.FeaturedDetail';
         break;
+      case 'fwdmax':
+        var gakguna = decodeURI(pathname[1])
+        this.testgetURL(gakguna)
+        break;
       default:
         break;
     }
@@ -191,6 +211,64 @@ class App extends Component {
         }
       });
     }
+  }
+
+  async testgetURL(path) {
+    console.log(path)
+
+    const url = "https://uat-ecom.ifwd.co.id/passionclub-web/api/adMedika_data_user.jsp?"
+
+    const formData = new FormData();
+    formData.append("ClientID", "M0000001-00001-00");
+    formData.append("Type", "CC")
+    formData.append("Sign", "4562e6e39f37a5ae496b6fbae80c8585")
+
+    const config = {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    };
+
+    axios.post(url, formData, config).then(
+      response => {
+        console.log({ response });
+        if(response.status == 200 && response.data.ResponseCode == '00'){
+          Alert.alert(
+            'Akun Anda sedang tidak aktif.',
+            'Hubungi penyedia layanan untuk info lebih lanjut.',
+            [
+              {
+                text: 'Ya',
+                onPress: () => {
+                  this.props.navigator.push({
+                    screen : 'TemanDiabetes.CreateAsuransi',
+                    navigatorStyle: {
+                      navBarHidden: true
+                    },
+                    passProps: {
+                      insuranceId: response.data.NoPolis,
+                    }
+                  });
+                }
+              },
+              {
+                text: 'Tidak',
+                onPress: () => {
+
+                }
+              }
+            ],
+            { cancelable: false }
+          );
+        
+        } else{
+          Alert.alert('Error', 'data tidak ditemukan ');
+        }
+      },
+      error => {
+        console.log({ error });
+      }
+    );
   }
 
   _displayNotificationAndroid(notif) {
