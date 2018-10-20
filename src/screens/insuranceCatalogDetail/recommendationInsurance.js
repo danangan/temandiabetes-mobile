@@ -61,7 +61,7 @@ export default class RecommendationInsurance extends Component {
               key={idx}
               onPress={() => this.handleOpenUrl(item.url)}
             >
-              <Image source={{ uri: item.imageURL }} style={styles.image} resizeMode="stretch" />
+              <Image source={{ uri: item.imageURL }} style={styles.image} resizeMode="contain" />
               <View>
                 <Text style={styles.title}>{item.title}</Text>
                 <Text style={styles.subTitle}>{item.description}</Text>

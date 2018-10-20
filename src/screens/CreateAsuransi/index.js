@@ -260,7 +260,7 @@ class CreateAsuransi extends React.Component {
             flex: 4.5,
             backgroundColor: '#f3f5fe',
             paddingTop: 10,
-            paddingBottom: this.state.keyboardActive ? DEVICE_HEIGHT * 0.42 : 10,
+            paddingBottom: this.state.keyboardActive ? Style.PADDING : 10,
             paddingHorizontal: 10
           }}
         >
