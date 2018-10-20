@@ -118,6 +118,7 @@ class DnurseView extends React.Component {
               this.setState({ statusView: VIEW_DNURSE.CALCULATING });
               break;
             case 9:
+              result = Number(data.hintText.replace('Result:', ''));
               this.setState({ bloodSugarLevels: result });
               this.doSaveData(result);
               break;

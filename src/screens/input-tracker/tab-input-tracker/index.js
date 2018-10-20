@@ -1136,7 +1136,7 @@ class InputTracker extends Component {
               this.setState({ isManually: false }, () => {
                 this.setModalVisible();
                 this.props.navigator.push({
-                  screen: Platform.OS === 'ios' ? 'DnurseIOS' : 'DnurseResult',
+                  screen: Platform.OS === 'ios' ? 'TemanDiabetes.DnurseIOS' : 'TemanDiabetes.DnurseResult',
                   navigatorStyle: { tabBarHidden: true, navBarHidden: true }
                 });
               });
