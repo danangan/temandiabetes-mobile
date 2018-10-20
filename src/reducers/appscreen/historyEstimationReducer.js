@@ -46,11 +46,23 @@ const getHistoryFoods = (state, payload) => ({
   isFood: true
 });
 
+const mappingPayloadBloodSugar = (payload) => {
+  let newArr = [];
+  for (let i = 0; i < payload.length; i++) {
+    for (let j = 0; j < payload[i].gulaDarah.length; j++) {
+      newArr.push(payload[i].gulaDarah[j]);
+    }
+  }
+
+  return newArr;
+};
+
 const getHistoryBloodSugarLevels = (state, payload) => ({
   ...state,
   status: 200,
   message: 'success',
-  bloodSugar: payload
+  bloodSugar: payload,
+  generalBloodSugar: mappingPayloadBloodSugar(payload)
 });
 
 const historyEstimationReducer = (state = initialState, action) => {
