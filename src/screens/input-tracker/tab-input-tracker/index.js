@@ -160,25 +160,14 @@ class InputTracker extends Component {
   }
 
   setModalVisible(isModal) {
-    const directGlucose = Platform.OS === 'ios';
     const params = isModal === undefined ? '' : isModal;
-    if (directGlucose) {
-      this.setState({
-        modalVisible: !this.state.modalVisible,
-        isModal: params,
-        activitySelected: '',
-        descActivity: '',
-        isManually: true
-      });
-    } else {
-      this.setState({
-        modalVisible: !this.state.modalVisible,
-        isModal: params,
-        activitySelected: '',
-        descActivity: '',
-        isManually: false
-      });
-    }
+    this.setState({
+      modalVisible: !this.state.modalVisible,
+      isModal: params,
+      activitySelected: '',
+      descActivity: '',
+      isManually: false
+    });
   }
 
   async openDatePicker() {
@@ -1146,9 +1135,8 @@ class InputTracker extends Component {
             onPress={() => {
               this.setState({ isManually: false }, () => {
                 this.setModalVisible();
-                const screen = Platform.OS === 'ios' ? 'DnurseIOS' : 'DnurseResult';
                 this.props.navigator.push({
-                  screen,
+                  screen: Platform.OS === 'ios' ? 'DnurseIOS' : 'DnurseResult',
                   navigatorStyle: { tabBarHidden: true, navBarHidden: true }
                 });
               });
