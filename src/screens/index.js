@@ -16,7 +16,6 @@ import FeatureDetail from '../screens/forum/staticThreadDetail';
 import ModalReport from '../screens/modalReport';
 import ProfileScreen from '../screens/profileScreen';
 import ProfileDetails from '../screens/profileScreen/profileDetails';
-import TabInnerCircle from './tab-innerCircle';
 import ProfileSettings from './profileScreen/profileSettings';
 import EditProfile from './profileScreen/profileSettings/editProfile';
 import AboutScreen from '../screens/profileScreen/about';
@@ -32,6 +31,7 @@ import StepOne from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/S
 import StepTwo from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/StepTwo';
 import StepThree from '../screens/input-tracker/tab-input-tracker/TutorialDnurse/StepThree';
 import DnurseResult from '../screens/input-tracker/tab-input-tracker/DnurseResult';
+import DnurseIOS from '../screens/input-tracker/tab-input-tracker/DnurseIOS';
 import HistoryHba1c from '../screens/input-tracker/tab-history/HistoryHba1c';
 import HistoryActivity from '../screens/input-tracker/tab-history/HistoryActivity';
 import HistoryBloodPressure from '../screens/input-tracker/tab-history/HistoryBloodPressure';
@@ -142,6 +142,7 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('TemanDiabetes.StepTwo', () => StepTwo);
   Navigation.registerComponent('TemanDiabetes.StepThree', () => StepThree);
   Navigation.registerComponent('TemanDiabetes.DnurseResult', () => DnurseResult, store, Provider);
+  Navigation.registerComponent('TemanDiabetes.DnurseIOS', () => DnurseIOS, store, Provider);
   Navigation.registerComponent('TemanDiabetes.HistoryHba1c', () => HistoryHba1c, store, Provider);
   Navigation.registerComponent(
     'TemanDiabetes.HistoryActivity',
