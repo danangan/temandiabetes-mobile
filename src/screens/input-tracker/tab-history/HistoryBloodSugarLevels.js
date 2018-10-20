@@ -55,9 +55,20 @@ class Dots extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { item, currentInput } = this.props;
+
+    const isShouldActive = currentInput !== '' && currentInput.waktuInput === item.waktuInput;
+    
+    this.setState({
+      showToolTip: isShouldActive
+    });
+  }
+
   render() {
     const { dotsStyle, item } = this.props;
     const { showToolTip } = this.state;
+    
     return (
       <View style={[styles.dotContainer, { top: dotsStyle.top }]}>
         <TouchableWithoutFeedback
@@ -108,7 +119,7 @@ class HistoryBloodSugarLevels extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isActive: false,
+      isActive: true,
       x: 0,
       y: 0,
       data: null
@@ -190,11 +201,13 @@ class HistoryBloodSugarLevels extends React.Component {
                   <LineVertical />
                   {item.gulaDarah.map((gulaDarahItem, idx) => (
                     <Dots
+                      listHistory={this.props.history.generalBloodSugar}
                       dotsStyle={{
                         backgroundColor: this.dotColor(gulaDarahItem.nilai),
                         top: this.dotTop(gulaDarahItem.nilai)
                       }}
                       item={gulaDarahItem}
+                      currentInput={this.props.currentInput}
                       key={idx}
                     />
                   ))}
@@ -315,7 +328,8 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-  history: state.historyEstimationReducer
+  history: state.historyEstimationReducer,
+  currentInput: state.inputTrackerReducer.inputTracker.currentPayload || ''
 });
 
 export default connect(
