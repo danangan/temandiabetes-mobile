@@ -17,7 +17,7 @@ import {
   Picker,
   Image,
   Alert,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 
 import {
@@ -1146,8 +1146,9 @@ class InputTracker extends Component {
             onPress={() => {
               this.setState({ isManually: false }, () => {
                 this.setModalVisible();
+                const screen = Platform.OS === 'ios' ? 'DnurseIOS' : 'DnurseResult';
                 this.props.navigator.push({
-                  screen: 'TemanDiabetes.DnurseResult',
+                  screen,
                   navigatorStyle: { tabBarHidden: true, navBarHidden: true }
                 });
               });
