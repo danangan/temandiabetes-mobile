@@ -102,7 +102,8 @@ class DnurseResult extends React.Component {
         data: {
           // using moment and format to normalize utc
           waktuInput: new moment().format('YYYY-MM-DDTHH:mm:ss'),
-          gulaDarah: blood
+          gulaDarah: blood,
+          tipeInput: 'dnurse'
         }
       };
 
@@ -189,7 +190,9 @@ class DnurseResult extends React.Component {
           <View steyl={styles.containerTextStyle}>
             <Text style={styles.titleStyle}>Pasang TestStrip</Text>
             <Text style={styles.descriptionStyle}>
-              Pasang test strip pada DNurse,{'\n'}pastikan posisi sesuai instruksi.
+              Pasang test strip pada DNurse,
+              {'\n'}
+              pastikan posisi sesuai instruksi.
             </Text>
           </View>
         </View>
@@ -204,8 +207,11 @@ class DnurseResult extends React.Component {
           <View steyl={styles.containerTextStyle}>
             <Text style={styles.titleStyle}>Tetes Darah</Text>
             <Text style={styles.descriptionStyle}>
-              Tusuk jari Anda menggunakan{'\n'}alat yang telah disediakan dan{'\n'}teteskan pada
-              test strip
+              Tusuk jari Anda menggunakan
+              {'\n'}
+              alat yang telah disediakan dan
+              {'\n'}
+              teteskan pada test strip
             </Text>
           </View>
         </View>
@@ -246,7 +252,9 @@ class DnurseResult extends React.Component {
         <View steyl={styles.containerTextStyle}>
           <Text style={styles.titleStyle}>Pasang DNurse</Text>
           <Text style={styles.descriptionStyle}>
-            Pasang alat Dnurse pada 3.5mm{'\n'}jack headset Anda
+            Pasang alat Dnurse pada 3.5mm
+            {'\n'}
+            jack headset Anda
           </Text>
         </View>
       </View>
