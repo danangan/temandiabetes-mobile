@@ -96,6 +96,13 @@
 		C0ECA6480E7A492C9B8C4405 /* MontserratAlternates-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 526C472F85454F0FAD2800A4 /* MontserratAlternates-Bold.otf */; };
 		C2704BADE79448F799BBCACA /* Arista-Pro-Thin-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A98634C2BFA84A4DBD6D37D6 /* Arista-Pro-Thin-trial.ttf */; };
 		C278DA586092491CACDA345B /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C659A01B1704D399AB9E32C /* OpenSans-Light.ttf */; };
+		C86C2779217B9D3D00220CD9 /* CADebugMacros.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C86C2743217B9D3D00220CD9 /* CADebugMacros.cpp */; };
+		C86C277A217B9D3D00220CD9 /* CAXException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C86C2745217B9D3D00220CD9 /* CAXException.cpp */; };
+		C86C277B217B9D3D00220CD9 /* CADebugPrintf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C86C2748217B9D3D00220CD9 /* CADebugPrintf.cpp */; };
+		C86C277C217B9D3D00220CD9 /* CAStreamBasicDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C86C2749217B9D3D00220CD9 /* CAStreamBasicDescription.cpp */; };
+		C86C277D217B9D3D00220CD9 /* libBloodTester.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C86C274B217B9D3D00220CD9 /* libBloodTester.a */; };
+		C86C277F217B9D9C00220CD9 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C86C277E217B9D9C00220CD9 /* MediaPlayer.framework */; };
+		C86C2782217B9E5400220CD9 /* DNUReactNativeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C86C2781217B9E5400220CD9 /* DNUReactNativeManager.m */; };
 		CBB35CA0935988F469464D57 /* libPods-TemanDiabets.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9111A1BFE6DACE8D6AC36D0D /* libPods-TemanDiabets.a */; };
 		CEB422BAC0FB47FB81BDCAF5 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C6F6DE7C3ECF4092AE48C237 /* Montserrat-SemiBold.otf */; };
 		D06BC5E661E74FB9931BA599 /* Arista-Pro-Alternate-Light-trial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5921F9FACF12496294738C2E /* Arista-Pro-Alternate-Light-trial.ttf */; };
@@ -548,6 +555,20 @@
 		C218B928634442838DBF7688 /* Arista-Pro-Icons-SemiBold-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Icons-SemiBold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Icons-SemiBold-trial.ttf"; sourceTree = "<group>"; };
 		C5B4326C0B5A4162B293B7EC /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		C6F6DE7C3ECF4092AE48C237 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBold.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
+		C86C2740217B9D3D00220CD9 /* BloodTester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BloodTester.h; sourceTree = "<group>"; };
+		C86C2742217B9D3D00220CD9 /* CAStreamBasicDescription.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAStreamBasicDescription.h; sourceTree = "<group>"; };
+		C86C2743217B9D3D00220CD9 /* CADebugMacros.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugMacros.cpp; sourceTree = "<group>"; };
+		C86C2744217B9D3D00220CD9 /* CADebugPrintf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugPrintf.h; sourceTree = "<group>"; };
+		C86C2745217B9D3D00220CD9 /* CAXException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAXException.cpp; sourceTree = "<group>"; };
+		C86C2746217B9D3D00220CD9 /* CAXException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAXException.h; sourceTree = "<group>"; };
+		C86C2747217B9D3D00220CD9 /* CADebugMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CADebugMacros.h; sourceTree = "<group>"; };
+		C86C2748217B9D3D00220CD9 /* CADebugPrintf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CADebugPrintf.cpp; sourceTree = "<group>"; };
+		C86C2749217B9D3D00220CD9 /* CAStreamBasicDescription.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CAStreamBasicDescription.cpp; sourceTree = "<group>"; };
+		C86C274A217B9D3D00220CD9 /* CAMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CAMath.h; sourceTree = "<group>"; };
+		C86C274B217B9D3D00220CD9 /* libBloodTester.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBloodTester.a; sourceTree = "<group>"; };
+		C86C277E217B9D9C00220CD9 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		C86C2780217B9E4900220CD9 /* DNUReactNativeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DNUReactNativeManager.h; sourceTree = "<group>"; };
+		C86C2781217B9E5400220CD9 /* DNUReactNativeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DNUReactNativeManager.m; sourceTree = "<group>"; };
 		CDFC3A68C8F44339B7739426 /* Arista-Pro-Alternate-ExtraLight-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-ExtraLight-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-ExtraLight-trial.ttf"; sourceTree = "<group>"; };
 		D834C98219324C0184249224 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		E5580F01E99A44E8B55CA911 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = "<group>"; };
@@ -571,6 +592,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C86C277F217B9D9C00220CD9 /* MediaPlayer.framework in Frameworks */,
 				9BCE83032123728E00741417 /* libc++.tbd in Frameworks */,
 				9BDA6F8C21231F0D004CFB99 /* libRCTFBSDK.a in Frameworks */,
 				9B07E60D21220F9600C7B01A /* libRNImagePicker.a in Frameworks */,
@@ -584,6 +606,7 @@
 				060B0D28204AC9F60007560E /* libRNFirebase.a in Frameworks */,
 				9BC56B8021233ABC00813F37 /* FBSDKLoginKit.framework in Frameworks */,
 				9B7F722321237BAC00FD6867 /* GoogleSignInDependencies.framework in Frameworks */,
+				C86C277D217B9D3D00220CD9 /* libBloodTester.a in Frameworks */,
 				9BC56B7E21233ABC00813F37 /* FBSDKShareKit.framework in Frameworks */,
 				06A10269202C2E0700FFECEC /* libReactNativeNavigation.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
@@ -732,6 +755,7 @@
 		09E6CF2598E619D6EC9A42CC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C86C277E217B9D9C00220CD9 /* MediaPlayer.framework */,
 				9BE82EED2124CD6A0027CCCB /* Crashlytics.framework */,
 				9BE82EEC2124CD6A0027CCCB /* Fabric.framework */,
 				9B7F722021237BAC00FD6867 /* GoogleAppUtilities.framework */,
@@ -777,6 +801,9 @@
 		13B07FAE1A68108700A75B9A /* TemanDiabets */ = {
 			isa = PBXGroup;
 			children = (
+				C86C2780217B9E4900220CD9 /* DNUReactNativeManager.h */,
+				C86C2781217B9E5400220CD9 /* DNUReactNativeManager.m */,
+				C86C273F217B9D3D00220CD9 /* BloodTester */,
 				9BC56C58212346BE00813F37 /* TemanDiabets.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -999,6 +1026,32 @@
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		C86C273F217B9D3D00220CD9 /* BloodTester */ = {
+			isa = PBXGroup;
+			children = (
+				C86C2740217B9D3D00220CD9 /* BloodTester.h */,
+				C86C2741217B9D3D00220CD9 /* PublicUtility */,
+				C86C274B217B9D3D00220CD9 /* libBloodTester.a */,
+			);
+			path = BloodTester;
+			sourceTree = "<group>";
+		};
+		C86C2741217B9D3D00220CD9 /* PublicUtility */ = {
+			isa = PBXGroup;
+			children = (
+				C86C2742217B9D3D00220CD9 /* CAStreamBasicDescription.h */,
+				C86C2743217B9D3D00220CD9 /* CADebugMacros.cpp */,
+				C86C2744217B9D3D00220CD9 /* CADebugPrintf.h */,
+				C86C2745217B9D3D00220CD9 /* CAXException.cpp */,
+				C86C2746217B9D3D00220CD9 /* CAXException.h */,
+				C86C2747217B9D3D00220CD9 /* CADebugMacros.h */,
+				C86C2748217B9D3D00220CD9 /* CADebugPrintf.cpp */,
+				C86C2749217B9D3D00220CD9 /* CAStreamBasicDescription.cpp */,
+				C86C274A217B9D3D00220CD9 /* CAMath.h */,
+			);
+			path = PublicUtility;
 			sourceTree = "<group>";
 		};
 		CB131AD6070E61B66E8F5F9B /* Pods */ = {
@@ -1710,8 +1763,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C86C277A217B9D3D00220CD9 /* CAXException.cpp in Sources */,
+				C86C2782217B9E5400220CD9 /* DNUReactNativeManager.m in Sources */,
+				C86C277B217B9D3D00220CD9 /* CADebugPrintf.cpp in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				C86C2779217B9D3D00220CD9 /* CADebugMacros.cpp in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				C86C277C217B9D3D00220CD9 /* CAStreamBasicDescription.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1852,6 +1910,10 @@
 				INFOPLIST_FILE = TemanDiabets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BloodTester",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1899,6 +1961,10 @@
 				INFOPLIST_FILE = TemanDiabets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/BloodTester",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

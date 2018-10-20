@@ -19,8 +19,11 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <React/RCTLinkingManager.h>
+#import "BloodTester.h"
 
-
+@interface AppDelegate ()
+@property (nonatomic, strong) BloodTester *bloodTester;
+@end
 
 @implementation AppDelegate
 
@@ -108,4 +111,14 @@
 }
 //====================================BEGIN NOTIFICATION CONFIGURATION==========================================
 
+#pragma mark - setup blood tester
+- (BloodTester *)bloodTester {
+  if (_bloodTester) {
+    return _bloodTester;
+  }
+  _bloodTester = [[BloodTester alloc] init];
+  [_bloodTester setupAudio];
+  _bloodTester.ignoreTypeCheck = YES; // default is NO, need to set testType.
+  return _bloodTester;
+}
 @end
