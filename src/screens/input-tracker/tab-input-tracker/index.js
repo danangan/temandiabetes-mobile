@@ -17,7 +17,7 @@ import {
   Picker,
   Image,
   Alert,
-  Dimensions
+  Dimensions,
 } from 'react-native';
 
 import {
@@ -160,25 +160,14 @@ class InputTracker extends Component {
   }
 
   setModalVisible(isModal) {
-    const directGlucose = Platform.OS === 'ios';
     const params = isModal === undefined ? '' : isModal;
-    if (directGlucose) {
-      this.setState({
-        modalVisible: !this.state.modalVisible,
-        isModal: params,
-        activitySelected: '',
-        descActivity: '',
-        isManually: true
-      });
-    } else {
-      this.setState({
-        modalVisible: !this.state.modalVisible,
-        isModal: params,
-        activitySelected: '',
-        descActivity: '',
-        isManually: false
-      });
-    }
+    this.setState({
+      modalVisible: !this.state.modalVisible,
+      isModal: params,
+      activitySelected: '',
+      descActivity: '',
+      isManually: false
+    });
   }
 
   async openDatePicker() {
@@ -1147,7 +1136,7 @@ class InputTracker extends Component {
               this.setState({ isManually: false }, () => {
                 this.setModalVisible();
                 this.props.navigator.push({
-                  screen: 'TemanDiabetes.DnurseResult',
+                  screen: Platform.OS === 'ios' ? 'TemanDiabetes.DnurseIOS' : 'TemanDiabetes.DnurseResult',
                   navigatorStyle: { tabBarHidden: true, navBarHidden: true }
                 });
               });

@@ -7,7 +7,8 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Linking,
-  Alert
+  Alert,
+  NetInfo
 } from 'react-native';
 import { connect } from 'react-redux';
 import { result } from 'lodash';
@@ -31,6 +32,8 @@ import {
 
 import { clearDataRegister } from '../../actions/registerActions';
 
+const connectionMsg = 'Tidak ada konneksi Internet. silahkan cek koneksi internet Anda.';
+
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -40,6 +43,7 @@ class Login extends Component {
       shouldRedirect: false,
       message: null,
       showSnackBar: false,
+      isConnected: true,
       errorMessage: ''
     };
 
@@ -49,6 +53,7 @@ class Login extends Component {
   componentDidMount() {
     this.props.setupGoogleSignIn();
     Linking.addEventListener('url', this.redirectByUrl);
+    NetInfo.isConnected.addEventListener('change', this.handleConnectionChange);
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink && deepLink.currentDeepLink !== '' && !deepLink.expired) {
@@ -78,6 +83,21 @@ class Login extends Component {
           registerType: 'GoogleSignIn'
         }
       });
+    } else if (this.props.loginReducer.typeUser) {
+      Navigation.startSingleScreenApp({
+        screen: {
+          screen: 'TemanDiabetes.RegisterScreenFourth',
+          navigatorStyle: {
+            navBarHidden: true
+          }
+        },
+        passProps: {
+          email: nextProps.loginReducer.email,
+          _id: nextProps.loginReducer.currentUser._id,
+          nama: nextProps.loginReducer.nama,
+          registerType: 'GoogleSignIn'
+        }
+      });
     } else if (result(nextProps.loginReducer, 'currentUser.is_active') === false) {
       Alert.alert(
         'Akun Anda sedang tidak aktif.',
@@ -89,7 +109,7 @@ class Login extends Component {
 
   componentDidUpdate() {
     const self = this;
-    const { statusCode, message, is_active } = this.props.loginReducer;
+    const { statusCode, message } = this.props.loginReducer;
     const errorMessage = this.errorMessage(message);
 
     if (statusCode === 400 && message === 'inactive' && this.state.shouldRedirect) {
@@ -128,10 +148,27 @@ class Login extends Component {
     }
   }
 
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('change', this.handleConnectionChange);
+  }
+
   onChangeTextHandlerEmail = e => this.setState({ email: e });
   onChangeTextHandlerPass = pass => this.setState({ password: pass });
-  onGoogleSignIn = () => this.props.signWithGoogle();
-  onFacebookSignIn = () => this.props.signWithFacebook();
+  onGoogleSignIn = () => {
+    if (this.state.isConnected) {
+      this.props.signWithGoogle();
+    } else {
+      this.showSnackBar(connectionMsg);
+    }
+  };
+
+  onFacebookSignIn = () => {
+    if (this.state.isConnected) {
+      this.props.signWithFacebook();
+    } else {
+      this.showSnackBar(connectionMsg);
+    }
+  };
 
   onLogin = () => {
     const user = {
@@ -152,6 +189,14 @@ class Login extends Component {
       this.setState({ shouldRedirect: true }, () => {
         this.props.loginManual(user);
       });
+    }
+  };
+
+  handleConnectionChange = isConnected => {
+    if (isConnected) {
+      this.setState({ isConnected });
+    } else {
+      this.setState({ isConnected }, () => this.showSnackBar(connectionMsg));
     }
   };
 
