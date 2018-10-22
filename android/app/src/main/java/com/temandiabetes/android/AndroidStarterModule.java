@@ -37,17 +37,18 @@ public class AndroidStarterModule extends ReactContextBaseJavaModule {
         Activity activity = getCurrentActivity();
         if (activity != null) {
             SharedPreferences prefs = activity.getSharedPreferences(MainActivity.BUNDLE_INTENT, activity.MODE_PRIVATE);
+
             try {
+                if(prefs != null) {
+                    WritableMap map = Arguments.createMap();
 
-                WritableMap map = Arguments.createMap();
+                    map.putString("Nama", prefs.getString("Nama", ""));
+                    map.putString("MemberType", prefs.getString("MemberType", ""));
+                    map.putString("ClientID", prefs.getString("ClientID", ""));
 
-                map.putString("NoPolis", prefs.getString("NoPolis", ""));
-                map.putString("Nama", prefs.getString("Nama", ""));
-                map.putString("MemberCode", prefs.getString("MemberCode", ""));
-                map.putString("MemberType", prefs.getString("MemberType", ""));
-                
+                    promise.resolve(map);
+                }
 
-                promise.resolve(map);
             } catch (Error e) {
                 promise.reject(e);
             }

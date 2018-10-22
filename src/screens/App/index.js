@@ -107,13 +107,21 @@ class App extends Component {
     Linking.addEventListener('url', this.redirectByUrl);
 
     if(Platform.OS === "android"){
-      temp = activityStarter.getBundleIntent();
-      const bodyFWD = new FormData();
-      bodyFWD.append("ClientID", temp.MemberCode)
-      bodyFWD.append("Type", temp.MemberType)
-      bodyFWD.append("NoPolis", temp.NoPolis)
+      try{
+        temp = await activityStarter.getBundleIntent();
+        Alert.alert("Sukses", temp)
+
+      } catch(error){
+        Alert.alert("Error", error)
+      }
+
       
-      Alert.alert("test", "FWD: " + bodyFWD + " ClientID: " + bodyFWD.get("ClientID"))
+      // const bodyFWD = new FormData();
+      // bodyFWD.append("ClientID", temp.MemberCode)
+      // bodyFWD.append("Type", temp.MemberType)
+      // bodyFWD.append("NoPolis", temp.NoPolis)
+      
+      // Alert.alert("test", "FWD: " + bodyFWD + " ClientID: " + bodyFWD.get("ClientID"))
       // this.testgetURL();
     }
 
@@ -198,8 +206,8 @@ class App extends Component {
         screen = 'TemanDiabetes.FeaturedDetail';
         break;
       case 'fwdmax':
-        var gakguna = decodeURI(pathname[1])
-        this.testgetURL(gakguna)
+        console.log(pathname[1])
+        this.testgetURL(decodeURI(pathname[1]))
         break;
       default:
         break;
@@ -221,14 +229,19 @@ class App extends Component {
   }
 
   async testgetURL(path) {
-    console.log(path)
 
+    let asuransi = path.split('&')
+    
     const url = "https://uat-ecom.ifwd.co.id/passionclub-web/api/adMedika_data_user.jsp?"
 
     const formData = new FormData();
-    formData.append("ClientID", "M0000001-00001-00");
-    formData.append("Type", "CC")
-    formData.append("Sign", "4562e6e39f37a5ae496b6fbae80c8585")
+    // formData.append("ClientID", "M0000001-00001-00");
+    // formData.append("Type", "CC")
+    // formData.append("Sign", "4562e6e39f37a5ae496b6fbae80c8585")
+
+    formData.append("ClientID", asuransi[1].replace('ClientID=', ''));
+    formData.append("Type", asuransi[2].replace('MemberType=', ''))
+    formData.append("Sign", md5.hex_md5(asuransi[1].replace('ClientID=', '') + '12313131'))
 
     const config = {
       headers: {
@@ -240,9 +253,10 @@ class App extends Component {
       response => {
         console.log({ response });
         if(response.status == 200 && response.data.ResponseCode == '00'){
+          let param = response.data.NoPolis.split('-')
           Alert.alert(
-            'Akun Anda sedang tidak aktif.',
-            'Hubungi penyedia layanan untuk info lebih lanjut.',
+            'Sukses',
+            'Data asuransi ditemukan',
             [
               {
                 text: 'Ya',
@@ -254,6 +268,14 @@ class App extends Component {
                     },
                     passProps: {
                       insuranceId: response.data.NoPolis,
+                      fromFWD: true,
+                      NamaAsuransi: 'FWD',
+                      NamaCompany: response.data.Company,
+                      TipeAsuransi: "perusahaan",
+                      NoPolis: param[0],
+                      NoAsuransi: param[1] + '-' + param[2],
+                      NoHp: response.data.NoHP,
+                      TglLahir: response.data.TglLahir,
                     }
                   });
                 }
@@ -269,7 +291,7 @@ class App extends Component {
           );
         
         } else{
-          Alert.alert('Error', 'data tidak ditemukan ');
+          Alert.alert('Error', 'Data asuransi tidak ditemukan ');
         }
       },
       error => {
