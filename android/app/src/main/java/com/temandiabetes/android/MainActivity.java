@@ -43,16 +43,11 @@ public class MainActivity extends SplashActivity {
         String appLinkAction = appLinkIntent.getAction();
         Uri appLinkData = appLinkIntent.getData();
 
-        if(appLinkIntent.getExtras() != null){
-
-            System.out.println(appLinkIntent.getExtras());
-
-            SharedPreferences.Editor editor = getSharedPreferences(BUNDLE_INTENT, MODE_PRIVATE).edit();
-            editor.putString("Nama", appLinkIntent.getStringExtra("Nama"));
-            editor.putString("MemberType", appLinkIntent.getStringExtra("MemberType"));
-            editor.putString("ClientID", appLinkIntent.getStringExtra("ClientID"));
-            editor.apply();
-        }
+        SharedPreferences.Editor editor = getSharedPreferences(BUNDLE_INTENT, MODE_PRIVATE).edit();
+        editor.putString("Nama", appLinkIntent.getStringExtra("Nama"));
+        editor.putString("MemberType", appLinkIntent.getStringExtra("MemberType"));
+        editor.putString("ClientID", appLinkIntent.getStringExtra("ClientID"));
+        editor.apply();
     }
 
     @Override

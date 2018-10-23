@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform, Linking, NativeModules, Alert } from 'react-native';
+import { View, StyleSheet, Platform, Linking, NativeModules, Alert, AppState } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { debounce } from 'lodash';
@@ -62,9 +62,6 @@ import landingPageURL from '../../config/landingPageURL';
 
 import axios from 'axios';
 
-import md5 from "./../../utils/md5";
-
-
 const activityStarter = NativeModules.ActivityStarter;
 
 
@@ -72,7 +69,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: ''
+      token: '',
+      appState: AppState.currentState
     };
     this.onResetNotificationCount = this.onResetNotificationCount.bind(this);
     this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
@@ -94,7 +92,29 @@ class App extends Component {
       console.log(e);
     }
   }
-  
+
+  async getBundleIntent(){
+    if(Platform.OS === "android"){
+      var temp = await activityStarter.getBundleIntent();
+      
+      if(temp.ClientID != null && temp.MemberType != null){
+        this.testgetURL('Nama=' + temp.Nama + '&' + 'ClientID=' + temp.ClientID + '&' + 'MemberType=' + temp.MemberType +  "&FWD");
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.redirectByUrl);
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+      this.getBundleIntent()
+    }
+    this.setState({appState: nextAppState});
+  }
 
   async componentDidMount() {
     // set the loading in login page to false
@@ -105,27 +125,10 @@ class App extends Component {
 
     // add event listener for direct incoming deeplink
     Linking.addEventListener('url', this.redirectByUrl);
+    
+    AppState.addEventListener('change', this._handleAppStateChange);
 
-    if(Platform.OS === "android"){
-      try{
-        temp = await activityStarter.getBundleIntent();
-        Alert.alert("Sukses", temp)
-
-      } catch(error){
-        Alert.alert("Error", error)
-      }
-
-      
-      // const bodyFWD = new FormData();
-      // bodyFWD.append("ClientID", temp.MemberCode)
-      // bodyFWD.append("Type", temp.MemberType)
-      // bodyFWD.append("NoPolis", temp.NoPolis)
-      
-      // Alert.alert("test", "FWD: " + bodyFWD + " ClientID: " + bodyFWD.get("ClientID"))
-      // this.testgetURL();
-    }
-
-    // this.testgetURL();
+    this.getBundleIntent() //android
 
     try {
       await FCM.requestPermissions(
@@ -207,7 +210,7 @@ class App extends Component {
         break;
       case 'fwdmax':
         console.log(pathname[1])
-        this.testgetURL(decodeURI(pathname[1]))
+        this.testgetURL(decodeURI(pathname[1]) + "&FWD")
         break;
       default:
         break;
@@ -231,73 +234,61 @@ class App extends Component {
   async testgetURL(path) {
 
     let asuransi = path.split('&')
-    
-    const url = "https://uat-ecom.ifwd.co.id/passionclub-web/api/adMedika_data_user.jsp?"
 
-    const formData = new FormData();
-    // formData.append("ClientID", "M0000001-00001-00");
-    // formData.append("Type", "CC")
-    // formData.append("Sign", "4562e6e39f37a5ae496b6fbae80c8585")
+    if (asuransi != null && asuransi.length == 4) {
+      let typeAsuransi = asuransi[2].replace('MemberType=', '') === 'CC' ?  'perusahaan' : 'pribadi'
 
-    formData.append("ClientID", asuransi[1].replace('ClientID=', ''));
-    formData.append("Type", asuransi[2].replace('MemberType=', ''))
-    formData.append("Sign", md5.hex_md5(asuransi[1].replace('ClientID=', '') + '12313131'))
+      let param = asuransi[1].replace('ClientID=', '').split('-')
 
-    const config = {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
+      let NoPolis, NoAsuransi = ''
+
+      if(param.length == 3){
+        NoPolis = param[0]
+        NoAsuransi = param[1] + '-' + param[2]
+      } else{
+        NoPolis = param[0]
+        NoAsuransi = '-'
       }
-    };
 
-    axios.post(url, formData, config).then(
-      response => {
-        console.log({ response });
-        if(response.status == 200 && response.data.ResponseCode == '00'){
-          let param = response.data.NoPolis.split('-')
-          Alert.alert(
-            'Sukses',
-            'Data asuransi ditemukan',
-            [
-              {
-                text: 'Ya',
-                onPress: () => {
-                  this.props.navigator.push({
-                    screen : 'TemanDiabetes.CreateAsuransi',
-                    navigatorStyle: {
-                      navBarHidden: true
-                    },
-                    passProps: {
-                      insuranceId: response.data.NoPolis,
-                      fromFWD: true,
-                      NamaAsuransi: 'FWD',
-                      NamaCompany: response.data.Company,
-                      TipeAsuransi: "perusahaan",
-                      NoPolis: param[0],
-                      NoAsuransi: param[1] + '-' + param[2],
-                      NoHp: response.data.NoHP,
-                      TglLahir: response.data.TglLahir,
-                    }
-                  });
-                }
-              },
-              {
-                text: 'Tidak',
-                onPress: () => {
+      console.log(param)
 
+      Alert.alert(
+        'Sukses',
+        'Data asuransi ditemukan',
+        [
+          {
+            text: 'Ya',
+            onPress: () => {
+              this.props.navigator.push({
+                screen : 'TemanDiabetes.CreateAsuransi',
+                navigatorStyle: {
+                  navBarHidden: true
+                },
+                passProps: {
+                  insuranceId: param[0],
+                  fromFWD: true,
+                  NamaAsuransi: asuransi[3],
+                  TipeAsuransi: typeAsuransi,
+                  NoPolis: NoPolis,
+                  NoAsuransi: NoAsuransi,
                 }
-              }
-            ],
-            { cancelable: false }
-          );
-        
-        } else{
-          Alert.alert('Error', 'Data asuransi tidak ditemukan ');
-        }
-      },
-      error => {
-        console.log({ error });
-      }
-    );
+              });
+            }
+          },
+          {
+            text: 'Tidak',
+            onPress: () => {
+
+            }
+          }
+        ],
+        { cancelable: false }
+      );
+
+    } else{
+      Alert.alert('Error', 'Data asuransi tidak ditemukan ');
+
+    }
   }
 
   _displayNotificationAndroid(notif) {

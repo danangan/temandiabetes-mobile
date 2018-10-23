@@ -49,9 +49,6 @@ class CreateAsuransi extends React.Component {
       _errors: null,
       errorMessage: '',
       isLoading: false, 
-      namaCompany: '',
-      tglLahir: '',
-      noHp: '',
     };
 
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -78,9 +75,6 @@ class CreateAsuransi extends React.Component {
         tipeAsuransi: this.props.TipeAsuransi,
         nomorAsuransi: this.props.NoAsuransi,
         nomorPolis: this.props.NoPolis,
-        namaCompany: this.props.NamaCompany,
-        tglLahir: this.props.TglLahir,
-        noHp: this.props.NoHp,
       });
     } else{
       if (this.props.insuranceId) {
