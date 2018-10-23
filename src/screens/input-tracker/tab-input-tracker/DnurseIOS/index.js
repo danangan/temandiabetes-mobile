@@ -13,7 +13,7 @@ import {
 import moment from 'moment';
 
 import color from '../../../../style/color';
-import { Button } from '../../../../components';
+import { Button, NavigationBar } from '../../../../components';
 import Style from '../../../../style/defaultStyle';
 import { API_CALL } from '../../../../utils/ajaxRequestHelper';
 import gif from '../../../../assets/images/dnurse-start.gif';
@@ -49,8 +49,8 @@ class DnurseView extends React.Component {
   }
 
   componentWillUnmount() {
-      DNUReactNativeManager.removeNotification(); // remove notification
-      this.toBloodTesterSubscription.remove();
+    DNUReactNativeManager.removeNotification(); // remove notification
+    this.toBloodTesterSubscription.remove();
   }
 
   onNavigation = () => {
@@ -102,33 +102,41 @@ class DnurseView extends React.Component {
   };
 
   addListenerBloodTesterEvent = () => {
-    this.toBloodTesterSubscription = dnuReactNativeManagerEmitter.addListener('BloodTester', (data) => {
-      if (data) {
-        const hintCode = data.status;
-        let result = null;
-        if (hintCode) {
-          switch (hintCode) {
-            case 4:
-              this.setState({ statusView: VIEW_DNURSE.INPUT_TESTSTRIP });
-              break;
-            case 6:
-              this.setState({ statusView: VIEW_DNURSE.DROPS_BLOOD });
-              break;
-            case 8:
-              this.setState({ statusView: VIEW_DNURSE.CALCULATING });
-              break;
-            case 9:
-              result = Number(data.hintText.replace('Result:', ''));
-              this.setState({ bloodSugarLevels: result });
-              this.doSaveData(result);
-              break;
-            default:
-              break;
+    this.toBloodTesterSubscription = dnuReactNativeManagerEmitter.addListener(
+      'BloodTester',
+      data => {
+        if (data) {
+          const hintCode = data.status;
+          let result = null;
+          let bloodLevel = null;
+          let calculate = null;
+
+          if (hintCode) {
+            switch (hintCode) {
+              case 4:
+                this.setState({ statusView: VIEW_DNURSE.INPUT_TESTSTRIP });
+                break;
+              case 6:
+                this.setState({ statusView: VIEW_DNURSE.DROPS_BLOOD });
+                break;
+              case 8:
+                this.setState({ statusView: VIEW_DNURSE.CALCULATING });
+                break;
+              case 9:
+                result = Number(data.hintText.replace('Result:', ''));
+                calculate = result * 18.018018;
+                bloodLevel = calculate < 5 ? Math.floor(calculate) : Math.ceil(calculate);
+                this.setState({ bloodSugarLevels: bloodLevel });
+                this.doSaveData(bloodLevel);
+                break;
+              default:
+                break;
+            }
           }
         }
       }
-    });
-  }
+    );
+  };
 
   doSaveData = async blood => {
     if (blood !== 0 && blood !== undefined && blood !== null && blood !== '') {
@@ -139,7 +147,7 @@ class DnurseView extends React.Component {
           // using moment and format to normalize utc
           waktuInput: new moment().format('YYYY-MM-DDTHH:mm:ss'),
           gulaDarah: blood,
-          tipeInput: 'manual',
+          tipeInput: 'manual'
         }
       };
 
@@ -181,7 +189,9 @@ class DnurseView extends React.Component {
           <View steyl={styles.containerTextStyle}>
             <Text style={styles.titleStyle}>Pasang TestStrip</Text>
             <Text style={styles.descriptionStyle}>
-              Pasang test strip pada DNurse,{'\n'}pastikan posisi sesuai instruksi.
+              Pasang test strip pada DNurse,
+              {'\n'}
+              pastikan posisi sesuai instruksi.
             </Text>
           </View>
         </View>
@@ -196,8 +206,11 @@ class DnurseView extends React.Component {
           <View steyl={styles.containerTextStyle}>
             <Text style={styles.titleStyle}>Tetes Darah</Text>
             <Text style={styles.descriptionStyle}>
-              Tusuk jari Anda menggunakan{'\n'}alat yang telah disediakan dan{'\n'}teteskan pada
-              test strip
+              Tusuk jari Anda menggunakan
+              {'\n'}
+              alat yang telah disediakan dan
+              {'\n'}
+              teteskan pada test strip
             </Text>
           </View>
         </View>
@@ -238,7 +251,9 @@ class DnurseView extends React.Component {
         <View steyl={styles.containerTextStyle}>
           <Text style={styles.titleStyle}>Pasang DNurse</Text>
           <Text style={styles.descriptionStyle}>
-            Pasang alat Dnurse pada 3.5mm{'\n'}jack headset Anda
+            Pasang alat Dnurse pada 3.5mm
+            {'\n'}
+            jack headset Anda
           </Text>
         </View>
       </View>
@@ -286,6 +301,11 @@ class DnurseView extends React.Component {
   render() {
     return (
       <View style={styles.containerStyle}>
+        <NavigationBar
+          containerStyle={{ marginTop: 15 }}
+          backButtonStyle={{ height: 25, width: 50 }}
+          onPress={() => this.props.navigator.pop()}
+        />
         {this.switchView()}
         {this.switchButton()}
       </View>
