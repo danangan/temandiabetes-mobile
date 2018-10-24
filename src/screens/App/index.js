@@ -236,21 +236,21 @@ class App extends Component {
     let asuransi = path.split('&')
 
     if (asuransi != null && asuransi.length == 4) {
-      let typeAsuransi = asuransi[2].replace('MemberType=', '') === 'CC' ?  'perusahaan' : 'pribadi'
 
-      let param = asuransi[1].replace('ClientID=', '').split('-')
+      let typeAsuransi, NoPolis, NoAsuransi = ''
 
-      let NoPolis, NoAsuransi = ''
+      let param = asuransi[1].replace('ClientID=', '')
 
-      if(param.length == 3){
-        NoPolis = param[0]
-        NoAsuransi = param[1] + '-' + param[2]
+      if(asuransi[2].replace('MemberType=', '') === 'CC'){
+        typeAsuransi = 'perusahaan'
+        NoPolis = param.substr(0, param.indexOf('-'))
+        NoAsuransi = param.substr(param.indexOf('-') + 1 , param.length)
+
       } else{
-        NoPolis = param[0]
+        typeAsuransi = 'pribadi'
+        NoPolis = param
         NoAsuransi = '-'
       }
-
-      console.log(param)
 
       Alert.alert(
         'Sukses',
