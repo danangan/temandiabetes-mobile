@@ -10,11 +10,20 @@ import { authToken } from '../utils/constants';
 import { guelogin } from '../utils/GueLogin';
 import { API_CURRENT_USER } from '../utils/API';
 import { updateFCMToken } from './authAction';
+import { API_CALL } from '../utils/ajaxRequestHelper';
 
 const loginManual = ({ email, password }) => async dispatch => {
   function onSuccess(currentUser) {
     dispatch({
       type: ActionTypes.LOGIN_MANUAL,
+      payload: currentUser
+    });
+    return currentUser;
+  }
+
+  function onSuccessNewUser(currentUser) {
+    dispatch({
+      type: ActionTypes.LOGIN_MANUAL_NEWUSER,
       payload: currentUser
     });
     return currentUser;
@@ -26,6 +35,15 @@ const loginManual = ({ email, password }) => async dispatch => {
       .signInAndRetrieveDataWithEmailAndPassword(email, password);
 
     if (loggedInUser) {
+      let isEmailExist = false;
+      const option = {
+        type: 'GET',
+        url: `api/users/does-email-exist/${email}`
+      };
+      const { data: { data: { doesEmailExist } } } = await API_CALL(option);
+      isEmailExist = doesEmailExist != null ? doesEmailExist : false;
+
+
       const firebaseIdToken = await guelogin.auth().currentUser.getIdToken();
       const {
         data: {
@@ -37,8 +55,26 @@ const loginManual = ({ email, password }) => async dispatch => {
         }
       });
 
-      AsyncStorage.setItem(authToken, firebaseIdToken);
-      onSuccess(currentUser);
+      if (isEmailExist) {
+
+        AsyncStorage.setItem(authToken, firebaseIdToken);
+        onSuccess(currentUser);
+
+      } else {
+
+        let profile = loggedInUser.user._user;
+
+        const payloadData = {
+          firebaseIdToken,
+          profile,
+          currentUser
+        };
+
+        await AsyncStorage.setItem('isNewUser', String(true));
+        onSuccessNewUser(payloadData);
+      }
+
+
     }
   } catch (error) {
     const parsed = JSON.parse(JSON.stringify(error));
@@ -93,12 +129,20 @@ const signWithGoogle = () => async dispatch => {
         currentUser
       };
 
+      console.log('eka')
+      console.log(payloadData)
+      console.log(firebaseIdToken)
+      console.log(profile)
+      console.log(isNewUser)
+      console.log(currentUser)
+
+
       // set this flag to redirect user to onboarding when user kills apps
       await AsyncStorage.setItem('isNewUser', String(isNewUser));
 
       onSuccess(payloadData);
     }
-  } catch (error) { 
+  } catch (error) {
     if (error.message === 'DEVELOPER_ERROR') {
       Alert.alert('Error', 'Login via Google gagal.');
     }
