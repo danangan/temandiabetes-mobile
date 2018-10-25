@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Linking, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import firebase from 'react-native-firebase';
 import { Navigation } from 'react-native-navigation';
 
 import { Spinner } from '../../components/Spinner';
@@ -11,6 +10,7 @@ import { API_CALL } from '../../utils/ajaxRequestHelper';
 import { updateDeepLink } from '../../actions';
 import { mainApp, startApp, startLoginPage } from '../../../App';
 import { resetState } from '../../actions/loginActions';
+
 class AppLoader extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +19,7 @@ class AppLoader extends Component {
       this.initMainApp();
     }, 1200);
 
-    this.redirectForNewUser = this.redirectForNewUser.bind(this);
+    this.redirectForUnfinishedRegistration = this.redirectForUnfinishedRegistration.bind(this);
   }
 
   componentDidMount() {
@@ -33,23 +33,6 @@ class AppLoader extends Component {
     });
 
     this.firebaseHandler();
-  }
-
-  redirectForNewUser({ email, _id, nama }) {
-    Navigation.startSingleScreenApp({
-      screen: {
-        screen: 'TemanDiabetes.RegisterScreenFourth',
-        navigatorStyle: {
-          navBarHidden: true
-        }
-      },
-      passProps: {
-        email,
-        _id,
-        nama,
-        registerType: 'GoogleSignIn'
-      }
-    });
   }
 
   async initMainApp(cb = () => {}) {
@@ -93,33 +76,61 @@ class AppLoader extends Component {
 
         API_CALL(option)
           .then(res => {
-            const { tipe_user, is_active, email, _id, nama } = res.data.data.currentUser;
-
-            AsyncStorage.getItem('isNewUser', error => { startLoginPage() })
-              .then((isNewUser) => {
-                if (isNewUser === 'true') {
-                  this.redirectForNewUser({ email, _id, nama })
-                } else if (is_active) {
-                  switch (tipe_user) {
-                    case 'non-diabetesi':
-                    case 'diabetesi':
-                    case 'ahli':
-                      mainApp();
-                      break;
-                    default:
-                      // do nothing
-                      break;
-                  }
-                } else {
-                  // redirect to login page if the current user is not active yet
-                  startLoginPage()
-                }
-            });
+            const { tipe_user, is_active, email, _id, nama, registration_status } = res.data.data.currentUser;
+            // check the is_active status
+            if (is_active) {
+              // if registration status flag is not exist then goes straight to mainApp()
+              // or the registration status is finished
+              if (!registration_status || registration_status === 'finished') {
+                mainApp();
+              } else {
+                this.redirectForUnfinishedRegistration({
+                  email,
+                  _id,
+                  nama,
+                  registration_status,
+                });
+              }
+            } else {
+              // log out
+              guelogin.auth().signOut();
+              // redirect to login page if the current user is not active yet
+              startLoginPage();
+            }
           })
           .catch(err => {
             console.log(err);
           });
       });
+    });
+  }
+
+  redirectForUnfinishedRegistration({ email, _id, nama, registration_status }) {
+    let screen;
+    switch (registration_status) {
+      case 'pickUserType':
+        screen = 'TemanDiabetes.RegisterScreenFourth';
+        break;
+      case 'inputSIP':
+        screen = 'TemanDiabetes.RegisterFive';
+        break;
+      default:
+        break;
+    }
+
+    Navigation.startSingleScreenApp({
+      screen: {
+        screen,
+        navigatorStyle: {
+          navBarHidden: true
+        }
+      },
+      passProps: {
+        email,
+        _id,
+        nama,
+        registerType: 'GoogleSignIn'
+      }
     });
   }
 

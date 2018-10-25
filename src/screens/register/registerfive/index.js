@@ -22,6 +22,7 @@ import { API_BASE } from '../../../utils/API';
 import { startLoginPage } from '../../../../App';
 import { authToken } from '../../../utils/constants';
 import Images from '../../../assets/images';
+import { guelogin } from '../../../utils/GueLogin';
 
 class RegisterFive extends React.Component {
   static navigatorStyle = {
@@ -92,6 +93,8 @@ class RegisterFive extends React.Component {
     const userData = {
       email: this.props.email,
       tipe_user: this.props.tipeuser,
+      registration_status: 'finished',
+      is_active: false,
       sip
     };
 
@@ -102,9 +105,19 @@ class RegisterFive extends React.Component {
         shouldRedirect: false
       },
       () => {
-        // redirect here
-        AsyncStorage.removeItem('isNewUser');
-        startLoginPage();
+        Alert.alert(
+          'Pemberitahuan',
+          'Akun Anda akan kami verifikasi terlebih dahulu, silahkan tunggu beberapa saat.',
+          [{ text: 'OK',
+            onPress: () => {
+              // log out
+              guelogin.auth().signOut();
+              // move to login page
+              startLoginPage();
+            }
+          }],
+          { cancelable: false }
+        );
       }
     );
   }
@@ -226,7 +239,7 @@ const stylesLocal = {
     marginBottom: 15,
     paddingLeft: 20,
     fontFamily: 'Montserrat-Regular',
-    
+
   }
 };
 

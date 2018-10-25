@@ -122,34 +122,34 @@ class RegisterScreenFourth extends React.Component {
     }
   }
 
-  async updateUser() {
-    const TOKEN = await AsyncStorage.getItem(authToken);
+  async updateUser(cb = () => {}) {
+    try {
+      const TOKEN = await AsyncStorage.getItem(authToken);
 
-    const API_CALL = axios.create({
-      baseURL: API_BASE,
-      headers: {
-        authentication: TOKEN
+      const API_CALL = axios.create({
+        baseURL: API_BASE,
+        headers: {
+          authentication: TOKEN
+        }
+      });
+
+      const userData = {
+        is_active: true,
+        tipe_user: this.state.selected,
+      };
+
+      if (this.state.selected === 'ahli') {
+        userData.registration_status = 'inputSIP';
+      } else {
+        userData.registration_status = 'finished';
       }
-    });
 
-    const userData = {
-      is_active: true,
-      tipe_user: this.state.selected
-    };
+      await API_CALL.put(`api/users/${this.props._id}`, userData);
 
-    await API_CALL.put(`api/users/${this.props._id}`, userData);
-
-    this.setState(
-      {
-        shouldRedirect: false
-      },
-      () => {
-        // redirect here
-        AsyncStorage.removeItem('isNewUser').then(() => {
-          mainApp();
-        });
-      }
-    );
+      cb();
+    } catch (error) {
+      Alert.alert('Error', 'Server sedang bermasalah');
+    }
   }
 
   handleFinalRegister() {
@@ -169,7 +169,18 @@ class RegisterScreenFourth extends React.Component {
         if (selected !== 'ahli') {
           // check if it is coming from google / facebook sign in
           if (this.props.registerType === 'GoogleSignIn') {
-            this.updateUser();
+            this.updateUser(() => {
+              // redirect to App after updating user
+              this.setState(
+                {
+                  shouldRedirect: false
+                },
+                () => {
+                  // redirect here
+                  mainApp();
+                }
+              );
+            });
           } else {
             this.props.registerAction(dataUser);
           }
@@ -179,6 +190,7 @@ class RegisterScreenFourth extends React.Component {
           };
 
           if (this.props.registerType === 'GoogleSignIn') {
+            this.updateUser();
             passProps.registerType = 'GoogleSignIn';
             passProps._id = this.props._id;
           }
