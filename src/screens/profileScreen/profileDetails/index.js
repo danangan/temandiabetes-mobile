@@ -375,7 +375,9 @@ class ProfileDetails extends React.Component {
   }
 
   renderDetailProfile = () => {
-    const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
+    // const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
+    const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
+
 
     return (
       <View style={styles.contentTopStyle}>
