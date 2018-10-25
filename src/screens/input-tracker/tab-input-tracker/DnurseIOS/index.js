@@ -301,11 +301,13 @@ class DnurseView extends React.Component {
   render() {
     return (
       <View style={styles.containerStyle}>
-        <NavigationBar
-          containerStyle={{ marginTop: 15 }}
-          backButtonStyle={{ height: 25, width: 50 }}
-          onPress={() => this.props.navigator.pop()}
-        />
+        {this.state.statusView !== VIEW_DNURSE.CALCULATING && (
+          <NavigationBar
+            containerStyle={{ marginTop: 15 }}
+            backButtonStyle={{ height: 25, width: 50 }}
+            onPress={() => this.props.navigator.pop()}
+          />
+        )}
         {this.switchView()}
         {this.switchButton()}
       </View>
