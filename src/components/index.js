@@ -13,3 +13,4 @@ export * from './NavigationBar';
 export * from './SearchButton';
 export * from './TextWithClickableURL';
 export * from './SnackBar';
+export * from './ResponsiveImage';
