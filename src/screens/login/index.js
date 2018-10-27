@@ -53,7 +53,7 @@ class Login extends Component {
   componentDidMount() {
     this.props.setupGoogleSignIn();
     Linking.addEventListener('url', this.redirectByUrl);
-    NetInfo.isConnected.addEventListener('change', this.handleConnectionChange);
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink && deepLink.currentDeepLink !== '' && !deepLink.expired) {
@@ -149,7 +149,7 @@ class Login extends Component {
   }
 
   componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('change', this.handleConnectionChange);
+    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectionChange);
   }
 
   onChangeTextHandlerEmail = e => this.setState({ email: e });
