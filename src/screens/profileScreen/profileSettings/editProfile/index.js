@@ -143,6 +143,9 @@ class EditProfile extends React.Component {
         }
       } = await API_CALL(option);
       this.setState({ insuranceList: insurances });
+
+      console.log("list")
+      console.log(insurances)
     } catch (error) {
       console.log(error);
     }

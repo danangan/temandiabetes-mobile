@@ -284,10 +284,6 @@ class App extends Component {
         ],
         { cancelable: false }
       );
-
-    } else{
-      Alert.alert('Error', 'Data asuransi tidak ditemukan ');
-
     }
   }
 

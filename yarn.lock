@@ -4319,9 +4319,9 @@ react-native-config@^0.11.5:
   version "0.11.5"
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.11.5.tgz#516cb7b6ec437c7739236ca075971db3aabdcb95"
 
-react-native-fbsdk@^0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-0.7.0.tgz#263dfe5845205de7b80efb0f18ed5c1ded025291"
+react-native-fbsdk@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk/-/react-native-fbsdk-0.8.0.tgz#4ee95ebb7be4b00fa9f871ca594f068c9782c7de"
   dependencies:
     adm-zip "^0.4.7"
     fastfall "^1.5.1"
