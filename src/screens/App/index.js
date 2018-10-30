@@ -198,7 +198,10 @@ class App extends Component {
 
   redirectByUrl({ url }) {
     console.log(url)
-    let pathname = url.replace(`${landingPageURL}/`, '');
+
+    // let pathname = url.replace(`${landingPageURL}/`, '');
+
+    let pathname = url.replace(`https://temandiabetes.com/`, '');
     pathname = pathname.split('/');
     let screen = null;
     switch (pathname[0]) {
@@ -259,6 +262,16 @@ class App extends Component {
           {
             text: 'Ya',
             onPress: () => {
+              this.props.navigator.push({
+                screen: 'TemanDiabetes.EditProfile',
+                navigatorStyle: {
+                  navBarHidden: true
+                },
+                passProps: {
+                  fromFWD: true
+                }
+              });
+              
               this.props.navigator.push({
                 screen : 'TemanDiabetes.CreateAsuransi',
                 navigatorStyle: {

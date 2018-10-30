@@ -403,7 +403,7 @@ class CreateAsuransi extends React.Component {
                   <View style={styles.pickerWrapper}>
                     <TextInput
                       editable = {!this.props.fromFWD}
-                      keyboardType="numeric"
+                      // keyboardType="numeric"
                       style={{ height: 40 }}
                       value={this.state.nomorAsuransi}
                       underlineColorAndroid="transparent"
@@ -418,7 +418,7 @@ class CreateAsuransi extends React.Component {
                 <View style={styles.pickerWrapper}>
                   <TextInput
                     editable = {!this.props.fromFWD}
-                    keyboardType="numeric"
+                    // keyboardType="numeric"
                     style={{ height: 40 }}
                     underlineColorAndroid="transparent"
                     value={this.state.nomorPolis}

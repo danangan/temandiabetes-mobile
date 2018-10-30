@@ -5,20 +5,22 @@ import Style from '../../style/defaultStyle';
 import { Button } from '../../components';
 import color from '../../style/color';
 
-const lightBox = ({ title, content, navigator, product, prePurchase, confirmText }) => (
+const lightBox = ({ title, content, navigator, product, prePurchase, confirmText, fromFWD }) => (
   <View style={styles.containerStyle}>
     <Text style={styles.titleStyle}>{title}</Text>
     <Text style={styles.contentStyle}>{content}</Text>
     <View style={styles.buttonContainerStyle}>
-      <Button
-        buttonStyle={styles.buttonStyle}
-        textStyle={styles.textStyle}
-        onPress={() => prePurchase(product, () => {
-          navigator.dismissLightBox()
-        })}
-      >
-        { confirmText || 'Beli' }
-      </Button>
+      {(!fromFWD) && (
+        <Button
+          buttonStyle={styles.buttonStyle}
+          textStyle={styles.textStyle}
+          onPress={() => prePurchase(product, () => {
+            navigator.dismissLightBox()
+          })}
+        >
+          { confirmText || 'Beli' }
+        </Button>
+      )}
       <Button
         buttonStyle={[styles.buttonStyle, { backgroundColor: color.white }]}
 				textStyle={[styles.textStyle, { color: color.red }]}

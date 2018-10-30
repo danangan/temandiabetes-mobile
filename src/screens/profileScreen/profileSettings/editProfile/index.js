@@ -115,6 +115,13 @@ class EditProfile extends React.Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       this.setState({ keyboardActive: false });
     });
+
+    if(this.props.fromFWD){
+      this.setState({
+        activeTab: 1
+      });
+    }
+
   }
 
   componentDidMount() {
@@ -352,21 +359,37 @@ class EditProfile extends React.Component {
     }
   };
 
-  updateInsuranceItem = id => {
-    this.props.navigator.push({
-      screen: 'TemanDiabetes.CreateAsuransi',
-      navigatorStyle: {
-        navBarHidden: true,
-        tabBarHidden: true
-      },
-      passProps: {
-        onSuccessCallback: () => {
-          this.getInsurance();
+  updateInsuranceItem = (id, verified) => {
+    if(verified){
+      this.props.navigator.showLightBox({
+        screen: 'TemanDiabetes.LightBox',
+        passProps: {
+          title: 'Peringatan',
+          content: 'Data asuransi anda sudah di verifikasi dan tidak dapat diubah.',
+          fromFWD: true
         },
-        insuranceId: id,
-        method: 'edit'
-      }
-    });
+        style: {
+          backgroundBlur: 'dark',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          tapBackgroundToDismiss: true
+        }
+      });
+    } else{
+      this.props.navigator.push({
+        screen: 'TemanDiabetes.CreateAsuransi',
+        navigatorStyle: {
+          navBarHidden: true,
+          tabBarHidden: true
+        },
+        passProps: {
+          onSuccessCallback: () => {
+            this.getInsurance();
+          },
+          insuranceId: id,
+          method: 'edit'
+        }
+      });
+    }
   };
 
   // format options = array of { label: 'Some label', value: 'Some value' }

@@ -48,6 +48,8 @@ public class AndroidStarterModule extends ReactContextBaseJavaModule {
                 
                 promise.resolve(map);
 
+                prefs.edit().clear().apply();
+
             } catch (Error e) {
                 promise.reject(e);
             }
