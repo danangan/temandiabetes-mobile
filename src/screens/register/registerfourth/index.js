@@ -113,7 +113,7 @@ class RegisterScreenFourth extends React.Component {
         if (!currentUser.is_active && currentUser.tipe_user === 'ahli') {
           Alert.alert(
             'Pemberitahuan',
-            'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silakan tunggu beberapa email konfirmasi.',
+            'Akun anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
             [{ text: 'OK', onPress: () => self.props.onFirebaseSignOut() }],
             { cancelable: false }
           );

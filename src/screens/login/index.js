@@ -100,8 +100,8 @@ class Login extends Component {
       });
     } else if (result(nextProps.loginReducer, 'currentUser.is_active') === false) {
       Alert.alert(
-        'Akun Anda sedang tidak aktif.',
-        'Hubungi penyedia layanan untuk info lebih lanjut.'
+        'Pemberitahuan',
+        'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com'
       );
       this.props.resetState();
     }
@@ -114,8 +114,8 @@ class Login extends Component {
 
     if (statusCode === 400 && message === 'inactive' && this.state.shouldRedirect) {
       Alert.alert(
-        'Akun Anda sedang tidak aktif.',
-        'Hubungi penyedia layanan untuk info lebih lanjut.',
+        'Pemberitahuan',
+        'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
         [
           {
             text: 'OK',
