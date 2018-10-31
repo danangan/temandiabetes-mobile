@@ -92,7 +92,7 @@ const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigat
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            onUpdateItem(item._id);
+            onUpdateItem(item._id, item.verified);
           }}
         >
           <View
