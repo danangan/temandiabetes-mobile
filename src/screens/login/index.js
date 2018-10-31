@@ -61,6 +61,8 @@ class Login extends Component {
         this.redirectByUrl({ url: deepLink.currentDeepLink });
       }
     }
+
+    this.props.resetLoginReducerLoading();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -374,7 +376,10 @@ const mapDispatchToProps = dispatch => ({
   onSignOut: () => dispatch(onSignOut()),
   resetState: () => dispatch(resetState()),
   clearDataRegister: type => dispatch(clearDataRegister(type)),
-  signWithFacebook: () => dispatch(signWithFacebook())
+  signWithFacebook: () => dispatch(signWithFacebook()),
+  resetLoginReducerLoading: () => dispatch({
+    type: 'RESET_LOGIN_REDUCER_LOADING',
+  }),
 });
 
 export default connect(

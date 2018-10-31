@@ -98,7 +98,7 @@ const signWithGoogle = () => async dispatch => {
 
       onSuccess(payloadData);
     }
-  } catch (error) { 
+  } catch (error) {
     if (error.message === 'DEVELOPER_ERROR') {
       Alert.alert('Error', 'Login via Google gagal.');
     }

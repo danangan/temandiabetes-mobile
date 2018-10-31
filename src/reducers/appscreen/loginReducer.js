@@ -104,6 +104,11 @@ const loginReducer = (state = initialState, action) => {
         ...state,
         loading: action.payload.loading
       };
+    case 'RESET_LOGIN_REDUCER_LOADING':
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }
