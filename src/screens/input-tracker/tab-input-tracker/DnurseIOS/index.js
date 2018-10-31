@@ -111,27 +111,34 @@ class DnurseView extends React.Component {
           let bloodLevel = null;
           let calculate = null;
 
-          if (hintCode) {
-            switch (hintCode) {
-              case 4:
-                this.setState({ statusView: VIEW_DNURSE.INPUT_TESTSTRIP });
-                break;
-              case 6:
-                this.setState({ statusView: VIEW_DNURSE.DROPS_BLOOD });
-                break;
-              case 8:
-                this.setState({ statusView: VIEW_DNURSE.CALCULATING });
-                break;
-              case 9:
-                result = Number(data.hintText.replace('Result:', ''));
-                calculate = result * 18.018018;
-                bloodLevel = calculate < 5 ? Math.floor(calculate) : Math.ceil(calculate);
-                this.setState({ bloodSugarLevels: bloodLevel });
-                this.doSaveData(bloodLevel);
-                break;
-              default:
-                break;
-            }
+          switch (hintCode) {
+            case 4:
+              this.setState({ statusView: VIEW_DNURSE.INPUT_TESTSTRIP });
+              break;
+            case 6:
+              this.setState({ statusView: VIEW_DNURSE.DROPS_BLOOD });
+              break;
+            case 8:
+              this.setState({ statusView: VIEW_DNURSE.CALCULATING });
+              break;
+            case 9:
+              result = Number(data.hintText.replace('Result:', ''));
+              calculate = result * 18.018018;
+              bloodLevel = calculate < 5 ? Math.floor(calculate) : Math.ceil(calculate);
+              this.setState({ bloodSugarLevels: bloodLevel });
+              this.doSaveData(bloodLevel);
+              break;
+            case 24:
+              Alert.alert('Silahkan cabut & pasang kembali Dnurse Anda untuk melanjutkan.');
+              break;
+            case 23:
+              Alert.alert(
+                'Dnurse memerlukan izin untuk akses microphone. Open Setting, Aplikasi TD di menu setting'
+              );
+              break;
+            default:
+              this.setState({ statusView: VIEW_DNURSE.INPUT_DNURSE });
+              break;
           }
         }
       }

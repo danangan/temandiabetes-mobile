@@ -44,15 +44,14 @@ const CUSTOM_CONTAINER_STYLE = {
 const CUSTOM_RENDERERS = {
   img: attr => (
     <ResponsiveImage
-      resizeMode="center"
-      style={{ backgroundColor: 'red', width: '100%' }}
       key={attr.src + attr.alt}
+      resizeMode="contain"
+      style={{ width: '100%' }}
       source={{
         uri:
           attr.src ||
           'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FplaceholderTD-Android.png?alt=media&token=d26ffbb4-08d5-4890-b6f5-fc8922300a0e'
       }}
-      initWidth="138"
       initHeight="138"
     />
   ),

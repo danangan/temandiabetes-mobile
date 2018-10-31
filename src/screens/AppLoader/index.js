@@ -58,51 +58,57 @@ class AppLoader extends Component {
       if (user) {
         // clear the timeout
         clearTimeout(this.timeout);
-        this.onLogin()
+        this.onLogin();
       }
     });
   }
 
   onLogin() {
     guelogin
-    .auth()
-    .currentUser.getIdToken()
-    .then(firebaseIdToken => {
-      AsyncStorage.setItem(authToken, firebaseIdToken).then(() => {
-        const option = {
-          method: 'get',
-          url: 'api/users/getcurrentuser'
-        };
+      .auth()
+      .currentUser.getIdToken()
+      .then(firebaseIdToken => {
+        AsyncStorage.setItem(authToken, firebaseIdToken).then(() => {
+          const option = {
+            method: 'get',
+            url: 'api/users/getcurrentuser'
+          };
 
-        API_CALL(option)
-          .then(res => {
-            const { tipe_user, is_active, email, _id, nama, registration_status } = res.data.data.currentUser;
-            // check the is_active status
-            if (is_active) {
-              // if registration status flag is not exist then goes straight to mainApp()
-              // or the registration status is finished
-              if (!registration_status || registration_status === 'finished') {
-                mainApp();
+          API_CALL(option)
+            .then(res => {
+              const {
+                tipe_user,
+                is_active,
+                email,
+                _id,
+                nama,
+                registration_status
+              } = res.data.data.currentUser;
+              // check the is_active status
+              if (is_active) {
+                // if registration status flag is not exist then goes straight to mainApp()
+                // or the registration status is finished
+                if (!registration_status || registration_status === 'finished') {
+                  mainApp();
+                } else {
+                  this.redirectForUnfinishedRegistration({
+                    email,
+                    _id,
+                    nama,
+                    registration_status
+                  });
+                }
               } else {
-                this.redirectForUnfinishedRegistration({
-                  email,
-                  _id,
-                  nama,
-                  registration_status,
-                });
+                // log out
+                guelogin.auth().signOut();
+                // redirect to login page if the current user is not active yet
               }
-            } else {
-              // log out
-              guelogin.auth().signOut();
-              // redirect to login page if the current user is not active yet
-              startLoginPage();
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        });
       });
-    });
   }
 
   redirectForUnfinishedRegistration({ email, _id, nama, registration_status }) {
@@ -153,7 +159,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   updateDeepLink: deepLink => dispatch(updateDeepLink(deepLink)),
-  resetState: () => dispatch(resetState()),
+  resetState: () => dispatch(resetState())
 });
 
 export default connect(

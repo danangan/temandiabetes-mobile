@@ -1,7 +1,7 @@
 const Device = require('./device');
 
 function applyScale(size) {
-  return Math.ceil(size * Device.scale);
+  return Math.round(size * Device.scale);
 }
 
 module.exports = applyScale;
