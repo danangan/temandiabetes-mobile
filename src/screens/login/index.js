@@ -62,7 +62,7 @@ class Login extends Component {
       }
     }
 
-    this.props.resetLoginReducerLoading();
+    this.props.resetState();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,10 +70,9 @@ class Login extends Component {
     // here we check if the inactive user is a new user or not
     // if the user is existing user, the isnewuser value will be false, thus
     // we give them alert that the user account is inactive
-    const { statusCode, message, isNewUser, typeUser } = nextProps.loginReducer;
+    const { statusCode, message, isNewUser, typeUser, is_active } = nextProps.loginReducer;
     const { shouldRedirect } = this.state;
     const errorMessage = this.errorMessage(message);
-
     switch (true) {
       case statusCode === 400 && message === 'inactive' && shouldRedirect:
         return Alert.alert(
@@ -135,6 +134,22 @@ class Login extends Component {
             registerType: 'GoogleSignIn'
           }
         });
+      case statusCode === 200 && is_active === false:
+        return Alert.alert(
+          'Akun Anda sedang tidak aktif.',
+          'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                this.setState({ shouldRedirect: false }, () => {
+                  this.props.resetState();
+                });
+              }
+            }
+          ],
+          { cancelable: false }
+        );
       default:
         break;
     }
@@ -376,10 +391,7 @@ const mapDispatchToProps = dispatch => ({
   onSignOut: () => dispatch(onSignOut()),
   resetState: () => dispatch(resetState()),
   clearDataRegister: type => dispatch(clearDataRegister(type)),
-  signWithFacebook: () => dispatch(signWithFacebook()),
-  resetLoginReducerLoading: () => dispatch({
-    type: 'RESET_LOGIN_REDUCER_LOADING',
-  }),
+  signWithFacebook: () => dispatch(signWithFacebook())
 });
 
 export default connect(
