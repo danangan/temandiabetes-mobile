@@ -118,7 +118,7 @@ class ProfileScreen extends React.Component {
           </View>
           <View style={styles.itemTopRight}>
             <View style={{ marginRight: 10 }}>
-              <Text style={styles.textNameStyle}>{nama || 'John Doe'}</Text>
+              <Text style={styles.textNameStyle}>{nama || ''}</Text>
               <Text style={styles.userDesc}>
                 {tipe_user === 'diabetesi' ? diabetesi_tipe || tipe_user : tipe_user || 'Tipe User'}
               </Text>
