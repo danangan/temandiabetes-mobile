@@ -48,36 +48,31 @@ class RegisterFive extends React.Component {
     });
   }
 
-  // componentDidUpdate() {
-  //   const self = this;
-  //   const { status_code, message } = this.props.dataRegister.dataUser;
-  //   if (status_code === 200 && this.state.shouldRedirect) {
-  //     self.setState(
-  //       {
-  //         shouldRedirect: false
-  //       },
-  //       () => {
-  //         Alert.alert(
-  //           'Informasi',
-  //           'Data anda sedang kami validasi. Harap menghubungi customer service terkait.',
-  //           [
-  //             {
-  //               text: 'OK',
-  //               onPress: () => {
-  //                 this.props.navigator.resetTo({
-  //                   screen: 'TemanDiabetes.LoginScreen',
-  //                   navigatorStyle: {
-  //                     navBarHidden: true
-  //                   }
-  //                 });
-  //               }
-  //             }
-  //           ]
-  //         );
-  //       }
-  //     );
-  //   }
-  // }
+  componentDidUpdate() {
+    const self = this;
+    const { status_code, message } = this.props.dataRegister.dataUser;
+    if (status_code === 200 && this.state.shouldRedirect) {
+      self.setState(
+        {
+          shouldRedirect: false
+        },
+        () => {
+          Alert.alert(
+            'Akun Anda sedang tidak aktif.',
+            'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
+            [
+              {
+                text: 'OK',
+                onPress: () => {
+                  startLoginPage();
+                }
+              }
+            ]
+          );
+        }
+      );
+    }
+  }
 
   async updateUser() {
     const { sip } = this.props.dataRegister.dataUser;
