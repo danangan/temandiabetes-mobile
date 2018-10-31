@@ -249,19 +249,19 @@ class ModalPostThread extends Component {
                 // this.state.topic.length === 60 ? null : this.setState({ topic })
               }}
             />
-            <Text
-              style={{
-                position: 'absolute',
-                right: 10,
-                bottom: 0,
-                fontSize: 12,
-                border: '1px solid #ccc',
-                fontFamily: 'Montserrat-ExtraLight',
-              }}
-            >
-              { this.state.topic.length }/60 karakter
-            </Text>
           </View>
+          <Text
+            style={{
+              alignSelf: 'flex-end',
+              right: 10,
+              bottom: 15,
+              fontSize: 12,
+              border: '1px solid #ccc',
+              fontFamily: 'Montserrat-ExtraLight',
+            }}
+          >
+            {this.state.topic.length}/60 karakter
+            </Text>
           {
             errors.topic &&
             <Text style={styles.errorText}>Judul thread tidak boleh kosong</Text>
@@ -410,7 +410,6 @@ const styles = {
     flex: 1,
     backgroundColor: '#fff',
     width: '100%',
-    // paddingHorizontal: 5,
     borderRadius: 10,
     alignItems: 'center',
     borderTopLeftRadius: 20,
@@ -445,20 +444,20 @@ const styles = {
     borderTopColor: '#f2f3f7'
   },
   titleInputWrapper: {
-    flex: 0.6,
     marginTop: 30,
     width: '100%',
     backgroundColor: '#fff',
     borderTopWidth: 1,
     borderTopColor: '#f2f3f7',
-    paddingVertical: 15
+    paddingVertical: 20
   },
   titleInput: {
+    height: 50,
     flexWrap: 'wrap',
     paddingHorizontal: 10,
     fontFamily: 'Montserrat-ExtraLight',
     fontSize: 14,
-    color: '#000'
+    color: '#000',
   },
   contentInput: {
     flexWrap: 'wrap',

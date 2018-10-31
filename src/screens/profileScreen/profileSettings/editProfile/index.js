@@ -41,23 +41,35 @@ const jenisKelamin = [
 ]
 
 const jenisDiabetes = [
- {
-   label: 'Pre-diabetes',
-   value: 'Pre-diabetes'
- },
- {
-   label: 'Diabetes type1',
-   value: 'Diabetes type1'
- },
- {
-   label: 'Diabetes type2',
-   value: 'Diabetes type2',
- },
- {
-   label: 'Gestational',
-   value: 'Gestational'
- }
+  {
+    label: 'Pre-diabetes',
+    value: 'Pre-diabetes'
+  },
+  {
+    label: 'Diabetes type1',
+    value: 'Diabetes type1'
+  },
+  {
+    label: 'Diabetes type2',
+    value: 'Diabetes type2',
+  },
+  {
+    label: 'Gestational',
+    value: 'Gestational'
+  }
 ]
+
+const tipeDiabetesi = [
+  {
+    label: 'Diabetesi',
+    value: 'diabetesi'
+  },
+  {
+    label: 'Non Diabetesi',
+    value: 'non-diabetesi'
+  },
+]
+
 
 const getLabelByVal = (options, val) => {
   let result
@@ -284,7 +296,7 @@ class EditProfile extends React.Component {
     }
   }
 
-  showSnackBar = (cb = () => {}) => {
+  showSnackBar = (cb = () => { }) => {
     this.setState({ showSnackBar: true, message: 'Data telah berhasil diubah.' }, () => {
       this.hideSnackBar();
       cb();
@@ -395,15 +407,15 @@ class EditProfile extends React.Component {
   // format options = array of { label: 'Some label', value: 'Some value' }
   openIOSPicker(options = [], title, onSelect) {
     ActionSheetIOS.showActionSheetWithOptions({
-      options: [ ...options.map(item => item.label), 'Batal'],
+      options: [...options.map(item => item.label), 'Batal'],
       title,
       destructiveButtonIndex: options.length
     },
-    (buttonIndex) => {
-      if (options[buttonIndex]) {
-        onSelect(options[buttonIndex].value)
-      }
-    });
+      (buttonIndex) => {
+        if (options[buttonIndex]) {
+          onSelect(options[buttonIndex].value)
+        }
+      });
   }
 
   render() {
@@ -500,13 +512,13 @@ class EditProfile extends React.Component {
           </View>
         }
 
-        { /*  Content Container */ }
+        { /*  Content Container */}
         <View style={{
           flex: 1,
           backgroundColor: this.state.activeTab === 1 ? color.solitude : '#fff',
           paddingHorizontal: 10,
         }}>
-          { /*  EDIT PROFILE TAB CONTENT */ }
+          { /*  EDIT PROFILE TAB CONTENT */}
           {
             this.state.activeTab === 0 &&
             <ScrollView
@@ -590,71 +602,74 @@ class EditProfile extends React.Component {
               </View>
               <View style={styles.fieldWrapper}>
                 <Text style={styles.titleTextInput}>Jenis Kelamin</Text>
-                  {
-                    Platform.OS === 'android' &&
-                    <View>
-                      <Picker
-                        selectedValue={userData.jenis_kelamin}
-                        style={styles.picker}
-                        onValueChange={itemValue => this.setUserData('jenis_kelamin', itemValue)}
-                      >
-                        <Picker.Item label="Pilih jenis kelamin" value="" />
-                        <Picker.Item label="Laki-laki" value="L" />
-                        <Picker.Item label="Perempuan" value="P" />
-                      </Picker>
-                    </View>
-                  }
-                  {
-                    Platform.OS === 'ios' &&
-                    <TouchableOpacity
-                      style={{ height: 35, marginLeft: 0 }}
-                      onPress={() => {
-                        const option = jenisKelamin;
-                        const title = 'Jenis Kelamin';
-                        const onSelect = val => this.setUserData('jenis_kelamin', val);
-                        this.openIOSPicker(option, title, onSelect);
-                      }}
+                {
+                  Platform.OS === 'android' &&
+                  <View>
+                    <Picker
+                      selectedValue={userData.jenis_kelamin}
+                      style={styles.picker}
+                      onValueChange={itemValue => this.setUserData('jenis_kelamin', itemValue)}
                     >
-                      <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(jenisKelamin, userData.jenis_kelamin)}</Text>
-                    </TouchableOpacity>
-                  }
+                      <Picker.Item label="Pilih jenis kelamin" value="" />
+                      <Picker.Item label="Laki-laki" value="L" />
+                      <Picker.Item label="Perempuan" value="P" />
+                    </Picker>
+                  </View>
+                }
+                {
+                  Platform.OS === 'ios' &&
+                  <TouchableOpacity
+                    style={{ height: 35, marginLeft: 0 }}
+                    onPress={() => {
+                      const option = jenisKelamin;
+                      const title = 'Jenis Kelamin';
+                      const onSelect = val => this.setUserData('jenis_kelamin', val);
+                      this.openIOSPicker(option, title, onSelect);
+                    }}
+                  >
+                    <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(jenisKelamin, userData.jenis_kelamin)}</Text>
+                  </TouchableOpacity>
+                }
                 <View style={styles.underLine}></View>
               </View>
               <View style={styles.fieldWrapper}>
-                  <Text style={styles.titleTextInput}>Tipe User</Text>
-                  {
-                    Platform.OS === 'android' &&
-                    <View>
-                      <Picker
-                        pickerStyle={{ fontSize: 25 }}
-                        selectedValue={userData.diabetesi_tipe}
-                        style={styles.picker}
-                        onValueChange={itemValue => this.setUserData('diabetesi_tipe', itemValue)}
-                      >
-                        <Picker.Item label="Pre-diabetes" value="Diabetes" />
+                <Text style={styles.titleTextInput}>Tipe User</Text>
+                {
+                  Platform.OS === 'android' &&
+                  <View>
+                    <Picker
+                      pickerStyle={{ fontSize: 25 }}
+                      selectedValue={userData.tipe_user}
+                      style={styles.picker}
+                      // onValueChange={itemValue => this.setUserData('diabetesi_tipe', itemValue)}
+                      onValueChange={itemValue => this.setUserData('tipe_user', itemValue)}
+                    >
+                      {/* <Picker.Item label="Pre-diabetes" value="Diabetes" />
                         <Picker.Item label="Diabetes type1" value="Diabetes type1" />
                         <Picker.Item label="Diabetes type2" value="Diabetes type2" />
-                        <Picker.Item label="Gestational" value="Gestational" />
-                      </Picker>
-                    </View>
-                  }
-                  {
-                    Platform.OS === 'ios' &&
-                    <TouchableOpacity
-                      style={{height: 40, marginLeft:0 }}
-                      onPress={() => {
-                        const option = jenisDiabetes
-                        const title = 'Jenis Diabetes'
-                        const onSelect = val => this.setUserData('diabetesi_tipe', val)
-                        this.openIOSPicker(option, title, onSelect)
-                      }}
-                    >
-                      <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(jenisDiabetes, userData.diabetesi_tipe)}</Text>
-                    </TouchableOpacity>
-                  }
-                  <View style={styles.underLine}></View>
-                </View>
-              {currentUser.tipe_user === 'diabetesi' && (
+                        <Picker.Item label="Gestational" value="Gestational" /> */}
+                      <Picker.Item label="Diabetesi" value="diabetesi" />
+                      <Picker.Item label="Non Diabetesi" value="non-diabetesi" />
+                    </Picker>
+                  </View>
+                }
+                {
+                  Platform.OS === 'ios' &&
+                  <TouchableOpacity
+                    style={{ height: 40, marginLeft: 0 }}
+                    onPress={() => {
+                      const option = tipeDiabetesi
+                      const title = 'Tipe Diabetes'
+                      const onSelect = val => this.setUserData('tipe_user', val)
+                      this.openIOSPicker(option, title, onSelect)
+                    }}
+                  >
+                    <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(tipeDiabetesi, userData.tipe_user)}</Text>
+                  </TouchableOpacity>
+                }
+                <View style={styles.underLine}></View>
+              </View>
+              {this.state.userData.tipe_user === 'diabetesi' && (
                 <View style={styles.fieldWrapper}>
                   <Text style={styles.titleTextInput}>Jenis Diabetes</Text>
                   {
@@ -676,7 +691,7 @@ class EditProfile extends React.Component {
                   {
                     Platform.OS === 'ios' &&
                     <TouchableOpacity
-                      style={{height: 40, marginLeft:0 }}
+                      style={{ height: 40, marginLeft: 0 }}
                       onPress={() => {
                         const option = jenisDiabetes
                         const title = 'Jenis Diabetes'
@@ -726,107 +741,107 @@ class EditProfile extends React.Component {
                       borderRadius: 3
                     }}
                   >
-                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
-                    SIMPAN
+                    <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
+                      SIMPAN
                   </Text>
-                </TouchableOpacity>
-              </View>
-              }
-          </ScrollView>
-        }
-
-        { /* EDIT INSURANCE TAB CONTENT*/ }
-        {
-          this.state.activeTab === 1 &&
-          <View style={{ flex: 1}}>
-
-            { /* INSURANCE LIST */ }
-            {
-              this.state.insuranceList.length > 0 &&
-              <InsuranceList
-                navigator={this.props.navigator}
-                getInsurance={this.getInsurance}
-                data={this.state.insuranceList}
-                onDeleteItem={this.onClickDeleteInsuranceItem}
-                onUpdateItem={this.updateInsuranceItem}
-              />
-            }
-
-            {/* EMPTY INSURANCE LIST PLACEHOLDER */}
-            {this.state.insuranceList.length === 0 && (
-              <View
-                style={{
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                  flex: 1,
-                  paddingTop: 70
-                }}
-              >
-                <Image
-                  source={require('../../../../assets/icons/insurance.png')}
-                  style={{
-                    height: 90,
-                    width: 100,
-                    marginBottom: 15
-                  }}
-                />
-                <View
-                  style={{
-                    marginHorizontal: 25
-                  }}
-                >
-                  <Text style={{ textAlign: 'center' }}>Anda belum memiliki asuransi.</Text>
-                  <Text style={{ textAlign: 'center' }}>
-                    Silahkan tambahkan asuransi untuk menghubungkan ke aplikasi Teman Diabetes
-                  </Text>
-                </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                  <TouchableOpacity
-                    onPress={debounce(
-                      () =>
-                        this.props.navigator.push({
-                          screen: 'TemanDiabetes.CreateAsuransi',
-                          navigatorStyle: {
-                            navBarHidden: true,
-                            tabBarHidden: true
-                          },
-                          passProps: {
-                            onSuccessCallback: () => {
-                              this.getInsurance();
-                            }
-                          }
-                        }),
-                      500,
-                      {
-                        leading: true,
-                        trailing: false
-                      }
-                    )}
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: 155,
-                      height: 34,
-                      backgroundColor: '#ef434e',
-                      borderRadius: 3
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: 12,
-                        fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
-                        textAlign: 'center'
-                      }}
-                    >
-                      TAMBAH ASURANSI
-                    </Text>
                   </TouchableOpacity>
                 </View>
-              </View>
-            )}
-          </View>
-        }
+              }
+            </ScrollView>
+          }
+
+          { /* EDIT INSURANCE TAB CONTENT*/}
+          {
+            this.state.activeTab === 1 &&
+            <View style={{ flex: 1 }}>
+
+              { /* INSURANCE LIST */}
+              {
+                this.state.insuranceList.length > 0 &&
+                <InsuranceList
+                  navigator={this.props.navigator}
+                  getInsurance={this.getInsurance}
+                  data={this.state.insuranceList}
+                  onDeleteItem={this.onClickDeleteInsuranceItem}
+                  onUpdateItem={this.updateInsuranceItem}
+                />
+              }
+
+              {/* EMPTY INSURANCE LIST PLACEHOLDER */}
+              {this.state.insuranceList.length === 0 && (
+                <View
+                  style={{
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    flex: 1,
+                    paddingTop: 70
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/icons/insurance.png')}
+                    style={{
+                      height: 90,
+                      width: 100,
+                      marginBottom: 15
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginHorizontal: 25
+                    }}
+                  >
+                    <Text style={{ textAlign: 'center' }}>Anda belum memiliki asuransi.</Text>
+                    <Text style={{ textAlign: 'center' }}>
+                      Silahkan tambahkan asuransi untuk menghubungkan ke aplikasi Teman Diabetes
+                  </Text>
+                  </View>
+                  <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <TouchableOpacity
+                      onPress={debounce(
+                        () =>
+                          this.props.navigator.push({
+                            screen: 'TemanDiabetes.CreateAsuransi',
+                            navigatorStyle: {
+                              navBarHidden: true,
+                              tabBarHidden: true
+                            },
+                            passProps: {
+                              onSuccessCallback: () => {
+                                this.getInsurance();
+                              }
+                            }
+                          }),
+                        500,
+                        {
+                          leading: true,
+                          trailing: false
+                        }
+                      )}
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 155,
+                        height: 34,
+                        backgroundColor: '#ef434e',
+                        borderRadius: 3
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: '#fff',
+                          fontSize: 12,
+                          fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
+                          textAlign: 'center'
+                        }}
+                      >
+                        TAMBAH ASURANSI
+                    </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            </View>
+          }
         </View>
         <SnackBar
           visible={this.state.showSnackBar}

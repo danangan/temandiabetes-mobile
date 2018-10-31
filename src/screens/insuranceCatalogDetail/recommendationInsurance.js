@@ -42,7 +42,10 @@ export default class RecommendationInsurance extends Component {
     const { data } = this.state;
 
     // return nothing if empty
-    const renderedData = filter(result(data, 'docs', []), (item) => item.insuranceId === this.props.insuranceId);
+    const renderedData = filter(
+      result(data, 'docs', []),
+      item => item.insuranceId === this.props.insuranceId
+    );
 
     if (renderedData.length === 0) {
       return null;
@@ -52,35 +55,30 @@ export default class RecommendationInsurance extends Component {
       <View>
         <Text style={styles.h1}>Rekomendasi Asuransi</Text>
         <View style={styles.contentStyle}>
-          {
-            renderedData.map((item, idx) => (
-              <TouchableOpacity
-                style={styles.card}
-                key={idx}
-                onPress={() => this.handleOpenUrl(item.url)}
-              >
-                <Image source={{ uri: item.imageURL }} style={styles.image} />
-                <View>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.subTitle}>{item.description}</Text>
+          {renderedData.map((item, idx) => (
+            <TouchableOpacity
+              style={styles.card}
+              key={idx}
+              onPress={() => this.handleOpenUrl(item.url)}
+            >
+              <Image source={{ uri: item.imageURL }} style={styles.image} resizeMode="contain" />
+              <View>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.subTitle}>{item.description}</Text>
+              </View>
+              <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
+                <View style={styles.borderLine} />
+                <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 10 }}>
+                  <Image
+                    source={require('../../assets/icons/shopping_bag.png')}
+                    style={styles.icon}
+                    tintColor={color.blue}
+                  />
+                  <Text style={styles.text}>DAPATKAN</Text>
                 </View>
-                <View style={{ flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <View style={styles.borderLine} />
-                  <View
-                    style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 10 }}
-                  >
-                    <Image
-                      source={require('../../assets/icons/shopping_bag.png')}
-                      style={styles.icon}
-                      tintColor={color.blue}
-                    />
-                    <Text style={styles.text}>PESAN SEKARANG</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            )
-          )
-        }
+              </View>
+            </TouchableOpacity>
+          ))}
         </View>
       </View>
     );
@@ -95,7 +93,8 @@ const styles = {
     justifyContent: 'center'
   },
   card: {
-    padding: Style.PADDING,
+    paddingTop: Style.PADDING,
+    paddingBottom: Style.PADDING,
     backgroundColor: '#fff',
     marginTop: 10,
     ...Platform.select({
@@ -115,9 +114,8 @@ const styles = {
   },
   image: {
     height: 108.26,
-    width: 108.08,
-    alignSelf: 'center',
-    // borderRadius: 55,
+    width: Style.CARD_WIDTH / 2.1,
+    alignSelf: 'center'
   },
   h1: {
     fontFamily: 'Montserrat',
@@ -133,12 +131,26 @@ const styles = {
   icon: {
     height: Platform.OS === 'android' ? 18 : 15,
     width: Platform.OS === 'android' ? 18 : 15,
-    bottom: 2
+    bottom: 2,
+    marginRight: 22
   },
   text: {
-    fontFamily: Platform.OS === 'android' ? 'Montserrat-Regular' : 'Montserrat',
-    fontSize:
-      Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER - 2 : Style.FONT_SIZE_SMALLER * 0.7,
+    ...Platform.select({
+      ios: {
+        fontFamily: 'Montserrat'
+      },
+      android: {
+        fontFamily: 'Montserrat-Regular'
+      }
+    }),
+    ...Platform.select({
+      ios: {
+        fontSize: Style.FONT_SIZE_SMALLER * 0.7
+      },
+      android: {
+        fontSize: Style.FONT_SIZE_SMALLER - 2
+      }
+    }),
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'rgba(21,21,21,1)'
