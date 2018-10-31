@@ -48,36 +48,36 @@ class RegisterFive extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    const self = this;
-    const { status_code, message } = this.props.dataRegister.dataUser;
-    if (status_code === 200 && this.state.shouldRedirect) {
-      self.setState(
-        {
-          shouldRedirect: false
-        },
-        () => {
-          Alert.alert(
-            'Informasi',
-            'Data anda sedang kami validasi. Harap menghubungi customer service terkait.',
-            [
-              {
-                text: 'OK',
-                onPress: () => {
-                  this.props.navigator.resetTo({
-                    screen: 'TemanDiabetes.LoginScreen',
-                    navigatorStyle: {
-                      navBarHidden: true
-                    }
-                  });
-                }
-              }
-            ]
-          );
-        }
-      );
-    }
-  }
+  // componentDidUpdate() {
+  //   const self = this;
+  //   const { status_code, message } = this.props.dataRegister.dataUser;
+  //   if (status_code === 200 && this.state.shouldRedirect) {
+  //     self.setState(
+  //       {
+  //         shouldRedirect: false
+  //       },
+  //       () => {
+  //         Alert.alert(
+  //           'Informasi',
+  //           'Data anda sedang kami validasi. Harap menghubungi customer service terkait.',
+  //           [
+  //             {
+  //               text: 'OK',
+  //               onPress: () => {
+  //                 this.props.navigator.resetTo({
+  //                   screen: 'TemanDiabetes.LoginScreen',
+  //                   navigatorStyle: {
+  //                     navBarHidden: true
+  //                   }
+  //                 });
+  //               }
+  //             }
+  //           ]
+  //         );
+  //       }
+  //     );
+  //   }
+  // }
 
   async updateUser() {
     const { sip } = this.props.dataRegister.dataUser;
@@ -106,16 +106,19 @@ class RegisterFive extends React.Component {
       },
       () => {
         Alert.alert(
-          'Pemberitahuan',
-          'Akun Anda akan kami verifikasi terlebih dahulu, silahkan tunggu beberapa saat.',
-          [{ text: 'OK',
-            onPress: () => {
-              // log out
-              guelogin.auth().signOut();
-              // move to login page
-              startLoginPage();
+          'Akun Anda sedang tidak aktif.',
+          'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                // log out
+                guelogin.auth().signOut();
+                // move to login page
+                startLoginPage();
+              }
             }
-          }],
+          ],
           { cancelable: false }
         );
       }
@@ -204,9 +207,7 @@ class RegisterFive extends React.Component {
                 onChangeText={sip => this.props.registerSip(sip)}
                 value={sip}
                 underlineColorAndroid={'#fff'}
-                style={[styles.textInputStyle, stylesLocal.inputStyle, {
-
-                }]}
+                style={[styles.textInputStyle, stylesLocal.inputStyle, {}]}
               />
               <TouchableOpacity style={styles.btnNext} onPress={() => this.toHome()}>
                 <Text style={styles.buttonText}>SELESAI</Text>
@@ -238,8 +239,7 @@ const stylesLocal = {
     fontSize: Style.FONT_SIZE * 1.2,
     marginBottom: 15,
     paddingLeft: 20,
-    fontFamily: 'Montserrat-Regular',
-
+    fontFamily: 'Montserrat-Regular'
   }
 };
 
