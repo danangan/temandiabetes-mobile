@@ -59,7 +59,7 @@ class Dots extends React.Component {
     const { item, currentInput } = this.props;
 
     const isShouldActive = currentInput !== '' && currentInput.waktuInput === item.waktuInput;
-    
+
     this.setState({
       showToolTip: isShouldActive
     });
@@ -160,6 +160,7 @@ class HistoryBloodSugarLevels extends React.Component {
 
   render() {
     const data = this.props.history.bloodSugar;
+    const generalBlood = this.props.history.generalBloodSugar;
     const bloodSugar = data === undefined ? [] : data;
 
     return (
