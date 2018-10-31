@@ -55,7 +55,8 @@ public class MainApplication extends NavigationApplication {
             new DnursePackage(),
             new RNSharePackage(),
             new RNGoogleSigninPackage(),
-            new FBSDKPackage(mCallbackManager)
+            new FBSDKPackage(mCallbackManager),
+            new AndroidStarterPackage()
 
         );
     }

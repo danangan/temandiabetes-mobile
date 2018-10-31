@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform, Linking } from 'react-native';
+import { View, StyleSheet, Platform, Linking, NativeModules, Alert, AppState } from 'react-native';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { debounce } from 'lodash';
@@ -60,11 +60,17 @@ import EmergencyTab from '../emergency';
 
 import landingPageURL from '../../config/landingPageURL';
 
+import axios from 'axios';
+
+const activityStarter = NativeModules.ActivityStarter;
+
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: ''
+      token: '',
+      appState: AppState.currentState
     };
     this.onResetNotificationCount = this.onResetNotificationCount.bind(this);
     this._displayNotificationAndroid = this._displayNotificationAndroid.bind(this);
@@ -87,6 +93,29 @@ class App extends Component {
     }
   }
 
+  async getBundleIntent(){
+    if(Platform.OS === "android"){
+      var temp = await activityStarter.getBundleIntent();
+      
+      if(temp.ClientID != null && temp.MemberType != null){
+        this.testgetURL('Nama=' + temp.Nama + '&' + 'ClientID=' + temp.ClientID + '&' + 'MemberType=' + temp.MemberType +  "&FWD");
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    Linking.removeEventListener('url', this.redirectByUrl);
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      console.log('App has come to the foreground!')
+      this.getBundleIntent()
+    }
+    this.setState({appState: nextAppState});
+  }
+
   async componentDidMount() {
     // set the loading in login page to false
     this.props.resetLoginLoader();
@@ -96,6 +125,10 @@ class App extends Component {
 
     // add event listener for direct incoming deeplink
     Linking.addEventListener('url', this.redirectByUrl);
+    
+    AppState.addEventListener('change', this._handleAppStateChange);
+
+    this.getBundleIntent() //android
 
     try {
       await FCM.requestPermissions(
@@ -164,6 +197,7 @@ class App extends Component {
   }
 
   redirectByUrl({ url }) {
+    console.log(url)
     let pathname = url.replace(`${landingPageURL}/`, '');
     pathname = pathname.split('/');
     let screen = null;
@@ -173,6 +207,10 @@ class App extends Component {
         break;
       case 'thread-static':
         screen = 'TemanDiabetes.FeaturedDetail';
+        break;
+      case 'fwdmax':
+        console.log(pathname[1])
+        this.testgetURL(decodeURI(pathname[1]) + "&FWD")
         break;
       default:
         break;
@@ -190,6 +228,62 @@ class App extends Component {
           }
         }
       });
+    }
+  }
+
+  async testgetURL(path) {
+
+    let asuransi = path.split('&')
+
+    if (asuransi != null && asuransi.length == 4) {
+
+      let typeAsuransi, NoPolis, NoAsuransi = ''
+
+      let param = asuransi[1].replace('ClientID=', '')
+
+      if(asuransi[2].replace('MemberType=', '') === 'CC'){
+        typeAsuransi = 'perusahaan'
+        NoPolis = param.substr(0, param.indexOf('-'))
+        NoAsuransi = param.substr(param.indexOf('-') + 1 , param.length)
+
+      } else{
+        typeAsuransi = 'pribadi'
+        NoPolis = param
+        NoAsuransi = '-'
+      }
+
+      Alert.alert(
+        'Sukses',
+        'Data asuransi ditemukan',
+        [
+          {
+            text: 'Ya',
+            onPress: () => {
+              this.props.navigator.push({
+                screen : 'TemanDiabetes.CreateAsuransi',
+                navigatorStyle: {
+                  navBarHidden: true
+                },
+                passProps: {
+                  insuranceId: param[0],
+                  fromFWD: true,
+                  NamaAsuransi: asuransi[3],
+                  TipeAsuransi: typeAsuransi,
+                  NoPolis: NoPolis,
+                  NoAsuransi: NoAsuransi,
+                }
+              });
+            }
+          },
+          {
+            text: 'Tidak',
+            onPress: () => {
+
+            }
+          }
+        ],
+        { cancelable: false }
+      );
     }
   }
 

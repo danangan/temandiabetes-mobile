@@ -10,7 +10,7 @@
     "ios-prod": "ENVFILE=.env.production react-native run-ios",
     "android-prod": "ENVFILE=.env.production react-native run-android",
     "build-android-prod": "export ENVFILE=.env.production && cd android && ./gradlew assembleRelease crashlyticsUploadDistributionRelease",
-    "build-android-dev": "export ENVFILE=.env && cd android && ./gradlew assembleRelease crashlyticsUploadDistributionRelease"
+    "build-android-dev": "export ENVFILE=.env && cd android && ./gradlew assembleRelease"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -22,7 +22,7 @@
     "react-native": "0.53.0",
     "react-native-check-box": "^2.1.0",
     "react-native-config": "^0.11.5",
-    "react-native-fbsdk": "^0.7.0",
+    "react-native-fbsdk": "^0.8.0",
     "react-native-fcm": "^14.2.1",
     "react-native-firebase": "^3.2.7",
     "react-native-google-signin": "^0.12.0",

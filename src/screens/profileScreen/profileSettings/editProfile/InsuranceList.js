@@ -7,6 +7,11 @@ import color from '../../../../style/color';
 const InsuranceList = ({ data, onDeleteItem, onUpdateItem, getInsurance, navigator }) => {
   const renderItem = ({ item, index }) => (
     <View style={styles.container}>
+      {(item.verified) && (
+        <View style={styles.horizontalVerif}>
+          <Text style={styles.verifiedStyle}>Verified</Text>
+        </View>
+      )}
       <View style={styles.vertical}>
         <View style={styles.horizontal}>
           <View style={{ flex: 1, alignItems: 'flex-start' }}>
@@ -206,7 +211,20 @@ const styles = StyleSheet.create({
     paddingTop: Style.PADDING - 10,
     paddingBottom: Style.PADDING - 10,
     backgroundColor: color.solid
-  }
+  },
+  horizontalVerif: {
+    borderRadius: 10,
+    backgroundColor: '#68ba6e',
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    marginRight: 10,
+  },
+  verifiedStyle: {
+		color: '#fff',
+    paddingHorizontal: 10,
+    paddingVertical: 1,
+		fontSize: 12,
+	}
 });
 
 export default InsuranceList;

@@ -155,6 +155,9 @@ class EditProfile extends React.Component {
         }
       } = await API_CALL(option);
       this.setState({ insuranceList: insurances });
+
+      console.log("list")
+      console.log(insurances)
     } catch (error) {
       console.log(error);
     }
@@ -194,6 +197,8 @@ class EditProfile extends React.Component {
         this.state.userData.jenis_kelamin !== '' &&
         this.state.userData.no_telp !== ''
       ) {
+        console.log('check user')
+        console.log(this.state.userData)
         this.setState({
           isLoading: true
         });
@@ -571,38 +576,6 @@ class EditProfile extends React.Component {
                   Platform.OS === 'ios' &&
                   <View style={styles.underLine}></View>
                 }
-              </View>
-              <View style={styles.fieldWrapper}>
-                <Text style={styles.titleTextInput}>Jenis Kelamin</Text>
-                {
-                  Platform.OS === 'android' &&
-                  <View>
-                    <Picker
-                      selectedValue={userData.jenis_kelamin}
-                      style={styles.picker}
-                      onValueChange={itemValue => this.setUserData('jenis_kelamin', itemValue)}
-                    >
-                      <Picker.Item label="Pilih jenis kelamin" value="" />
-                      <Picker.Item label="Laki-laki" value="L" />
-                      <Picker.Item label="Perempuan" value="P" />
-                    </Picker>
-                  </View>
-                }
-                {
-                  Platform.OS === 'ios' &&
-                  <TouchableOpacity
-                    style={{ height: 35, marginLeft: 0 }}
-                    onPress={() => {
-                      const option = jenisKelamin;
-                      const title = 'Jenis Kelamin';
-                      const onSelect = val => this.setUserData('jenis_kelamin', val);
-                      this.openIOSPicker(option, title, onSelect);
-                    }}
-                  >
-                    <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(jenisKelamin, userData.jenis_kelamin)}</Text>
-                  </TouchableOpacity>
-                }
-                <View style={styles.underLine}></View>
               </View>
               <View style={styles.fieldWrapper}>
                 <Text style={styles.titleTextInput}>Jenis Kelamin</Text>
