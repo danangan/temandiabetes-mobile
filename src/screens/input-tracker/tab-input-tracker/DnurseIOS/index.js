@@ -129,7 +129,7 @@ class DnurseView extends React.Component {
               this.doSaveData(bloodLevel);
               break;
             case 24:
-              Alert.alert('Silahkan cabut & pasang kembali Dnurse Anda untuk melanjutkan.');
+              Alert.alert('Cabut dan pasang kembali Dnurse Anda untuk menggunakan fitur ini');
               break;
             case 23:
               Alert.alert(
