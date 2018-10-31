@@ -6,7 +6,8 @@ const initialState = {
   message: null,
   typeUser: null,
   statusCode: 0,
-  loading: false
+  loading: false,
+  is_active: false
 };
 
 const messages = 'success login';
@@ -62,7 +63,8 @@ const signWithGoogle = (state, payload) => {
     name: payload.profile.name,
     currentUser: payload.currentUser,
     message: messages,
-    statusCode: 200
+    statusCode: 200,
+    is_active: payload.currentUser.is_active
   };
 };
 
@@ -103,11 +105,6 @@ const loginReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: action.payload.loading
-      };
-    case 'RESET_LOGIN_REDUCER_LOADING':
-      return {
-        ...state,
-        loading: false,
       };
     default:
       return state;
