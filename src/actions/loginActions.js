@@ -20,6 +20,14 @@ const loginManual = ({ email, password }) => async dispatch => {
     return currentUser;
   }
 
+  function onSuccessSSO(userSSO) {
+    dispatch({
+      type: ActionTypes.LOGIN_MANUAL_SSO,
+      payload: userSSO
+    });
+    return currentUser;
+  }
+
   try {
     const loggedInUser = await guelogin
       .auth()
@@ -37,8 +45,22 @@ const loginManual = ({ email, password }) => async dispatch => {
         }
       });
 
-      AsyncStorage.setItem(authToken, firebaseIdToken);
-      onSuccess(currentUser);
+      if (currentUser.registration_status == "finished") {
+        AsyncStorage.setItem(authToken, firebaseIdToken);
+        onSuccess(currentUser);
+      } else {
+        let isNewUser = true;
+        const payloadData = {
+          firebaseIdToken,
+          // profile,
+          isNewUser,
+          currentUser
+        };
+
+        await AsyncStorage.setItem('isNewUser', String(isNewUser));
+        onSuccessSSO(payloadData);
+      }
+
     }
   } catch (error) {
     const parsed = JSON.parse(JSON.stringify(error));

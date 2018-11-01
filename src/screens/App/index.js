@@ -358,8 +358,8 @@ class App extends Component {
             </View>
           </TopTabs>
 
-          {// only render if the user is a diabetesi
-          currentUser.tipe_user === 'diabetesi' || currentUser.tipe_user === 'non-diabetesi' ? (
+          {/* {// only render if the user is a diabetesi
+          currentUser.tipe_user === 'diabetesi' || currentUser.tipe_user === 'non-diabetesi' ? ( */}
             <TopTabs
               title="Rekaman"
               icon={InputTrackerIcon}
@@ -374,7 +374,7 @@ class App extends Component {
                 <HistoryTab navigator={navigator} />
               </View>
             </TopTabs>
-          ) : null}
+          {/* ) : null} */}
           <TopTabs
             title="Belanja"
             icon={CartIcon}

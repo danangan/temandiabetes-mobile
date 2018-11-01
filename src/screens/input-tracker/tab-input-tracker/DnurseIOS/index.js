@@ -38,7 +38,7 @@ class DnurseView extends React.Component {
     super(props);
     this.state = {
       bloodSugarLevels: null,
-      statusView: VIEW_DNURSE.INPUT_DNURSE
+      statusView: VIEW_DNURSE.INPUT_DNURSE,
     };
     this.toBloodTesterSubscription = null;
   }
@@ -114,6 +114,9 @@ class DnurseView extends React.Component {
           switch (hintCode) {
             case 4:
               this.setState({ statusView: VIEW_DNURSE.INPUT_TESTSTRIP });
+              break;
+            case 5:
+              Alert.alert('Test strip sudah pernah digunakan');
               break;
             case 6:
               this.setState({ statusView: VIEW_DNURSE.DROPS_BLOOD });
