@@ -91,7 +91,7 @@ class RegisterFive extends React.Component {
       registration_status: 'finished',
       role: 'advisor',
       is_active: false,
-      sip
+      advisor_sip: sip
     };
 
     await API_CALL.put(`api/users/${this.props._id}`, userData);
