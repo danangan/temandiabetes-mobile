@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import {
+  Alert,
   View,
-  Text
-} from 'react-native'
+  Text,
+} from 'react-native';
 
 import { NavigationBar, Button, Spinner, TextField, CardSection } from '../../../components'
 import { API_CALL } from '../../../utils/ajaxRequestHelper'
@@ -108,6 +109,7 @@ class InputEmail extends Component {
 
     try {
       const res = await API_CALL(option);
+      Alert.alert('Pemberitahuan', 'Password Anda telah berhasil diubah.');
       this.setState({
         showForm: false
       })
