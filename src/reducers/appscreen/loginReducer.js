@@ -49,6 +49,25 @@ const onLogin = (state, payload) => {
   };
 };
 
+const onLoginSSO = (state, payload) => {
+  if (payload === null) {
+    return {
+      ...state
+    };
+  }
+
+  return {
+    ...state,
+    isNewUser: payload.isNewUser,
+    email: payload.currentUser.email,
+    name: payload.currentUser.name,
+    currentUser: payload.currentUser,
+    message: messages,
+    statusCode: 200,
+    is_active: payload.currentUser.is_active
+  };
+};
+
 const signWithGoogle = (state, payload) => {
   if (payload === null) {
     return {
@@ -92,6 +111,8 @@ const loginReducer = (state = initialState, action) => {
       return initialState;
     case ActionTypes.LOGIN_MANUAL:
       return onLogin(state, action.payload);
+      case ActionTypes.LOGIN_MANUAL_SSO:
+        return onLoginSSO(state, action.payload);
     case ActionTypes.SIGN_WITH_GOOGLE:
       return signWithGoogle(state, action.payload);
     case ActionTypes.USER_LOGOUT:
