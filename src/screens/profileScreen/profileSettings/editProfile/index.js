@@ -127,13 +127,6 @@ class EditProfile extends React.Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       this.setState({ keyboardActive: false });
     });
-
-    if(this.props.fromFWD){
-      this.setState({
-        activeTab: 1
-      });
-    }
-
   }
 
   componentDidMount() {
@@ -141,6 +134,30 @@ class EditProfile extends React.Component {
 
     // FETCH INSURANCE DATA HERE
     this.getInsurance();
+
+    if(this.props.fromFWD){
+      this.setState({
+        activeTab: 1
+      });
+
+      this.props.navigator.push({
+        screen : 'TemanDiabetes.CreateAsuransi',
+        navigatorStyle: {
+          navBarHidden: true
+        },
+        passProps: {
+          onSuccessCallback: () => {
+            this.getInsurance();
+          },
+          insuranceId: this.props.insuranceId,
+          fromFWD: true,
+          NamaAsuransi: this.props.NamaAsuransi,
+          TipeAsuransi: this.props.TipeAsuransi,
+          NoPolis: this.props.NoPolis,
+          NoAsuransi: this.props.NoAsuransi,
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -163,6 +180,7 @@ class EditProfile extends React.Component {
       } = await API_CALL(option);
       this.setState({ insuranceList: insurances });
 
+      console.log(insurances)
     } catch (error) {
       console.log(error);
     }

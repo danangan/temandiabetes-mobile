@@ -268,16 +268,6 @@ class App extends Component {
                   navBarHidden: true
                 },
                 passProps: {
-                  fromFWD: true
-                }
-              });
-              
-              this.props.navigator.push({
-                screen : 'TemanDiabetes.CreateAsuransi',
-                navigatorStyle: {
-                  navBarHidden: true
-                },
-                passProps: {
                   insuranceId: param[0],
                   fromFWD: true,
                   NamaAsuransi: asuransi[3],
