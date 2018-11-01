@@ -603,7 +603,7 @@ class EditProfile extends React.Component {
                   }
                 <View style={styles.underLine}></View>
               </View>
-              <View style={styles.fieldWrapper}>
+              {currentUser.tipe_user != 'ahli' && <View style={styles.fieldWrapper}>
                 <Text style={styles.titleTextInput}>Tipe User</Text>
                 {
                   Platform.OS === 'android' &&
@@ -635,7 +635,7 @@ class EditProfile extends React.Component {
                   </TouchableOpacity>
                 }
                 <View style={styles.underLine}></View>
-              </View>
+              </View>}
               {this.state.userData.tipe_user === 'diabetesi' && (
                 <View style={styles.fieldWrapper}>
                   <Text style={styles.titleTextInput}>Jenis Diabetes</Text>
