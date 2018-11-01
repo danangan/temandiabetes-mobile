@@ -89,6 +89,7 @@ class RegisterFive extends React.Component {
       email: this.props.email,
       tipe_user: this.props.tipeuser,
       registration_status: 'finished',
+      role: 'advisor',
       is_active: false,
       sip
     };

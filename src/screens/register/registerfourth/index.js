@@ -140,6 +140,7 @@ class RegisterScreenFourth extends React.Component {
 
       if (this.state.selected === 'ahli') {
         userData.registration_status = 'inputSIP';
+        userData.role = 'advisor';
       } else {
         userData.registration_status = 'finished';
       }
@@ -360,7 +361,7 @@ class RegisterScreenFourth extends React.Component {
                 />
                 <Text>Advisor</Text>
               </TouchableOpacity> */}
-              
+
             </View>
 
             <TouchableOpacity
@@ -390,7 +391,7 @@ const stylesLocal = StyleSheet.create({
     marginVertical: 5,
     marginHorizontal: 5,
     padding: 10,
-    borderColor: '#fff', 
+    borderColor: '#fff',
     borderWidth: 1
   },
   wrapperScroll: {
