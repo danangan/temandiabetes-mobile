@@ -56,16 +56,16 @@ class RegisterScreenSecond extends React.Component {
           emailChecking: false
         },
         () => {
-          if (dataUser.emailValid.message === 'INVALID') {
-            Alert.alert('Perhatian!', 'Email sudah pernah didaftarkan', [
-              {
-                text: 'OK',
-                onPress: () => this.props.clearDataRegister('PENDING_EMAIL_ALREADY_REGISTERED')
-              }
-            ]);
-          } else if (dataUser.emailValid.message === 'VALID') {
+          if (dataUser.emailValid.message === 'VALID') {
             this.handleSuccessValidation();
             this.props.clearDataRegister('PENDING_EMAIL_ALREADY_REGISTERED');
+          } else {
+              Alert.alert('Perhatian!', dataUser.emailValid.message, [
+                {
+                  text: 'OK',
+                  onPress: () => this.props.clearDataRegister('PENDING_EMAIL_ALREADY_REGISTERED')
+                }
+              ]);
           }
         }
       );
