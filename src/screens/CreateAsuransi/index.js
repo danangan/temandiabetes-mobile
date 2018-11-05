@@ -161,29 +161,47 @@ class CreateAsuransi extends React.Component {
       
 
       try {
-        await API_CALL(option);
+        const { data } = await API_CALL(option);
 
-        if (this.props.onSuccessCallback) {
-          this.props.onSuccessCallback();
-        }
-        await this.setState({ _errors: null, isLoading: false }, () => {
+        if(data.success){
+          if (this.props.onSuccessCallback) {
+            this.props.onSuccessCallback();
+          }
+          
+          await this.setState({ _errors: null, isLoading: false }, () => {
+            Alert.alert(
+              'Perhatian!',
+              this.props.fromFWD 
+                ? 'Asuransi berhasil di simpan.'
+                : this.props.insuranceId
+                  ? 'Asuransi berhasil diperbarui'
+                  : 'Asuransi berhasil di simpan.',
+              [
+                {
+                  text: 'Tutup',
+                  onPress: () => {
+                    this.props.navigator.pop();
+                  }
+                }
+              ]
+            );
+          });
+        } else{
           Alert.alert(
             'Perhatian!',
-            this.props.fromFWD 
-              ? 'Asuransi berhasil di simpan.'
-              : this.props.insuranceId
-                ? 'Asuransi berhasil diperbarui'
-                : 'Asuransi berhasil di simpan.',
+            data.message,
             [
               {
-                text: 'Tutup',
+                text: 'Ya',
                 onPress: () => {
-                  this.props.navigator.pop();
+                  this.setState({isLoading: false})
                 }
               }
-            ]
+            ],
+            { cancelable: false }
           );
-        });
+        }
+
       } catch (error) {
         console.log(error);
       }
