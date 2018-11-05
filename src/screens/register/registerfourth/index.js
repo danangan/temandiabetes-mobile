@@ -113,7 +113,7 @@ class RegisterScreenFourth extends React.Component {
         if (!currentUser.is_active && currentUser.tipe_user === 'ahli') {
           Alert.alert(
             'Pemberitahuan',
-            'Akun anda sedang tidak aktif, masih dalam proses persetujuan. Silakan tunggu beberapa email konfirmasi.',
+            'Akun anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
             [{ text: 'OK', onPress: () => self.props.onFirebaseSignOut() }],
             { cancelable: false }
           );
@@ -122,34 +122,35 @@ class RegisterScreenFourth extends React.Component {
     }
   }
 
-  async updateUser() {
-    const TOKEN = await AsyncStorage.getItem(authToken);
+  async updateUser(cb = () => {}) {
+    try {
+      const TOKEN = await AsyncStorage.getItem(authToken);
 
-    const API_CALL = axios.create({
-      baseURL: API_BASE,
-      headers: {
-        authentication: TOKEN
+      const API_CALL = axios.create({
+        baseURL: API_BASE,
+        headers: {
+          authentication: TOKEN
+        }
+      });
+
+      const userData = {
+        is_active: true,
+        tipe_user: this.state.selected,
+      };
+
+      if (this.state.selected === 'ahli') {
+        userData.registration_status = 'inputSIP';
+        userData.role = 'advisor';
+      } else {
+        userData.registration_status = 'finished';
       }
-    });
 
-    const userData = {
-      is_active: true,
-      tipe_user: this.state.selected
-    };
+      await API_CALL.put(`api/users/${this.props._id}`, userData);
 
-    await API_CALL.put(`api/users/${this.props._id}`, userData);
-
-    this.setState(
-      {
-        shouldRedirect: false
-      },
-      () => {
-        // redirect here
-        AsyncStorage.removeItem('isNewUser').then(() => {
-          mainApp();
-        });
-      }
-    );
+      cb();
+    } catch (error) {
+      Alert.alert('Error', 'Server sedang bermasalah');
+    }
   }
 
   handleFinalRegister() {
@@ -169,7 +170,18 @@ class RegisterScreenFourth extends React.Component {
         if (selected !== 'ahli') {
           // check if it is coming from google / facebook sign in
           if (this.props.registerType === 'GoogleSignIn') {
-            this.updateUser();
+            this.updateUser(() => {
+              // redirect to App after updating user
+              this.setState(
+                {
+                  shouldRedirect: false
+                },
+                () => {
+                  // redirect here
+                  mainApp();
+                }
+              );
+            });
           } else {
             this.props.registerAction(dataUser);
           }
@@ -179,6 +191,7 @@ class RegisterScreenFourth extends React.Component {
           };
 
           if (this.props.registerType === 'GoogleSignIn') {
+            this.updateUser();
             passProps.registerType = 'GoogleSignIn';
             passProps._id = this.props._id;
           }
@@ -210,7 +223,7 @@ class RegisterScreenFourth extends React.Component {
         key={index}
         style={
           this.state.selected === item
-            ? [stylesLocal.imagesWrapper, { borderColor: 'rgb(239, 67, 79)', borderWidth: 1.5 }]
+            ? [stylesLocal.imagesWrapper, { borderColor: 'rgb(239, 67, 79)', borderWidth: 1 }]
             : stylesLocal.imagesWrapper
         }
         onPress={() => this.handleUserDecision(item)}
@@ -313,6 +326,42 @@ class RegisterScreenFourth extends React.Component {
               }}
             >
               {this.handleSelectedUser()}
+              {/* <TouchableOpacity
+                style={stylesLocal.imagesWrapper}
+                onPress={() => alert('Test image 1')}
+              >
+                <Image
+                  resizeMode={'contain'}
+                  style={stylesLocal.images}
+                  source={{ uri: Images.advisorIcon }}
+                />
+                <Text>Diabetesi</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={stylesLocal.imagesWrapper}
+                onPress={() => alert('Test image 2')}
+              >
+                <Image
+                  resizeMode={'contain'}
+                  style={stylesLocal.images}
+                  source={{ uri: Images.advisorIcon }}
+                />
+                <Text>Non Diabetesi</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={stylesLocal.imagesWrapper}
+                onPress={() => alert('Test image 3')}
+              >
+                <Image
+                  resizeMode={'contain'}
+                  style={stylesLocal.images}
+                  source={{ uri: Images.advisorIcon }}
+                />
+                <Text>Advisor</Text>
+              </TouchableOpacity> */}
+
             </View>
 
             <TouchableOpacity
@@ -341,7 +390,9 @@ const stylesLocal = StyleSheet.create({
     height: Style.DEVICE_WIDTH / 3.0,
     marginVertical: 5,
     marginHorizontal: 5,
-    padding: 10
+    padding: 10,
+    borderColor: '#fff',
+    borderWidth: 1
   },
   wrapperScroll: {
     flex: 1,

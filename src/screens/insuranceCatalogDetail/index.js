@@ -13,6 +13,7 @@ import HTMLView from 'react-native-render-html';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import RecommendationInsurance from './recommendationInsurance';
+import { ResponsiveImage } from '../../components';
 
 const CONTAINER_MAX_WIDTH = (Dimensions.get('window').width * 95) / 100;
 const IMAGES_MAX_WIDTH = CONTAINER_MAX_WIDTH - 65;
@@ -34,35 +35,24 @@ const CUSTOM_STYLES = {
   h3: {
     marginTop: 0,
     marginBottom: 10
-  },
+  }
 };
 const CUSTOM_CONTAINER_STYLE = {
   maxWidth: CONTAINER_MAX_WIDTH
 };
 
-let defaultHeight = 300;
-
 const CUSTOM_RENDERERS = {
   img: attr => (
-    <Image
+    <ResponsiveImage
       key={attr.src + attr.alt}
-      style={{
-        resizeMode: 'cover',
-        width: '100%',
-        marginBottom: 10,
-        height: Style.DEVICE_WIDTH / 2
-      }}
-      onLoad={() => {
-        // use onload to fix the image width
-        Image.getSize(attr.src, (width, height) => {
-          defaultHeight = (IMAGES_MAX_WIDTH / width) * height;
-        });
-      }}
+      resizeMode="contain"
+      style={{ width: '100%' }}
       source={{
         uri:
           attr.src ||
           'https://firebasestorage.googleapis.com/v0/b/temandiabetes.appspot.com/o/assets%2FplaceholderTD-Android.png?alt=media&token=d26ffbb4-08d5-4890-b6f5-fc8922300a0e'
       }}
+      initHeight="138"
     />
   ),
   br: () => null
@@ -111,7 +101,7 @@ export default class InsuranceCatalogDetail extends Component {
           <View style={styles.card}>
             <HTMLView {...DEFAULT_PROPS} html={description} />
           </View>
-          <RecommendationInsurance insuranceId={_id}/>
+          <RecommendationInsurance insuranceId={_id} />
         </ScrollView>
       </View>
     );

@@ -22,6 +22,7 @@ import { API_BASE } from '../../../utils/API';
 import { startLoginPage } from '../../../../App';
 import { authToken } from '../../../utils/constants';
 import Images from '../../../assets/images';
+import { guelogin } from '../../../utils/GueLogin';
 
 class RegisterFive extends React.Component {
   static navigatorStyle = {
@@ -57,18 +58,13 @@ class RegisterFive extends React.Component {
         },
         () => {
           Alert.alert(
-            'Informasi',
-            'Data anda sedang kami validasi. Harap menghubungi customer service terkait.',
+            'Akun Anda sedang tidak aktif.',
+            'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
             [
               {
                 text: 'OK',
                 onPress: () => {
-                  this.props.navigator.resetTo({
-                    screen: 'TemanDiabetes.LoginScreen',
-                    navigatorStyle: {
-                      navBarHidden: true
-                    }
-                  });
+                  startLoginPage();
                 }
               }
             ]
@@ -92,7 +88,10 @@ class RegisterFive extends React.Component {
     const userData = {
       email: this.props.email,
       tipe_user: this.props.tipeuser,
-      sip
+      registration_status: 'finished',
+      role: 'advisor',
+      is_active: false,
+      advisor_sip: sip
     };
 
     await API_CALL.put(`api/users/${this.props._id}`, userData);
@@ -102,9 +101,22 @@ class RegisterFive extends React.Component {
         shouldRedirect: false
       },
       () => {
-        // redirect here
-        AsyncStorage.removeItem('isNewUser');
-        startLoginPage();
+        Alert.alert(
+          'Akun Anda sedang tidak aktif.',
+          'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                // log out
+                guelogin.auth().signOut();
+                // move to login page
+                startLoginPage();
+              }
+            }
+          ],
+          { cancelable: false }
+        );
       }
     );
   }
@@ -191,9 +203,7 @@ class RegisterFive extends React.Component {
                 onChangeText={sip => this.props.registerSip(sip)}
                 value={sip}
                 underlineColorAndroid={'#fff'}
-                style={[styles.textInputStyle, stylesLocal.inputStyle, {
-
-                }]}
+                style={[styles.textInputStyle, stylesLocal.inputStyle, {}]}
               />
               <TouchableOpacity style={styles.btnNext} onPress={() => this.toHome()}>
                 <Text style={styles.buttonText}>SELESAI</Text>
@@ -225,8 +235,7 @@ const stylesLocal = {
     fontSize: Style.FONT_SIZE * 1.2,
     marginBottom: 15,
     paddingLeft: 20,
-    fontFamily: 'Montserrat-Regular',
-    
+    fontFamily: 'Montserrat-Regular'
   }
 };
 

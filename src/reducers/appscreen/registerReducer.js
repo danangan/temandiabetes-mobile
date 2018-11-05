@@ -156,7 +156,7 @@ const registerReducer = (state = initialState, action) => {
             ...state.dataUser,
             emailValid: {
               ...state.dataUser.emailValid,
-              message: 'INVALID',
+              message: data.message != null ? data.message : 'INVALID',
               status_code: 201
             }
           }

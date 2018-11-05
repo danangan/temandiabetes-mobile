@@ -7,7 +7,6 @@ import Food from './Food';
 import BloodPressure from './BloodPressure';
 import Activity from './Activity';
 import Weight from './Weight';
-import Style from '../../../style/defaultStyle';
 
 class MenuButton extends React.Component {
   render() {

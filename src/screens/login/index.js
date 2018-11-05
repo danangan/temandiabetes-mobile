@@ -53,7 +53,7 @@ class Login extends Component {
   componentDidMount() {
     this.props.setupGoogleSignIn();
     Linking.addEventListener('url', this.redirectByUrl);
-    NetInfo.isConnected.addEventListener('change', this.handleConnectionChange);
+    NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectionChange);
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink && deepLink.currentDeepLink !== '' && !deepLink.expired) {
@@ -61,6 +61,8 @@ class Login extends Component {
         this.redirectByUrl({ url: deepLink.currentDeepLink });
       }
     }
+
+    this.props.resetState();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -68,88 +70,95 @@ class Login extends Component {
     // here we check if the inactive user is a new user or not
     // if the user is existing user, the isnewuser value will be false, thus
     // we give them alert that the user account is inactive
-    if (nextProps.loginReducer.isNewUser === true) {
-      Navigation.startSingleScreenApp({
-        screen: {
-          screen: 'TemanDiabetes.RegisterScreenFourth',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        },
-        passProps: {
-          email: nextProps.loginReducer.email,
-          _id: nextProps.loginReducer.currentUser._id,
-          nama: nextProps.loginReducer.nama,
-          registerType: 'GoogleSignIn'
-        }
-      });
-    } else if (this.props.loginReducer.typeUser) {
-      Navigation.startSingleScreenApp({
-        screen: {
-          screen: 'TemanDiabetes.RegisterScreenFourth',
-          navigatorStyle: {
-            navBarHidden: true
-          }
-        },
-        passProps: {
-          email: nextProps.loginReducer.email,
-          _id: nextProps.loginReducer.currentUser._id,
-          nama: nextProps.loginReducer.nama,
-          registerType: 'GoogleSignIn'
-        }
-      });
-    } else if (result(nextProps.loginReducer, 'currentUser.is_active') === false) {
-      Alert.alert(
-        'Akun Anda sedang tidak aktif.',
-        'Hubungi penyedia layanan untuk info lebih lanjut.'
-      );
-      this.props.resetState();
-    }
-  }
-
-  componentDidUpdate() {
-    const self = this;
-    const { statusCode, message } = this.props.loginReducer;
+    const { statusCode, message, isNewUser, typeUser, is_active } = nextProps.loginReducer;
+    const { shouldRedirect } = this.state;
     const errorMessage = this.errorMessage(message);
-
-    if (statusCode === 400 && message === 'inactive' && this.state.shouldRedirect) {
-      Alert.alert(
-        'Akun Anda sedang tidak aktif.',
-        'Hubungi penyedia layanan untuk info lebih lanjut.',
-        [
-          {
-            text: 'OK',
-            onPress: () => {
-              self.setState({ shouldRedirect: false }, () => {
-                self.props.onSignOut();
-                this.props.resetState();
-              });
+    switch (true) {
+      case statusCode === 400 && message === 'inactive' && shouldRedirect:
+        return Alert.alert(
+          'Akun Anda sedang tidak aktif.',
+          'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                this.setState({ shouldRedirect: false }, () => {
+                  this.props.resetState();
+                });
+              }
             }
+          ],
+          { cancelable: false }
+        );
+      case statusCode === 200 && message === 'success login' && shouldRedirect:
+        return this.setState({ shouldRedirect: false });
+      case statusCode === 500 && shouldRedirect:
+        return this.setState(
+          {
+            shouldRedirect: false
+          },
+          () => {
+            if (errorMessage !== undefined) {
+              this.showSnackBar(message);
+            }
+            this.props.resetState();
           }
-        ],
-        { cancelable: false }
-      );
-    }
-
-    if (statusCode === 200 && message === 'success login' && this.state.shouldRedirect) {
-      self.setState({ shouldRedirect: false });
-    } else if (statusCode === 500 && this.state.shouldRedirect) {
-      self.setState(
-        {
-          shouldRedirect: false
-        },
-        () => {
-          if (errorMessage !== undefined) {
-            this.showSnackBar(message);
+        );
+      case isNewUser === true ||
+        (nextProps.loginReducer.currentUser != null &&
+          nextProps.loginReducer.currentUser.registration_status != 'finished'):
+        return Navigation.startSingleScreenApp({
+          screen: {
+            screen: 'TemanDiabetes.RegisterScreenFourth',
+            navigatorStyle: {
+              navBarHidden: true
+            }
+          },
+          passProps: {
+            email: nextProps.loginReducer.email,
+            _id: nextProps.loginReducer.currentUser._id,
+            nama: nextProps.loginReducer.nama,
+            registerType: 'GoogleSignIn'
           }
-        }
-      );
-      this.props.resetState();
+        });
+      case typeUser:
+        return Navigation.startSingleScreenApp({
+          screen: {
+            screen: 'TemanDiabetes.RegisterScreenFourth',
+            navigatorStyle: {
+              navBarHidden: true
+            }
+          },
+          passProps: {
+            email: nextProps.loginReducer.email,
+            _id: nextProps.loginReducer.currentUser._id,
+            nama: nextProps.loginReducer.nama,
+            registerType: 'GoogleSignIn'
+          }
+        });
+      case statusCode === 200 && is_active === false:
+        return Alert.alert(
+          'Akun Anda sedang tidak aktif.',
+          'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
+          [
+            {
+              text: 'OK',
+              onPress: () => {
+                this.setState({ shouldRedirect: false }, () => {
+                  this.props.resetState();
+                });
+              }
+            }
+          ],
+          { cancelable: false }
+        );
+      default:
+        break;
     }
   }
 
   componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('change', this.handleConnectionChange);
+    NetInfo.isConnected.removeEventListener('connectionChange', this.handleConnectionChange);
   }
 
   onChangeTextHandlerEmail = e => this.setState({ email: e });
@@ -265,8 +274,8 @@ class Login extends Component {
       this.state.shouldRedirect || this.props.loginReducer.loading ? (
         <Spinner color="#EF434F" text="Logging In..." size="large" />
       ) : (
-        <View />
-      );
+          <View />
+        );
 
     return (
       <ImageBackground source={Images.backgroundLogin} style={styles.containerStyle}>
