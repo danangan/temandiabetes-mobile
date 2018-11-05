@@ -70,8 +70,6 @@ class Login extends Component {
     // here we check if the inactive user is a new user or not
     // if the user is existing user, the isnewuser value will be false, thus
     // we give them alert that the user account is inactive
-    console.log('eka')
-    console.log(nextProps.loginReducer)
     const { statusCode, message, isNewUser, typeUser, is_active } = nextProps.loginReducer;
     const { shouldRedirect } = this.state;
     const errorMessage = this.errorMessage(message);
