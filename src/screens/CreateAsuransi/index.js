@@ -48,7 +48,7 @@ class CreateAsuransi extends React.Component {
       nomorPolis: '',
       _errors: null,
       errorMessage: '',
-      isLoading: false, 
+      isLoading: true, 
     };
 
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -121,6 +121,8 @@ class CreateAsuransi extends React.Component {
     } catch (error) {
       console.log(error);
     }
+
+    this.setState({isLoading: false});
   }
 
   componentWillUnmount() {
@@ -170,7 +172,7 @@ class CreateAsuransi extends React.Component {
           
           await this.setState({ _errors: null, isLoading: false }, () => {
             Alert.alert(
-              'Perhatian!',
+              'Informasi!',
               this.props.fromFWD 
                 ? 'Asuransi berhasil di simpan.'
                 : this.props.insuranceId
@@ -188,7 +190,7 @@ class CreateAsuransi extends React.Component {
           });
         } else{
           Alert.alert(
-            'Perhatian!',
+            'Informasi!',
             data.message,
             [
               {
