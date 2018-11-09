@@ -199,9 +199,9 @@ class App extends Component {
   redirectByUrl({ url }) {
     console.log(url)
 
-    // let pathname = url.replace(`${landingPageURL}/`, '');
+    let pathname = url.replace(`${landingPageURL}/`, '');
 
-    let pathname = url.replace(`https://temandiabetes.com/`, '');
+    // let pathname = url.replace(`https://temandiabetes.com/`, '');
     pathname = pathname.split('/');
     let screen = null;
     switch (pathname[0]) {
@@ -212,7 +212,6 @@ class App extends Component {
         screen = 'TemanDiabetes.FeaturedDetail';
         break;
       case 'fwdmax':
-        console.log(pathname[1])
         this.testgetURL(decodeURI(pathname[1]) + "&FWD")
         break;
       default:
@@ -256,11 +255,11 @@ class App extends Component {
       }
 
       Alert.alert(
-        'Sukses',
-        'Data asuransi ditemukan',
+        'Konfirmasi',
+        'Klik setuju untuk menyinkronkan data (nama peserta, no polis, no asuransi) dari asuransi FWD ke aplikasi Teman Diabetes?',
         [
           {
-            text: 'Ya',
+            text: 'Setuju',
             onPress: () => {
               this.props.navigator.push({
                 screen: 'TemanDiabetes.EditProfile',
@@ -279,7 +278,7 @@ class App extends Component {
             }
           },
           {
-            text: 'Tidak',
+            text: 'Tidak Setuju',
             onPress: () => {
 
             }
