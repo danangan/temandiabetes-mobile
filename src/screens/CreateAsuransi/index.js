@@ -196,7 +196,9 @@ class CreateAsuransi extends React.Component {
               {
                 text: 'Ya',
                 onPress: () => {
-                  this.setState({isLoading: false})
+                  this.props.navigator.pop();
+                  // this.setState({isLoading: false})
+
                 }
               }
             ],
