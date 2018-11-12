@@ -56,7 +56,10 @@ const inputTrackerReducer = (state = initialState, action) => {
       return {
         ...state, 
         inputTracker: {
-          ...state.inputTracker, status_code: 200, message: 'Success'
+          ...state.inputTracker,    
+            status_code: 200, 
+            message: 'Success',
+            currentPayload: action.payload.data
         }
       };
     case 'PENDING_INPUT_TRACKER_FOOD': {

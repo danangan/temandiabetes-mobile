@@ -10,7 +10,6 @@ import { authToken } from '../utils/constants';
 import { guelogin } from '../utils/GueLogin';
 import { API_CURRENT_USER } from '../utils/API';
 import { updateFCMToken } from './authAction';
-import { API_CALL } from '../utils/ajaxRequestHelper';
 
 const loginManual = ({ email, password }) => async dispatch => {
   function onSuccess(currentUser) {
@@ -21,10 +20,10 @@ const loginManual = ({ email, password }) => async dispatch => {
     return currentUser;
   }
 
-  function onSuccessNewUser(currentUser) {
+  function onSuccessSSO(userSSO) {
     dispatch({
-      type: ActionTypes.LOGIN_MANUAL_NEWUSER,
-      payload: currentUser
+      type: ActionTypes.LOGIN_MANUAL_SSO,
+      payload: userSSO
     });
     return currentUser;
   }
@@ -35,15 +34,6 @@ const loginManual = ({ email, password }) => async dispatch => {
       .signInAndRetrieveDataWithEmailAndPassword(email, password);
 
     if (loggedInUser) {
-      let isEmailExist = false;
-      const option = {
-        type: 'GET',
-        url: `api/users/does-email-exist/${email}`
-      };
-      const { data: { data: { doesEmailExist } } } = await API_CALL(option);
-      isEmailExist = doesEmailExist != null ? doesEmailExist : false;
-
-
       const firebaseIdToken = await guelogin.auth().currentUser.getIdToken();
       const {
         data: {
@@ -55,25 +45,21 @@ const loginManual = ({ email, password }) => async dispatch => {
         }
       });
 
-      if (isEmailExist) {
-
+      if (currentUser.registration_status == "finished") {
         AsyncStorage.setItem(authToken, firebaseIdToken);
         onSuccess(currentUser);
-
       } else {
-
-        let profile = loggedInUser.user._user;
-
+        let isNewUser = true;
         const payloadData = {
           firebaseIdToken,
-          profile,
+          // profile,
+          isNewUser,
           currentUser
         };
 
-        await AsyncStorage.setItem('isNewUser', String(true));
-        onSuccessNewUser(payloadData);
+        await AsyncStorage.setItem('isNewUser', String(isNewUser));
+        onSuccessSSO(payloadData);
       }
-
 
     }
   } catch (error) {
@@ -128,14 +114,6 @@ const signWithGoogle = () => async dispatch => {
         isNewUser,
         currentUser
       };
-
-      console.log('eka')
-      console.log(payloadData)
-      console.log(firebaseIdToken)
-      console.log(profile)
-      console.log(isNewUser)
-      console.log(currentUser)
-
 
       // set this flag to redirect user to onboarding when user kills apps
       await AsyncStorage.setItem('isNewUser', String(isNewUser));

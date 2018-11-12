@@ -375,9 +375,8 @@ class ProfileDetails extends React.Component {
   }
 
   renderDetailProfile = () => {
-    // const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
-    const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
-
+    const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
+    // const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
 
     return (
       <View style={styles.contentTopStyle}>
@@ -403,8 +402,8 @@ class ProfileDetails extends React.Component {
       this.state.loading === true ? (
         <Spinner color="red" text={'Loading...'} size="large" />
       ) : (
-        <View />
-      );
+          <View />
+        );
 
     return (
       <View style={styles.container}>
@@ -451,8 +450,8 @@ class ProfileDetails extends React.Component {
               <Spinner size="large" color="rgb(239, 67, 79)" />
             </View>
           ) : (
-            this.renderTabContent()
-          )}
+              this.renderTabContent()
+            )}
         </View>
         <SnackBar
           visible={this.state.showSnackBar}

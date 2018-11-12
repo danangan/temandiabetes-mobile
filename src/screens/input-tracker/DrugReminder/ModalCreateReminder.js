@@ -185,7 +185,7 @@ class ModalCreateReminder extends React.Component {
           drugName,
           reminders: preReminders
         };
-        console.log('reminder object ', reminder);
+        // console.log('reminder object ', reminder);
         this.props.toUpdateReminder(reminder);
       }
       this.props.setModalVisible();

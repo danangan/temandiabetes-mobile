@@ -618,37 +618,37 @@ class EditProfile extends React.Component {
               </View>
               <View style={styles.fieldWrapper}>
                 <Text style={styles.titleTextInput}>Jenis Kelamin</Text>
-                {
-                  Platform.OS === 'android' &&
-                  <View>
-                    <Picker
-                      selectedValue={userData.jenis_kelamin}
-                      style={styles.picker}
-                      onValueChange={itemValue => this.setUserData('jenis_kelamin', itemValue)}
+                  {
+                    Platform.OS === 'android' &&
+                    <View>
+                      <Picker
+                        selectedValue={userData.jenis_kelamin}
+                        style={styles.picker}
+                        onValueChange={itemValue => this.setUserData('jenis_kelamin', itemValue)}
+                      >
+                        <Picker.Item label="Pilih jenis kelamin" value="" />
+                        <Picker.Item label="Laki-laki" value="L" />
+                        <Picker.Item label="Perempuan" value="P" />
+                      </Picker>
+                    </View>
+                  }
+                  {
+                    Platform.OS === 'ios' &&
+                    <TouchableOpacity
+                      style={{ height: 35, marginLeft: 0 }}
+                      onPress={() => {
+                        const option = jenisKelamin;
+                        const title = 'Jenis Kelamin';
+                        const onSelect = val => this.setUserData('jenis_kelamin', val);
+                        this.openIOSPicker(option, title, onSelect);
+                      }}
                     >
-                      <Picker.Item label="Pilih jenis kelamin" value="" />
-                      <Picker.Item label="Laki-laki" value="L" />
-                      <Picker.Item label="Perempuan" value="P" />
-                    </Picker>
-                  </View>
-                }
-                {
-                  Platform.OS === 'ios' &&
-                  <TouchableOpacity
-                    style={{ height: 35, marginLeft: 0 }}
-                    onPress={() => {
-                      const option = jenisKelamin;
-                      const title = 'Jenis Kelamin';
-                      const onSelect = val => this.setUserData('jenis_kelamin', val);
-                      this.openIOSPicker(option, title, onSelect);
-                    }}
-                  >
-                    <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(jenisKelamin, userData.jenis_kelamin)}</Text>
-                  </TouchableOpacity>
-                }
+                      <Text style={[styles.textInput, { marginTop: 9 }]}>{getLabelByVal(jenisKelamin, userData.jenis_kelamin)}</Text>
+                    </TouchableOpacity>
+                  }
                 <View style={styles.underLine}></View>
               </View>
-              <View style={styles.fieldWrapper}>
+              {currentUser.tipe_user != 'ahli' && <View style={styles.fieldWrapper}>
                 <Text style={styles.titleTextInput}>Tipe User</Text>
                 {
                   Platform.OS === 'android' &&
@@ -660,10 +660,6 @@ class EditProfile extends React.Component {
                       // onValueChange={itemValue => this.setUserData('diabetesi_tipe', itemValue)}
                       onValueChange={itemValue => this.setUserData('tipe_user', itemValue)}
                     >
-                      {/* <Picker.Item label="Pre-diabetes" value="Diabetes" />
-                        <Picker.Item label="Diabetes type1" value="Diabetes type1" />
-                        <Picker.Item label="Diabetes type2" value="Diabetes type2" />
-                        <Picker.Item label="Gestational" value="Gestational" /> */}
                       <Picker.Item label="Diabetesi" value="diabetesi" />
                       <Picker.Item label="Non Diabetesi" value="non-diabetesi" />
                     </Picker>
@@ -684,7 +680,7 @@ class EditProfile extends React.Component {
                   </TouchableOpacity>
                 }
                 <View style={styles.underLine}></View>
-              </View>
+              </View>}
               {this.state.userData.tipe_user === 'diabetesi' && (
                 <View style={styles.fieldWrapper}>
                   <Text style={styles.titleTextInput}>Jenis Diabetes</Text>

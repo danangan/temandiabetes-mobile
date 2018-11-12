@@ -123,6 +123,8 @@ class App extends Component {
     // get current user
     this.props.getCurrentUser();
 
+    // this.getInitialURL();
+
     // add event listener for direct incoming deeplink
     Linking.addEventListener('url', this.redirectByUrl);
     
@@ -195,8 +197,20 @@ class App extends Component {
         console.log(token);
     });
   }
+    
+    // getInitialURL() {
+    //     Linking.getInitialURL()
+    //     .then((url) => {
+    //           if (url) {
+    //           // Alert.alert('GET INIT URL','initial url  ' + url)
+    //           this.redirectByUrl(url);
+    //           }
+    //           })
+    //     .catch((e) => {});
+    // }
 
   redirectByUrl({ url }) {
+    // const url = res.url;
     console.log(url)
 
     let pathname = url.replace(`${landingPageURL}/`, '');
