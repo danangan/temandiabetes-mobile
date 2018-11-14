@@ -48,7 +48,7 @@ class CreateAsuransi extends React.Component {
       nomorPolis: '',
       _errors: null,
       errorMessage: '',
-      isLoading: false
+      isLoading: true, 
     };
 
     this.onSubmitHandler = this.onSubmitHandler.bind(this);
@@ -69,27 +69,36 @@ class CreateAsuransi extends React.Component {
 
   async componentDidMount() {
     // get insurance data if edit
-    if (this.props.insuranceId) {
-      const option = {
-        method: 'get',
-        url: `/api/insurance/${this.props.insuranceId}`
-      };
-
-      try {
-        const {
-          data: { data }
-        } = await API_CALL(option);
-
-        const { name, type, insuranceNumber, policyNumber } = data[0].insurances[0];
-
-        this.setState({
-          namaAsuransi: name,
-          tipeAsuransi: type,
-          nomorAsuransi: insuranceNumber,
-          nomorPolis: policyNumber
-        });
-      } catch (error) {
-        console.log(error);
+    if(this.props.fromFWD){
+      this.setState({
+        namaAsuransi: this.props.NamaAsuransi,
+        tipeAsuransi: this.props.TipeAsuransi,
+        nomorAsuransi: this.props.NoAsuransi,
+        nomorPolis: this.props.NoPolis,
+      });
+    } else{
+      if (this.props.insuranceId) {
+        const option = {
+          method: 'get',
+          url: `/api/insurance/${this.props.insuranceId}`
+        };
+  
+        try {
+          const {
+            data: { data }
+          } = await API_CALL(option);
+  
+          const { name, type, insuranceNumber, policyNumber } = data[0].insurances[0];
+  
+          this.setState({
+            namaAsuransi: name,
+            tipeAsuransi: type,
+            nomorAsuransi: insuranceNumber,
+            nomorPolis: policyNumber
+          });
+        } catch (error) {
+          console.log(error);
+        }
       }
     }
 
@@ -112,6 +121,8 @@ class CreateAsuransi extends React.Component {
     } catch (error) {
       console.log(error);
     }
+
+    this.setState({isLoading: false});
   }
 
   componentWillUnmount() {
@@ -138,35 +149,63 @@ class CreateAsuransi extends React.Component {
 
       // if props exist then it is an update action
       // if not it is a post
-      if (this.props.insuranceId) {
-        option.method = 'put';
-        option.data.insuranceId = this.props.insuranceId;
-      } else {
+      if(this.props.fromFWD){
         option.method = 'post';
+
+      } else{
+        if (this.props.insuranceId) {
+          option.method = 'put';
+          option.data.insuranceId = this.props.insuranceId;
+        } else {
+          option.method = 'post';
+        }
       }
+      
 
       try {
-        await API_CALL(option);
+        const { data } = await API_CALL(option);
 
-        if (this.props.onSuccessCallback) {
-          this.props.onSuccessCallback();
-        }
-        await this.setState({ _errors: null, isLoading: false }, () => {
+        if(data.success){
+          if (this.props.onSuccessCallback) {
+            this.props.onSuccessCallback();
+          }
+          
+          await this.setState({ _errors: null, isLoading: false }, () => {
+            Alert.alert(
+              'Informasi!',
+              this.props.fromFWD 
+                ? 'Asuransi berhasil di simpan.'
+                : this.props.insuranceId
+                  ? 'Asuransi berhasil diperbarui'
+                  : 'Asuransi berhasil di simpan.',
+              [
+                {
+                  text: 'Tutup',
+                  onPress: () => {
+                    this.props.navigator.pop();
+                  }
+                }
+              ]
+            );
+          });
+        } else{
           Alert.alert(
-            'Perhatian!',
-            this.props.insuranceId
-              ? 'Asuransi berhasil diperbarui'
-              : 'Asuransi berhasil di simpan.',
+            'Informasi!',
+            data.message,
             [
               {
-                text: 'Tutup',
+                text: 'Ya',
                 onPress: () => {
                   this.props.navigator.pop();
+                  // this.setState({isLoading: false})
+
                 }
               }
-            ]
+            ],
+            { cancelable: false }
           );
-        });
+        }
+
       } catch (error) {
         console.log(error);
       }
@@ -267,8 +306,9 @@ class CreateAsuransi extends React.Component {
           {
             !this.state.keyboardActive &&
             <View style={{ flex: 0, justifyContent: 'center', alignItems: 'center', height: '20%' }}>
-              <Text style={styles.titleForm}>
-                {this.props.insuranceId ? 'Ubah Data Asuransi' : 'Lengkapi Data Asuransi'}
+              <Text style={styles.titleForm}>{
+                  this.props.fromFWD ? 'Lengkapi Data Asuransi' : this.props.insuranceId ? 'Ubah Data Asuransi' : 'Lengkapi Data Asuransi'
+                }
               </Text>
             </View>
           }
@@ -384,7 +424,8 @@ class CreateAsuransi extends React.Component {
                   <Text style={styles.titleField}>Nomor Asuransi</Text>
                   <View style={styles.pickerWrapper}>
                     <TextInput
-                      keyboardType="numeric"
+                      editable = {!this.props.fromFWD}
+                      // keyboardType="numeric"
                       style={{ height: 40 }}
                       value={this.state.nomorAsuransi}
                       underlineColorAndroid="transparent"
@@ -398,7 +439,8 @@ class CreateAsuransi extends React.Component {
                 <Text style={styles.titleField}>Nomor Polis</Text>
                 <View style={styles.pickerWrapper}>
                   <TextInput
-                    keyboardType="numeric"
+                    editable = {!this.props.fromFWD}
+                    // keyboardType="numeric"
                     style={{ height: 40 }}
                     underlineColorAndroid="transparent"
                     value={this.state.nomorPolis}
