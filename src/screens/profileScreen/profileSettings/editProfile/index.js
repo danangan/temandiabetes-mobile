@@ -41,22 +41,22 @@ const jenisKelamin = [
 ]
 
 const jenisDiabetes = [
- {
-   label: 'Pre-diabetes',
-   value: 'Pre-diabetes'
- },
- {
-   label: 'Diabetes type1',
-   value: 'Diabetes type1'
- },
- {
-   label: 'Diabetes type2',
-   value: 'Diabetes type2',
- },
- {
-   label: 'Gestational',
-   value: 'Gestational'
- }
+  {
+    label: 'Pre-diabetes',
+    value: 'Pre-diabetes'
+  },
+  {
+    label: 'Diabetes type1',
+    value: 'Diabetes type1'
+  },
+  {
+    label: 'Diabetes type2',
+    value: 'Diabetes type2',
+  },
+  {
+    label: 'Gestational',
+    value: 'Gestational'
+  }
 ]
 
 const tipeDiabetesi = [
@@ -69,6 +69,7 @@ const tipeDiabetesi = [
     value: 'non-diabetesi'
   },
 ]
+
 
 const getLabelByVal = (options, val) => {
   let result
@@ -133,6 +134,30 @@ class EditProfile extends React.Component {
 
     // FETCH INSURANCE DATA HERE
     this.getInsurance();
+
+    if(this.props.fromFWD){
+      this.setState({
+        activeTab: 1
+      });
+
+      this.props.navigator.push({
+        screen : 'TemanDiabetes.CreateAsuransi',
+        navigatorStyle: {
+          navBarHidden: true
+        },
+        passProps: {
+          onSuccessCallback: () => {
+            this.getInsurance();
+          },
+          insuranceId: this.props.insuranceId,
+          fromFWD: true,
+          NamaAsuransi: this.props.NamaAsuransi,
+          TipeAsuransi: this.props.TipeAsuransi,
+          NoPolis: this.props.NoPolis,
+          NoAsuransi: this.props.NoAsuransi,
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -154,6 +179,8 @@ class EditProfile extends React.Component {
         }
       } = await API_CALL(option);
       this.setState({ insuranceList: insurances });
+
+      console.log(insurances)
     } catch (error) {
       console.log(error);
     }
@@ -193,6 +220,8 @@ class EditProfile extends React.Component {
         this.state.userData.jenis_kelamin !== '' &&
         this.state.userData.no_telp !== ''
       ) {
+        console.log('check user')
+        console.log(this.state.userData)
         this.setState({
           isLoading: true
         });
@@ -283,7 +312,7 @@ class EditProfile extends React.Component {
     }
   }
 
-  showSnackBar = (cb = () => {}) => {
+  showSnackBar = (cb = () => { }) => {
     this.setState({ showSnackBar: true, message: 'Data telah berhasil diubah.' }, () => {
       this.hideSnackBar();
       cb();
@@ -358,35 +387,51 @@ class EditProfile extends React.Component {
     }
   };
 
-  updateInsuranceItem = id => {
-    this.props.navigator.push({
-      screen: 'TemanDiabetes.CreateAsuransi',
-      navigatorStyle: {
-        navBarHidden: true,
-        tabBarHidden: true
-      },
-      passProps: {
-        onSuccessCallback: () => {
-          this.getInsurance();
+  updateInsuranceItem = (id, verified) => {
+    if(verified){
+      this.props.navigator.showLightBox({
+        screen: 'TemanDiabetes.LightBox',
+        passProps: {
+          title: 'Peringatan',
+          content: 'Data asuransi anda sudah di verifikasi dan tidak dapat diubah.',
+          fromFWD: true
         },
-        insuranceId: id,
-        method: 'edit'
-      }
-    });
+        style: {
+          backgroundBlur: 'dark',
+          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          tapBackgroundToDismiss: true
+        }
+      });
+    } else{
+      this.props.navigator.push({
+        screen: 'TemanDiabetes.CreateAsuransi',
+        navigatorStyle: {
+          navBarHidden: true,
+          tabBarHidden: true
+        },
+        passProps: {
+          onSuccessCallback: () => {
+            this.getInsurance();
+          },
+          insuranceId: id,
+          method: 'edit'
+        }
+      });
+    }
   };
 
   // format options = array of { label: 'Some label', value: 'Some value' }
   openIOSPicker(options = [], title, onSelect) {
     ActionSheetIOS.showActionSheetWithOptions({
-      options: [ ...options.map(item => item.label), 'Batal'],
+      options: [...options.map(item => item.label), 'Batal'],
       title,
       destructiveButtonIndex: options.length
     },
-    (buttonIndex) => {
-      if (options[buttonIndex]) {
-        onSelect(options[buttonIndex].value)
-      }
-    });
+      (buttonIndex) => {
+        if (options[buttonIndex]) {
+          onSelect(options[buttonIndex].value)
+        }
+      });
   }
 
   render() {
@@ -483,13 +528,13 @@ class EditProfile extends React.Component {
           </View>
         }
 
-        { /*  Content Container */ }
+        { /*  Content Container */}
         <View style={{
           flex: 1,
           backgroundColor: this.state.activeTab === 1 ? color.solitude : '#fff',
           paddingHorizontal: 10,
         }}>
-          { /*  EDIT PROFILE TAB CONTENT */ }
+          { /*  EDIT PROFILE TAB CONTENT */}
           {
             this.state.activeTab === 0 &&
             <ScrollView
@@ -658,7 +703,7 @@ class EditProfile extends React.Component {
                   {
                     Platform.OS === 'ios' &&
                     <TouchableOpacity
-                      style={{height: 40, marginLeft:0 }}
+                      style={{ height: 40, marginLeft: 0 }}
                       onPress={() => {
                         const option = jenisDiabetes
                         const title = 'Jenis Diabetes'
@@ -708,107 +753,107 @@ class EditProfile extends React.Component {
                       borderRadius: 3
                     }}
                   >
-                  <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
-                    SIMPAN
+                    <Text style={{ color: '#fff', fontSize: 12, fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans' }}>
+                      SIMPAN
                   </Text>
-                </TouchableOpacity>
-              </View>
-              }
-          </ScrollView>
-        }
-
-        { /* EDIT INSURANCE TAB CONTENT*/ }
-        {
-          this.state.activeTab === 1 &&
-          <View style={{ flex: 1}}>
-
-            { /* INSURANCE LIST */ }
-            {
-              this.state.insuranceList.length > 0 &&
-              <InsuranceList
-                navigator={this.props.navigator}
-                getInsurance={this.getInsurance}
-                data={this.state.insuranceList}
-                onDeleteItem={this.onClickDeleteInsuranceItem}
-                onUpdateItem={this.updateInsuranceItem}
-              />
-            }
-
-            {/* EMPTY INSURANCE LIST PLACEHOLDER */}
-            {this.state.insuranceList.length === 0 && (
-              <View
-                style={{
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                  flex: 1,
-                  paddingTop: 70
-                }}
-              >
-                <Image
-                  source={require('../../../../assets/icons/insurance.png')}
-                  style={{
-                    height: 90,
-                    width: 100,
-                    marginBottom: 15
-                  }}
-                />
-                <View
-                  style={{
-                    marginHorizontal: 25
-                  }}
-                >
-                  <Text style={{ textAlign: 'center' }}>Anda belum memiliki asuransi.</Text>
-                  <Text style={{ textAlign: 'center' }}>
-                    Silahkan tambahkan asuransi untuk menghubungkan ke aplikasi Teman Diabetes
-                  </Text>
-                </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
-                  <TouchableOpacity
-                    onPress={debounce(
-                      () =>
-                        this.props.navigator.push({
-                          screen: 'TemanDiabetes.CreateAsuransi',
-                          navigatorStyle: {
-                            navBarHidden: true,
-                            tabBarHidden: true
-                          },
-                          passProps: {
-                            onSuccessCallback: () => {
-                              this.getInsurance();
-                            }
-                          }
-                        }),
-                      500,
-                      {
-                        leading: true,
-                        trailing: false
-                      }
-                    )}
-                    style={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      width: 155,
-                      height: 34,
-                      backgroundColor: '#ef434e',
-                      borderRadius: 3
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: '#fff',
-                        fontSize: 12,
-                        fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
-                        textAlign: 'center'
-                      }}
-                    >
-                      TAMBAH ASURANSI
-                    </Text>
                   </TouchableOpacity>
                 </View>
-              </View>
-            )}
-          </View>
-        }
+              }
+            </ScrollView>
+          }
+
+          { /* EDIT INSURANCE TAB CONTENT*/}
+          {
+            this.state.activeTab === 1 &&
+            <View style={{ flex: 1 }}>
+
+              { /* INSURANCE LIST */}
+              {
+                this.state.insuranceList.length > 0 &&
+                <InsuranceList
+                  navigator={this.props.navigator}
+                  getInsurance={this.getInsurance}
+                  data={this.state.insuranceList}
+                  onDeleteItem={this.onClickDeleteInsuranceItem}
+                  onUpdateItem={this.updateInsuranceItem}
+                />
+              }
+
+              {/* EMPTY INSURANCE LIST PLACEHOLDER */}
+              {this.state.insuranceList.length === 0 && (
+                <View
+                  style={{
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    flex: 1,
+                    paddingTop: 70
+                  }}
+                >
+                  <Image
+                    source={require('../../../../assets/icons/insurance.png')}
+                    style={{
+                      height: 90,
+                      width: 100,
+                      marginBottom: 15
+                    }}
+                  />
+                  <View
+                    style={{
+                      marginHorizontal: 25
+                    }}
+                  >
+                    <Text style={{ textAlign: 'center' }}>Anda belum memiliki asuransi.</Text>
+                    <Text style={{ textAlign: 'center' }}>
+                      Silahkan tambahkan asuransi untuk menghubungkan ke aplikasi Teman Diabetes
+                  </Text>
+                  </View>
+                  <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15 }}>
+                    <TouchableOpacity
+                      onPress={debounce(
+                        () =>
+                          this.props.navigator.push({
+                            screen: 'TemanDiabetes.CreateAsuransi',
+                            navigatorStyle: {
+                              navBarHidden: true,
+                              tabBarHidden: true
+                            },
+                            passProps: {
+                              onSuccessCallback: () => {
+                                this.getInsurance();
+                              }
+                            }
+                          }),
+                        500,
+                        {
+                          leading: true,
+                          trailing: false
+                        }
+                      )}
+                      style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 155,
+                        height: 34,
+                        backgroundColor: '#ef434e',
+                        borderRadius: 3
+                      }}
+                    >
+                      <Text
+                        style={{
+                          color: '#fff',
+                          fontSize: 12,
+                          fontFamily: Platform.OS === 'android' ? 'OpenSans-Regular' : 'OpenSans',
+                          textAlign: 'center'
+                        }}
+                      >
+                        TAMBAH ASURANSI
+                    </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )}
+            </View>
+          }
         </View>
         <SnackBar
           visible={this.state.showSnackBar}

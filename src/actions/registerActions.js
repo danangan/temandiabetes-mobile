@@ -7,13 +7,13 @@ import { API_CALL } from '../utils/ajaxRequestHelper';
  */
 export const registerAction = (value) => async dispatch => {
 	const isPending = () => {
-    dispatch({
-      type: 'PENDING_REGISTER_USER',
-      payload: value
-    });
-    return true;
+		dispatch({
+			type: 'PENDING_REGISTER_USER',
+			payload: value
+		});
+		return true;
 	};
-	
+
 	function onSuccess(data) {
 		dispatch({
 			type: ActionTypes.REGISTER_USER,
@@ -26,11 +26,11 @@ export const registerAction = (value) => async dispatch => {
 	isPending();
 
 	try {
-    const option = {
-      method: 'POST',
-      url: 'api/sign-up',
-      data: value
-    };
+		const option = {
+			method: 'POST',
+			url: 'api/sign-up',
+			data: value
+		};
 
 		const res = await API_CALL(option);
 		return onSuccess(res.data);
@@ -141,13 +141,13 @@ export const clearDataRegister = (type) => async dispatch => {
 
 export const emailAlreadyRegistered = (emailCheck) => async dispatch => {
 	const isPending = () => {
-    dispatch({
-      type: 'PENDING_EMAIL_ALREADY_REGISTERED',
-      payload: emailCheck
-    });
-    return true;
+		dispatch({
+			type: 'PENDING_EMAIL_ALREADY_REGISTERED',
+			payload: emailCheck
+		});
+		return true;
 	};
-	
+
 	function onSuccess(data) {
 		dispatch({
 			type: ActionTypes.EMAIL_ALREADY_REGISTERED,
@@ -160,10 +160,10 @@ export const emailAlreadyRegistered = (emailCheck) => async dispatch => {
 	isPending();
 
 	try {
-    const option = {
-      method: 'GET',
-      url: `api/users/does-email-exist/${emailCheck}`,
-    };
+		const option = {
+			method: 'GET',
+			url: `api/users/does-email-exist/${emailCheck}`,
+		};
 
 		const res = await API_CALL(option);
 		return onSuccess(res.data);

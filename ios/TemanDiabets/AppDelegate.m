@@ -57,14 +57,14 @@
 
   return YES;
 }
-
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
- restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
-{
- return [RCTLinkingManager application:application
-                  continueUserActivity:userActivity
-                    restorationHandler:restorationHandler];
-}
+//
+//- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
+// restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+//{
+// return [RCTLinkingManager application:application
+//                  continueUserActivity:userActivity
+//                    restorationHandler:restorationHandler];
+//}
 
 //===================================BEGIN AUTH CONFIGURATION===============================================
 - (BOOL)application:(UIApplication *)application
@@ -104,7 +104,9 @@
   [RNFIRMessaging willPresentNotification:notification withCompletionHandler:completionHandler];
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+        didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)())completionHandler
 {
   [RNFIRMessaging didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
 }
@@ -117,6 +119,16 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
   [RNFIRMessaging didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
+
+- (BOOL)application:(UIApplication *)application
+        continueUserActivity:(NSUserActivity *)userActivity
+        restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
+{
+  return [RCTLinkingManager application:application
+                   continueUserActivity:userActivity
+                     restorationHandler:restorationHandler];
+}
+
 //====================================BEGIN NOTIFICATION CONFIGURATION==========================================
 
 #pragma mark - setup blood tester
