@@ -248,63 +248,7 @@ class App extends Component {
     }
   }
 
-  async testgetURL(path) {
-
-    let asuransi = path.split('&')
-
-    if (asuransi != null && asuransi.length == 4) {
-
-      let typeAsuransi, NoPolis, NoAsuransi = ''
-
-      let param = asuransi[1].replace('ClientID=', '')
-
-      if(asuransi[2].replace('MemberType=', '') === 'CC'){
-        typeAsuransi = 'perusahaan'
-        NoPolis = param.substr(0, param.indexOf('-'))
-        NoAsuransi = param.substr(param.indexOf('-') + 1 , param.length)
-
-      } else{
-        typeAsuransi = 'pribadi'
-        NoPolis = param
-        NoAsuransi = '-'
-      }
-
-      Alert.alert(
-        'Konfirmasi',
-        'Klik setuju untuk menyinkronkan data (nama peserta, no polis, no asuransi) dari asuransi FWD ke aplikasi Teman Diabetes?',
-        [
-          {
-            text: 'Setuju',
-            onPress: () => {
-              this.props.navigator.push({
-                screen: 'TemanDiabetes.EditProfile',
-                navigatorStyle: {
-                  navBarHidden: true
-                },
-                passProps: {
-                  insuranceId: param[0],
-                  fromFWD: true,
-                  NamaAsuransi: asuransi[3],
-                  TipeAsuransi: typeAsuransi,
-                  NoPolis: NoPolis,
-                  NoAsuransi: NoAsuransi,
-                }
-              });
-            }
-          },
-          {
-            text: 'Tidak Setuju',
-            onPress: () => {
-
-            }
-          }
-        ],
-        { cancelable: false }
-      );
-    }
-  }
-
-  _displayNotificationAndroid(notif) {
+  async _displayNotificationAndroid(notif) {
     let displayNotif = true;
     let title = '';
     let body = 'Sentuh untuk info lebih lanjut';
@@ -392,7 +336,7 @@ class App extends Component {
     } else if (displayNotif) {
       if (Platform.OS === 'android' || (Platform.OS === 'ios' && notif.aps)) {
         const notificationChannelId = 'default';
-        FCM.createNotificationChannel({
+        await FCM.createNotificationChannel({
           id: notificationChannelId,
           name: notificationChannelId,
           priority: 'max'
