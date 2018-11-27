@@ -5,7 +5,6 @@ import {
   View,
   Text,
   Platform,
-  ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback
 } from 'react-native';
@@ -176,9 +175,9 @@ class HistoryBloodSugarLevels extends React.Component {
     const xOffset = event.nativeEvent.contentOffset.x;
     const padding = 10;
     const width = event.nativeEvent.contentSize.width;
-    if (this.state.graphWidth + xOffset - padding >= width) {
-        //ScrollEnd, do sth...
-        // get next page
+    if (this.state.graphWidth + xOffset + padding >= width) {
+      //ScrollEnd, do sth...
+      // get next page
       const nextPage = this.props.history.bloodSugarGraphPage + 1;
       this.props.getHistoryBloodSugarLevels({ page: nextPage });
     }
