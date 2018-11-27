@@ -392,7 +392,7 @@ class App extends Component {
     } else if (displayNotif) {
       if (Platform.OS === 'android' || (Platform.OS === 'ios' && notif.aps)) {
         const notificationChannelId = 'default';
-        await FCM.createNotificationChannel({
+        FCM.createNotificationChannel({
           id: notificationChannelId,
           name: notificationChannelId,
           priority: 'max'
