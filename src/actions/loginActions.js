@@ -15,9 +15,15 @@ const loginManual = ({ email, password }) => async dispatch => {
   function onSuccess(currentUser) {
     dispatch({
       type: ActionTypes.LOGIN_MANUAL,
-      payload: currentUser
+      payload: { currentUser }
     });
-    return currentUser;
+  }
+
+  function onFailed(error) {
+    dispatch({
+      type: ActionTypes.LOGIN_MANUAL,
+      payload: error
+    });
   }
 
   function onSuccessSSO(userSSO) {
@@ -25,7 +31,6 @@ const loginManual = ({ email, password }) => async dispatch => {
       type: ActionTypes.LOGIN_MANUAL_SSO,
       payload: userSSO
     });
-    return currentUser;
   }
 
   try {
@@ -45,11 +50,11 @@ const loginManual = ({ email, password }) => async dispatch => {
         }
       });
 
-      if (currentUser.registration_status == "finished") {
+      if (currentUser.registration_status == 'finished') {
         AsyncStorage.setItem(authToken, firebaseIdToken);
         onSuccess(currentUser);
       } else {
-        let isNewUser = true;
+        const isNewUser = true;
         const payloadData = {
           firebaseIdToken,
           // profile,
@@ -60,11 +65,10 @@ const loginManual = ({ email, password }) => async dispatch => {
         await AsyncStorage.setItem('isNewUser', String(isNewUser));
         onSuccessSSO(payloadData);
       }
-
     }
   } catch (error) {
     const parsed = JSON.parse(JSON.stringify(error));
-    onSuccess(parsed);
+    onFailed(parsed);
   }
 };
 
@@ -242,13 +246,15 @@ const onSignOut = ({ userId }) => async dispatch => {
     }
   };
 
-  dispatch(updateFCMToken({
-    userId,
-    callback,
-    token: {
-      messagingRegistrationToken: '',
-    },
-  }));
+  dispatch(
+    updateFCMToken({
+      userId,
+      callback,
+      token: {
+        messagingRegistrationToken: ''
+      }
+    })
+  );
 };
 
 const resetState = () => async dispatch => {

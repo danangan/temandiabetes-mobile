@@ -60,7 +60,7 @@ class Chart extends Component {
   };
 
   ShowModal = item => {
-    this.props.navigator.showModal({
+    this.props.navigator.push({
       screen: 'TemanDiabetes.ProductDetail',
       navigatorStyle: {
         navBarHidden: true
@@ -98,15 +98,25 @@ class Chart extends Component {
   };
 
   formatMoney(n, c, d, t) {
-    var c = isNaN(c = Math.abs(c)) ? 2 : c,
-      d = d == undefined ? "." : d,
-      t = t == undefined ? "," : t,
-      s = n < 0 ? "-" : "",
-      i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+    var c = isNaN((c = Math.abs(c))) ? 2 : c,
+      d = d == undefined ? '.' : d,
+      t = t == undefined ? ',' : t,
+      s = n < 0 ? '-' : '',
+      i = String(parseInt((n = Math.abs(Number(n) || 0).toFixed(c)))),
       j = (j = i.length) > 3 ? j % 3 : 0;
 
-    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-  };
+    return (
+      s +
+      (j ? i.substr(0, j) + t : '') +
+      i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${t}`) +
+      (c
+        ? d +
+          Math.abs(n - i)
+            .toFixed(c)
+            .slice(2)
+        : '')
+    );
+  }
 
   render() {
     const { products, message } = this.props.data;
@@ -222,14 +232,14 @@ const styles = {
   },
   priceStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.8,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'rgba(37,44,104,1)'
   },
   productNameStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
+    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER * 0.8,
     fontWeight: 'bold',
     lineHeight: 15,
     textAlign: 'center',
@@ -246,7 +256,8 @@ const styles = {
   },
   textOrderStyle: {
     fontFamily: Platform.OS === 'android' ? 'Montserrat-Regular' : 'Montserrat',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER - 2 : Style.FONT_SIZE_SMALLER * 0.7,
+    fontSize:
+      Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER - 2 : Style.FONT_SIZE_SMALLER * 0.7,
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'rgba(21,21,21,1)'

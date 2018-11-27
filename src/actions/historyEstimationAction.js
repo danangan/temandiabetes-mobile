@@ -136,26 +136,31 @@ export const getHistoryFoods = () => async dispatch => {
   }
 };
 
-export const getHistoryBloodSugarLevels = () => async dispatch => {
-  function onSuccess(bloods) {
+export const getHistoryBloodSugarLevels = ({ page = 1 } = {}) => async dispatch => {
+  function onSuccess(bloods, pageUpdate) {
     dispatch({
       type: ActionTypes.GET_BLOOD_GLUCOSE_GRAPH,
       payload: bloods
     });
 
-    return bloods;
+    dispatch({
+      type: ActionTypes.UPDATE_GET_BLOOD_GLUCOSE_GRAPH_PAGE,
+      payload: pageUpdate
+    });
   }
 
   try {
     const option = {
       method: 'GET',
-      url: 'api/blood-glucose-tracker/graph?scroll=12'
+      url: `api/blood-glucose-tracker/graph?page=${page}&limit=4`
     };
 
     const {
       data: { data }
     } = await API_CALL(option);
-    onSuccess(data);
+    if (data.length > 0) {
+      onSuccess(data, page);
+    }
   } catch (error) {
     return onSuccess(error);
   }

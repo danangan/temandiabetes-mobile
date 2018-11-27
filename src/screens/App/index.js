@@ -3,7 +3,12 @@ import { View, StyleSheet, Platform, Linking, NativeModules, Alert, AppState } f
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { debounce } from 'lodash';
-import FCM, { FCMEvent, NotificationType, WillPresentNotificationResult, RemoteNotificationResult } from 'react-native-fcm';
+import FCM, {
+  FCMEvent,
+  NotificationType,
+  WillPresentNotificationResult,
+  RemoteNotificationResult
+} from 'react-native-fcm';
 
 // ACTIONS
 import {
@@ -96,7 +101,7 @@ class App extends Component {
   async getBundleIntent(){
     if(Platform.OS === "android"){
       var temp = await activityStarter.getBundleIntent();
-      
+
       if(temp.ClientID != null && temp.MemberType != null){
         this.testgetURL('Nama=' + temp.Nama + '&' + 'ClientID=' + temp.ClientID + '&' + 'MemberType=' + temp.MemberType +  "&FWD");
       }
@@ -127,20 +132,18 @@ class App extends Component {
 
     // add event listener for direct incoming deeplink
     Linking.addEventListener('url', this.redirectByUrl);
-    
+
     AppState.addEventListener('change', this._handleAppStateChange);
 
     this.getBundleIntent() //android
 
     try {
-      await FCM.requestPermissions(
-        {
-          badge: true,
-          sound: true,
-          alert: true,
-          'content-available': 1
-        }
-      );
+      await FCM.requestPermissions({
+        badge: true,
+        sound: true,
+        alert: true,
+        'content-available': 1
+      });
 
       this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
         // checking if the receiver is the correct person
@@ -193,26 +196,24 @@ class App extends Component {
       this.props.resetDeepLink();
     }
 
-     FCM.on(FCMEvent.RefreshToken, token => {
-        console.log(token);
+    FCM.on(FCMEvent.RefreshToken, token => {
+      console.log(token);
     });
   }
-    
-    // getInitialURL() {
-    //     Linking.getInitialURL()
-    //     .then((url) => {
-    //           if (url) {
-    //           // Alert.alert('GET INIT URL','initial url  ' + url)
-    //           this.redirectByUrl(url);
-    //           }
-    //           })
-    //     .catch((e) => {});
-    // }
 
-  redirectByUrl({ url }) {
-    // const url = res.url;
-    console.log(url)
+  getInitialURL() {
+    Linking.getInitialURL()
+      .then(url => {
+        if (url) {
+          // Alert.alert('GET INIT URL','initial url  ' + url)
+          this.redirectByUrl(url);
+        }
+      })
+      .catch(e => {});
+  }
 
+  redirectByUrl(res) {
+    const url = res.url;
     let pathname = url.replace(`${landingPageURL}/`, '');
 
     // let pathname = url.replace(`https://temandiabetes.com/`, '');
@@ -390,6 +391,13 @@ class App extends Component {
       }
     } else if (displayNotif) {
       if (Platform.OS === 'android' || (Platform.OS === 'ios' && notif.aps)) {
+        const notificationChannelId = 'default';
+        await FCM.createNotificationChannel({
+          id: notificationChannelId,
+          name: notificationChannelId,
+          priority: 'max'
+        });
+
         FCM.presentLocalNotification({
           title,
           body,
@@ -397,7 +405,9 @@ class App extends Component {
           passProps,
           priority: 'high',
           sound: 'default',
-          show_in_foreground: true
+          show_in_foreground: true,
+          groupSummary: true,
+          channel: notificationChannelId
         });
         this.props.addNotificationCount();
       }
@@ -455,20 +465,20 @@ class App extends Component {
 
           {/* {// only render if the user is a diabetesi
           currentUser.tipe_user === 'diabetesi' || currentUser.tipe_user === 'non-diabetesi' ? ( */}
-            <TopTabs
-              title="Rekaman"
-              icon={InputTrackerIcon}
-              activeIcon={InputTrackerActiveIcon}
-              activeTab={activeTopTab}
-              updateActiveTab={this.props.updateTopTab}
-            >
-              <View title="MASUKKAN DATA" style={styles.content}>
-                <InputTrackerTab navigator={navigator} />
-              </View>
-              <View title="REKAMAN" style={styles.content}>
-                <HistoryTab navigator={navigator} />
-              </View>
-            </TopTabs>
+          <TopTabs
+            title="Rekaman"
+            icon={InputTrackerIcon}
+            activeIcon={InputTrackerActiveIcon}
+            activeTab={activeTopTab}
+            updateActiveTab={this.props.updateTopTab}
+          >
+            <View title="MASUKKAN DATA" style={styles.content}>
+              <InputTrackerTab navigator={navigator} />
+            </View>
+            <View title="REKAMAN" style={styles.content}>
+              <HistoryTab navigator={navigator} />
+            </View>
+          </TopTabs>
           {/* ) : null} */}
           <TopTabs
             title="Belanja"

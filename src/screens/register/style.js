@@ -21,7 +21,8 @@ const styles = StyleSheet.create({
 		fontFamily: 'Montserrat-Bold'
 	},
 	wrapTitle: {
-		flex: 2,
+    flex: 2,
+    backgroundColor: 'transparent',
 		justifyContent: 'center',
 		width: '90%'
 	},

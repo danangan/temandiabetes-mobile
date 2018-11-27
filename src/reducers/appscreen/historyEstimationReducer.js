@@ -7,7 +7,9 @@ const initialState = {
   activity: null,
   bloodPressure: null,
   weight: null,
-  isFood: false
+  isFood: false,
+  bloodSugar: [],
+  bloodSugarGraphPage: 1
 };
 
 const getHistoryHba1c = (state, payload) => ({
@@ -46,23 +48,11 @@ const getHistoryFoods = (state, payload) => ({
   isFood: true
 });
 
-const mappingPayloadBloodSugar = (payload) => {
-  let newArr = [];
-  for (let i = 0; i < payload.length; i++) {
-    for (let j = 0; j < payload[i].gulaDarah.length; j++) {
-      newArr.push(payload[i].gulaDarah[j]);
-    }
-  }
-
-  return newArr;
-};
-
 const getHistoryBloodSugarLevels = (state, payload) => ({
   ...state,
   status: 200,
   message: 'success',
-  bloodSugar: payload,
-  generalBloodSugar: mappingPayloadBloodSugar(payload)
+  bloodSugar: state.bloodSugar.concat(payload)
 });
 
 const historyEstimationReducer = (state = initialState, action) => {
@@ -81,6 +71,17 @@ const historyEstimationReducer = (state = initialState, action) => {
       return getHistoryFoods(state, action.payload);
     case ActionTypes.GET_BLOOD_GLUCOSE_GRAPH:
       return getHistoryBloodSugarLevels(state, action.payload);
+    case ActionTypes.UPDATE_GET_BLOOD_GLUCOSE_GRAPH_PAGE:
+      return {
+        ...state,
+        bloodSugarGraphPage: action.payload
+      };
+    case 'RESET_GRAPH':
+      return {
+        ...state,
+        bloodSugarGraphPage: 1,
+        bloodSugar: []
+      };
     default:
       return state;
   }

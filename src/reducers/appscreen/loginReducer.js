@@ -43,8 +43,8 @@ const onLogin = (state, payload) => {
 
   return {
     ...state,
-    message: payload.is_active === false ? 'inactive' : messages,
-    statusCode: payload.is_active === false ? 400 : 200,
+    message: '',
+    statusCode: 200,
     ...payload
   };
 };
@@ -129,8 +129,8 @@ const loginReducer = (state = initialState, action) => {
       return initialState;
     case ActionTypes.LOGIN_MANUAL:
       return onLogin(state, action.payload);
-      case ActionTypes.LOGIN_MANUAL_SSO:
-        return onLoginSSO(state, action.payload);
+    case ActionTypes.LOGIN_MANUAL_SSO:
+      return onLoginSSO(state, action.payload);
     case ActionTypes.SIGN_WITH_GOOGLE:
       return signWithGoogle(state, action.payload);
       case ActionTypes.LOGIN_MANUAL_NEWUSER:

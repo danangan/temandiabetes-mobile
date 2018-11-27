@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 import { View, Text, TouchableOpacity, Image, AsyncStorage, Platform } from 'react-native';
 
 import color from '../../../../style/color';
@@ -70,8 +71,8 @@ class InnerCircleList extends Component {
   onReceivedInnerCircle = () => {
     this.setState({
       tab: 0
-    })
-  }
+    });
+  };
 
   getInnerCircle = async () => {
     const { currentUser } = this.props.dataAuth;
@@ -137,7 +138,13 @@ class InnerCircleList extends Component {
           </TouchableOpacity>
           <Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
           <TouchableOpacity
-            onPress={() => this.onPushScreen('TemanDiabetes.InnerCircle')}
+            onPress={debounce(
+              () => {
+                this.onPushScreen('TemanDiabetes.InnerCircle');
+              },
+              500,
+              { leading: true, trailing: false }
+            )}
             style={styles.rightButtonStyle}
           >
             <Image
@@ -224,7 +231,7 @@ const styles = {
     width: '50%',
     borderBottomWidth: 3,
     borderBottomColor: color.red,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   navBarContainerStyle: {
     flexDirection: 'row',

@@ -103,7 +103,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
-        versionName "0.2.42"
+        versionName "0.2.50"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
@@ -148,7 +148,10 @@ android {
     }
 }
 dependencies {
+//    AUTHENTICATION FACEBOOK SDK
+    implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
     implementation project(':react-native-fbsdk')
+
     implementation(project(':react-native-image-picker'))
     implementation(project(':react-native-share')) // Add dependencies
     implementation(project(":react-native-google-signin")){
@@ -165,12 +168,11 @@ dependencies {
     implementation "com.google.firebase:firebase-storage:11.8.0"
     implementation 'com.google.firebase:firebase-messaging:11.8.0'
     implementation 'com.google.android.gms:play-services-auth:11.8.0'
-    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     implementation project(':react-native-config')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:27.0.2"
-    implementation ("com.facebook.react:react-native:0.53.0") { force = true }  // From node_modules
+    implementation ("com.facebook.react:react-native:0.51.0") { force = true }  // From node_modules
     implementation project(':react-native-navigation') // ADD dependencies
     implementation project(':react-native-fcm') // ADD dependencies
     //fabric.io
