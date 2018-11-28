@@ -6,7 +6,8 @@ import {
   Text,
   Platform,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from 'react-native';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import { getHistoryBloodSugarLevels } from '../../../actions';
@@ -126,7 +127,6 @@ class HistoryBloodSugarLevels extends React.Component {
       x: 0,
       y: 0,
       data: null,
-      initialRender: true,
       currentPage: 1,
       graphWidth: 0,
     };
@@ -241,10 +241,8 @@ class HistoryBloodSugarLevels extends React.Component {
                   key={index}
                   style={{
                     flexDirection: 'column',
-                    // justifyContent: 'space-around',
                     alignItems: 'center',
                     width: 70,
-                    // backgroundColor: 'red',
                     height: '100%',
                     marginRight: index === 0 ? 25 : 15
                   }}
@@ -266,6 +264,12 @@ class HistoryBloodSugarLevels extends React.Component {
                   <Text style={styles.textCorXStyle}>{item.date}</Text>
                 </View>
               ))}
+              <View style={styles.loaderContainer}>
+                {
+                  this.props.history.bloodSugarLoading &&
+                  <ActivityIndicator />
+                }
+              </View>
             </InvertibleScrollView>
           </View>
         </View>
@@ -335,12 +339,8 @@ const styles = {
   },
   dotContainer: {
     position: 'absolute',
-    // zIndex: 100,
     height: 30,
     width: 50,
-    // backgroundColor: 'red'
-    // zIndex: 0,
-    // left: -25
   },
   dotsWrapper: {
     width: 30,
@@ -378,6 +378,13 @@ const styles = {
     fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER - 2,
     color: '#556299'
+  },
+  loaderContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: 20,
+    alignItems: 'center',
+    height: '100%',
   }
 };
 
