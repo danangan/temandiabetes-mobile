@@ -60,7 +60,7 @@ class InputEmail extends Component {
   }
 
   validatePassword(password) {
-    const regx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/gm
+    const regx = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/gm
     return regx.test(password)
   }
 
