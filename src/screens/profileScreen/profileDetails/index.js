@@ -375,8 +375,22 @@ class ProfileDetails extends React.Component {
   }
 
   renderDetailProfile = () => {
-    const { _id, nama, tipe_user, foto_profile } = this.props.data.user;
-    // const { _id, nama, tipe_user, foto_profile } = this.props.dataAuth;
+    let nama;
+    let tipe_user;
+    let foto_profile;
+
+    // Check by ID to determine if the profile is current user's or not
+    if (this.props.dataAuth._id === this.props.data.user._id) {
+      // Current User's Profile
+      nama = this.props.dataAuth.nama
+      tipe_user = this.props.dataAuth.tipe_user
+      foto_profile = this.props.dataAuth.foto_profile
+    } else {
+      // Not current user's profile
+      nama = this.props.data.user.nama
+      tipe_user = this.props.data.user.tipe_user
+      foto_profile = this.props.data.user.foto_profile
+    }
 
     return (
       <View style={styles.contentTopStyle}>
