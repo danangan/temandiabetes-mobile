@@ -13,7 +13,8 @@ import {
 import { Card, Spinner } from '../../components';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
-import { getProductFromGOA, auditTrailPrePurchase } from '../../actions';
+import { getProductFromGOA, auditTrailPrePurchase, sendActivity } from '../../actions';
+import { LOG_VIEW, LOG_ORDER, LOG_GOA_PRODUCT } from '../../utils/constants';
 
 class Chart extends Component {
   constructor(props) {
@@ -55,11 +56,15 @@ class Chart extends Component {
   };
 
   handleClick = item => {
+    sendActivity(LOG_ORDER, item.product_sku, LOG_GOA_PRODUCT);
+
     this.props.prePurchase(item.product_sku, item.product_name);
     this.handleOpenUrl();
   };
 
-  ShowModal = item => {
+  gotoProductDetail = item => {
+    sendActivity(LOG_VIEW, item.product_sku, LOG_GOA_PRODUCT);
+
     this.props.navigator.push({
       screen: 'TemanDiabetes.ProductDetail',
       navigatorStyle: {
@@ -169,7 +174,7 @@ class Chart extends Component {
           <View style={styles.contentStyle}>
             {products.map((item, index) => (
               <Card containerStyle={styles.cardStyle} key={index}>
-                <TouchableOpacity onPress={() => this.ShowModal(item)}>
+                <TouchableOpacity onPress={() => this.gotoProductDetail(item)}>
                   <Image source={{ uri: item.product_image }} style={styles.imageStyle} />
                   <Text style={styles.priceStyle}>Rp. {this.formatMoney(item.product_price)}</Text>
                   <Text style={styles.productNameStyle}>{item.product_name}</Text>

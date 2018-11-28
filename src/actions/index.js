@@ -10,3 +10,4 @@ export * from './ecommerceAction';
 export * from './historyEstimationAction';
 export * from './reminderActions';
 export * from './inputTrackerAction';
+export * from './activityAction';

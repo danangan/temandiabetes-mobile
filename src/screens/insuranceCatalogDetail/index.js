@@ -14,6 +14,8 @@ import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import RecommendationInsurance from './recommendationInsurance';
 import { ResponsiveImage } from '../../components';
+import { sendActivity } from '../../actions';
+import { LOG_VIEW, LOG_INSURANCE_DETAIL, LOG_INSURANCE_APPSTORE, LOG_INSURANCE_PLAYSTORE } from '../../utils/constants';
 
 const CONTAINER_MAX_WIDTH = (Dimensions.get('window').width * 95) / 100;
 const IMAGES_MAX_WIDTH = CONTAINER_MAX_WIDTH - 65;
@@ -64,9 +66,7 @@ const DEFAULT_PROPS = {
   imagesMaxWidth: IMAGES_MAX_WIDTH,
   staticContentMaxWidth: IMAGES_MAX_WIDTH,
   containerStyle: CUSTOM_CONTAINER_STYLE,
-  onLinkPress: (evt, href) => {
-    Linking.openURL(href);
-  },
+  // onLinkPress: (evt, href) => {Linking.openURL(href);},
   debug: false
 };
 
@@ -74,6 +74,25 @@ export default class InsuranceCatalogDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  async componentDidMount() {
+    const { _id } = this.props;
+    if (_id != null) {
+      sendActivity(LOG_VIEW, _id, LOG_INSURANCE_DETAIL)
+    }
+  }
+
+  onLinkClick = (href) => {
+    const { _id } = this.props;
+    if (_id != null) {
+      if (href.includes('https://play.google.com/store/apps/details?id=id.co.fwd.max')) {
+        sendActivity(LOG_VIEW, _id, LOG_INSURANCE_PLAYSTORE)
+      } else if (href.includes('https://itunes.apple.com/us/app/fwd-max-indonesia')) {
+        sendActivity(LOG_VIEW, _id, LOG_INSURANCE_APPSTORE)
+      }
+    }
+    Linking.openURL(href);
   }
 
   render() {
@@ -99,7 +118,8 @@ export default class InsuranceCatalogDetail extends Component {
         </View>
         <ScrollView contentContainerStyle={styles.scrollView}>
           <View style={styles.card}>
-            <HTMLView {...DEFAULT_PROPS} html={description} />
+            <HTMLView {...DEFAULT_PROPS} html={description}
+              onLinkPress={(evt, href) =>this.onLinkClick(href)}/>
           </View>
           <RecommendationInsurance insuranceId={_id} />
         </ScrollView>
