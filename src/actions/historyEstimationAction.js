@@ -149,6 +149,12 @@ export const getHistoryBloodSugarLevels = ({ page = 1 } = {}) => async dispatch 
     });
   }
 
+  // set loading to true
+  dispatch({
+    type: ActionTypes.UPDATE_BLOOD_GLUCOSE_GRAPH_LOADING,
+    payload: true
+  });
+
   try {
     const option = {
       method: 'GET',
@@ -160,6 +166,11 @@ export const getHistoryBloodSugarLevels = ({ page = 1 } = {}) => async dispatch 
     } = await API_CALL(option);
     if (data.length > 0) {
       onSuccess(data, page);
+    } else {
+      dispatch({
+        type: ActionTypes.UPDATE_BLOOD_GLUCOSE_GRAPH_LOADING,
+        payload: false
+      });
     }
   } catch (error) {
     return onSuccess(error);

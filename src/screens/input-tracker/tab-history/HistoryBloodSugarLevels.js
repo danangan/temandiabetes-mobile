@@ -175,11 +175,17 @@ class HistoryBloodSugarLevels extends React.Component {
     const xOffset = event.nativeEvent.contentOffset.x;
     const padding = 10;
     const width = event.nativeEvent.contentSize.width;
+
+    // checking offset to fetch
     if (this.state.graphWidth + xOffset + padding >= width) {
       //ScrollEnd, do sth...
       // get next page
-      const nextPage = this.props.history.bloodSugarGraphPage + 1;
-      this.props.getHistoryBloodSugarLevels({ page: nextPage });
+
+      // if it is still loading then do not fetch
+      if (!this.props.history.bloodSugarLoading) {
+        const nextPage = this.props.history.bloodSugarGraphPage + 1;
+        this.props.getHistoryBloodSugarLevels({ page: nextPage });
+      }
     }
   }
 

@@ -9,7 +9,8 @@ const initialState = {
   weight: null,
   isFood: false,
   bloodSugar: [],
-  bloodSugarGraphPage: 1
+  bloodSugarGraphPage: 1,
+  bloodSugarLoading: false,
 };
 
 const getHistoryHba1c = (state, payload) => ({
@@ -52,7 +53,8 @@ const getHistoryBloodSugarLevels = (state, payload) => ({
   ...state,
   status: 200,
   message: 'success',
-  bloodSugar: state.bloodSugar.concat(payload)
+  bloodSugar: state.bloodSugar.concat(payload),
+  bloodSugarLoading: false,
 });
 
 const historyEstimationReducer = (state = initialState, action) => {
@@ -71,16 +73,23 @@ const historyEstimationReducer = (state = initialState, action) => {
       return getHistoryFoods(state, action.payload);
     case ActionTypes.GET_BLOOD_GLUCOSE_GRAPH:
       return getHistoryBloodSugarLevels(state, action.payload);
+    case ActionTypes.UPDATE_BLOOD_GLUCOSE_GRAPH_LOADING:
+      return {
+        ...state,
+        bloodSugarLoading: action.payload
+      };
     case ActionTypes.UPDATE_GET_BLOOD_GLUCOSE_GRAPH_PAGE:
       return {
         ...state,
-        bloodSugarGraphPage: action.payload
+        bloodSugarGraphPage: action.payload,
+        bloodSugarLoading: false
       };
     case 'RESET_GRAPH':
       return {
         ...state,
         bloodSugarGraphPage: 1,
-        bloodSugar: []
+        bloodSugar: [],
+        bloodSugarLoading: false
       };
     default:
       return state;
