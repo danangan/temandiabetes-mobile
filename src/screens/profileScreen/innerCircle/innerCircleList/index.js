@@ -143,7 +143,7 @@ class InnerCircleList extends Component {
                 this.onPushScreen('TemanDiabetes.InnerCircle');
               },
               500,
-              { leading: true, trailing: false }
+              { leading: false, trailing: true }
             )}
             style={styles.rightButtonStyle}
           >
