@@ -269,7 +269,7 @@ class HistoryBloodSugarLevels extends React.Component {
               <View style={styles.loaderContainer}>
                 {
                   this.props.history.bloodSugarLoading &&
-                  <ActivityIndicator />
+                  <ActivityIndicator color="gray" />
                 }
               </View>
             </InvertibleScrollView>
