@@ -137,7 +137,7 @@ export const getHistoryFoods = () => async dispatch => {
 };
 
 export const getHistoryBloodSugarLevels = ({ page = 1 } = {}) => async dispatch => {
-  function onSuccess(bloods, pageUpdate) {
+  function onSuccess(bloods, pageUpdate, totalPage) {
     dispatch({
       type: ActionTypes.GET_BLOOD_GLUCOSE_GRAPH,
       payload: bloods
@@ -146,6 +146,11 @@ export const getHistoryBloodSugarLevels = ({ page = 1 } = {}) => async dispatch 
     dispatch({
       type: ActionTypes.UPDATE_GET_BLOOD_GLUCOSE_GRAPH_PAGE,
       payload: pageUpdate
+    });
+
+    dispatch({
+      type: ActionTypes.UPDATE_BLOOD_GLUCOSE_GRAPH_TOTAL_PAGE,
+      payload: totalPage
     });
   }
 
@@ -162,10 +167,13 @@ export const getHistoryBloodSugarLevels = ({ page = 1 } = {}) => async dispatch 
     };
 
     const {
-      data: { data }
+      data: {
+        data: { graph, totalPage }
+      }
     } = await API_CALL(option);
-    if (data.length > 0) {
-      onSuccess(data, page);
+
+    if (graph.length > 0) {
+      onSuccess(graph, page, totalPage);
     } else {
       dispatch({
         type: ActionTypes.UPDATE_BLOOD_GLUCOSE_GRAPH_LOADING,

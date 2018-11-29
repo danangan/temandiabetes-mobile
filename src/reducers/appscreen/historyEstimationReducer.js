@@ -11,6 +11,7 @@ const initialState = {
   bloodSugar: [],
   bloodSugarGraphPage: 1,
   bloodSugarLoading: false,
+  graphTotalPage: 1,
 };
 
 const getHistoryHba1c = (state, payload) => ({
@@ -77,6 +78,11 @@ const historyEstimationReducer = (state = initialState, action) => {
       return {
         ...state,
         bloodSugarLoading: action.payload
+      };
+    case ActionTypes.UPDATE_BLOOD_GLUCOSE_GRAPH_TOTAL_PAGE:
+      return {
+        ...state,
+        graphTotalPage: action.payload
       };
     case ActionTypes.UPDATE_GET_BLOOD_GLUCOSE_GRAPH_PAGE:
       return {

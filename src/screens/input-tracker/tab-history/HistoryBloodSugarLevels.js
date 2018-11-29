@@ -181,8 +181,10 @@ class HistoryBloodSugarLevels extends React.Component {
       //ScrollEnd, do sth...
       // get next page
 
-      // if it is still loading then do not fetch
-      if (!this.props.history.bloodSugarLoading) {
+      // if it is still loading and currently the last page then do not fetch
+      const isLastPage = this.props.history.bloodSugarGraphPage === this.props.history.graphTotalPage;
+
+      if (!this.props.history.bloodSugarLoading && !isLastPage) {
         const nextPage = this.props.history.bloodSugarGraphPage + 1;
         this.props.getHistoryBloodSugarLevels({ page: nextPage });
       }
