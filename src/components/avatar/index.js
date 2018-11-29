@@ -80,6 +80,7 @@ const styles = {
   textStyle:{
 		fontFamily: 'Montserrat-Regular',
     color: '#424242',
+    backgroundColor: 'transparent',
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center'
