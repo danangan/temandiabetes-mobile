@@ -290,7 +290,7 @@ class Notification extends React.Component {
       case 'receiver_innercircle':
         return (
           <Text>
-            <Text style={styles.boldText}>{activity.innerCircle.name || 'Seseorang'}</Text>
+            <Text style={styles.boldText}>{activity.user.nama || 'Seseorang'}</Text>
             <Text> mengirimkan permintaan inner circle untuk Anda.</Text>
           </Text>
         );

@@ -11,6 +11,8 @@ import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import io.invertase.firebase.storage.RNFirebaseStoragePackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import cl.json.RNSharePackage;
 
@@ -51,6 +53,8 @@ public class MainApplication extends NavigationApplication {
             new RNFirebasePackage(),
             new RNFirebaseAuthPackage(),
             new RNFirebaseStoragePackage(),
+            new RNFirebaseMessagingPackage(),
+            new RNFirebaseNotificationsPackage(),
             new FIRMessagingPackage(),
             new DnursePackage(),
             new RNSharePackage(),

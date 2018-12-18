@@ -179,8 +179,6 @@ class EditProfile extends React.Component {
         }
       } = await API_CALL(option);
       this.setState({ insuranceList: insurances });
-
-      console.log(insurances)
     } catch (error) {
       console.log(error);
     }
@@ -220,8 +218,6 @@ class EditProfile extends React.Component {
         this.state.userData.jenis_kelamin !== '' &&
         this.state.userData.no_telp !== ''
       ) {
-        console.log('check user')
-        console.log(this.state.userData)
         this.setState({
           isLoading: true
         });

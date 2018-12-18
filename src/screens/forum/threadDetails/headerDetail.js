@@ -31,7 +31,6 @@ class HeaderDetail extends React.Component {
 
   render() {
     const { authorItem, categoryItem, date, threadType } = this.props;
-    console.log('authorItem.nama --->', authorItem);
     return (
       <CardSection containerStyle={{ backgroundColor: '#f2f4fd', margin: 0 }}>
         <View style={styles.container}>

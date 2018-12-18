@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Linking, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import { Navigation } from 'react-native-navigation';
+import firebase from 'react-native-firebase';
 
 import { Spinner } from '../../components/Spinner';
 import { authToken } from '../../utils/constants';
 import { guelogin } from '../../utils/GueLogin';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
-import { updateDeepLink } from '../../actions';
+import { updateDeepLink, updateNotification } from '../../actions';
 import { mainApp, startApp, startLoginPage } from '../../../App';
 import { resetState } from '../../actions/loginActions';
 
@@ -33,6 +34,15 @@ class AppLoader extends Component {
     });
 
     this.firebaseHandler();
+
+    this.checkNotification();
+  }
+
+  async checkNotification() {
+    const notificationOpen = await firebase.notifications().getInitialNotification();
+    if (notificationOpen) {
+      this.props.updateNotification(notificationOpen.notification);
+    }
   }
 
   async initMainApp(cb = () => {}) {
@@ -153,12 +163,9 @@ class AppLoader extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  loginReducer: state.loginReducer
-});
-
 const mapDispatchToProps = dispatch => ({
   updateDeepLink: deepLink => dispatch(updateDeepLink(deepLink)),
+  updateNotification: notificationPayload => dispatch(updateNotification(notificationPayload)),
   resetState: () => dispatch(resetState())
 });
 

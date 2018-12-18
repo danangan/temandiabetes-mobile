@@ -29,7 +29,7 @@ const FooterThread = ({
     <CardSection>
       <View style={[styles.containerStyle, containerStyle]}>
         {
-          btnComment ? 
+          btnComment ?
           <TouchableOpacity onPress={() => leftAction()} style={styles.itemContainer}>
             <Image source={Comment} style={{ width: 20, height: 20 }} />
             <Text style={styles.titleItem}>{numOfComments} Balasan</Text>
@@ -61,11 +61,6 @@ const FooterThread = ({
       </View>
     </CardSection>
   );
-};
-
-FooterThread.propTypes = {
-  containerStyle: ViewPropTypes.style,
-  numOfComments: PropTypes.number,
 };
 
 const styles = {

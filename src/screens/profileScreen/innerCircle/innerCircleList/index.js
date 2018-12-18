@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { debounce } from 'lodash';
-import { View, Text, TouchableOpacity, Image, AsyncStorage, Platform } from 'react-native';
+import { debounce, result } from 'lodash';
+import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
 
 import color from '../../../../style/color';
 import Style from '../../../../style/defaultStyle';
@@ -9,7 +9,6 @@ import TabFamily from './TabFamily';
 import TabRequest from './TabRequest';
 import TabPending from './TabPending';
 import { getInnerCircle } from '../../../../actions';
-import { authToken } from '../../../../utils/constants';
 import { SnackBar } from '../../../../components';
 
 class InnerCircleList extends Component {
@@ -21,6 +20,7 @@ class InnerCircleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      initialFetchDone: false,
       tab: props.tab || 0,
       isProcess: false,
       showSnackBar: false,
@@ -49,6 +49,14 @@ class InnerCircleList extends Component {
         () => this.getInnerCircle()
       );
     }
+
+    if (!this.state.initialFetchDone && result(nextProps.dataAuth, 'currentUser._id', false)) {
+      this.setState({
+        initialFetchDone: true
+      }, () => {
+        this.props.getInnerCircle(nextProps.dataAuth.currentUser._id);
+      });
+    };
   }
 
   onPushScreen(screen) {
@@ -76,8 +84,13 @@ class InnerCircleList extends Component {
 
   getInnerCircle = async () => {
     const { currentUser } = this.props.dataAuth;
-    const idToken = await AsyncStorage.getItem(authToken);
-    this.props.getInnerCircle(currentUser._id, idToken);
+    if (result(currentUser, '_id', false)) {
+      this.setState({
+        initialFetchDone: true
+      }, () => {
+        this.props.getInnerCircle(currentUser._id);
+      })
+    }
   };
 
   renderTabContent = () => {
@@ -142,7 +155,7 @@ class InnerCircleList extends Component {
               () => {
                 this.onPushScreen('TemanDiabetes.InnerCircle');
               },
-              500,
+              1000,
               { leading: false, trailing: true }
             )}
             style={styles.rightButtonStyle}

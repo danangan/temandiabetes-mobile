@@ -23,7 +23,6 @@ class ReminderCard extends React.Component {
 
   render() {
     const { _id, is_active } = this.props.item;
-    console.log(this.props.item);
     const { index, statusReminder } = this.props;
 
     return (

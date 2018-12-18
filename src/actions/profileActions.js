@@ -21,8 +21,6 @@ const updateProfile = userData => {
         }
       });
 
-      console.log(userData)
-
       const { data: { data: { user } }} = await API_CALL.put(`api/users/${userData._id}`, userData);
       return dispatch(onSuccess(user))
     } catch (error) {

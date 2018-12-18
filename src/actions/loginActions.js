@@ -137,7 +137,7 @@ const signWithGoogle = () => async dispatch => {
 
 const setupGoogleSignIn = () => async () => {
   try {
-    await GoogleSignin.hasPlayServices({ autoResolve: true });
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     const configPlatform = {
       ...Platform.select({
         ios: {
@@ -235,6 +235,7 @@ const onSignOut = ({ userId }) => async dispatch => {
   const callback = async () => {
     try {
       Promise.all([
+        GoogleSignin.revokeAccess(),
         GoogleSignin.signOut(),
         LoginManager.logOut(),
         guelogin.auth().signOut(),
