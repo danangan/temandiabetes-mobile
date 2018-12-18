@@ -12,7 +12,6 @@ import {
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import { getHistoryBloodSugarLevels } from '../../../actions';
 
-
 import DotsInfo from './DotsInfo';
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
@@ -32,7 +31,7 @@ const LineHorizontal = props => (
       borderBottomColor: color.solitude,
       borderBottomWidth: 1,
       top: 9 + (props.lineNumber - 1) * yItemHeight,
-      position: 'absolute',
+      position: 'absolute'
     }}
   />
 );
@@ -84,8 +83,7 @@ class Dots extends React.Component {
             <View style={[styles.dotsStyle, { backgroundColor: dotsStyle.backgroundColor }]} />
           </View>
         </TouchableOpacity>
-        {
-          showToolTip &&
+        {showToolTip && (
           <TouchableWithoutFeedback
             onPress={() => {
               if (this.state.showToolTip) {
@@ -113,7 +111,7 @@ class Dots extends React.Component {
               <Text style={styles.textToolTipStyle}>{result(item, 'level')}</Text>
             </View>
           </TouchableWithoutFeedback>
-        }
+        )}
       </View>
     );
   }
@@ -128,7 +126,7 @@ class HistoryBloodSugarLevels extends React.Component {
       y: 0,
       data: null,
       currentPage: 1,
-      graphWidth: 0,
+      graphWidth: 0
     };
 
     this.graphScrollHandler = this.graphScrollHandler.bind(this);
@@ -182,7 +180,8 @@ class HistoryBloodSugarLevels extends React.Component {
       // get next page
 
       // if it is still loading and currently the last page then do not fetch
-      const isLastPage = this.props.history.bloodSugarGraphPage === this.props.history.graphTotalPage;
+      const isLastPage =
+        this.props.history.bloodSugarGraphPage === this.props.history.graphTotalPage;
 
       if (!this.props.history.bloodSugarLoading && !isLastPage) {
         const nextPage = this.props.history.bloodSugarGraphPage + 1;
@@ -222,13 +221,14 @@ class HistoryBloodSugarLevels extends React.Component {
             <InvertibleScrollView
               horizontal
               inverted
-              ref={ref => this.scrollView = ref}
-              onLayout={(event) => {this.measureGraphView(event)}}
+              ref={ref => (this.scrollView = ref)}
+              onLayout={event => {
+                this.measureGraphView(event);
+              }}
               onContentSizeChange={() => {
                 // if (this.props.history.bloodSugarGraphPage === 1) {
                 //   console.log('scroll');
                 //   this..measure(() => {
-
                 // }).scrollToEnd({ animated: true });
                 //   this.setState({
                 //     initialRender: false
@@ -250,8 +250,9 @@ class HistoryBloodSugarLevels extends React.Component {
                   }}
                 >
                   <LineVertical />
-                  {
-                    item.gulaDarah.reverse().map((gulaDarahItem, idx) => (
+                  {result(item, 'gulaDarah', [])
+                    .reverse()
+                    .map((gulaDarahItem, idx) => (
                       <Dots
                         dotsStyle={{
                           backgroundColor: this.dotColor(gulaDarahItem.nilai),
@@ -261,16 +262,12 @@ class HistoryBloodSugarLevels extends React.Component {
                         currentInput={this.props.currentInput}
                         key={idx}
                       />
-                    ))
-                  }
+                    ))}
                   <Text style={styles.textCorXStyle}>{item.date}</Text>
                 </View>
               ))}
               <View style={styles.loaderContainer}>
-                {
-                  this.props.history.bloodSugarLoading &&
-                  <ActivityIndicator color="gray" />
-                }
+                {this.props.history.bloodSugarLoading && <ActivityIndicator color="gray" />}
               </View>
             </InvertibleScrollView>
           </View>
@@ -337,18 +334,18 @@ const styles = {
     fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER,
     color: '#556299',
-    marginTop: Style.PADDING - 15,
+    marginTop: Style.PADDING - 15
   },
   dotContainer: {
     position: 'absolute',
     height: 30,
-    width: 50,
+    width: 50
   },
   dotsWrapper: {
     width: 30,
     height: 30,
     left: 12,
-    bottom: 10,
+    bottom: 10
   },
   dotsStyle: {
     left: 6,
@@ -356,7 +353,7 @@ const styles = {
     width: 15,
     borderRadius: 15 / 2,
     bottom: -10,
-    zIndex: 0,
+    zIndex: 0
   },
   toolTipContainerStyle: {
     justifyContent: 'center',
@@ -386,12 +383,12 @@ const styles = {
     justifyContent: 'center',
     width: 20,
     alignItems: 'center',
-    height: '100%',
+    height: '100%'
   }
 };
 
 const mapDispatchToProps = dispatch => ({
-  getHistoryBloodSugarLevels: (params) => dispatch(getHistoryBloodSugarLevels(params)),
+  getHistoryBloodSugarLevels: params => dispatch(getHistoryBloodSugarLevels(params)),
   resetHistoryBloodSugar: () => dispatch({ type: 'RESET_GRAPH' })
 });
 
