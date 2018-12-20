@@ -175,6 +175,9 @@ class RegisterScreenSecond extends React.Component {
               <TouchableOpacity style={styles.btnNext} onPress={this.handleNavigation}>
                 <Text style={styles.buttonText}>LANJUT</Text>
               </TouchableOpacity>
+              <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 20, color: 'red', backgroundColor: 'transparent' }}>
+                {this.state.message}
+              </Text>
             </View>
             <View style={styles.indicatorWrapper}>
               <Indicator persentase={{ width: '40%' }} />
