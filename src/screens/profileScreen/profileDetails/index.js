@@ -269,7 +269,7 @@ class ProfileDetails extends React.Component {
                         }
                       });
                     }
-                    this.props.accept(friendId, innerCircleId, () => {
+                    this.props.accept(this.props.data.user._id, innerCircleId, () => {
                       this.setState({
                         innerCircleStatus: 'accepted'
                       });
