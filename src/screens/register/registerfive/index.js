@@ -208,9 +208,6 @@ class RegisterFive extends React.Component {
               <TouchableOpacity style={styles.btnNext} onPress={() => this.toHome()}>
                 <Text style={styles.buttonText}>SELESAI</Text>
               </TouchableOpacity>
-              <Text style={{ fontFamily: 'Montserrat-Regular', fontSize: 20, color: 'red', backgroundColor: 'transparent' }}>
-                {this.state.message}
-              </Text>
             </View>
             <View style={styles.indicatorWrapper}>
               <Indicator persentase={{ width: '100%' }} />
