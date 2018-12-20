@@ -326,44 +326,7 @@ class RegisterScreenFourth extends React.Component {
               }}
             >
               {this.handleSelectedUser()}
-              {/* <TouchableOpacity
-                style={stylesLocal.imagesWrapper}
-                onPress={() => alert('Test image 1')}
-              >
-                <Image
-                  resizeMode={'contain'}
-                  style={stylesLocal.images}
-                  source={{ uri: Images.advisorIcon }}
-                />
-                <Text>Diabetesi</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={stylesLocal.imagesWrapper}
-                onPress={() => alert('Test image 2')}
-              >
-                <Image
-                  resizeMode={'contain'}
-                  style={stylesLocal.images}
-                  source={{ uri: Images.advisorIcon }}
-                />
-                <Text>Non Diabetesi</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={stylesLocal.imagesWrapper}
-                onPress={() => alert('Test image 3')}
-              >
-                <Image
-                  resizeMode={'contain'}
-                  style={stylesLocal.images}
-                  source={{ uri: Images.advisorIcon }}
-                />
-                <Text>Advisor</Text>
-              </TouchableOpacity> */}
-
             </View>
-
             <TouchableOpacity
               style={[styles.btnNext, { marginBottom: 40, marginTop: 20 }]}
               onPress={() => this.handleNavigation()}
