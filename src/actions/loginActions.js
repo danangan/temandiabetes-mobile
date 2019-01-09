@@ -7,6 +7,7 @@ import firebase from 'react-native-firebase';
 
 import * as ActionTypes from './constants';
 import { authToken } from '../utils/constants';
+import { API_CALL } from '../utils/ajaxRequestHelper';
 import { guelogin } from '../utils/GueLogin';
 import { API_CURRENT_USER } from '../utils/API';
 import { updateFCMToken } from './authAction';
@@ -15,9 +16,15 @@ const loginManual = ({ email, password }) => async dispatch => {
   function onSuccess(currentUser) {
     dispatch({
       type: ActionTypes.LOGIN_MANUAL,
-      payload: currentUser
+      payload: { currentUser }
     });
-    return currentUser;
+  }
+
+  function onFailed(error) {
+    dispatch({
+      type: ActionTypes.LOGIN_MANUAL,
+      payload: error
+    });
   }
 
   function onSuccessSSO(userSSO) {
@@ -25,7 +32,6 @@ const loginManual = ({ email, password }) => async dispatch => {
       type: ActionTypes.LOGIN_MANUAL_SSO,
       payload: userSSO
     });
-    return currentUser;
   }
 
   try {
@@ -45,11 +51,11 @@ const loginManual = ({ email, password }) => async dispatch => {
         }
       });
 
-      if (currentUser.registration_status == "finished") {
+      if (currentUser.registration_status == 'finished') {
         AsyncStorage.setItem(authToken, firebaseIdToken);
         onSuccess(currentUser);
       } else {
-        let isNewUser = true;
+        const isNewUser = true;
         const payloadData = {
           firebaseIdToken,
           // profile,
@@ -60,11 +66,10 @@ const loginManual = ({ email, password }) => async dispatch => {
         await AsyncStorage.setItem('isNewUser', String(isNewUser));
         onSuccessSSO(payloadData);
       }
-
     }
   } catch (error) {
     const parsed = JSON.parse(JSON.stringify(error));
-    onSuccess(parsed);
+    onFailed(parsed);
   }
 };
 
@@ -133,7 +138,7 @@ const signWithGoogle = () => async dispatch => {
 
 const setupGoogleSignIn = () => async () => {
   try {
-    await GoogleSignin.hasPlayServices({ autoResolve: true });
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     const configPlatform = {
       ...Platform.select({
         ios: {
@@ -228,9 +233,17 @@ const onSignOut = ({ userId }) => async dispatch => {
     });
   }
 
+  // unsubscribe to all related thread
+  const option = {
+    method: 'post',
+    url: 'api/threads/unsubscribe-thread-on-logout',
+  };
+  await API_CALL(option);
+
   const callback = async () => {
     try {
       Promise.all([
+        GoogleSignin.revokeAccess(),
         GoogleSignin.signOut(),
         LoginManager.logOut(),
         guelogin.auth().signOut(),
@@ -242,13 +255,15 @@ const onSignOut = ({ userId }) => async dispatch => {
     }
   };
 
-  dispatch(updateFCMToken({
-    userId,
-    callback,
-    token: {
-      messagingRegistrationToken: '',
-    },
-  }));
+  dispatch(
+    updateFCMToken({
+      userId,
+      callback,
+      token: {
+        messagingRegistrationToken: ''
+      }
+    })
+  );
 };
 
 const resetState = () => async dispatch => {

@@ -10,7 +10,7 @@ const ProductDetail = ({ product, navigator }) => (
     <ScrollView>
       <Card containerStyle={styles.cardStyle}>
         <TouchableOpacity
-          onPress={() => navigator.dismissAllModals({ animationType: 'none' })}
+          onPress={() => navigator.pop({ animationType: 'none' })}
           style={styles.buttonCloseStyle}
         >
           <Image
@@ -42,10 +42,7 @@ const ProductDetail = ({ product, navigator }) => (
         </View>
         <View style={styles.footerStyle}>
           <Text style={styles.poweredStyle}>powered by</Text>
-          <Image
-            style={styles.iconGoaStyle}
-            source={require('../../assets/icons/goapotik.jpg')}
-          />
+          <Image style={styles.iconGoaStyle} source={require('../../assets/icons/goapotik.jpg')} />
         </View>
       </Card>
     </ScrollView>
@@ -152,13 +149,15 @@ const styles = {
     fontWeight: 'bold'
   },
   valueStyle: {
+    flex: 1,
     fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER,
+    flexWrap: 'wrap'
   },
   valueContainerStyle: {
+    flexDirection: 'column',
     flex: 2,
-    flexWrap: 'wrap',
-    paddingLeft: 5,
+    paddingLeft: 5
   },
   labelContainerStyle: {
     width: Style.DEVICE_WIDTH / 3.5,

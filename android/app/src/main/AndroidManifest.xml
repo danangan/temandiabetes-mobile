@@ -21,76 +21,81 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-sdk
-        android:minSdkVersion="16"
-        android:targetSdkVersion="22" />
+      android:minSdkVersion="16"
+      android:targetSdkVersion="22"
+    />
 
     <application
-        android:name=".MainApplication"
-        android:allowBackup="true"
+      android:name=".MainApplication"
+      android:allowBackup="true"
+      android:label="@string/app_name"
+      android:icon="@mipmap/ic_launcher"
+      android:theme="@style/AppTheme"
+    >
+      <!--START REACT NATIVE FIREBASE-->
+      <service android:name="io.invertase.firebase.messaging.RNFirebaseBackgroundMessagingService" />
+      <service android:name="io.invertase.firebase.messaging.RNFirebaseMessagingService">
+        <intent-filter>
+          <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+      </service>
+      <service android:name="io.invertase.firebase.messaging.RNFirebaseInstanceIdService">
+        <intent-filter>
+          <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+        </intent-filter>
+      </service>
+      <!--END REACT NATIVE FIREBASE-->
+
+      <!--START NOTIFICATION CHANNEL-->
+      <meta-data
+        android:name="com.google.firebase.messaging.default_notification_channel_id"
+        android:value="default_notification_channel_id"
+      />
+      <!--END NOTIFICATION CHANNEL-->
+
+      <!--START SCHEDULED NOTIFICATION-->
+      <receiver android:name="io.invertase.firebase.notifications.RNFirebaseNotificationReceiver"/>
+      <receiver android:enabled="true" android:exported="true"  android:name="io.invertase.firebase.notifications.RNFirebaseNotificationsRebootReceiver">
+        <intent-filter>
+          <action android:name="android.intent.action.BOOT_COMPLETED"/>
+          <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+          <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+          <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+      </receiver>
+      <!--END SCHEDULED NOTIFICATION-->
+
+      <activity
+        android:name=".MainActivity"
         android:label="@string/app_name"
-        android:icon="@mipmap/ic_launcher"
-        android:theme="@style/AppTheme">
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:theme="@style/SplashScreen"
+        android:windowSoftInputMode="adjustResize"
+        android:launchMode="singleTop"
+      >
+        <intent-filter>
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+          <data android:scheme="https" />
+          <data android:host="development-dot-temandiabetes.appspot.com" />
+          <data android:host="temandiabetes.com" />
+          <data android:pathPattern="/.*" />
+        </intent-filter>
+        <intent-filter>
+          <action android:name="android.intent.action.MAIN" />
+          <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+      </activity>
+      <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
-        <!--ADDING META DATA FOR DEFAULT CHANNEL NAME-->
-        <meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="default_channel"/>
-
-        <!--REACT NATIVE FIREBASE CLOUD MESSAGING-->
-        <receiver android:name="com.evollu.react.fcm.FIRLocalMessagingPublisher" />
-        <receiver
-            android:enabled="true"
-            android:exported="true"
-            android:name="com.evollu.react.fcm.FIRSystemBootEventReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name="com.evollu.react.fcm.MessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name="com.evollu.react.fcm.InstanceIdService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@style/SplashScreen"
-            android:windowSoftInputMode="adjustResize"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" />
-                <data android:host="development-dot-temandiabetes.appspot.com" />
-                <data android:host="temandiabetes.com" />
-                <data android:pathPattern="/.*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="7647ec4e4cea2e0f07cc369c20d2ae46cffb7c0f" />
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+      <meta-data
+        android:name="io.fabric.ApiKey"
+        android:value="7647ec4e4cea2e0f07cc369c20d2ae46cffb7c0f"
+      />
+      <meta-data android:name="com.facebook.sdk.ApplicationId"
+        android:value="@string/facebook_app_id"
+      />
     </application>
 
 </manifest>

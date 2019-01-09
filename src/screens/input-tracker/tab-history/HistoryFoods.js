@@ -121,7 +121,9 @@ const styles = StyleSheet.create({
       ios: {
         padding: Style.PADDING - 13
       },
-      android: Style.PADDING
+      android: {
+        padding: Style.PADDING
+      }
     }),
     marginLeft: 0,
     marginRight: 0,

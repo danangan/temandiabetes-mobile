@@ -22,6 +22,7 @@ class ContentDetail extends React.Component {
     return ({ item, index }) => (
       <CommentThread
         key={index}
+        refreshThreadDetail={this.props.refreshPage}
         contentComment={item}
         threadId={threadId}
         idComment={item._id}
@@ -31,7 +32,7 @@ class ContentDetail extends React.Component {
   }
 
   onEndReached() {
-    this.props.nextPageCommentList()
+    this.props.nextPageCommentList();
   }
 
   onRefresh() {

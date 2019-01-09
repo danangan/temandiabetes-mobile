@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import { onSignOut } from '../../actions/loginActions';
 import { Avatar, Spinner } from '../../components';
 import { authToken } from '../../utils/constants';
-import { mainApp } from '../../../App';
 import color from '../../style/color';
 import Style from '../../style/defaultStyle';
 
@@ -75,25 +74,10 @@ class ProfileScreen extends React.Component {
     });
   }
 
-  onHome(screen) {
+  onHome() {
     // non diabetesi dan ahli
-    switch (this.props.dataAuth.tipe_user) {
-      case 'ahli':
-        mainApp(0);
-        break;
-      case 'non-diabetesi':
-        mainApp(0);
-        break;
-      case 'diabetesi':
-        mainApp(2);
-        break;
-      default:
-        break;
-    }
-
-    this.props.navigator.dismissAllModals({
-      animationType: 'none'
-    });
+    this.props.updateBottomTab(1);
+    this.onDismissModal();
   }
 
   getToken = async () => {
@@ -229,7 +213,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onSignOut: (data) => dispatch(onSignOut(data))
+  onSignOut: data => dispatch(onSignOut(data)),
+  updateBottomTab: activeTab => dispatch({ type: 'UPDATE_ACTIVE_BOTTOM_TAB', payload: activeTab })
 });
 
 export default connect(

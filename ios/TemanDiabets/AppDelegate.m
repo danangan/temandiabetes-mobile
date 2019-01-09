@@ -8,18 +8,18 @@
  */
 
 #import "AppDelegate.h"
-
 #import "RCCManager.h"
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <Firebase.h>
-#import "RNGoogleSignin.h"
+#import <RNGoogleSignin/RNGoogleSignin.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import "RNFIRMessaging.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import <React/RCTLinkingManager.h>
 #import "BloodTester.h"
+#import "RNFirebaseNotifications.h"
+#import "RNFirebaseMessaging.h"
 
 @interface AppDelegate ()
 @property (nonatomic, strong) BloodTester *bloodTester;
@@ -50,6 +50,7 @@
   //  Config firebase
   [FIRApp configure];
   [[UNUserNotificationCenter currentNotificationCenter] setDelegate:self];
+  [RNFirebaseNotifications configure];
 
 //==============BEGIN CRASHLYTICS==========
   [Fabric with:@[[Crashlytics class]]];
@@ -57,14 +58,6 @@
 
   return YES;
 }
-//
-//- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity
-// restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler
-//{
-// return [RCTLinkingManager application:application
-//                  continueUserActivity:userActivity
-//                    restorationHandler:restorationHandler];
-//}
 
 //===================================BEGIN AUTH CONFIGURATION===============================================
 - (BOOL)application:(UIApplication *)application
@@ -99,25 +92,23 @@
 //====================================END AUTH CONFIGURATION=================================================
 
 //===================================BEGIN NOTIFICATION CONFIGURATION========================================
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
-{
-  [RNFIRMessaging willPresentNotification:notification withCompletionHandler:completionHandler];
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo
+fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
+  [[RNFirebaseNotifications instance] didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
 
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center
-        didReceiveNotificationResponse:(UNNotificationResponse *)response
-         withCompletionHandler:(void (^)())completionHandler
-{
-  [RNFIRMessaging didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+  [[RNFirebaseMessaging instance] didRegisterUserNotificationSettings:notificationSettings];
 }
 
-//You can skip this method if you don't want to use local notification
--(void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-  [RNFIRMessaging didReceiveLocalNotification:notification];
+-(void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
+  [[RNFirebaseMessaging instance] didReceiveRemoteNotification:response.notification.request.content.userInfo];
+  completionHandler();
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler{
-  [RNFIRMessaging didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+  [[RNFirebaseNotifications instance] didReceiveLocalNotification:notification];
 }
 
 - (BOOL)application:(UIApplication *)application

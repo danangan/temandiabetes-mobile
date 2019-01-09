@@ -491,18 +491,18 @@ export const deleteBookmarkedThread = (thread, threadIndex) => async dispatch =>
  * POST COMMENT
  * @param {*} comment
  */
-export const createComment = comment => async dispatch => {
+export const createComment = (comment, cb) => async dispatch => {
   const isPending = () => {
     dispatch({
       type: 'PENDING_CREATE_COMMENT',
       payload: true
     });
+
     return true;
   };
 
   function onSuccess(data) {
     // refresh the commentlist
-    dispatch(getCommentList({ threadId: comment.idThread, page: 1 }));
 
     dispatch({
       type: ActionTypes.CREATE_COMMENT,
@@ -510,10 +510,11 @@ export const createComment = comment => async dispatch => {
     });
 
     // refresh all threads
-    dispatch(getThreads(1, true))
-    dispatch(getLatestThreads(1, true))
-    dispatch(getBookmarkedThreads(1, true))
+    dispatch(getThreads(1, true));
+    dispatch(getLatestThreads(1, true));
+    dispatch(getBookmarkedThreads(1, true));
 
+    cb();
     return data;
   }
 
@@ -535,7 +536,7 @@ export const createComment = comment => async dispatch => {
 /**
  * Comment To Reply
  */
-export const commentToReply = comment => async dispatch => {
+export const commentToReply = (comment, cb = () => {}) => async dispatch => {
   const isPending = () => {
     dispatch({
       type: 'PENDING_COMMENT_TO_REPLY',
@@ -545,13 +546,12 @@ export const commentToReply = comment => async dispatch => {
   };
 
   function onSuccess(data) {
-    dispatch(getCommentList({ threadId: comment.idThread, page: 1 }));
-
     dispatch({
       type: ActionTypes.COMMENT_TO_REPLY,
       payload: data
     });
 
+    cb();
     return data;
   }
 
@@ -568,80 +568,6 @@ export const commentToReply = comment => async dispatch => {
   } catch (error) {
     onSuccess(error);
   }
-};
-
-/**
- * Subsribe threads
- */
-
-export const toFollowThread = idThread => async dispatch => {
-  const isPending = () => {
-    dispatch({
-      type: 'PENDING_FOLLOW_THREADS',
-      payload: true
-    });
-    return true;
-  };
-
-  function onSuccess(data) {
-    dispatch({
-      type: ActionTypes.FOLLOW_THREADS,
-      payload: data
-    });
-
-    return data;
-  }
-
-  isPending();
-
-  try {
-    const option = {
-      method: 'post',
-      url: `api/threads/${idThread}/threadsubscribers`
-    };
-
-    const request = await API_CALL(option);
-    onSuccess(request);
-  } catch (error) {
-    onSuccess(error);
-  }
-};
-
-export const toUnFollowThread = idThread => async dispatch => {
-  const isPending = () => {
-    dispatch({
-      type: 'PENDING_UNFOLLOW_THREADS',
-      payload: true
-    });
-    return true;
-  };
-
-  function onSuccess(data) {
-    dispatch({
-      type: ActionTypes.UNFOLLOW_THREADS,
-      payload: data
-    });
-
-    return data;
-  }
-
-  isPending();
-
-  try {
-    const option = {
-      method: 'DELETE',
-      url: `api/threads/${idThread}/threadsubscribers`
-    };
-
-    const request = await API_CALL(option);
-    onSuccess(request);
-  } catch (error) {
-    onSuccess(error);
-  }
-};
-
-export const resetComment = {
-  type: 'RESET_COMMENT_LIST'
 };
 
 export const getCommentDetails = idComment => async dispatch => {
@@ -672,36 +598,6 @@ export const getCommentDetails = idComment => async dispatch => {
 
     const request = await API_CALL(option);
     onSuccess(request);
-  } catch (error) {
-    onSuccess(error);
-  }
-};
-
-export const getCommentList = ({ threadId, page = 1, limit = 10 }) => async dispatch => {
-  const url = `api/threads/${threadId}/comment/list?limit=${limit}&page=${page}`;
-  function onSuccess(data) {
-    // only update if the data result is not and empty array
-    if (data.data.data.comments.length > 0) {
-      dispatch({
-        type: ActionTypes.GET_COMMENT_LIST,
-        payload: {
-          ...data,
-          page
-        }
-      });
-    }
-
-    return data;
-  }
-
-  try {
-    const option = {
-      method: 'GET',
-      url
-    };
-
-    const request = await API_CALL(option);
-    return onSuccess(request);
   } catch (error) {
     onSuccess(error);
   }

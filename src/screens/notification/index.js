@@ -260,7 +260,6 @@ class Notification extends React.Component {
             </Text>
           </Text>
         );
-        break;
       case 'followed':
         return (
           <Text>
@@ -274,11 +273,18 @@ class Notification extends React.Component {
             </Text>
           </Text>
         );
-        break;
       case 'drug_reminder':
         return (
           <Text>
-            <Text>Jadwal {activity.user._id === this.props.currentUserId ? 'Anda' : <Text style={{ fontWeight: 'bold' }}>{activity.user.nama}</Text>} mengkonsumsi obat </Text>
+            <Text>
+              Jadwal{' '}
+              {activity.user._id === this.props.currentUserId ? (
+                'Anda'
+              ) : (
+                <Text style={{ fontWeight: 'bold' }}>{activity.user.nama}</Text>
+              )}{' '}
+              mengkonsumsi obat{' '}
+            </Text>
             <Text style={styles.boldText}>{activity.drugReminder.drugName || ''}</Text>
             <Text> pada pukul </Text>
             <Text style={styles.boldText}>
@@ -286,15 +292,13 @@ class Notification extends React.Component {
             </Text>
           </Text>
         );
-        break;
       case 'receiver_innercircle':
         return (
           <Text>
-            <Text style={styles.boldText}>{activity.innerCircle.name || 'Seseorang'}</Text>
+            <Text style={styles.boldText}>{activity.innerCircle.nama || 'Seseorang'}</Text>
             <Text> mengirimkan permintaan inner circle untuk Anda.</Text>
           </Text>
         );
-        break;
       case 'sender_innercircle':
         return (
           <Text>
@@ -302,10 +306,8 @@ class Notification extends React.Component {
             <Text> menerima permintaan inner circle Anda.</Text>
           </Text>
         );
-        break;
       default:
         return activity.activityType;
-        break;
     }
   }
 

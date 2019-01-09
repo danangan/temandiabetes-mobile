@@ -1,14 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  View,
-  Text,
-  Switch,
-  TouchableOpacity,
-  Platform,
-  Alert
-} from 'react-native';
+import { View, Text, Switch, TouchableOpacity, Platform, Alert } from 'react-native';
 import moment from 'moment';
 
 import Dot from './Dot';
@@ -16,7 +9,6 @@ import Dot from './Dot';
 import Style from '../../../style/defaultStyle';
 
 class ReminderCard extends React.Component {
-
   renderReminderDetail(dateTime, rules) {
     const rulesDrugs = rules === 'sesudahMakan' ? 'Sesudah Makan' : 'Sebelum Makan';
     return `${moment(dateTime).format('HH:mm')} - ${rulesDrugs}`;
@@ -41,13 +33,11 @@ class ReminderCard extends React.Component {
         <View style={{ flex: 2 }}>
           <Text style={styles.titleDrug}>{this.props.item.drugName}</Text>
           <View style={{ flex: 0, paddingVertical: 10 }}>
-            {
-              this.props.item.reminders.map((a, index) => (
-                <Text key={index} style={styles.reminderDesc}>
-                { this.renderReminderDetail(a.datetimeConsume, a.ruleConsume)}
-                </Text>
-              ))
-            }
+            {this.props.item.reminders.map((a, index) => (
+              <Text key={index} style={styles.reminderDesc}>
+                {this.renderReminderDetail(a.datetimeConsume, a.ruleConsume)}
+              </Text>
+            ))}
           </View>
         </View>
         <View style={styles.rightSide}>
@@ -68,7 +58,7 @@ class ReminderCard extends React.Component {
             </TouchableOpacity>
           </View>
           <Switch
-            style={Platform.select({ ios: { marginTop: 5 }})}
+            style={Platform.select({ ios: { marginTop: 5 } })}
             onValueChange={() => this.props.toUpdateStatusReminder({ index, _id, is_active })}
             value={statusReminder}
           />
@@ -109,23 +99,24 @@ const styles = {
     alignItems: 'center'
   },
   btnRight: {
-    paddingHorizontal: 5,
+    paddingHorizontal: 0,
     paddingVertical: 5,
     textAlign: 'center',
     color: '#fff',
-    fontSize: 9,
+    fontSize: 11,
     backgroundColor: '#ef434f'
   },
   wrappButtonOption: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginRight: 5
   },
   buttonOption: {
     marginHorizontal: 5,
-    maxWidth: 50,
-    minWidth: 40
+    maxWidth: 60,
+    minWidth: 55
   }
 };
 

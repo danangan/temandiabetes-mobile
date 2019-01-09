@@ -13,7 +13,8 @@ import {
 import { Card, Spinner } from '../../components';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
-import { getProductFromGOA, auditTrailPrePurchase } from '../../actions';
+import { getProductFromGOA, auditTrailPrePurchase, sendActivity } from '../../actions';
+import { LOG_VIEW, LOG_ORDER, LOG_GOA_PRODUCT } from '../../utils/constants';
 
 class Chart extends Component {
   constructor(props) {
@@ -55,12 +56,16 @@ class Chart extends Component {
   };
 
   handleClick = item => {
+    sendActivity(LOG_ORDER, item.product_sku, LOG_GOA_PRODUCT);
+
     this.props.prePurchase(item.product_sku, item.product_name);
     this.handleOpenUrl();
   };
 
-  ShowModal = item => {
-    this.props.navigator.showModal({
+  gotoProductDetail = item => {
+    sendActivity(LOG_VIEW, item.product_sku, LOG_GOA_PRODUCT);
+
+    this.props.navigator.push({
       screen: 'TemanDiabetes.ProductDetail',
       navigatorStyle: {
         navBarHidden: true
@@ -98,15 +103,25 @@ class Chart extends Component {
   };
 
   formatMoney(n, c, d, t) {
-    var c = isNaN(c = Math.abs(c)) ? 2 : c,
-      d = d == undefined ? "." : d,
-      t = t == undefined ? "," : t,
-      s = n < 0 ? "-" : "",
-      i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+    var c = isNaN((c = Math.abs(c))) ? 2 : c,
+      d = d == undefined ? '.' : d,
+      t = t == undefined ? ',' : t,
+      s = n < 0 ? '-' : '',
+      i = String(parseInt((n = Math.abs(Number(n) || 0).toFixed(c)))),
       j = (j = i.length) > 3 ? j % 3 : 0;
 
-    return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
-  };
+    return (
+      s +
+      (j ? i.substr(0, j) + t : '') +
+      i.substr(j).replace(/(\d{3})(?=\d)/g, `$1${t}`) +
+      (c
+        ? d +
+          Math.abs(n - i)
+            .toFixed(c)
+            .slice(2)
+        : '')
+    );
+  }
 
   render() {
     const { products, message } = this.props.data;
@@ -129,37 +144,10 @@ class Chart extends Component {
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this.onRefresh} />
           }
         >
-          {/* <View style={styles.wrapTextSearch}>
-            <TextField
-              value={this.state.searchKeyword}
-              onChangeText={this.changesKeyword}
-              autoFocus
-              tintColor={color.red}
-              iconLefteStyle={{ width: 30, height: 30, resizeModa: 'contain' }}
-              leftIcon={searchIcon2}
-              rightIcon={searchIcon}
-              // onPressRight={() => this.props.navigator.pop()}
-              placeholder={'Cari obat'}
-              underlineColorAndroid={'#fff'}
-              sectionStyle={{
-                marginTop: 10,
-                backgroundColor: '#fff',
-                borderWidth: 1,
-                borderColor: '#fff',
-                borderRadius: 5,
-                margin: 0
-              }}
-              iconLeftStyle={{
-                height: 20,
-                width: 25
-              }}
-              inputStyle={{ fontFamily: 'OpenSans-Regular', color: '#b6b6b6', fontSize: 14, backgroundColor: '#fff' }}
-            />
-          </View> */}
           <View style={styles.contentStyle}>
             {products.map((item, index) => (
               <Card containerStyle={styles.cardStyle} key={index}>
-                <TouchableOpacity onPress={() => this.ShowModal(item)}>
+                <TouchableOpacity onPress={() => this.gotoProductDetail(item)}>
                   <Image source={{ uri: item.product_image }} style={styles.imageStyle} />
                   <Text style={styles.priceStyle}>Rp. {this.formatMoney(item.product_price)}</Text>
                   <Text style={styles.productNameStyle}>{item.product_name}</Text>
@@ -205,14 +193,15 @@ const styles = {
     flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingBottom: Style.PADDING * 3.5
   },
   cardStyle: {
     flexDirection: 'column',
     justifyContent: 'space-between',
-    height: Style.CARD_WIDTH / 1.35,
     width: Style.CARD_WIDTH / 2,
-    padding: Style.PADDING,
+    paddingHorizontal: 5,
+    paddingVertical: 5,
     margin: 5
   },
   imageStyle: {
@@ -222,14 +211,28 @@ const styles = {
   },
   priceStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
+    ...Platform.select({
+      android: {
+        fontSize: Style.FONT_SIZE_SMALLER
+      },
+      ios: {
+        fontSize: Style.FONT_SIZE_SMALLER * 0.8
+      }
+    }),
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'rgba(37,44,104,1)'
   },
   productNameStyle: {
     fontFamily: 'Montserrat-Regular',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER : Style.FONT_SIZE_SMALLER*0.8,
+    ...Platform.select({
+      android: {
+        fontSize: Style.FONT_SIZE_SMALLER
+      },
+      ios: {
+        fontSize: Style.FONT_SIZE_SMALLER * 0.8
+      }
+    }),
     fontWeight: 'bold',
     lineHeight: 15,
     textAlign: 'center',
@@ -237,16 +240,45 @@ const styles = {
   },
   orderContainerStyle: {
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    bottom: 3
   },
   iconOrderStyle: {
-    height: Platform.OS === 'android' ? 18 : 15,
-    width: Platform.OS === 'android' ? 18 : 15,
+    ...Platform.select({
+      android: {
+        height: 18
+      },
+      ios: {
+        height: 15
+      }
+    }),
+    ...Platform.select({
+      android: {
+        width: 18
+      },
+      ios: {
+        width: 16
+      }
+    }),
     bottom: 2
   },
   textOrderStyle: {
-    fontFamily: Platform.OS === 'android' ? 'Montserrat-Regular' : 'Montserrat',
-    fontSize: Platform.OS === 'android' ? Style.FONT_SIZE_SMALLER - 2 : Style.FONT_SIZE_SMALLER * 0.7,
+    ...Platform.select({
+      android: {
+        fontFamily: 'Montserrat-Regular'
+      },
+      ios: {
+        fontFamily: 'Montserrat'
+      }
+    }),
+    ...Platform.select({
+      android: {
+        fontSize: Style.FONT_SIZE_SMALLER - 2
+      },
+      ios: {
+        fontSize: Style.FONT_SIZE_SMALLER * 0.7
+      }
+    }),
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'rgba(21,21,21,1)'

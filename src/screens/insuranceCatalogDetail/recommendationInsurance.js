@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { View, Platform, Image, Text, TouchableOpacity, Linking } from 'react-native';
 import { result, filter } from 'lodash';
-
 import Style from '../../style/defaultStyle';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
 import color from '../../style/color';
+import { sendActivity } from '../../actions';
+import { LOG_VIEW, LOG_INSURANCE_PRODUCT } from '../../utils/constants';
 
 export default class RecommendationInsurance extends Component {
   constructor(props) {
@@ -33,10 +34,16 @@ export default class RecommendationInsurance extends Component {
     }
   }
 
-  handleOpenUrl = item => {
-    const url = item.includes('https://') || item.includes('http://') ? item : `http://${item}`;
+  handleOpenUrl = (item) => {
+    this.logActivity(item._id);
+
+    const url = item.url.includes('https://') || item.url.includes('http://') ? item.url : `http://${item.url}`;
     Linking.openURL(url);
   };
+
+  logActivity = async (contentId) =>{
+    sendActivity(LOG_VIEW, contentId, LOG_INSURANCE_PRODUCT);
+  }
 
   render() {
     const { data } = this.state;
@@ -50,7 +57,7 @@ export default class RecommendationInsurance extends Component {
     if (renderedData.length === 0) {
       return null;
     }
-
+    
     return (
       <View>
         <Text style={styles.h1}>Rekomendasi Asuransi</Text>
@@ -59,7 +66,7 @@ export default class RecommendationInsurance extends Component {
             <TouchableOpacity
               style={styles.card}
               key={idx}
-              onPress={() => this.handleOpenUrl(item.url)}
+              onPress={() => this.handleOpenUrl(item)}
             >
               <Image source={{ uri: item.imageURL }} style={styles.image} resizeMode="contain" />
               <View>

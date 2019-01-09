@@ -35,8 +35,7 @@ class TabHistoryEstimation extends Component {
   }
 
   componentDidMount() {
-    this.getMakeRequest();
-    this.setState({ refreshing: true });
+    this.setState({ refreshing: true }, () => this.getMakeRequest());
   }
 
   componentDidUpdate() {
@@ -49,6 +48,7 @@ class TabHistoryEstimation extends Component {
 
   onRefresh = () => {
     this.setState({ refreshing: true }, () => {
+      this.props.resetHistoryBloodSugar();
       this.getMakeRequest();
     });
   };
@@ -184,6 +184,7 @@ const mapDispatchToProps = dispatch => ({
   getHistoryWeight: () => dispatch(getHistoryWeight()),
   getHistoryFoods: () => dispatch(getHistoryFoods()),
   getHistoryBloodSugarLevels: () => dispatch(getHistoryBloodSugarLevels()),
+  resetHistoryBloodSugar: () => dispatch({ type: 'RESET_GRAPH' }),
   resetState: () => dispatch(resetStateHistory())
 });
 

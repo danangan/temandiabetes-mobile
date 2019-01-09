@@ -3,14 +3,6 @@ import { connect } from 'react-redux';
 import { debounce, result } from 'lodash';
 import { View, Text, TouchableOpacity, Image, ActivityIndicator, Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import {
-  getThreadDetails,
-  toFollowThread,
-  toUnFollowThread,
-  getCommentDetails,
-  getCommentList,
-  resetComment
-} from '../../../actions/threadActions';
 
 import { CardSection, Spinner } from '../../../components';
 import Closed from '../../../assets/icons/close_white.png';
@@ -20,6 +12,8 @@ import HeaderDetail from './headerDetail';
 import color from '../../../style/color';
 import Style from '../../../style/defaultStyle';
 
+import { API_CALL } from '../../../utils/ajaxRequestHelper';
+
 class ThreadDetails extends React.Component {
   static navigatorStyle = {
     tabBarHidden: true
@@ -28,95 +22,136 @@ class ThreadDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      idThread: this.props.item._id,
+      threadDetail: null,
+      commentList: {
+        list: [],
+        page: 1
+      },
       isProcess: true,
       isLoadingSubscribe: false,
       isLoadMore: true
     };
-    this.requestFollowThread = this.requestFollowThread.bind(this);
-    this.requestUnfollowThread = this.requestUnfollowThread.bind(this);
+
+    this.threadSubscription = this.threadSubscription.bind(this);
     this.toCommentDetails = this.toCommentDetails.bind(this);
     this.refreshPage = this.refreshPage.bind(this);
+    this.getCommentList = this.getCommentList.bind(this);
     this.nextPageCommentList = this.nextPageCommentList.bind(this);
   }
 
   componentDidMount() {
-    // reset comment list
-    this.props.resetComment();
     this.fetchThreadDetails();
-    this.toGetCommentList();
-  }
-
-  componentWillUnmount() {
-    this.props.resetComment();
+    this.getCommentList();
   }
 
   shouldComponentUpdate() {
     return true;
   }
 
-  componentDidUpdate() {
-    const { listThreads, followThread } = this.props.dataThreads;
-    if (listThreads.threadDetails !== null && this.state.isProcess) {
-      this.setState({
-        isProcess: false
-      });
-    } else if (followThread.status_code === 200 && this.state.isLoadingSubscribe) {
-      setTimeout(() => {
+  async getCommentList({ nextPage = false, refresh = false } = {}) {
+    try {
+      const page = this.state.commentList.page + (nextPage ? 1 : 0);
+
+      const url = `api/threads/${this.props.item._id}/comment/list?limit=${10}&page=${page}`;
+
+      const option = {
+        method: 'GET',
+        url
+      };
+
+      const request = await API_CALL(option);
+
+      if (request.data.data.comments.length > 0) {
         this.setState({
-          isLoadingSubscribe: false
+          commentList: {
+            page,
+            list: refresh ?
+              request.data.data.comments :
+              [...this.state.commentList.list, ...request.data.data.comments]
+          }
         });
-      }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
     }
+
+    this.setState({
+      isProcess: false
+    });
   }
 
   async fetchThreadDetails() {
-    this.props.getThreadDetails(this.state.idThread);
+    try {
+      const option = {
+        method: 'get',
+        url: `api/threads/${this.props.item._id}`
+      };
+
+      const request = await API_CALL(option);
+
+      const threadDetail = {
+        ...request.data.data.thread,
+        isSubscriber: request.data.data.isSubscriber
+      };
+
+      this.setState({
+        threadDetail,
+        isProcess: false
+      });
+    } catch (error) {
+        console.log(error);
+    }
   }
 
-  async toGetCommentList(cb = () => {}) {
-    const { idThread } = this.state;
-    const {
-      dataThreads: { commentList }
-    } = this.props;
-    await this.props.getCommentList({ threadId: idThread, page: commentList.page });
-    cb();
-  }
-
-  async refreshPage(cb = () => {}) {
-    const { idThread } = this.state;
-    await this.props.getCommentList({ threadId: idThread, page: 1 });
-    cb();
+  refreshPage(cb = () => {}) {
+    this.setState({
+      commentList: {
+        ...this.state.commentList,
+        page: 1
+      }
+    }, async () => {
+      await this.getCommentList({ refresh: true });
+      cb();
+    });
   }
 
   nextPageCommentList() {
-    const { idThread } = this.state;
-    const {
-      dataThreads: { commentList }
-    } = this.props;
-    this.props.getCommentList({ threadId: idThread, page: commentList.page + 1 });
+    this.getCommentList({ nextPage: true });
   }
 
-  requestUnfollowThread() {
-    this.setState(
-      {
+  threadSubscription(type = 'follow') {
+    let method;
+    if (type === 'follow') {
+      method = 'POST';
+    } else {
+      method = 'DELETE';
+    }
+    return () => {
+      this.setState({
         isLoadingSubscribe: true
-      },
-      () => {
-        this.props.toUnFollowThread(this.state.idThread);
-      }
-    );
-  }
+      }, async () => {
+        try {
+          const option = {
+            method,
+            url: `api/threads/${this.props.item._id}/threadsubscribers`
+          };
 
-  requestFollowThread() {
-    this.setState(
-      {
-        isLoadingSubscribe: true
-      },
-      () => {
-        this.props.toFollowThread(this.state.idThread);
-      }
-    );
+          await API_CALL(option);
+
+          this.setState({
+            threadDetail: {
+              ...this.state.threadDetail,
+              isSubscriber: !this.state.threadDetail.isSubscriber
+            }
+          });
+        } catch (error) {
+          console.log(error);
+        }
+        this.setState({
+          isLoadingSubscribe: false
+        });
+      });
+    };
   }
 
   toCommentDetails(idComment) {
@@ -126,8 +161,9 @@ class ThreadDetails extends React.Component {
         navBarHidden: true
       },
       passProps: {
-        idThread: this.state.idThread,
-        commentId: idComment
+        idThread: this.props.item._id,
+        commentId: idComment,
+        refreshThreadDetail: this.refreshPage
       }
     });
   }
@@ -143,11 +179,11 @@ class ThreadDetails extends React.Component {
   }
 
   renderButtonFollow() {
-    const { listThreads, followThread } = this.props.dataThreads;
-    if (result(listThreads.threadDetails, 'author._id') === this.props.dataAuth.currentUser._id) {
+    const { threadDetail } = this.state;
+    if (result(threadDetail, 'author._id') === this.props.dataAuth.currentUser._id) {
       return null;
     }
-    if (followThread.isFetch) {
+    if (this.state.isLoadingSubscribe) {
       return (
         <View
           style={{
@@ -162,10 +198,10 @@ class ThreadDetails extends React.Component {
           <ActivityIndicator color="#fff" size={Platform.OS === 'ios' ? 'small' : 1} />
         </View>
       );
-    } else if (result(listThreads.threadDetails, 'isSubscriber')) {
+    } else if (result(threadDetail, 'isSubscriber')) {
       return (
         <TouchableOpacity
-          onPress={this.requestUnfollowThread}
+          onPress={this.threadSubscription('unfollow')}
           style={{
             justifyContent: 'center',
             flex: 1.5,
@@ -188,7 +224,7 @@ class ThreadDetails extends React.Component {
     }
     return (
       <TouchableOpacity
-        onPress={this.requestFollowThread}
+        onPress={this.threadSubscription('follow')}
         style={{
           justifyContent: 'center',
           flex: 1,
@@ -206,25 +242,25 @@ class ThreadDetails extends React.Component {
 
   render() {
     const { _id } = this.props.item;
-    const { listThreads, commentList } = this.props.dataThreads;
-    const { threadDetails } = listThreads;
-    if (this.state.isProcess || threadDetails === null) {
+    const { threadDetail, isProcess, commentList } = this.state;
+
+    if (isProcess) {
       return (
         <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="large" />
       );
     }
     return (
       <View style={{ flex: 2, backgroundColor: color.solitude }}>
-        {listThreads.threadDetails === null ? (
+        {threadDetail === null ? (
           <View>
             <Spinner containerStyle={{ backgroundColor: '#f2f4fd' }} color="#EF434F" size="small" />
           </View>
         ) : (
           <HeaderDetail
-            threadType={result(threadDetails, 'threadType')}
-            categoryItem={result(threadDetails, 'category')}
-            date={result(threadDetails, 'createdAt')}
-            authorItem={result(threadDetails, 'author')}
+            threadType={result(threadDetail, 'threadType')}
+            categoryItem={result(threadDetail, 'category')}
+            date={result(threadDetail, 'createdAt')}
+            authorItem={result(threadDetail, 'author')}
           />
         )}
         {/* <ContentDetail /> */}
@@ -239,7 +275,7 @@ class ThreadDetails extends React.Component {
             }}
           >
             <Text style={{ fontSize: 22 }}>
-              {listThreads.threadDetails === null ? 'Loading' : result(threadDetails, 'topic')}
+              {threadDetail === null ? 'Loading' : result(threadDetail, 'topic')}
             </Text>
           </View>
         </CardSection>
@@ -254,7 +290,7 @@ class ThreadDetails extends React.Component {
               borderRadius: 15
             }}
           >
-            {listThreads.threadDetails !== null ? this.renderButtonFollow() : null}
+            {threadDetail !== null ? this.renderButtonFollow() : null}
             <TouchableOpacity
               onPress={debounce(
                 () => {
@@ -264,7 +300,8 @@ class ThreadDetails extends React.Component {
                       navBarHidden: true
                     },
                     passProps: {
-                      idThread: _id
+                      idThread: _id,
+                      refreshThreadDetail: this.refreshPage
                     }
                   });
                 },
@@ -282,8 +319,8 @@ class ThreadDetails extends React.Component {
             >
               <Text style={styles.buttonText}>Balas</Text>
             </TouchableOpacity>
-            {this.props.dataAuth.currentUser._id !== result(threadDetails, 'author._id') &&
-            threadDetails !== null ? (
+            {this.props.dataAuth.currentUser._id !== result(threadDetail, 'author._id') &&
+            threadDetail !== null ? (
               <TouchableOpacity
                 onPress={() => {
                   Navigation.showModal({
@@ -313,8 +350,8 @@ class ThreadDetails extends React.Component {
         </CardSection>
         <View style={{ flex: 1, paddingBottom: 0 }}>
           <ContentDetail
-            threadId={this.state.idThread}
-            threadItem={threadDetails}
+            threadId={this.props.item._id}
+            threadItem={threadDetail}
             navigator={this.toCommentDetails}
             commentList={commentList.list}
             nextPageCommentList={this.nextPageCommentList}
@@ -359,20 +396,10 @@ const styles = {
 };
 
 const mapStateToProps = state => ({
-  dataThreads: state.threadsReducer,
   dataAuth: state.authReducer
-});
-
-const mapDispatchToProps = dispatch => ({
-  getThreadDetails: idThread => dispatch(getThreadDetails(idThread)),
-  toFollowThread: idThread => dispatch(toFollowThread(idThread)),
-  toUnFollowThread: idThread => dispatch(toUnFollowThread(idThread)),
-  getCommentDetails: idComment => dispatch(getCommentDetails(idComment)),
-  getCommentList: data => dispatch(getCommentList(data)),
-  resetComment: () => dispatch(resetComment)
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(ThreadDetails);

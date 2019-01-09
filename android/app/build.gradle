@@ -127,10 +127,14 @@ android {
         }
     }
     buildTypes {
+        debug {
+          multiDexEnabled true
+        }
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+            multiDexEnabled true
         }
     }
     // applicationVariants are e.g. debug, release
@@ -148,7 +152,10 @@ android {
     }
 }
 dependencies {
+//    AUTHENTICATION FACEBOOK SDK
+    implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
     implementation project(':react-native-fbsdk')
+
     implementation(project(':react-native-image-picker'))
     implementation(project(':react-native-share')) // Add dependencies
     implementation(project(":react-native-google-signin")){
@@ -159,18 +166,18 @@ dependencies {
         transitive = false
     }
     //noinspection GradleCompatible
-    implementation "com.google.android.gms:play-services-base:11.8.0"
-    implementation "com.google.firebase:firebase-auth:11.8.0"
-    implementation "com.google.firebase:firebase-core:11.8.0"
-    implementation "com.google.firebase:firebase-storage:11.8.0"
-    implementation 'com.google.firebase:firebase-messaging:11.8.0'
-    implementation 'com.google.android.gms:play-services-auth:11.8.0'
-    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation "com.google.android.gms:play-services-base:15.0.0"
+    implementation "com.google.firebase:firebase-auth:15.0.0"
+    implementation "com.google.firebase:firebase-core:15.0.2"
+    implementation "com.google.firebase:firebase-storage:15.0.2"
+    implementation 'com.google.firebase:firebase-messaging:15.0.2'
+    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'me.leolin:ShortcutBadger:1.1.21@aar'
     implementation project(':react-native-config')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:27.0.2"
-    implementation ("com.facebook.react:react-native:0.53.0") { force = true }  // From node_modules
+    implementation ("com.facebook.react:react-native:0.51.0") { force = true }  // From node_modules
     implementation project(':react-native-navigation') // ADD dependencies
     implementation project(':react-native-fcm') // ADD dependencies
     //fabric.io

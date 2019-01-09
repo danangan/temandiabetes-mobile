@@ -22,8 +22,6 @@ class ImageUploader extends Component {
 
   getImages() {
     ImagePicker.showImagePicker(imagePickerOption, (response) => {
-      console.log('Response = ', response);
-
       if (response.didCancel) {
         console.log('User cancelled image picker');
       }

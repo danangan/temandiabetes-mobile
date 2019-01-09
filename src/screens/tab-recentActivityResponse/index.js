@@ -115,8 +115,10 @@ class TabRecentActivityResponse extends React.Component {
         return `Anda telah berhenti mengikuti thread "${response.thread.topic}"`;
       case 'drug_reminder':
         return 'Anda telah membuat pengingat obat';
+      case 'receiver_innercircle':
+        return `Anda telah mengirimkan permintaan inner circle ke "${response.innerCircle.name}"`;
       case 'sender_innercircle':
-        return `Anda telah mengirimkan permintaan pertemanan ke "${response.innerCircle.name}"`;
+        return `Anda telah menerima inncer circle "${response.innerCircle.name}"`;
       default:
         return '';
     }

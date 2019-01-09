@@ -108,7 +108,8 @@ class CommentThread extends React.Component {
                     title: 'Modal',
                     passProps: {
                       idComment: _id,
-                      idThread: this.props.threadId
+                      idThread: this.props.threadId,
+                      refreshThreadDetail: this.props.refreshThreadDetail
                     },
                     navigatorButtons: {
                       leftButtons: [{}]
@@ -196,10 +197,10 @@ const styles = {
     marginHorizontal: 10,
     marginTop: 0
   },
-  wrapTextComment: { 
+  wrapTextComment: {
     fontSize: 14,
-    marginTop: 10, 
-    marginBottom: 15 
+    marginTop: 10,
+    marginBottom: 15
   }
 };
 

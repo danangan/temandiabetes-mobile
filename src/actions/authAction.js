@@ -1,9 +1,5 @@
 import { API_CALL } from '../utils/ajaxRequestHelper';
-import { AsyncStorage } from 'react-native';
-import axios from 'axios';
 import { GET_CURRENT_USER, UPDATE_FCM_TOKEN } from './constants';
-import { API_BASE } from '../utils/API';
-import { authToken } from '../utils/constants';
 
 export const addNotificationCount = () => dispatch => {
   dispatch({
@@ -42,9 +38,6 @@ export const getCurrentUser = () => async dispatch => {
  * Update FCM Token
  */
 export const updateFCMToken = (params) => async dispatch => {
-  // console.log('PARAMETER FCM ', params);
-  const token = await AsyncStorage.getItem(authToken);
-
   function onSuccess(data) {
 		dispatch({
 			type: UPDATE_FCM_TOKEN,
@@ -55,7 +48,6 @@ export const updateFCMToken = (params) => async dispatch => {
 	}
 
   try {
-
     const option = {
       method: 'put',
       url: `api/users/${params.idUser || params.userId}`,

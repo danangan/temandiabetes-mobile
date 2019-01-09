@@ -38,7 +38,7 @@ class DnurseView extends React.Component {
     super(props);
     this.state = {
       bloodSugarLevels: null,
-      statusView: VIEW_DNURSE.INPUT_DNURSE,
+      statusView: VIEW_DNURSE.INPUT_DNURSE
     };
     this.toBloodTesterSubscription = null;
   }
@@ -55,7 +55,7 @@ class DnurseView extends React.Component {
 
   onNavigation = () => {
     this.props.updateTopTab(2);
-    this.props.navigator.resetTo({
+    this.props.navigator.pop({
       screen: 'TemanDiabetes.AppContainer',
       navigatorStyle: {
         navBarHidden: true
@@ -77,7 +77,7 @@ class DnurseView extends React.Component {
                 text: 'Tidak',
                 onPress: () => {
                   this.props.updateTopTab(1);
-                  this.props.navigator.resetTo({
+                  this.props.navigator.push({
                     screen: 'TemanDiabetes.AppContainer',
                     navigatorStyle: {
                       navBarHidden: true
@@ -333,7 +333,8 @@ const styles = {
   contentStyle: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    backgroundColor: 'transparent'
   },
   imageStyle: {
     width: Style.DEVICE_WIDTH / 1.1,

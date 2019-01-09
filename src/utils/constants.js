@@ -15,3 +15,19 @@ export const FirebaseConstants = {
 };
 export const tokenGOA =
   'GoApotik:eyJhbGciOiJIUzI1NiJ9.MQ.uqtlW_34VuT6Amnbajp-mAmaAIZ7GznrTRzFtvtbigo';
+
+
+//--- USER ACTIVITY ---//
+
+//action
+export const LOG_VIEW = 'view';
+export const LOG_ORDER = 'order';
+//content desc
+export const LOG_GOA_PRODUCT = 'goapotik_product';
+export const LOG_INSURANCE_DETAIL = 'insurance_detail';
+export const LOG_INSURANCE_PLAYSTORE = 'insurance_playstore';
+export const LOG_INSURANCE_APPSTORE = 'insurance_appstore';
+export const LOG_INSURANCE_PRODUCT = 'insurance_product';
+
+//--- END OF USER ACTIVITY ---//
+

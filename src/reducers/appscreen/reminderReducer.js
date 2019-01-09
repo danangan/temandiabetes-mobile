@@ -1,11 +1,11 @@
 import * as ActionTypes from '../../actions/constants';
 
 const initialState = {
-	listReminder: {
+  listReminder: {
     data: [],
     page: 1,
     message: '',
-    isLoading: false,
+    isLoading: false
   },
   createReminder: {
     message: '',
@@ -27,42 +27,55 @@ function getListReminder(state, payload) {
   const message = data.length ? 'Success' : 'EmptyList';
   return {
     ...state,
-      listReminder: {
-        ...state.listReminder,
-        data,
-        page,
-        message,
-        isLoading: false
+    listReminder: {
+      ...state.listReminder,
+      data,
+      page,
+      message,
+      isLoading: false
     }
   };
 }
 
 const reminderReducer = (state = initialState, action) => {
-	switch (action.type) {
+  switch (action.type) {
     case 'PENDING_GET_LIST_REMINDER':
       return {
         ...state,
-          listReminder: {
-            data: [],
-            page: 1,
-            message: '',
-            isLoading: true,
-          }
+        listReminder: {
+          ...state.listReminder,
+          page: 1,
+          message: '',
+          isLoading: true
+        }
       };
-		case ActionTypes.GET_LIST_REMINDER:
+    case 'UPDATE_REMINDER_LIST_ITEM':
+      return {
+        ...state,
+        listReminder: {
+          ...state.listReminder,
+          data: [
+            ...state.listReminder.data.slice(0, action.payload.index),
+            action.payload.item,
+            ...state.listReminder.data.slice(action.payload.index + 1)
+          ]
+        }
+      };
+    case ActionTypes.GET_LIST_REMINDER:
       return getListReminder(state, action.payload);
     case 'PENDING_CREATE_DRUG_REMINDER':
       return {
-        ...state, createReminder: initialState.createReminder
+        ...state,
+        createReminder: initialState.createReminder
       };
     case ActionTypes.CREATE_DRUG_REMINDER:
       return {
         ...state,
-          createReminder: {
-            ...state.createReminder,
-              message: action.payload.message,
-              status_code: 200
-          }
+        createReminder: {
+          ...state.createReminder,
+          message: action.payload.message,
+          status_code: 200
+        }
       };
     case 'PENDING_GET_DETAILS_REMINDER':
       return {
@@ -74,13 +87,18 @@ const reminderReducer = (state = initialState, action) => {
       return {
         ...state,
         detailsReminder: {
-          ...state.detailsReminder, data, status_code: 200
+          ...state.detailsReminder,
+          data,
+          status_code: 200
         }
       };
     case 'PENDING_UPDATE_DRUG_REMINDER': {
       return {
         ...state,
-        listReminder: initialState.listReminder,
+        listReminder: {
+          ...state.listReminder,
+          isLoading: true
+        },
         updateReminder: {
           message: '',
           status_code: 0,
@@ -93,14 +111,14 @@ const reminderReducer = (state = initialState, action) => {
         ...state,
         updateReminder: {
           ...state.updateReminder,
-            status_code: 200,
-            message: 'Success',
-            index: action.payload.index
+          status_code: 200,
+          message: 'Success',
+          index: action.payload.index
         }
       };
-		default:
-			return state;
-	}
+    default:
+      return state;
+  }
 };
 
 export { reminderReducer };

@@ -40,7 +40,7 @@ class Login extends Component {
     this.state = {
       email: null,
       password: null,
-      shouldRedirect: false,
+      isLoading: false,
       message: null,
       showSnackBar: false,
       isConnected: true,
@@ -70,44 +70,19 @@ class Login extends Component {
     // here we check if the inactive user is a new user or not
     // if the user is existing user, the isnewuser value will be false, thus
     // we give them alert that the user account is inactive
-    const { statusCode, message, isNewUser, typeUser, is_active } = nextProps.loginReducer;
-    const { shouldRedirect } = this.state;
+    const { statusCode, message, isNewUser, currentUser } = nextProps.loginReducer;
     const errorMessage = this.errorMessage(message);
-    switch (true) {
-      case statusCode === 400 && message === 'inactive' && shouldRedirect:
-        return Alert.alert(
-          'Akun Anda sedang tidak aktif.',
-          'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
-          [
-            {
-              text: 'OK',
-              onPress: () => {
-                this.setState({ shouldRedirect: false }, () => {
-                  this.props.resetState();
-                });
-              }
-            }
-          ],
-          { cancelable: false }
-        );
-      case statusCode === 200 && message === 'success login' && shouldRedirect:
-        return this.setState({ shouldRedirect: false });
-      case statusCode === 500 && shouldRedirect:
-        return this.setState(
-          {
-            shouldRedirect: false
-          },
-          () => {
-            if (errorMessage !== undefined) {
-              this.showSnackBar(message);
-            }
-            this.props.resetState();
-          }
-        );
-      case isNewUser === true ||
+
+    // check status code
+    if (statusCode === 200) {
+      // check if user does not has account in database by flag isNewUser
+      // or if user haven't finished the registration process
+      if (
+        isNewUser ||
         (nextProps.loginReducer.currentUser != null &&
-          nextProps.loginReducer.currentUser.registration_status != 'finished'):
-        return Navigation.startSingleScreenApp({
+          nextProps.loginReducer.currentUser.registration_status !== 'finished')
+      ) {
+        Navigation.startSingleScreenApp({
           screen: {
             screen: 'TemanDiabetes.RegisterScreenFourth',
             navigatorStyle: {
@@ -121,30 +96,19 @@ class Login extends Component {
             registerType: 'GoogleSignIn'
           }
         });
-      case typeUser:
-        return Navigation.startSingleScreenApp({
-          screen: {
-            screen: 'TemanDiabetes.RegisterScreenFourth',
-            navigatorStyle: {
-              navBarHidden: true
-            }
-          },
-          passProps: {
-            email: nextProps.loginReducer.email,
-            _id: nextProps.loginReducer.currentUser._id,
-            nama: nextProps.loginReducer.nama,
-            registerType: 'GoogleSignIn'
-          }
-        });
-      case statusCode === 200 && is_active === false:
-        return Alert.alert(
+      }
+
+      if (currentUser.is_active) {
+        this.setState({ isLoading: false });
+      } else {
+        Alert.alert(
           'Akun Anda sedang tidak aktif.',
           'Akun Anda sedang dalam konfirmasi, jika ada pertanyaan silakan email info@temandiabetes.com',
           [
             {
               text: 'OK',
               onPress: () => {
-                this.setState({ shouldRedirect: false }, () => {
+                this.setState({ isLoading: false }, () => {
                   this.props.resetState();
                 });
               }
@@ -152,8 +116,21 @@ class Login extends Component {
           ],
           { cancelable: false }
         );
-      default:
-        break;
+      }
+
+      // Login failed
+    } else if (statusCode === 500) {
+      this.setState(
+        {
+          isLoading: false
+        },
+        () => {
+          if (errorMessage !== undefined) {
+            this.showSnackBar(message);
+          }
+          this.props.resetState();
+        }
+      );
     }
   }
 
@@ -189,13 +166,13 @@ class Login extends Component {
 
     if (!this.state.email || !this.state.password) {
       this.setState(
-        { shouldRedirect: false, message: 'Username dan Password tidak boleh kosong.' },
+        { isLoading: false, message: 'Username dan Password tidak boleh kosong.' },
         () => {
           this.showSnackBar(this.state.message);
         }
       );
     } else {
-      this.setState({ shouldRedirect: true }, () => {
+      this.setState({ isLoading: true }, () => {
         this.props.loginManual(user);
       });
     }
@@ -271,11 +248,11 @@ class Login extends Component {
 
   render() {
     const spinner =
-      this.state.shouldRedirect || this.props.loginReducer.loading ? (
+      this.state.isLoading || this.props.loginReducer.loading ? (
         <Spinner color="#EF434F" text="Logging In..." size="large" />
       ) : (
-          <View />
-        );
+        <View />
+      );
 
     return (
       <ImageBackground source={Images.backgroundLogin} style={styles.containerStyle}>

@@ -72,7 +72,7 @@ class CommentDetails extends React.Component {
           text: this.state.komentar
         }
       };
-      await this.props.commentToReply(comment);
+      await this.props.commentToReply(comment, this.props.refreshThreadDetail);
       this.props.getCommentDetails(this.props.commentId);
     });
    } else {
@@ -333,7 +333,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  commentToReply: (comment) => dispatch(commentToReply(comment)),
+  commentToReply: (comment, cb) => dispatch(commentToReply(comment, cb)),
   getCommentDetails: (idComment) => dispatch(getCommentDetails(idComment))
 });
 

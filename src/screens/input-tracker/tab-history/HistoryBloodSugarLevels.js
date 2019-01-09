@@ -5,10 +5,12 @@ import {
   View,
   Text,
   Platform,
-  ScrollView,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from 'react-native';
+import InvertibleScrollView from 'react-native-invertible-scroll-view';
+import { getHistoryBloodSugarLevels } from '../../../actions';
 
 import DotsInfo from './DotsInfo';
 import Style from '../../../style/defaultStyle';
@@ -25,6 +27,7 @@ const LineHorizontal = props => (
   <View
     style={{
       width: '100%',
+      backgroundColor: 'red',
       borderBottomColor: color.solitude,
       borderBottomWidth: 1,
       top: 9 + (props.lineNumber - 1) * yItemHeight,
@@ -68,39 +71,9 @@ class Dots extends React.Component {
   render() {
     const { dotsStyle, item } = this.props;
     const { showToolTip } = this.state;
-    
+
     return (
       <View style={[styles.dotContainer, { top: dotsStyle.top }]}>
-        <TouchableWithoutFeedback
-          onPress={() => {
-            if (this.state.showToolTip) {
-              this.setState({ showToolTip: !this.state.showToolTip });
-            }
-          }}
-        >
-          <View
-            style={[
-              styles.toolTipContainerStyle,
-              {
-                opacity: showToolTip ? 1 : 0
-              },
-              result(item, 'nilai', 0) >= 400
-                ? {
-                    top: 20
-                  }
-                : {}
-            ]}
-          >
-            <Text style={styles.textToolTipStyle}>
-              {formatTimeFromDate(result(item, 'waktuInput'), ':', { isUTC: true })}
-            </Text>
-            <Text style={[styles.textToolTipStyle, { color: color.red }]}>
-              {result(item, 'nilai', 0)}
-              mg/dL
-            </Text>
-            <Text style={styles.textToolTipStyle}>{result(item, 'level')}</Text>
-          </View>
-        </TouchableWithoutFeedback>
         <TouchableOpacity
           onPress={() => {
             this.setState({ showToolTip: !this.state.showToolTip });
@@ -110,6 +83,35 @@ class Dots extends React.Component {
             <View style={[styles.dotsStyle, { backgroundColor: dotsStyle.backgroundColor }]} />
           </View>
         </TouchableOpacity>
+        {showToolTip && (
+          <TouchableWithoutFeedback
+            onPress={() => {
+              if (this.state.showToolTip) {
+                this.setState({ showToolTip: !this.state.showToolTip });
+              }
+            }}
+          >
+            <View
+              style={[
+                styles.toolTipContainerStyle,
+                result(item, 'nilai', 0) >= 400
+                  ? {
+                      top: 20
+                    }
+                  : {}
+              ]}
+            >
+              <Text style={styles.textToolTipStyle}>
+                {formatTimeFromDate(result(item, 'waktuInput'), ':', { isUTC: true })}
+              </Text>
+              <Text style={[styles.textToolTipStyle, { color: color.red }]}>
+                {result(item, 'nilai', 0)}
+                mg/dL
+              </Text>
+              <Text style={styles.textToolTipStyle}>{result(item, 'level')}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        )}
       </View>
     );
   }
@@ -122,8 +124,17 @@ class HistoryBloodSugarLevels extends React.Component {
       isActive: true,
       x: 0,
       y: 0,
-      data: null
+      data: null,
+      currentPage: 1,
+      graphWidth: 0
     };
+
+    this.graphScrollHandler = this.graphScrollHandler.bind(this);
+    this.measureGraphView = this.measureGraphView.bind(this);
+  }
+
+  componentWillUnmount() {
+    this.props.resetHistoryBloodSugar();
   }
 
   dotColor(gulaDarah) {
@@ -158,10 +169,35 @@ class HistoryBloodSugarLevels extends React.Component {
     }
   }
 
+  graphScrollHandler(event) {
+    const xOffset = event.nativeEvent.contentOffset.x;
+    const padding = 10;
+    const width = event.nativeEvent.contentSize.width;
+
+    // checking offset to fetch
+    if (this.state.graphWidth + xOffset + padding >= width) {
+      //ScrollEnd, do sth...
+      // get next page
+
+      // if it is still loading and currently the last page then do not fetch
+      const isLastPage =
+        this.props.history.bloodSugarGraphPage === this.props.history.graphTotalPage;
+
+      if (!this.props.history.bloodSugarLoading && !isLastPage) {
+        const nextPage = this.props.history.bloodSugarGraphPage + 1;
+        this.props.getHistoryBloodSugarLevels({ page: nextPage });
+      }
+    }
+  }
+
+  measureGraphView(event) {
+    this.setState({
+      graphWidth: event.nativeEvent.layout.width
+    });
+  }
+
   render() {
-    const data = this.props.history.bloodSugar;
-    const generalBlood = this.props.history.generalBloodSugar;
-    const bloodSugar = data === undefined ? [] : data;
+    const { bloodSugar } = this.props.history;
 
     return (
       // Graph Container
@@ -179,43 +215,54 @@ class HistoryBloodSugarLevels extends React.Component {
           </View>
           {/* x Axis */}
           <View style={styles.xAxisContainer}>
-            <ScrollView
-             horizontal
-              ref={ref => this.scrollView = ref}
-              onContentSizeChange={() => {
-                this.scrollView.scrollToEnd({ animated: true });
+            {[1, 2, 3, 4, 5, 6].map((item, index) => (
+              <LineHorizontal lineNumber={item} key={index} />
+            ))}
+            <InvertibleScrollView
+              horizontal
+              inverted
+              ref={ref => (this.scrollView = ref)}
+              onLayout={event => {
+                this.measureGraphView(event);
               }}
+              onScrollEndDrag={this.graphScrollHandler}
             >
-              {[1, 2, 3, 4, 5, 6].map((item, index) => (
-                <LineHorizontal lineNumber={item} key={index} />
-              ))}
               {/* x axis dots item */}
-              {bloodSugar.map((item, index) => (
-                <View
-                  key={index}
-                  style={{
-                    flexDirection: 'column',
-                    justifyContent: 'space-around',
-                    marginLeft: index === 0 ? 45 : 15
-                  }}
-                >
-                  <LineVertical />
-                  {item.gulaDarah.map((gulaDarahItem, idx) => (
-                    <Dots
-                      listHistory={this.props.history.generalBloodSugar}
-                      dotsStyle={{
-                        backgroundColor: this.dotColor(gulaDarahItem.nilai),
-                        top: this.dotTop(gulaDarahItem.nilai)
+              {bloodSugar.map(
+                (item, index) =>
+                  item.gulaDarah !== null && (
+                    <View
+                      key={index}
+                      style={{
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: 70,
+                        height: '100%',
+                        marginRight: index === 0 ? 25 : 15
                       }}
-                      item={gulaDarahItem}
-                      currentInput={this.props.currentInput}
-                      key={idx}
-                    />
-                  ))}
-                  <Text style={styles.textCorXStyle}>{item.date}</Text>
-                </View>
-              ))}
-            </ScrollView>
+                    >
+                      <LineVertical />
+                      {result(item, 'gulaDarah', [])
+                        .reverse()
+                        .map((gulaDarahItem, idx) => (
+                          <Dots
+                            dotsStyle={{
+                              backgroundColor: this.dotColor(gulaDarahItem.nilai),
+                              top: this.dotTop(gulaDarahItem.nilai)
+                            }}
+                            item={gulaDarahItem}
+                            currentInput={this.props.currentInput}
+                            key={idx}
+                          />
+                        ))}
+                      <Text style={styles.textCorXStyle}>{item.date}</Text>
+                    </View>
+                  )
+              )}
+              <View style={styles.loaderContainer}>
+                {this.props.history.bloodSugarLoading && <ActivityIndicator color="gray" />}
+              </View>
+            </InvertibleScrollView>
           </View>
         </View>
         {/* dots info */}
@@ -280,15 +327,12 @@ const styles = {
     fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER,
     color: '#556299',
-    marginTop: Style.PADDING - 15,
-    marginRight: Style.PADDING,
-    right: Style.PADDING - 4
+    marginTop: Style.PADDING - 15
   },
   dotContainer: {
     position: 'absolute',
-    height: 100,
-    width: 50,
-    left: -25
+    height: 30,
+    width: 50
   },
   dotsWrapper: {
     width: 30,
@@ -301,7 +345,8 @@ const styles = {
     height: 15,
     width: 15,
     borderRadius: 15 / 2,
-    bottom: -10
+    bottom: -10,
+    zIndex: 0
   },
   toolTipContainerStyle: {
     justifyContent: 'center',
@@ -310,7 +355,7 @@ const styles = {
     position: 'absolute',
     height: 50,
     backgroundColor: color.white,
-    zIndex: 999,
+    zIndex: 1,
     borderWidth: 1,
     borderColor: color.solitude,
     elevation: 0.25,
@@ -318,15 +363,27 @@ const styles = {
     borderBottomRightRadius: 5,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    bottom: 105,
+    bottom: 35,
     left: -15
   },
   textToolTipStyle: {
     fontFamily: 'Montserrat-Regular',
     fontSize: Style.FONT_SIZE_SMALLER - 2,
     color: '#556299'
+  },
+  loaderContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: 20,
+    alignItems: 'center',
+    height: '100%'
   }
 };
+
+const mapDispatchToProps = dispatch => ({
+  getHistoryBloodSugarLevels: params => dispatch(getHistoryBloodSugarLevels(params)),
+  resetHistoryBloodSugar: () => dispatch({ type: 'RESET_GRAPH' })
+});
 
 const mapStateToProps = state => ({
   history: state.historyEstimationReducer,
@@ -335,5 +392,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(HistoryBloodSugarLevels);

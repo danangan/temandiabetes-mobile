@@ -16,8 +16,8 @@ from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import Closed from '../../assets/icons/close.png';
 import { Avatar } from '../../components';
-import { API_CALL } from '../../utils/ajaxRequestHelper'
-import { capitalize } from '../../utils/helpers'
+import { API_CALL } from '../../utils/ajaxRequestHelper';
+import { capitalize } from '../../utils/helpers';
 
 import { userPostThread } from '../../actions/threadActions';
 
@@ -30,17 +30,17 @@ const tipeForum = [
    label: 'Pertanyaan',
    value: 'question'
  }
-]
+];
 
 const getLabelByVal = (options, val) => {
-  let result
+  let result;
   options.forEach((item) => {
     if (item.value === val) {
-      result = item.label
+      result = item.label;
     }
-  })
-  return result
-}
+  });
+  return result;
+};
 
 class ModalPostThread extends Component {
   static navigatorStyle = {
@@ -66,7 +66,7 @@ class ModalPostThread extends Component {
   }
 
   componentDidUpdate() {
-    const { submitThreads  } = this.props.dataThreads;
+    const { submitThreads } = this.props.dataThreads;
     if (submitThreads.status_code === 201 && this.state.isSubmit) {
       Navigation.dismissModal({
         animationType: 'slide-down'
@@ -84,13 +84,13 @@ class ModalPostThread extends Component {
     };
 
     try {
-      const { data: { data : { categories: { docs }}} } = await API_CALL(option);
+      const { data: { data: { categories: { docs } } } } = await API_CALL(option);
 
       this.setState({
         categories: docs,
-      })
+      });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -109,24 +109,24 @@ class ModalPostThread extends Component {
   }
 
   componentDidMount() {
-    this.fetchCategories()
+    this.fetchCategories();
   }
 
   isValid() {
-    return !this.state.errors.topic && !this.state.errors.description
+    return !this.state.errors.topic && !this.state.errors.description;
   }
 
   validate(cb) {
-    const { topic, description } = this.state
-    let isTopicError = false
-    let isDescriptionError = false
+    const { topic, description } = this.state;
+    let isTopicError = false;
+    let isDescriptionError = false;
 
     if (topic.trim() === '') {
-      isTopicError = true
+      isTopicError = true;
     }
 
     if (description.trim() === '') {
-      isDescriptionError = true
+      isDescriptionError = true;
     }
 
     this.setState({
@@ -134,7 +134,7 @@ class ModalPostThread extends Component {
         description: isDescriptionError,
         topic: isTopicError
       }
-    }, cb)
+    }, cb);
   }
 
   async onSubmitThread() {
@@ -153,7 +153,7 @@ class ModalPostThread extends Component {
           isSubmit: true
         }, () => {
           this.props.userPostThread(dataThreads, () => {
-            this.props.navigator.pop()
+            this.props.navigator.pop();
             // this.setState({
             //   isSubmit: false,
             //   topic: '',
@@ -165,14 +165,12 @@ class ModalPostThread extends Component {
         // only alert if is valid
         if (this.isValid()) {
           if (threadType === '' && selectedCategory === '') {
-            Alert.alert('Error','Pilih tipe dan kategori thread terlebih dahulu')
-          } else {
-            if (threadType === '') {
-              Alert.alert('Error', 'Pilih tipe terlebih dahulu')
+            Alert.alert('Error', 'Pilih tipe dan kategori thread terlebih dahulu');
+          } else if (threadType === '') {
+              Alert.alert('Error', 'Pilih tipe terlebih dahulu');
             } else if (selectedCategory === '') {
-              Alert.alert('Error', 'Pilih kategori terlebih dahulu')
+              Alert.alert('Error', 'Pilih kategori terlebih dahulu');
             }
-          }
         }
       }
     });
@@ -180,13 +178,13 @@ class ModalPostThread extends Component {
 
   openIOSPicker(options = [], title, onSelect) {
     ActionSheetIOS.showActionSheetWithOptions({
-      options: [ ...options.map(item => item.label), 'Batal'],
+      options: [...options.map(item => item.label), 'Batal'],
       title,
       destructiveButtonIndex: options.length
     },
     (buttonIndex) => {
       if (options[buttonIndex]) {
-        onSelect(options[buttonIndex].value)
+        onSelect(options[buttonIndex].value);
       }
     });
   }
@@ -194,7 +192,7 @@ class ModalPostThread extends Component {
   render() {
     const { currentUser } = this.props;
     const { errors } = this.state;
-    let content
+    let content;
     if (this.state.isSubmit) {
       content = (
         <View
@@ -204,18 +202,19 @@ class ModalPostThread extends Component {
           paddingHorizontal: 10,
           justifyContent: 'center',
           alignItems: 'center'
-        }}>
+        }}
+        >
 					<Text style={{ fontSize: 20, color: '#000', fontFamily: 'Montserrat-ExtraLight' }}>Loading...</Text>
 				</View>
 			);
     } else {
       content =
-      <View style={styles.container}>
+      (<View style={styles.container}>
         <View style={styles.innerWrapper}>
           <View style={styles.wrapNav}>
             <TouchableOpacity
               style={{ marginVertical: 5, marginHorizontal: 10 }}
-              onPress={() => {this.props.navigator.pop()}}
+              onPress={() => { this.props.navigator.pop(); }}
             >
               <Image
                 source={Closed}
@@ -246,17 +245,14 @@ class ModalPostThread extends Component {
               placeholder="Judul Threads"
               onChangeText={(topic) => {
                 this.setState({ topic: topic.substring(0, 60) });
-                // this.state.topic.length === 60 ? null : this.setState({ topic })
               }}
             />
           </View>
           <Text
             style={{
               alignSelf: 'flex-end',
-              right: 10,
-              bottom: 15,
+              marginRight: 10,
               fontSize: 12,
-              border: '1px solid #ccc',
               fontFamily: 'Montserrat-ExtraLight',
             }}
           >
@@ -301,19 +297,21 @@ class ModalPostThread extends Component {
               justifyContent: 'flex-end',
               borderTopWidth: 1,
               borderTopColor: '#f2f3f7'
-          }}>
+          }}
+          >
             {
               Platform.OS === 'android' &&
               <Picker
               style={{
-                flex:1,
+                flex: 1,
               }}
                 selectedValue={this.state.threadType}
                 mode="dropdown"
                 onValueChange={itemValue => {
-                  this.setState({threadType: itemValue})
+                  this.setState({ threadType: itemValue });
                 }
-                }>
+                }
+              >
                 <Picker.Item label="Tipe" value="" />
                 <Picker.Item label="Sharing" value="sharing" />
                 <Picker.Item label="Pertanyaan" value="question" />
@@ -324,10 +322,10 @@ class ModalPostThread extends Component {
               <TouchableOpacity
                 style={{ height: 35, marginLeft: 0, flex: 1 }}
                 onPress={() => {
-                  const option = tipeForum
-                  const title = 'Tipe forum'
-                  const onSelect = val => this.setState({'threadType': val})
-                  this.openIOSPicker(option, title, onSelect)
+                  const option = tipeForum;
+                  const title = 'Tipe forum';
+                  const onSelect = val => this.setState({ threadType: val });
+                  this.openIOSPicker(option, title, onSelect);
                 }}
               >
                 <Text style={[styles.textInput, { marginTop: 9 }]}>{this.state.threadType !== '' ? getLabelByVal(tipeForum, this.state.threadType) : 'Pilih tipe'}</Text>
@@ -337,14 +335,15 @@ class ModalPostThread extends Component {
               Platform.OS === 'android' &&
               <Picker
                 style={{
-                  flex:1.2,
+                  flex: 1.2,
                 }}
                 selectedValue={this.state.selectedCategory}
                 mode="dropdown"
                 onValueChange={itemValue => {
-                  this.setState({selectedCategory: itemValue})
+                  this.setState({ selectedCategory: itemValue });
                 }
-                }>
+                }
+              >
                 <Picker.Item label="Kategori" value="" />
                 {
                   this.state.categories.map((item, id) => (
@@ -361,10 +360,10 @@ class ModalPostThread extends Component {
                   const option = this.state.categories.map((item) => ({
                     label: item.category,
                     value: item._id
-                  }))
-                  const title = 'Kategori forum'
-                  const onSelect = val => this.setState({'selectedCategory': val})
-                  this.openIOSPicker(option, title, onSelect)
+                  }));
+                  const title = 'Kategori forum';
+                  const onSelect = val => this.setState({ selectedCategory: val });
+                  this.openIOSPicker(option, title, onSelect);
                 }}
               >
                 <Text style={[styles.textInput, { marginTop: 9 }]}>
@@ -387,14 +386,13 @@ class ModalPostThread extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </View>);
     }
 
     if (Platform.OS === 'ios') {
-      return <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>{content}</KeyboardAvoidingView>
-    } else {
-      return content
+      return <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>{content}</KeyboardAvoidingView>;
     }
+      return content;
   }
 }
 

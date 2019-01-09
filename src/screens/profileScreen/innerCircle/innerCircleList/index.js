@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TouchableOpacity, Image, AsyncStorage, Platform } from 'react-native';
+import { result } from 'lodash';
+import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
 
 import color from '../../../../style/color';
 import Style from '../../../../style/defaultStyle';
@@ -8,8 +9,10 @@ import TabFamily from './TabFamily';
 import TabRequest from './TabRequest';
 import TabPending from './TabPending';
 import { getInnerCircle } from '../../../../actions';
-import { authToken } from '../../../../utils/constants';
-import { SnackBar } from '../../../../components';
+import { SnackBar, Spinner } from '../../../../components';
+import withPreventDoubleClick from './withPreventDoubleClick';
+
+const TouchableOpacityEx = withPreventDoubleClick(TouchableOpacity);
 
 class InnerCircleList extends Component {
   static navigatorStyle = {
@@ -20,8 +23,10 @@ class InnerCircleList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      initialFetchDone: false,
       tab: props.tab || 0,
       isProcess: false,
+      isLoading: true,
       showSnackBar: false,
       errorMessage: ''
     };
@@ -32,7 +37,7 @@ class InnerCircleList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { status, message } = nextProps.innerCircle;
+    const { status, message, accepted } = nextProps.innerCircle;
     const { isProcess } = this.state;
     const acceptedOrRejected = 'Inner Circle status updated';
     const deleted = 'Inner circle successfully deleted';
@@ -47,6 +52,21 @@ class InnerCircleList extends Component {
         },
         () => this.getInnerCircle()
       );
+    }
+
+    if (!this.state.initialFetchDone && result(nextProps.dataAuth, 'currentUser._id', false)) {
+      this.setState(
+        {
+          initialFetchDone: true
+        },
+        () => {
+          this.props.getInnerCircle(nextProps.dataAuth.currentUser._id);
+        }
+      );
+    }
+
+    if (accepted) {
+      this.setState({ isLoading: false });
     }
   }
 
@@ -70,13 +90,21 @@ class InnerCircleList extends Component {
   onReceivedInnerCircle = () => {
     this.setState({
       tab: 0
-    })
-  }
+    });
+  };
 
   getInnerCircle = async () => {
     const { currentUser } = this.props.dataAuth;
-    const idToken = await AsyncStorage.getItem(authToken);
-    this.props.getInnerCircle(currentUser._id, idToken);
+    if (result(currentUser, '_id', false)) {
+      this.setState(
+        {
+          initialFetchDone: true
+        },
+        () => {
+          this.props.getInnerCircle(currentUser._id);
+        }
+      );
+    }
   };
 
   renderTabContent = () => {
@@ -121,8 +149,13 @@ class InnerCircleList extends Component {
   };
 
   render() {
+    const spinner = this.state.isLoading ? (
+      <Spinner color="#EF434F" text="Loading..." size="large" />
+    ) : null;
+
     return (
       <View style={styles.containerStyle}>
+        {spinner}
         <View style={styles.navBarContainerStyle}>
           <TouchableOpacity
             style={styles.leftButtonStyle}
@@ -136,7 +169,7 @@ class InnerCircleList extends Component {
             />
           </TouchableOpacity>
           <Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
-          <TouchableOpacity
+          <TouchableOpacityEx
             onPress={() => this.onPushScreen('TemanDiabetes.InnerCircle')}
             style={styles.rightButtonStyle}
           >
@@ -146,7 +179,7 @@ class InnerCircleList extends Component {
               tintColor={color.red}
               source={require('../../../../assets/icons/username-dark.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacityEx>
         </View>
         <View style={styles.countContainerStyle}>
           <View style={styles.countContentStyle}>
@@ -224,7 +257,7 @@ const styles = {
     width: '50%',
     borderBottomWidth: 3,
     borderBottomColor: color.red,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   navBarContainerStyle: {
     flexDirection: 'row',
