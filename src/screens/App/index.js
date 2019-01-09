@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform, Linking, NativeModules, AppState } from 'react-native';
+import { View, StyleSheet, Platform, Linking, NativeModules, Alert, AppState } from 'react-native';
 import { connect } from 'react-redux';
 
 // ACTIONS
@@ -89,6 +89,10 @@ class App extends Component {
 
     this.getBundleIntent(); //android
 
+    AppState.addEventListener('change', this._handleAppStateChange);
+
+    this.getBundleIntent(); //android
+
     // analyze the deeplink
     const { deepLink } = this.props;
     if (deepLink.currentDeepLink !== '' && !deepLink.expired) {
@@ -170,6 +174,59 @@ class App extends Component {
           }
         }
       });
+    }
+  }
+
+  async testgetURL(path) {
+    const asuransi = path.split('&');
+
+    if (asuransi != null && asuransi.length == 4) {
+      let typeAsuransi,
+        NoPolis,
+        NoAsuransi = '';
+
+      const param = asuransi[1].replace('ClientID=', '');
+
+      if (asuransi[2].replace('MemberType=', '') === 'CC') {
+        typeAsuransi = 'perusahaan';
+        NoPolis = param.substr(0, param.indexOf('-'));
+        NoAsuransi = param.substr(param.indexOf('-') + 1, param.length);
+      } else {
+        typeAsuransi = 'pribadi';
+        NoPolis = param;
+        NoAsuransi = '-';
+      }
+
+      Alert.alert(
+        'Konfirmasi',
+        'Klik setuju untuk menyinkronkan data (nama peserta, no polis, no asuransi) dari asuransi FWD ke aplikasi Teman Diabetes?',
+        [
+          {
+            text: 'Setuju',
+            onPress: () => {
+              this.props.navigator.push({
+                screen: 'TemanDiabetes.EditProfile',
+                navigatorStyle: {
+                  navBarHidden: true
+                },
+                passProps: {
+                  insuranceId: param[0],
+                  fromFWD: true,
+                  NamaAsuransi: asuransi[3],
+                  TipeAsuransi: typeAsuransi,
+                  NoPolis,
+                  NoAsuransi
+                }
+              });
+            }
+          },
+          {
+            text: 'Tidak Setuju',
+            onPress: () => {}
+          }
+        ],
+        { cancelable: false }
+      );
     }
   }
 

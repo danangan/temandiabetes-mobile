@@ -382,14 +382,14 @@ class ProfileDetails extends React.Component {
     // Check by ID to determine if the profile is current user's or not
     if (this.props.dataAuth._id === this.props.data.user._id) {
       // Current User's Profile
-      nama = this.props.dataAuth.nama
-      tipe_user = this.props.dataAuth.tipe_user
-      foto_profile = this.props.dataAuth.foto_profile
+      nama = this.props.dataAuth.nama;
+      tipe_user = this.props.dataAuth.tipe_user;
+      foto_profile = this.props.dataAuth.foto_profile;
     } else {
       // Not current user's profile
-      nama = this.props.data.user.nama
-      tipe_user = this.props.data.user.tipe_user
-      foto_profile = this.props.data.user.foto_profile
+      nama = this.props.data.user.nama;
+      tipe_user = this.props.data.user.tipe_user;
+      foto_profile = this.props.data.user.foto_profile;
     }
 
     return (
@@ -416,8 +416,8 @@ class ProfileDetails extends React.Component {
       this.state.loading === true ? (
         <Spinner color="red" text={'Loading...'} size="large" />
       ) : (
-          <View />
-        );
+        <View />
+      );
 
     return (
       <View style={styles.container}>
@@ -464,8 +464,8 @@ class ProfileDetails extends React.Component {
               <Spinner size="large" color="rgb(239, 67, 79)" />
             </View>
           ) : (
-              this.renderTabContent()
-            )}
+            this.renderTabContent()
+          )}
         </View>
         <SnackBar
           visible={this.state.showSnackBar}
