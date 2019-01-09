@@ -225,47 +225,40 @@ class HistoryBloodSugarLevels extends React.Component {
               onLayout={event => {
                 this.measureGraphView(event);
               }}
-              onContentSizeChange={() => {
-                // if (this.props.history.bloodSugarGraphPage === 1) {
-                //   console.log('scroll');
-                //   this..measure(() => {
-                // }).scrollToEnd({ animated: true });
-                //   this.setState({
-                //     initialRender: false
-                //   });
-                // }
-              }}
               onScrollEndDrag={this.graphScrollHandler}
             >
               {/* x axis dots item */}
-              {bloodSugar.map((item, index) => (
-                <View
-                  key={index}
-                  style={{
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    width: 70,
-                    height: '100%',
-                    marginRight: index === 0 ? 25 : 15
-                  }}
-                >
-                  <LineVertical />
-                  {result(item, 'gulaDarah', [])
-                    .reverse()
-                    .map((gulaDarahItem, idx) => (
-                      <Dots
-                        dotsStyle={{
-                          backgroundColor: this.dotColor(gulaDarahItem.nilai),
-                          top: this.dotTop(gulaDarahItem.nilai)
-                        }}
-                        item={gulaDarahItem}
-                        currentInput={this.props.currentInput}
-                        key={idx}
-                      />
-                    ))}
-                  <Text style={styles.textCorXStyle}>{item.date}</Text>
-                </View>
-              ))}
+              {bloodSugar.map(
+                (item, index) =>
+                  item.gulaDarah !== null && (
+                    <View
+                      key={index}
+                      style={{
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        width: 70,
+                        height: '100%',
+                        marginRight: index === 0 ? 25 : 15
+                      }}
+                    >
+                      <LineVertical />
+                      {result(item, 'gulaDarah', [])
+                        .reverse()
+                        .map((gulaDarahItem, idx) => (
+                          <Dots
+                            dotsStyle={{
+                              backgroundColor: this.dotColor(gulaDarahItem.nilai),
+                              top: this.dotTop(gulaDarahItem.nilai)
+                            }}
+                            item={gulaDarahItem}
+                            currentInput={this.props.currentInput}
+                            key={idx}
+                          />
+                        ))}
+                      <Text style={styles.textCorXStyle}>{item.date}</Text>
+                    </View>
+                  )
+              )}
               <View style={styles.loaderContainer}>
                 {this.props.history.bloodSugarLoading && <ActivityIndicator color="gray" />}
               </View>

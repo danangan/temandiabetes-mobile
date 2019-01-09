@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { debounce, result } from 'lodash';
+import { result } from 'lodash';
 import { View, Text, TouchableOpacity, Image, Platform } from 'react-native';
 
 import color from '../../../../style/color';
@@ -9,7 +9,10 @@ import TabFamily from './TabFamily';
 import TabRequest from './TabRequest';
 import TabPending from './TabPending';
 import { getInnerCircle } from '../../../../actions';
-import { SnackBar } from '../../../../components';
+import { SnackBar, Spinner } from '../../../../components';
+import withPreventDoubleClick from './withPreventDoubleClick';
+
+const TouchableOpacityEx = withPreventDoubleClick(TouchableOpacity);
 
 class InnerCircleList extends Component {
   static navigatorStyle = {
@@ -23,6 +26,7 @@ class InnerCircleList extends Component {
       initialFetchDone: false,
       tab: props.tab || 0,
       isProcess: false,
+      isLoading: true,
       showSnackBar: false,
       errorMessage: ''
     };
@@ -33,7 +37,7 @@ class InnerCircleList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { status, message } = nextProps.innerCircle;
+    const { status, message, accepted } = nextProps.innerCircle;
     const { isProcess } = this.state;
     const acceptedOrRejected = 'Inner Circle status updated';
     const deleted = 'Inner circle successfully deleted';
@@ -51,12 +55,19 @@ class InnerCircleList extends Component {
     }
 
     if (!this.state.initialFetchDone && result(nextProps.dataAuth, 'currentUser._id', false)) {
-      this.setState({
-        initialFetchDone: true
-      }, () => {
-        this.props.getInnerCircle(nextProps.dataAuth.currentUser._id);
-      });
-    };
+      this.setState(
+        {
+          initialFetchDone: true
+        },
+        () => {
+          this.props.getInnerCircle(nextProps.dataAuth.currentUser._id);
+        }
+      );
+    }
+
+    if (accepted) {
+      this.setState({ isLoading: false });
+    }
   }
 
   onPushScreen(screen) {
@@ -85,11 +96,14 @@ class InnerCircleList extends Component {
   getInnerCircle = async () => {
     const { currentUser } = this.props.dataAuth;
     if (result(currentUser, '_id', false)) {
-      this.setState({
-        initialFetchDone: true
-      }, () => {
-        this.props.getInnerCircle(currentUser._id);
-      })
+      this.setState(
+        {
+          initialFetchDone: true
+        },
+        () => {
+          this.props.getInnerCircle(currentUser._id);
+        }
+      );
     }
   };
 
@@ -135,8 +149,13 @@ class InnerCircleList extends Component {
   };
 
   render() {
+    const spinner = this.state.isLoading ? (
+      <Spinner color="#EF434F" text="Loading..." size="large" />
+    ) : null;
+
     return (
       <View style={styles.containerStyle}>
+        {spinner}
         <View style={styles.navBarContainerStyle}>
           <TouchableOpacity
             style={styles.leftButtonStyle}
@@ -150,14 +169,8 @@ class InnerCircleList extends Component {
             />
           </TouchableOpacity>
           <Text style={styles.navBarTitleStyle}>INNER CIRCLE LIST</Text>
-          <TouchableOpacity
-            onPress={debounce(
-              () => {
-                this.onPushScreen('TemanDiabetes.InnerCircle');
-              },
-              1000,
-              { leading: false, trailing: true }
-            )}
+          <TouchableOpacityEx
+            onPress={() => this.onPushScreen('TemanDiabetes.InnerCircle')}
             style={styles.rightButtonStyle}
           >
             <Image
@@ -166,7 +179,7 @@ class InnerCircleList extends Component {
               tintColor={color.red}
               source={require('../../../../assets/icons/username-dark.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacityEx>
         </View>
         <View style={styles.countContainerStyle}>
           <View style={styles.countContentStyle}>

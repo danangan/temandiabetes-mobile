@@ -7,6 +7,7 @@ import firebase from 'react-native-firebase';
 
 import * as ActionTypes from './constants';
 import { authToken } from '../utils/constants';
+import { API_CALL } from '../utils/ajaxRequestHelper';
 import { guelogin } from '../utils/GueLogin';
 import { API_CURRENT_USER } from '../utils/API';
 import { updateFCMToken } from './authAction';
@@ -231,6 +232,13 @@ const onSignOut = ({ userId }) => async dispatch => {
       payload: true
     });
   }
+
+  // unsubscribe to all related thread
+  const option = {
+    method: 'post',
+    url: 'api/threads/unsubscribe-thread-on-logout',
+  };
+  await API_CALL(option);
 
   const callback = async () => {
     try {

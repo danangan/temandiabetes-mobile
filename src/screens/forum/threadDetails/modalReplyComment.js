@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 import { View, Image, TouchableOpacity, Text, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import { commentToReply, getThreadDetails } from '../../../actions/threadActions';
+import { commentToReply } from '../../../actions/threadActions';
 import Closed from '../../../assets/icons/close.png';
 import Style from '../../../style/defaultStyle';
 
@@ -53,7 +53,7 @@ class ModalReplyComment extends Component {
             text: this.state.komentar
           }
         };
-        this.props.commentToReply(comment);
+        this.props.commentToReply(comment, this.props.refreshThreadDetail);
       });
     }
   }
@@ -187,8 +187,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  commentToReply: comment => dispatch(commentToReply(comment)),
-  getThreadDetails: idThread => dispatch(getThreadDetails(idThread))
+  commentToReply: (comment, cb) => dispatch(commentToReply(comment, cb))
 });
 
 export default connect(

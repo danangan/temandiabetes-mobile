@@ -35,8 +35,7 @@ class TabHistoryEstimation extends Component {
   }
 
   componentDidMount() {
-    this.getMakeRequest();
-    this.setState({ refreshing: true });
+    this.setState({ refreshing: true }, () => this.getMakeRequest());
   }
 
   componentDidUpdate() {

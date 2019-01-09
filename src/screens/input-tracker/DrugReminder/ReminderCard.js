@@ -99,23 +99,24 @@ const styles = {
     alignItems: 'center'
   },
   btnRight: {
-    paddingHorizontal: 5,
+    paddingHorizontal: 0,
     paddingVertical: 5,
     textAlign: 'center',
     color: '#fff',
-    fontSize: 9,
+    fontSize: 11,
     backgroundColor: '#ef434f'
   },
   wrappButtonOption: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginRight: 5
   },
   buttonOption: {
     marginHorizontal: 5,
-    maxWidth: 50,
-    minWidth: 40
+    maxWidth: 60,
+    minWidth: 55
   }
 };
 

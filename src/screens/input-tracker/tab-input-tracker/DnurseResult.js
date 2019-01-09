@@ -69,7 +69,7 @@ class DnurseResult extends React.Component {
                 text: 'Tidak',
                 onPress: () => {
                   this.props.updateTopTab(1);
-                  this.props.navigator.resetTo({
+                  this.props.navigator.push({
                     screen: 'TemanDiabetes.AppContainer',
                     navigatorStyle: {
                       navBarHidden: true

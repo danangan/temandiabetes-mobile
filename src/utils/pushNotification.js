@@ -3,6 +3,7 @@ import { Platform, Alert } from 'react-native';
 import firebase from 'react-native-firebase';
 import { debounce } from 'lodash';
 import { randomizer } from './helpers';
+import { API_CALL } from './ajaxRequestHelper';
 import { connect } from 'react-redux';
 
 import { resetNotification } from '../actions';
@@ -110,13 +111,24 @@ class PushNotification extends React.Component {
   //3
   async getToken() {
     const fcmToken = await firebase.messaging().getToken();
+
+    const subscribeOnLogin = async () => {
+      const option = {
+        method: 'post',
+        url: 'api/threads/subscribe-thread-on-login',
+      };
+
+      await API_CALL(option);
+    };
+
     if (fcmToken && this.props.currentUserId) {
       // user has a device token
       this.props.updateFCMToken({
         userId: this.props.currentUserId,
         token: {
           messagingRegistrationToken: fcmToken
-        }
+        },
+        callback: subscribeOnLogin
       });
     }
   }

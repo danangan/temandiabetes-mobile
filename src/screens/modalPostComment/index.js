@@ -77,7 +77,7 @@ class ModalPostComponent extends Component {
               text: this.state.komentar
             }
           };
-          this.props.createComment(comment);
+          this.props.createComment(comment, this.props.refreshThreadDetail);
         }
       );
     }
@@ -212,7 +212,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createComment: comment => dispatch(createComment(comment))
+  createComment: (comment, cb) => dispatch(createComment(comment, cb))
 });
 
 export default connect(
