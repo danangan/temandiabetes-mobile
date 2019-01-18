@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, FlatList, Text, Alert } from 'react-native';
 import Share from 'react-native-share';
+import Config from 'react-native-config';
 
 import { Spinner, SearchButton } from '../../../components';
 import { getThreads, makeBookmark } from '../../../actions/threadActions';
@@ -9,6 +10,7 @@ import { getThreads, makeBookmark } from '../../../actions/threadActions';
 import ThreadItem from '../components/threadItem';
 import color from '../../../style/color';
 import landingPageURL from '../../../config/landingPageURL';
+import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
 
 class TabHome extends Component {
   constructor(props) {
@@ -28,7 +30,23 @@ class TabHome extends Component {
     this.onShareThread = this.onShareThread.bind(this);
   }
 
+  componentWillMount() {
+    let adjustConfig = new AdjustConfig("k08xj3mdm680", Config.ENV == 'development' ? AdjustConfig.EnvironmentSandbox : AdjustConfig.EnvironmentProduction);
+    Adjust.create(adjustConfig);
+  }
+
+  componentWillUnmount() {
+    Adjust.componentWillUnmount();
+  }
+
+  adjustTrack = (token) => {
+    let adjustEvent = new AdjustEvent(token);
+    Adjust.trackEvent(adjustEvent);
+  }
+
   componentDidMount() {
+    this.adjustTrack("lktjog");
+    this.adjustTrack("9k0q4s");
     this.props.getThreads(1, true);
   }
 
@@ -77,14 +95,15 @@ class TabHome extends Component {
     // ModalPostThread
     return (
       <TouchableOpacity
-        onPress={() =>
+        onPress={() => {
+          this.adjustTrack("9dub0s");
           this.props.navigator.push({
             screen: 'TemanDiabetes.ModalPostThread',
             navigatorStyle: {
               tabBarHidden: true
             }
           })
-        }
+        }}
         style={styles.wrapPostThread}
       >
         <Text
@@ -103,6 +122,7 @@ class TabHome extends Component {
       <View>
         <SearchButton
           onPress={() => {
+            this.adjustTrack("yn78yo");
             this.props.navigator.push({
               screen: 'TemanDiabetes.ModalSearch',
               navigatorStyle: {

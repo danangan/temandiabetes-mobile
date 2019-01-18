@@ -10,11 +10,14 @@ import {
   Platform,
   RefreshControl
 } from 'react-native';
+import Config from 'react-native-config';
+
 import { Card, Spinner } from '../../components';
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
 import { getProductFromGOA, auditTrailPrePurchase, sendActivity } from '../../actions';
 import { LOG_VIEW, LOG_ORDER, LOG_GOA_PRODUCT } from '../../utils/constants';
+import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
 
 class Chart extends Component {
   constructor(props) {
@@ -27,7 +30,23 @@ class Chart extends Component {
     this.changesKeyword = this.changesKeyword.bind(this);
   }
 
+  componentWillMount() {
+    let adjustConfig = new AdjustConfig("k08xj3mdm680", Config.ENV == 'development' ? AdjustConfig.EnvironmentSandbox : AdjustConfig.EnvironmentProduction);
+    Adjust.create(adjustConfig);
+  }
+
+  componentWillUnmount() {
+    Adjust.componentWillUnmount();
+  }
+
+  adjustTrack = (token) => {
+    let adjustEvent = new AdjustEvent(token);
+    Adjust.trackEvent(adjustEvent);
+  }
+
   componentDidMount() {
+    this.adjustTrack("m17aqv");
+    this.adjustTrack("6foznc");
     this.props.getProductFromGOA();
   }
 

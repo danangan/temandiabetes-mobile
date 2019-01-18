@@ -422,6 +422,13 @@
 			remoteGlobalIDString = 9350E0F11CE3B0920041D815;
 			remoteInfo = RCTFBSDK;
 		};
+		9BFCDF7621C11347004DCCFE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8442E177E15C458BA7236114 /* ReactNativeConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DF7F6AC203AA09B00D0EAB7;
+			remoteInfo = "ReactNativeConfig-tvOS";
+		};
 		ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -449,7 +456,11 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* TemanDiabetsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TemanDiabetsTests.m; sourceTree = "<group>"; };
 		02DF43F987A745EFBC7DF5AA /* Montserrat-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.otf"; path = "../src/assets/fonts/Montserrat/Montserrat-Medium.otf"; sourceTree = "<group>"; };
+<<<<<<< HEAD
+=======
 		03582F806D9A499A8B97EE32 /* libAdjustSdk.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAdjustSdk.a; sourceTree = "<group>"; };
+		03D776F7CA414306982B54A6 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+>>>>>>> 89694802d473e116edaab790f8087497d73e5258
 		04CCC8199FE14066B9924E94 /* Arista-Pro-Alternate-Bold-trial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Arista-Pro-Alternate-Bold-trial.ttf"; path = "../src/assets/fonts/Arista-Pro/Arista-Pro-Alternate-Bold-trial.ttf"; sourceTree = "<group>"; };
 		06A1022E202C2DA100FFECEC /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		09E3BA3CBA714D45A02882DA /* OpenSans-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Italic.ttf"; path = "../src/assets/fonts/open-sans/OpenSans-Italic.ttf"; sourceTree = "<group>"; };
@@ -601,7 +612,15 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				CBB35CA0935988F469464D57 /* libPods-TemanDiabets.a in Frameworks */,
+<<<<<<< HEAD
+=======
+				4D4FA8A01F9B4E2EA4676FEA /* libRNGoogleSignin.a in Frameworks */,
+				D9DD501110D3494CB44B013A /* libz.tbd in Frameworks */,
+				82FCD29CC99F4B63B35CDAD9 /* SafariServices.framework in Frameworks */,
+				A578472CCF1841EBAEA1660F /* SystemConfiguration.framework in Frameworks */,
+				10A5E3BB551F482D8A9D761F /* AddressBook.framework in Frameworks */,
 				2B7F606C2238427DB026C123 /* libAdjustSdk.a in Frameworks */,
+>>>>>>> 89694802d473e116edaab790f8087497d73e5258
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -704,6 +723,7 @@
 			isa = PBXGroup;
 			children = (
 				06133EC52037765400147635 /* libReactNativeConfig.a */,
+				9BFCDF7721C11347004DCCFE /* libReactNativeConfig-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1554,6 +1574,13 @@
 			remoteRef = 9BD31D88211DAAC700EA728F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9BFCDF7721C11347004DCCFE /* libReactNativeConfig-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReactNativeConfig-tvOS.a";
+			remoteRef = 9BFCDF7621C11347004DCCFE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1897,8 +1924,13 @@
 					"$(SRCROOT)/../ios/Pods/Firebase/Core/Sources/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/Frameworks",
+<<<<<<< HEAD
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
+=======
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-adjust/ios/**",
+>>>>>>> 89694802d473e116edaab790f8087497d73e5258
 				);
 				INFOPLIST_FILE = TemanDiabets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1949,8 +1981,12 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fcm/ios",
 					"$(SRCROOT)/Frameworks",
+<<<<<<< HEAD
+					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/**",
+=======
 					"$(SRCROOT)/../node_modules/react-native-google-signin/ios/RNGoogleSignin/**",
 					"$(SRCROOT)/../node_modules/react-native-adjust/ios/**",
+>>>>>>> 89694802d473e116edaab790f8087497d73e5258
 				);
 				INFOPLIST_FILE = TemanDiabets/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;

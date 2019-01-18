@@ -15,6 +15,7 @@ import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
 import com.evollu.react.fcm.FIRMessagingPackage;
 import cl.json.RNSharePackage;
+import com.adjust.nativemodule.AdjustPackage;
 
 import com.reactnativenavigation.controllers.ActivityCallbacks;
 //start Dnurse package
@@ -60,7 +61,8 @@ public class MainApplication extends NavigationApplication {
             new RNSharePackage(),
             new RNGoogleSigninPackage(),
             new FBSDKPackage(mCallbackManager),
-            new AndroidStarterPackage()
+            new AndroidStarterPackage(),
+            new AdjustPackage()
 
         );
     }

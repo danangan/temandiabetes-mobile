@@ -1,11 +1,32 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
+import Config from 'react-native-config';
+
 import Style from '../../style/defaultStyle';
 import color from '../../style/color';
+import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
 
 class Emergency extends Component {
   constructor(props) {
     super(props);
+  }
+
+  componentWillMount() {
+    let adjustConfig = new AdjustConfig("k08xj3mdm680", Config.ENV == 'development' ? AdjustConfig.EnvironmentSandbox : AdjustConfig.EnvironmentProduction);
+    Adjust.create(adjustConfig);
+  }
+
+  componentWillUnmount() {
+    Adjust.componentWillUnmount();
+  }
+
+  adjustTrack = (token) => {
+    let adjustEvent = new AdjustEvent(token);
+    Adjust.trackEvent(adjustEvent);
+  }
+
+  componentDidMount() {
+      this.adjustTrack("uus16s");
   }
 
   render() {

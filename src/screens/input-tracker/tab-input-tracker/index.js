@@ -19,6 +19,7 @@ import {
   Alert,
   Dimensions,
 } from 'react-native';
+import Config from 'react-native-config';
 
 import {
   inputTrackerBloodGlucose,
@@ -38,6 +39,7 @@ import MenuButton from './MenuButton';
 import Style from '../../../style/defaultStyle';
 import { activityList } from './initialValue';
 import ButtonSave from './ButtonSave';
+import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
 
 const activityType = [
   {
@@ -97,6 +99,8 @@ class InputTracker extends Component {
   }
 
   componentDidMount() {
+    this.adjustTrack("3ief8u");
+    this.adjustTrack("qvat58");
     this.setState({
       date: this.getDateDefault()
     });
@@ -111,12 +115,25 @@ class InputTracker extends Component {
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
       this.setState({ keyboardActive: false });
     });
+
+    // Adjust Tracker
+    let adjustConfig = new AdjustConfig("k08xj3mdm680", Config.ENV == 'development' ? AdjustConfig.EnvironmentSandbox : AdjustConfig.EnvironmentProduction);
+    Adjust.create(adjustConfig);
   }
 
   componentWillUnmount() {
     this.keyboardDidShowListener.remove();
     this.keyboardDidHideListener.remove();
     clearInterval(this.Clock);
+
+    // Adjust Tracker
+    Adjust.componentWillUnmount();
+  }
+
+  // Adjust Tracker
+  adjustTrack = (token) => {
+    let adjustEvent = new AdjustEvent(token);
+    Adjust.trackEvent(adjustEvent);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -1183,23 +1200,30 @@ class InputTracker extends Component {
 
   renderModalInput() {
     if (this.state.isModal === 'BLOOD_GLUCOSE' && !this.state.isManually) {
+      this.adjustTrack("p0ndy5");
       return this.ModalAlertInputGulaDarah();
     } else if (this.state.isModal === 'BLOOD_GLUCOSE' && this.state.isManually) {
+      this.adjustTrack("p0ndy5");
       return this.ModalGlucose();
     } else if (this.state.isModal === 'IS_LOADING') {
       return this.ModalLoading();
     } else if (this.state.isModal === 'INPUT_HBA1C') {
+      this.adjustTrack("oon2ck");
       return this.ModalInputHBA1C();
     } else if (this.state.isModal === 'INPUT_TEKANAN_DARAH') {
+      this.adjustTrack("g02q64");
       return this.ModalTekananDarah();
     } else if (this.state.isModal === 'INPUT_ACTIVITY') {
+      this.adjustTrack("5k8md3");
       return this.ModalInputAktivitas();
     } else if (this.state.isModal === 'INPUT_WEIGHT') {
+      this.adjustTrack("w4kis0");
       return this.ModalInputWeight();
     }
   }
 
   toNavigate() {
+    this.adjustTrack("z9vy7e");
     this.props.navigator.push({
       screen: 'TemanDiabetes.PreviewSearchMakanan',
       navigatorStyle: {

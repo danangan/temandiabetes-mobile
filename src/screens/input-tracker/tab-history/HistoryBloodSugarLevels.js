@@ -11,11 +11,13 @@ import {
 } from 'react-native';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import { getHistoryBloodSugarLevels } from '../../../actions';
+import Config from 'react-native-config';
 
 import DotsInfo from './DotsInfo';
 import Style from '../../../style/defaultStyle';
 import color from '../../../style/color';
 import { formatTimeFromDate } from '../../../utils/helpers';
+import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
 
 const ranges = [600, 400, 200, 140, 70, 0];
 const graphContainerPadding = 10;
@@ -133,8 +135,23 @@ class HistoryBloodSugarLevels extends React.Component {
     this.measureGraphView = this.measureGraphView.bind(this);
   }
 
+  componentWillMount() {
+    let adjustConfig = new AdjustConfig("k08xj3mdm680", Config.ENV == 'development' ? AdjustConfig.EnvironmentSandbox : AdjustConfig.EnvironmentProduction);
+    Adjust.create(adjustConfig);
+  }
+
+  adjustTrack = (token) => {
+    let adjustEvent = new AdjustEvent(token);
+    Adjust.trackEvent(adjustEvent);
+  }
+
   componentWillUnmount() {
+    Adjust.componentWillUnmount();
     this.props.resetHistoryBloodSugar();
+  }
+
+  componentDidMount() {
+    this.adjustTrack("m4w4t9");
   }
 
   dotColor(gulaDarah) {

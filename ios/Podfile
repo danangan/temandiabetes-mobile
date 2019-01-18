@@ -11,4 +11,5 @@ target 'TemanDiabets' do
 
   # pod for google signin
     pod 'GoogleSignIn'
+    pod 'react-native-adjust', :path => '../node_modules/react-native-adjust'
 end

@@ -109,7 +109,7 @@ const styles = {
   },
   titleStyle: {
     width: '100%',
-    paddingRight: 50,
+    paddingRight: 5,
     numberOfLines: 5,
     flexWrap: 'wrap',
     fontFamily: 'Montserrat-Regular',
@@ -118,7 +118,7 @@ const styles = {
     justifyContent: 'center',
     textAlign: 'justify',
     paddingLeft: 10,
-    width: Style.DEVICE_WIDTH / 1.5
+    // width: Style.DEVICE_WIDTH / 1.5
   },
   imageStyle: {
     height: 105,

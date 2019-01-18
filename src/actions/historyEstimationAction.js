@@ -163,7 +163,7 @@ export const getHistoryBloodSugarLevels = ({ page = 1 } = {}) => async dispatch 
   try {
     const option = {
       method: 'GET',
-      url: `api/blood-glucose-tracker/graph?page=${page}&limit=4`
+      url: `api/blood-glucose-tracker/new_graph?page=${page}&limit=4`
     };
 
     const {

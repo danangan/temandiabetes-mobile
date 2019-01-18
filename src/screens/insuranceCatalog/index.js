@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { debounce } from 'lodash';
 import { Text, View, FlatList, Platform, Image, TouchableOpacity } from 'react-native';
+import Config from 'react-native-config';
+
 import { Spinner } from '../../components';
 import color from '../../style/color';
 import Style from '../../style/defaultStyle';
 import { API_CALL } from '../../utils/ajaxRequestHelper';
+import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
 
 export default class componentName extends Component {
   constructor(props) {
@@ -18,7 +21,22 @@ export default class componentName extends Component {
     this.renderEmptySection = this.renderEmptySection.bind(this);
   }
 
+  componentWillMount() {
+    let adjustConfig = new AdjustConfig("k08xj3mdm680", Config.ENV == 'development' ? AdjustConfig.EnvironmentSandbox : AdjustConfig.EnvironmentProduction);
+    Adjust.create(adjustConfig);
+  }
+
+  componentWillUnmount() {
+    Adjust.componentWillUnmount();
+  }
+
+  adjustTrack = (token) => {
+    let adjustEvent = new AdjustEvent(token);
+    Adjust.trackEvent(adjustEvent);
+  }
+
   async componentDidMount() {
+    this.adjustTrack("req7h8");
     const option = {
       method: 'get',
       url: '/api/insurance-catalog/mobile/list'

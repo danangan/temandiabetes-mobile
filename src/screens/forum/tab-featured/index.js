@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import Share from 'react-native-share';
+import Config from 'react-native-config';
 
 import { SearchButton, Spinner } from '../../../components';
 import StaticThreadItem from '../components/staticThreadItem';
@@ -9,6 +10,7 @@ import color from '../../../style/color';
 
 import { getThreadStatic, makeBookmarkFeaturedThreads } from '../../../actions/threadActions';
 import landingPageURL from '../../../config/landingPageURL';
+import { Adjust, AdjustEvent, AdjustConfig } from 'react-native-adjust';
 
 class TabFeatured extends Component {
   static navigatorStyle = {
@@ -33,7 +35,22 @@ class TabFeatured extends Component {
     this.onShareThread = this.onShareThread.bind(this);
   }
 
+  componentWillMount() {
+    let adjustConfig = new AdjustConfig("k08xj3mdm680", Config.ENV == 'development' ? AdjustConfig.EnvironmentSandbox : AdjustConfig.EnvironmentProduction);
+    Adjust.create(adjustConfig);
+  }
+
+  componentWillUnmount() {
+    Adjust.componentWillUnmount();
+  }
+
+  adjustTrack = (token) => {
+    let adjustEvent = new AdjustEvent(token);
+    Adjust.trackEvent(adjustEvent);
+  }
+
   componentDidMount() {
+    this.adjustTrack("1p0xh1");
     this.props.getThreadStatic(1, true);
   }
 
@@ -147,6 +164,7 @@ class TabFeatured extends Component {
           marginBottom: 10
         }}
         onPress={() => {
+          this.adjustTrack("2mwzlt");
           this.props.navigator.push({
             screen: 'TemanDiabetes.ModalSearch',
             navigatorStyle: {
